@@ -70,6 +70,52 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- JSP를 사용하기 위한 의존성 -->
+		<dependency>
+   			<groupId>javax.servlet</groupId>
+    		<artifactId>jstl</artifactId>
+		</dependency>
+		<!-- 내장 서버에 JSP 처리 관련 규칙을 알려주는 의존성 -->
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<!-- 파일 입출력 자동화(한방에 불러와준다) -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
+		<!-- jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.15.3</version>
+		</dependency>
+		<!-- security -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		</dependency>
+		<!-- REST API 문서화를 위한 의존성 -->
+		<dependency>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-ui</artifactId>
+		    <version>1.6.12</version>
+		</dependency>
+		<!-- properties custom을 쓰기 위해 추가 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- Apache Commons DBCP -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
