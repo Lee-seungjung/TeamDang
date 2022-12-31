@@ -5,6 +5,8 @@
 	
 	</div>
 </body>
-<%--footer 작성 --%>
+<%--header body 끝 --%>
+
+<%--footer 시작 --%>
 
 </html>
