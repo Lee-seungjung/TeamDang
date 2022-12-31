@@ -4,8 +4,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.project.dang.entity.DangChatDto;
-import com.project.dang.entity.RoomDto;
+import com.project.dang.dto.DangChatDto;
+import com.project.dang.dto.RoomDto;
 
 @Repository
 public class DangChatDaoImpl implements DangChatDao{
@@ -24,6 +24,12 @@ public class DangChatDaoImpl implements DangChatDao{
 	public int roomSequence() {
 		return sqlSession.selectOne("chat.roomSequence");
 	}
+	
+	//방번호 조회
+	@Override
+	public int findRoomNo(int dangNo) {
+		return sqlSession.selectOne("chat.findRoomNo",dangNo);
+	}
 
 	// dang_chat 등록
 	@Override
@@ -31,5 +37,7 @@ public class DangChatDaoImpl implements DangChatDao{
 		sqlSession.insert("chat.chatInsert",dto);
 		
 	}
+
+	
 	
 }

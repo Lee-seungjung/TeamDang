@@ -48,50 +48,48 @@
     }
     
 </style>
-
-<%--header body 시작 --%>
 <body>
 
 <%-- 로그인 여부 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
 	<%--메인 navbar 시작--%>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <div class="container-fluid">
+	<nav class="nvbar navbar-expand-lg navbar-light bg-light">
+	 <div class="container-fluid">
 	    <a class="navbar-brand" href="#">Navbar</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" ari-controls="navbarColor03" aria-expanded="false" aia-label="Toggl navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
-	    <div class="collapse navbar-collapse" id="navbarColor03">
+	    <div class="collase navbar-collapse" id="navbarClor03">
 	      <ul class="navbar-nav me-auto">
-	        <li class="nav-item">
-	          <a class="nav-link active" href="#">Home
-	            <span class="visually-hidden">(current)</span>
+	       <li class="nav-item">
+	          <a class="nav-link acive" href="#">Hoe
+	           <span class="visually-hidden">(current)</span>
 	          </a>
 	        </li>
-	        <li class="nav-item">
+	       <li class="av-item">
 	          <a class="nav-link" href="#">Features</a>
 	        </li>
-	        <li class="nav-item">
+	       <li class="nav-item">
 	          <a class="nav-link" href="#">Pricing</a>
 	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">About</a>
+	       <li class="nav-item">
+	          <a class="nav-lnk" href="#">About</a>
 	        </li>
 	        <li class="nav-item dropdown">
-	          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+	          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="rue" aria-expanded="false">Dropdown</a>
 	          <div class="dropdown-menu">
-	            <a class="dropdown-item" href="#">Action</a>
-	            <a class="dropdown-item" href="#">Another action</a>
+	            <a class="dropdown-item" href="">Action</a>
+	            <a class="dropdown-item" href="#">Another acion</a>
 	            <a class="dropdown-item" href="#">Something else here</a>
-	            <div class="dropdown-divider"></div>
-	            <a class="dropdown-item" href="#">Separated link</a>
+	            <div class="dropdown-diider"></div>
+	           <a class="dropdown-itm" href="#">Separated link</a>
 	          </div>
 	        </li>
 	      </ul>
 	      <form class="d-flex">
-	        <input class="form-control me-sm-2" type="search" placeholder="Search">
-	        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control me-sm-2" type="search" placeholder="Search">
+	       <button class="btn btn-seondary my- my-sm-0" type="submit">Search</button>
 	      </form>
 	    </div>
 	  </div>

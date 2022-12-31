@@ -53,6 +53,7 @@ public class ChannelVO {
 	public void send(UserVO user, TextMessage message) throws IOException {
 		int roomNo = this.find(user);
 		if(roomNo != 0) {
+			//System.out.println("message : "+message);
 			rooms.get(roomNo).sendAll(message);
 		}
 	}

@@ -13,7 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.dang.entity.DangChatDto;
+import com.project.dang.dto.DangChatDto;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.vo.channel.ChannelVO;
@@ -50,17 +50,22 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		log.debug("message : {}",message);
+		log.debug("session : {}",session);
+
 		//사용자 정보 꺼내기 -> 메시지 종류별로 구분하기
 		Map<String, Object> attr = session.getAttributes();
+		log.debug("attr : {}",attr);
 		UserVO user = UserVO.builder()
-								.userNo((String)attr.get("userNo"))
+								.userNo(String.valueOf(attr.get("loginNo")))
 								.session(session)
 								.build();
 		
 		//메세지 해석 변환 도구 생성
 		ObjectMapper mapper = new ObjectMapper();
 		ReceiveVO receiveVO = mapper.readValue(message.getPayload(), ReceiveVO.class);
-
+		log.debug("receiveVO : {}",receiveVO);
+		
 		if(receiveVO.getType() == 1) {
 			//사용자가 입장하려고 하는 경우(방이름을 사용자가 보냄-jsp화면에서 넘겨줬음)
 			//- 해당하는 방에 사용자(user)를 입장시킨다
@@ -76,7 +81,8 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 					.chatContent(receiveVO.getChatContent())
 					.chatDate(new Date())
 					.build();
-			
+			log.debug("MessageVO : {}",vo);
+			log.debug("user : {}",user);
 			String payload= mapper.writeValueAsString(vo); //payload 형태로 변경
 			TextMessage jsonMessage = new TextMessage(payload); //textmessage에 payload 넣기
 			channel.send(user, jsonMessage);
@@ -89,11 +95,11 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 					.roomNo(receiveVO.getRoom())
 					.userNo(Integer.parseInt(user.getUserNo()))
 					.memberNick(memberNick)
-					.chatType("텍스트")
+					.chatType("text")
 					.chatContent(vo.getChatContent())
-					.chatStatus(2)
+					.chatStatus(1)
 					.build();
-			//dangChatDao.chatInsert(dto);
+			dangChatDao.chatInsert(dto);
 			
 		}
 

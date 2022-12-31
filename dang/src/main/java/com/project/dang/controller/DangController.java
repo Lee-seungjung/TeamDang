@@ -1,16 +1,34 @@
 package com.project.dang.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.dang.repository.DangChatDao;
+
 @Controller
 @RequestMapping("/dang")
 public class DangController {
+	
+	@Autowired
+	private DangChatDao dangChatDao;
 
 	@GetMapping("/{dangNo}")
+	public String dangChatMain(@PathVariable int dangNo, Model model) {
+		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
+		model.addAttribute("dangNo", dangNo);
+		// DB방번호 조회
+		int roomNo = dangChatDao.findRoomNo(dangNo);
+		model.addAttribute("roomNo", roomNo);
+		return "dang/chat";
+	}
+	
+	@GetMapping("/{dangNo}/board")
 	public String dangBoard(@PathVariable int dangNo, Model model) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
@@ -35,6 +53,9 @@ public class DangController {
 	public String dangChat(@PathVariable int dangNo, Model model) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+		// DB방번호 조회
+		int roomNo = dangChatDao.findRoomNo(dangNo);
+		model.addAttribute("roomNo", roomNo);
 		return "dang/chat";
 	}
 	

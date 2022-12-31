@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.project.dang.entity.RoomDto;
+import com.project.dang.dto.RoomDto;
 import com.project.dang.repository.DangChatDao;
 
 @SpringBootTest

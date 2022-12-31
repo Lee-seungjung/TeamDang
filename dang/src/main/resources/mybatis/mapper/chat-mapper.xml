@@ -15,9 +15,14 @@
 		insert into room values(#{roomNo}, #{dangNo})
 	</insert>
 	
+	<!-- room 번호 조회 -->
+	<select id="findRoomNo" parameterType="int" resultType="int">
+		select room_no from room where dang_no=#{dangNo}
+	</select>
+	
 	<!-- dang_chat 등록 -->
 	<insert id="chatInsert" parameterType="DangChatDto">
-		insert into room values(chat_no_seq.nextval, #{roomNo}, #{userNo}, 
+		insert into dang_chat values(dang_chat_seq.nextval, #{roomNo}, #{userNo}, 
 		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
   

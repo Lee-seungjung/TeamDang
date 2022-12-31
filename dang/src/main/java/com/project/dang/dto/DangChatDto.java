@@ -1,4 +1,4 @@
-package com.project.dang.entity;
+package com.project.dang.dto;
 
 import java.sql.Date;
 
