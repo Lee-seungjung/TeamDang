@@ -103,10 +103,11 @@
 		<div class = "row">
 		<c:choose>
 		<c:when test = "${login}">
-			<a href = "logout">로그아웃</a>
+			<a href = "/user/logout">로그아웃</a>
 		</c:when>
 		<c:otherwise>
-			<a href = "login">로그인</a>
+			<a href = "/user/login">로그인</a>
+			<a href = "/user/join">회원가입</a>
 		</c:otherwise>
 		</c:choose>
 		</div>
