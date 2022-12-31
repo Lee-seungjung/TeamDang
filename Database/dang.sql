@@ -6,6 +6,7 @@ create sequence dang_seq;
 -- 테이블 생성
 create table dang(
 dang_no number primary key,
+user_no references dang_user(user_no) on delete set null,
 dang_name varchar2(60) not null,
 dang_info varchar2(300) not null,
 dang_headmax number not null,
