@@ -4,17 +4,16 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.project.dang.entity.RoomDto;
-
 @Repository
-public class RoomDaoImpl implements RoomDao{
+public class DangMemberDaoImpl implements DangMemberDao{
 	
 	@Autowired
 	private SqlSession sqlSession;
 
+	// 댕모임 닉네임 찾기
 	@Override
-	public void insert(RoomDto dto) {
-		sqlSession.insert("chat.insert",dto);
+	public String findNick(int userNo) {
+		return sqlSession.selectOne("dangMember.findNick",userNo);
 	}
-	
+
 }

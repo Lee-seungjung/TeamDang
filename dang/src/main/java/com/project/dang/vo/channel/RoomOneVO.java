@@ -15,40 +15,39 @@ import lombok.NoArgsConstructor;
 
 /**
  * 채팅방 클래스
- * - 사용자(User)를 저장할 수 있도록 구성
+ * - 사용자(UserVO)를 저장할 수 있도록 구성
  * - 입장, 퇴장, 검색, 메세지 기능 필요
  */
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class RoomOne {
+public class RoomOneVO {
 
 	//저장소 준비(set) 중복x
-	private Set<User> users = new CopyOnWriteArraySet<>();
+	private Set<UserVO> users = new CopyOnWriteArraySet<>();
 	
 	//채팅방 입장
-	public void enter(User user) {
+	public void enter(UserVO user) {
 		users.add(user);
 	}
 	
 	//채팅방 퇴장
-	public void leave(User user) {
+	public void leave(UserVO user) {
 		users.remove(user);
 	}
 	
-	//채팅방 검색
-	public User search(String memberId) {
-		for(User user : users) {
+	//채팅방 회원검색
+	public UserVO search(String userNo) {
+		for(UserVO user : users) {
 			//User 메소드 사용(채팅방에 해당회원이 있는지 검색 후 있으면 회원 반환)
-			if(user.is(memberId)) return user;
+			if(user.is(userNo)) return user;
 		}
 		return null;
 	}
 	
 	//채팅방에 있는 사람들 전체에게 메세지 전송
 	public void sendAll(TextMessage message) throws IOException {
-		for(User user : users) {
+		for(UserVO user : users) {
 			user.send(message);
 		}
-		
 	}
 	
 	//(+채팅방 인원 수)

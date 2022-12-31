@@ -1,5 +1,7 @@
 package com.project.dang.repository;
 
-public interface RoomDao {
+import com.project.dang.entity.RoomDto;
 
+public interface RoomDao {
+	void insert(RoomDto dto);
 }
