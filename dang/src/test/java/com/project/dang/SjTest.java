@@ -5,20 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.project.dang.entity.RoomDto;
-import com.project.dang.repository.RoomDao;
+import com.project.dang.repository.DangChatDao;
 
 @SpringBootTest
 public class SjTest {
 
 	@Autowired
-	private RoomDao roomDao;
+	private DangChatDao roomDao;
 	
-	@Test
-	public void insert() {
-		RoomDto dto = RoomDto.builder()
-				.roomNo(1)
-				.dangNo(1)
-				.build();
-		roomDao.insert(dto);
-	}
+//	@Test
+//	public void insert() {
+//		RoomDto dto = RoomDto.builder()
+//				.roomNo(1)
+//				.dangNo(1)
+//				.build();
+//		roomDao.insert(dto);
+//	}
 }

@@ -4,9 +4,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
+
+	<!-- room 번호(시퀀스) 미리 생성 -->
+	<select id="roomSequence">
+		select room_seq.nextval from dual
+	</select>
   
-	<insert id="insert" parameterType="RoomDto">
+  	<!-- room 등록 -->
+	<insert id="roomInsert" parameterType="RoomDto">
 		insert into room values(#{roomNo}, #{dangNo})
+	</insert>
+	
+	<!-- dang_chat 등록 -->
+	<insert id="chatInsert" parameterType="DangChatDto">
+		insert into room values(chat_no_seq.nextval, #{roomNo}, #{userNo}, 
+		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
   
 </mapper>
