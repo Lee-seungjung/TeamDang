@@ -46,6 +46,13 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		users.remove(session);
+		
+		Map<String, Object> attr = session.getAttributes();
+		UserVO user = UserVO.builder()
+				.userNo(String.valueOf(attr.get("loginNo")))
+				.session(session)
+				.build();
+		channel.exit(user);//채널에서 사용자 삭제
 	}
 	
 	@Override
@@ -53,9 +60,14 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 		log.debug("message : {}",message);
 		log.debug("session : {}",session);
 
-		//사용자 정보 꺼내기 -> 메시지 종류별로 구분하기
+		//사용자 정보 꺼내서 userVO객체에 저장 -> 메시지 종류별로 구분하기
 		Map<String, Object> attr = session.getAttributes();
 		log.debug("attr : {}",attr);
+		/*
+		 * String userNo = (String)attr.get("loginNo"); boolean available = userNo !=
+		 * null; //비회원인지 확인 if(!available) { log.warn("비회원 채팅금지"); return; }
+		 */
+		
 		UserVO user = UserVO.builder()
 								.userNo(String.valueOf(attr.get("loginNo")))
 								.session(session)

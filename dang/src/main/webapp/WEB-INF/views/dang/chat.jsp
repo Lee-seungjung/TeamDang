@@ -107,7 +107,7 @@
 
 <div class="row">	
 	<div class="two float-start" style="border:1px solid gray; width:33%; height:600px;">
-		<h1>테스트</h1>
+		<h1>${roomNo}번방 테스트</h1>
 		<div style="border:1px solid gray; width:90%; height:500px;">
 			<div class="new-chat float-end" style="margin-right:10px;">
 				<!-- 새 메세지 동적 생성 -->
