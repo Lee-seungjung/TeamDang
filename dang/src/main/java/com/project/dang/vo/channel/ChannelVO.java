@@ -57,4 +57,9 @@ public class ChannelVO {
 			rooms.get(roomNo).sendAll(message);
 		}
 	}
+	
+	//해당방의 인원수
+	public int roomSize(int roomNo) {
+		return rooms.size();
+	}
 }

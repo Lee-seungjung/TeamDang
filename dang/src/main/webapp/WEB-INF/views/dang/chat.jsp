@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%-- dang_header --%>
 <jsp:include page="/WEB-INF/views/template/dang_header.jsp">
@@ -106,10 +108,40 @@
 </script>
 
 <div class="row">	
-	<div class="two float-start" style="border:1px solid gray; width:33%; height:600px;">
-		<h1>${roomNo}번방 테스트</h1>
+	<div class="two" style="border:1px solid gray; width:33%; height:600px;">
+		<h1>${history[0].roomNo}번방 테스트</h1>
 		<div style="border:1px solid gray; width:90%; height:500px;">
-			<div class="new-chat float-end" style="margin-right:10px;">
+		
+			<!-- 기존 메세지 정적 생성 -->
+			<c:forEach var="vo" items="${history}">
+				<c:choose>
+					<c:when test="${userNo==vo.userNo}">
+						<div class="text-end me-2">
+							<c:if test="${vo.chatStatus!=0}">
+								<span>${vo.chatStatus}</span>
+							</c:if>
+							<span>
+								<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+							</span>
+							<span>${vo.chatContent}</span>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="text-start ms-2">
+							<img src="#">프로필
+							<span>${vo.chatContent}</span>
+							<span>
+								<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+							</span>
+							<c:if test="${vo.chatStatus!=0}">
+								<span>${vo.chatStatus}</span>
+							</c:if>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		
+			<div class="new-chat" style="margin-right:10px;">
 				<!-- 새 메세지 동적 생성 -->
 			</div>
 		</div>
@@ -118,8 +150,8 @@
 	
 	</div>
 	
-	<!-- 방번호 -->
-	<input type="hidden" name="roomNo" value="${roomNo}">
+	<!-- 방번호-->
+	<input type="hidden" name="roomNo" value="${history[0].roomNo}">
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

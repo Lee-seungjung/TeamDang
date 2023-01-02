@@ -25,6 +25,14 @@
 		insert into dang_chat values(dang_chat_seq.nextval, #{roomNo}, #{userNo}, 
 		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
+	
+	<!-- 채팅 메세지 조회(채팅, 회원프로필 조인) -->
+	<select id="chatHistory" parameterType="int" resultType="ChatHistoryVO">
+		select d.*, img.attachment_no 
+		from dang_chat d left outer join user_img img 
+		on d.user_no=img.user_no where room_no=#{roomNo} 
+		order by d.chat_no asc
+	</select>
   
 </mapper>
   

@@ -1,11 +1,14 @@
 package com.project.dang.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangChatDto;
 import com.project.dang.dto.RoomDto;
+import com.project.dang.vo.ChatHistoryVO;
 
 @Repository
 public class DangChatDaoImpl implements DangChatDao{
@@ -36,6 +39,12 @@ public class DangChatDaoImpl implements DangChatDao{
 	public void chatInsert(DangChatDto dto) {
 		sqlSession.insert("chat.chatInsert",dto);
 		
+	}
+
+	//채팅 내역 전체 조회
+	@Override
+	public List<ChatHistoryVO> listAll(int roomNo) {
+		return sqlSession.selectList("chat.chatHistory", roomNo);
 	}
 
 	

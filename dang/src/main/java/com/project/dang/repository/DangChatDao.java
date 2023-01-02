@@ -1,7 +1,10 @@
 package com.project.dang.repository;
 
+import java.util.List;
+
 import com.project.dang.dto.DangChatDto;
 import com.project.dang.dto.RoomDto;
+import com.project.dang.vo.ChatHistoryVO;
 
 
 public interface DangChatDao {
@@ -31,4 +34,11 @@ public interface DangChatDao {
 	 * @param dto
 	 */
 	void chatInsert(DangChatDto dto);
+	
+	/**
+	 * 채팅 내역 전체 조회
+	 * @param roomNo
+	 * @return List<ChatHistoryVO>
+	 */
+	List<ChatHistoryVO> listAll(int roomNo);
 }

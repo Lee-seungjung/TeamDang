@@ -19,6 +19,7 @@ import com.project.dang.repository.DangMemberDao;
 import com.project.dang.vo.channel.ChannelVO;
 import com.project.dang.vo.channel.MessageVO;
 import com.project.dang.vo.channel.ReceiveVO;
+import com.project.dang.vo.channel.RoomOneVO;
 import com.project.dang.vo.channel.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,9 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 	
 	//채널
 	private ChannelVO channel = new ChannelVO();
-
 	//채팅유저 저장소(set 중복방지)
 	private Set<WebSocketSession> users = new CopyOnWriteArraySet<>();
+	
 		
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session)  {
@@ -100,8 +101,9 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 			channel.send(user, jsonMessage);
 			
 			//DB저장 준비
-			String memberNick = dangMemberDao.findNick(Integer.parseInt(user.getUserNo()));
-			
+			String memberNick = dangMemberDao.findNick(Integer.parseInt(user.getUserNo())); //닉네임
+			int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
+	
 			//채팅메세지(dang_chat) DB 저장
 			DangChatDto dto = DangChatDto.builder()
 					.roomNo(receiveVO.getRoom())
@@ -109,7 +111,7 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 					.memberNick(memberNick)
 					.chatType("text")
 					.chatContent(vo.getChatContent())
-					.chatStatus(1)
+					.chatStatus(size-1)
 					.build();
 			dangChatDao.chatInsert(dto);
 			
