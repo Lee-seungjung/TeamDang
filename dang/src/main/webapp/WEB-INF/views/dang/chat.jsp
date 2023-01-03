@@ -170,7 +170,6 @@
 		</div>
 		<input type="text" id="chat-input">
 		<button class="btn btn-primary" id="send-btn" type="button">전송</button>
-	
 	</div>
 	
 	<!-- 방번호-->

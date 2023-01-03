@@ -58,7 +58,7 @@
 	<%--메인 navbar 시작--%>
 	<nav class="nvbar navbar-expand-lg navbar-light bg-light">
 	 <div class="container-fluid">
-	    <a class="navbar-brand" href="#">Navbar</a>
+	    <a class="navbar-brand" href="#">댕모임</a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" ari-controls="navbarColor03" aria-expanded="false" aia-label="Toggl navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
