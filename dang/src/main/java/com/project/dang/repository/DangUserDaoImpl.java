@@ -40,5 +40,11 @@ public class DangUserDaoImpl implements DangUserDao {
 	public boolean checkPw(String inputPw, String searchPw) {
 		return pwEncoder.matches(inputPw, searchPw);
 	}
+
+	//프로필 파일 번호 찾기
+	@Override
+	public Integer findAttachmentNo(int userNo) {
+		return sqlSession.selectOne("dangUser.findAttachmentNo",userNo);
+	}
 	
 }

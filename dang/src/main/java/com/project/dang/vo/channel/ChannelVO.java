@@ -60,6 +60,6 @@ public class ChannelVO {
 	
 	//해당방의 인원수
 	public int roomSize(int roomNo) {
-		return rooms.size();
+		return rooms.get(roomNo).size();
 	}
 }

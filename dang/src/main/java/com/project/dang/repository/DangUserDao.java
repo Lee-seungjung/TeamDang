@@ -31,4 +31,14 @@ public interface DangUserDao {
 	 * @return boolean : 비밀번호 일치 여부
 	 */
 	public boolean checkPw(String inputPw, String searchPw);	
+	
+	/**
+	 * 프로필 파일 번호 찾기
+	 * @param userNo : 회원번호
+	 * @return attachmentNo : 파일번호
+	 */
+	public Integer findAttachmentNo(int userNo);
+	
+	
+	
 }

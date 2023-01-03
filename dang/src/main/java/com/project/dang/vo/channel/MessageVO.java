@@ -16,5 +16,7 @@ public class MessageVO {
 	private String userNo;
 	private String chatContent;
 	private Date chatDate;
+	
+	private Integer attachmentNo;
 
 }

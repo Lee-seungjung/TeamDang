@@ -16,10 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.dang.dto.DangChatDto;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
+import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.channel.ChannelVO;
 import com.project.dang.vo.channel.MessageVO;
 import com.project.dang.vo.channel.ReceiveVO;
-import com.project.dang.vo.channel.RoomOneVO;
 import com.project.dang.vo.channel.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,8 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 	
 	@Autowired
 	private DangMemberDao dangMemberDao;
+	@Autowired
+	private DangUserDao dangUserDao;
 	@Autowired
 	private DangChatDao dangChatDao;
 	
@@ -88,11 +90,13 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 			//사용자가 채팅을 보내는 경우(채팅내용을 사용자가 보냄-jsp화면에서 넘겨줬음)
 			//- 해당하는 방의 모든 사용자에게 메세지를 전송
 			
-			//화면에 뿌려줄 메세지 정보 준비(메시지 내용, 시간)
+			//화면에 뿌려줄 메세지 정보 준비(메시지 내용, 시간, 파일번호)
+			Integer attachmentNo = dangUserDao.findAttachmentNo(Integer.parseInt(user.getUserNo()));
 			MessageVO vo = MessageVO.builder()
 					.userNo(user.getUserNo())
 					.chatContent(receiveVO.getChatContent())
 					.chatDate(new Date())
+					.attachmentNo(attachmentNo)
 					.build();
 			log.debug("MessageVO : {}",vo);
 			log.debug("user : {}",user);
@@ -102,8 +106,10 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 			
 			//DB저장 준비
 			String memberNick = dangMemberDao.findNick(Integer.parseInt(user.getUserNo())); //닉네임
-			int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
-	
+			//int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
+			int size = 1;
+			log.debug("인원수 : {}",size);
+			
 			//채팅메세지(dang_chat) DB 저장
 			DangChatDto dto = DangChatDto.builder()
 					.roomNo(receiveVO.getRoom())

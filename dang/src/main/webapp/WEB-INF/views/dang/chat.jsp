@@ -13,7 +13,14 @@
 	<!-- moment cdn + 한글 언어팩-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
-	
+<style>
+	#chatDiv{
+		overflow:scroll;
+		overflow-x:hidden;
+		border:1px solid gray;
+		width:90%; height:500px;
+	}
+</style>
 <script>
 	$(function(){
 		//1. 시작하자마자 웹소켓 연결을 생성
@@ -53,19 +60,11 @@
 			var data = JSON.parse(e.data);
 			console.log(data);
 			
-			//메세지 찍어주기
-			var chatDiv = $(".new-chat");
-			var div = $("<div>");
-			var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
-			console.log(formatTime);
-			var time = $("<span>").text(formatTime);
-			var text = $("<span>").text(data.chatContent);
-			div.append(time).append(text);
-			chatDiv.append(div);
+			//메세지 찍어주기 - 함수로 처리
+			newChatList(data);
 			
 			//스크롤 하단으로 이동
-			var height = $(document).height();
-			$(window).scrollTop(height);
+			$("#chatDiv").scrollTop($("#chatDiv")[0].scrollHeight);
 
 		};
 		
@@ -102,15 +101,39 @@
 	        }
 	    });
 		
+		//새로운 채팅 화면에 표시
+		function newChatList(data){
+			var userNo = $("[name=userNo]").val();
+			var chatUserNo = data.userNo;
+			var chatDiv = $(".new-chat");
+			
+			if(userNo==chatUserNo){
+				var div = $("<div>").attr("class","text-end me-2");
+				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
+				var time = $("<span>").text(formatTime);
+				var text = $("<span>").text(data.chatContent);
+				div.append(time).append(text);
+				chatDiv.append(div);
+			}else{
+				var div = $("<div>").attr("class","text-start ms-2");
+				var img = $("<img>").attr("src","#");
+				var text = $("<span>").text(data.chatContent);
+				var formatTime = moment(data.chatDate).format('a h:mm');
+				var time = $("<span>").text(formatTime);
+				div.append(img).append(text).append(time);
+				chatDiv.append(div);
+			}
+		}
+		
 		
 		
 	});
 </script>
 
 <div class="row">	
-	<div class="two" style="border:1px solid gray; width:33%; height:600px;">
+	<div class="two" style="border:1px solid gray; width:50%; height:600px;">
 		<h1>${history[0].roomNo}번방 테스트</h1>
-		<div style="border:1px solid gray; width:90%; height:500px;">
+		<div id="chatDiv">
 		
 			<!-- 기존 메세지 정적 생성 -->
 			<c:forEach var="vo" items="${history}">
@@ -152,6 +175,7 @@
 	
 	<!-- 방번호-->
 	<input type="hidden" name="roomNo" value="${history[0].roomNo}">
+	<input type="hidden" name="userNo" value="${userNo}">
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

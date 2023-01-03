@@ -21,4 +21,11 @@
 	<select id = "loginInfo" parameterType = "String" resultType = "DangUserVO">
 		select user_no, user_id, user_pw, user_grade from dang_user where user_id = #{userId}
 	</select>
+	
+	<!-- 회원번호로 프로필 파일번호 찾기 -->
+	<select id="findAttachmentNo" parameterType = "int" resultType = "Integer">
+		select attachment_no from user_img where user_no=#{userNo}
+	</select>
+	
+	
 </mapper>
