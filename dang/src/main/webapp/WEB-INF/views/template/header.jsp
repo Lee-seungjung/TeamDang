@@ -34,13 +34,15 @@
 	<script src="https://code.jquery.com/jquery-3.6.1.js"></script> 
 	<!-- 배포할때는 min 버전으로-->
 	<!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> -->
+	
+	
+	
 </head>
 
 <style>
 
 	*{
 		font-family: 'Noto Sans KR', 산세리프;
-		border: 1px dotted gray;
     }
     
 	a {

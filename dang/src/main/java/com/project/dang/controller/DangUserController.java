@@ -3,7 +3,6 @@ package com.project.dang.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.repository.DangUserDao;
-import com.project.dang.vo.DangUserLoginVO;
+import com.project.dang.vo.DangUserVO;
 
 @Controller
 @RequestMapping("/user")
@@ -21,9 +20,6 @@ public class DangUserController {
 	@Autowired
 	private DangUserDao dangUserDao;
 	
-	@Autowired
-	private PasswordEncoder pwEncoder;
-
 	// 회원 가입
 	@GetMapping("/join")
 	public String join() {
@@ -48,17 +44,17 @@ public class DangUserController {
 	}
 	
 	@PostMapping("/login") 
-	public String login(DangUserLoginVO inputUserLoginVO, HttpSession session) {
+	public String login(DangUserVO inputUserVO, HttpSession session) {
 		// 입력받은 회원 아이디로 회원 정보 단일 조회 (ID 검사)
-		DangUserLoginVO searchUserLoginVO = dangUserDao.loginIdCheck(inputUserLoginVO.getUserId());
-		if(searchUserLoginVO == null) { // 조회 결과가 없다면
+		DangUserVO searchUserVO = dangUserDao.checkId(inputUserVO.getUserId());
+		if(searchUserVO == null) { // 조회 결과가 없다면
 			return "redirect:login/error_id";
 		}
 		// 비밀번호 일치 여부 판정 (PW 검사)
-		boolean pwCheck = dangUserDao.loginPwCheck(inputUserLoginVO.getUserPw(), searchUserLoginVO.getUserPw());
+		boolean pwCheck = dangUserDao.checkPw(inputUserVO.getUserPw(), searchUserVO.getUserPw());
 		if(pwCheck) { // 비밀번호가 일치한다면
-			session.setAttribute("loginNo", searchUserLoginVO.getUserNo()); // 회원 번호 저장
-			session.setAttribute("loginGrade", searchUserLoginVO.getUserGrade()); // 회원 등급 저장
+			session.setAttribute("loginNo", searchUserVO.getUserNo()); // 회원 번호 저장
+			session.setAttribute("loginGrade", searchUserVO.getUserGrade()); // 회원 등급 저장
 			return "redirect:/";
 		} else { // 비밀번호가 일치하지 않는다면
 			return "redirect:login/error_pw"; 
