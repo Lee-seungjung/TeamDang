@@ -17,8 +17,8 @@
 			values(#{userNo}, #{userId}, #{userPw}, #{userEmail}, #{userNick}, #{userTel}, #{userGender})
 	</insert>
 	
-	<!-- 로그인 요청시 입력한 회원 아이디로 회원정보 조회 -->
-	<select id = "loginInfo" parameterType = "String" resultType = "DangUserLoginVO">
+	<!-- 입력한 아이디로 회원정보 조회 -->
+	<select id = "loginInfo" parameterType = "String" resultType = "DangUserVO">
 		select user_no, user_id, user_pw, user_grade from dang_user where user_id = #{userId}
 	</select>
 </mapper>

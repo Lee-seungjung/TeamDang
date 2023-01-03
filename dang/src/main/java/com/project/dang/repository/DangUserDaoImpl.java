@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangUserDto;
-import com.project.dang.vo.DangUserLoginVO;
+import com.project.dang.vo.DangUserVO;
 
 @Repository
 public class DangUserDaoImpl implements DangUserDao {
@@ -32,12 +32,13 @@ public class DangUserDaoImpl implements DangUserDao {
 	}
 
 	@Override
-	public DangUserLoginVO loginIdCheck(String userId) {
+	public DangUserVO checkId(String userId) {
 		return sqlSession.selectOne("dangUser.loginInfo", userId);
 	}
 
 	@Override
-	public boolean loginPwCheck(String inputPw, String searchPw) {
+	public boolean checkPw(String inputPw, String searchPw) {
 		return pwEncoder.matches(inputPw, searchPw);
 	}
+	
 }

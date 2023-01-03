@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DangUserVO {
+public class DangUserCertVO {
 
 	// 필드
-	private String userNo;
-	private String userId;
-	private String userPw;
-	private String userGrade;
+	private String certEmail;
+	private String certNo;
+	private String certValidtime;
 }
