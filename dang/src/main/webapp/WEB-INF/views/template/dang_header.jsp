@@ -19,6 +19,7 @@
 		line-height:50px;
 		text-align:center;
 	}
+
 </style>
 <%-- 댕모임 header --%>
 <div class = "container-flud">

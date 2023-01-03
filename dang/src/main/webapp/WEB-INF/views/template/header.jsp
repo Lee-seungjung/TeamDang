@@ -48,6 +48,15 @@
 	a {
        text-decoration: none;
     }
+    p{
+    	margin-bottom:0;
+    }
+    .img-circle{
+		border-radius: 70%;
+    	border:none;
+    	background-color:#B0CBFF;
+    	overflow: hidden;
+	}
     
 </style>
 <body>
