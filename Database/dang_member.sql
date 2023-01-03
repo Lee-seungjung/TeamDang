@@ -12,4 +12,5 @@ member_nick varchar2(30) not null,
 member_grade varchar2(4) default 'LV.1' check(member_grade in('LV.1', 'LV.2', 'LV.3', 'LV.4', 'LV.5')) not null,
 member_score number default 0 not null,
 member_joindate date default sysdate not null
+member_owner char(1) check(member_owner in('Y','N')) not null
 );
