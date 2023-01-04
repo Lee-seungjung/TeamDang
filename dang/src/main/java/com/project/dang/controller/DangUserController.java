@@ -34,7 +34,7 @@ public class DangUserController {
 		// 회원 가입
 		dangUserDao.join(dangUserDto);
 		// 로그인 Mapping으로 redirect
-		return "redirect:/login";
+		return "redirect:login";
 	}
 	
 	// 로그인
@@ -48,7 +48,7 @@ public class DangUserController {
 		// 입력받은 회원 아이디로 회원 정보 단일 조회 (ID 검사)
 		DangUserVO searchUserVO = dangUserDao.checkId(inputUserVO.getUserId());
 		if(searchUserVO == null) { // 조회 결과가 없다면
-			return "redirect:login/error_id";
+			return "redirect:login?error_id";
 		}
 		// 비밀번호 일치 여부 판정 (PW 검사)
 		boolean pwCheck = dangUserDao.checkPw(inputUserVO.getUserPw(), searchUserVO.getUserPw());
@@ -57,7 +57,7 @@ public class DangUserController {
 			session.setAttribute("loginGrade", searchUserVO.getUserGrade()); // 회원 등급 저장
 			return "redirect:/";
 		} else { // 비밀번호가 일치하지 않는다면
-			return "redirect:login/error_pw"; 
+			return "redirect:login?error_pw"; 
 		}
 	}
 	

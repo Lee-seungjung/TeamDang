@@ -33,7 +33,7 @@ public class DangCertGmailService implements DangCertEmailService {
 	private DangCertDao dangCertDao;
 
 	@Override
-	public void sendEmail(String certEmail) throws MessagingException, FileNotFoundException, IOException {
+	public String sendEmail(String certEmail) throws MessagingException, FileNotFoundException, IOException {
 		
 		// 인증 번호 반환
 		String certSerial = certSerialGenerator.generateCertNo(6);
@@ -77,5 +77,8 @@ public class DangCertGmailService implements DangCertEmailService {
 		// - 새로 발급된 인증번호 정보 등록
 		DangCertDto dangCertDto = DangCertDto.builder().certSerial(certSerial).certEmail(certEmail).build();
 		dangCertDao.insertCert(dangCertDto);
+		
+		// 인증번호 반환
+		return certSerial;
 	}
 }
