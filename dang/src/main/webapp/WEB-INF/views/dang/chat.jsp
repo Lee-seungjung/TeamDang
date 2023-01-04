@@ -60,6 +60,13 @@
 	 	color:white;
 	 	padding:5px;
 	 }
+	 .message2{
+	 	border:1px solid #fff;
+	 	border-radius: 0.7rem;
+	 	background-color:#fff;
+	 	color:#495057;
+	 	padding:5px;
+	 }
 	 table>tbody>tr>td{
 	 	padding:5px;
 	 }
@@ -160,7 +167,7 @@
 				var div = $("<div>").attr("class","text-end  mb-3");
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime);
-				var text = $("<span>").attr("class","message").text(data.chatContent);
+				var text = $("<span>").attr("class","message2").text(data.chatContent);
 				div.append(time).append(text);
 				chatDiv.append(div);
 			}else{
@@ -240,7 +247,7 @@
 								<span style="font-size:10px;">
 									<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
 								</span>
-								<span class="message">${vo.chatContent}</span>
+								<span class="message2">${vo.chatContent}</span>
 							</div>
 						</c:when>
 						<c:otherwise>
