@@ -22,9 +22,4 @@ public class DangCertDaoImpl implements DangCertDao {
 		int result = sqlSession.delete("dangCert.deleteCert", certEmail);
 		return result > 0;
 	}
-
-	@Override
-	public String selectCert(String certEmail) {
-		return sqlSession.selectOne("dangCert.selectCert");
-	}
 }

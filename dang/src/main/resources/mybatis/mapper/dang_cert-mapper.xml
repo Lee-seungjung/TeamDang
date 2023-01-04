@@ -16,9 +16,4 @@
 		delete dang_cert where cert_email = #{certEmail}
 	</delete>
 	
-	<!-- 인증번호 조회 -->
-	<select id = "selectCert" parameterType = "String">
-		select cert_serial from dang_cert where cert_email = #{certEmail}
-	</select>
-	
 </mapper>
