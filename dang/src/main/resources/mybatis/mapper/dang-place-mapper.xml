@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="place">
+	<insert id="placeInsert" parameterType="DangPlaceDto">
+		insert into dang_place(place_no,place_x,place_y,place_sort,place_name,place_info,place_address,place_operation,place_off,place_tel,place_url,place_area)
+			VALUES(
+			DANG_PLACE_SEQ.nextval,
+			#{placeX},
+			#{placeY},
+			#{placeSort},
+			#{placeName},
+			#{placeInfo},
+			#{placeAddress},
+			#{placeOperation},
+			#{placeOff},
+			#{placeTel},
+			#{placeUrl},
+			#{placeArea}
+			)
+	</insert>
+	
+	<select id="placeList" resultType="DangPlaceDto">
+		select * from dang_place
+	</select>
+</mapper>

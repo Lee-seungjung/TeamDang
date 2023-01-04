@@ -16,11 +16,4 @@ public interface DangCertDao {
 	 * @return boolean : 인증정보 삭제 여부
 	 */
 	public boolean deleteCert(String certEmail);
-	
-	/**
-	 * 특정 이메일에 발급된 인증번호 조회
-	 * @param certEmail : 인증메일 주소
-	 * @return certSerial : 인증번호
-	 */
-	public String selectCert(String certEmail);
 }

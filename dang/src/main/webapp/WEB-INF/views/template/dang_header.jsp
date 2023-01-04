@@ -5,24 +5,40 @@
 <%-- 공용 header --%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	.dang-nav{
+		background-color:#76BEFF;
+		height:50px;
+		text-align:center;
+	}
+	.nav-font>a{
+		font-size:18px;
+		color:white;
+	}
+	.nav-font{
+		line-height:50px;
+		text-align:center;
+	}
+
+</style>
 <%-- 댕모임 header --%>
 <div class = "container-flud">
-	<div class = "col">
+	<div class = "row dang-nav ">
 		<div class = "col-8 offset-2">
 			<div class = "row">
-				<div class = "col">
+				<div class = "col nav-font">
 					<a href = "/dang/${dangNo}">게시글</a>
 				</div>
-				<div class = "col">
-					<a href = "/dang/${dangNo}/album">사진첩</a>
+				<div class = "col nav-font">
+					<a href = "/dang/${dangNo}/album" >사진첩</a>
 				</div>
-				<div class = "col">
+				<div class = "col nav-font">
 					<a href = "/dang/${dangNo}/calendar">일정</a>
 				</div>
-				<div class = "col">
+				<div class = "col nav-font">
 					<a href = "/dang/${dangNo}/chat">대화</a>
 				</div>
-				<div class = "col">
+				<div class = "col nav-font">
 					<a href = "/dang/${dangNo}/member">멤버</a>
 				</div>
 			</div>

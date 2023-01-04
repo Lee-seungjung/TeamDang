@@ -18,5 +18,5 @@ public class MessageVO {
 	private Date chatDate;
 	
 	private Integer attachmentNo;
-
+	private String memberNick;
 }

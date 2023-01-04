@@ -10,9 +10,9 @@
 	<jsp:param value="댕모임 회원" name="title"/>
 </jsp:include>
 
-<h1>댕모임 회원</h1>
+<h1>댕모임 내 템플릿</h1>
 
-<div class = "container-fluid">
+<div class = "container-fluid mt-3">
 
 	<div class = "col-10 offset-1">
 		<div class = "row">
