@@ -77,6 +77,9 @@
 	 .progress-bar{
 	 	background-color: #6C7AEF;
 	 }
+	 *{
+	  border:1px gray dotted;
+	 }
 </style>
 <script>
 	$(function(){
@@ -211,10 +214,21 @@
 		<div class="col-3">
 			<div class="p-3 profile-box border rounded-3">
 				<div class="profile-wrap text-center">
-					<img src="#" width="80" height="80" class="img-circle mb-3">
-					<p>닉네임</p>
+					<div class="row justify-content-center mb-3" >
+						<div class="col-8 offset 2">
+							<img src="/images/bone.png" class="img-fluid">
+						</div>
+					</div>
+					<div class="row d-flex justify-content-center">
+						<div class="col-3 pe-0">
+							<img src="/images/bone.png" class="img-fluid">
+						</div>
+						<div class="col-3 ps-0" style="display:flex; align-items:center">
+							<span>닉네임</span>
+						</div>
+					</div>
+					<div class="row">
 					<p>짧은소개..?</p>
-					
 					<p>활동 점수</p>
 					<div class="progress">	
 						<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -222,6 +236,7 @@
 					<p>뼈다귀 등급</p>
 					
 					<p>프로필 편집</p>
+					</div>
 				</div>
 			</div>
 			
@@ -234,7 +249,7 @@
 		
 		
 		<!-- 채팅 박스 -->
-		<div class="col-7">
+		<div class="col-6">
 			<div class="chat-box p-3 rounded-3">
 				<!-- 기존 메세지 생성 -->
 				<c:forEach var="vo" items="${history}">
