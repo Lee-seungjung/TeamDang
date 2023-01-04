@@ -88,20 +88,7 @@
  font-size: 24px;
  font-weight: bold;
 }
-
-        .radio-time-color{
-            opacity:0.5;
-        }
-        .bi-clock{
-            color: blue;
-        }
-        .disabled-button{
-            display: none;
-        }
-        #time-reservation{
-            color: red;
-        }
-        
+       
 
     </style>
     <meta charset='utf-8' />
