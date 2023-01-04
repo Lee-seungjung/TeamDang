@@ -22,13 +22,13 @@ public class DangScheduleRestController {
 	
 	@Autowired
 	private DangScheduleDao dangScheduleDao;
-	
+	/*
 	@ResponseBody
 	@RequestMapping("/scheduleInsert")
 	public void scheduleInsert(@RequestBody DangScheduleDto dangScheduleDto) {
 		
 	}
-	
+	*/
 	
 	/*
 	 * @ResponseBody

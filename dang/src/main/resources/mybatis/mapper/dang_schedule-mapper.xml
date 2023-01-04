@@ -36,13 +36,13 @@
   		</select>
   		  		
   		<!-- 댕모임 회원이 일정페이지에서 일정 등록 -->
-  		<insert id="insert" parameterType="ScheduleDto">
+  		<insert id="insert" parameterType="DangScheduleDto">
   			insert into schedule values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent},
   			#{scheduleHeadmax}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'));
   		</insert>
   		
   		<!-- 스케줄 입력(시퀀스번호 미리발행 -->
-		<insert id="insert2" parameterType="ScheduleDto">
+		<insert id="insert2" parameterType="DangScheduleDto">
 			insert into dangSchedule(schedule_no, member_no, place_no, schedule_title, schedule_content, schedule_maxhead, schedule_start, schedule_end) values(#{scheduleNo}, #{MemberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleMaxhead}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'))
 		</insert>
 		
