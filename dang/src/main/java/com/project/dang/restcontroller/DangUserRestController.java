@@ -38,15 +38,8 @@ public class DangUserRestController {
 	
 	// 이메일 전송
 	@GetMapping("/send_email")
-	public void sendEmail(@RequestParam String userEmail) throws FileNotFoundException, MessagingException, IOException {
-		dangCertEmailService.sendEmail(userEmail);
+	public String sendEmail(@RequestParam String userEmail) throws FileNotFoundException, MessagingException, IOException {
+		// 이메일 전송 후 인증정보 DB 등록 및 인증번호 반환
+		return dangCertEmailService.sendEmail(userEmail);
 	}
-	
-	// 인증번호 조회
-	/*
-	 * @GetMapping("/check_serial") public String checkSerial(@RequestParam String
-	 * userEmail) {
-	 * 
-	 * }
-	 */
 }
