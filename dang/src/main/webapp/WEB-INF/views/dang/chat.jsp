@@ -213,7 +213,6 @@
 	<div class = "col-10 offset-1">
 	
 		<div class = "row">
-		
 			<!-- 프로필 박스 시작-->
 			<div class = "col-3">
 				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>

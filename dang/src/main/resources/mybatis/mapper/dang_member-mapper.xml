@@ -11,5 +11,32 @@
 		select member_nick from dang_member where user_no=#{userNo}
 	</select>
 	
+	<!-- 댕모임 회원 단일조회 -->
+	<select id="fintMember" resultType="DangMemberDto" parameterType="DangMemberDto">
+		select * from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
+	</select>
+	
+	<!-- 댕모임 회원등급 포인트 증가 -->
+	<update id="plusScore" parameterType="DangMemberDto">
+		update dang_member set member_score=member_score+#{memberScore} where member_no=#{memberNo}
+	</update>
+	
+	<!-- 오늘 출석했는지 여부 반환 -->
+	<select id="isAttendance" resultType="DangAttendanceDto" parameterType="int">
+		select*from dang_attendance where member_no=#{memberNo} and 
+		to_char(attendance_date,'yyyymmdd')=to_char(sysdate,'yyyymmdd')
+	</select>
+	
+	<!-- 출석 테이블 insert -->
+	<insert id="attendanceInsert" parameterType="DangAttendanceDto">
+		insert into dang_attendance(member_no, attendance_date) values(#{memberNo}, sysdate)
+	</insert>
+	
+	<!-- 출석 목록조회(한달기준) -->
+	<select id="attendanceList" resultType="DangAttendanceDto"  parameterType="int">
+		select*from dang_attendance where member_no=#{memberNo} and 
+		to_char(attendance_date,'yyyymm')=to_char(sysdate,'yyyymm')
+	</select>
+	
 	
 </mapper>
