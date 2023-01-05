@@ -20,13 +20,14 @@ import com.project.dang.repository.DangReplyDao;
 public class DangController {
 	
 	@Autowired
-	private DangChatDao dangChatDao;
+	private DangChatDao dangChatDao;	
 	@Autowired
 	private DangMemberDao dangMemberDao;
 	@Autowired
 	private DangBoardDao dangBoardDao;
 	@Autowired
 	private DangReplyDao dangReplyDao;
+
 
 
 	@GetMapping("/{dangNo}")
@@ -85,8 +86,16 @@ public class DangController {
 	
 	@GetMapping("/{dangNo}/calendar")
 	public String dangCalendar(@PathVariable int dangNo, Model model, HttpSession session) {
+
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+
+		
+		/*
+		 * // 우측 댕모임 심플스케줄 출력 위해 simpleList를 Model에 추가
+		 * model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		 */
+
 		// 회원 정보
 		String userNo = String.valueOf(session.getAttribute("loginNo"));
 		DangMemberDto dto = DangMemberDto.builder()
