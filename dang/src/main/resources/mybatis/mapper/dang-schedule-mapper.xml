@@ -16,18 +16,16 @@
   			select dang_schedule_seq.nextval from dual
   		</select>
   		
-  		<!-- 스케줄 목록 출력(우측상단) 
-  		<select id="simpleList" parameterType="int" resultType="SimpleScheduleVO">
-				select * from (
-				    select TMP.*, rownum rn from (
-				        select (select to_char(schedule_start+1, 'DAY') from dual) day, extract (day from schedule_start) day_no,
-				        ( TO_CHAR(schedule_start, 'YYYY"년" MM"월" DD"일"' )from dual) schedule_start , p.place_name, d.schedule_hour
-				        from dang_schedule d INNER join dang_place p on d.place_no=p.place_no order by schedule_start asc
-				    )TMP
-				) where rn between 1 and 5;
-  		</select>-->
+  		<!-- 아지트 번호로 스케줄 목록 검색하여 출력 -->
+  		<select id="scheduleList" parameterType="int" resultType="DangScheduleDto">
+  			select schedule_no, schedule_member_no, schedule_ahzit_no, schedule_title, 
+  			to_char(schedule_start, 'YYYY-MM-DD HH24:MI:SS') schedule_start, 
+  			to_char(schedule_end, 'YYYY-MM-DD HH24:MI:SS') schedule_end,  
+  			schedule_allday from schedule where schedule_ahzit_no=#{scheduleAhzitNo} 
+  			order by schedule_start asc
+  		</select>
   		
-<!--   		스케줄 번호로 일정 목록 검색하여 출력(달력 우측)
+  		<!-- 스케줄 번호로 일정 목록 검색하여 출력(달력 우측) -->
   		<select id="listSysdate" parameterType="int" resultType="DangScheduleDto">
   			select schedule_no, member_no, place_no, schedule_title, schedule_content,
   			schedule_headmax,
@@ -35,7 +33,7 @@
   			to_char(schedule_end, 'YYYY-MM-DD HH24:MI:SS') schedule_end,  
   			from dangSchedule where schedule_no=#{scheduleNo} 
   			and schedule_start>=sysdate order by schedule_start asc
-  		</select> -->
+  		</select>
   		  		
   		<!-- 댕모임 회원이 일정페이지에서 일정 등록 -->
   		<insert id="insert" parameterType="DangScheduleDto">
