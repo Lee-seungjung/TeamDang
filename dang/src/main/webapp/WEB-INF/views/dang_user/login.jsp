@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-
+	.span-login-invalid {
+		color: red;
+	}
 </style>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
@@ -36,6 +39,11 @@
 				<div class = "d-flex justify-content-center align-items-center my-3">
 					<a href = "/dang_user/join">회원가입</a>
 				</div>
+				<c:if test = "${param.error != null}">
+					<div class = "d-flex justify-content-center align-items-center my-3">
+						<span class = "span-login-invalid">회원 아이디 또는 비밀번호가 잘못되었습니다.</span>
+					</div>
+				</c:if>
 			</div>
 		</div>
 	</div>	

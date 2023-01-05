@@ -14,7 +14,18 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Override
+	public int memberNo() {
+		return sqlSession.selectOne("dangMember.memberNo");
+	}
 
+	// 댕모임 개설자로 가입
+	@Override
+	public void createDang(DangMemberDto dangMemberDto) {
+		sqlSession.insert("dangMember.createDang", dangMemberDto);
+	}
+	
 	//오늘 출석여부 확인
 	@Override
 	public DangAttendanceDto isAttendance(int memberNo) {

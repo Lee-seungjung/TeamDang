@@ -128,13 +128,28 @@
 <div class = "container-fluid">
 	<div class = "col-8 offset-2">
 		<div class = "row">
+			<div class = "col-3">
+				<a href = "/">홈</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/dang/create">댕모임 개설</a>
+			</div>
 		<c:choose>
 		<c:when test = "${login}">
-			<a href = "/user/logout">로그아웃</a>
+			<div class = "col-3">
+				<a href = "/user/logout">로그아웃</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/user/mypage">마이페이지</a>
+			</div>
 		</c:when>
 		<c:otherwise>
-			<a href = "/user/login">로그인</a>
-			<a href = "/user/join">회원가입</a>
+			<div class = "col-3">
+				<a href = "/user/login">로그인</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/user/join">회원가입</a>
+			</div>
 		</c:otherwise>
 		</c:choose>
 		</div>

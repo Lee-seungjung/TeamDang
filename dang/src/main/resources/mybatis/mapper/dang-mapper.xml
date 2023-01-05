@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dang">
+
+	<!-- 댕모임 번호 반환 -->
+	<select id = "dangNo" resultType = "int">
+		select dang_seq.nextval from dual
+	</select>
+
+	<!-- 댕모임 개설 (공개) -->
+	<insert id = "createPublic" parameterType = "DangDto">
+		insert into dang(dang_no, dang_area_no, user_no, dang_name, dang_info, dang_headmax) values(#{dangNo}, #{dangAreaNo}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax})
+	</insert>
+  
+  	<!-- 댕모임 개설 (비공개) -->
+  	<insert id = "createPrivate" parameterType = "DangDto">
+  		insert into dang(dang_no, dang_area_no, user_no, dang_name, dang_info, dang_headmax, dang_private, dang_pw) values(#{dangNo}, #{dangAreaNo}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax}, 'Y', #{dangPw})
+  	</insert>
+  	
+</mapper>
