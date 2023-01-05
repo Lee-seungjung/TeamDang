@@ -56,5 +56,12 @@ public interface DangMemberDao {
 	 */
 	List<DangAttendanceDto> attendanceList(int memberNo);
 	
+	/**
+	 * 참여 모임 수
+	 * @param userNo
+	 * @return 모임 수(int)
+	 */
+	int joinDangCount(int userNo);
+	
 	
 }

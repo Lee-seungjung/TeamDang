@@ -22,7 +22,7 @@
   	.addImg{
   		background-image: url("${pageContext.request.contextPath}/images/logo2.png");
   		background-position: center center;
-  		background-size: 55px 55px;
+  		background-size: 45px 45px;
   		background-repeat: no-repeat;
   	}
   	.fc .fc-daygrid-day.fc-day-today{
@@ -33,28 +33,28 @@
 <script>
 	$(function(){
 		
-		//모달 띄워지기 직전 캘린더 생성 준비
+		//모달 띄워지기 직전 캘린더 미리 생성
 		$("#day-check-modal").on("shown.bs.modal", function () {
 			createCalendar();
 		});
+		
+		//오늘 출석여부 확인+판정객체
+		var isAttendance = $("[name=isAttendance]").val();
+		var AttendanceValid = false;
+		if(isAttendance==""){
+			$(".checkAttendance").text("출석 체크");
+			$(".close-btn").hide();
+			$(".attendance-btn").show();
+		}else{
+			$(".checkAttendance").text("출석 완료");
+			$(".close-btn").show();
+			$(".attendance-btn").hide();
+			AttendanceValid = true;
+		}
 	
 		//출석체크 모달
 		$(".day-check").click(function(){
-	
-			//오늘 출석여부 확인+판정객체
-			var isAttendance = $("[name=isAttendance]").val();
-			var AttendanceValid = false;
-			if(isAttendance==""){
-				$(".checkAttendance").text("출석 체크");
-				$(".close-btn").hide();
-				$(".attendance-btn").show();
-			}else{
-				$(".checkAttendance").text("출석 완료");
-				$(".close-btn").show();
-				$(".attendance-btn").hide();
-				AttendanceValid = true;
-			}
-			
+
 			var memberNo = $("[name=memberNo]").val();
 			$(".fc-day-today").removeClass("addImg");	
 			
@@ -131,7 +131,7 @@
 			var calendarEl = $('#calendar')[0];
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 		        aspectRatio: 1.3, //달력의 가로 세로 비율 설정
-		        height: '500px', // calendar 높이 설정
+		        height: '400px', // calendar 높이 설정
 		        expandRows: true, // 화면에 맞게 높이 재설정
 		        // 해더에 표시할 툴바
 		        headerToolbar: {
@@ -144,7 +144,7 @@
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 		        locale: 'ko', // 한국어 설정
 		        events: [
-		        	//이번달 출석일 확인 후 발바닥 목록 출력
+		        	//이번달 출석일 확인
 					$.ajax({
 						url:"${pageContext.request.contextPath}/rest_member/attendance_list",
 						method:"get",
@@ -165,6 +165,7 @@
 						}
 					})
 	           	],
+	            //발바닥 찍기
 	           	eventDidMount: function(info){
 	           		if(info.event.extendedProps.imageurl){
 	           			var findEl = info.el.parentElement.parentElement.offsetParent.parentElement;
@@ -229,17 +230,17 @@
 						<div class="col-4">
 							<i class="fa-regular fa-heart fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">2</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
 						<div class="col-4">
 							<i class="fa-regular fa-pen-to-square fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">작성글</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">4</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
 						</div>
 						<div class="col-4">
 							<i class="fa-regular fa-comment-dots fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">댓글</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">28</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
 						</div>
 					</div>
 					
@@ -265,7 +266,7 @@
 				<div class="modal-body">
 				 	<div id="calendar"></div>
 				</div>
-				<div class="modal-footer mb-3" style="margin:0 auto;">
+				<div class="modal-footer mb-2" style="margin:0 auto;">
 					<button type="button" class="btn btn-secondary attendance-btn">출석하기</button>
 					<button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">닫기</button>
 				</div>
