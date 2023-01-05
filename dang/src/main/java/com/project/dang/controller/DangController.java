@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.dang.repository.DangChatDao;
+import com.project.dang.repository.DangScheduleDao;
+import com.project.dang.vo.SimpleScheduleVO;
 
 @Controller
 @RequestMapping("/dang")
@@ -17,6 +19,9 @@ public class DangController {
 	
 	@Autowired
 	private DangChatDao dangChatDao;
+	
+	@Autowired
+	private DangScheduleDao dangScheduleDao;
 
 	@GetMapping("/{dangNo}")
 	public String dangChatMain(@PathVariable int dangNo, Model model, HttpSession session) {
@@ -46,9 +51,16 @@ public class DangController {
 	}
 	
 	@GetMapping("/{dangNo}/calendar")
-	public String dangCalendar(@PathVariable int dangNo, Model model) {
+	public String dangCalendar(@PathVariable int dangNo, Model model ) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+		
+		/*
+		 * // 우측 댕모임 심플스케줄 출력 위해 simpleList를 Model에 추가
+		 * model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		 */
+		
+		
 		return "dang/calendar";
 	}
 	
