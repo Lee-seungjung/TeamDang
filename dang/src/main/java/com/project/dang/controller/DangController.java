@@ -52,9 +52,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		
 		return "dang/chat";
 	}
@@ -77,9 +77,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		
 		return "dang/board";
 	}
@@ -110,9 +110,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		
 		return "dang/calendar";
 	}
@@ -135,9 +135,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		
 		return "dang/album";
 	}
@@ -164,9 +164,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		
 		return "dang/chat";
 	}
@@ -189,9 +189,9 @@ public class DangController {
 		//참여모임 수
 		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
 		//작성글
-		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
-		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 				
 		return "dang/member";
 	}
