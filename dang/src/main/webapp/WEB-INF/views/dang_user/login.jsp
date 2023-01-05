@@ -1,27 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<style>
+
+</style>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-   <jsp:param value="댕모임 가입" name="title"/>
+   <jsp:param value="댕모임 로그인" name="title"/>
 </jsp:include>
 
 <div class = "container-fluid">
-	
-	<div class = "col">
+	<div class = "col-8 offset-2">
 		<div class = "row">
-			로그인 페이지
+			<div class = "col-4 offset-4">			
+				<div class = "d-flex justify-content-center my-3">			
+					<span>댕모임 로그인</span>
+				</div>
+				<div class = "d-flex justify-content-center align-items-center my-3">
+					<input class = "input-user-id flex-fill" type = "text" placeholder = "아이디">
+				</div>
+				<div class = "d-flex justify-content-center align-items-center my-3">
+					<input class = "input-user-pw flex-fill" type = "password" placeholder = "비밀번호">
+				</div>
+				<div class = "d-flex justify-content-center align-items-center my-3">
+					<button class = "btn-login">로그인</button>
+				</div>
+				<div class = "d-flex justify-content-center align-items-center my-3">
+					<div class = "offset-6 col-3">
+						<a href = "/dang_user/find_id">아이디찾기</a>
+					</div>
+					<div class = "col-3">
+						<a href = "/dang_user/find_pw">비밀번호찾기</a>
+					</div>
+				</div>
+				<div class = "d-flex justify-content-center align-items-center my-3">
+					<a href = "/dang_user/join">회원가입</a>
+				</div>
+			</div>
 		</div>
-		<div class = "col-8 offset-2">
-			<div class = "row">
-				아이디 : <input class = "input-user-id" type = "text">
-			</div>
-			<div class = "row">
-				비밀번호 : <input class = "input-user-pw" type = "password">
-			</div>
-			<div class = "row">
-				<button class = "btn-login" type = "submit">로그인</button>
-			</div>
-		</div>	
 	</div>	
 </div>
 
