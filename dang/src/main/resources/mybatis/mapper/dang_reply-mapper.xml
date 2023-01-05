@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dangReply">
+
+	<!-- 내가 쓴 게시글 조회-->
+	<select id="writeCount" resultType="int" parameterType="int">
+		select count(*) from dang_reply where member_no=#{memberNo}
+	</select>
+	
+  
+</mapper>
+  
+  
+  

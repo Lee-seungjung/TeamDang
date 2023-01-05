@@ -23,12 +23,26 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 	
+	<!--font-awesome cdn -->
+       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+       
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Bootstrap CDN -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	
 	<!-- Bootswatch CDN-->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.2/zephyr/bootstrap.css">
 	
+	<!--fullcalendar css-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+    <!-- fullcalendar CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <!-- fullcalendar 언어 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+    
 	<!-- jquery CDN-->
 	<!-- 공부할때는 일반 버전으로-->
 	<script src="https://code.jquery.com/jquery-3.6.1.js"></script> 
@@ -47,6 +61,7 @@
     
 	a {
        text-decoration: none;
+       color:black;
     }
     p{
     	margin-bottom:0;
@@ -56,6 +71,9 @@
     	border:none;
     	background-color:#B0CBFF;
     	overflow: hidden;
+	}
+	.font-gray{
+		color:#373A3C;
 	}
     
 </style>

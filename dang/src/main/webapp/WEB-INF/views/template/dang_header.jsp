@@ -27,7 +27,7 @@
 		<div class = "col-8 offset-2">
 			<div class = "row">
 				<div class = "col nav-font">
-					<a href = "/dang/${dangNo}">게시글</a>
+					<a href = "/dang/${dangNo}/board">게시글</a>
 				</div>
 				<div class = "col nav-font">
 					<a href = "/dang/${dangNo}/album" >사진첩</a>

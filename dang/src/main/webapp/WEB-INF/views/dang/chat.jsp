@@ -14,9 +14,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 <style>
-	.profile-box{
+	/* .profile-box{
 		height:400px;
-	}
+	} */
 	.chat-box{
 		overflow:scroll;
 		overflow-x:hidden;
@@ -77,9 +77,11 @@
 	 .progress-bar{
 	 	background-color: #6C7AEF;
 	 }
-	 *{
-	  border:1px gray dotted;
-	 }
+	 .rounded-bottom {
+	  border-bottom-right-radius: 0.3rem !important;
+	  border-bottom-left-radius: 0.3rem !important;
+	}
+	 
 </style>
 <script>
 	$(function(){
@@ -207,109 +209,90 @@
 	});
 </script>
 
-<div class="container px-4 mt-4">
-	<div class="row gx-4">
+<div class = "container-fluid mt-3">
+	<div class = "col-10 offset-1">
 	
-		<!-- 프로필 박스 -->
-		<div class="col-3">
-			<div class="p-3 profile-box border rounded-3">
-				<div class="profile-wrap text-center">
-					<div class="row justify-content-center mb-3" >
-						<div class="col-8 offset 2">
-							<img src="/images/bone.png" class="img-fluid">
-						</div>
+		<div class = "row">
+			<!-- 프로필 박스 시작-->
+			<div class = "col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
+			</div>
+			<!-- 프로필 박스 끝-->
+			
+			<!-- 채팅 박스 시작 -->
+			<div class = "col-6">
+				<div class = "col">
+					<div class="chat-box p-3 rounded-3 shadow">
+						<!-- 기존 메세지 생성 -->
+						<c:forEach var="vo" items="${history}">
+							<c:choose>
+								<c:when test="${profile.userNo==vo.userNo}">
+									<div class="text-end me-2 mb-3">
+										<c:if test="${vo.chatStatus!=0}">
+											<span>${vo.chatStatus}</span>
+										</c:if>
+										<span style="font-size:10px;">
+											<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+										</span>
+										<span class="message2">${vo.chatContent}</span>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="text-start ms-2">
+										<table class="mb-2">
+											<tbody>
+												<tr>
+													<td rowspan="2">
+														<img src="#" class="img-circle" width="45" height="45">
+													</td>
+													<td><span>${vo.memberNick}</span></td>
+													<td rowspan="2"></td>
+												</tr>
+												<tr>
+													<td>
+														<span class="message">${vo.chatContent}</span>
+														<span style="font-size:10px;">
+															<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+														</span>
+														<c:if test="${vo.chatStatus!=0}">
+															<span>${vo.chatStatus}</span>
+														</c:if>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+						<!-- 새 메세지 생성 -->
+						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
-					<div class="row d-flex justify-content-center">
-						<div class="col-3 pe-0">
-							<img src="/images/bone.png" class="img-fluid">
-						</div>
-						<div class="col-3 ps-0" style="display:flex; align-items:center">
-							<span>닉네임</span>
-						</div>
-					</div>
-					<div class="row">
-					<p>짧은소개..?</p>
-					<p>활동 점수</p>
-					<div class="progress">	
-						<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-					</div>
-					<p>뼈다귀 등급</p>
 					
-					<p>프로필 편집</p>
+					<div class="chat-submit text-center rounded-bottom">
+						<input type="text" id="chat-input" class="me-1">
+						<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
 					</div>
 				</div>
 			</div>
 			
-			<!-- 출석 체크 -->
-			<div class="p-3 border rounded-3 text-center">
-				<span>출석 체크</span>
-			</div>
+			<!-- 방번호, 회원번호-->
+			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
+			<input type="hidden" name="userNo" value="${profile.userNo}">
 			
-		</div>
-		
-		
-		<!-- 채팅 박스 -->
-		<div class="col-6">
-			<div class="chat-box p-3 rounded-3">
-				<!-- 기존 메세지 생성 -->
-				<c:forEach var="vo" items="${history}">
-					<c:choose>
-						<c:when test="${userNo==vo.userNo}">
-							<div class="text-end me-2 mb-3">
-								<c:if test="${vo.chatStatus!=0}">
-									<span>${vo.chatStatus}</span>
-								</c:if>
-								<span style="font-size:10px;">
-									<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-								</span>
-								<span class="message2">${vo.chatContent}</span>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="text-start ms-2">
-								<table class="mb-2">
-									<tbody>
-										<tr>
-											<td rowspan="2">
-												<img src="#" class="img-circle" width="45" height="45">
-											</td>
-											<td><span>${vo.memberNick}</span></td>
-											<td rowspan="2"></td>
-										</tr>
-										<tr>
-											<td>
-												<span class="message">${vo.chatContent}</span>
-												<span style="font-size:10px;">
-													<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-												</span>
-												<c:if test="${vo.chatStatus!=0}">
-													<span>${vo.chatStatus}</span>
-												</c:if>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				
-				<!-- 새 메세지 생성 -->
-				<div class="new-chat" style="margin-right:10px;"></div>
-			</div>
+			<!-- 채팅 박스 끝-->
 			
-			<div class="chat-submit text-center">
-				<input type="text" id="chat-input" class="me-1">
-				<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
+			<div class = "col-3">
+				<div class = "col">
+					
+				</div>
 			</div>
 		</div>
-		
-		<!-- 방번호, 회원번호-->
-		<input type="hidden" name="roomNo" value="${history[0].roomNo}">
-		<input type="hidden" name="userNo" value="${userNo}">
 		
 	</div>
 </div>
+
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

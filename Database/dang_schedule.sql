@@ -8,7 +8,8 @@ schedule_content varchar2(300) not null,
 schedule_headmax number not null,
 schedule_head number default 1 not null,
 schedule_start date,
-schedule_end date
+schedule_end date,
+schedule_hour varchar2(5)
 );
 
 -- 시퀀스 번호 생성
