@@ -33,19 +33,19 @@
 /*	background-color: lightgray;*/
 }
 
-.calendar-box{
-	width : 1100px;
+/* .calendar-box{
+	width : 100%px;
 	height : 450px;
 	background-color: white;
 	display: flex;
 	flex-direction: row;
 	gap: 1em;
 	justify-content: center;
-}
+} */
 
 .calendar{
-	width: 650px;
-	height : 450px;
+	width: 100%;
+	height : 500px;
 }
 
 .calendar-info{
@@ -66,13 +66,13 @@
 	justify-content: center;
 }
 
-.add-schedule{
+/* .add-schedule{
 	width : 1000px;
 	height : 400px;
 	text-align: center;
 	margin: 60px 10px;
 
-}
+} */
 
 .add-btn{
  width: 140px;
@@ -88,6 +88,148 @@
  font-size: 24px;
  font-weight: bold;
 }
+
+.place-info{
+    height: 700px;
+/*     background-color: blue; */
+    flex-direction: row;
+}
+
+.place-map{
+    width: 90%;
+    height: 400px;
+	margin: 30px 30px;
+    background-color: lightblue;
+}
+.dang-title, .dang-time, .dang-location {
+    height: 50px;
+    background-color: white;
+    margin: 30px;
+}
+
+.block {
+   display: inline-block;
+   border: none;
+   background-color: #76BEFF;
+   text-align: center;
+   padding: 0.5em 0.8em 0.5em 0.8em;
+   border-radius: 7px;
+   font-weight: 600;
+   color: white;
+   font-size: 20px;
+   margin: 0 3px;
+}
+
+.block-white{
+ display: inline-block;
+   border: none;
+   background-color: #white;
+   text-align: center;
+   padding: 0.5em 0.8em 0.5em 0.8em;
+   border-radius: 7px;
+   font-weight: 600;
+   color: #515151;
+   font-size: 20px;
+   margin: 0 3px;
+}
+
+.simple-schedule-box{
+    width: 100%;
+    height: 90px;
+    border-radius: 15px 15px 15px 15px;
+    border-style: solid;
+    border-width: 2px 2px 2px 2px;
+    border-color: #EFEFEF;
+    margin: 15px 0 15px;
+    
+}
+
+.simple-date-box{
+    width: 100%;
+    display: flex;
+    padding: 10px;
+}
+.simple-friday{
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+    border-style: solid;
+    border-width: 6px 6px 6px 6px;
+    border-color: #89E3E3;
+}
+
+.simple-monday{
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+    border-style: solid;
+    border-width: 6px 6px 6px 6px;
+    border-color: #FFCF97;
+}
+
+.simple-sunday{
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+    border-style: solid;
+    border-width: 6px 6px 6px 6px;
+    border-color: #D4BAFF;
+}
+
+.simple-thursday{
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+    border-style: solid;
+    border-width: 6px 6px 6px 6px;
+    border-color: #FFA6E1;
+}
+
+.simple-day{
+    height: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    color: #3D3D3D;
+    position: relative;
+    top: 5px;
+
+}
+.simple-number-day {
+    height: 50px;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    color: #3D3D3D;
+    margin-top: -5;
+}
+
+.simple-when, .simple-where{
+    width: 200px;
+    height: 35px;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0px 15px;
+    color: #3D3D3D;
+    line-height: 35px;
+ 
+}
+
+.fa-calendar, .fa-location-dot{
+    font-size: 20px;
+    color: #3D3D3D
+
+}
+
+
+.schedule-box-assorted{
+    height: 600px;
+    border-radius: 5%;
+    border-style: solid;
+    border-width: 2px 2px 2px 2px;
+    border-color: #E8E8E8;
+}
+
        
 
     </style>
@@ -95,125 +237,282 @@
 
 
     <script>
+    $(function () {
+        var calendarEl = $('#calendar')[0];
+        var staff; // 직원 객체를 저장할 변수
+        var patient; // 환자 객체를 저장할 변수
+        var patientNo; // 환자 번호를 저장할 변수
+        var reservation; // 전체 예약 객체를 저장할 변수
+        var reservationDate; // 하루 예약 객체를 저장할 변수
+        var reservationNo; // 삭제를 위해 예약 번호 저장할 변수
+        var date;
+        $.ajax({ // 장소 출력
+            url: "http://localhost:8888/rest/dang_place/list",
+            method: "get",
+            success: function (resp) {
+                if (resp != null) {
+                    staff = resp;
+                    for (var i = 0; i < staff.length; i++) {
+                        // console.log(staff[i].staffDepartmentNo);
+                        // console.log(staff[i].staffId);
+                        if (staff[i].staffDepartmentNo == 1) {
+                            // 예약 날짜와 직원 번호로 예약자 3명 이상인지 확인
+                            $(".doctor-reservation-select").append($("<option>").append(staff[i].staffMedicalDepartment + "-" + staff[i].staffName).addClass("reservation-option").val(staff[i].staffId));
+                        }
+                    }
+                } else {
+                    console.log("실패");
+                }
+            }
+        });
+        $.ajax({ // 환자 출력
+            url: "http://localhost:8888/rest/patient",
+            method: "get",
+            success: function (resp) {
+                if (resp != null) {
+                    patient = resp;
+                } else {
+                    console.log("실패");
+                }
+            }
+        });
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', //캘린더 화면
+            headerToolbar: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+            },
+            dateClick: function (info) { //날짜 클릭 시
+                // console.log('Date: ' + info.dateStr);
+                date = info.dateStr;
+                $("#modal01").modal("show"); //모달 도출
+                $(".modal-date").val(date); // 날짜 삽입
+                $.ajax({ // 해당 날짜의 예약 목록 불러오기
+                    url:"http://localhost:8888/rest/reservation/"+date,
+                    method:"get",
+                    success:function(resp){
+                        if(resp != null){
+                            reservationDate = resp;
+                        }
+                    }
+                });
+                $("#time-reservation").text(" ");
+                $(".symptom-modal-textarea").val(""); // 텍스트창 초기화
+                // console.log(staff);
+                $(".doctor-reservation-select").val($(".select-option").val()); // 의사 선택 초기화
+                $(".modal-patient").val(""); // 환자 텍스트창 초기화
+                for (var i = 0; i < $("[name=time]").length; i++) { // 시간 선택 아이콘 초기화
+                    $("[name=time]").prev().removeClass("radio-time-color");
+                    // console.log($(this).prev());
+                };
+                $("[name=time]").each(function () {
+                    $(this).parent().removeClass("disabled-button");
+                });
+                $("[name=time]").prop('checked', false); // 시간 선택 라디오 버튼 체크 해제
+            },
+            eventClick: function (event) { //이벤트 클릭 시
+                $("#modal02").modal("show"); //모달 도출
+                $.ajax({
+                    url:"http://localhost:8888/rest/schedule/detail/"+event.event.id,
+                    method:"get",
+                    success:function(resp){
+                        if(resp != null){
+                            reservationNo = event.event.id;
+                            $("#doctor-name-confirm").val(resp.reservationStaffId);
+                            $("#reservation-date-confirm").val(resp.reservationDate);
+                            $("#reservation-time-confirm").val(resp.reservationTime);
+                            $("#reservation-patient-confirm").val(resp.reservationPatientNo);
+                            $("#reservation-content-confirm").val(resp.reservationContent);
+                        }
+                        else{
+                            console.log("실패");
+                        }
+                    }
+                });
+            },
+            themeSystem: 'bootstrap5',
+            selectable: true, // 날짜 선택
+            locale: 'ko', // 한국어 설정
+            // navLinks: true, // 날짜 선택하면 해당 날짜 화면
+            editable: true, // 수정 가능 여부
+            
+            events: [
+                // 하루에 예약이 3개 이상이면 예약 n건으로 출력
+                $.ajax({
+                    url: "http://localhost:8888/rest/reservation",
+                    method: "get",
+                    success: function (resp) {
+                        if (resp != null) {
+                            // console.log(resp);
+                            reservation = resp;
+                            for(var i = 0; i < reservation.length; i++){
+                                calendar.addEvent({
+                                    title: reservation[i]['reservationStaffId'],
+                                    start: reservation[i]['reservationDate']+'T'+reservation[i]['reservationTime'],
+                                    id : reservation[i]['reservationNo']
+                                })
+                            }
+                        } else {
+                            console.log("실패");
+                        }
+                    }
+                })
+            ]
+        });
+        calendar.render();
+        $(".doctor-reservation-select").change(function () {
+            // 여기에 해당 의사가 예약이 몇개인지 그리고 시간때를 불러온다
+            // 3개 이하일 때 예약된 시간을 비활성화 시키고 출력
+            // 현재 날짜와 직원아이디로 리스트 뽑아서 시간 비교
+            // 시간과 라디오 버튼 벨류 값이랑 비교해서 같은 건 히든으로 숨기기
+            // console.log($(".doctor-reservation-select").val());
+            $("#time-reservation").text(" ");
+            $("[name=time]").prop('checked', false); // 시간 선택 라디오 버튼 체크 해제
+            $("[name=time]").each(function () {
+                $(this).parent().removeClass("disabled-button");
+            });
+            $.ajax({
+                url: "http://localhost:8888/rest/reservation/vo?reservationStaffId=" + $(".doctor-reservation-select").val() + "&reservationDate=" + date,
+                method: "get",
+                success: function (resp) {
+                    if (resp != 0) {
+                        if (resp.length < 3) {
+                            for (var i = 0; i < resp.length; i++) {
+                                // console.log(resp[i].reservationTime);
+                                $("[name=time]").each(function () {
+                                    // console.log($(this).val());
+                                    if ($(this).val() == resp[i].reservationTime) {
+                                        $(this).parent().addClass("disabled-button");
+                                    }
+                                });
+                            }
+                        } else if (resp.length >= 3) {
+                            $("[name=time]").each(function () {
+                                $(this).parent().addClass("disabled-button");
+                                $("#time-reservation").text("예약이 다찼습니다.");
+                            });
+                        }
+                    }
+                }
+            });
+        });
+        $(".modal-patient").blur(function () {
+            var patientJudg;
+            var patientOne;
+            for(var i = 0; i < patient.length; i++){
+                patientJudg = $(".modal-patient").val() == patient[i].patientName;
+                if(patientJudg){
+                    // console.log($(".modal-patient").val());
+                    patientOne = patient[i];
+                    break;
+                }
+            }
+            // console.log(patientJudg);
+            if (patientOne != null) {
+                // console.log(patientOne.patientNo); //인풋 히든으로
+                patientNo = patientOne.patientNo;
+            }
+        });
+        $("[name=time]").change(function () {
+            for (var i = 0; i < $("[name=time]").length; i++) {
+                $("[name=time]").prev().removeClass("radio-time-color");
+                // console.log($(this).prev());
+            };
+            $(this).prev().addClass("radio-time-color");
+        });
+        $(".btn-reservation-delete").click(function () {
+            console.log(reservationNo);
+            $.ajax({
+                url: "http://localhost:8888/rest/reservation/" + reservationNo,
+                method: "delete",
+                success: function () {
+                    console.log("삭제완료");
+                    $('#modal01').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+        $(".btn-reservation").click(function () {
+            var data = {
+                reservationStaffId:$(".doctor-reservation-select").val(),
+                reservationPatientNo : patientNo,
+                reservationDate : $(".modal-date").val(),
+                reservationContent:$(".symptom-modal-textarea").val(),
+                reservationTime:$("[name=time]:checked").val()
+            };
+            // console.log($(".doctor-reservation-select").val());
+            // console.log(patientNo);
+            // console.log($(".modal-date").val());
+            // console.log($(".symptom-modal-textarea").val());
+            // console.log($("[name=time]:checked").val());
+            $.ajax({
+                url:"http://localhost:8888/rest/reservation",
+                method:"post",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                success:function(){
+                    console.log("성공");
+                    $('#modal01').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+    });
 
     </script>
 </head>
 
 <body>
-<div class="layout">
-		<div class="calendar-box ">
-						<div class="monthly-calendar row">					
-        <div id='calendar' class="calendar"></div>
-        </div>
-        <div class="modal fade" id="modal01" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- 모달 헤더 : 제목 영역 -->
-                    <div class="modal-header">
-                        <h5 class="modal-title">댕모임 일정 등록</h5>
+<div class = "container-fluid">
 
-                        <!-- x 버튼 -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <!-- 모달 바디 : 사용자에게 알려줄 내용 영역 -->
-                    <div class="modal-body">
-                        <label>댕모임 제목</label>
-						<input class="form-control modal-content">
-                        <label>댕모임 시작일</label>
-                        <input class="modal-date form-control" type="date">
-                         <label>댕모임 종료일</label>
-                        <input class="modal-date form-control" type="date">
-<%--                          <label>댕모임 시작</label>
-                        <div class="dang-start">
-                        <select class="form-control modal-time-select">
-								<option value="">----선택----</option>
-								<c:forEach var="i" begin="00" step="1" end="23">
-									<option value="${i}">${i}:00</option>
-								</c:forEach>
-                        </select>                  
-                        </div>
-                        <label>댕모임 종료</label>
-                        <div class="dang-end">
-                        <select class="form-control modal-time-select">
-								<option value="">----선택----</option>
-								<c:forEach var="i" begin="00" step="1" end="23">
-									<option value="${i}">${i}:00</option>
-								</c:forEach>
-                        </select>                  
-                        </div> --%>
-                        <label>모임 장소</label>
-                        <input class="form-control modal-place">
-                        <label>모임 내용</label>
-                        <textarea style="resize: none;" class="form-control symptom-modal-textarea" rows="5"></textarea>
-                        <label>참여 인원 수</label>
-                         <div class="row">
-						<select name="DangHead">
-								<option value="">인원 수</option>
-								<c:forEach var="i" begin="2" step="1" end="10">
-									<option value="${i}">${i}명</option>
-								</c:forEach>
-							</select>                
-                        </div>
-                    </div>
-                    <!-- 모달 푸터 : 버튼들이 위치한 영역 -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-reservation">등록</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modal02" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- 모달 헤더 : 제목 영역 -->
-                    <div class="modal-header">
-                        <h5 class="modal-title">일정 확인</h5>
+	<div class = "col-10 offset-1">
+		<div class = "row">
+			<!-- 프로필 박스 시작-->
+			<div class = "col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
+			</div>
+			<!-- 프로필 박스 끝-->
+			<div class = "col-6" style="background: white">				
+			    <div class="monthly-calendar row">					
+	             <div id='calendar' class="calendar"></div>
 
-                        <!-- x 버튼 -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <!-- 모달 바디 : 사용자에게 알려줄 내용 영역 -->
-                    <div class="modal-body">
-                        <label>댕모임 제목</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                        <label>댕모임 시작일</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                        <label>댕모임 종료일</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                        <label>모임장소</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                         <label>모임인원</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                        <label>참여 인원 수</label>
-                        <input id="" class="form-control bg-light mb-3" type="text" readonly>
-                        
-                    </div>
-                    <!-- 모달 푸터 : 버튼들이 위치한 영역 -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-reservation-delete">삭제</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-            			<div class="calendar-info">
-            			<div><span class="upcoming">다가오는 댕모임</span><i class="fa-solid fa-paw"></i></div>
-            			<div id=""></div>
-			</div>	
+                 <div class = "place-info">    
 
-			
+                    <div class = "place-map">
+
+                    </div>        
+
+                    <div class = "dang-title">
+                        <div class="block">모임제목</div>
+                        <div class="block-white">목욕댕모임</div>
+                    </div>    
+
+                    <div class = "dang-time">
+                        <div class="block">모임시간</div>
+                        <div class="block-white">1월 13일 (금) 14:00 ~ 16:00</div>
+                    </div>      
+                                     
+                    <div class = "dang-location">
+                        <div class="block">모임장소</div>
+                        <div class="block-white">신촌 댕목욕집</div>
+                    </div>                       
+                    
+
+                 </div>
+
+	         </div>		
+	        </div>		
+
+
+			<!-- 다가오는 일정 박스 시작-->
+			<div class = "col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
 		</div>
-								<div class = "more-info">
-					<div class="add-schedule">
-						<h2>댕모임 멤버들과 함께 하고 싶은 일정이 있나요?</h2>
-						<button class="btn add-btn" type="button"> 일정 추가하기</button>
-				</div>	
-    </div>
-		
+	</div>
 
-    
-    
-    </div>
+</div>
 </body>
 </html>
