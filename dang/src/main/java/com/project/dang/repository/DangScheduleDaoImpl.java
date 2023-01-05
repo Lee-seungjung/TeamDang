@@ -17,7 +17,7 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	
 	@Override
 	public List<SimpleScheduleVO> simpleList() {
-		return sqlSession.selectList("dang.calendar");
+		return sqlSession.selectList("schedule.simpleList");
 	}
 
 //	@Override

@@ -5,7 +5,6 @@
 <head>
 
 
-
 <style>
 .layout {
 	max-width: 1100px;
@@ -130,7 +129,13 @@
 	display: flex;
 	padding: 10px;
 }
-
+.day-commons{
+	width: 70px;
+	height: 70px;
+	border-radius: 30%;
+	border-style: solid;
+	border-width: 6px 6px 6px 6px;
+}
 .simple-friday {
 	width: 70px;
 	height: 70px;
@@ -225,94 +230,37 @@
 
 			<div class="schedule-wrap">
 				<div class="row justify-content-center mb-3">
-					<span class="text-center upcoming"> 다가오는 댕모임<i
-						class="fa-solid fa-paw"></i></span>
+					<span class="text-center upcoming"> 다가오는 댕모임<i class="fa-solid fa-paw"></i></span>
 				</div>
 
+			<c:forEach var="DangScheduleVO" items="${simpleSchedule}">
 				<div class="simple-schedule-box">
 					<div class="simple-date-box">
-						<div class="simple-friday">
-							<div class="simple-day">금요일</div>
-							<div class="simple-number-day">13</div>
+						
+						<div class="day-commons" style="
+						<c:if test = "${DangScheduleVO.day == '월요일'}">border-color:#FF8399;</c:if>
+						<c:if test = "${DangScheduleVO.day == '화요일'}">border-color:#FFC28B;</c:if>
+						<c:if test = "${DangScheduleVO.day == '수요일'}">border-color:#FFA6E1;</c:if>
+						<c:if test = "${DangScheduleVO.day == '목요일'}">border-color:#89E3B8;</c:if>
+						<c:if test = "${DangScheduleVO.day == '금요일'}">border-color:#89E3E3;</c:if>
+						<c:if test = "${DangScheduleVO.day == '토요일'}">border-color:#94D2FF;</c:if>
+						<c:if test = "${DangScheduleVO.day == '일요일'}">border-color:#BE9FFF;</c:if>
+						">			
+							<div class="simple-day">${DangScheduleVO.day}</div>
+							<div class="simple-number-day">${DangScheduleVO.dayNo}</div>
 						</div>
 						<div class="when-where-box">
 							<div class="simple-when">
-								<i class="fa-regular fa-calendar"></i> 1월 13일 (금) 14:00
+								<i class="fa-regular fa-calendar"></i> ${DangScheduleVO.scheduleStart}
 							</div>
 							<div class="simple-where">
-								<i class="fa-solid fa-location-dot"></i> 신촌 댕목욕집
+								<i class="fa-solid fa-location-dot"></i> ${DangScheduleVO.placeName}
 							</div>
 						</div>
 					</div>
 				</div>
+				</c:forEach>
 
-				<div class="simple-schedule-box">
-					<div class="simple-date-box">
-						<div class="simple-thursday">
-							<div class="simple-day">목요일</div>
-							<div class="simple-number-day">19</div>
-						</div>
-						<div class="when-where-box">
-							<div class="simple-when">
-								<i class="fa-regular fa-calendar"></i> 1월 19일 (목) 19:00
-							</div>
-							<div class="simple-where">
-								<i class="fa-solid fa-location-dot"></i> 양화한강공원
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="simple-schedule-box">
-					<div class="simple-date-box">
-						<div class="simple-friday">
-							<div class="simple-day">금요일</div>
-							<div class="simple-number-day">20</div>
-						</div>
-						<div class="when-where-box">
-							<div class="simple-when">
-								<i class="fa-regular fa-calendar"></i> 1월 13일 (금) 20:00
-							</div>
-							<div class="simple-where">
-								<i class="fa-solid fa-location-dot"></i> 홍대 댕댕카페
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="simple-schedule-box">
-					<div class="simple-date-box">
-						<div class="simple-monday">
-							<div class="simple-day">월요일</div>
-							<div class="simple-number-day">23</div>
-						</div>
-						<div class="when-where-box">
-							<div class="simple-when">
-								<i class="fa-regular fa-calendar"></i> 1월 23일 (월) 09:00
-							</div>
-							<div class="simple-where">
-								<i class="fa-solid fa-location-dot"></i> 신촌 댕목욕집
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="simple-schedule-box">
-					<div class="simple-date-box">
-						<div class="simple-sunday">
-							<div class="simple-day">일요일</div>
-							<div class="simple-number-day">29</div>
-						</div>
-						<div class="when-where-box">
-							<div class="simple-when">
-								<i class="fa-regular fa-calendar"></i> 1월 29일 (일) 11:00
-							</div>
-							<div class="simple-where">
-								<i class="fa-solid fa-location-dot"></i> 상암 댕종합운동장
-							</div>
-						</div>
-					</div>
-				</div>
 
 			</div>
 		</div>
