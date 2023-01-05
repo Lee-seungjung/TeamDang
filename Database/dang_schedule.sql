@@ -9,6 +9,7 @@ schedule_headmax number not null,
 schedule_head number default 1 not null,
 schedule_start date,
 schedule_end date
+schedule_hour date
 );
 
 -- 시퀀스 번호 생성
