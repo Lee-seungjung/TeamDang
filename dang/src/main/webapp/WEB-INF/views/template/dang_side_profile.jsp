@@ -33,39 +33,36 @@
 <script>
 	$(function(){
 		
+		//모달 띄워지기 직전 캘린더 생성 준비
+		$("#day-check-modal").on("shown.bs.modal", function () {
+			createCalendar();
+		});
+	
 		//출석체크 모달
 		$(".day-check").click(function(){
-			//모달 띄워지기 직전 캘린더 생성 준비 후 모달 보여주기
-			$("#day-check-modal").on("shown.bs.modal", function () {
-				createCalendar();
-			}).modal('show');
-			
-		});
-		
-		//오늘 출석여부 확인
-		var isAttendance = $("[name=isAttendance]").val();
-		if(isAttendance==""){
-			$(".checkAttendance").text("출석 체크");
-			$(".close-btn").hide();
-			$(".attendance-btn").show();
-		}else{
-			$(".checkAttendance").text("출석 완료");
-			$(".close-btn").show();
-			$(".attendance-btn").hide();
-		}
-
-		
-		//출석 체크 버튼 이벤트
-		$(".checkAttendance").click(function(){
-
+	
+			//오늘 출석여부 확인+판정객체
 			var isAttendance = $("[name=isAttendance]").val();
+			var AttendanceValid = false;
+			if(isAttendance==""){
+				$(".checkAttendance").text("출석 체크");
+				$(".close-btn").hide();
+				$(".attendance-btn").show();
+			}else{
+				$(".checkAttendance").text("출석 완료");
+				$(".close-btn").show();
+				$(".attendance-btn").hide();
+				AttendanceValid = true;
+			}
+			
 			var memberNo = $("[name=memberNo]").val();
-
-			if(isAttendance==""){ //미출석
+			$(".fc-day-today").removeClass("addImg");	
+			
+			if(AttendanceValid==false){ //미출석
 				console.log("미출석 상태!");
-				console.log($(".fc-day-today"));
-				$(".fc-day-today").removeClass("addImg");	
+				
 				$(".attendance-btn").click(function(){
+					AttendanceValid = true;
 					//1. 오늘날짜 배경에 로고 이미지 넣기
 					$(".fc-day-today").addClass("addImg");
 					
@@ -113,10 +110,14 @@
 				});
 			}else{
 				console.log("출석 상태!");
-				var grid = $(".fc-day-today");
-				console.log(grid);
+				
+				//모달 타이틀 문구 변경
+				$(".modal-title1").text("출석 체크가 ");
+				$(".modal-title").text("완료");
+				$(".modal-title2").text(" 되었습니다!");
+
 			}
-		
+			
 		});
 		
 		
@@ -151,21 +152,25 @@
 			    		dataType:"json",
 			    		contentType:"application/json",
 						success:function(resp){
-							console.log(resp);
 							if(resp.length!=0){
 								for(var i=0; i<resp.length; i++){
 									calendar.addEvent({
 										date:resp[i]['attendanceDate'],
 										display: ['background'],
-										color:['#81BDF1']
-										//imageurl:'/images/logo2.png'
+										color:['#fff'],
+										imageurl:'/images/logo2.png'
 									})
 								}
 							}
 						}
 					})
 	           	],
-
+	           	eventDidMount: function(info){
+	           		if(info.event.extendedProps.imageurl){
+	           			var findEl = info.el.parentElement.parentElement.offsetParent.parentElement;
+	           			findEl.classList.add('addImg');
+	           		}
+	           	}
 		      });
 		      // 캘린더 랜더링
 		      calendar.render();
@@ -253,18 +258,9 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="margin:0 auto;">
-					<c:choose>
-						<c:when test="${attendance!=null}">
-							<p style="color:#303030; font-size:15px;" class="me-1"> 출석 체크가 </p>
-							<h5 class="modal-title" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 완료 </h5>
-							<p style="color:#303030; font-size:15px;" class="ms-1"> 되었습니다!</p>
-						</c:when>
-						<c:otherwise>
-							<p style="color:#303030; font-size:15px;" class="me-1"> 댕모임의 </p>
-							<h5 class="modal-title" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
-							<p style="color:#303030; font-size:15px;" class="ms-1"> 올라갑니다!</p>
-						</c:otherwise>
-					</c:choose>
+					<p style="color:#303030; font-size:15px;" class="me-1 modal-title1"> 댕모임의 </p>
+					<h5 class="modal-title" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
+					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title2"> 올라갑니다!</p>
 				</div>
 				<div class="modal-body">
 				 	<div id="calendar"></div>
