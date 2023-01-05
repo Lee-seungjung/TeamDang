@@ -54,7 +54,7 @@
 	
 		//출석체크 모달
 		$(".day-check").click(function(){
-
+			
 			var memberNo = $("[name=memberNo]").val();
 			$(".fc-day-today").removeClass("addImg");	
 			
@@ -182,7 +182,7 @@
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
-	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
+	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-3" >
 				<div class="col-7">
@@ -227,17 +227,17 @@
 					<hr>
 					
 					<div class="row justify-content-center">
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-heart fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-pen-to-square fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">작성글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
 						</div>
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-comment-dots fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">댓글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
