@@ -33,6 +33,13 @@ public interface DangUserDao {
 	public boolean checkPw(String inputPw, String searchPw);	
 	
 	/**
+	 * Email 검사 : 입력한 이메일과 일치하는 회원 정보가 존재하는지 여부 반환
+	 * @param userEmail : 입력 이메일
+	 * @return boolean : 해당 이메일로 가입한 회원 존재 여부 (true이면 이미 가입한 이메일)
+	 */
+	public boolean checkEmail(String userEmail);
+	
+	/**
 	 * 프로필 파일 번호 찾기
 	 * @param userNo : 회원번호
 	 * @return attachmentNo : 파일번호

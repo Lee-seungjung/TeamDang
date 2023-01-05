@@ -37,6 +37,12 @@ public class DangUserController {
 		return "redirect:login";
 	}
 	
+	// 회원가입 완료
+	@GetMapping("/join_success")
+	public String joinSuccess() {
+		return "dang_user/join_success";
+	}
+	
 	// 로그인
 	@GetMapping("/login")
 	public String login() {

@@ -222,7 +222,7 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 rounded-3 shadow">
+					<div class="chat-box p-3 rounded-3 shadow-sm">
 						<!-- 기존 메세지 생성 -->
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
@@ -270,7 +270,7 @@
 						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
 					
-					<div class="chat-submit text-center rounded-bottom">
+					<div class="chat-submit text-center rounded-bottom shadow-sm">
 						<input type="text" id="chat-input" class="me-1">
 						<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
 					</div>

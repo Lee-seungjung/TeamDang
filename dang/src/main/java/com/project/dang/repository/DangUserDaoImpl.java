@@ -41,10 +41,15 @@ public class DangUserDaoImpl implements DangUserDao {
 		return pwEncoder.matches(inputPw, searchPw);
 	}
 
+	@Override
+	public boolean checkEmail(String userEmail) {
+		boolean alreadyJoin = sqlSession.selectOne("dangUser.checkEmail", userEmail) != null;
+		return alreadyJoin; // 이미 가입한 이메일이면 true를 반환
+	}
+	
 	//프로필 파일 번호 찾기
 	@Override
 	public Integer findAttachmentNo(int userNo) {
 		return sqlSession.selectOne("dangUser.findAttachmentNo",userNo);
-	}
-	
+	}	
 }

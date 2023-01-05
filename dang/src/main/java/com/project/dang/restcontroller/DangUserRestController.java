@@ -33,7 +33,14 @@ public class DangUserRestController {
 		// 만약 조회 정보가 존재한다면 (이미 존재하는 아이디라면)
 		if(searchUserVO != null) return false; // false를 반환
 		// 그 외의 경우에는
-		return true; // true를 반환 (중복되지 않는 아이디)
+		else return true; // true를 반환 (중복되지 않는 아이디)
+	}
+	
+	// 이메일 중복 검사
+	@GetMapping("/check_email")
+	public boolean checkEmail(@RequestParam String userEmail) {
+		// 이미 가입한 이메일인지 여부 반환
+		return dangUserDao.checkEmail(userEmail);
 	}
 	
 	// 이메일 전송
