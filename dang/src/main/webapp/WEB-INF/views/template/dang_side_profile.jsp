@@ -33,6 +33,15 @@
 <script>
 	$(function(){
 		
+		//출석체크 모달
+		$(".day-check").click(function(){
+			//모달 띄워지기 직전 캘린더 생성 준비 후 모달 보여주기
+			$("#day-check-modal").on("shown.bs.modal", function () {
+				createCalendar();
+			}).modal('show');
+			
+		});
+		
 		//오늘 출석여부 확인
 		var isAttendance = $("[name=isAttendance]").val();
 		if(isAttendance==""){
@@ -44,22 +53,17 @@
 			$(".close-btn").show();
 			$(".attendance-btn").hide();
 		}
-		
-		//출석체크 모달
-		$(".day-check").click(function(){
-			//모달 띄워지기 직전 캘린더 생성 준비 후 모달 보여주기
-			$("#day-check-modal").on("shown.bs.modal", function () {
-				createCalendar();
-			}).modal('show');
-			
-		});
+
 		
 		//출석 체크 버튼 이벤트
 		$(".checkAttendance").click(function(){
+
 			var isAttendance = $("[name=isAttendance]").val();
 			var memberNo = $("[name=memberNo]").val();
 
 			if(isAttendance==""){ //미출석
+				console.log("미출석 상태!");
+				console.log($(".fc-day-today"));
 				$(".fc-day-today").removeClass("addImg");	
 				$(".attendance-btn").click(function(){
 					//1. 오늘날짜 배경에 로고 이미지 넣기
@@ -75,6 +79,10 @@
 						data:JSON.stringify(attendanceData),
 						contentType: 'application/json',
 	                    success:function(){
+	                    	//버튼 막기
+	                    	$(".close-btn").show();
+	    					$(".attendance-btn").hide();
+	    					
 	                    	//3. 활동점수 +1 업데이트
 	                    	data={
 	                    			memberScore:1,
@@ -86,36 +94,38 @@
 	                    		data:JSON.stringify(data),
 	                    		contentType: 'application/json',
 	                    		success:function(resp){
-	                    			
+	                    			//4. 활동점수 조회 후 실시간 출력
+	                    			$.ajax({
+			                    		url:"${pageContext.request.contextPath}/rest_member/score_find/"+memberNo,
+			                    		method:"get",
+			                    		data:memberNo,
+			                    		success:function(resp){
+			                    			$(".memberScore").text(resp);
+			                    		}
+	                    			});
 	                    		}
 	                    	});
 	                    }
 					});
-					//4. 출석체크 박스 문구 출석완료로 변경
+					//5. 출석체크 박스 문구 출석완료로 변경
 					$(".checkAttendance").text("출석 완료");
+					
 				});
-			}else{ //출석완료
-				//이번달 출석일 확인 후 발바닥 목록 출력
-				listData={
-		                memberNo:memberNo               
-		          }
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_member/attendance_list",
-					method:"get",
-					data:listData,
-		    		dataType:"json",
-		    		contentType:"application/json",
-					success:function(resp){
-						console.log(resp);
-					}
-				});
-			
+			}else{
+				console.log("출석 상태!");
+				var grid = $(".fc-day-today");
+				console.log(grid);
 			}
 		
 		});
 		
 		
 		function createCalendar(){
+			//비동기화 데이터 준비
+			var memberNo = $("[name=memberNo]").val();
+			listData={
+                	memberNo:memberNo               
+        	}
 			//풀캘린더
 			var calendarEl = $('#calendar')[0];
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -133,8 +143,29 @@
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 		        locale: 'ko', // 한국어 설정
 		        events: [
+		        	//이번달 출석일 확인 후 발바닥 목록 출력
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_member/attendance_list",
+						method:"get",
+						data:listData,
+			    		dataType:"json",
+			    		contentType:"application/json",
+						success:function(resp){
+							console.log(resp);
+							if(resp.length!=0){
+								for(var i=0; i<resp.length; i++){
+									calendar.addEvent({
+										date:resp[i]['attendanceDate'],
+										display: ['background'],
+										color:['#81BDF1']
+										//imageurl:'/images/logo2.png'
+									})
+								}
+							}
+						}
+					})
+	           	],
 
-	           	]
 		      });
 		      // 캘린더 랜더링
 		      calendar.render();
@@ -169,7 +200,7 @@
 			<div class="row mt-3">
 				<div class="col-10 offset-1">
 					<div class="text-start mb-1" style="font-size:15px; color:#6C7AEF; font-weight:bolder;">
-						<span>${profile.memberScore}</span>점
+						<span class="memberScore">${profile.memberScore}</span>점
 					</div>
 					<div class="progress">
 						<div class="progress-bar" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
@@ -245,8 +276,7 @@
 			</div>
 		</div>
 	</div>
-	test : ${attendance}
-	test2:${profile}
+
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">

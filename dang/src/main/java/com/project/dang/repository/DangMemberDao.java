@@ -30,6 +30,13 @@ public interface DangMemberDao {
 	boolean plusScore(DangMemberDto dto);
 	
 	/**
+	 * 댕모임 회원 포인트 조회
+	 * @param memberNo
+	 * @return 포인트 점수(int)
+	 */
+	int findScore(int memberNo);
+	
+	/**
 	 * 오늘 출석 여부
 	 * @param memberNo
 	 * @return DangAttendanceDto 또는 null

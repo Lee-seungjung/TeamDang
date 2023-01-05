@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,12 @@ public class DangMemberRestController {
 	@PatchMapping("/score_plus")
 	public boolean updateScore(@RequestBody DangMemberDto dto) {
 		return dangMemberDao.plusScore(dto);
+	}
+	
+	//댕모임 회원등급 포인트 조회
+	@GetMapping("/score_find/{memberNo}")
+	public int findScore(@PathVariable int memberNo) {
+		return dangMemberDao.findScore(memberNo);
 	}
 	
 }

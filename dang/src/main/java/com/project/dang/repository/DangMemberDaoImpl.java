@@ -32,6 +32,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	public boolean plusScore(DangMemberDto dto) {
 		return sqlSession.update("dangMember.plusScore",dto)>0;
 	}
+	
+	//댕모임 회원 등급포인트 확인
+	@Override
+	public int findScore(int memberNo) {
+		return sqlSession.selectOne("dangMember.findScore",memberNo);
+	}
 
 	//오늘 출석여부 확인
 	@Override
@@ -50,6 +56,8 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	 public List<DangAttendanceDto> attendanceList(int memberNo) { 
 		 return sqlSession.selectList("dangMember.attendanceList",memberNo); 
 	 }
+
+	
 
 	
 
