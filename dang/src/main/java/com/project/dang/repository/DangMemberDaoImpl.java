@@ -15,6 +15,24 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	@Autowired
 	private SqlSession sqlSession;
 
+	//오늘 출석여부 확인
+	@Override
+	public DangAttendanceDto isAttendance(int memberNo) {
+		return sqlSession.selectOne("dangMember.isAttendance",memberNo);
+	}
+
+	//출석 insert
+	@Override
+	public void attendanceInsert(DangAttendanceDto dto) {
+		sqlSession.insert("dangMember.attendanceInsert",dto);
+	}
+
+	//출석 목록 조회(한달 기준)
+	 @Override 
+	 public List<DangAttendanceDto> attendanceList(int memberNo) { 
+		 return sqlSession.selectList("dangMember.attendanceList",memberNo); 
+	 }
+		 
 	// 댕모임 닉네임 찾기
 	@Override
 	public String findNick(int userNo) {
@@ -39,23 +57,11 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.selectOne("dangMember.findScore",memberNo);
 	}
 
-	//오늘 출석여부 확인
+	//참여 모임 수
 	@Override
-	public DangAttendanceDto isAttendance(int memberNo) {
-		return sqlSession.selectOne("dangMember.isAttendance",memberNo);
+	public int joinDangCount(int userNo) {
+		return sqlSession.selectOne("dangMember.joinDangCount",userNo);
 	}
-
-	//출석 insert
-	@Override
-	public void attendanceInsert(DangAttendanceDto dto) {
-		sqlSession.insert("dangMember.attendanceInsert",dto);
-	}
-
-	//출석 목록 조회(한달 기준)
-	 @Override 
-	 public List<DangAttendanceDto> attendanceList(int memberNo) { 
-		 return sqlSession.selectList("dangMember.attendanceList",memberNo); 
-	 }
 
 	
 

@@ -6,6 +6,23 @@
 
 <mapper namespace="dangMember">
 
+	<!-- 오늘 출석했는지 여부 반환 -->
+	<select id="isAttendance" resultType="DangAttendanceDto" parameterType="int">
+		select*from dang_attendance where member_no=#{memberNo} and 
+		to_char(attendance_date,'yyyymmdd')=to_char(sysdate,'yyyymmdd')
+	</select>
+	
+	<!-- 출석 테이블 insert -->
+	<insert id="attendanceInsert" parameterType="DangAttendanceDto">
+		insert into dang_attendance(member_no, attendance_date) values(#{memberNo}, sysdate)
+	</insert>
+	
+	<!-- 출석 목록조회(한달기준) -->
+	<select id="attendanceList" resultType="DangAttendanceDto"  parameterType="int">
+		select*from dang_attendance where member_no=#{memberNo} and 
+		to_char(attendance_date,'yyyymm')=to_char(sysdate,'yyyymm')
+	</select>
+
 	<!-- 댕모임 닉네임 찾기 -->
 	<select id = "findNick" resultType = "String" parameterType="int">
 		select member_nick from dang_member where user_no=#{userNo}
@@ -26,21 +43,9 @@
 		select member_score from dang_member where member_no=#{memberNo}
 	</select>
 	
-	<!-- 오늘 출석했는지 여부 반환 -->
-	<select id="isAttendance" resultType="DangAttendanceDto" parameterType="int">
-		select*from dang_attendance where member_no=#{memberNo} and 
-		to_char(attendance_date,'yyyymmdd')=to_char(sysdate,'yyyymmdd')
-	</select>
-	
-	<!-- 출석 테이블 insert -->
-	<insert id="attendanceInsert" parameterType="DangAttendanceDto">
-		insert into dang_attendance(member_no, attendance_date) values(#{memberNo}, sysdate)
-	</insert>
-	
-	<!-- 출석 목록조회(한달기준) -->
-	<select id="attendanceList" resultType="DangAttendanceDto"  parameterType="int">
-		select*from dang_attendance where member_no=#{memberNo} and 
-		to_char(attendance_date,'yyyymm')=to_char(sysdate,'yyyymm')
+	<!-- 회원별 댕모임 수 조회-->
+	<select id="joinDangCount" resultType="int" parameterType="int">
+		select count(*) from dang_member where user_no=#{userNo}
 	</select>
 	
 	
