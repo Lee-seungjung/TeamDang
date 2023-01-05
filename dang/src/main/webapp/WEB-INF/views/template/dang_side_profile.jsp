@@ -209,7 +209,7 @@
 						<span class="memberScore">${profile.memberScore}</span>점
 					</div>
 					<div class="progress">
-						<div class="progress-bar" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
 					</div>
 					<div class="text-start mt-1 font-gray" style="font-size:13px;">
 						<span>${profile.memberGrade}</span>
