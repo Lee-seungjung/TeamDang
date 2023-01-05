@@ -14,6 +14,7 @@ import com.project.dang.repository.DangBoardDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
+import com.project.dang.repository.DangScheduleDao;
 
 @Controller
 @RequestMapping("/dang")
@@ -27,6 +28,8 @@ public class DangController {
 	private DangBoardDao dangBoardDao;
 	@Autowired
 	private DangReplyDao dangReplyDao;
+	@Autowired
+	private DangScheduleDao dangScheduleDao;
 
 
 
@@ -90,12 +93,6 @@ public class DangController {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
 
-		
-		/*
-		 * // 우측 댕모임 심플스케줄 출력 위해 simpleList를 Model에 추가
-		 * model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
-		 */
-
 		// 회원 정보
 		String userNo = String.valueOf(session.getAttribute("loginNo"));
 		DangMemberDto dto = DangMemberDto.builder()
@@ -113,6 +110,9 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		 
 		
 		return "dang/calendar";
 	}
