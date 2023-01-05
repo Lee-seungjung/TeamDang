@@ -213,7 +213,6 @@
 	<div class = "col-10 offset-1">
 	
 		<div class = "row">
-		
 			<!-- 프로필 박스 시작-->
 			<div class = "col-3">
 				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
@@ -227,7 +226,7 @@
 						<!-- 기존 메세지 생성 -->
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
-								<c:when test="${userNo==vo.userNo}">
+								<c:when test="${profile.userNo==vo.userNo}">
 									<div class="text-end me-2 mb-3">
 										<c:if test="${vo.chatStatus!=0}">
 											<span>${vo.chatStatus}</span>
@@ -280,7 +279,7 @@
 			
 			<!-- 방번호, 회원번호-->
 			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
-			<input type="hidden" name="userNo" value="${userNo}">
+			<input type="hidden" name="userNo" value="${profile.userNo}">
 			
 			<!-- 채팅 박스 끝-->
 			

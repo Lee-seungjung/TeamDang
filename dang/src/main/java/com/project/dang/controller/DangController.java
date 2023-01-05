@@ -9,19 +9,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.dang.dto.DangMemberDto;
+import com.project.dang.repository.DangBoardDao;
 import com.project.dang.repository.DangChatDao;
-import com.project.dang.repository.DangScheduleDao;
-import com.project.dang.vo.SimpleScheduleVO;
+import com.project.dang.repository.DangMemberDao;
+import com.project.dang.repository.DangReplyDao;
 
 @Controller
 @RequestMapping("/dang")
 public class DangController {
 	
 	@Autowired
-	private DangChatDao dangChatDao;
-	
+	private DangChatDao dangChatDao;	
 	@Autowired
-	private DangScheduleDao dangScheduleDao;
+	private DangMemberDao dangMemberDao;
+	@Autowired
+	private DangBoardDao dangBoardDao;
+	@Autowired
+	private DangReplyDao dangReplyDao;
+
+
 
 	@GetMapping("/{dangNo}")
 	public String dangChatMain(@PathVariable int dangNo, Model model, HttpSession session) {
@@ -29,45 +36,109 @@ public class DangController {
 		model.addAttribute("dangNo", dangNo);
 		// DB방번호 조회
 		int roomNo = dangChatDao.findRoomNo(dangNo);
-		//model.addAttribute("roomNo", roomNo);
-		
-		String userNo = String.valueOf(session.getAttribute("loginNo"));
-		model.addAttribute("userNo", userNo);
-		
-		//로그인 미구현 상태로 상대방이 없음,,ㅠ 코드 나중에 변경가능성 있음!!!
-		//일단 채팅방 메세지 최대10개 출력할 예정
-		//(테이블 조인으로 방번호 포함됨-위에 방번호 model 주석처리 후 사용예정)
-		//조인 : 채팅, 회원프로필(order by 채팅번호 asc)
+		// 기본 채팅 내역
 		model.addAttribute("history", dangChatDao.listAll(roomNo));
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
 		
 		return "dang/chat";
 	}
 	
 	@GetMapping("/{dangNo}/board")
-	public String dangBoard(@PathVariable int dangNo, Model model) {
+	public String dangBoard(@PathVariable int dangNo, Model model, HttpSession session) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		
 		return "dang/board";
 	}
 	
 	@GetMapping("/{dangNo}/calendar")
-	public String dangCalendar(@PathVariable int dangNo, Model model ) {
+	public String dangCalendar(@PathVariable int dangNo, Model model, HttpSession session) {
+
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+
 		
 		/*
 		 * // 우측 댕모임 심플스케줄 출력 위해 simpleList를 Model에 추가
 		 * model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		 */
+
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
 		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
 		
 		return "dang/calendar";
 	}
 	
 	@GetMapping("/{dangNo}/album")
-	public String dangAlbum(@PathVariable int dangNo, Model model) {
+	public String dangAlbum(@PathVariable int dangNo, Model model, HttpSession session) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		
 		return "dang/album";
 	}
 	
@@ -77,20 +148,51 @@ public class DangController {
 		model.addAttribute("dangNo", dangNo);
 		// DB방번호 조회
 		int roomNo = dangChatDao.findRoomNo(dangNo);
-		//model.addAttribute("roomNo", roomNo);
-		
-		String userNo = String.valueOf(session.getAttribute("loginNo"));
-		model.addAttribute("userNo", userNo);
-		
+		// 기본 채팅 내역
 		model.addAttribute("history", dangChatDao.listAll(roomNo));
-
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+		
 		return "dang/chat";
 	}
 	
 	@GetMapping("/{dangNo}/member")
-	public String dangMember(@PathVariable int dangNo, Model model) {
+	public String dangMember(@PathVariable int dangNo, Model model, HttpSession session) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(dto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(dto.getMemberNo()));
+				
 		return "dang/member";
 	}
 }

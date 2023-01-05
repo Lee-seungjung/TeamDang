@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class DangPlaceDto {
 	private int placeNo;
 	private String placeArea;
-	private String placeX;
-	private String placeY;
+	private Double placeX;
+	private Double placeY;
 	private String placeSort;
 	private String placeName;
 	private String placeInfo;
