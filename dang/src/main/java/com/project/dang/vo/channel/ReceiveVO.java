@@ -16,4 +16,5 @@ public class ReceiveVO {
 	private int type; //단지 입장하는건지 메세지를 보내는건지?
 	private int room; //방번호
 	private String chatContent;
+	private int dangNo;
 }

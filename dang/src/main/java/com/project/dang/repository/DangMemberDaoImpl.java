@@ -35,8 +35,8 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		 
 	// 댕모임 닉네임 찾기
 	@Override
-	public String findNick(int userNo) {
-		return sqlSession.selectOne("dangMember.findNick",userNo);
+	public String findNick(DangMemberDto dto) {
+		return sqlSession.selectOne("dangMember.findNick",dto);
 	}
 
 	//댕모임 회원 찾기

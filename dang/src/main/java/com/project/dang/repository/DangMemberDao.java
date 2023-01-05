@@ -9,10 +9,10 @@ public interface DangMemberDao {
 
 	/**
 	 * 댕모임 내 닉네임 찾기
-	 * @param userNo
+	 * @param dto
 	 * @return memberNick
 	 */
-	String findNick(int userNo);
+	String findNick(DangMemberDto dto);
 	
 	/**
 	 * 댕모임 회원 단일조회

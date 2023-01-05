@@ -24,8 +24,8 @@
 	</select>
 
 	<!-- 댕모임 닉네임 찾기 -->
-	<select id = "findNick" resultType = "String" parameterType="int">
-		select member_nick from dang_member where user_no=#{userNo}
+	<select id = "findNick" resultType = "String" parameterType="DangMemberDto">
+		select member_nick from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
 	</select>
 	
 	<!-- 댕모임 회원 단일조회 -->
