@@ -6,6 +6,16 @@
 
 <mapper namespace="dangMember">
 
+	<!-- 댕모임 회원 번호 반환 -->
+	<select id = "memberNo" resultType = "int">
+		select dang_member_seq.nextval from dual
+	</select>
+
+	<!-- 댕모임 개설시 개설자로 가입 -->
+	<insert id = "createDang" parameterType = "DangMemberDto">
+		insert into dang_member(member_no, dang_no, user_no, member_nick, member_owner) values(#{memberNo}, #{dangNo}, #{userNo}, #{memberNick}, 'Y')
+	</insert>
+
 	<!-- 오늘 출석했는지 여부 반환 -->
 	<select id="isAttendance" resultType="DangAttendanceDto" parameterType="int">
 		select*from dang_attendance where member_no=#{memberNo} and 
@@ -24,8 +34,8 @@
 	</select>
 
 	<!-- 댕모임 닉네임 찾기 -->
-	<select id = "findNick" resultType = "String" parameterType="int">
-		select member_nick from dang_member where user_no=#{userNo}
+	<select id = "findNick" resultType = "String" parameterType="DangMemberDto">
+		select member_nick from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
 	</select>
 	
 	<!-- 댕모임 회원 단일조회 -->
@@ -47,6 +57,5 @@
 	<select id="joinDangCount" resultType="int" parameterType="int">
 		select count(*) from dang_member where user_no=#{userNo}
 	</select>
-	
 	
 </mapper>

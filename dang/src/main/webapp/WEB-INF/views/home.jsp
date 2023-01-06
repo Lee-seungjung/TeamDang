@@ -7,9 +7,11 @@
    <jsp:param value="DangHome" name="title"/>
 </jsp:include>
 
-<div class = "col-8 offset-2">
-	<div class = "row">
-		<a href = "/dang/1">1번 댕모임</a>
+<div class = "container-fluid mt-3">
+	<div class = "col-8 offset-2">
+		<div class = "row">
+			<a href = "/dang/1">1번 댕모임</a>
+		</div>
 	</div>
 </div>
 

@@ -145,10 +145,12 @@
 			//- JSON.stringify(객체) : 객체를 문자열로
 			//- JSON.parse(문자열) : 문자열을 객체로
 			
+			var dangNo = $("[name=dangNo]").val();
 			var data = {
 				type : 2,
 				room : roomNo,
-				chatContent : text
+				chatContent : text,
+				dangNo:dangNo
 			};
 			socket.send(JSON.stringify(data));
 			$("#chat-input").val("");  //텍스트 창 비우기
@@ -211,7 +213,7 @@
 
 <div class = "container-fluid mt-3">
 	<div class = "col-10 offset-1">
-	
+
 		<div class = "row">
 			<!-- 프로필 박스 시작-->
 			<div class = "col-3">
@@ -280,6 +282,7 @@
 			<!-- 방번호, 회원번호-->
 			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
 			<input type="hidden" name="userNo" value="${profile.userNo}">
+			<input type="hidden" name="dangNo" value="${profile.dangNo}">
 			
 			<!-- 채팅 박스 끝-->
 			

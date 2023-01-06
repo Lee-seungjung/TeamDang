@@ -14,6 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.dang.dto.DangChatDto;
+import com.project.dang.dto.DangMemberDto;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangUserDao;
@@ -91,7 +92,10 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 			//- 해당하는 방의 모든 사용자에게 메세지를 전송
 			
 			//DB저장 준비
-			String memberNick = dangMemberDao.findNick(Integer.parseInt(user.getUserNo())); //닉네임
+			String memberNick = dangMemberDao.findNick(DangMemberDto.builder()
+					.dangNo(receiveVO.getDangNo())
+					.userNo(Integer.parseInt(user.getUserNo()))
+					.build()); //닉네임
 			//int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
 			int size = 1;
 			log.debug("인원수 : {}",size);
