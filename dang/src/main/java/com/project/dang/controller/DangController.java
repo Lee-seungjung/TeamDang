@@ -58,6 +58,8 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		
 		return "dang/chat";
 	}
@@ -83,6 +85,8 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		
 		return "dang/board";
 	}
@@ -137,6 +141,8 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		
 		return "dang/album";
 	}
@@ -166,6 +172,8 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		
 		return "dang/chat";
 	}
@@ -191,6 +199,8 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		 //우측 댕모임 심플스케줄
+		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 				
 		return "dang/member";
 	}
