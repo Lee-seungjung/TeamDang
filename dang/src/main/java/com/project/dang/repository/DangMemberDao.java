@@ -6,13 +6,25 @@ import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 
 public interface DangMemberDao {
+	
+	/**
+	 * 댕모임 회원 번호 반환
+	 * @return int (댕모임 회원 번호)
+	 */
+	public int memberNo();
 
 	/**
+	 * 댕모임 개설자로 가입
+	 * @param dangMemberDto
+	 */
+	public void createDang(DangMemberDto dangMemberDto);
+	
+	/**
 	 * 댕모임 내 닉네임 찾기
-	 * @param userNo
+	 * @param dto
 	 * @return memberNick
 	 */
-	String findNick(int userNo);
+	String findNick(DangMemberDto dto);
 	
 	/**
 	 * 댕모임 회원 단일조회

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
+	
 	.fc-scrollgrid{
 		border-radius:0.5rem;
 	}
@@ -27,6 +28,18 @@
   	}
   	.fc .fc-daygrid-day.fc-day-today{
   		background-color:#fff;
+  	}
+  	.camera-icon{
+  		width: 35px;
+	    height: 35px;
+	    position: relative;
+	    top: 60px;
+	    left: -45px;
+  	}
+  	.profile-css{
+  		width:150px;
+  		height:150px;
+  		margin-left:20px;
   	}
   	
 </style>
@@ -54,7 +67,7 @@
 	
 		//출석체크 모달
 		$(".day-check").click(function(){
-
+			
 			var memberNo = $("[name=memberNo]").val();
 			$(".fc-day-today").removeClass("addImg");	
 			
@@ -113,8 +126,8 @@
 				
 				//모달 타이틀 문구 변경
 				$(".modal-title1").text("출석 체크가 ");
-				$(".modal-title").text("완료");
-				$(".modal-title2").text(" 되었습니다!");
+				$(".modal-title2").text("완료");
+				$(".modal-title3").text(" 되었습니다!");
 
 			}
 			
@@ -177,21 +190,95 @@
 		      calendar.render();
 		}
 		
+		//프로필 수정
+		
+		
+		
+		//프로필 클릭하면 첨부파일 열림
+		$(".profile-img").click(function(){
+			$(".input-file").click();
+		});
+		
+		//프로필 사진변경 이벤트
+		$(".input-file").change(function(){
+			var value = $(this).val();
+			console.log(value);
+			if(value.length>0){ //파일 있음
+				var formData = new FormData();
+				formData.append("attachment", this.files[0]);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/upload",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    success:function(resp){
+                    	console.log(resp);
+                    	$(".change-img").attr("src",resp); //프로필 미리보기
+                    	//원래 페이지 프로필 정보 변경
+                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
+                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+			        }
+				});
+			}
+		});
+		
+		//모달 취소버튼 이벤트
+		//목록버튼(돌아가기) 이벤트 - 새로 추가한 첨부파일 db에서 삭제
+		$(".cancel-btn").click(function(){
+			var newAttachmentNo = $("[name=attachmentNo]").val();
+			var originAttachmentNo = $("[name=originAttachmentNo]").val();
+			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
+				$.ajax({
+					url:"${pageContext.request.contextPath}/delete/"+newAttachmentNo,
+					method:"delete",
+					data:newAttachmentNo,
+					success:function(resp){
+						$("[name=attachmentNo]").val(originAttachmentNo);
+						
+						if(originAttachmentNo==""){
+							$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+						}else{
+							$(".change-img").attr("src","${pageContext.request.contextPath}/download/"+originAttachmentNo);
+						}
+						
+						//alert(' 삭제 성공 ! '+resp);
+					}
+				});
+			}
+		});
+		
+		
+		//상태 판정
+		
+		//닉네임 검사
+		//자기소개 검사
+		
+		//폼전송 이벤트
+		
+		
+		
+		
+		
+		
+		
 	});
 </script>
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
-	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
+
+	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
 		<div class="profile-wrap text-center">
-			<div class="row justify-content-center mb-3" >
+			<div class="row justify-content-center mb-2" >
 				<div class="col-7">
-					<img src="${pageContext.request.contextPath}/images/icon-man.png" class="img-fluid">
+					<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
 				</div>
 			</div>
 			<div class="row d-flex justify-content-center">
 				<div class="col-3 pe-1">
-					<img src="${pageContext.request.contextPath}/images/bone.png" class="img-fluid">
+					<img src="${pageContext.request.contextPath}/images/bone.png" class="img-fluid page-profile">
 				</div>
 				<div class="col-7 ps-1" style="display:flex; align-items:center">
 					<span class="font-gray" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
@@ -215,10 +302,54 @@
 						<span>${profile.memberGrade}</span>
 					</div>
 					
-					<div class="profile-edit">
+					<div class="profile-edit" data-bs-toggle="modal" data-bs-target="#profileEditModal" data-bs-whatever="@mdo">
 						<i class="fa-solid fa-pencil" style="font-size:23px;"></i>
 						<p>프로필 편집</p>
 					</div>
+					
+					<!-- 프로필 편집 모달 시작-->					
+					<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form>
+										<div class="mb-3">
+											<c:choose>
+												<c:when test="${attachmeNo==null}">
+													<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
+												</c:when>
+												<c:otherwise>
+													<img src="${pageContext.request.contextPath}/download/${attachmeNo}" class="img-circle profile-img profile-css change-img">
+												</c:otherwise>
+											</c:choose>
+											<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
+                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
+                 							<input type="hidden" name="attachmentNo" value="">
+                 							<input type="hidden" name="originAttachmentNo" value="${attachmeNo}">
+										</div>
+										<div class="mb-3 text-start">
+											<label for="recipient-name" class="col-form-label ms-2">닉네임</label>
+											<input type="text" value="${profile.memberNick}" class="form-control" id="recipient-name" autocomplete="off">
+										</div>
+										<div class="mb-3 text-start">
+											<label for="message-text" class="col-form-label ms-2">상태메세지</label>
+											<input type="text" value="${profile.memberMessage}" class="form-control" id="message-text" autocomplete="off">
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">취소</button>
+									<button type="button" class="btn btn-primary confirm-btn">확인</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 프로필 편집 모달 끝-->
+					
 				</div>
 			</div>
 			
@@ -227,17 +358,17 @@
 					<hr>
 					
 					<div class="row justify-content-center">
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-heart fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-pen-to-square fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">작성글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
 						</div>
-						<div class="col-4">
+						<div class="col-3">
 							<i class="fa-regular fa-comment-dots fa-2x"></i>
 							<p class="font-gray" style="font-size:15px;">댓글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
@@ -260,8 +391,8 @@
 			<div class="modal-content">
 				<div class="modal-header" style="margin:0 auto;">
 					<p style="color:#303030; font-size:15px;" class="me-1 modal-title1"> 댕모임의 </p>
-					<h5 class="modal-title" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
-					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title2"> 올라갑니다!</p>
+					<h5 class="modal-title modal-title2" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
+					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title3"> 올라갑니다!</p>
 				</div>
 				<div class="modal-body">
 				 	<div id="calendar"></div>

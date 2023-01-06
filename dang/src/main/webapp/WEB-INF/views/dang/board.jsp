@@ -22,11 +22,11 @@
 					d
 				</div>
 			</div>
-			<div class = "col-3" style="background: white">
-				<div class = "col" style="background: green">
-					d
+				<!-- 다가오는 일정 박스 시작-->
+				<div class="col-3">
+					<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 				</div>
-			</div>
+				<!-- 다가오는 일정 박스  끝-->
 		</div>
 	</div>
 

@@ -145,10 +145,12 @@
 			//- JSON.stringify(객체) : 객체를 문자열로
 			//- JSON.parse(문자열) : 문자열을 객체로
 			
+			var dangNo = $("[name=dangNo]").val();
 			var data = {
 				type : 2,
 				room : roomNo,
-				chatContent : text
+				chatContent : text,
+				dangNo:dangNo
 			};
 			socket.send(JSON.stringify(data));
 			$("#chat-input").val("");  //텍스트 창 비우기
@@ -211,7 +213,7 @@
 
 <div class = "container-fluid mt-3">
 	<div class = "col-10 offset-1">
-	
+
 		<div class = "row">
 			<!-- 프로필 박스 시작-->
 			<div class = "col-3">
@@ -222,7 +224,7 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 rounded-3 shadow">
+					<div class="chat-box p-3 rounded-3 shadow-sm">
 						<!-- 기존 메세지 생성 -->
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
@@ -270,7 +272,7 @@
 						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
 					
-					<div class="chat-submit text-center rounded-bottom">
+					<div class="chat-submit text-center rounded-bottom shadow-sm">
 						<input type="text" id="chat-input" class="me-1">
 						<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
 					</div>
@@ -280,14 +282,15 @@
 			<!-- 방번호, 회원번호-->
 			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
 			<input type="hidden" name="userNo" value="${profile.userNo}">
+			<input type="hidden" name="dangNo" value="${profile.dangNo}">
 			
 			<!-- 채팅 박스 끝-->
 			
-			<div class = "col-3">
-				<div class = "col">
-					
+				<!-- 다가오는 일정 박스 시작-->
+				<div class="col-3">
+					<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 				</div>
-			</div>
+				<!-- 다가오는 일정 박스  끝-->
 		</div>
 		
 	</div>
