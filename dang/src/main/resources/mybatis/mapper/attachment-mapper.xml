@@ -7,7 +7,7 @@
 
 	<!-- 시퀀스 선발급-->
 	<select id="sequence" resultType="int">
-		select attachmnt_seq.nextval from dual
+		select attachment_seq.nextval from dual
 	</select>
 	
 	<!-- 등록 -->
