@@ -13,4 +13,6 @@ public interface DangPlaceDao {
 	void placeInsert(DangPlaceDto dangPlaceDto);
 	
 	List<DangPlaceDto> placeList();
+	
+	DangPlaceDto placeOne(int placeNo);
 }
