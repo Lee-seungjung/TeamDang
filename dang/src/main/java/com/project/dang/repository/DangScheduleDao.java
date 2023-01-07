@@ -3,15 +3,22 @@ package com.project.dang.repository;
 import java.util.List;
 
 import com.project.dang.dto.DangScheduleDto;
+import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
 
 public interface DangScheduleDao {
 	
 	/**
-	 * 일정 조회
+	 * 우측 심플 스케줄 조회
 	 * @return List<SimpleScheduleVO>
 	 */
 	List<SimpleScheduleVO> simpleList();
+	
+	/**
+	 * 달력 클릭하면 일정 조회
+	 * @return List<ScheduleVO>
+	 */
+	List<ScheduleVO> list();
 	
 //	/**
 //	 * 댕모임 회원이 일정등록
