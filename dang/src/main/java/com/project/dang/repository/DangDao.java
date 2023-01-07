@@ -27,4 +27,11 @@ public interface DangDao {
 	 * @param dangDto
 	 */
 	public void createDangPrivate(DangDto dangDto);
+	
+	/**
+	 * 댕모임 프로필 정보 등록
+	 * @param dangNo : 댕모임 번호
+	 * @param attachmentNo : 첨부파일 번호
+	 */
+	public void insertDangImg(int dangNo, int attachmentNo);
 }

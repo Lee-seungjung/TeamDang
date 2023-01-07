@@ -684,7 +684,9 @@
 			// 성별 선택 갯수
 			var countChecked = $(".input-check-gender:checked").length;
 			// 1개만 선택하도록
-			if(countChecked > 1) return;
+			if(countChecked > 1) {
+				$(this).prop("checked", false);
+			}
 			// 선택한 성별의 테두리 변경
 			if($(this).is(":checked")) {
 				formValidCheck.checkGender = true;

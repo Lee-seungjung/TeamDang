@@ -26,7 +26,6 @@
 		delete attachment where attachment_no=#{attachmentNo}
 	</delete>
 	
-  
 </mapper>
   
   

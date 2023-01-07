@@ -53,7 +53,7 @@ public class DangUserDaoImpl implements DangUserDao {
 	public Integer findAttachmentNo(int userNo) {
 		return sqlSession.selectOne("dangUser.findAttachmentNo",userNo);
 	}
-
+  
 	//프로필 이미지 등록
 	@Override
 	public void userImgInsert(UserImgDto dto) {
@@ -66,5 +66,4 @@ public class DangUserDaoImpl implements DangUserDao {
 	public boolean userImgeDelete(int attachmentNo) {
 		return sqlSession.delete("dangUser.imgDelete",attachmentNo)>0;
 	}
-
 }

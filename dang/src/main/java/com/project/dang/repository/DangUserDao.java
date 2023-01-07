@@ -59,5 +59,4 @@ public interface DangUserDao {
 	 * @return true, false
 	 */
 	boolean userImgeDelete(int attachmentNo);
-	
 }
