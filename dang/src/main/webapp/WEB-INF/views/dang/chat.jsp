@@ -22,6 +22,7 @@
 		overflow-x:hidden;
 		background-color:#F1F4FF;
 		width:100%; height:600px;
+		border-top-right-radius: 0.3rem !important;
 	}
 	.chat-box::-webkit-scrollbar {
 	    width: 5px;
@@ -183,10 +184,17 @@
 				var tbody = $("<tbody>");
 				var tr1 = $("<tr>");
 				var td1 = $("<td>").attr("rowspan","2");
-				var img = $("<img>").attr("src","#").attr("class","img-circle").attr("width","45").attr("height","45");
+				var img = $("<img>");
+				if(data.attachment==null){
+					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png")
+					.attr("class","img-circle").attr("width","45").attr("height","45");
+				}else{
+					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo)
+					.attr("class","img-circle").attr("width","45").attr("height","45");
+				}
 				td1.append(img);
 				var td2 = $("<td>");
-				var nick = $("<span>").text(data.memberNick);
+				var nick = $("<span>").text(data.memberNick).attr("style","font-size:14px;");
 				td2.append(nick);
 				var td3 = $("<td>").attr("rowspan","2");
 				tr1.append(td1).append(td2).append(td3);
@@ -224,7 +232,7 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 rounded-3 shadow-sm">
+					<div class="chat-box p-3 shadow-lg">
 						<!-- 기존 메세지 생성 -->
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
@@ -245,9 +253,16 @@
 											<tbody>
 												<tr>
 													<td rowspan="2">
-														<img src="#" class="img-circle" width="45" height="45">
+														<c:choose>
+															<c:when test="${vo.attachmentNo==0}">
+																<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
+															</c:when>
+															<c:otherwise>
+																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-circle" width="45" height="45">
+															</c:otherwise>
+														</c:choose>
 													</td>
-													<td><span>${vo.memberNick}</span></td>
+													<td><span style="font-size:14px;">${vo.memberNick}</span></td>
 													<td rowspan="2"></td>
 												</tr>
 												<tr>
@@ -272,9 +287,10 @@
 						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
 					
-					<div class="chat-submit text-center rounded-bottom shadow-sm">
-						<input type="text" id="chat-input" class="me-1">
-						<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
+					<div class="chat-submit  text-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
+						<i class="fa-regular fa-image fa-2x"></i>
+						<input type="text" id="chat-input" class="me-1" >
+						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
 					</div>
 				</div>
 			</div>

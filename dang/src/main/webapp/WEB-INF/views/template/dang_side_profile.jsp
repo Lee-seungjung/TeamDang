@@ -41,6 +41,9 @@
   		height:150px;
   		margin-left:20px;
   	}
+  	.checkAttendance:hover{
+  		
+  	}
   	.invalid-feedback2 {
 	  display: none;
 	  width: 100%;
@@ -164,7 +167,7 @@
 				var formData = new FormData();
 				formData.append("attachment", this.files[0]);
 				$.ajax({
-					url:"${pageContext.request.contextPath}/upload",
+					url:"${pageContext.request.contextPath}/rest_attachment/upload",
 					method:"post",
 					data:formData,
 					processData:false, 
@@ -338,7 +341,7 @@
 							if(attachmentNo==""){
 								$(".origin-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 							}else{
-								$(".origin-img").attr("src","${pageContext.request.contextPath}/download/"+attachmentNo);
+								$(".origin-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo);
 							}
 							$(".originNickName").text(memberNick);
 							$(".originMessage").text(memberMessage);
@@ -412,7 +415,7 @@
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
 				$.ajax({
-					url:"${pageContext.request.contextPath}/delete/"+newAttachmentNo,
+					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
 					method:"delete",
 					data:newAttachmentNo,
 					success:function(resp){
@@ -421,7 +424,7 @@
 						if(originAttachmentNo==""){
 							$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 						}else{
-							$(".change-img").attr("src","${pageContext.request.contextPath}/download/"+originAttachmentNo);
+							$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
 						}
 					}
 				});
@@ -432,7 +435,7 @@
 		function deleteOriginAttachmentNo(){
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			$.ajax({
-				url:"${pageContext.request.contextPath}/delete/"+originAttachmentNo,
+				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
 				method:"delete",
 				data:originAttachmentNo,
 				success:function(resp){
@@ -458,7 +461,7 @@
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">
 						</c:when>
 						<c:otherwise>
-							<img src="${pageContext.request.contextPath}/download/${attachmentNo}" class="img-fluid img-circle origin-img">
+							<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-fluid img-circle origin-img">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -491,8 +494,8 @@
 					</div>
 					
 					<div class="profile-edit" data-bs-toggle="modal" data-bs-target="#profileEditModal" data-bs-whatever="@mdo">
-						<i class="fa-solid fa-pencil" style="font-size:23px;"></i>
-						<p>프로필 편집</p>
+						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
+						<p class="cursor-pointer">프로필 편집</p>
 					</div>
 					
 					<!-- 프로필 편집 모달 시작-->					
@@ -511,7 +514,7 @@
 												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
 											</c:otherwise>
 										</c:choose>
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
@@ -576,7 +579,7 @@
 	
 	<!-- 출석 체크 -->
 	<div class="p-3 border rounded-3 text-center day-check shadow-lg">
-		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance">출석 체크</span>
+		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">출석 체크</span>
 	</div>
 	
 	<!-- 출석체크 Modal -->

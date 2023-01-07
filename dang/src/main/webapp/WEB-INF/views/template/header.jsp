@@ -81,6 +81,9 @@
 		color:#fff;
 		border-color: #76BEFF;
 	}
+	.cursor-pointer{
+		cursor: pointer;
+	}
     
 </style>
 <body>
