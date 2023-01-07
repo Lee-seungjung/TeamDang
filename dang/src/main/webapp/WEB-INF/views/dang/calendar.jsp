@@ -28,7 +28,7 @@
 .calendar{
 	width: 100%;
 	height : 500px;
-    margin: 0 0 30 auto;
+    margin: 0 0 30px auto;
 }
 
 .calendar-info{
@@ -230,32 +230,28 @@
 <meta charset='utf-8' />
 
 <script>
-	$(function() {
-		var calendarEl = $('#calendar1')[0];
+	
+		document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar1');
+		    var calendar1 = new FullCalendar.Calendar(calendarEl, {
+		      initialView: 'dayGridMonth',
+		      
+				headerToolbar : {
+					left : 'prev',
+					center : 'title',
+					right : 'next'
+				},
 
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			rerenderDelay : 450,
-			initialView : 'dayGridMonth', //캘린더 화면
+				themeSystem : 'bootstrap5',
+				selectable : true, // 날짜 선택
+				locale : 'ko', // 한국어 설정
+				// navLinks: true, // 날짜 선택하면 해당 날짜 화면
+				editable : true, // 수정 가능 여부
 
-			headerToolbar : {
-				left : 'prev',
-				center : 'title',
-				right : 'next'
-			},
-
-			themeSystem : 'bootstrap5',
-			selectable : true, // 날짜 선택
-			locale : 'ko', // 한국어 설정
-			// navLinks: true, // 날짜 선택하면 해당 날짜 화면
-			editable : true, // 수정 가능 여부
-
-			events : [
-
-			]
-		});
-		calendar.render();
-
-	});
+		    });
+		    calendar1.render();
+		  });
+	
 </script>
 </head>
 
@@ -275,7 +271,7 @@
 			    <div class="monthly-calendar">					
 	             <div id='calendar1' class="calendar"></div>
 
-                 <div class = "schedule-info shedule-shadow">  
+                 <div class = "schedule-info shadow1">  
 
                     <div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">초코야 목욕가자~!!</div>
 
