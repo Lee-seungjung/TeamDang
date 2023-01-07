@@ -20,25 +20,20 @@
 	flex-wrap: wrap;
 	flex-wrap: wrap gap: 1em;
 }
-
 .monthly-calendar{
 	height : 1500px;
 } 
-
 .calendar{
 	width: 100%;
 	height : 500px;
     margin: 0 0 30px auto;
 }
-
 .calendar-info{
 	width: 350px;
 	height : 450px;
 	background-color: #FAFAFA;
 	text-align: center;
 }
-
-
 .more-info{
 	width : 1100px;
 	height : 400px;
@@ -48,13 +43,11 @@
 	gap: 1em;
 	justify-content: center;
 }
-
 .upcoming{
  font-size: 24px;
  font-weight: bold;
  color: #454545;
 }
-
 .schedule-info{
     width: 95%;
     background-color: #E2EFFF;
@@ -62,7 +55,6 @@
     border-radius: 10px;
     margin: auto;
 }
-
 .dang-place-map{
     display: block;
     margin: auto;
@@ -71,7 +63,6 @@
     border-radius: 10px;
     background-color: white;
 }
-
 .dang-title{
     display: block;
     position: relative;
@@ -90,7 +81,6 @@
     display: flex;
     flex-direction: row;
 }
-
 .block {
     display: block;
     line-height: 40px;
@@ -104,7 +94,6 @@
     height: 40px;
     width: 120px;
 }
-
 .block-white{
     display: block;
     line-height: 40px;
@@ -117,7 +106,6 @@
     width: 350px;
     margin-left: 20px;
 }
-
 .simple-schedule-box{
     width: 100%;
     height: 90px;
@@ -128,7 +116,6 @@
     margin: 15px 0 15px;
     
 }
-
 .simple-date-box{
     width: 100%;
     display: flex;
@@ -142,7 +129,6 @@
     border-width: 6px 6px 6px 6px;
     border-color: #89E3E3;
 }
-
 .simple-monday{
     width: 70px;
     height: 70px;
@@ -151,7 +137,6 @@
     border-width: 6px 6px 6px 6px;
     border-color: #FFCF97;
 }
-
 .simple-sunday{
     width: 70px;
     height: 70px;
@@ -160,7 +145,6 @@
     border-width: 6px 6px 6px 6px;
     border-color: #D4BAFF;
 }
-
 .simple-thursday{
     width: 70px;
     height: 70px;
@@ -169,7 +153,6 @@
     border-width: 6px 6px 6px 6px;
     border-color: #FFA6E1;
 }
-
 .simple-day{
     height: 20px;
     font-size: 13px;
@@ -178,7 +161,6 @@
     color: #3D3D3D;
     position: relative;
     top: 5px;
-
 }
 .simple-number-day {
     height: 50px;
@@ -188,7 +170,6 @@
     color: #3D3D3D;
     margin-top: -5;
 }
-
 .simple-when, .simple-where{
     width: 200px;
     height: 35px;
@@ -198,15 +179,28 @@
     line-height: 35px;
  
 }
-
 .detail-modal{
     background-color: #F0F9FF;
 }
-
 .btn-in{
-    display:block;
     border: none;
     background-color: #76BEFF;
+}
+.red-pin{
+    height: 100px;
+    width: 120px;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+}
+
+.btn-back{
+    border: lightgray;
+    background-color: #DBDBDB;
+}
+
+.btn-common{
+    display:block;
     text-align: center;
     padding: 0.5em 0.7em 0.5em 0.7em;
     border-radius: 10px;
@@ -216,15 +210,13 @@
     height: 50px;
     width: 180px;
     text-align: center;
-    margin: 35px auto;
+    margin: 10px 20px;
 }
 
-.red-pin{
-    height: 100px;
-    width: 120px;
-    position: absolute;
-    left: 5px;
-    top: 10px;
+.btn-box{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
     </style>
 <meta charset='utf-8' />
@@ -241,52 +233,46 @@
 					center : 'title',
 					right : 'next'
 				},
-
 				themeSystem : 'bootstrap5',
 				selectable : true, // 날짜 선택
 				locale : 'ko', // 한국어 설정
 				// navLinks: true, // 날짜 선택하면 해당 날짜 화면
 				editable : true, // 수정 가능 여부
-
+				
+				events: [
+		               $.ajax({
+		                  url:"http://localhost:8888/rest/dangSchedule/schedule",
+		                  method:"get",
+		                  success: function(resp) {
+		                                                               
+		                  console.log(resp);
+		                     if(resp.length!=0){
+		                        for(var i=0;i<resp.length;i++){
+		                           calendar1.addEvent({
+		                              title: resp[i]['scheduleTitle'],
+		                              start: resp[i]['scheduleStart'],
+		                              allDay: true,
+		                              id: resp[i]['scheduleNo']
+		                           
+		                           
+		                           })
+		                        }
+		                     }
+		                  }
+		               })
+		            ]
 		    });
 		    calendar1.render();
 		  });
 		
-		$.ajax({
-						url: 'http://localhost:8888/rest/dangSchedule/schedule',
-						method: 'get',
-						async : false,
-						contentType: "application/json",
-						success: function(resp) {
-						
-								var list = resp;
-							
-														
-							console.log(list);
-							var calendarEl = document.getElementById('calendar1');
-							
-							var events = list.map(function(item){
-								return {
-													title : item.scheduleTitle,
-													start : item.scheduleStart + "T" + item.scheduleHour
-											}
-							});
-							
-							var calendar1 = new FullCalendar.Calendar(calendarEl, {
-									events : events,
-									eventTimeFormat :{
-										hour : '2-digit',
-										minute: '2-digit',
-										hour12: false
-									}
-								
-							});
-							calendar1.render();
-						}
+/* 		 		var openModal = document.getElementbyId('schedule-modal')
+		var scheduleDetail = document.getElementById('scheduleDetail')
 		
-					
-			
-		});
+		modal.addEventListner('shown.bs.schedule-modal') function(){
+			scheduleDetail.focus
+		}) 
+		 */
+	
 	
 </script>
 </head>
@@ -297,17 +283,17 @@
 		<div class="col-10 offset-1">
 			<div class="row">
 				<!-- 프로필 박스 시작-->
-				<%-- <div class="col-3">
+				 <div class="col-3">
 					<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-				</div> --%>
+				</div> 
 				<!-- 프로필 박스 끝-->
 
 				<!-- 캘린더 박스 시작-->
 			<div class = "col-6" style="background: white">				
 			    <div class="monthly-calendar">					
-	             <div id='calendar' class="calendar"></div>
+	             <div id='calendar1' class="calendar"></div>
 
-                 <div class = "schedule-info shadow1">  
+                 <div id = "schedule-modal" class = "schedule-info shadow1">  
 
                     <div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">초코야 목욕가자~!!</div>
 
@@ -343,9 +329,11 @@
                         <div class="block">참여 멤버</div>
                         <div class="block-white"></div>
                     </div>   
-
-                    <button class="btn btn-in">참여하기</button>
-
+					
+					<div class="btn-box">
+                    <button class="btn-common btn-in">참여하기</button>  <button class="btn-common btn-back">닫기</button>
+					</div>
+					
                 </div>     
                  </div>
 	         </div>		
