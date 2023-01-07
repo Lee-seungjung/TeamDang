@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.vo.MemberEditVO;
 
 public interface DangMemberDao {
 	
@@ -74,6 +75,26 @@ public interface DangMemberDao {
 	 * @return 모임 수(int)
 	 */
 	int joinDangCount(int userNo);
+	
+	/**
+	 * 프로필 첨부파일 번호 조회
+	 * @param userNo
+	 * @return
+	 */
+	Integer findAttachmentNo(int userNo);
+	
+	/**
+	 * 댕모임 내 닉네임 중복확인
+	 * @return true, false
+	 */
+	DangMemberDto checkNick(int dangNo, String memberNick);
+	
+	/**
+	 * 댕모임 프로필 수정
+	 * @param MemberEditVO(파일번호, 닉네임, 상태메세지, 멤버번호)
+	 * @return true, false
+	 */
+	boolean editProfile(MemberEditVO vo);
 	
 	
 }

@@ -95,10 +95,10 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 			String memberNick = dangMemberDao.findNick(DangMemberDto.builder()
 					.dangNo(receiveVO.getDangNo())
 					.userNo(Integer.parseInt(user.getUserNo()))
-					.build()); //닉네임
-			//int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
+					.build());
+			int size2 = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
 			int size = 1;
-			log.debug("인원수 : {}",size);
+			log.debug("인원수 : {}",size2);
 			
 			//화면에 뿌려줄 메세지 정보 준비(메시지 내용, 시간, 파일번호) - null값 대응을 위해 Integer로 변경
 			Integer attachmentNo = dangUserDao.findAttachmentNo(Integer.parseInt(user.getUserNo()));

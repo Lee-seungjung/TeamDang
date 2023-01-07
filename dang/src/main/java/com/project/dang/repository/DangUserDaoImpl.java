@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangUserDto;
+import com.project.dang.dto.UserImgDto;
 import com.project.dang.vo.DangUserVO;
 
 @Repository
@@ -51,5 +52,18 @@ public class DangUserDaoImpl implements DangUserDao {
 	@Override
 	public Integer findAttachmentNo(int userNo) {
 		return sqlSession.selectOne("dangUser.findAttachmentNo",userNo);
+	}
+  
+	//프로필 이미지 등록
+	@Override
+	public void userImgInsert(UserImgDto dto) {
+		sqlSession.insert("dangUser.imgInsert",dto);
+		
+	}
+
+	//프로필 이미지 삭제
+	@Override
+	public boolean userImgeDelete(int attachmentNo) {
+		return sqlSession.delete("dangUser.imgDelete",attachmentNo)>0;
 	}
 }

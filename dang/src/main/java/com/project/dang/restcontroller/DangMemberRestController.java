@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.repository.DangMemberDao;
+import com.project.dang.vo.MemberEditVO;
 
 @CrossOrigin
 @RestController
@@ -50,5 +51,24 @@ public class DangMemberRestController {
 	public int findScore(@PathVariable int memberNo) {
 		return dangMemberDao.findScore(memberNo);
 	}
+	
+	//댕모임 닉네임 중복 검사
+	@GetMapping("/checkNick/{dangNo}/{memberNick}")
+	public boolean checkNick(
+			@PathVariable int dangNo, @PathVariable String memberNick) {
+		 DangMemberDto dto = dangMemberDao.checkNick(dangNo, memberNick);
+		 if(dto==null) {
+			 return true;
+		 }else {
+			 return false;
+		 } 
+	}
+	
+	//댕모임 프로필 수정
+	@PatchMapping("/profile_edit")
+	public boolean profileEdit(@RequestBody MemberEditVO vo) {
+		return dangMemberDao.editProfile(vo);
+	}
+	
 	
 }
