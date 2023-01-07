@@ -449,10 +449,10 @@
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
-	<div class="p-3 profile-box border rounded-3 mb-3 shadow1">
+	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-2" >
-				<div class="col-7">
+				<div class="col-7 ">
 					<c:choose>
 						<c:when test="${attachmentNo==null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">
@@ -474,7 +474,7 @@
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-10 ps-1">
-					<span class="originMessage">${profile.memberMessage}</span>
+					<span class="originMessage" style="font-size:13px;">${profile.memberMessage}</span>
 				</div>
 			</div>
 
@@ -511,13 +511,13 @@
 												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/download/${attachmeNo}" class="img-circle profile-img profile-css change-img">
+												<img src="${pageContext.request.contextPath}/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
 											</c:otherwise>
 										</c:choose>
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
-                							<input type="hidden" name="attachmentNo" value="${attachmeNo}">
-                							<input type="hidden" name="originAttachmentNo" value="${attachmeNo}">
+                							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
+                							<input type="hidden" name="originAttachmentNo" value="${attachmentNo}">
 									</div>
 									<div class="mb-3 text-start">
 										<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
@@ -575,7 +575,7 @@
 	</div>
 	
 	<!-- 출석 체크 -->
-	<div class="p-3 border rounded-3 text-center day-check">
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg">
 		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance">출석 체크</span>
 	</div>
 	
