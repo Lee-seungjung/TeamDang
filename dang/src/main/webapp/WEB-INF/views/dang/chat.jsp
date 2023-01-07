@@ -232,7 +232,7 @@
 			if(userNo==chatUserNo){
 				var div = $("<div>").attr("class","text-end  mb-3");
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom");
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				var text;
 				if(data.imgAttachmentNo==null){
 					text = $("<span>").attr("class","message2").text(data.chatContent);
@@ -271,7 +271,7 @@
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom");
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				td4.append(text).append(time);
 				tr2.append(td4);
 				
