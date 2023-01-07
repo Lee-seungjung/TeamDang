@@ -451,7 +451,7 @@
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
 		<div class="profile-wrap text-center">
-			<div class="row justify-content-center mb-2" >
+			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-7 ">
 					<c:choose>
 						<c:when test="${attachmentNo==null}">
@@ -465,10 +465,10 @@
 			</div>
 
 			<div class="row d-flex justify-content-center">
-				<div class="col-3 pe-1">
-					<img src="${pageContext.request.contextPath}/images/bone.png" class="img-fluid page-profile">
+				<div class="col-4 pe-1">
+					<img src="${pageContext.request.contextPath}/images/bone.png" class="page-profile float-end" width="30" height="30">
 				</div>
-				<div class="col-7 ps-1" style="display:flex; align-items:center">
+				<div class="col-6 ps-1" style="display:flex; align-items:center">
 					<span class="font-gray originNickName" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
 				</div>
 			</div>

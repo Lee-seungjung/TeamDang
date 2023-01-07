@@ -64,7 +64,7 @@
     	margin-bottom:0;
     }
     .img-circle{
-		border-radius: 70%;
+		border-radius: 50%;
     	border:none;
     	background-color:#fff;
     	overflow: hidden;
