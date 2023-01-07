@@ -4,7 +4,7 @@
 <style>
 	
 	.input-check-gender {
-		display: none;
+		display: block;
 	}
 	
 	.img-user-gender {
@@ -685,7 +685,10 @@
 			var countChecked = $(".input-check-gender:checked").length;
 			// 1개만 선택하도록
 			if(countChecked > 1) {
-				$(this).prop("checked", false);
+				$(".input-check-gender").prop("checked", false);
+				$(".img-user-gender").removeClass("gender-selected");
+				$(this).prop("checked", true);
+				target.addClass("gender-selected");
 			}
 			// 선택한 성별의 테두리 변경
 			if($(this).is(":checked")) {
@@ -696,6 +699,7 @@
 				target.addClass("gender-selected");
 			} else {
 				formValidCheck.checkGender = false;
+				formValid();
 				target.removeClass("gender-selected");
 			}
 		});
