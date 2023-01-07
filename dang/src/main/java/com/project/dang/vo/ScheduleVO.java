@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class ScheduleVO {
+	private String scheduleNo;
 	private String scheduleTitle;
 	private String scheduleContent;
-	private String scheduleLeader;
+	private String memberNick;
 	private String scheduleStart;
 	private String scheduleHour;
 	private String placeName;

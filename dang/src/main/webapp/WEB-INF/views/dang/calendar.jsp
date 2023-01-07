@@ -251,6 +251,42 @@
 		    });
 		    calendar1.render();
 		  });
+		
+		$.ajax({
+						url: 'http://localhost:8888/rest/dangSchedule/schedule',
+						method: 'get',
+						async : false,
+						contentType: "application/json",
+						success: function(resp) {
+						
+								var list = resp;
+							
+														
+							console.log(list);
+							var calendarEl = document.getElementById('calendar1');
+							
+							var events = list.map(function(item){
+								return {
+													title : item.scheduleTitle,
+													start : item.scheduleStart + "T" + item.scheduleHour
+											}
+							});
+							
+							var calendar1 = new FullCalendar.Calendar(calendarEl, {
+									events : events,
+									eventTimeFormat :{
+										hour : '2-digit',
+										minute: '2-digit',
+										hour12: false
+									}
+								
+							});
+							calendar1.render();
+						}
+		
+					
+			
+		});
 	
 </script>
 </head>
@@ -261,15 +297,15 @@
 		<div class="col-10 offset-1">
 			<div class="row">
 				<!-- 프로필 박스 시작-->
-				<div class="col-3">
+				<%-- <div class="col-3">
 					<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-				</div>
+				</div> --%>
 				<!-- 프로필 박스 끝-->
 
 				<!-- 캘린더 박스 시작-->
 			<div class = "col-6" style="background: white">				
 			    <div class="monthly-calendar">					
-	             <div id='calendar1' class="calendar"></div>
+	             <div id='calendar' class="calendar"></div>
 
                  <div class = "schedule-info shadow1">  
 
