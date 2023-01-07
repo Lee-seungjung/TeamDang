@@ -587,7 +587,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="margin:0 auto;">
-					<p style="color:#303030; font-size:15px;" class="me-1 modal-title1"> 댕모임의 </p>
+					<img src="${pageContext.request.contextPath}/images/logo.png" width="70" height="35">
+					<p style="color:#303030; font-size:15px;" class="ms-1 me-1 modal-title1"> 댕모임의 </p>
 					<h5 class="modal-title modal-title2" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
 					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title3"> 올라갑니다!</p>
 				</div>
