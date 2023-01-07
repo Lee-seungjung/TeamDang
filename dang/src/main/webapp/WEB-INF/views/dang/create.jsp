@@ -32,7 +32,7 @@
 					<div class = "row my-3">
 						<div class = "col-10 offset-1">		
 							<label for = "dangProfile">
-								<img src = "${pageContext.request.contextPath}/images/img-dang-profile.png" class = "img-fluid">
+								<img src = "${pageContext.request.contextPath}/images/img-dang-profile.png" class = "img-fluid img-dang-profile">
 								<input name = "dangProfile" type = "file" id = "dangProfile" class = "input-dang-profile" accept = ".png, .jpg">
 							</label>
 						</div>
@@ -118,6 +118,25 @@
 		
 		// 초기 비밀번호 입력창 숨김
 		$(".div-dang-password").hide();
+		
+		// 댕모임 프로필 미리보기
+		$(".input-dang-profile").change(function(){
+			if(this.files.length > 0) {
+				var formData = new FormData();
+				formData.append("attachment", this.files[0]);
+				$.ajax({
+					url : "${pageContext.request.contextPath}/rest_attachment/upload",
+					method : "post",
+					data : formData,
+					processData:false,
+                    contentType:false,
+                    success : function(resp) {
+                    	console.log(resp);
+                    	$(".img-dang-profile").prop("src", resp);
+                    }
+				});
+			}
+		});
 		
 		// 댕모임명 글자수 제한
 		$(document).on("input", "[name=dangName]", function(){
