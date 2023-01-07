@@ -32,5 +32,14 @@
 		select attachment_no from user_img where user_no=#{userNo}
 	</select>
 	
+	<!-- 프로필 이미지 등록 -->
+	<insert id="imgInsert" parameterType="UserImgDto">
+		insert into user_img(attachment_no, user_no) values(#{attachmentNo},#{userNo})
+	</insert>
+	
+	<!-- 프로필 이미지 삭제 -->
+	<delete id="imgDelete" parameterType="int">
+		delete user_img where attachment_no=#{attachmentNo}
+	</delete>
 	
 </mapper>

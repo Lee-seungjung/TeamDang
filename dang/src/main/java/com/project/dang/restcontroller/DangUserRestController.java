@@ -6,11 +6,16 @@ import java.io.IOException;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.service.DangCertEmailService;
 import com.project.dang.vo.DangUserVO;
@@ -49,4 +54,22 @@ public class DangUserRestController {
 		// 이메일 전송 후 인증정보 DB 등록 및 인증번호 반환
 		return dangCertEmailService.sendEmail(userEmail);
 	}
+	
+	//프로필 이미지 등록
+	@PostMapping("/img_insert")
+	public void imgInsert(@RequestBody UserImgDto dto) {
+		dangUserDao.userImgInsert(dto);
+	}
+	
+	//프로필 이미지 삭제
+	@DeleteMapping("/img_delete/{attachmentNo}")
+	public boolean imgDelete(@PathVariable int attachmentNo) {
+		//파일 있는지 확인 후 없을 경우 false, 있을 경우 삭제 후 true 반환
+		Integer imgCheck = dangUserDao.findAttachmentNo(attachmentNo);
+		if(imgCheck==null) {
+			return false;
+		}
+		return dangUserDao.userImgeDelete(attachmentNo);
+	}
+	
 }

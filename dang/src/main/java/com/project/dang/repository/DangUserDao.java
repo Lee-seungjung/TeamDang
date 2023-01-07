@@ -1,6 +1,7 @@
 package com.project.dang.repository;
 
 import com.project.dang.dto.DangUserDto;
+import com.project.dang.dto.UserImgDto;
 import com.project.dang.vo.DangUserVO;
 
 public interface DangUserDao {
@@ -46,6 +47,17 @@ public interface DangUserDao {
 	 */
 	public Integer findAttachmentNo(int userNo);
 	
+	/**
+	 * 프로필 이미지 등록
+	 * @param UserImgDto
+	 */
+	void userImgInsert(UserImgDto dto);
 	
+	/**
+	 * 프로필 이미지 삭제
+	 * @param attachmentNo
+	 * @return true, false
+	 */
+	boolean userImgeDelete(int attachmentNo);
 	
 }

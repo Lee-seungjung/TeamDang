@@ -41,7 +41,25 @@
   		height:150px;
   		margin-left:20px;
   	}
-  	
+  	.invalid-feedback2 {
+	  display: none;
+	  width: 100%;
+	  margin-top: 0.25rem;
+	  font-size: 0.875em;
+	  color: #d9534f;
+	}
+  	.invalid-feedback, .invalid-feedback2{
+  		display:none;
+  	}
+  	.is-invalid ~ .invalid-feedback{
+  		display:block;
+  	}
+  	.invalid ~ .invalid-feedback2{
+  		display:block;
+  	}
+  	.length-font{
+  		font-size:12px;
+  	}
 </style>
 <script>
 	$(function(){
@@ -133,7 +151,205 @@
 			
 		});
 		
+		//프로필 수정
+		//프로필 클릭하면 첨부파일 열림
+		$(".profile-img").click(function(){
+			$(".input-file").click();
+		});
 		
+		//프로필 사진변경 이벤트
+		$(".input-file").change(function(){
+			var value = $(this).val();
+			if(value.length>0){ //파일 있음
+				var formData = new FormData();
+				formData.append("attachment", this.files[0]);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/upload",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    success:function(resp){
+                    	console.log(resp);
+                    	$(".change-img").attr("src",resp); //프로필 미리보기
+                    	//원래 페이지 프로필 정보 변경
+                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
+                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+			        }
+				});
+			}
+		});
+		
+		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
+		$(".cancel-btn").click(function(){
+			deleteAttachmentNo();
+		});
+		
+		//창 이동 시 첨부파일 DB 삭제
+		//새로고침은 제외해야함!!! 뒤로가기, 창끄기만 적용할 수 있도록 찾아보기!!!
+		//$(window).on("beforeunload", function(){
+		//	deleteAttachmentNo();
+		//});
+		
+		
+		//입력 항목 상태 판정
+		check={
+				memberNick : false, memberNickRegex : /^[a-zA-Z0-9가-힣]{1,10}$/,
+				memberMessage : true, 
+				allValid:function(){
+					return this.memberNick && this.memberMessage;
+				}
+		};
+		
+		//닉네임 검사
+		$("[name=memberNick]").blur(function(){ 
+			var originMemberNick = $(".originNickName").text(); //기존 닉네임
+            var memberNick = $(this).val(); //입력창 닉네임
+            
+            //1. input창이 변화가 있을경우와 없을경우 체크
+            //2. 변화가 없을 경우 판정 true
+            //3. 변화가 있을 경우 (1) 정규표현식 검사
+            //4. 						 (2) 댕모임 내 닉네임 중복검사
+            
+            $(this).removeClass("is-valid is-invalid invalid");
+            if(originMemberNick==memberNick){
+            	check.memberNick=true;
+            }else{
+            	//정규표현식 확인
+                var regex = check.memberNickRegex;
+                if(regex.test(memberNick)) {
+                    var dangNo = $("[name=dangNo]").val();
+                    checkData={
+                    		dangNo:dangNo,
+                    		memberNick:memberNick
+                    }
+                    //2. 중복닉네임 확인(비동기) 
+                   	$.ajax({
+                   		url:"${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+memberNick,
+    					method:"get",
+    					data:checkData,
+    		    		dataType:"json",
+    		    		contentType:"application/json",
+    					success:function(resp){
+    						$(this).removeClass("is-valid is-invalid invalid");
+    						if(resp){
+    							$("[name=memberNick]").addClass("is-valid");
+    							check.memberNick=true;
+    						}else{
+    							$("[name=memberNick]").addClass("invalid");
+    							check.memberNick=false;
+    						}
+    					}
+                   	});           
+                }
+                else {
+                	check.memberNick = false;
+                    $(this).addClass("is-invalid");
+                }
+            }
+		 });  
+		
+		//상태메세지 글자 수 검사
+		$("[name=memberMessage]").on("input",function(){
+			var textLength = $(this).val().length;
+			var value = $(this).val();
+			//상태메시지 글자수 표시
+			$(".length").text(textLength);
+			$(this).removeClass("is-valid is-invalid");
+			if(textLength==30){
+				$(".length").css("color","red").text(30);
+				$(this).addClass("is-valid");
+				check.memberMessage=true;
+			}else if(textLength>30){
+				$(this).val(value.substring(0,30));	
+				$(".length").css("color","red").text(30);
+				$(this).addClass("is-invalid");
+				check.memberMessage=false;
+			}else if(textLength>0){
+				$(".length").css("color","#495057");
+				$(this).addClass("is-valid");
+				check.memberMessage=true;
+			}
+		});
+		
+		//폼전송 이벤트
+		$(".edit-form").submit(function(e){
+			//기본이벤트 차단
+			e.preventDefault();
+			
+			//이벤트 강제실행
+			$("[name=memberNick]").blur();
+			
+			//비동기 데이터 준비
+			var userNo = $("[name=userNo]").val();
+			var attachmentNo=$("[name=attachmentNo]").val();
+			var originAttachmentNo = $("[name=originAttachmentNo]").val();
+			var memberNo = $("[name=memberNo]").val();
+			var memberNick = $("[name=memberNick]").val();
+			var memberMessage = $("[name=memberMessage]").val();
+			console.log("originAttachmentNo = "+originAttachmentNo);
+			//1. 새로운 파일의 유무로 구분
+			//   - 있을경우에만 user-img 기존 데이터 삭제 후 insert
+			//   - 기존파일 없을 경우 user-img insert만 처리
+			//2. 댕회원 정보 변경
+			//3. 새로고침없이 본화면 프로필사진, 닉네임, 상태메세지 변경
+			if(check.allValid()){
+				imgInsertData={	
+					attachmentNo:attachmentNo,
+					userNo:userNo
+				}
+				if(originAttachmentNo==""){
+					$.ajax({ //1 기존파일 없을 경우에는 그냥 insert만 처리
+						url:"${pageContext.request.contextPath}/rest_user/img_insert",
+						method:"post",
+						contentType:"application/json",
+						data:JSON.stringify(imgInsertData),
+						success:function(){
+
+						}
+					});
+				}else{
+					if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 기존파일 삭제처리
+						$.ajax({ //1
+							url:"${pageContext.request.contextPath}/rest_user/img_insert",
+							method:"post",
+							contentType:"application/json",
+							data:JSON.stringify(imgInsertData),
+							success:function(){
+								deleteOriginAttachmentNo();
+							}
+						});
+					}
+				}
+				
+				editData={
+						memberNo:memberNo,
+						memberNick:memberNick,
+						memberMessage:memberMessage
+				}
+				$.ajax({ //2
+					url:"http://localhost:8888/rest_member/profile_edit",
+					method:"patch",
+					contentType:"application/json",
+					data:JSON.stringify(editData),
+					success:function(resp){
+						if(resp){ //3
+							if(attachmentNo==""){
+								$(".origin-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+							}else{
+								$(".origin-img").attr("src","${pageContext.request.contextPath}/download/"+attachmentNo);
+							}
+							$(".originNickName").text(memberNick);
+							$(".originMessage").text(memberMessage);
+							$("[name=originAttachmentNo]").val(attachmentNo);
+						}
+					}
+				});
+			}
+		});
+		
+		//풀캘린더 생성
 		function createCalendar(){
 			//비동기화 데이터 준비
 			var memberNo = $("[name=memberNo]").val();
@@ -190,43 +406,8 @@
 		      calendar.render();
 		}
 		
-		//프로필 수정
-		
-		
-		
-		//프로필 클릭하면 첨부파일 열림
-		$(".profile-img").click(function(){
-			$(".input-file").click();
-		});
-		
-		//프로필 사진변경 이벤트
-		$(".input-file").change(function(){
-			var value = $(this).val();
-			console.log(value);
-			if(value.length>0){ //파일 있음
-				var formData = new FormData();
-				formData.append("attachment", this.files[0]);
-				$.ajax({
-					url:"${pageContext.request.contextPath}/upload",
-					method:"post",
-					data:formData,
-					processData:false, 
-                    contentType:false,
-                    success:function(resp){
-                    	console.log(resp);
-                    	$(".change-img").attr("src",resp); //프로필 미리보기
-                    	//원래 페이지 프로필 정보 변경
-                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
-                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
-                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
-			        }
-				});
-			}
-		});
-		
-		//모달 취소버튼 이벤트
-		//목록버튼(돌아가기) 이벤트 - 새로 추가한 첨부파일 db에서 삭제
-		$(".cancel-btn").click(function(){
+		//취소, 돌아가기 시 첨부파일 삭제
+		function deleteAttachmentNo(){
 			var newAttachmentNo = $("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
@@ -242,23 +423,23 @@
 						}else{
 							$(".change-img").attr("src","${pageContext.request.contextPath}/download/"+originAttachmentNo);
 						}
-						
-						//alert(' 삭제 성공 ! '+resp);
 					}
 				});
 			}
-		});
+		}
 		
-		
-		//상태 판정
-		
-		//닉네임 검사
-		//자기소개 검사
-		
-		//폼전송 이벤트
-		
-		
-		
+		//기존 첨부파일 삭제
+		function deleteOriginAttachmentNo(){
+			var originAttachmentNo = $("[name=originAttachmentNo]").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/delete/"+originAttachmentNo,
+				method:"delete",
+				data:originAttachmentNo,
+				success:function(resp){
+					
+				}
+			});
+		}
 		
 		
 		
@@ -268,28 +449,35 @@
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
-
-	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
+	<div class="p-3 profile-box border rounded-3 mb-3 shadow1">
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-2" >
 				<div class="col-7">
-					<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
+					<c:choose>
+						<c:when test="${attachmentNo==null}">
+							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/download/${attachmentNo}" class="img-fluid img-circle origin-img">
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
+
 			<div class="row d-flex justify-content-center">
 				<div class="col-3 pe-1">
 					<img src="${pageContext.request.contextPath}/images/bone.png" class="img-fluid page-profile">
 				</div>
 				<div class="col-7 ps-1" style="display:flex; align-items:center">
-					<span class="font-gray" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
+					<span class="font-gray originNickName" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-10 ps-1">
-					<span>${profile.memberMessage}</span>
+					<span class="originMessage">${profile.memberMessage}</span>
 				</div>
 			</div>
-			
+
 			<div class="row mt-3">
 				<div class="col-10 offset-1">
 					<div class="text-start mb-1" style="font-size:15px; color:#6C7AEF; font-weight:bolder;">
@@ -315,36 +503,42 @@
 									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
+								<form class="edit-form">
 								<div class="modal-body">
-									<form>
-										<div class="mb-3">
-											<c:choose>
-												<c:when test="${attachmeNo==null}">
-													<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
-												</c:when>
-												<c:otherwise>
-													<img src="${pageContext.request.contextPath}/download/${attachmeNo}" class="img-circle profile-img profile-css change-img">
-												</c:otherwise>
-											</c:choose>
-											<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
-                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
-                 							<input type="hidden" name="attachmentNo" value="">
-                 							<input type="hidden" name="originAttachmentNo" value="${attachmeNo}">
-										</div>
-										<div class="mb-3 text-start">
-											<label for="recipient-name" class="col-form-label ms-2">닉네임</label>
-											<input type="text" value="${profile.memberNick}" class="form-control" id="recipient-name" autocomplete="off">
-										</div>
-										<div class="mb-3 text-start">
-											<label for="message-text" class="col-form-label ms-2">상태메세지</label>
-											<input type="text" value="${profile.memberMessage}" class="form-control" id="message-text" autocomplete="off">
-										</div>
-									</form>
+									<div class="mb-3">
+										<c:choose>
+											<c:when test="${attachmentNo==null}">
+												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
+											</c:when>
+											<c:otherwise>
+												<img src="${pageContext.request.contextPath}/download/${attachmeNo}" class="img-circle profile-img profile-css change-img">
+											</c:otherwise>
+										</c:choose>
+										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
+                							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
+                							<input type="hidden" name="attachmentNo" value="${attachmeNo}">
+                							<input type="hidden" name="originAttachmentNo" value="${attachmeNo}">
+									</div>
+									<div class="mb-3 text-start">
+										<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
+										<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
+										<span class="invalid-feedback">1~10자 내로 입력해주세요!</span>
+										<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
+									</div>
+									<div class="mb-3 text-start">
+										<label for="message-text" class="col-form-label ms-2 me-1">상태메세지</label>
+										<span class="length-font">( </span>
+										<span class="length length-font">0</span>
+										<span class="length-font">/ 30 )</span>
+										<input type="text" value="${profile.memberMessage}" name="memberMessage" class="form-control" id="message-text" autocomplete="off">
+										<span class="invalid-feedback">30자 내로 입력해주세요!</span>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">취소</button>
-									<button type="button" class="btn btn-primary confirm-btn">확인</button>
+									<button type="submit" class="btn btn-primary confirm-btn" data-bs-dismiss="modal">확인</button>
 								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -408,5 +602,5 @@
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
-	
+	<input type="hidden" name="dangNo" value="${profile.dangNo}">
 </div>
