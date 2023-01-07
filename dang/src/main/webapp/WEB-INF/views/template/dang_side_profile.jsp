@@ -453,9 +453,8 @@
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-2" >
 				<div class="col-7">
-				test : ${attachmentNo==null}
 					<c:choose>
-						<c:when test="${attachmeNo==null}">
+						<c:when test="${attachmentNo==null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">
 						</c:when>
 						<c:otherwise>
@@ -464,6 +463,7 @@
 					</c:choose>
 				</div>
 			</div>
+
 			<div class="row d-flex justify-content-center">
 				<div class="col-3 pe-1">
 					<img src="${pageContext.request.contextPath}/images/bone.png" class="img-fluid page-profile">
@@ -507,7 +507,7 @@
 								<div class="modal-body">
 									<div class="mb-3">
 										<c:choose>
-											<c:when test="${attachmeNo==null}">
+											<c:when test="${attachmentNo==null}">
 												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
 											</c:when>
 											<c:otherwise>
