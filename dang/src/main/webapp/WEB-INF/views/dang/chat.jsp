@@ -43,16 +43,23 @@
 	 }
 	 #chat-input{
 	 	width:70%;
-	 	height:40px;
+	 	inline-height:1.5;
 	 	display:inline-block;
 	 	border:none;
+	 	border-radius:0.25rem;
+	 	padding:0.5rem 1rem;
+	 	font-size:15px;
 	 }
 	 #chat-input:focus{
-	 	border:none;
+	 	outline: 0;
 	 }
 	 #send-btn{
 	 	width:15%;
 	 	display:inline-block;
+	 }
+	 .fa-image{
+	 	color:#76BEFF;
+	 	font-size:39px;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -91,8 +98,11 @@
 		//3. 전송버튼을 누르면 웹소켓으로 입력된 메세지를 전송
 		//첫페이지 스크롤 하단 유지
 		$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
-		//전역변수 방번호
+		//전송버튼 비활성화
+		$("#send-btn").attr("disabled",true);
+		//전역변수 방번호, 댕모임번호
 		var roomNo = $("[name=roomNo]").val();
+		var dangNo = $("[name=dangNo]").val();
 		
 		//1. 웹소켓 연결 생성
 		var uri = "${pageContext.request.contextPath}/ws/chat";
@@ -141,13 +151,11 @@
 		//3. 웹소켓으로 입력된 메세지를 전송
 		$("#send-btn").click(function(){
 			var text = $("#chat-input").val();
-			if(text.length == 0) return; //채팅 쓴거 없으면 return
 			
 			//JSON으로 변환해서 전송
 			//- JSON.stringify(객체) : 객체를 문자열로
 			//- JSON.parse(문자열) : 문자열을 객체로
 			
-			var dangNo = $("[name=dangNo]").val();
 			var data = {
 				type : 2,
 				room : roomNo,
@@ -156,6 +164,7 @@
 			};
 			socket.send(JSON.stringify(data));
 			$("#chat-input").val("");  //텍스트 창 비우기
+			$("#send-btn").attr("disabled",true);
 			
 		});
 		
@@ -166,6 +175,54 @@
 	        }
 	    });
 		
+		//전송버튼 비활성화
+		$("#chat-input").on("input",function(){
+			var value = $(this).val();
+			if(value.length==0){
+				$("#send-btn").attr("disabled",true);
+			}else{
+				$("#send-btn").attr("disabled",false);
+			}
+		});
+		
+		//이미지 첨부 버튼 이벤트
+		//프로필 클릭하면 첨부파일 열림
+		$(".fa-image").click(function(){
+			$(".chat-img").click();
+		});
+		
+		//채팅 사진 등록
+		$(".chat-img").change(function(){
+			var value = $(this).val();
+			if(value.length>0){ //파일 있음
+				var formData = new FormData();
+				formData.append("attachment", this.files[0]);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    success:function(resp){
+                    	console.log(resp);
+                    	var index = resp.lastIndexOf("/"); //경로에서 마지막/위치 찾기
+                    	var imgAttachmentNo = resp.substr(index+1); //attachmentNo 꺼내기
+                    	console.log(index);
+                    	console.log(imgAttachmentNo);
+						
+                    	var ImgData = {
+                				type : 2,
+                				room : roomNo,
+                				dangNo:dangNo,
+                				attachmentNo:imgAttachmentNo
+                		};
+                		socket.send(JSON.stringify(ImgData));
+
+			        }
+				});
+			}
+		});
+		
 		//새로운 채팅 화면에 표시
 		function newChatList(data){
 			var userNo = $("[name=userNo]").val();
@@ -175,8 +232,13 @@
 			if(userNo==chatUserNo){
 				var div = $("<div>").attr("class","text-end  mb-3");
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime);
-				var text = $("<span>").attr("class","message2").text(data.chatContent);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom");
+				var text;
+				if(data.imgAttachmentNo==null){
+					text = $("<span>").attr("class","message2").text(data.chatContent);
+				}else{
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
+				}
 				div.append(time).append(text);
 				chatDiv.append(div);
 			}else{
@@ -202,9 +264,14 @@
 				
 				var tr2 = $("<tr>");
 				var td4 = $("<td>");
-				var text = $("<span>").attr("class","message").text(data.chatContent);
+				var text;
+				if(data.imgAttachmentNo==null){
+					text = $("<span>").attr("class","message").text(data.chatContent);
+				}else{
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
+				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom");
 				td4.append(text).append(time);
 				tr2.append(td4);
 				
@@ -288,9 +355,10 @@
 						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
 					
-					<div class="chat-submit  text-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
-						<i class="fa-regular fa-image fa-2x"></i>
-						<input type="text" id="chat-input" class="me-1" >
+					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
+						<i class="fa-regular fa-image me-1 cursor-pointer"></i>
+						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
+						<input type="text" id="chat-input" class="me-1 ms-1" >
 						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
 					</div>
 				</div>
@@ -303,11 +371,11 @@
 			
 			<!-- 채팅 박스 끝-->
 			
-				<!-- 다가오는 일정 박스 시작-->
-				<div class="col-3">
-					<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
-				</div>
-				<!-- 다가오는 일정 박스  끝-->
+			<!-- 다가오는 일정 박스 시작-->
+			<div class="col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
 		</div>
 		
 	</div>

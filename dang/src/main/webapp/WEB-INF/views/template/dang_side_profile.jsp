@@ -292,7 +292,7 @@
 			var memberNo = $("[name=memberNo]").val();
 			var memberNick = $("[name=memberNick]").val();
 			var memberMessage = $("[name=memberMessage]").val();
-			console.log("originAttachmentNo = "+originAttachmentNo);
+			
 			//1. 새로운 파일의 유무로 구분
 			//   - 있을경우에만 user-img 기존 데이터 삭제 후 insert
 			//   - 기존파일 없을 경우 user-img insert만 처리

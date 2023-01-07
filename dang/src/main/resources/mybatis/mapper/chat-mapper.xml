@@ -20,9 +20,14 @@
 		select room_no from room where dang_no=#{dangNo}
 	</select>
 	
+	<!-- room 번호(시퀀스) 미리 생성 -->
+	<select id="chatSequence" resultType = "int">
+		select dang_chat_seq.nextval from dual
+	</select>
+	
 	<!-- dang_chat 등록 -->
 	<insert id="chatInsert" parameterType="DangChatDto">
-		insert into dang_chat values(dang_chat_seq.nextval, #{roomNo}, #{userNo}, 
+		insert into dang_chat values(#{chatNo}, #{roomNo}, #{userNo}, 
 		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
 	
@@ -33,6 +38,11 @@
 		on d.user_no=img.user_no where room_no=#{roomNo} 
 		order by d.chat_no asc
 	</select>
+	
+	<!-- chat_img 등록 -->
+	<insert id="imgInsert" parameterType="ChatImgDto">
+		insert into chat_img values(#{chatNo}, #{attachmentNo})
+	</insert>
   
 </mapper>
   
