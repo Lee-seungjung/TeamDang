@@ -58,7 +58,7 @@ public class AttachmentRestController {
 		attachment.transferTo(target);
 		
 		return ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/download/").path(String.valueOf(attachmentNo))
+				.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
 				.toUriString();
 	}
 	
