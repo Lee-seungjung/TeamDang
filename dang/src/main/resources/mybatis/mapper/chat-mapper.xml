@@ -31,12 +31,17 @@
 		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
 	
-	<!-- 채팅 메세지 조회(채팅, 회원프로필 조인) -->
+	<!-- 채팅 메세지 최신순 10개만 조회(채팅, 채팅이미지, 회원프로필 조인) -->
 	<select id="chatHistory" parameterType="int" resultType="ChatHistoryVO">
-		select d.*, img.attachment_no 
-		from dang_chat d left outer join user_img img 
-		on d.user_no=img.user_no where room_no=#{roomNo} 
-		order by d.chat_no asc
+		select * from (
+			select TMP.*, rownum rn from (
+				select a.*, uimg.attachment_no from (
+			        select d.*, cimg.attachment_no as img_attachment_no from dang_chat d
+			        left outer join chat_img cimg on d.chat_no=cimg.chat_no order by d.chat_no desc
+		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
+		        where a.room_no=1
+			 )TMP
+		) where rn between 1 and 10 order by rn desc
 	</select>
 	
 	<!-- chat_img 등록 -->

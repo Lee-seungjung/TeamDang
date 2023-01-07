@@ -19,4 +19,5 @@ public class ChatHistoryVO {
 	private int chatStatus;
 	
 	private int attachmentNo; //회원 프로필
+	private int imgAttachmentNo; //채팅 이미지
 }

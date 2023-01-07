@@ -296,7 +296,7 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
 			</div>
 			<!-- 프로필 박스 끝-->
-			
+			test : ${history}
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
