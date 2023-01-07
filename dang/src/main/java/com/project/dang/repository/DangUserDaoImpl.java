@@ -51,5 +51,5 @@ public class DangUserDaoImpl implements DangUserDao {
 	@Override
 	public Integer findAttachmentNo(int userNo) {
 		return sqlSession.selectOne("dangUser.findAttachmentNo",userNo);
-	}	
+	}
 }

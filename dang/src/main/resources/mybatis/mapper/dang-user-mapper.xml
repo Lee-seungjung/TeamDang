@@ -32,5 +32,4 @@
 		select attachment_no from user_img where user_no=#{userNo}
 	</select>
 	
-	
 </mapper>

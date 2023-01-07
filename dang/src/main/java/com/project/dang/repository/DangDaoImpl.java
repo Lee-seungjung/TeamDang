@@ -1,5 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,5 +41,14 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public void createDangPrivate(DangDto dangDto) {
 		sqlSession.insert("dang.createPrivate", dangDto);
+	}
+
+	// 댕모임 프로필 정보 등록
+	@Override
+	public void insertDangImg(int dangNo, int attachmentNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("attachmentNo", String.valueOf(attachmentNo));
+		sqlSession.insert("dang.insertDangImg", param);
 	}
 }

@@ -6,7 +6,7 @@
 <mapper namespace="chat">
 
 	<!-- room 번호(시퀀스) 미리 생성 -->
-	<select id="roomSequence">
+	<select id="roomSequence" resultType = "int">
 		select room_seq.nextval from dual
 	</select>
   

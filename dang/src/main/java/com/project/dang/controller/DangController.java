@@ -1,5 +1,9 @@
 package com.project.dang.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.dang.dto.AttachmentDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.dto.RoomDto;
+import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangDao;
@@ -28,6 +36,9 @@ public class DangController {
 	private DangDao dangDao;
 	
 	@Autowired
+	private AttachmentDao attachmentDao;
+	
+	@Autowired
 	private DangChatDao dangChatDao;	
 	@Autowired
 	private DangMemberDao dangMemberDao;
@@ -37,7 +48,17 @@ public class DangController {
 	private DangReplyDao dangReplyDao;
 	@Autowired
 	private DangScheduleDao dangScheduleDao;
+	
+	// 기준 경로 설정
+	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
+	//private File directory = new File("D:/upload/dang"); // D드라이브 경로
 
+	// 디렉토리 생성
+	@PostConstruct
+	public void prepare() {
+		directory.mkdirs();
+	}
+	
 	// 댕모임 개설
 	@GetMapping("/create")
 	public String createDang() {
@@ -45,7 +66,7 @@ public class DangController {
 	}
 	
 	@PostMapping("/create")
-	public String createDang(HttpSession session, @ModelAttribute DangDto dangDto, @ModelAttribute DangMemberDto dangMemberDto) {
+	public String createDang(HttpSession session, @ModelAttribute DangDto dangDto, @ModelAttribute DangMemberDto dangMemberDto, MultipartFile dangProfile) throws IllegalStateException, IOException {
 		// 로그인 중인 회원번호 반환
 		int userNo = Integer.parseInt(String.valueOf((String)session.getAttribute("loginNo")));
 		// 반환한 회원번호를 dangDto에 설정
@@ -64,6 +85,28 @@ public class DangController {
 		dangMemberDto.setUserNo(userNo);
 		// 댕모임 개설자 가입
 		dangMemberDao.createDang(dangMemberDto);
+		// 댕모임 채팅방 번호 반환
+		int roomNo = dangChatDao.roomSequence();
+		// 댕모임 채팅방 개설
+		dangChatDao.roomInsert(RoomDto.builder().roomNo(roomNo).dangNo(dangNo).build());
+		// 만약 첨부파일이 있다면
+		if(dangProfile.getSize() != 0) {			
+			// 댕모임 첨부파일 번호 반환
+			int attachmentNo = attachmentDao.sequence();
+			// 첨부파일 테이블 등록
+			attachmentDao.insert(AttachmentDto.builder()
+					.attachmentNo(attachmentNo)
+					.attachmentName(dangProfile.getOriginalFilename())
+					.attachmentType(dangProfile.getContentType())
+					.attachmentSize(dangProfile.getSize())
+				.build());
+			// 첨부파일 저장 하위경로 설정
+			File target = new File(directory, String.valueOf(attachmentNo));
+			// 첨부파일 전송
+			dangProfile.transferTo(target);
+			// 댕모임 프로필 테이블 등록
+			dangDao.insertDangImg(dangNo, attachmentNo);
+		}
 		// 댕모임 홈 화면으로 이동
 		return "redirect:/dang/"+dangNo;
 	}

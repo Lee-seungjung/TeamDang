@@ -45,7 +45,4 @@ public interface DangUserDao {
 	 * @return attachmentNo : 파일번호
 	 */
 	public Integer findAttachmentNo(int userNo);
-	
-	
-	
 }
