@@ -127,7 +127,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <span class = "span-placename"></span>
+                    <span class="span-placeaddress"></span><br>
+                    <span class="span-placearea"></span><br>
+                    <span class="span-placeinfo"></span><br>
+                    <span class="span-placename"></span><br>
+                    <span class="span-placeoff"></span><br>
+                    <span class="span-placeoperation"></span><br>
+                    <span class="span-placesort"></span><br>
+                    <span class="span-placetel"></span><br>
+                    <span class="span-placeurl"></span><br>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -141,17 +149,42 @@
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
     <script>
 
-        $(document).on("click", ".edit", function(e){
-            console.log($(this));
-                e.stopPropagation();//전파 중지
-                $("#edit").modal("show");
+        var placeNoInfo;
+        var placeContents = [];
 
-                var input = $(this).data("placename");
-                $(".span-placename").text(input);
-                console.log(input);
+        $(document).on("click", ".edit", function (e) {
+            e.stopPropagation();//전파 중지
+            $("#edit").modal("show");
+
+            var name = $(this).data("placename");
+            $(".span-placename").text(name);
+
+            placeNoInfo = $(this).data("placeno");
+            console.log("sss : " + placeNoInfo);
+
+            $.ajax({
+                url: "http://localhost:8888/rest_place/place_one/" + placeNoInfo,
+                method: "get",
+                async: false,
+                contentType: "application/json",
+                success: function (resp) {
+                    $(".span-placeaddress").text(resp.placeAddress);
+                    $(".span-placearea").text(resp.placeArea);
+                    $(".span-placeinfo").text(resp.placeInfo);
+                    $(".span-placename").text(resp.placeName);
+                    $(".span-placeoff").text(resp.placeOff);
+                    $(".span-placeoperation").text(resp.placeOperation);
+                    $(".span-placesort").text(resp.placeSort);
+                    $(".span-placetel").text(resp.placeTel);
+                    $(".span-placeurl").text(resp.placeUrl);
+                }
+            })
+
+            // console.log(placeContents);
+
         });
 
-        
+
 
 
 
@@ -178,13 +211,18 @@
         var carparkPositions = [
 
         ];
+
+        // 
         var contentCafe = [];
+
+
         $.ajax({
             url: "http://localhost:8888/rest_place/place_list",
             method: "get",
             async: false,
             contentType: "application/json",
             success: function (resp) {
+                console.log(resp)
                 for (var i = 0; i < resp.length; i++) {
                     if (resp[i].placeSort === "카페") {
                         coffeePositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
@@ -196,7 +234,6 @@
                 }
             }
         })
-        console.log(coffeePositions);
 
 
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
@@ -243,7 +280,9 @@
                     marker = createMarker(coffeePositions[i], markerImage);
 
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="padding:5px;" class="edit"  data-placename=' + contentCafe[i].placeName + '>' + contentCafe[i].placeName + '</div>',// 인포윈도우에 표시할 내용
+                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentCafe[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
+                        + contentCafe[i].placeName
+                        + '</div>',// 인포윈도우에 표시할 내용
                     removable: true
                 });
 
@@ -253,19 +292,7 @@
             }
         }
 
-        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-        function makeOverListener(map, marker, infowindow) {
-            return function () {
-                infowindow.open(map, marker);
-            };
-        }
 
-        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-        function makeOutListener(infowindow) {
-            return function () {
-                infowindow.close();
-            };
-        }
         // 커피숍 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setCoffeeMarkers(map) {
             for (var i = 0; i < coffeeMarkers.length; i++) {
@@ -373,6 +400,19 @@
             }
         }
 
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+        function makeOverListener(map, marker, infowindow) {
+            return function () {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+        function makeOutListener(infowindow) {
+            return function () {
+                infowindow.close();
+            };
+        }
 
 
     </script>
