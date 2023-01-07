@@ -64,13 +64,22 @@
     	margin-bottom:0;
     }
     .img-circle{
-		border-radius: 70%;
+		border-radius: 50%;
     	border:none;
-    	background-color:#B0CBFF;
+    	background-color:#fff;
     	overflow: hidden;
 	}
 	.font-gray{
 		color:#373A3C;
+	}
+	
+	.shadow1{
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  }
+	.btn.btn-primary{
+		background-color:#76BEFF;
+		color:#fff;
+		border-color: #76BEFF;
 	}
     
 </style>

@@ -27,7 +27,7 @@
 			) where rn between 1 and 5
   		</select>
   		
-<!--   		스케줄 번호로 일정 목록 검색하여 출력(달력 우측)
+<!--   		스케줄 번호로 일정 목록 검색하여 출력(달력 하단)
   		<select id="listSysdate" parameterType="int" resultType="DangScheduleDto">
   			select schedule_no, member_no, place_no, schedule_title, schedule_content,
   			schedule_headmax,

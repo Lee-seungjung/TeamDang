@@ -58,4 +58,22 @@
 		select count(*) from dang_member where user_no=#{userNo}
 	</select>
 	
+	<!-- 프로필 파일번호 조회 -->
+	<select id="findAttachmetNo" resultType="int" parameterType="int">
+		select attachment_no from user_img where user_no=#{userNo}
+	</select>
+	
+	<!-- 댕모임 내 닉네임 중복확인 -->
+	<select id="checkNick" parameterType="Map" resultType="DangMemberDto">
+		select * from dang_member where dang_no=#{dangNo} and member_nick=#{memberNick}
+	</select>
+	
+	<!-- 댕모임 프로필 수정 -->
+	<update id="editProfile" parameterType="MemberEditVO">
+		update dang_member set member_nick=#{memberNick},
+		member_message=#{memberMessage}
+		where member_no=#{memberNo}
+	</update>
+	
+	
 </mapper>
