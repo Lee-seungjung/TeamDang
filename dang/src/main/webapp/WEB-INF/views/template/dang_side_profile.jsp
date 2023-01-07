@@ -179,21 +179,22 @@
                     	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
                     	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    	
+                    	//페이지 벗어나면 첨부파일 DB 삭제
+                    	$(window).on("beforeunload", function(){
+                    		deleteAttachmentNo();
+						});
+
 			        }
 				});
 			}
 		});
 		
+		
 		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
 		$(".cancel-btn").click(function(){
 			deleteAttachmentNo();
 		});
-		
-		//창 이동 시 첨부파일 DB 삭제
-		//새로고침은 제외해야함!!! 뒤로가기, 창끄기만 적용할 수 있도록 찾아보기!!!
-		//$(window).on("beforeunload", function(){
-		//	deleteAttachmentNo();
-		//});
 		
 		
 		//입력 항목 상태 판정
@@ -499,12 +500,11 @@
 					</div>
 					
 					<!-- 프로필 편집 모달 시작-->					
-					<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<form class="edit-form">
 								<div class="modal-body">
@@ -606,4 +606,6 @@
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
 	<input type="hidden" name="dangNo" value="${profile.dangNo}">
+	
+	
 </div>
