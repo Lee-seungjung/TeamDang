@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.vo.MemberEditVO;
 
 @Repository
 public class DangMemberDaoImpl implements DangMemberDao{
@@ -72,6 +75,27 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	@Override
 	public int joinDangCount(int userNo) {
 		return sqlSession.selectOne("dangMember.joinDangCount",userNo);
+	}
+
+	//프로필 첨부파일 번호 조회
+	@Override
+	public Integer findAttachmentNo(int userNo) {
+		return sqlSession.selectOne("dangMember.findAttachmetNo",userNo);
+	}
+
+	//댕모임 내 닉네임 중복확인
+	@Override
+	public DangMemberDto checkNick(int dangNo, String memberNick) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("memberNick", memberNick);
+		return sqlSession.selectOne("dangMember.checkNick",param);
+	}
+
+	//댕모임 프로필 수정
+	@Override
+	public boolean editProfile(MemberEditVO vo) {
+		return sqlSession.update("dangMember.editProfile",vo)>0;
 	}
 
 	

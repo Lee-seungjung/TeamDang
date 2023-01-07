@@ -120,8 +120,10 @@ public class DangController {
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
-		 //우측 댕모임 심플스케줄
-		 model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		//우측 댕모임 심플스케줄
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		//프로필 파일번호
+		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
 		return "dang/board";
 	}

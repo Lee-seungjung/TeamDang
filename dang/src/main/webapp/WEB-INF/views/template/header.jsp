@@ -69,11 +69,16 @@
     .img-circle{
 		border-radius: 70%;
     	border:none;
-    	background-color:#B0CBFF;
+    	background-color:#fff;
     	overflow: hidden;
 	}
 	.font-gray{
 		color:#373A3C;
+	}
+	.btn.btn-primary{
+		background-color:#76BEFF;
+		color:#fff;
+		border-color: #76BEFF;
 	}
     
 </style>
