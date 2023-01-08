@@ -18,7 +18,12 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 로그인 인터셉터 감시 경로
 		registry.addInterceptor(dangUserLoginInterceptor)
-			.addPathPatterns("/dang/**") 
-			.excludePathPatterns("");
+			.addPathPatterns(
+					"/dang/**", 
+					"/user/mypage"
+					) 
+			.excludePathPatterns(
+					""
+					);
 	}
 }

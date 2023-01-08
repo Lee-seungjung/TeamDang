@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.UserImgDto;
+import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
 public interface DangUserDao {
@@ -34,6 +35,13 @@ public interface DangUserDao {
 	public boolean checkPw(String inputPw, String searchPw);	
 	
 	/**
+	 * 최종 로그인 일자 갱신
+	 * @param userNo : 회원번호
+	 * @return boolean : 갱신 여부
+	 */
+	public boolean updateLogindate(int userNo);
+	
+	/**
 	 * Email 검사 : 입력한 이메일과 일치하는 회원 정보가 존재하는지 여부 반환
 	 * @param userEmail : 입력 이메일
 	 * @return boolean : 해당 이메일로 가입한 회원 존재 여부 (true이면 이미 가입한 이메일)
@@ -59,4 +67,25 @@ public interface DangUserDao {
 	 * @return true, false
 	 */
 	boolean userImgeDelete(int attachmentNo);
+	
+	/**
+	 * 마이페이지에 표시할 회원 정보 조회
+	 * @param userNo : 회원번호
+	 * @return DangUserMypageVO : 회원번호, 아이디, 이메일, 닉네임, 전화번호, 가입일, 최종로그인일, 첨부파일번호
+	 */
+	public DangUserMypageVO selectUserInfo(int userNo);
+	
+	/**
+	 * 회원번호로 비밀번호 조회
+	 * @param userNo : 회원 번호
+	 * @return String : 암호화된 비밀번호
+	 */
+	public String selectUserPw(int userNo);
+	
+	/**
+	 * 회원정보 수정
+	 * @param dangUserMypageVO : 회원번호, 닉네임, 이메일, 전화번호
+	 * @return boolean : 회원정보 수정 여부
+	 */
+	public boolean editUserInfo(DangUserMypageVO dangUserMypageVO);
 }

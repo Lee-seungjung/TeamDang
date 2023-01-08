@@ -4,7 +4,7 @@
 <style>
 	
 	.input-check-gender {
-		display: block;
+		display: none;
 	}
 	
 	.img-user-gender {
