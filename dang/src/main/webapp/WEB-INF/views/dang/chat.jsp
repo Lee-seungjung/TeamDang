@@ -89,6 +89,11 @@
 	  border-bottom-right-radius: 0.3rem !important;
 	  border-bottom-left-radius: 0.3rem !important;
 	}
+	.img-css{
+		width:100px;
+		height:100px;
+		margin-top:-7px;
+	}
 	 
 </style>
 <script>
@@ -296,7 +301,7 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
 			</div>
 			<!-- 프로필 박스 끝-->
-			test : ${history}
+			
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
@@ -306,13 +311,17 @@
 							<c:choose>
 								<c:when test="${profile.userNo==vo.userNo}">
 									<div class="text-end me-2 mb-3">
-										<c:if test="${vo.chatStatus!=0}">
-											<span>${vo.chatStatus}</span>
-										</c:if>
-										<span style="font-size:10px;">
+										<span style="font-size:10px;" class="align-bottom me-1">
 											<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
 										</span>
-										<span class="message2">${vo.chatContent}</span>
+										<c:choose>
+											<c:when test="${vo.imgAttachmentNo==0}">
+												<span class="message2">${vo.chatContent}</span>
+											</c:when>
+											<c:otherwise>
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100">
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</c:when>
 								<c:otherwise>
@@ -320,7 +329,7 @@
 										<table class="mb-2">
 											<tbody>
 												<tr>
-													<td rowspan="2">
+													<td rowspan="2" class="align-top">
 														<c:choose>
 															<c:when test="${vo.attachmentNo==0}">
 																<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
@@ -335,13 +344,17 @@
 												</tr>
 												<tr>
 													<td>
-														<span class="message">${vo.chatContent}</span>
-														<span style="font-size:10px;">
+														<c:choose>
+															<c:when test="${vo.imgAttachmentNo==0}">
+																<span class="message">${vo.chatContent}</span>
+															</c:when>
+															<c:otherwise>
+																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css">
+															</c:otherwise>
+														</c:choose>
+														<span style="font-size:10px;" class="align-bottom ms-1">
 															<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
 														</span>
-														<c:if test="${vo.chatStatus!=0}">
-															<span>${vo.chatStatus}</span>
-														</c:if>
 													</td>
 												</tr>
 											</tbody>
