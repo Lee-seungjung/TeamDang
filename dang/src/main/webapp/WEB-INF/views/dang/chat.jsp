@@ -137,6 +137,9 @@
 		$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
 		//전송버튼 비활성화
 		$("#send-btn").attr("disabled",true);
+		//채팅이미지 확대
+		zoomin();
+		
 		//전역변수 방번호, 댕모임번호
 		var roomNo = $("[name=roomNo]").val();
 		var dangNo = $("[name=dangNo]").val();
@@ -241,11 +244,8 @@
 					processData:false, 
                     contentType:false,
                     success:function(resp){
-                    	console.log(resp);
                     	var index = resp.lastIndexOf("/"); //경로에서 마지막/위치 찾기
                     	var imgAttachmentNo = resp.substr(index+1); //attachmentNo 꺼내기
-                    	console.log(index);
-                    	console.log(imgAttachmentNo);
 						
                     	var ImgData = {
                 				type : 2,
@@ -260,19 +260,20 @@
 			}
 		});
 		
-		//채팅 이미지 확대
-		$(".cursor-zoomin").click(function(){
-			var src = $(this).attr("src");
-			var img = $("<img>").attr("src",src);
-			$(".zoomin-img").html(img);
-			$(".zoomin").show();
-			
-		});
-		
 		//이미지 확대창 클릭 시 닫기
 		$(".zoomin").click(function (e) {
 		    $(".zoomin").toggle();
 		});
+
+		function zoomin(){
+			//채팅 이미지 확대
+			$(".cursor-zoomin").click(function(){
+				var src = $(this).attr("src");
+				var img = $("<img>").attr("src",src);
+				$(".zoomin-img").html(img);
+				$(".zoomin").show();
+			});
+		}
 		
 		//새로운 채팅 화면에 표시
 		function newChatList(data){
@@ -288,7 +289,8 @@
 				if(data.imgAttachmentNo==0){
 					text = $("<span>").attr("class","message2").text(data.chatContent);
 				}else{
-					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
+					.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 				}
 				div.append(time).append(text);
 				chatDiv.append(div);
@@ -319,7 +321,8 @@
 				if(data.imgAttachmentNo==null){
 					text = $("<span>").attr("class","message").text(data.chatContent);
 				}else{
-					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
+							.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
@@ -331,6 +334,8 @@
 				div.append(table);
 				chatDiv.append(div);
 			}
+			//이미지 확대
+			zoomin();
 		}
 		
 		
