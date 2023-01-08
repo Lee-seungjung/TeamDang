@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class ReceiveVO {
-	private int type; //단지 입장하는건지 메세지를 보내는건지?
+	private int type; //1:입장, 2:메세지, 3:가입 후 첫입장
 	private int room; //방번호
 	private String chatContent;
 	private int dangNo;

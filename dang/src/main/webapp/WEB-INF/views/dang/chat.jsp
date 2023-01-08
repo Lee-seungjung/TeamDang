@@ -94,6 +94,19 @@
 		height:100px;
 		margin-top:-7px;
 	}
+	.date-print{
+		border:1px solid #DEE0EB;
+		border-radius:1rem;
+		padding:5px;
+		background-color:#DEE0EB;
+		width:160px;
+		margin:0 auto;
+	}
+	.date-font{
+		font-size:14px;
+		color:#878787;
+			
+	}
 	.zoomin {
 	    display: none;
 	    z-index: 500;
@@ -113,7 +126,7 @@
 	.zoomin-img>img{
 		max-width:800px;
 	}
-	 
+	
 </style>
 <script>
 	$(function(){
@@ -272,7 +285,7 @@
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				var text;
-				if(data.imgAttachmentNo==null){
+				if(data.imgAttachmentNo==0){
 					text = $("<span>").attr("class","message2").text(data.chatContent);
 				}else{
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo).attr("width","100").attr("height","100");
@@ -339,6 +352,11 @@
 				<div class = "col">
 					<div class="chat-box p-3 shadow-lg">
 						<!-- 기존 메세지 생성 -->
+						<div class="date-print text-center">
+							<span class="date-font">
+								<fmt:formatDate value="${history.get(0).chatDate}" pattern="yyyy년 M월 d일 E요일"/>
+							</span>
+						</div>
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
 								<c:when test="${profile.userNo==vo.userNo}">
