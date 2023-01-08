@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,7 @@ import com.project.dang.dto.AttachmentDto;
 import com.project.dang.repository.AttachmentDao;
 
 @RestController
+@RequestMapping("/rest_attachment")
 public class AttachmentRestController {
 	@Autowired
 	private AttachmentDao attachmentDao;
@@ -38,7 +40,7 @@ public class AttachmentRestController {
 	public void prepare() {
 		dir.mkdirs(); //폴더 생성
 	}
-	
+		
 	//업로드
 	@PostMapping("/upload")
 	public String upload(@RequestParam(required = false) MultipartFile attachment) throws IllegalStateException, IOException {
@@ -56,7 +58,7 @@ public class AttachmentRestController {
 		attachment.transferTo(target);
 		
 		return ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/download/").path(String.valueOf(attachmentNo))
+				.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
 				.toUriString();
 	}
 	

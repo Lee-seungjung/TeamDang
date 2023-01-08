@@ -78,6 +78,8 @@ public class DangCertGmailService implements DangCertEmailService {
 		DangCertDto dangCertDto = DangCertDto.builder().certSerial(certSerial).certEmail(certEmail).build();
 		dangCertDao.insertCert(dangCertDto);
 		
+		System.out.println(certSerial);
+		
 		// 인증번호 반환
 		return certSerial;
 	}

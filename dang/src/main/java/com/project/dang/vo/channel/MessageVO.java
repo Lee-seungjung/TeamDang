@@ -19,4 +19,6 @@ public class MessageVO {
 	
 	private Integer attachmentNo;
 	private String memberNick;
+	
+	private Integer imgAttachmentNo;
 }

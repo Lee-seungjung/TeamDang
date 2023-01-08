@@ -13,7 +13,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.dang.dto.ChatImgDto;
 import com.project.dang.dto.DangChatDto;
+import com.project.dang.dto.DangMemberDto;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangUserDao;
@@ -88,40 +90,68 @@ public class ChatWebSocketServer extends TextWebSocketHandler{
 		}
 		else if(receiveVO.getType() == 2) {
 			//사용자가 채팅을 보내는 경우(채팅내용을 사용자가 보냄-jsp화면에서 넘겨줬음)
-			//- 해당하는 방의 모든 사용자에게 메세지를 전송
+			//채팅내용이 있는 경우(텍스트), 채팅내용이 없는 경우(사진)
+			//해당하는 방의 모든 사용자에게 메세지를 전송
 			
 			//DB저장 준비
-			String memberNick = dangMemberDao.findNick(Integer.parseInt(user.getUserNo())); //닉네임
-			//int size = channel.roomSize(receiveVO.getRoom()); //채팅방 인원수
-			int size = 1;
-			log.debug("인원수 : {}",size);
-			
-			//화면에 뿌려줄 메세지 정보 준비(메시지 내용, 시간, 파일번호) - null값 대응을 위해 Integer로 변경
+			String memberNick = dangMemberDao.findNick(DangMemberDto.builder()
+					.dangNo(receiveVO.getDangNo())
+					.userNo(Integer.parseInt(user.getUserNo()))
+					.build());
+			//화면에 뿌려줄 메세지 정보 준비 - null값 대응을 위해 Integer로 변경
 			Integer attachmentNo = dangUserDao.findAttachmentNo(Integer.parseInt(user.getUserNo()));
+			String chatContent = receiveVO.getChatContent();
+			if(chatContent==null) {
+				chatContent = "image";
+			}
+			
 			MessageVO vo = MessageVO.builder()
 					.userNo(user.getUserNo())
-					.chatContent(receiveVO.getChatContent())
+					.chatContent(chatContent)
 					.chatDate(new Date())
 					.attachmentNo(attachmentNo)
 					.memberNick(memberNick)
+					.imgAttachmentNo(receiveVO.getAttachmentNo())
 					.build();
 			log.debug("MessageVO : {}",vo);
 			log.debug("user : {}",user);
+			
 			String payload= mapper.writeValueAsString(vo); //payload 형태로 변경
 			TextMessage jsonMessage = new TextMessage(payload); //textmessage에 payload 넣기
 			channel.send(user, jsonMessage);
 
-			//채팅메세지(dang_chat) DB 저장
-			DangChatDto dto = DangChatDto.builder()
-					.roomNo(receiveVO.getRoom())
-					.userNo(Integer.parseInt(user.getUserNo()))
-					.memberNick(memberNick)
-					.chatType("text")
-					.chatContent(vo.getChatContent())
-					.chatStatus(size-1)
-					.build();
-			dangChatDao.chatInsert(dto);
-			
+			//DB 저장
+			int chatNo = dangChatDao.chatSequence();	
+			if(receiveVO.getChatContent()!=null) {
+				//텍스트 채팅메세지(dang_chat)	
+				dangChatDao.chatInsert(DangChatDto.builder()
+						.chatNo(chatNo)
+						.roomNo(receiveVO.getRoom())
+						.userNo(Integer.parseInt(user.getUserNo()))
+						.memberNick(memberNick)
+						.chatType("text")
+						.chatContent(vo.getChatContent())
+						.chatStatus(0) //읽음 수 미구현, 일단은 0으로 설정
+						.build());
+			}else {
+				//사진 채팅메세지(dang_chat)	
+				dangChatDao.chatInsert(DangChatDto.builder()
+						.chatNo(chatNo)
+						.roomNo(receiveVO.getRoom())
+						.userNo(Integer.parseInt(user.getUserNo()))
+						.memberNick(memberNick)
+						.chatType("image")
+						.chatContent(vo.getChatContent())
+						.chatStatus(0) //읽음 수 미구현, 일단은 0으로 설정
+						.build());
+				
+				//채팅사진(chat_img)
+				dangChatDao.chatImgInsert(ChatImgDto.builder()
+						.chatNo(chatNo)
+						.attachmentNo(receiveVO.getAttachmentNo())
+						.build());
+			}
+
 		}
 
 	}

@@ -22,6 +22,7 @@
 		overflow-x:hidden;
 		background-color:#F1F4FF;
 		width:100%; height:600px;
+		border-top-right-radius: 0.3rem !important;
 	}
 	.chat-box::-webkit-scrollbar {
 	    width: 5px;
@@ -42,16 +43,23 @@
 	 }
 	 #chat-input{
 	 	width:70%;
-	 	height:40px;
+	 	inline-height:1.5;
 	 	display:inline-block;
 	 	border:none;
+	 	border-radius:0.25rem;
+	 	padding:0.5rem 1rem;
+	 	font-size:15px;
 	 }
 	 #chat-input:focus{
-	 	border:none;
+	 	outline: 0;
 	 }
 	 #send-btn{
 	 	width:15%;
 	 	display:inline-block;
+	 }
+	 .fa-image{
+	 	color:#76BEFF;
+	 	font-size:39px;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -81,16 +89,60 @@
 	  border-bottom-right-radius: 0.3rem !important;
 	  border-bottom-left-radius: 0.3rem !important;
 	}
-	 
+	.img-css{
+		width:100px;
+		height:100px;
+		margin-top:-7px;
+	}
+	.date-print{
+		border:1px solid #DEE0EB;
+		border-radius:1rem;
+		padding:5px;
+		background-color:#DEE0EB;
+		width:160px;
+		margin:0 auto;
+	}
+	.date-font{
+		font-size:14px;
+		color:#878787;
+			
+	}
+	.zoomin {
+	    display: none;
+	    z-index: 500;
+	    max-width: 100%;
+	    height: auto;
+	    position: fixed;
+	    top:0; left: 0; bottom: 0; right: 0;
+	    background-color: gray;
+	    background: rgba(0, 0, 0, 0.8);
+	}
+	.zoomin-img {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}
+	.zoomin-img>img{
+		max-width:800px;
+	}
+	
 </style>
 <script>
 	$(function(){
 		//1. 시작하자마자 웹소켓 연결을 생성
 		//2. 나가기 전에 웹소켓 연결을 제거
 		//3. 전송버튼을 누르면 웹소켓으로 입력된 메세지를 전송
+		//첫페이지 스크롤 하단 유지
+		$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
+		//전송버튼 비활성화
+		$("#send-btn").attr("disabled",true);
+		//채팅이미지 확대
+		zoomin();
 		
-		//전역변수 방번호
+		//전역변수 방번호, 댕모임번호
 		var roomNo = $("[name=roomNo]").val();
+		var dangNo = $("[name=dangNo]").val();
 		
 		//1. 웹소켓 연결 생성
 		var uri = "${pageContext.request.contextPath}/ws/chat";
@@ -139,7 +191,6 @@
 		//3. 웹소켓으로 입력된 메세지를 전송
 		$("#send-btn").click(function(){
 			var text = $("#chat-input").val();
-			if(text.length == 0) return; //채팅 쓴거 없으면 return
 			
 			//JSON으로 변환해서 전송
 			//- JSON.stringify(객체) : 객체를 문자열로
@@ -148,10 +199,12 @@
 			var data = {
 				type : 2,
 				room : roomNo,
-				chatContent : text
+				chatContent : text,
+				dangNo:dangNo
 			};
 			socket.send(JSON.stringify(data));
 			$("#chat-input").val("");  //텍스트 창 비우기
+			$("#send-btn").attr("disabled",true);
 			
 		});
 		
@@ -162,6 +215,66 @@
 	        }
 	    });
 		
+		//전송버튼 비활성화
+		$("#chat-input").on("input",function(){
+			var value = $(this).val();
+			if(value.length==0){
+				$("#send-btn").attr("disabled",true);
+			}else{
+				$("#send-btn").attr("disabled",false);
+			}
+		});
+		
+		//이미지 첨부 버튼 이벤트
+		//프로필 클릭하면 첨부파일 열림
+		$(".fa-image").click(function(){
+			$(".chat-img").click();
+		});
+		
+		//채팅 사진 등록
+		$(".chat-img").change(function(){
+			var value = $(this).val();
+			if(value.length>0){ //파일 있음
+				var formData = new FormData();
+				formData.append("attachment", this.files[0]);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    success:function(resp){
+                    	var index = resp.lastIndexOf("/"); //경로에서 마지막/위치 찾기
+                    	var imgAttachmentNo = resp.substr(index+1); //attachmentNo 꺼내기
+						
+                    	var ImgData = {
+                				type : 2,
+                				room : roomNo,
+                				dangNo:dangNo,
+                				attachmentNo:imgAttachmentNo
+                		};
+                		socket.send(JSON.stringify(ImgData));
+
+			        }
+				});
+			}
+		});
+		
+		//이미지 확대창 클릭 시 닫기
+		$(".zoomin").click(function (e) {
+		    $(".zoomin").toggle();
+		});
+
+		function zoomin(){
+			//채팅 이미지 확대
+			$(".cursor-zoomin").click(function(){
+				var src = $(this).attr("src");
+				var img = $("<img>").attr("src",src);
+				$(".zoomin-img").html(img);
+				$(".zoomin").show();
+			});
+		}
+		
 		//새로운 채팅 화면에 표시
 		function newChatList(data){
 			var userNo = $("[name=userNo]").val();
@@ -171,8 +284,14 @@
 			if(userNo==chatUserNo){
 				var div = $("<div>").attr("class","text-end  mb-3");
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime);
-				var text = $("<span>").attr("class","message2").text(data.chatContent);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
+				var text;
+				if(data.imgAttachmentNo==0){
+					text = $("<span>").attr("class","message2").text(data.chatContent);
+				}else{
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
+					.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+				}
 				div.append(time).append(text);
 				chatDiv.append(div);
 			}else{
@@ -181,19 +300,32 @@
 				var tbody = $("<tbody>");
 				var tr1 = $("<tr>");
 				var td1 = $("<td>").attr("rowspan","2");
-				var img = $("<img>").attr("src","#").attr("class","img-circle").attr("width","45").attr("height","45");
+				var img = $("<img>");
+				if(data.attachment==null){
+					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png")
+					.attr("class","img-circle").attr("width","45").attr("height","45");
+				}else{
+					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo)
+					.attr("class","img-circle").attr("width","45").attr("height","45");
+				}
 				td1.append(img);
 				var td2 = $("<td>");
-				var nick = $("<span>").text(data.memberNick);
+				var nick = $("<span>").text(data.memberNick).attr("style","font-size:14px;");
 				td2.append(nick);
 				var td3 = $("<td>").attr("rowspan","2");
 				tr1.append(td1).append(td2).append(td3);
 				
 				var tr2 = $("<tr>");
 				var td4 = $("<td>");
-				var text = $("<span>").attr("class","message").text(data.chatContent);
+				var text;
+				if(data.imgAttachmentNo==null){
+					text = $("<span>").attr("class","message").text(data.chatContent);
+				}else{
+					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
+							.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				td4.append(text).append(time);
 				tr2.append(td4);
 				
@@ -202,8 +334,9 @@
 				div.append(table);
 				chatDiv.append(div);
 			}
+			//이미지 확대
+			zoomin();
 		}
-		
 		
 		
 	});
@@ -211,7 +344,7 @@
 
 <div class = "container-fluid mt-3">
 	<div class = "col-10 offset-1">
-	
+
 		<div class = "row">
 			<!-- 프로필 박스 시작-->
 			<div class = "col-3">
@@ -222,19 +355,28 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 rounded-3 shadow-sm">
+					<div class="chat-box p-3 shadow-lg">
 						<!-- 기존 메세지 생성 -->
+						<div class="date-print text-center">
+							<span class="date-font">
+								<fmt:formatDate value="${history.get(0).chatDate}" pattern="yyyy년 M월 d일 E요일"/>
+							</span>
+						</div>
 						<c:forEach var="vo" items="${history}">
 							<c:choose>
 								<c:when test="${profile.userNo==vo.userNo}">
 									<div class="text-end me-2 mb-3">
-										<c:if test="${vo.chatStatus!=0}">
-											<span>${vo.chatStatus}</span>
-										</c:if>
-										<span style="font-size:10px;">
+										<span style="font-size:10px;" class="align-bottom me-1">
 											<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
 										</span>
-										<span class="message2">${vo.chatContent}</span>
+										<c:choose>
+											<c:when test="${vo.imgAttachmentNo==0}">
+												<span class="message2">${vo.chatContent}</span>
+											</c:when>
+											<c:otherwise>
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100" class="cursor-zoomin">
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</c:when>
 								<c:otherwise>
@@ -242,21 +384,32 @@
 										<table class="mb-2">
 											<tbody>
 												<tr>
-													<td rowspan="2">
-														<img src="#" class="img-circle" width="45" height="45">
+													<td rowspan="2" class="align-top">
+														<c:choose>
+															<c:when test="${vo.attachmentNo==0}">
+																<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
+															</c:when>
+															<c:otherwise>
+																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-circle" width="45" height="45">
+															</c:otherwise>
+														</c:choose>
 													</td>
-													<td><span>${vo.memberNick}</span></td>
+													<td><span style="font-size:14px;">${vo.memberNick}</span></td>
 													<td rowspan="2"></td>
 												</tr>
 												<tr>
 													<td>
-														<span class="message">${vo.chatContent}</span>
-														<span style="font-size:10px;">
+														<c:choose>
+															<c:when test="${vo.imgAttachmentNo==0}">
+																<span class="message">${vo.chatContent}</span>
+															</c:when>
+															<c:otherwise>
+																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css cursor-zoomin">
+															</c:otherwise>
+														</c:choose>
+														<span style="font-size:10px;" class="align-bottom ms-1">
 															<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
 														</span>
-														<c:if test="${vo.chatStatus!=0}">
-															<span>${vo.chatStatus}</span>
-														</c:if>
 													</td>
 												</tr>
 											</tbody>
@@ -270,9 +423,11 @@
 						<div class="new-chat" style="margin-right:10px;"></div>
 					</div>
 					
-					<div class="chat-submit text-center rounded-bottom shadow-sm">
-						<input type="text" id="chat-input" class="me-1">
-						<button class="btn btn-primary ms-1" id="send-btn" type="button">전송</button>
+					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
+						<i class="fa-regular fa-image me-1 cursor-pointer"></i>
+						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
+						<input type="text" id="chat-input" class="me-1 ms-1" >
+						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
 					</div>
 				</div>
 			</div>
@@ -280,13 +435,20 @@
 			<!-- 방번호, 회원번호-->
 			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
 			<input type="hidden" name="userNo" value="${profile.userNo}">
+			<input type="hidden" name="dangNo" value="${profile.dangNo}">
 			
 			<!-- 채팅 박스 끝-->
 			
-			<div class = "col-3">
-				<div class = "col">
-					
-				</div>
+			<!-- 다가오는 일정 박스 시작-->
+			<div class="col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
+		</div>
+		
+		<div class="zoomin">
+			<div class="zoomin-img">
+				<!-- 확대 이미지 코드-->
 			</div>
 		</div>
 		

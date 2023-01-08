@@ -7,6 +7,18 @@
     <meta charset="utf-8">
     <title>다양한 이미지 마커 표시하기</title>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootswatch CDN-->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.2/zephyr/bootstrap.css">
     <style>
         #mapwrap {
             position: relative;
@@ -74,7 +86,7 @@
 
         .category .ico_dogsalon {
             background-position: -10px -72px;
-            background-image: url("./image/test1.jpg" ) ;
+            background-image: url("./image/test1.jpg");
         }
     </style>
 </head>
@@ -106,11 +118,76 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="span-placeaddress"></span><br>
+                    <span class="span-placearea"></span><br>
+                    <span class="span-placeinfo"></span><br>
+                    <span class="span-placename"></span><br>
+                    <span class="span-placeoff"></span><br>
+                    <span class="span-placeoperation"></span><br>
+                    <span class="span-placesort"></span><br>
+                    <span class="span-placetel"></span><br>
+                    <span class="span-placeurl"></span><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary">상세보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
     <script>
 
-        
+        var placeNoInfo;
+        var placeContents = [];
+
+        $(document).on("click", ".edit", function (e) {
+            e.stopPropagation();//전파 중지
+            $("#edit").modal("show");
+
+            var name = $(this).data("placename");
+            $(".span-placename").text(name);
+
+            placeNoInfo = $(this).data("placeno");
+            console.log("sss : " + placeNoInfo);
+
+            $.ajax({
+                url: "http://localhost:8888/rest_place/place_one/" + placeNoInfo,
+                method: "get",
+                async: false,
+                contentType: "application/json",
+                success: function (resp) {
+                    $(".span-placeaddress").text(resp.placeAddress);
+                    $(".span-placearea").text(resp.placeArea);
+                    $(".span-placeinfo").text(resp.placeInfo);
+                    $(".span-placename").text(resp.placeName);
+                    $(".span-placeoff").text(resp.placeOff);
+                    $(".span-placeoperation").text(resp.placeOperation);
+                    $(".span-placesort").text(resp.placeSort);
+                    $(".span-placetel").text(resp.placeTel);
+                    $(".span-placeurl").text(resp.placeUrl);
+                }
+            })
+
+            // console.log(placeContents);
+
+        });
+
+
+
+
+
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
             mapOption = {
@@ -122,18 +199,22 @@
 
         // 커피숍 마커가 표시될 좌표 배열입니다
         var coffeePositions = [
-        
+
         ];
 
         // 편의점 마커가 표시될 좌표 배열입니다
         var storePositions = [
-           
+
         ];
 
         // 주차장 마커가 표시될 좌표 배열입니다
         var carparkPositions = [
-            
+
         ];
+
+        // 
+        var contentCafe = [];
+
 
         $.ajax({
             url: "http://localhost:8888/rest_place/place_list",
@@ -141,17 +222,18 @@
             async: false,
             contentType: "application/json",
             success: function (resp) {
-                for(var i=0; i<resp.length;i++){
-                    if(resp[i].placeSort==="카페"){
+                console.log(resp)
+                for (var i = 0; i < resp.length; i++) {
+                    if (resp[i].placeSort === "카페") {
                         coffeePositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
+                        contentCafe.push(resp[i]);
                     }
-                    else if(resp[i].placeSort==="음식점"){
+                    else if (resp[i].placeSort === "음식점") {
                         storePositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
                     }
                 }
             }
         })
-        console.log(coffeePositions);
 
 
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
@@ -197,10 +279,19 @@
                 var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),
                     marker = createMarker(coffeePositions[i], markerImage);
 
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentCafe[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
+                        + contentCafe[i].placeName
+                        + '</div>',// 인포윈도우에 표시할 내용
+                    removable: true
+                });
+
                 // 생성된 마커를 커피숍 마커 배열에 추가합니다
                 coffeeMarkers.push(marker);
+                kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
             }
         }
+
 
         // 커피숍 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setCoffeeMarkers(map) {
@@ -309,6 +400,19 @@
             }
         }
 
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+        function makeOverListener(map, marker, infowindow) {
+            return function () {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+        function makeOutListener(infowindow) {
+            return function () {
+                infowindow.close();
+            };
+        }
 
 
     </script>

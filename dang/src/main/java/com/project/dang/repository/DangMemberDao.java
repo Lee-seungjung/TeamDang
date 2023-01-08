@@ -4,15 +4,28 @@ import java.util.List;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.vo.MemberEditVO;
 
 public interface DangMemberDao {
+	
+	/**
+	 * 댕모임 회원 번호 반환
+	 * @return int (댕모임 회원 번호)
+	 */
+	public int memberNo();
 
 	/**
+	 * 댕모임 개설자로 가입
+	 * @param dangMemberDto
+	 */
+	public void createDang(DangMemberDto dangMemberDto);
+	
+	/**
 	 * 댕모임 내 닉네임 찾기
-	 * @param userNo
+	 * @param dto
 	 * @return memberNick
 	 */
-	String findNick(int userNo);
+	String findNick(DangMemberDto dto);
 	
 	/**
 	 * 댕모임 회원 단일조회
@@ -62,6 +75,26 @@ public interface DangMemberDao {
 	 * @return 모임 수(int)
 	 */
 	int joinDangCount(int userNo);
+	
+	/**
+	 * 프로필 첨부파일 번호 조회
+	 * @param userNo
+	 * @return
+	 */
+	Integer findAttachmentNo(int userNo);
+	
+	/**
+	 * 댕모임 내 닉네임 중복확인
+	 * @return true, false
+	 */
+	DangMemberDto checkNick(int dangNo, String memberNick);
+	
+	/**
+	 * 댕모임 프로필 수정
+	 * @param MemberEditVO(파일번호, 닉네임, 상태메세지, 멤버번호)
+	 * @return true, false
+	 */
+	boolean editProfile(MemberEditVO vo);
 	
 	
 }

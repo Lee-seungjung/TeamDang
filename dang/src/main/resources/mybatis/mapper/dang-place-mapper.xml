@@ -25,4 +25,8 @@
 	<select id="placeList" resultType="DangPlaceDto">
 		select * from dang_place
 	</select>
+	
+	<select id="listOne" resultType="DangPlaceDto" parameterType="int">
+		select * from dang_place where place_no = #{placeNo}
+	</select>
 </mapper>

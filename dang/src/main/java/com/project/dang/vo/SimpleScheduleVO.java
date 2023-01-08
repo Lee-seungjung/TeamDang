@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 public class SimpleScheduleVO {
 	private String day;
 	private int dayNo;
-	private Date scheduleStart;
+	private String scheduleStart;
 	private String scheduleHour;
 	private String placeName;
+	private int rn;
 }

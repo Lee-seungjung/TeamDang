@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangScheduleDto;
+import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
 
 @Repository
@@ -17,7 +18,13 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	
 	@Override
 	public List<SimpleScheduleVO> simpleList() {
-		return sqlSession.selectList("dang.calendar");
+		return sqlSession.selectList("schedule.simpleList");
+	}
+
+	@Override
+	public List<ScheduleVO> list() {
+		return sqlSession.selectList("schedule.list");
+		
 	}
 
 //	@Override

@@ -24,13 +24,10 @@
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 	
 	<!--font-awesome cdn -->
-       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-       
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 	
 	<!-- Bootstrap CDN -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	
 	<!-- Bootswatch CDN-->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.2/zephyr/bootstrap.css">
@@ -67,13 +64,28 @@
     	margin-bottom:0;
     }
     .img-circle{
-		border-radius: 70%;
+		border-radius: 50%;
     	border:none;
-    	background-color:#B0CBFF;
+    	background-color:#fff;
     	overflow: hidden;
 	}
 	.font-gray{
 		color:#373A3C;
+	}
+	
+	.shadow1{
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  }
+	.btn.btn-primary{
+		background-color:#76BEFF;
+		color:#fff;
+		border-color: #76BEFF;
+	}
+	.cursor-pointer{
+		cursor: pointer;
+	}
+	.cursor-zoomin{
+		cursor:zoom-in;
 	}
     
 </style>
@@ -128,13 +140,28 @@
 <div class = "container-fluid">
 	<div class = "col-8 offset-2">
 		<div class = "row">
+			<div class = "col-3">
+				<a href = "/">홈</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/dang/create">댕모임 개설</a>
+			</div>
 		<c:choose>
 		<c:when test = "${login}">
-			<a href = "/user/logout">로그아웃</a>
+			<div class = "col-3">
+				<a href = "/user/logout">로그아웃</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/user/mypage">마이페이지</a>
+			</div>
 		</c:when>
 		<c:otherwise>
-			<a href = "/user/login">로그인</a>
-			<a href = "/user/join">회원가입</a>
+			<div class = "col-3">
+				<a href = "/user/login">로그인</a>
+			</div>
+			<div class = "col-3">
+				<a href = "/user/join">회원가입</a>
+			</div>
 		</c:otherwise>
 		</c:choose>
 		</div>

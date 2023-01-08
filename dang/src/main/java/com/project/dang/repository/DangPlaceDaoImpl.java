@@ -23,6 +23,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	public List<DangPlaceDto> placeList() {
 		return sqlSession.selectList("place.placeList");
 	}
+
+	@Override
+	public DangPlaceDto placeOne(int placeNo) {
+		return sqlSession.selectOne("place.listOne", placeNo);
+	}
 	
 	
 }
