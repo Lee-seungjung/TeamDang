@@ -162,7 +162,6 @@
             $(".span-placename").text(name); // 이름추가ㅓ
 
             placeNoInfo = $(this).data("placeno");
-            console.log("sss : " + placeNoInfo);
 
             //비동기통신 시작
             $.ajax({
@@ -183,7 +182,6 @@
                 }
             })
 
-            // console.log(placeContents);
 
         });
 
@@ -226,7 +224,7 @@
         // 음식점에 정보를 담을 배열
         var contentFood = [];
 
-        // 음식점에 정보를 담을 배열
+        // 운동장에 정보를 담을 배열
         var contentField = [];
 
         // 미용에 정보를 담을 배열
@@ -239,7 +237,6 @@
             async: false,
             contentType: "application/json",
             success: function (resp) {
-                console.log(resp)
                 for (var i = 0; i < resp.length; i++) {
                     if (resp[i].placeSort === "카페") {
                         cafePositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
@@ -317,8 +314,10 @@
                 // 생성된 마커를 카페 마커 배열에 추가합니다
                 cafeMarkers.push(marker);
                 kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
+                console.log(infowindow);
             }
         }
+     
 
 
         // 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
@@ -345,8 +344,8 @@
                 
 
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentCafe[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
-                        + contentCafe[i].placeName
+                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentFood[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
+                        + contentFood[i].placeName
                         + '</div>',// 인포윈도우에 표시할 내용
                     removable: true
                 });
@@ -381,8 +380,8 @@
                
 
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentCafe[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
-                        + contentCafe[i].placeName
+                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentField[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
+                        + contentField[i].placeName
                         + '</div>',// 인포윈도우에 표시할 내용
                     removable: true
                 });
@@ -400,7 +399,7 @@
             }
         }
 
-         // 운동장 마커를 생성하고 운동장 마커 배열에 추가하는 함수입니다
+         // 미용 마커를 생성하고 미용 마커 배열에 추가하는 함수입니다
          function createDogsalonMarkers() {
             for (var i = 0; i < dogsalonPositions.length; i++) {
 
@@ -417,19 +416,21 @@
                
 
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentCafe[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
-                        + contentCafe[i].placeName
+                    content: '<div style="padding:5px;" class="edit" data-placeno=' + contentDogsalon[i].placeNo + '  data-placename= ' + contentCafe[i].placeName + ' >'
+                        + contentDogsalon[i].placeName
                         + '</div>',// 인포윈도우에 표시할 내용
                     removable: true
                 });
 
-                 // 생성된 마커를 운동장 마커 배열에 추가합니다
+                 // 생성된 마커를 미용 마커 배열에 추가합니다
                  dogsalonMarkers.push(marker);
+                 
                 kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
+                kakao.maps.event.addListener(marker, 'click', makeOutListener(infowindow));
             }
         }
 
-        // 운동장 마커들의 지도 표시 여부를 설정하는 함수입니다
+        // 미용 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setDogsalonMarkers(map) {
             for (var i = 0; i < dogsalonMarkers.length; i++) {
                 dogsalonMarkers[i].setMap(map);
@@ -469,7 +470,7 @@
                 fieldMenu.className = '';
                 dogsalonMenu.className = '';
 
-                // 편의점 마커들만 지도에 표시하도록 설정합니다
+                // 음식점 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(map);
                 setFieldMarkers(null);
@@ -488,14 +489,16 @@
                 setFoodMarkers(null);
                 setFieldMarkers(map);
                 setDogsalonMarkers(null);
+
             } else if (type === 'dogsalon'){
-                // 운동장 카테고리를 선택된 스타일로 변경하고
+
+                // 미용 카테고리를 선택된 스타일로 변경하고
                 cafeMenu.className = '';
                 foodMenu.className = '';
                 fieldMenu.className = '';
                 dogsalonMenu.className = 'menu_selected';
 
-                // 운동장 마커들만 지도에 표시하도록 설정합니다
+                // 미용 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
                 setFieldMarkers(null);
