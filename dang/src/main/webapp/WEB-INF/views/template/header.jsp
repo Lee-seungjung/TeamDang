@@ -84,6 +84,9 @@
 	.cursor-pointer{
 		cursor: pointer;
 	}
+	.cursor-zoomin{
+		cursor:zoom-in;
+	}
     
 </style>
 <body>

@@ -457,6 +457,7 @@
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-7 ">
+				
 					<c:choose>
 						<c:when test="${attachmentNo==null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">

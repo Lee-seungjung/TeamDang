@@ -94,6 +94,25 @@
 		height:100px;
 		margin-top:-7px;
 	}
+	.zoomin {
+	    display: none;
+	    z-index: 500;
+	    max-width: 100%;
+	    height: auto;
+	    position: fixed;
+	    top:0; left: 0; bottom: 0; right: 0;
+	    background-color: gray;
+	    background: rgba(0, 0, 0, 0.8);
+	}
+	.zoomin-img {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}
+	.zoomin-img>img{
+		max-width:800px;
+	}
 	 
 </style>
 <script>
@@ -228,6 +247,20 @@
 			}
 		});
 		
+		//채팅 이미지 확대
+		$(".cursor-zoomin").click(function(){
+			var src = $(this).attr("src");
+			var img = $("<img>").attr("src",src);
+			$(".zoomin-img").html(img);
+			$(".zoomin").show();
+			
+		});
+		
+		//이미지 확대창 클릭 시 닫기
+		$(".zoomin").click(function (e) {
+		    $(".zoomin").toggle();
+		});
+		
 		//새로운 채팅 화면에 표시
 		function newChatList(data){
 			var userNo = $("[name=userNo]").val();
@@ -288,7 +321,6 @@
 		}
 		
 		
-		
 	});
 </script>
 
@@ -319,7 +351,7 @@
 												<span class="message2">${vo.chatContent}</span>
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100">
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100" class="cursor-zoomin">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -349,7 +381,7 @@
 																<span class="message">${vo.chatContent}</span>
 															</c:when>
 															<c:otherwise>
-																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css">
+																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css cursor-zoomin">
 															</c:otherwise>
 														</c:choose>
 														<span style="font-size:10px;" class="align-bottom ms-1">
@@ -389,6 +421,12 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 			</div>
 			<!-- 다가오는 일정 박스  끝-->
+		</div>
+		
+		<div class="zoomin">
+			<div class="zoomin-img">
+				<!-- 확대 이미지 코드-->
+			</div>
 		</div>
 		
 	</div>
