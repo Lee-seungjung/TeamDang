@@ -42,7 +42,7 @@ public interface DangChatDao {
 	void chatInsert(DangChatDto dto);
 	
 	/**
-	 * 채팅 내역 기본 10개씩 조회
+	 * 채팅 내역 기본 20개씩 조회
 	 * @param roomNo
 	 * @return List<ChatHistoryVO>
 	 */

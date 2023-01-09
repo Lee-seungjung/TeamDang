@@ -31,7 +31,7 @@
 		#{memberNick}, #{chatType}, #{chatContent}, sysdate, #{chatStatus})
 	</insert>
 	
-	<!-- 채팅 메세지 최신순 10개만 조회(채팅, 채팅이미지, 회원프로필 조인) -->
+	<!-- 채팅 메세지 최신순 20개만 조회(채팅, 채팅이미지, 회원프로필 조인) -->
 	<select id="chatHistory" parameterType="int" resultType="ChatHistoryVO">
 		select * from (
 			select TMP.*, rownum rn from (
@@ -41,7 +41,7 @@
 		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
 		        where a.room_no=#{roomNo}
 			 )TMP
-		) where rn between 1 and 10 order by rn desc
+		) where rn between 1 and 20 order by rn desc
 	</select>
 	
 	<!-- 채팅 내역 무한스크롤 20개씩 조회 -->

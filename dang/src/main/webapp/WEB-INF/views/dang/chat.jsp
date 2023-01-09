@@ -266,10 +266,17 @@
 		    $(".zoomin").toggle();
 		});
 		
+		//현재 스크롤 위치 함수
+		function nowScroll(){
+			var nowScroll = $(".chat-box").scrollTop();
+			return nowScroll;
+		}
+		
 		//무한스크롤 채팅 내역	
-		//원래 높이 저장
-		//$("[name=originHeight]").val($(".chat-box").scrollTop());
-		$("[name=originHeight]").val($(".chat-box")[0].scrollHeight);
+		var firstTotalHeight = parseInt($(".chat-box")[0].scrollHeight); //첫전체높이
+		var firstBoxHeight = parseInt($(".chat-box").scrollTop()); //첫박스높이
+		var sideheight = firstTotalHeight-firstBoxHeight; //남은공간
+		$("[name=originHeight]").val(firstTotalHeight-sideheight); //첫스크롤 높이 저장(전체-남은공간)
 		
 		$(".chat-box").scroll(function() {
 			var boxHeight = $(".chat-box").scrollTop();
@@ -302,18 +309,14 @@
             			
             			pastChatList(resp); //채팅내역 출력
             			
-            			var originHeight = parseInt($("[name=originHeight]").val()); //원래높이
-            			//var newHeight = parseInt($(".chat-box").scrollTop());//새 높이
-            			var newHeight = parseInt($(".chat-box")[0].scrollHeight);//새 높이
-            			var saveHeight = (newHeight-originHeight);
-            			
-            			console.log("원래 높이 = "+originHeight);
-            			console.log("새 높이 = "+newHeight);
-            			console.log("저장 높이 ="+saveHeight);
+            			var totalNewHeight = parseInt($(".chat-box")[0].scrollHeight); //새 토탈 높이
+            			var newBoxHeight = parseInt(totalNewHeight-sideheight); //새 박스 높이
+            			var originBoxHeight = parseInt($("[name=originHeight]").val());//원래높이
+            			var saveHeight = newBoxHeight-originBoxHeight; //새 박스높이 - 이전 박스높이
             			
             			$(".chat-box").scrollTop(saveHeight); //스크롤 유지
-            			$("[name=originHeight]").val(saveHeight); //input창 새 높이 저장
-            			console.log($("[name=originHeight]").val());
+
+            			$("[name=originHeight]").val(newBoxHeight); //input창 새 높이 저장
             		}
     			});
 			}

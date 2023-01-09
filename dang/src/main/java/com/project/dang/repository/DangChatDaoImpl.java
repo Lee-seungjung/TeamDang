@@ -50,7 +50,7 @@ public class DangChatDaoImpl implements DangChatDao{
 		
 	}
 
-	//채팅 내역 기본 10개씩 조회
+	//채팅 내역 기본 20개씩 조회
 	@Override
 	public List<ChatHistoryVO> listAll(int roomNo) {
 		return sqlSession.selectList("chat.chatHistory", roomNo);
