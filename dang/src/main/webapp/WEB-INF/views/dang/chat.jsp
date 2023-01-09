@@ -129,7 +129,8 @@
 	.down-btn{
 		position: absolute;
 		cursor: pointer;
-		top: 700px; left: 1030px;
+		top: 99%;
+		left: 65%;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
