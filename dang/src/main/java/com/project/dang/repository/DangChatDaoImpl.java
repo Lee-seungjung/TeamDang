@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,19 @@ public class DangChatDaoImpl implements DangChatDao{
 		
 	}
 
-	//채팅 내역 전체 조회
+	//채팅 내역 기본 10개씩 조회
 	@Override
 	public List<ChatHistoryVO> listAll(int roomNo) {
 		return sqlSession.selectList("chat.chatHistory", roomNo);
+	}
+	
+	//채팅 내역 무한스크롤 20개씩 조회
+	@Override
+	public List<ChatHistoryVO> scrollList(int roomNo, int chatNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("roomNo", roomNo);
+		param.put("chatNo", chatNo);
+		return sqlSession.selectList("chat.scrollHistory", param);
 	}
 
 	//채팅 이미지 테이블 등록
@@ -59,6 +70,8 @@ public class DangChatDaoImpl implements DangChatDao{
 	public void chatImgInsert(ChatImgDto dto) {
 		sqlSession.insert("chat.imgInsert",dto);
 	}
+
+	
 
 	
 

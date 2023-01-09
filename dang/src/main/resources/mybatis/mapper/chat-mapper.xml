@@ -39,9 +39,23 @@
 			        select d.*, cimg.attachment_no as img_attachment_no from dang_chat d
 			        left outer join chat_img cimg on d.chat_no=cimg.chat_no order by d.chat_no desc
 		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
-		        where a.room_no=1
+		        where a.room_no=#{roomNo}
 			 )TMP
 		) where rn between 1 and 10 order by rn desc
+	</select>
+	
+	<!-- 채팅 내역 무한스크롤 20개씩 조회 -->
+	<select id="scrollHistory" parameterType="Map" resultType="ChatHistoryVO">
+		select * from (
+			select TMP.*, rownum rn from (
+				select a.*, uimg.attachment_no from (
+			        select d.*, cimg.attachment_no as img_attachment_no from dang_chat d
+			        left outer join chat_img cimg on d.chat_no=cimg.chat_no order by d.chat_no desc
+		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
+		        where a.room_no=#{roomNo} and <![CDATA[a.chat_no<#{chatNo}]]> 
+		        and <![CDATA[a.chat_no>0]]>
+			 )TMP
+		) where rn between 1 and 20
 	</select>
 	
 	<!-- chat_img 등록 -->

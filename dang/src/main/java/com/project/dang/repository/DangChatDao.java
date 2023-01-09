@@ -42,11 +42,18 @@ public interface DangChatDao {
 	void chatInsert(DangChatDto dto);
 	
 	/**
-	 * 채팅 내역 전체 조회
+	 * 채팅 내역 기본 10개씩 조회
 	 * @param roomNo
 	 * @return List<ChatHistoryVO>
 	 */
 	List<ChatHistoryVO> listAll(int roomNo);
+	
+	/**
+	 * 채팅 내역 무한스크롤 20개씩 조회
+	 * @param roomNo, chatNo
+	 * @return List<ChatHistoryVO>
+	 */
+	List<ChatHistoryVO> scrollList(int roomNo, int chatNo);
 	
 	/**
 	 * DangImg 등록

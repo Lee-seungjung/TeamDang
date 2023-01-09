@@ -133,6 +133,7 @@
 		//1. 시작하자마자 웹소켓 연결을 생성
 		//2. 나가기 전에 웹소켓 연결을 제거
 		//3. 전송버튼을 누르면 웹소켓으로 입력된 메세지를 전송
+
 		//첫페이지 스크롤 하단 유지
 		$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
 		//전송버튼 비활성화
@@ -264,6 +265,60 @@
 		$(".zoomin").click(function (e) {
 		    $(".zoomin").toggle();
 		});
+		
+		//무한스크롤 채팅 내역	
+		//원래 높이 저장
+		//$("[name=originHeight]").val($(".chat-box").scrollTop());
+		$("[name=originHeight]").val($(".chat-box")[0].scrollHeight);
+		
+		$(".chat-box").scroll(function() {
+			var boxHeight = $(".chat-box").scrollTop();
+			
+			console.log("scrollheight = "+$(".chat-box")[0].scrollHeight); 
+			console.log("boxheight = "+$(".chat-box").scrollTop());
+			
+			var chatNo = $(".past-chat").attr("data-no");
+			console.log("chatno = "+chatNo);
+			
+			if(chatNo==1) return; //데이터 없을경우 비동기화 실행 중지
+			
+			scrollData = {
+					roomNo:roomNo,
+					chatNo:chatNo
+			}
+			if(boxHeight==0){
+				$.ajax({
+            		url:"http://localhost:8888/rest_chat/scroll_list/"+roomNo+"/"+chatNo,
+            		method:"get",
+            		data:scrollData,
+            		success:function(resp){
+            			console.log(resp);
+            			console.log(resp.length);
+            			if(resp.length<20){
+            				$(".past-chat").attr("data-no",1);
+            			}else{
+            				$(".past-chat").attr("data-no",resp[resp.length-1].chatNo); //다음 비동기화 위한 chatNo 설정
+            			}
+            			
+            			pastChatList(resp); //채팅내역 출력
+            			
+            			var originHeight = parseInt($("[name=originHeight]").val()); //원래높이
+            			//var newHeight = parseInt($(".chat-box").scrollTop());//새 높이
+            			var newHeight = parseInt($(".chat-box")[0].scrollHeight);//새 높이
+            			var saveHeight = (newHeight-originHeight);
+            			
+            			console.log("원래 높이 = "+originHeight);
+            			console.log("새 높이 = "+newHeight);
+            			console.log("저장 높이 ="+saveHeight);
+            			
+            			$(".chat-box").scrollTop(saveHeight); //스크롤 유지
+            			$("[name=originHeight]").val(saveHeight); //input창 새 높이 저장
+            			console.log($("[name=originHeight]").val());
+            		}
+    			});
+			}
+		});
+		
 
 		function zoomin(){
 			//채팅 이미지 확대
@@ -338,6 +393,71 @@
 			zoomin();
 		}
 		
+		//과거 채팅내역
+		function pastChatList(data){
+			var userNo = $("[name=userNo]").val();
+			var chatDiv = $(".past-chat");
+			
+			for(var i=0; i<data.length; i++){
+				var chatUserNo = data[i].userNo;
+				if(userNo==chatUserNo){
+					var div = $("<div>").attr("class","text-end  mb-3");
+					var formatTime = moment(data[i].chatDate).format('a h:mm'); //예)오후 2:24
+					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
+					var text;
+					if(data[i].imgAttachmentNo==0){
+						text = $("<span>").attr("class","message2").text(data[i].chatContent);
+					}else{
+						text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].imgAttachmentNo)
+						.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+					}
+					div.append(time).append(text);
+					chatDiv.prepend(div);
+				}else{
+					var div = $("<div>").attr("class","text-start ms-2");
+					var table = $("<table>").attr("class","mb-2");
+					var tbody = $("<tbody>");
+					var tr1 = $("<tr>");
+					var td1 = $("<td>").attr("rowspan","2");
+					var img = $("<img>");
+					if(data[i].attachment==0){
+						img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png")
+						.attr("class","img-circle").attr("width","45").attr("height","45");
+					}else{
+						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo)
+						.attr("class","img-circle").attr("width","45").attr("height","45");
+					}
+					td1.append(img);
+					var td2 = $("<td>");
+					var nick = $("<span>").text(data[i].memberNick).attr("style","font-size:14px;");
+					td2.append(nick);
+					var td3 = $("<td>").attr("rowspan","2");
+					tr1.append(td1).append(td2).append(td3);
+					
+					var tr2 = $("<tr>");
+					var td4 = $("<td>");
+					var text;
+					if(data[i].imgAttachmentNo==0){
+						text = $("<span>").attr("class","message").text(data[i].chatContent);
+					}else{
+						text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].imgAttachmentNo)
+								.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+					}
+					var formatTime = moment(data[i].chatDate).format('a h:mm');
+					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
+					td4.append(text).append(time);
+					tr2.append(td4);
+					
+					tbody.append(tr1).append(tr2);
+					table.append(tbody);
+					div.append(table);
+					chatDiv.prepend(div);
+				}
+			}
+			//이미지 확대
+			zoomin();
+		}
+		
 		
 	});
 </script>
@@ -355,7 +475,10 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 shadow-lg">
+					<div class="chat-box p-3 shadow-lg">			
+						<!-- 과거 메세지 생성 -->
+						<div class="past-chat" data-no="${history.get(0).chatNo}"></div>
+						
 						<!-- 기존 메세지 생성 -->
 						<div class="date-print text-center">
 							<span class="date-font">
@@ -451,6 +574,9 @@
 				<!-- 확대 이미지 코드-->
 			</div>
 		</div>
+		
+		<!-- 무한스크롤 높이 -->
+		<input type="hidden" name="originHeight" value="">
 		
 	</div>
 </div>
