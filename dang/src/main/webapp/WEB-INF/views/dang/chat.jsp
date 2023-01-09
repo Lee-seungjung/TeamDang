@@ -129,7 +129,7 @@
 	.down-btn{
 		position: absolute;
 		cursor: pointer;
-		top: 700px; left: 1025px;
+		top: 700px; left: 805px;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
@@ -496,10 +496,10 @@
 				<div class = "col">
 					<div class="chat-box p-3 shadow-lg">			
 						<!-- 과거 메세지 생성 -->
-						<div class="past-chat" data-no="${history.get(0).chatNo}"></div>
+						<div class="past-chat" data-no="${history.get(0).chatNo}" style="position:relative;"></div>
 						
 						<!-- 기존 메세지 생성 -->
-						<div class="date-print text-center">
+						<div class="date-print text-center" style="position:relative;">
 							<span class="date-font">
 								<fmt:formatDate value="${history.get(0).chatDate}" pattern="yyyy년 M월 d일 E요일"/>
 							</span>
@@ -562,10 +562,10 @@
 						</c:forEach>
 						
 						<!-- 새 메세지 생성 -->
-						<div class="new-chat" style="margin-right:10px;"></div>
+						<div class="new-chat" style="margin-right:10px;" style="position:relative;"></div>
 						
 						<!-- 하단으로 이동 버튼 생성 -->
-						<div class="down-div text-end"><i class="fa-solid fa-circle-chevron-down fa-3x down-btn"></i></div>
+						<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
 					</div>
 					
 					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
