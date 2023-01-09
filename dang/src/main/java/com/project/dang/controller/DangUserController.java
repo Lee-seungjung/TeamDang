@@ -193,8 +193,6 @@ public class DangUserController {
 		Integer userNo = (Integer)session.getAttribute("loginNo");
 		// 회원 번호로 해당 회원의 비밀번호 조회
 		String searchUserPw = dangUserDao.selectUserPw(userNo);
-		System.out.println(dangUserChangePwVO.getUserPw());
-		System.out.println(searchUserPw);
 		// 조회한 비밀번호와 입력받은 비밀번호가 일치하는지 여부
 		boolean step1 = dangUserDao.checkPw(dangUserChangePwVO.getUserPwNow(), searchUserPw);
 		if(!step1) {
@@ -214,5 +212,56 @@ public class DangUserController {
 	@GetMapping("/change_pw_success")
 	public String changePwSuccess() {
 		return "dang_user/change_pw_success";
+	}
+	
+	// 회원 탈퇴 전 비밀번호 검사
+	@GetMapping("/close_pwck")
+	public String closeUserPwck() {
+		return "dang_user/close_pwck";
+	}
+	
+	@PostMapping("/close_pwck")
+	public String closeUserPwck(HttpSession session, @ModelAttribute DangUserVO inputUserVO) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 회원번호로 해당 회원의 비밀번호 조회
+		String userPw = dangUserDao.selectUserPw(userNo);
+		// 비밀번호 일치 판정
+		boolean judge = dangUserDao.checkPw(inputUserVO.getUserPw(), userPw);
+		if(judge) { // 일치한다면
+			return "redirect:close_user";
+		} else {
+			return "redirect:close_pwck?error";
+		}
+	}
+	
+	// 회원탈퇴
+	@GetMapping("/close_user")
+	public String closeUser() {
+		return "dang_user/close_user";
+	}
+	
+	// 회원탈퇴
+	@GetMapping("/close_user_ck")
+	public String closeUser(@RequestParam String closeCheck, HttpSession session) {
+		if(closeCheck.equals("즉시 탈퇴")) {			
+			// 로그인 중인 회원번호 반환
+			Integer userNo = (Integer)session.getAttribute("loginNo");
+			// 회원 정보 삭제
+			dangUserDao.closeUser(userNo);
+			// 세션에서 정보 삭제
+			session.removeAttribute("loginNo");
+			session.removeAttribute("loginGrade");
+			// 회원탈퇴 완료 Mapping으로 redirect
+			return "redirect:close_user_result";
+		} else {
+			return "redirect:close_user?error";
+		}
+	}
+	
+	// 회원탈퇴 완료
+	@GetMapping("/close_user_result")
+	public String closeUserResult() {
+		return "dang_user/close_user_result";
 	}
 }

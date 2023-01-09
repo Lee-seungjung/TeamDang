@@ -117,4 +117,10 @@ public class DangUserDaoImpl implements DangUserDao {
 		int result = sqlSession.update("dangUser.changeUserPw", param);
 		return result > 0;
 	}
+
+	@Override
+	public boolean closeUser(int userNo) {
+		int result = sqlSession.delete("dangUser.closeUser", userNo);
+		return result > 0;
+	}
 }

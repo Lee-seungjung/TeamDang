@@ -26,7 +26,8 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 					"/user/join", 
 					"/user/join_success", 
 					"/user/login", 
-					"/user/logout"
+					"/user/logout",
+					"/user/close_user_result"
 					);
 	}
 }

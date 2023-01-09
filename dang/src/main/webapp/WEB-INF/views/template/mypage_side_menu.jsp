@@ -13,7 +13,7 @@
 			<a href = "/user/change_pw">비밀번호 변경</a>
 		</div>
 		<div class = "row my-3">
-			<a href = "">회원탈퇴</a>
+			<a href = "/user/close_pwck">회원탈퇴</a>
 		</div>
 		<div class = "row my-3">
 			<a href = "#">내가 가입한 댕모임</a>

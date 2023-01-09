@@ -96,4 +96,12 @@ public interface DangUserDao {
 	 * @return boolean : 비밀번호 수정 여부
 	 */
 	public boolean changeUserPw(int userNo, String userPw);
+	
+	/**
+	 * 회원탈퇴
+	 * @param userNo : 회원번호
+	 * @return boolean : 회원탈퇴 성공 여부
+	 */
+	public boolean closeUser(int userNo);
+	
 }
