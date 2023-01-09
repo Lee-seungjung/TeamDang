@@ -8,7 +8,7 @@ import lombok.Getter;
 public class DangUserVO {
 
 	// 필드
-	private String userNo;
+	private Integer userNo;
 	private String userId;
 	private String userPw;
 	private String userGrade;

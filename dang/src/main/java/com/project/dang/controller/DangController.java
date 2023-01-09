@@ -68,7 +68,7 @@ public class DangController {
 	@PostMapping("/create")
 	public String createDang(HttpSession session, @ModelAttribute DangDto dangDto, @ModelAttribute DangMemberDto dangMemberDto, MultipartFile dangProfile) throws IllegalStateException, IOException {
 		// 로그인 중인 회원번호 반환
-		int userNo = Integer.parseInt(String.valueOf((String)session.getAttribute("loginNo")));
+		Integer userNo = (Integer)session.getAttribute("loginNo");
 		// 반환한 회원번호를 dangDto에 설정
 		dangDto.setUserNo(userNo);
 		// 댕모임 번호 반환
