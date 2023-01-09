@@ -105,4 +105,22 @@ public class DangUserDaoImpl implements DangUserDao {
 		int result = sqlSession.update("dangUser.editUserInfo", param);
 		return result > 0;
 	}
+
+	// 회원 비밀번호 수정
+	@Override
+	public boolean changeUserPw(int userNo, String userPw) {
+		// 비밀번호 암호화
+		String userPwEncryption = pwEncoder.encode(userPw);
+		Map<String, String> param = new HashMap<>();
+		param.put("userNo", String.valueOf(userNo));
+		param.put("userPw", userPwEncryption);
+		int result = sqlSession.update("dangUser.changeUserPw", param);
+		return result > 0;
+	}
+
+	@Override
+	public boolean closeUser(int userNo) {
+		int result = sqlSession.delete("dangUser.closeUser", userNo);
+		return result > 0;
+	}
 }

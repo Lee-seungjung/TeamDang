@@ -30,14 +30,14 @@
 				</div>
 				<div class = "d-flex justify-content-center align-items-center my-3">
 					<div class = "offset-6 col-3">
-						<a href = "/dang_user/find_id">아이디찾기</a>
+						<a href = "/user/find_id">아이디찾기</a>
 					</div>
 					<div class = "col-3">
-						<a href = "/dang_user/find_pw">비밀번호찾기</a>
+						<a href = "/user/find_pw">비밀번호찾기</a>
 					</div>
 				</div>
 				<div class = "d-flex justify-content-center align-items-center my-3">
-					<a href = "/dang_user/join">회원가입</a>
+					<a href = "/user/join">회원가입</a>
 				</div>
 				<c:if test = "${param.error != null}">
 					<div class = "d-flex justify-content-center align-items-center my-3">
