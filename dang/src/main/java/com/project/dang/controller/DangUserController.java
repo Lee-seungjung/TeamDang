@@ -22,6 +22,7 @@ import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangUserDao;
+import com.project.dang.vo.DangUserChangePwVO;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -184,5 +185,34 @@ public class DangUserController {
 	@GetMapping("/change_pw")
 	public String changePw() {
 		return "dang_user/change_pw";
+	}
+	
+	@PostMapping("/change_pw")
+	public String changePw(HttpSession session, @ModelAttribute DangUserChangePwVO dangUserChangePwVO) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 회원 번호로 해당 회원의 비밀번호 조회
+		String searchUserPw = dangUserDao.selectUserPw(userNo);
+		System.out.println(dangUserChangePwVO.getUserPw());
+		System.out.println(searchUserPw);
+		// 조회한 비밀번호와 입력받은 비밀번호가 일치하는지 여부
+		boolean step1 = dangUserDao.checkPw(dangUserChangePwVO.getUserPwNow(), searchUserPw);
+		if(!step1) {
+			return "redirect:change_pw?error_step1";
+		}
+		// 새로운 비밀번호와 비밀번호 확인이 일치하는지 여부
+		boolean step2 = dangUserChangePwVO.getUserPw().equals(dangUserChangePwVO.getUserPwck());
+		if(!step2) {
+			return "redirect:change_pw?error_step2";
+		}
+		// 비밀번호 변경
+		dangUserDao.changeUserPw(userNo, dangUserChangePwVO.getUserPw());
+		// 비밀번호 변경 성공 Mapping으로 redirect
+		return "redirect:change_pw_success";
+	}
+	
+	@GetMapping("/change_pw_success")
+	public String changePwSuccess() {
+		return "dang_user/change_pw_success";
 	}
 }

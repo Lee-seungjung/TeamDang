@@ -88,4 +88,12 @@ public interface DangUserDao {
 	 * @return boolean : 회원정보 수정 여부
 	 */
 	public boolean editUserInfo(DangUserMypageVO dangUserMypageVO);
+	
+	/**
+	 * 회원 비밀번호 수정
+	 * @param userNo : 회원번호
+	 * @param userPw : 변경할 비밀번호
+	 * @return boolean : 비밀번호 수정 여부
+	 */
+	public boolean changeUserPw(int userNo, String userPw);
 }

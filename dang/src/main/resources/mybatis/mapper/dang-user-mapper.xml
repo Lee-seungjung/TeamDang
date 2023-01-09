@@ -62,4 +62,9 @@
 		update dang_user set user_nick = #{userNick}, user_email = #{userEmail}, user_tel = #{userTel} where user_no = #{userNo}
 	</update>
 	
+	<!-- 회원 비밀번호 변경 -->
+	<update id = "changeUserPw" parameterType = "map">
+		update dang_user set user_pw = #{userPw} where user_no = #{userNo}
+	</update>
+	
 </mapper>

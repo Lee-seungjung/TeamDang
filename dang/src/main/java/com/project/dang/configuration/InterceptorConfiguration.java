@@ -20,10 +20,13 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(dangUserLoginInterceptor)
 			.addPathPatterns(
 					"/dang/**", 
-					"/user/mypage"
+					"/user/*"
 					) 
 			.excludePathPatterns(
-					""
+					"/user/join", 
+					"/user/join_success", 
+					"/user/login", 
+					"/user/logout"
 					);
 	}
 }
