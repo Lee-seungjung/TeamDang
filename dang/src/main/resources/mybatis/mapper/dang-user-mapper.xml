@@ -47,7 +47,7 @@
 		delete user_img where attachment_no=#{attachmentNo}
 	</delete>
 	
-	<!-- 회원 정보 조회 -->
+	<!-- 회원 번호로 회원 정보 조회 -->
 	<select id = "selectMypageInfo" parameterType = "int" resultType = "DangUserMypageVO">
 		select du.user_no, du.user_id, du.user_email, du.user_nick, du.user_tel, du.user_joindate, du.user_logindate, ui.attachment_no from dang_user du left outer join user_img ui on du.user_no = ui.user_no where du.user_no = #{userNo}
 	</select>
@@ -61,5 +61,15 @@
 	<update id = "editUserInfo" parameterType = "map">
 		update dang_user set user_nick = #{userNick}, user_email = #{userEmail}, user_tel = #{userTel} where user_no = #{userNo}
 	</update>
+	
+	<!-- 회원 비밀번호 변경 -->
+	<update id = "changeUserPw" parameterType = "map">
+		update dang_user set user_pw = #{userPw} where user_no = #{userNo}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id = "closeUser" parameterType = "int">
+		delete dang_user where user_no = #{userNo}
+	</delete>
 	
 </mapper>
