@@ -126,6 +126,14 @@
 	.zoomin-img>img{
 		max-width:800px;
 	}
+	.down-btn{
+		position: absolute;
+		cursor: pointer;
+		top: 700px; left: 1025px;
+		color:#B0CBFF;
+		opacity:0.7;
+		display:none;
+	}
 	
 </style>
 <script>
@@ -267,12 +275,6 @@
 		    $(".zoomin").toggle();
 		});
 		
-		//현재 스크롤 위치 함수
-		function nowScroll(){
-			var nowScroll = $(".chat-box").scrollTop();
-			return nowScroll;
-		}
-		
 		//무한스크롤 채팅 내역	
 		var firstTotalHeight = parseInt($(".chat-box")[0].scrollHeight); //첫전체높이
 		var firstBoxHeight = parseInt($(".chat-box").scrollTop()); //첫박스높이
@@ -280,15 +282,22 @@
 		$("[name=originHeight]").val(firstTotalHeight-sideheight); //첫스크롤 높이 저장(전체-남은공간)
 		
 		$(".chat-box").scroll(function() {
-			var boxHeight = $(".chat-box").scrollTop();
-			
-			console.log("scrollheight = "+$(".chat-box")[0].scrollHeight); 
-			console.log("boxheight = "+$(".chat-box").scrollTop());
-			
-			var chatNo = $(".past-chat").attr("data-no");
-			console.log("chatno = "+chatNo);
-			
+			var boxHeight = $(".chat-box").scrollTop(); //실시간 박스 높이
+			var chatNo = $(".past-chat").attr("data-no"); //채팅 번호
+
 			if(chatNo==1) return; //데이터 없을경우 비동기화 실행 중지
+			
+			var scrollBottomCheck = parseInt($("[name=originHeight]").val());
+			var judge = scrollBottomCheck-boxHeight;
+			console.log(boxHeight);
+			console.log(scrollBottomCheck);
+			console.log(judge);
+			if(judge>300){
+				$(".down-btn").show();
+				downBtn();
+			}else{
+				$(".down-btn").hide();
+			}
 			
 			scrollData = {
 					roomNo:roomNo,
@@ -323,9 +332,15 @@
 			}
 		});
 		
-
+		//하단이동 버튼 클릭 이벤트
+		function downBtn(){
+			$(".down-btn").click(function(){
+				$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
+			});
+		}
+		
+		//채팅 이미지 확대
 		function zoomin(){
-			//채팅 이미지 확대
 			$(".cursor-zoomin").click(function(){
 				var src = $(this).attr("src");
 				var img = $("<img>").attr("src",src);
@@ -341,7 +356,7 @@
 			var chatDiv = $(".new-chat");
 			
 			if(userNo==chatUserNo){
-				var div = $("<div>").attr("class","text-end  mb-3");
+				var div = $("<div>").attr("class","text-end me-2 mb-3");
 				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				var text;
@@ -405,7 +420,7 @@
 			for(var i=0; i<data.length; i++){
 				var chatUserNo = data[i].userNo;
 				if(userNo==chatUserNo){
-					var div = $("<div>").attr("class","text-end  mb-3");
+					var div = $("<div>").attr("class","text-end me-2 mb-3");
 					var formatTime = moment(data[i].chatDate).format('a h:mm'); //예)오후 2:24
 					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 					var text;
@@ -548,6 +563,9 @@
 						
 						<!-- 새 메세지 생성 -->
 						<div class="new-chat" style="margin-right:10px;"></div>
+						
+						<!-- 하단으로 이동 버튼 생성 -->
+						<div class="down-div text-end"><i class="fa-solid fa-circle-chevron-down fa-3x down-btn"></i></div>
 					</div>
 					
 					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
