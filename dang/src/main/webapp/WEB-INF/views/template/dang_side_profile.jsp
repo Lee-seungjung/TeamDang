@@ -124,6 +124,7 @@
 	                    		method:"patch",
 	                    		data:JSON.stringify(data),
 	                    		contentType: 'application/json',
+	                    		async:false,
 	                    		success:function(resp){
 	                    			//4. 활동점수 조회 후 실시간 출력
 	                    			$.ajax({

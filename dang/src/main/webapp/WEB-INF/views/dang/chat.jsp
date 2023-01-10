@@ -130,7 +130,7 @@
 	.down-btn{
 		position: fixed;
 		cursor: pointer;
-		top:85%;
+		top:80%;
 		left:67%;
 		color:#B0CBFF;
 		opacity:0.7;
