@@ -30,5 +30,6 @@ public class BoardHistoryVO {
 	
 	private Integer boardAttachmentNo; //게시글 첨부파일
 	private Integer replyCnt; //댓글수
+	private Integer allImg; //게시글 첨부파일 개수
 	
 }

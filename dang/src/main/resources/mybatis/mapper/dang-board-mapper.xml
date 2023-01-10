@@ -19,19 +19,22 @@
 	</insert>
 	
 	<!-- 댕모임 게시글 전체조회(동기방식 5개만)-->
-	<!-- 방장여부, 회원프로필, 게시글, 게시글첨부파일, 댓글수 -->
+	<!-- 방장여부, 회원프로필, 게시글, 게시글첨부파일(수), 댓글수 -->
 	<select id="selectAll" resultType="BoardHistoryVO" parameterType="int">
 		select*from(
 		    select TMP.*, rownum rn from(
-		        select a.*, cnt.replycnt from (
+		        select a.*, cnt.replycnt, imgcnt.allimg from (
 			        select m.member_owner, uimg.attachment_no, b.*, 
 			        bimg.attachment_no as board_attachment_no from dang_member m
 				        left outer join user_img uimg on m.user_no=uimg.user_no
 				        inner join dang_board b on m.member_no=b.member_no
 				        left outer join board_img bimg on b.board_no=bimg.board_no where b.dang_no=#{dangNo}
 				        ) a left outer join (
-			        select board_no, count(*) replycnt from dang_reply re group by board_no
-		        ) cnt on a.board_no=cnt.board_no order by a.board_no asc
+			        		select board_no, count(*) replycnt from dang_reply re group by board_no
+		        		) cnt on a.board_no=cnt.board_no 
+				        left outer join (
+							select board_no, count(*) allimg from board_img group by board_no
+						) imgcnt on cnt.board_no=imgcnt.board_no order by a.board_no asc
 		    )TMP
 		) where rn between 1 and 5
 	</select>

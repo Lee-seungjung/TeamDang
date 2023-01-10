@@ -41,9 +41,6 @@
   		height:150px;
   		margin-left:20px;
   	}
-  	.checkAttendance:hover{
-  		
-  	}
   	.invalid-feedback2 {
 	  display: none;
 	  width: 100%;
