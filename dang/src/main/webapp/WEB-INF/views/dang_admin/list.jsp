@@ -37,7 +37,7 @@
             overflow: hidden;
             top: 10px;
             left: 10px;
-            width: 200px;
+            width: 250px;
             height: 50px;
             z-index: 10;
             border: 1px solid black;
@@ -75,7 +75,7 @@
 
         .category .ico_cafe {
             background-position: 0px 0px;
-            background-image: url("./mapmarker/cafe.png") ;
+            background-image: url("./mapmarker/cafe.png");
         }
 
         .category .ico_food {
@@ -87,9 +87,15 @@
         }
 
         .category .ico_dogsalon {
-            
+
             background-position: 0px 0px;
-            background-image: url("./mapmarker/cafe.png") ;
+            background-image: url("./mapmarker/cafe.png");
+        }
+
+        .category .ico_park {
+
+            background-position: 0px 0px;
+            background-image: url("./mapmarker/cafe.png");
         }
 
 
@@ -167,6 +173,10 @@
                     <span class="ico_comm ico_dogsalon"></span>
                     미용
                 </li>
+                <li id="parkMenu" onclick="changeMarker('park')">
+                    <span class="ico_comm ico_park"></span>
+                    공원
+                </li>
             </ul>
         </div>
     </div>
@@ -207,7 +217,7 @@
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 
         $(document).on("click", ".edit", function (e) {
-            
+
             $("#edit").modal("show");//모달 실행
 
             placeNoInfo = $(this).data("placeno");
@@ -229,7 +239,7 @@
                     $(".span-placesort").text(resp.placeSort);
                     $(".span-placetel").text(resp.placeTel);
                     $(".span-placeurl").text(resp.placeUrl);
-                    $(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+resp.attachmentNo);
+                    $(".origin-img").attr("src", "http://localhost:8888/rest_attachment/download/" + resp.attachmentNo);
                 }
             })
 
@@ -271,6 +281,11 @@
 
         ];
 
+        //  공원 마커가 표시될 좌표 배열입니다
+        var parkPositions = [
+
+        ];
+
         // 카페에 정보를 담을 배열
         var contentCafe = [];
 
@@ -283,6 +298,9 @@
         // 미용에 정보를 담을 배열
         var contentDogsalon = [];
 
+        // 공원에 정보를 담을 배열
+        var contentPark = [];
+
         $.ajax({
             url: "http://localhost:8888/rest_place/place_list",
             method: "get",
@@ -290,7 +308,7 @@
             contentType: "application/json",
             success: function (resp) {
                 for (var i = 0; i < resp.length; i++) {
-                    if (resp[i].placeSort === "카페") {
+                    if (resp[i].placeSort === "카페") {//DB에서 불러온 값이 카페이면 카페정보배열에 밀어넣기
                         cafePositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
                         contentCafe.push(resp[i]);
                     }
@@ -304,7 +322,11 @@
                     }
                     else if (resp[i].placeSort === "미용") {
                         dogsalonPositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
-                        contentField.push(resp[i]);
+                        contentDogsalon.push(resp[i]);
+                    }
+                    else if (resp[i].placeSort === "공원") {
+                        dogsalonPositions.push(new kakao.maps.LatLng(resp[i].placeX, resp[i].placeY))
+                        contentPark.push(resp[i]);
                     }
                 }
             }
@@ -312,17 +334,20 @@
 
 
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
-        var cafemarkerImageSrc = './mapmarker/cafe.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
+        var cafemarkerImageSrc = './mapmarker/cafe.png';  // 카페의 마커이미지의 주소입니다.
+
         cafeMarkers = [], // 카페 마커 객체를 가지고 있을 배열입니다
             foodMarkers = [], // 음식점 마커 객체를 가지고 있을 배열입니다
             fieldMarkers = []; // 운동장 마커 객체를 가지고 있을 배열입니다
         dogsalonMarkers = []; // 미용 마커 객체를 가지고 있을 배열입니다
+        parkMarkers = []; // 공원 마커 객체를 가지고 있을 배열입니다
 
 
         createCafeMarkers(); // 카페 마커를 생성하고 카페 마커 배열에 추가합니다
         createFoodMarkers(); // 음식점 마커를 생성하고 음식점 마커 배열에 추가합니다
         createFieldMarkers(); // 운동장 마커를 생성하고 운동장 마커 배열에 추가합니다
-        createDogsalonMarkers(); // 운동장 마커를 생성하고 운동장 마커 배열에 추가합니다
+        createDogsalonMarkers(); // 미용 마커를 생성하고 운동장 마커 배열에 추가합니다
+        createParkMarkers(); // 공원 마커를 생성하고 운동장 마커 배열에 추가합니다
 
         changeMarker('cafe'); // 지도에 카페 마커가 보이도록 설정합니다    
 
@@ -365,10 +390,10 @@
                 cafeMarkers.push(marker);
                 kakao.maps.event.addListener(marker, 'click', function () {
 
-                    
+
                     for (var i = 0; i < cafePositions.length; i++) {
-                        var a1=this.getPosition().Ma
-                        var a2=contentCafe[i].placeX
+                        var a1 = this.getPosition().Ma
+                        var a2 = contentCafe[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
                             content = '<div class="customoverlay">' +
@@ -430,8 +455,8 @@
                 kakao.maps.event.addListener(marker, 'click', function () {
 
                     for (var i = 0; i < foodPositions.length; i++) {
-                        var a1=this.getPosition().Ma
-                        var a2=contentFood[i].placeX
+                        var a1 = this.getPosition().Ma
+                        var a2 = contentFood[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
                             content = '<div class="customoverlay">' +
@@ -491,8 +516,8 @@
                 kakao.maps.event.addListener(marker, 'click', function () {
 
                     for (var i = 0; i < fieldPositions.length; i++) {
-                        var a1=this.getPosition().Ma
-                        var a2=contentField[i].placeX
+                        var a1 = this.getPosition().Ma
+                        var a2 = contentField[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
                             content = '<div class="customoverlay">' +
@@ -553,8 +578,8 @@
                 kakao.maps.event.addListener(marker, 'click', function () {
 
                     for (var i = 0; i < dogsalonPositions.length; i++) {
-                        var a1=this.getPosition().Ma
-                        var a2=contentDogsalon[i].placeX
+                        var a1 = this.getPosition().Ma
+                        var a2 = contentDogsalon[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
                             content = '<div class="customoverlay">' +
@@ -594,6 +619,68 @@
             }
         }
 
+        // 공원 마커를 생성하고 공원 마커 배열에 추가하는 함수입니다
+        function createParkMarkers() {
+            for (var i = 0; i < parkPositions.length; i++) {
+
+                var imageSize = new kakao.maps.Size(22, 26),
+                    imageOptions = {
+                        spriteOrigin: new kakao.maps.Point(10, 72),
+                        spriteSize: new kakao.maps.Size(36, 98)
+                    };
+
+                // 마커이미지와 마커를 생성합니다
+                var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),
+                    marker = createMarker(parkPositions[i], markerImage);
+
+
+                // 생성된 마커를 공원 마커 배열에 추가합니다
+                parkMarkers.push(marker);
+
+                kakao.maps.event.addListener(marker, 'click', function () {
+
+                    for (var i = 0; i < parkPositions.length; i++) {
+                        var a1 = this.getPosition().Ma
+                        var a2 = contentPark[i].placeX
+
+                        if (a2.toFixed(7) === a1.toFixed(7)) {
+                            content = '<div class="customoverlay">' +
+                                '  <a class="edit" data-placeno=' + contentPark[i].placeNo + ' target="_blank">' +
+                                '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >' + contentPark[i].placeName + '</span>' +
+                                '  </a>' +
+                                '</div>';
+                        }
+                    }
+
+                    var position = this.getPosition();
+
+                    // 커스텀 오버레이를 생성합니다
+                    var customOverlay = new kakao.maps.CustomOverlay({
+                        map: map,
+                        position: position,
+                        content: content,
+                        yAnchor: 1
+                    });
+
+                    //다른 마커 클릭시 오버레이 닫기
+                    if (clickedOverlay) {
+                        clickedOverlay.setMap(null);
+                    }
+                    customOverlay.setMap(map);
+                    clickedOverlay = customOverlay;
+
+
+                });
+            }
+        }
+
+        // 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
+        function setParkMarkers(map) {
+            for (var i = 0; i < parkMarkers.length; i++) {
+                parkMarkers[i].setMap(map);
+            }
+        }
+
         // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
         function changeMarker(type) {
 
@@ -601,6 +688,7 @@
             var foodMenu = document.getElementById('foodMenu');
             var fieldMenu = document.getElementById('fieldMenu');
             var dogsalonMenu = document.getElementById('dogsalonMenu');
+            var parkMenu = document.getElementById('parkMenu');
 
             // 카페 카테고리가 클릭됐을 때
             if (type === 'cafe') {
@@ -612,12 +700,14 @@
                 foodMenu.className = '';
                 fieldMenu.className = '';
                 dogsalonMenu.className = '';
+                parkMenu.className = '';
 
                 // 카페 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(map);
                 setFoodMarkers(null);
                 setFieldMarkers(null);
                 setDogsalonMarkers(null);
+                setParkMarkers(null);
 
             } else if (type === 'food') { // 음식점 카테고리가 클릭됐을 때
 
@@ -626,12 +716,14 @@
                 foodMenu.className = 'menu_selected';
                 fieldMenu.className = '';
                 dogsalonMenu.className = '';
+                parkMenu.className = '';
 
                 // 음식점 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(map);
                 setFieldMarkers(null);
                 setDogsalonMarkers(null);
+                setParkMarkers(null);
 
             } else if (type === 'field') { // 운동장 카테고리가 클릭됐을 때
 
@@ -640,12 +732,14 @@
                 foodMenu.className = '';
                 fieldMenu.className = 'menu_selected';
                 dogsalonMenu.className = '';
+                parkMenu.className = '';
 
                 // 운동장 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
                 setFieldMarkers(map);
                 setDogsalonMarkers(null);
+                setParkMarkers(null);
 
             } else if (type === 'dogsalon') {
 
@@ -654,12 +748,29 @@
                 foodMenu.className = '';
                 fieldMenu.className = '';
                 dogsalonMenu.className = 'menu_selected';
+                parkMenu.className = '';
 
                 // 미용 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
                 setFieldMarkers(null);
                 setDogsalonMarkers(map);
+                setParkMarkers(null);
+            } else if (type === 'park') {
+
+                // 공원 카테고리를 선택된 스타일로 변경하고
+                cafeMenu.className = '';
+                foodMenu.className = '';
+                fieldMenu.className = '';
+                dogsalonMenu.className = '';
+                parkMenu.className = 'menu_selected';
+
+                // 공원 마커들만 지도에 표시하도록 설정합니다
+                setCafeMarkers(null);
+                setFoodMarkers(null);
+                setFieldMarkers(null);
+                setDogsalonMarkers(null);
+                setParkMarkers(map);
             }
         }
 
