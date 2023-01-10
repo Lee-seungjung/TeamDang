@@ -7,4 +7,8 @@ board_like number,
 board_writedate date default sysdate,
 board_updatedate date,
 board_state char(1) default 'N' check(board_state in ('Y', 'N'))
+board_category varchar(12) check(board_category in ('가입인사', '공지사항','정모후기','자유글'));
 );
+
+-- 시퀀스(dang_board_seq)
+create sequence dang_board_seq;
