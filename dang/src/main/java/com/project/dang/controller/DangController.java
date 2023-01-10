@@ -178,7 +178,6 @@ public class DangController {
 		//기본 동기 조회(5개)
 		model.addAttribute("boardList", dangBoardDao.selectAll(dangNo));
 		List<BoardHistoryVO> vo = dangBoardDao.selectAll(dangNo); 
-		log.debug("list  jkjhkhjhkjhkhkj= {}",vo.size());
 		
 		return "dang/board";
 	}

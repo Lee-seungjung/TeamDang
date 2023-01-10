@@ -132,6 +132,8 @@
 		
 		//댓글 목록
 		function replyRepeat(resp, thisTag){
+			//본인 비교 위해 데이터 준비
+			var memberNo = $("[name=memberNo]").val();
 			var replyBox = thisTag;
 			var hr = $("<hr>");
 			replyBox.append(hr);
@@ -148,7 +150,12 @@
 			col1.append(img);
 			
 			var col8 = $("<div>").attr("class","col-8 middle-items ms-3");
-			var contentDiv = $("<div>").attr("class","col content-div1");
+			var contentDiv = $("<div>");
+			if(memberNo!=resp.memberNo){
+				contentDiv.attr("class","col content-div2");
+			}else{
+				contentDiv.attr("class","col content-div1");
+			}
 			var p1 = $("<p>").attr("class","middle-items");
 			var span1 = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
 			var span2 = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
@@ -301,12 +308,14 @@
 				    
 				</div>
 			</div>
-				<!-- 다가오는 일정 박스 시작-->
-				<div class="col-3">
-					<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
-				</div>
-				<!-- 다가오는 일정 박스  끝-->
+			
+			<!-- 다가오는 일정 박스 시작-->
+			<div class="col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
+			
+			<input type="hidden" name="memberNo" value="${profile.memberNo}">
 		</div>
 	</div>
-
 </div>
