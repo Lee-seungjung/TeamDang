@@ -294,4 +294,35 @@ public class DangController {
 		
 		return "dang/member";
 	}
+	
+	@GetMapping("/{dangNo}/schedule_detail")
+	public String scheduleDetail(@PathVariable int dangNo, int scheduleNo, Model model, HttpSession session) {
+		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
+		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		//우측 댕모임 심플스케줄
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		//프로필 파일번호
+		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
+		//날짜별 일정 상세 출력
+		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo));
+		return "dang/schedule_detail";
+	}
+	
 }

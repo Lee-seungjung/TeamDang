@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.repository.DangScheduleDao;
+import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 
 @CrossOrigin
@@ -24,7 +25,13 @@ public class DangScheduleRestController {
 	//달력내 일정조회
 	@GetMapping("/schedule")
 	public List<ScheduleVO> list(){
-		return dangScheduleDao.list();//
+		return dangScheduleDao.list();
 	}
-
+	
+	//달력에서 클릭시 모달에서 일정 간단 조회
+	@GetMapping("/schedule_modal")
+	public List<ScheduleOneVO> scheduleOne(int scheduleNo){
+		return dangScheduleDao.scheduleOne(scheduleNo);
 	 }
+	
+}
