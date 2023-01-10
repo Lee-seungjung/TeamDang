@@ -63,6 +63,12 @@
     p{
     	margin-bottom:0;
     }
+    .inbl{
+    	display:inline-block;
+    }
+    .w-auto{
+    	width:auto;
+    }
     .img-circle{
 		border-radius: 50%;
     	border:none;
@@ -86,6 +92,31 @@
 	}
 	.cursor-zoomin{
 		cursor:zoom-in;
+	}
+	.form-control:focus {
+	  background-color: #fff;
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+	
+	.form-select:focus {
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+
+	.gray:hover {
+	  color: black;
+	  background-color: #E6E6E6;
+	}
+	
+	.middle-items{
+		display:flex;
+		align-items:center;
+	}
+	.blue{
+		color:#76BEFF;
 	}
     
 </style>

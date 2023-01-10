@@ -580,10 +580,10 @@
 	</div>
 	
 	<!-- 출석 체크 -->
-	<div class="p-3 border rounded-3 text-center day-check shadow-lg">
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg gray">
 		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">출석 체크</span>
 	</div>
-	
+
 	<!-- 출석체크 Modal -->
 	<div class="modal fade" id="day-check-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -604,6 +604,13 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 게시판 글작성 -->
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
+		<span class="board-write cursor-pointer">게시글 작성</span>
+	</div>
+	
+	
 
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
