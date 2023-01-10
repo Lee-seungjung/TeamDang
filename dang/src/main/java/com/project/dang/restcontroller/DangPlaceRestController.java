@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangPlaceDto;
+import com.project.dang.dto.PlaceImg;
 import com.project.dang.repository.DangPlaceDao;
 
 @CrossOrigin
@@ -26,7 +27,16 @@ public class DangPlaceRestController {
 	//장소 등록
 	@PostMapping("/place_insert")
 	public void placeInsert(@RequestBody DangPlaceDto dangPlaceDto) {
+		int placeNo = dangPlaceDao.sequence();
+		
+		dangPlaceDto.setPlaceNo(placeNo);
+		
+		int attachmentNo = dangPlaceDto.getAttachmentNo();
+		PlaceImg placeImg = PlaceImg.builder().attachmentNo(attachmentNo).placeNo(placeNo).build();
+		
 		dangPlaceDao.placeInsert(dangPlaceDto);
+		
+		dangPlaceDao.placeImgInsert(placeImg);
 	}
 	
 	@GetMapping("/place_list")
@@ -38,4 +48,6 @@ public class DangPlaceRestController {
 	public DangPlaceDto placeOne(@PathVariable int placeNo) {
 		return dangPlaceDao.placeOne(placeNo);
 	}
+	
+	
 }
