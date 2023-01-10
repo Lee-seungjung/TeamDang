@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 
@@ -42,6 +41,7 @@
             height: 50px;
             z-index: 10;
             border: 1px solid black;
+            border-radius: 10px;
             font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             font-size: 12px;
             text-align: center;
@@ -49,7 +49,7 @@
         }
 
         .category .menu_selected {
-            background: #FF5F4A;
+            background: #f3d4d1;
             color: #fff;
             border-left: 1px solid #915B2F;
             border-right: 1px solid #915B2F;
@@ -60,7 +60,7 @@
             list-style: none;
             float: left;
             width: 50px;
-            height: 45px;
+            height: 60px;
             padding-top: 5px;
             cursor: pointer;
         }
@@ -74,7 +74,8 @@
         }
 
         .category .ico_cafe {
-            background-position: -10px 0;
+            background-position: 0px 0px;
+            background-image: url("./mapmarker/cafe.png") ;
         }
 
         .category .ico_food {
@@ -86,8 +87,9 @@
         }
 
         .category .ico_dogsalon {
-            background-position: -10px -72px;
-            background-image: url("./image/test1.jpg");
+            
+            background-position: 0px 0px;
+            background-image: url("./mapmarker/cafe.png") ;
         }
 
 
@@ -187,6 +189,7 @@
                     <span class="span-placesort"></span><br>
                     <span class="span-placetel"></span><br>
                     <span class="span-placeurl"></span><br>
+                    <img src="" width="100" height="100" class="origin-img"><br>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -204,11 +207,8 @@
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 
         $(document).on("click", ".edit", function (e) {
-            e.stopPropagation();//전파 중지
+            
             $("#edit").modal("show");//모달 실행
-
-            var name = $(this).data("placename"); // 해당하는거에 데이터추가
-            $(".span-placename").text(name); // 이름추가ㅓ
 
             placeNoInfo = $(this).data("placeno");
 
@@ -219,6 +219,7 @@
                 async: false,
                 contentType: "application/json",
                 success: function (resp) {
+                    console.log(resp)
                     $(".span-placeaddress").text(resp.placeAddress);
                     $(".span-placearea").text(resp.placeArea);
                     $(".span-placeinfo").text(resp.placeInfo);
@@ -228,6 +229,7 @@
                     $(".span-placesort").text(resp.placeSort);
                     $(".span-placetel").text(resp.placeTel);
                     $(".span-placeurl").text(resp.placeUrl);
+                    $(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+resp.attachmentNo);
                 }
             })
 
@@ -310,6 +312,7 @@
 
 
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
+        var cafemarkerImageSrc = './mapmarker/cafe.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
         cafeMarkers = [], // 카페 마커 객체를 가지고 있을 배열입니다
             foodMarkers = [], // 음식점 마커 객체를 가지고 있을 배열입니다
             fieldMarkers = []; // 운동장 마커 객체를 가지고 있을 배열입니다
@@ -347,14 +350,14 @@
 
             for (var i = 0; i < cafePositions.length; i++) {
 
-                var imageSize = new kakao.maps.Size(22, 26),
+                var imageSize = new kakao.maps.Size(40, 26),
                     imageOptions = {
-                        spriteOrigin: new kakao.maps.Point(10, 0),
-                        spriteSize: new kakao.maps.Size(36, 98)
+                        spriteOrigin: new kakao.maps.Point(0, 0),
+                        spriteSize: new kakao.maps.Size(20, 20)
                     };
 
                 // 마커이미지와 마커를 생성합니다
-                var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),
+                var markerImage = createMarkerImage(cafemarkerImageSrc, imageSize, imageOptions),
                     marker = createMarker(cafePositions[i], markerImage);
 
                 // 생성된 마커를 카페 마커 배열에 추가합니다

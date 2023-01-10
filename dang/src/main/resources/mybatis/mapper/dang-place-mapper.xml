@@ -4,10 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="place">
+
+	<!-- 시퀀스 선발급-->
+	<select id="sequence" resultType="int">
+		select DANG_PLACE_SEQ.nextval from dual
+	</select>
+
 	<insert id="placeInsert" parameterType="DangPlaceDto">
 		insert into dang_place(place_no,place_x,place_y,place_sort,place_name,place_info,place_address,place_operation,place_off,place_tel,place_url,place_area)
 			VALUES(
-			DANG_PLACE_SEQ.nextval,
+			#{placeNo},
 			#{placeX},
 			#{placeY},
 			#{placeSort},
@@ -27,6 +33,10 @@
 	</select>
 	
 	<select id="listOne" resultType="DangPlaceDto" parameterType="int">
-		select * from dang_place where place_no = #{placeNo}
+		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where p.place_no = #{placeNo}
 	</select>
+	
+	<insert id="placeImg" parameterType="PlaceImg">
+		insert into place_img VALUES(#{placeNo},#{attachmentNo})
+	</insert>
 </mapper>
