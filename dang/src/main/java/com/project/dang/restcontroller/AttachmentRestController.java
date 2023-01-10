@@ -12,6 +12,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.project.dang.dto.AttachmentDto;
 import com.project.dang.repository.AttachmentDao;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/rest_attachment")
 public class AttachmentRestController {
 	@Autowired

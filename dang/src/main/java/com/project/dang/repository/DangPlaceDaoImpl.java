@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.PlaceImg;
 import com.project.dang.dto.DangPlaceDto;
 
 @Repository
@@ -27,6 +28,16 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	@Override
 	public DangPlaceDto placeOne(int placeNo) {
 		return sqlSession.selectOne("place.listOne", placeNo);
+	}
+
+	@Override
+	public int sequence() {
+		return sqlSession.selectOne("place.sequence");
+	}
+
+	@Override
+	public void placeImgInsert(PlaceImg placeImg) {
+		sqlSession.insert("place.placeImg", placeImg);
 	}
 	
 	
