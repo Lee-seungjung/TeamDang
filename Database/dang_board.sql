@@ -2,6 +2,7 @@
 create table dang_board(
 board_no number primary key,
 member_no references dang_member(member_no) on delete set null,
+dang_no references dang(dang_no) on delete cascade,
 board_content varchar2(4000) not null,
 board_like number,
 board_writedate date default sysdate,
