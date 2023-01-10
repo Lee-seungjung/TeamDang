@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 public class DangBoardDto {
 	private int boardNo;
 	private int memberNo;
+	private int dangNo;
+	private String memberNick;
 	private String boardContent;
 	private int boardLike;
 	private Date boardWriteDate;
 	private Date boardUpdateDate;
 	private String boardState;
+	private String boardCategory;
 }

@@ -12,6 +12,7 @@ public class DangReplyDto {
 	private int replyNo;
 	private int boardNo;
 	private int memberNo;
+	private String memberNick;
 	private String replyContent;
 	private Date replyWriteDate;
 	private Date replyUpdateDate;

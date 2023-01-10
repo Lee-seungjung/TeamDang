@@ -5,6 +5,37 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dangBoard">
 
+	<!-- 시퀀스 발급-->
+	<select id="sequence" resultType="int">
+		select dang_board_seq.nextval from dual
+	</select>
+
+	<!-- 글 등록 -->
+	<insert id="write" parameterType="DangBoardDto">
+		insert into dang_board(board_no, member_no, dang_no, member_nick, board_content, board_like, 
+		board_writedate, board_updatedate, board_state) 
+		values(#{boardNo}, #{memberNo}, #{dangNo},#{memberNick}, #{boardContent}, #{boardLike},
+		#{boardWriteDate}, #{boardUpdateDate}, #{boardState})
+	</insert>
+	
+	<!-- 댕모임 게시글 전체조회(동기방식 5개만)-->
+	<!-- 방장여부, 회원프로필, 게시글, 게시글첨부파일, 댓글수 -->
+	<select id="selectAll" resultType="BoardHistoryVO" parameterType="int">
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select a.*, cnt.replycnt from (
+			        select m.member_owner, uimg.attachment_no, b.*, 
+			        bimg.attachment_no as board_attachment_no from dang_member m
+				        left outer join user_img uimg on m.user_no=uimg.user_no
+				        inner join dang_board b on m.member_no=b.member_no
+				        left outer join board_img bimg on b.board_no=bimg.board_no where b.dang_no=#{dangNo}
+				        ) a left outer join (
+			        select board_no, count(*) replycnt from dang_reply re group by board_no
+		        ) cnt on a.board_no=cnt.board_no order by a.board_no asc
+		    )TMP
+		) where rn between 1 and 5
+	</select>
+	
 	<!-- 내가 쓴 게시글 조회-->
 	<select id="writeCount" resultType="int" parameterType="int">
 		select count(*) from dang_board where member_no=#{memberNo}

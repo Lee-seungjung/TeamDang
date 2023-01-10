@@ -2,6 +2,7 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -27,9 +28,13 @@ import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
+import com.project.dang.vo.BoardHistoryVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/dang")
+@Slf4j
 public class DangController {
 	
 	@Autowired
@@ -169,6 +174,11 @@ public class DangController {
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
+		
+		//기본 동기 조회(5개)
+		model.addAttribute("boardList", dangBoardDao.selectAll(dangNo));
+		List<BoardHistoryVO> vo = dangBoardDao.selectAll(dangNo); 
+		log.debug("list  jkjhkhjhkjhkhkj= {}",vo.size());
 		
 		return "dang/board";
 	}
