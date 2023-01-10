@@ -7,7 +7,7 @@ create sequence dang_seq;
 create table dang(
 dang_no number primary key,
 user_no references dang_user(user_no) on delete set null,
-district_no references dang_region(district_no) on delete set null,
+dang_area varchar2(30) not null,
 dang_name varchar2(30) not null,
 dang_info varchar2(90) not null,
 dang_headmax number not null,
