@@ -780,43 +780,23 @@
 							div.append(img);
 							fileDiv.append(div);
                     	}
- 
-                    	//취소버튼 누를 경우 첨부파일 삭제
-           				$(".write-cancel").click(function(){
-           					boardDeleteAttachmentNo();
-           				});
+
 			        }
 				});
 			}
 		});
 		
-		
-		
-		//취소, 돌아가기 시 첨부파일 삭제
-		function boardDeleteAttachmentNo(){
-			var findtag = $(".files");
-        	var attachmentNo;
-        	for(var i=0; i<findtag.length; i++){
-        		attachmentNo = findtag.eq(i).attr("data-no");
-        		console.log(attachmentNo);
-        		
-        		$.ajax({
-    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
-    				method:"delete",
-    				data:attachmentNo,
-    				async:false,
-    				success:function(resp){
-    				}
-    			});
-        	}
-		}
-		
+		//모달 취소버튼 누를 경우 첨부파일 삭제
+		$(".write-cancel").click(function(){
+			boardDeleteAttachmentNo();
+		});
+
 		//폼 전송 이벤트
 		$(".board-form").submit(function(e){
 			e.preventDefault();
 			//이벤트 강제실행
 			$("[name=boardCategory]").change();
-			
+
 			var judge = $("[name=boardContent]").val();
 			if(judge.length==0) return; //입력값 없으면
 			
@@ -844,6 +824,7 @@
 							boardCategory:boardCategory
 						}
 						
+						//게시글 DB등록
 						$.ajax({
 							url:"${pageContext.request.contextPath}/rest_board/insert",
 							method:"post",
@@ -853,10 +834,53 @@
 								$("#boardModal").modal('hide');
 							}
 						});
+						
+						//게시글 이미지 DB 등록
+						var findtag = $(".files");
+			        	var attachmentNo;
+			        	if(findtag.length!=0){
+			        		for(var i=0; i<findtag.length; i++){
+				        		attachmentNo = findtag.eq(i).attr("data-no");
+				        		
+				        		data = {
+				        				boardNo:resp,
+				        				attachmentNo:attachmentNo
+				        		}
+				        		
+				        		$.ajax({
+				    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+				    				method:"post",
+				    				data:JSON.stringify(data),
+									contentType:"application/json",
+				    				success:function(resp){
+				    					console.log("저장 성공!");
+				    				}
+				    			});
+				        	}
+			        	}
 					}
 				});
 			}
 		});
+		
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		console.log(attachmentNo);
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
+		}
 		
 	});
 	

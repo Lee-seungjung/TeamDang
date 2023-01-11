@@ -44,6 +44,11 @@
 		select count(*) from dang_board where member_no=#{memberNo}
 	</select>
 	
+	<!-- 게시글 첨부파일 등록 -->
+	<insert id="imgInsert" parameterType="BoardImgDto">
+		insert into board_img(board_no, attachment_no) values(#{boardNo},#{attachmentNo})
+	</insert>
+	
   
 </mapper>
   

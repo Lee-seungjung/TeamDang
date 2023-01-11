@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.repository.DangBoardDao;
 
@@ -30,6 +31,12 @@ public class DangBoardRestController {
 	@PostMapping("/insert")
 	public void insert(@RequestBody DangBoardDto dto) {
 		dangBoardDao.write(dto);
+	}
+	
+	//board_img 등록
+	@PostMapping("/img_insert")
+	public void imgInsert(@RequestBody BoardImgDto dto) {
+		dangBoardDao.imgInsert(dto);
 	}
 
 }
