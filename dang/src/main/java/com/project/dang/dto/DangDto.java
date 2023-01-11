@@ -13,7 +13,7 @@ public class DangDto {
 
 	// 필드
 	private int dangNo;
-	private int dangAreaNo;
+	private String dangArea;
 	private int userNo;
 	private String dangName;
 	private String dangInfo;
