@@ -41,27 +41,27 @@
 					<div class = "d-flex flex-column">
 						<span>비밀번호</span>
 						<input class = "flex-fill" id = "userPw" type = "password" autocomplete = "false">
-						<span class = "span-check span-check-valid check-pw check-pw-empty">비밀번호를 입력해주세요.</span>
+						<span class = "span-check span-check-invalid check-pw check-pw-empty">비밀번호를 입력해주세요.</span>
 						<span class = "span-check span-check-valid check-pw check-pw-valid">사용할 수 있는 비밀번호입니다.</span>
-						<span class = "span-check span-check-valid check-pw check-pw-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
+						<span class = "span-check span-check-invalid check-pw check-pw-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
 					</div>
 				</div>
 				<div class = "row mt-3">
 					<div class = "d-flex flex-column">
 						<span>비밀번호 확인</span>
 						<input class = "flex-fill" id = "userPwck" type = "password" autocomplete = "false">
-						<span class = "span-check span-check-valid check-pwck check-pwck-empty">비밀번호를 한번 더 입력해주세요.</span>
+						<span class = "span-check span-check-invalid check-pwck check-pwck-empty">비밀번호를 한번 더 입력해주세요.</span>
 						<span class = "span-check span-check-valid check-pwck check-pwck-valid">비밀번호가 일치합니다.</span>
-						<span class = "span-check span-check-valid check-pwck check-pwck-different">비밀번호가 일치하지 않습니다.</span>
-						<span class = "span-check span-check-valid check-pwck check-pwck-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
+						<span class = "span-check span-check-invalid check-pwck check-pwck-different">비밀번호가 일치하지 않습니다.</span>
+						<span class = "span-check span-check-invalid check-pwck check-pwck-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
 					</div>
 				</div>
 				<div class = "row mt-3">
 					<div class = "d-flex flex-column">
 						<span>닉네임</span>
 						<input class = "flex-fill" id = "userNick" type = "text" autocomplete = "false">
-						<span class = "span-check span-check-valid check-nick check-nick-empty">닉네임을 입력해주세요.</span>
-						<span class = "span-check span-check-valid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 반드시 포함한 2~10자리가 되어야 합니다.</span>
+						<span class = "span-check span-check-invalid check-nick check-nick-empty">닉네임을 입력해주세요.</span>
+						<span class = "span-check span-check-invalid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 반드시 포함한 2~10자리가 되어야 합니다.</span>
 						<span class = "span-check span-check-valid check-nick check-nick-valid">멋진 닉네임이네요!</span>
 					</div>
 				</div>
@@ -95,10 +95,10 @@
 						</div>
 						<div class = "d-flex flex-column mt-3">						
 							<input class = "flex-fill" id = "userCert" type = "text">
-							<span class = "span-check span-check-valid check-cert check-cert-already">이미 가입한 이메일입니다.</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-already">이미 가입한 이메일입니다.</span>
 							<span class = "span-check span-check-valid check-cert check-cert-send">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.</span>
 							<span class = "span-check span-check-valid check-cert check-cert-valid">인증 완료!</span>
-							<span class = "span-check span-check-valid check-cert check-cert-invalid">인증번호를 다시 확인해주세요.</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-invalid">인증번호를 다시 확인해주세요.</span>
 						</div>
 					</div>
 				</div>

@@ -2,6 +2,7 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,7 @@ import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
+import com.project.dang.vo.DangUserFindVO;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -60,7 +63,7 @@ public class DangUserController {
 		// 회원 가입
 		dangUserDao.join(dangUserDto);
 		// 로그인 Mapping으로 redirect
-		return "redirect:login";
+		return "redirect:join_success";
 	}
 	
 	// 회원가입 완료
@@ -87,6 +90,8 @@ public class DangUserController {
 		if(pwCheck) { // 비밀번호가 일치한다면
 			session.setAttribute("loginNo", searchUserVO.getUserNo()); // 회원 번호 저장
 			session.setAttribute("loginGrade", searchUserVO.getUserGrade()); // 회원 등급 저장
+			session.setAttribute("loginNick", searchUserVO.getUserNick()); // 회원 닉네임 저장
+			session.setAttribute("loginProfileImg", searchUserVO.getAttachmentNo()); // 회원 프로필 이미지 번호 저장
 			dangUserDao.updateLogindate(searchUserVO.getUserNo());
 			return "redirect:/";
 		} else { // 비밀번호가 일치하지 않는다면
@@ -97,8 +102,10 @@ public class DangUserController {
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("loginNo");
-		session.removeAttribute("loginGrade");
+		session.removeAttribute("loginNo"); // 회원 번호 삭제
+		session.removeAttribute("loginGrade"); // 회원 등급 삭제
+		session.removeAttribute("loginNick"); // 회원 닉네임 삭제
+		session.removeAttribute("loginProfileImg"); // 회원 프로필 이미지 번호 삭제
 		return "redirect:/";
 	}
 	
@@ -142,9 +149,13 @@ public class DangUserController {
 	}
 	
 	@PostMapping("/edit_info")
-	public String editInfo(@ModelAttribute DangUserMypageVO inputUserMypageVO, MultipartFile userProfile) throws IllegalStateException, IOException {
+	public String editInfo(@ModelAttribute DangUserMypageVO inputUserMypageVO, MultipartFile userProfile, HttpSession session) throws IllegalStateException, IOException {
 		// 개인정보 수정
 		dangUserDao.editUserInfo(inputUserMypageVO);
+		// HttpSession에서 기존의 회원 닉네임 삭제
+		session.removeAttribute("loginNick");
+		// 새로운 회원 닉네임을 HttpSession에 저장
+		session.setAttribute("loginNick", inputUserMypageVO.getUserNick());
 		// 첨부파일 수정
 		if(userProfile.getSize() != 0) { // 수정하려는 첨부파일이 존재한다면
 			// 기존 첨부파일 번호 반환
@@ -177,6 +188,10 @@ public class DangUserController {
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 파일 저장
 			userProfile.transferTo(target);
+			// HttpSession에서 기존의 회원 프로필 번호 삭제
+			session.removeAttribute("loginProfileImg");
+			// 새로운 회원 프로필 번호를 HttpSession에 저장
+			session.setAttribute("loginProfileImg", attachmentNo);
 		}
 		return "redirect:mypage";
 	}
@@ -263,5 +278,75 @@ public class DangUserController {
 	@GetMapping("/close_user_result")
 	public String closeUserResult() {
 		return "dang_user/close_user_result";
+	}
+	
+	// 아이디 찾기
+	@GetMapping("/find_id")
+	public String findId() {
+		return "dang_user/find_id";
+	}
+	
+	@PostMapping("/find_id")
+	public String findId(@ModelAttribute DangUserFindVO dangUserFindVO, Model model) {
+		// 입력받은 이메일로 회원 아이디 조회
+		String findUserId = dangUserDao.findUserId(dangUserFindVO.getUserEmail());
+		// 조회 결과가 null이 아니라면
+		if(findUserId != null) {
+			// 조회 정보를 Model에 추가
+			model.addAttribute("findUserId", findUserId);
+			return "dang_user/find_id_result";
+		} else {
+			return "redirect:find_id?fail";
+		}
+	}
+	
+	// 비밀번호 찾기
+	@GetMapping("/find_pw")
+	public String findPw() {
+		return "dang_user/find_pw";
+	}
+	
+	@PostMapping("/find_pw")
+	public String findPw(@ModelAttribute DangUserFindVO dangUserFindVO, RedirectAttributes attr) {
+		// 입력받은 아이디와 이메일로 회원 번호 조회
+		Integer findUserNo = dangUserDao.findUserPw(dangUserFindVO.getUserId(), dangUserFindVO.getUserEmail());
+		if(findUserNo != null) {
+			// 비밀번호 재설정으로 redirect
+			attr.addAttribute("userNo", findUserNo);
+			return "redirect:find_pw_change";
+		} else {
+			return "redirect:find_pw?fail";
+		}
+	}
+	
+	// 비밀번호 재설정
+	@GetMapping("/find_pw_change")
+	public String findPwResult(@RequestParam int userNo, Model model) {
+		model.addAttribute("userNo", userNo);
+		return "dang_user/find_pw_change";
+	}
+	
+	@PostMapping("/find_pw_change")
+	public String findPwResult(@RequestParam int userNo, @ModelAttribute DangUserChangePwVO dangUserChangePwVO) {
+		// 새 비밀번호와 비밀번호 확인 일치 여부
+		boolean step1 = dangUserChangePwVO.getUserPw().equals(dangUserChangePwVO.getUserPwck());
+		if(!step1) {
+			return "redirect:find_pw_change?userNo=" + userNo + "&fail_step1";
+		}
+		// 비밀번호 정규 표현식
+		String rexexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$";
+		// 정규표현식 만족 여부
+		boolean step2 = Pattern.matches(rexexp, dangUserChangePwVO.getUserPw());
+		if(!step2) {
+			return "redirect:find_pw_change?userNo=" + userNo + "&fail_step2";
+		}
+		// 비밀번호 변경
+		dangUserDao.changeUserPw(userNo, dangUserChangePwVO.getUserPw());
+		return "redirect:find_pw_success";
+	}
+	
+	@GetMapping("/find_pw_success")
+	public String findPwSuccess() {
+		return "dang_user/find_pw_success";
 	}
 }

@@ -104,4 +104,18 @@ public interface DangUserDao {
 	 */
 	public boolean closeUser(int userNo);
 	
+	/**
+	 * 입력한 이메일로 회원 아이디 찾기
+	 * @param userEmail : 입력 이메일
+	 * @return String : 회원 아이디
+	 */
+	public String findUserId(String userEmail);
+	
+	/**
+	 * 입력한 아이디, 이메일로 회원 번호 찾기
+	 * @param userId : 입력 아이디
+	 * @param userEmail : 입력 이메일
+	 * @return int : 회원 번호
+	 */
+	public Integer findUserPw(String userId, String userEmail);
 }

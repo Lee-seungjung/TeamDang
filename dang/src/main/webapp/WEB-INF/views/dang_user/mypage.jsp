@@ -2,13 +2,10 @@
     pageEncoding="UTF-8"%>
 
 <style>
-	* {
-		border: 1px gray dotted;
-	}
 	
-	.img-user-profile {
+	.img-mypage-profile {
 		border-radius : 50%;
-		padding: 5px;
+		border : 2px solid black;
 	}
 	
 	.div-user-info {
@@ -40,7 +37,7 @@
 						<div class = "col div-user-info p-5">
 							<div class = "row">
 								<div class = "col-4 d-flex justify-content-center align-items-center">
-									<img class = "img-fluid img-user-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
+									<img class = "img-fluid img-mypage-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
 								</div>
 								<div class = "col-8 align-self-center">
 									<div class = "row my-2">

@@ -118,9 +118,26 @@ public class DangUserDaoImpl implements DangUserDao {
 		return result > 0;
 	}
 
+	// 회원탈퇴
 	@Override
 	public boolean closeUser(int userNo) {
 		int result = sqlSession.delete("dangUser.closeUser", userNo);
 		return result > 0;
+	}
+
+	// 입력한 이메일로 회원 아이디 찾기
+	@Override
+	public String findUserId(String userEmail) {
+		return sqlSession.selectOne("dangUser.selectId", userEmail);
+	}
+
+	// 입력한 아이디, 이메일로 회원 번호 찾기
+	@Override
+	public Integer findUserPw(String userId, String userEmail) {
+		Map<String, String> param = new HashMap<>();
+		param.put("userId", userId);
+		param.put("userEmail", userEmail);
+		Integer userNo = sqlSession.selectOne("dangUser.selectPw", param);
+		return userNo;
 	}
 }
