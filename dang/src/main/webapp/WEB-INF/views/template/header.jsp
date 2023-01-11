@@ -56,7 +56,7 @@
 	*{
 		font-family: 'Noto Sans KR', 산세리프;
 		font-size : 18px;
-		border : 1px gray dotted;
+		/*border : 1px gray dotted;*/
     }
     
 	a {

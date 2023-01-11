@@ -154,6 +154,7 @@
 		//전역변수 방번호, 댕모임번호
 		var roomNo = $("[name=roomNo]").val();
 		var dangNo = $("[name=dangNo]").val();
+		console.log(dangNo);
 		
 		//1. 웹소켓 연결 생성
 		var uri = "${pageContext.request.contextPath}/ws/chat";
@@ -496,73 +497,81 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 shadow-lg">			
-						<!-- 과거 메세지 생성 -->
-						<div class="past-chat" data-no="${history.get(0).chatNo}" style="position:relative;"></div>
-						
-						<!-- 기존 메세지 생성 -->
-						<div class="date-print text-center" style="position:relative;">
-							<span class="date-font">
-								<fmt:formatDate value="${history.get(0).chatDate}" pattern="yyyy년 M월 d일 E요일"/>
-							</span>
-						</div>
-						<c:forEach var="vo" items="${history}">
-							<c:choose>
-								<c:when test="${profile.userNo==vo.userNo}">
-									<div class="text-end me-2 mb-3">
-										<span style="font-size:10px;" class="align-bottom me-1">
-											<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+					<div class="chat-box p-3 shadow-lg">
+
+						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
+							<!-- 기존 메세지 생성 -->
+							<div class="date-print text-center" style="position:relative;">
+								<c:choose>
+									<c:when test="${history.size()==0}">
+										<span class="date-font">
+											<fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy년 M월 d일 E요일"/>
 										</span>
-										<c:choose>
-											<c:when test="${vo.imgAttachmentNo==0}">
-												<span class="message2">${vo.chatContent}</span>
-											</c:when>
-											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100" class="cursor-zoomin">
-											</c:otherwise>
-										</c:choose>
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="text-start ms-2">
-										<table class="mb-2">
-											<tbody>
-												<tr>
-													<td rowspan="2" class="align-top">
-														<c:choose>
-															<c:when test="${vo.attachmentNo==0}">
-																<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
-															</c:when>
-															<c:otherwise>
-																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-circle" width="45" height="45">
-															</c:otherwise>
-														</c:choose>
-													</td>
-													<td><span style="font-size:14px;">${vo.memberNick}</span></td>
-													<td rowspan="2"></td>
-												</tr>
-												<tr>
-													<td>
-														<c:choose>
-															<c:when test="${vo.imgAttachmentNo==0}">
-																<span class="message">${vo.chatContent}</span>
-															</c:when>
-															<c:otherwise>
-																<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css cursor-zoomin">
-															</c:otherwise>
-														</c:choose>
-														<span style="font-size:10px;" class="align-bottom ms-1">
-															<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-														</span>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						
+									</c:when>
+									<c:otherwise>
+										<span class="date-font">
+											<fmt:formatDate value="${history[0].chatDate}" pattern="yyyy년 M월 d일 E요일"/>
+										</span>
+									</c:otherwise>
+								</c:choose>
+								
+							</div>
+							<c:forEach var="vo" items="${history}">
+								<c:choose>
+									<c:when test="${profile.userNo==vo.userNo}">
+										<div class="text-end me-2 mb-3">
+											<span style="font-size:10px;" class="align-bottom me-1">
+												<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+											</span>
+											<c:choose>
+												<c:when test="${vo.imgAttachmentNo==0}">
+													<span class="message2">${vo.chatContent}</span>
+												</c:when>
+												<c:otherwise>
+													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100" class="cursor-zoomin">
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="text-start ms-2">
+											<table class="mb-2">
+												<tbody>
+													<tr>
+														<td rowspan="2" class="align-top">
+															<c:choose>
+																<c:when test="${vo.attachmentNo==0}">
+																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
+																</c:when>
+																<c:otherwise>
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-circle" width="45" height="45">
+																</c:otherwise>
+															</c:choose>
+														</td>
+														<td><span style="font-size:14px;">${vo.memberNick}</span></td>
+														<td rowspan="2"></td>
+													</tr>
+													<tr>
+														<td>
+															<c:choose>
+																<c:when test="${vo.imgAttachmentNo==0}">
+																	<span class="message">${vo.chatContent}</span>
+																</c:when>
+																<c:otherwise>
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css cursor-zoomin">
+																</c:otherwise>
+															</c:choose>
+															<span style="font-size:10px;" class="align-bottom ms-1">
+																<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
 						<!-- 새 메세지 생성 -->
 						<div class="new-chat" style="margin-right:10px;" style="position:relative;"></div>
 						
@@ -582,7 +591,7 @@
 			</div>
 			
 			<!-- 방번호, 회원번호-->
-			<input type="hidden" name="roomNo" value="${history[0].roomNo}">
+			<input type="hidden" name="roomNo" value="${roomNo}">
 			<input type="hidden" name="userNo" value="${profile.userNo}">
 			<input type="hidden" name="dangNo" value="${profile.dangNo}">
 			

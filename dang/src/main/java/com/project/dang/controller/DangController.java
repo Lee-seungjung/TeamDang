@@ -124,6 +124,8 @@ public class DangController {
 		Integer roomNo = dangChatDao.findRoomNo(dangNo);
 		// 기본 채팅 내역
 		model.addAttribute("history", dangChatDao.listAll(roomNo));
+		// 채팅 내역 없을 경우의 roomNo 전송
+		model.addAttribute("roomNo", roomNo);
 		// 회원 정보
 		String userNo = String.valueOf(session.getAttribute("loginNo"));
 		DangMemberDto dto = DangMemberDto.builder()
@@ -250,6 +252,8 @@ public class DangController {
 		int roomNo = dangChatDao.findRoomNo(dangNo);
 		// 기본 채팅 내역
 		model.addAttribute("history", dangChatDao.listAll(roomNo));
+		// 채팅 내역 없을 경우의 roomNo 전송
+		model.addAttribute("roomNo", roomNo);
 		// 회원 정보
 		String userNo = String.valueOf(session.getAttribute("loginNo"));
 		DangMemberDto dto = DangMemberDto.builder()

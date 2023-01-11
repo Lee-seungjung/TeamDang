@@ -41,6 +41,10 @@
   		height:150px;
   		margin-left:20px;
   	}
+  	.origin-css{
+  		width:180px;
+  		height:180px;
+  	}
   	.invalid-feedback2 {
 	  display: none;
 	  width: 100%;
@@ -454,14 +458,14 @@
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-3 mt-1" >
-				<div class="col-7 ">
+				<div class="col-8 ">
 				
 					<c:choose>
 						<c:when test="${attachmentNo==null}">
-							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img">
+							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 						</c:when>
 						<c:otherwise>
-							<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-fluid img-circle origin-img">
+							<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-fluid img-circle origin-img origin-css">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -613,6 +617,6 @@
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
 	<input type="hidden" name="dangNo" value="${profile.dangNo}">
-	
+	<input type="hidden" name="userNo" value="${profile.userNo}">
 	
 </div>
