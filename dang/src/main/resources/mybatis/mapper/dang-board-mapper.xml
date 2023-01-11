@@ -49,6 +49,10 @@
 		insert into board_img(board_no, attachment_no) values(#{boardNo},#{attachmentNo})
 	</insert>
 	
+	<!-- 게시글 첨부파일 조회 -->
+	<select id="findImg" resultType="BoardImgDto" parameterType="int">
+		select * from board_img where board_no=#{boardNo}
+	</select>
   
 </mapper>
   

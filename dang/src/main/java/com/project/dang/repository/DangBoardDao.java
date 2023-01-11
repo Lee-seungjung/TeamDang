@@ -39,4 +39,11 @@ public interface DangBoardDao {
 	 * @param BoardImgDto
 	 */
 	void imgInsert(BoardImgDto dto);
+	
+	/**
+	 * 게시글 첨부파일 조회
+	 * @param boardNo
+	 * @return List<BoardImgDto>
+	 */
+	List<BoardImgDto> findImg(int boardNo);
 }

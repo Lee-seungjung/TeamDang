@@ -774,7 +774,7 @@
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
                         	
-                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div");
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
 							div.append(img);
@@ -805,10 +805,12 @@
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_board/find_no",
 					method:"get",
+					async:false,
 					success:function(resp){
 						console.log(resp);
 						
 						//비동기화 데이터 준비
+						var boardNo = resp;
 						var memberNo = $("[name=memberNo]").val();
 						var dangNo = $("[name=dangNo]").val();
 						var memberNick = $("[name=memberNick]").val();
@@ -816,7 +818,7 @@
 						var boardCategory = $("[name=boardCategory]").val();
 						
 						boardData = {
-							boardNo:resp,
+							boardNo:boardNo,
 							memberNo:memberNo,
 							dangNo:dangNo,
 							memberNick:memberNick,
@@ -828,36 +830,38 @@
 						$.ajax({
 							url:"${pageContext.request.contextPath}/rest_board/insert",
 							method:"post",
+							async:false,
 							data:JSON.stringify(boardData),
 							contentType:"application/json",
 							success:function(resp){
+								//게시글 이미지 DB 등록
+								var findtag = $(".files");
+					        	var attachmentNo;
+					        	if(findtag.length!=0){
+					        		for(var i=0; i<findtag.length; i++){
+						        		attachmentNo = findtag.eq(i).attr("data-no");
+						        		
+						        		data = {
+						        				boardNo:boardNo,
+						        				attachmentNo:attachmentNo
+						        		}
+						        		
+						        		$.ajax({
+						    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+						    				method:"post",
+						    				data:JSON.stringify(data),
+						    				async:false,
+											contentType:"application/json",
+						    				success:function(resp){
+						    					console.log("저장성공!");
+						    				}
+						    			});
+						        	}
+					        	}
 								$("#boardModal").modal('hide');
 							}
 						});
-						
-						//게시글 이미지 DB 등록
-						var findtag = $(".files");
-			        	var attachmentNo;
-			        	if(findtag.length!=0){
-			        		for(var i=0; i<findtag.length; i++){
-				        		attachmentNo = findtag.eq(i).attr("data-no");
-				        		
-				        		data = {
-				        				boardNo:resp,
-				        				attachmentNo:attachmentNo
-				        		}
-				        		
-				        		$.ajax({
-				    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
-				    				method:"post",
-				    				data:JSON.stringify(data),
-									contentType:"application/json",
-				    				success:function(resp){
-				    					console.log("저장 성공!");
-				    				}
-				    			});
-				        	}
-			        	}
+			        	location.reload();
 					}
 				});
 			}

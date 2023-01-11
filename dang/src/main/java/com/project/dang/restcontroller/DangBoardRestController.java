@@ -1,9 +1,12 @@
 package com.project.dang.restcontroller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,12 @@ public class DangBoardRestController {
 	@PostMapping("/img_insert")
 	public void imgInsert(@RequestBody BoardImgDto dto) {
 		dangBoardDao.imgInsert(dto);
+	}
+	
+	//기본조회(5개)
+	@GetMapping("/find_img/{boardNo}")
+	public List<BoardImgDto> findImg(@PathVariable int boardNo){
+		return dangBoardDao.findImg(boardNo);
 	}
 
 }

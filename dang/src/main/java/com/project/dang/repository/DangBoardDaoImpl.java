@@ -45,6 +45,12 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public void imgInsert(BoardImgDto dto) {
 		sqlSession.insert("dangBoard.imgInsert",dto);		
 	}
+
+	//게시글 첨부파일 조회
+	@Override
+	public List<BoardImgDto> findImg(int boardNo) {
+		return sqlSession.selectList("dangBoard.findImg",boardNo);
+	}
 	
 
 	

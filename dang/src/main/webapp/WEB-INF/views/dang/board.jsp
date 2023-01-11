@@ -74,7 +74,10 @@
 </style>
 
 <script>
-	$(function(){		
+	$(function(){
+		
+		printImg();
+
 		//카테고리 색상변경
 		$(".category").click(function(){
 			var category = $(".category");	
@@ -128,7 +131,6 @@
 				thisTag.empty();
 			}
 		});
-		
 		
 		//댓글 목록
 		function replyRepeat(resp, thisTag){
@@ -186,6 +188,37 @@
 			col2.append(button1);
 			inputReply.append(col10).append(col2);
 			replyBox.append(inputReply);
+		}
+		
+		//파일번호 있는 게시글 확인 후 출력
+		function printImg(){
+			var check = $(".img-check");
+			console.log(check);
+
+			if(check!=0){ //첨부파일 게시글이 있을때만 실행!
+				for(var i=0; i<check.length; i++){
+					var boardNo = check.eq(i).data("no");
+					var thistag = check.eq(i);
+					console.log(boardNo);
+
+					$.ajax({
+						url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+						method:"get",
+						async:false,
+						success:function(resp){
+							console.log(resp);
+							thistag.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo);
+							
+							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
+							if(resp.length>1){
+								for(var i=0; i<resp.length; i++){
+									thistag.attr("data-attach"+i,resp[i].attachmentNo);
+								}
+							}
+						}
+					});
+				}
+			}
 		}
 
 		
@@ -258,14 +291,15 @@
 									</div>
 								</div>
 								
-								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" style="height:72px;">
-									<div class="col-10 text-start">
+								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
+									<div class="col-9 text-start me-1">
 										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
 									</div>
-									<div class="col-2 middle-items">
+									<div class="col-3 middle-items">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
-											<img src="#" class="img-fluid " data-no="${vo.boardNo}">
+											<img src="#" class="img-fluid img-check" data-no="${vo.boardNo}">
+											+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
 										</c:if>
 									</div>
 								</div>
