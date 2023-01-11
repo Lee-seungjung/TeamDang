@@ -140,12 +140,13 @@
 			
 			var replyContent = $("<div>").attr("class","reply-content d-flex");
 			
-			var col1 = $("<div>").attr("class","col-1");
+			var col1 = $("<div>").attr("class","col-1 middle-items");
 			var img = $("<img>");
 			if(resp.attachmentNo!=null){
-				img = img.attr("class","img-fluid").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
+				img = img.attr("class","img-fluid img-circle").attr("style","width:50px; height:50px;")
+						.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
 			}else{
-				img = img.attr("class","img-fluid").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				img = img.attr("class","img-fluid img-circle").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 			}
 			col1.append(img);
 			
@@ -177,11 +178,11 @@
 			var replyBox = thisTag;
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
 			var col10 =  $("<div>").attr("class","col-10");
-			var input1 = $("<input>").attr("class","input form-control ms-3").attr("type","text").attr("placeholder","댓글을 달아주세요");
+			var input1 = $("<input>").attr("class","input form-control ms-2").attr("type","text").attr("placeholder","댓글을 달아주세요");
 			col10.append(input1);
 			
 			var col2 =  $("<div>").attr("class","col-2");
-			var button1 = $("<button>").attr("class","btn btn-primary me-3").attr("type","button").text("전송");
+			var button1 = $("<button>").attr("class","btn btn-primary me-2").attr("type","button").text("전송");
 			col2.append(button1);
 			inputReply.append(col10).append(col2);
 			replyBox.append(inputReply);
