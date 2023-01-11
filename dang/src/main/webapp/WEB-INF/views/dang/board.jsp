@@ -236,11 +236,11 @@
 								<div class="first-line d-flex">
 									<div class="col-1">
 										<c:choose>
-											<c:when test="${vo.attachmentNo!=null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid">
+											<c:when test="${vo.attachmentNo==null}">
+												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid">
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid img-circle" style="width:50px; height:50px;">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -263,7 +263,7 @@
 										<span class="content-font">${vo.boardContent}</span>
 									</div>
 									<div class="col-2 middle-items">
-										<c:if test="${vo.allImg!=null}">
+										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
 											<img src="#" class="img-fluid " data-no="${vo.boardNo}">
 										</c:if>
