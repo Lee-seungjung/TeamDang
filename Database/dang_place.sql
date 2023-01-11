@@ -11,7 +11,8 @@ place_address varchar2(300),
 place_operation varchar2(30),
 place_off varchar2(30),
 place_tel varchar2(13),
-place_url varchar2(4000)
+place_url varchar2(4000),
+size varchar2(9),
 );
 
 --모임장소 PK 시퀀스 번호 생성 구문
