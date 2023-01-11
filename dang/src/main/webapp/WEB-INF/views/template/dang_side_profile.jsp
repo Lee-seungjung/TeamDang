@@ -83,6 +83,10 @@
 	    background-color: #F1F4FF;
 	    border-radius: 0.3rem;
 	 }
+	 .file-div{
+	 	width:100px;
+	 	height:100px;
+	 }
 </style>
 <script>
 	$(function(){
@@ -665,23 +669,15 @@
 					
 					<div class="mb-3 text-start mt-2">
 						<div>
-							<input class="form-control" type="file" accept=".jpg, .png, .gif">
+							<input class="form-control select-file" type="file" accept=".jpg, .png, .gif" multiple>
 					    </div>
-					    <div class="files mt-2">
-							<div class="files1 form-control col-1 inbl w-auto">
-								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
-							</div>
-							<div class="files2 form-control col-1 inbl w-auto">
-								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
-							</div>
-							<div class="files3 form-control col-10 inbl w-auto">
-								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
-							</div>
+					    <div class="mt-2 file-wrap">
+							<!-- 비동기화 출력 -->
 					    </div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
 					<button type="submit" class="btn btn-primary">작성</button>
 				</div>
 				</form>
@@ -696,10 +692,17 @@
 	<input type="hidden" name="dangNo" value="${profile.dangNo}">
 	<input type="hidden" name="userNo" value="${profile.userNo}">
 	
+	<input type="hidden" class="cl" data-no="23">
+	<input type="hidden" class="cl" data-no="27">
+	
 </div>
 
 <script>
 	$(function(){
+		$(".board-write").click(function(){
+			$(".file-wrap").empty();
+		});
+		
 		//입력 항목 상태 판정
 		bCheck={
 				boardContent : false, 
@@ -741,6 +744,72 @@
 				bCheck.boardContent=true;
 			}
 		});
+		
+		//파일 선택
+		$(".select-file").change(function(e){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(value);
+			console.log(this.files); //파일 배열
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+			
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	console.log(resp);
+                    	
+                    	var fileDiv = $(".file-wrap");
+                    	for(var i=0; i<resp.url.length; i++){
+                    		console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
+							div.append(img);
+							fileDiv.append(div);
+                    	}
+ 
+                    	//취소버튼 누를 경우 첨부파일 삭제
+           				$(".write-cancel").click(function(){
+           					boardDeleteAttachmentNo();
+           				});
+			        }
+				});
+			}
+		});
+		
+		
+		
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		console.log(attachmentNo);
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
+		}
 		
 		//폼 전송 이벤트
 		$(".board-form").submit(function(e){
@@ -784,14 +853,9 @@
 								$("#boardModal").modal('hide');
 							}
 						});
-						
-						
 					}
 				});
 			}
-			
-			
-			
 		});
 		
 	});
