@@ -32,7 +32,7 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public List<ScheduleOneVO> scheduleOne(int scheduleNo) {
+	public ScheduleOneVO scheduleOne(int scheduleNo) {
 		return sqlSession.selectOne("schedule.scheduleOne", scheduleNo);
 	}
 

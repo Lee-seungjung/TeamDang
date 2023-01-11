@@ -13,12 +13,12 @@
 
 	<!-- 댕모임 개설 (공개) -->
 	<insert id = "createPublic" parameterType = "DangDto">
-		insert into dang(dang_no, dang_area_no, user_no, dang_name, dang_info, dang_headmax) values(#{dangNo}, #{dangAreaNo}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax})
+		insert into dang(dang_no, dang_area, user_no, dang_name, dang_info, dang_headmax) values(#{dangNo}, #{dangArea}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax})
 	</insert>
   
   	<!-- 댕모임 개설 (비공개) -->
   	<insert id = "createPrivate" parameterType = "DangDto">
-  		insert into dang(dang_no, dang_area_no, user_no, dang_name, dang_info, dang_headmax, dang_private, dang_pw) values(#{dangNo}, #{dangAreaNo}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax}, 'Y', #{dangPw})
+  		insert into dang(dang_no, dang_area, user_no, dang_name, dang_info, dang_headmax, dang_private, dang_pw) values(#{dangNo}, #{dangArea}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax}, 'Y', #{dangPw})
   	</insert>
   	
   	<!-- 댕모임 첨부파일 정보 등록 -->
