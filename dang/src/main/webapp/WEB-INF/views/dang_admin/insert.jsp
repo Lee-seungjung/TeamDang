@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,6 +10,18 @@
 
     <title>Document</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Bootswatch CDN -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.2/cosmo/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+
     <style>
         .editor {
             min-height: 250px;
@@ -18,62 +29,202 @@
             padding: 1em;
             font-size: 16px;
         }
+        .accent{
+            color : red;
+            font-size: 13px;
+        }
     </style>
 </head>
 
 <body>
-    <label>행정구역(구)
-        <input type="text" name="placeArea"><br><br>
-    </label>
-    <label>위도
-        <input type="text" name="placeX"><br><br>
-    </label>
-    <label>경도
-        <input type="text" name="placeY"><br><br>
-    </label>
-    <label>카테고리
-        <input type="text" name="placeSort"><br><br>
-    </label>
-    <label>장소이름
-        <input type="text" name="placeName"><br><br>
-    </label>
-    <label>장소정보
-        <textarea type="text" name="placeInfo" rows="20" cols="40"></textarea><br><br>
-    </label>
-    <label>장소주소
-        <input type="text" name="placeAddress"><br><br>
-    </label>
-    <label>운영시간
-        <input type="text" name="placeOperation"><br><br>
-    </label>
-    <label>휴무일
-        <input type="text" name="placeOff"><br><br>
-    </label>
-    <label>전화번호
-        <input type="text" name="placeTel"><br><br>
-    </label>
-    <label>가게정보주소
-        <input type="text" name="placeUrl"><br><br>
-    </label>
-    <label> 댕댕이 크기
-        <input type="text" name="dangSize"><br><br>
-    </label>
-    <label>첨부파일
-        <input type="file" class="file-input" accept=".jpg, .png, .gif">
-    </label><br><br>
-    <label>미리보기
-        <div>
-            <img src="" class="change-img" width="100" height="100">
+    <div class="container-fluid mb-5">
+        
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 행정구역을 적어주세요:) <i class="accent">(필수)</i></h4>
+            </div>
         </div>
-    </label><br><br>
+        
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeArea" class="form-control rounded" placeholder="행정구역(구)">
+                    <label>행정구역(구)</label>
+                </div>
+            </div>
+        </div>
 
-    <input type="hidden" name="dangNo">
-    <!--댕모임 첨부파일 댕모임 번호-->
-    <input type="hidden" name="attachmentNo">
-    <!--댕모임 첨부파일 첨부파일 번호-->
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될  장소의 좌표를 지정해 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        
+        <div class="row mt-1">
+            <div class="col-md-5 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeX" class="form-control rounded" placeholder="위도">
+                    <label>위도</label>
+                </div>
+            </div>
+            <div class="col-md-5 offset">
+                <div class="form-floating">
+                    <input type="text" name="placeY" class="form-control rounded" placeholder="경도">
+                    <label>경도</label>
+                </div>
+            </div>
+        </div>
 
-    <button type="button" class="btn btn-positive insert-btn">등록</button><br>
-    <div id="map" style="width:1000px;height:350px;"></div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 카테고리를 선택해 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeSort" class="form-control rounded" placeholder="카테고리">
+                    <label>카테고리</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 이름을 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeName" class="form-control rounded" placeholder="장소이름">
+                    <label>장소이름</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 정보를 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
+                    <label>(최대 500자 까지 가능합니다.)</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 현주소를 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeAddress" class="form-control rounded" placeholder="현주소">
+                    <label>현주소</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 운영시간을 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeOperation" class="form-control rounded" placeholder="운영시간">
+                    <label>운영시간</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 휴무일을 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeOff" class="form-control rounded" placeholder="휴무일">
+                    <label>휴무일</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 전화번호를 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeTel" class="form-control rounded" placeholder="전화번호">
+                    <label>전화번호</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 홈페이지 주소를 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeUrl" class="form-control rounded" placeholder="정보URL">
+                    <label>홈페이지 주소</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <h4>등록될 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></h4>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="dangSize" class="form-control rounded" placeholder="댕댕이 크기">
+                    <label>댕댕이 크기</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
+                <input class="form-control form-control-sm file-input" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <div>미리보기</div>
+                <img src="" class="change-img" width="100" height="100">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <button type="button" class="btn btn-primary insert-btn">등록</button><br>
+            </div>
+        </div>
+        
+       
+
+        <input type="hidden" name="dangNo">
+        <!--댕모임 첨부파일 댕모임 번호-->
+        <input type="hidden" name="attachmentNo">
+        <!--댕모임 첨부파일 첨부파일 번호-->
+
+        
+        <div id="map" style="width:1000px;height:350px;"></div>
+
+    </div>
+
 
 
 
@@ -128,7 +279,7 @@
                     placeTel: placeTel,
                     placeUrl: placeUrl,
                     dangSize: dangSize,
-                    attachmentNo : attachmentNo,
+                    attachmentNo: attachmentNo,
                 };
 
                 $.ajax({
