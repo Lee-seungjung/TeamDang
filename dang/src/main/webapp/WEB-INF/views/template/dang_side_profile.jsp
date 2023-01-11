@@ -15,6 +15,7 @@
   	}
   	.modal-body{
   		padding-top:0;
+  		padding-bottom:0;
   	}
   	.modal-footer{
   		background-color: #fff;
@@ -64,6 +65,24 @@
   	.length-font{
   		font-size:12px;
   	}
+  	.board-write{
+  		color:#495057;
+  	}
+  	.board-write:hover{
+  		color:black;
+  	}
+  	.b-contentbox::-webkit-scrollbar {
+	    width: 5px;
+	 }
+	  .b-contentbox::-webkit-scrollbar-thumb {
+	  	height:30%;
+	    background-color: #B0CBFF;
+	    border-radius: 0.3rem;
+	 }
+	  .b-contentbox::-webkit-scrollbar-track {
+	    background-color: #F1F4FF;
+	    border-radius: 0.3rem;
+	 }
 </style>
 <script>
 	$(function(){
@@ -447,8 +466,7 @@
 			});
 		}
 		
-		
-		
+
 		
 	});
 </script>
@@ -607,11 +625,70 @@
 	</div>
 	
 	<!-- 게시판 글작성 -->
-	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
-		<span class="board-write cursor-pointer">게시글 작성</span>
+	<div class="p-3 border rounded-3 text-center shadow-lg mt-3 gray">
+		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
+			href="${pageContext.request.contextPath}/dang/{dangNo}/board_write">게시글 작성</a>
 	</div>
 	
-	
+	<!-- 게시판 글작성 모달 시작-->					
+	<div class="modal fade" id="boardModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
+				</div>
+				<form class="board-form">
+				<div class="modal-body">
+					
+					<div class="mb-3 text-start">
+						<label for="write-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
+						<div>
+							<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="write-category">
+							  <option value="">선택</option>
+							  <option value="자유글">자유글</option>
+							  <option value="가입인사">가입인사</option>
+							  <option value="정모후기">정모후기</option>
+							  <c:if test="${profile.memberOwner=='Y'}">
+							  	<option value="공지사항">공지사항</option>
+							  </c:if>
+							</select>
+						</div>
+					</div>
+					
+					<div class="mb-3 text-start">
+						<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
+						<span class="length-font">( </span>
+						<span class="b-length length-font">0</span>
+						<span class="length-font">/ 1000 )</span>
+						<textarea name="boardContent" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+					</div>
+					
+					<div class="mb-3 text-start mt-2">
+						<div>
+							<input class="form-control" type="file" accept=".jpg, .png, .gif">
+					    </div>
+					    <div class="files mt-2">
+							<div class="files1 form-control col-1 inbl w-auto">
+								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
+							</div>
+							<div class="files2 form-control col-1 inbl w-auto">
+								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
+							</div>
+							<div class="files3 form-control col-10 inbl w-auto">
+								<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid" width="70" height="70">
+							</div>
+					    </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">작성</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 게시판 글작성 모달 끝-->
 
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
@@ -620,3 +697,103 @@
 	<input type="hidden" name="userNo" value="${profile.userNo}">
 	
 </div>
+
+<script>
+	$(function(){
+		//입력 항목 상태 판정
+		bCheck={
+				boardContent : false, 
+				boardCategory : false,
+				allValid:function(){
+					return this.boardContent && this.boardCategory;
+				}
+		};
+		
+		//카테고리 선택 검사
+		$("[name=boardCategory]").on("change",function(){
+			var value = $(this).val();
+			console.log(value);
+			if(value==""){
+				bCheck.boardCategory=false;
+			}else{
+				bCheck.boardCategory=true;
+			}
+		});
+		
+		//입력창 글자수 확인(최대 1000자)
+		$("[name=boardContent]").on("input",function(){
+			var length = $(this).val().length; //글자수
+			var value = $(this).val(); //입력내용
+			//글자수 표시
+			$(".b-length").text(length);
+			console.log(value);
+			$(this).removeClass("is-invalid");
+			if(length==0){
+				$(".b-length").css("color","red");
+				bCheck.boardContent=true;
+			}else if(length>1000){
+				$(this).val(value.substring(0,1000));	
+				$(".b-length").css("color","red").text(1000);
+				bCheck.boardContent=false;
+				$(this).addClass("is-invalid");
+			}else if(length>0){
+				$(".b-length").css("color","#495057");
+				bCheck.boardContent=true;
+			}
+		});
+		
+		//폼 전송 이벤트
+		$(".board-form").submit(function(e){
+			e.preventDefault();
+			//이벤트 강제실행
+			$("[name=boardCategory]").change();
+			
+			var judge = $("[name=boardContent]").val();
+			if(judge.length==0) return; //입력값 없으면
+			
+			if(bCheck.allValid()){
+				//boardNo 시퀀스 미리 받기
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/find_no",
+					method:"get",
+					success:function(resp){
+						console.log(resp);
+						
+						//비동기화 데이터 준비
+						var memberNo = $("[name=memberNo]").val();
+						var dangNo = $("[name=dangNo]").val();
+						var memberNick = $("[name=memberNick]").val();
+						var boardContent = $("[name=boardContent]").val();
+						var boardCategory = $("[name=boardCategory]").val();
+						
+						boardData = {
+							boardNo:resp,
+							memberNo:memberNo,
+							dangNo:dangNo,
+							memberNick:memberNick,
+							boardContent:boardContent,
+							boardCategory:boardCategory
+						}
+						
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/insert",
+							method:"post",
+							data:JSON.stringify(boardData),
+							contentType:"application/json",
+							success:function(resp){
+								$("#boardModal").modal('hide');
+							}
+						});
+						
+						
+					}
+				});
+			}
+			
+			
+			
+		});
+		
+	});
+	
+</script>

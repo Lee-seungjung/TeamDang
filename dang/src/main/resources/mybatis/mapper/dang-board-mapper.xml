@@ -13,9 +13,9 @@
 	<!-- 글 등록 -->
 	<insert id="write" parameterType="DangBoardDto">
 		insert into dang_board(board_no, member_no, dang_no, member_nick, board_content, board_like, 
-		board_writedate, board_updatedate, board_state) 
-		values(#{boardNo}, #{memberNo}, #{dangNo},#{memberNick}, #{boardContent}, #{boardLike},
-		#{boardWriteDate}, #{boardUpdateDate}, #{boardState})
+		board_writedate, board_updatedate, board_state, board_category) 
+		values(#{boardNo}, #{memberNo}, #{dangNo},#{memberNick}, #{boardContent}, 0,
+		sysdate, sysdate, 'N', #{boardCategory})
 	</insert>
 	
 	<!-- 댕모임 게시글 전체조회(동기방식 5개만)-->
@@ -34,7 +34,7 @@
 					left outer join (
 					select reply.board_no, count(*) replycnt from dang_reply reply group by reply.board_no
 					) total3 on total1.board_no=total3.board_no
-				where total1.dang_no=#{dangNo} order by total1.board_no asc
+				where total1.dang_no=#{dangNo} order by total1.board_no desc
 		    )TMP
 		) where rn between 1 and 5
 	</select>

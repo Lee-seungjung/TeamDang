@@ -260,7 +260,7 @@
 								
 								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" style="height:72px;">
 									<div class="col-10 text-start">
-										<span class="content-font">${vo.boardContent}</span>
+										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
 									</div>
 									<div class="col-2 middle-items">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
@@ -304,9 +304,7 @@
 					    	
 				    </div>
 				    <!-- 게시글 끝 -->
-				    
-				    
-				    
+
 				</div>
 			</div>
 			

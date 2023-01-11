@@ -18,13 +18,13 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	//글번호 발급
 	@Override
 	public int sequence() {
-		return sqlSession.selectOne("dangBoard.sequnece");
+		return sqlSession.selectOne("dangBoard.sequence");
 	}
 	
 	//글쓰기 등록
 	@Override
-	public void write(DangBoardDto dto) {
-		sqlSession.insert("dangBoard,write",dto);	
+	public void write(DangBoardDto vo) {
+		sqlSession.insert("dangBoard.write",vo);	
 	}
 	
 	//전체 게시글 조회

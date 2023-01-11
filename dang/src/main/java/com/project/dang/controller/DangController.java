@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dang.dto.AttachmentDto;
+import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.RoomDto;
@@ -179,7 +180,6 @@ public class DangController {
 		
 		//기본 동기 조회(5개)
 		model.addAttribute("boardList", dangBoardDao.selectAll(dangNo));
-		List<BoardHistoryVO> vo = dangBoardDao.selectAll(dangNo); 
 		
 		return "dang/board";
 	}

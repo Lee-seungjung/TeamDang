@@ -15,7 +15,7 @@
 			        left outer join dang_board board on reply.board_no=board.board_no
 			        left outer join dang_member m on reply.member_no=m.member_no
 			        left outer join user_img uimg on m.user_no=uimg.user_no 
-		        where reply.board_no=1 order by reply.reply_no asc
+		        where reply.board_no=${boardNo} order by reply.reply_no asc
 		    )TMP
 		) where rn between 1 and 3
 	</select>
