@@ -118,10 +118,7 @@
 					</div> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
 					<div class = "row my-3"> <%-- 지역은 차후 수정 --%>
 						<div class = "col-10 offset-1 d-flex flex-column">
-							<select name = "dangArea">
-								<option value = "">활동지역</option>
-								<option value = "노량진">노량진</option>
-							</select>
+							<span>활동 지역</span>
 							<svg class = "w-100 h-100" style='background:white;overflow:visible' width="800" height="656" xmlns="http://www.w3.org/2000/svg" viewbox = "50 50 700 550">">
 							    <g>
 							        <path id="CD11110" class="OUTLINE"
@@ -375,19 +372,6 @@
 		});
 		
 		// 댕모임 활동 지역
-		$("[name=dangArea]").change(function(){
-			if($(this).val() != "") {
-				formValidCheck.checkDangArea = true;
-				formValid();
-			} else {
-				formValidCheck.checkDangArea = false;
-				formValid();
-			}
-		});
-		
-		var dangArea;
-		
-		// 댕모임 지역 선택
 		$(".TEXT").click(function () {
 			// 선택(색상) 초기화
         	$(".OUTLINE").removeClass("area-selected");
@@ -397,6 +381,7 @@
         	$("#CD" + id).addClass("area-selected");
 			// 지역 선택
             dangArea = $(this).text();
+			console.log(dangArea);
             formValidCheck.checkDangArea = true;
 			formValid();
         })
@@ -415,16 +400,16 @@
 		// form 전송
 		$(".btn-submit-create").click(function(e){
 			// 기본 이벤트 차단(form 전송)
-			e.preventDefault()
+			e.preventDefault();
 			var form = $(".form-create-dang");
-			form.append($("<input>").attr("type", "hidden").attr("name", "dangArea").attr("value", dangArea));
+			form.append($("<input>").attr("type", "hidden").attr("name", "dangArea").attr("value",dangArea));
 			// 비공개 댕모임일 경우에만
 			if(formValidCheck.checkDangPrivate) {
 				form
 					.append($("<input>").attr("type", "hidden").attr("name", "dangPrivate").attr("value", "Y"))
 					.append($("<input>").attr("type", "hidden").attr("name", "dangPw").attr("value", $(".input-dang-password").val()));
 			}
-			$(".form-create-dang").submit();
+			form.submit();
 		})
 		
 		// 댕모임 개설 유효성 판정
