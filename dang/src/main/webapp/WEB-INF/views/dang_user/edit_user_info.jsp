@@ -10,7 +10,7 @@
 		display : none;
 	}
 	
-	.img-user-profile {
+	.img-edit-profile {
 		border-radius : 50%;
 		padding: 5px;
 	}
@@ -46,7 +46,7 @@
 							<div class = "row">
 								<div class = "col-4 d-flex justify-content-center align-items-center">
 									<label for = "userProfile" class = "img-user-profile">
-										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-user-profile">
+										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
 										<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
 									</label>
 								</div>
@@ -130,7 +130,7 @@
                     contentType:false,
                     success : function(resp) {
                     	console.log(resp);
-                    	$(".img-user-profile").prop("src", resp);
+                    	$(".img-edit-profile").prop("src", resp);
                     }
 				});
 			}

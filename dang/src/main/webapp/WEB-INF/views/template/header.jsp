@@ -54,38 +54,64 @@
 
 	*{
 		font-family: 'Noto Sans KR', 산세리프;
+		font-size : 18px;
+		border : 1px gray dotted;
     }
     
 	a {
        text-decoration: none;
        color:black;
     }
+    
     p{
     	margin-bottom:0;
     }
+    
     .img-circle{
 		border-radius: 50%;
     	border:none;
     	background-color:#fff;
     	overflow: hidden;
 	}
+	
 	.font-gray{
 		color:#373A3C;
 	}
 	
 	.shadow1{
-	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
-  }
+		box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  	}
+  	
 	.btn.btn-primary{
 		background-color:#76BEFF;
 		color:#fff;
 		border-color: #76BEFF;
 	}
+	
 	.cursor-pointer{
 		cursor: pointer;
 	}
+	
 	.cursor-zoomin{
 		cursor:zoom-in;
+	}
+	
+	.img-user-profile {
+		border-radius : 50%;
+		border : 2px solid black;
+		width : 1.8em;
+	}
+	
+	.div-user-profile {
+		cursor:pointer;
+	}
+	
+	.span-check-invalid {
+		color : green;
+	}
+	
+	.span-check-invalid {
+		color : red;
 	}
     
 </style>
@@ -94,78 +120,54 @@
 <%-- 로그인 여부 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
-	<%--메인 navbar 시작--%>
-	<nav class="nvbar navbar-expand-lg navbar-light bg-light">
-	 <div class="container-fluid">
-	    <a class="navbar-brand" href="#">댕모임</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" ari-controls="navbarColor03" aria-expanded="false" aia-label="Toggl navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collase navbar-collapse" id="navbarClor03">
-	      <ul class="navbar-nav me-auto">
-	       <li class="nav-item">
-	          <a class="nav-link acive" href="#">Hoe
-	           <span class="visually-hidden">(current)</span>
-	          </a>
-	        </li>
-	       <li class="av-item">
-	          <a class="nav-link" href="#">Features</a>
-	        </li>
-	       <li class="nav-item">
-	          <a class="nav-link" href="#">Pricing</a>
-	        </li>
-	       <li class="nav-item">
-	          <a class="nav-lnk" href="#">About</a>
-	        </li>
-	        <li class="nav-item dropdown">
-	          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="rue" aria-expanded="false">Dropdown</a>
-	          <div class="dropdown-menu">
-	            <a class="dropdown-item" href="">Action</a>
-	            <a class="dropdown-item" href="#">Another acion</a>
-	            <a class="dropdown-item" href="#">Something else here</a>
-	            <div class="dropdown-diider"></div>
-	           <a class="dropdown-itm" href="#">Separated link</a>
-	          </div>
-	        </li>
-	      </ul>
-	      <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
-	       <button class="btn btn-seondary my- my-sm-0" type="submit">Search</button>
-	      </form>
-	    </div>
-	  </div>
-	</nav>
-	<%--메인 navbar 끝--%>
-
-<div class = "container-fluid">
-	<div class = "col-8 offset-2">
-		<div class = "row">
-			<div class = "col-3">
-				<a href = "/">홈</a>
+<div class = "container-fluid my-3">
+	<div class = "row">
+		<div class = "col-8 offset-2">
+			<div class = "row">
+				<div class = "col-2 px-5">
+					<a href = "/">
+						<img src = "/images/logo.png" class = "img-fluid">
+					</a>
+				</div>
+				<div class = "col-4">
+					여백
+				</div>
+				<div class = "col-6 d-flex flex-row">
+					<div class = "col-4 d-flex justify-content-center align-items-center">
+						<a href = "#">댕모임 찾기</a>
+					</div>
+					<c:choose>
+					<c:when test = "${login}">
+					<div class = "col-4 d-flex justify-content-center align-items-center">
+						<label class = "col d-flex justify-content-center align-items-center div-user-profile" onClick = "location.href = '${pageContext.request.contextPath}/user/mypage'">
+							<img class = "col-3 img-user-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+							<span class = "ms-2">
+								${loginNick}
+							</span>
+						</label>
+					</div>
+					<div class = "col-4 d-flex justify-content-center align-items-center">
+						<a href = "/user/logout">로그아웃</a>
+					</div>
+					</c:when>
+					<c:otherwise>
+						<div class = "col-4 d-flex justify-content-center align-items-center">
+							<a href = "/user/join">회원가입</a>
+						</div>
+						<div class = "col-4 d-flex justify-content-center align-items-center">
+							<a href = "/user/login">로그인</a>
+						</div>
+					</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
-			<div class = "col-3">
-				<a href = "/dang/create">댕모임 개설</a>
-			</div>
-		<c:choose>
-		<c:when test = "${login}">
-			<div class = "col-3">
-				<a href = "/user/logout">로그아웃</a>
-			</div>
-			<div class = "col-3">
-				<a href = "/user/mypage">마이페이지</a>
-			</div>
-		</c:when>
-		<c:otherwise>
-			<div class = "col-3">
-				<a href = "/user/login">로그인</a>
-			</div>
-			<div class = "col-3">
-				<a href = "/user/join">회원가입</a>
-			</div>
-		</c:otherwise>
-		</c:choose>
 		</div>
 	</div>
 </div>	
+
+
+			<div class = "col-3">
+				<a href = "/dang/create">댕모임 개설</a>
+			</div>
 
 	<div class="container-fluid">

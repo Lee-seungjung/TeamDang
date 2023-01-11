@@ -11,5 +11,7 @@ public class DangUserVO {
 	private Integer userNo;
 	private String userId;
 	private String userPw;
+	private String userNick;
 	private String userGrade;
+	private Integer attachmentNo;
 }

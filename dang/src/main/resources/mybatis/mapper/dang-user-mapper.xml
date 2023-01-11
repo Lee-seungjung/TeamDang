@@ -19,7 +19,10 @@
 	
 	<!-- 입력한 아이디로 회원정보 조회 -->
 	<select id = "loginInfo" parameterType = "String" resultType = "DangUserVO">
-		select user_no, user_id, user_pw, user_grade from dang_user where user_id = #{userId}
+		select du.user_no, du.user_id, du.user_pw, du.user_nick, du.user_grade, ui.attachment_no 
+			from dang_user du left outer join user_img ui 
+			on du.user_no = ui.user_no 
+			where du.user_id = #{userId}
 	</select>
 	
 	<!-- 입력한 이메일로 회원정보 조회 -->
@@ -71,5 +74,15 @@
 	<delete id = "closeUser" parameterType = "int">
 		delete dang_user where user_no = #{userNo}
 	</delete>
+	
+	<!-- 이메일로 아이디 찾기 -->
+	<select id = "selectId" parameterType = "String" resultType = "String">
+		select user_id from dang_user where user_email = #{userEmail}
+	</select>
+	
+	<!-- 아이디, 이메일로 비밀번호 찾기(재설정) -->
+	<select id = "selectPw" parameterType = "map" resultType = "int">
+		select user_no from dang_user where user_id = #{userId} and user_email = #{userEmail}
+	</select>
 	
 </mapper>
