@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.PlaceImg;
 import com.project.dang.dto.DangPlaceDto;
 
 public interface DangPlaceDao {
@@ -15,4 +16,8 @@ public interface DangPlaceDao {
 	List<DangPlaceDto> placeList();
 	
 	DangPlaceDto placeOne(int placeNo);
+	
+	int sequence();
+	
+	void placeImgInsert(PlaceImg placeImg);
 }

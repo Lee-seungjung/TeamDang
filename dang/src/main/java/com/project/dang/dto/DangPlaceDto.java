@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DangPlaceDto {
 	private int placeNo;
+	private int attachmentNo;
 	private String placeArea;
 	private Double placeX;
 	private Double placeY;

@@ -37,6 +37,7 @@
     <!-- fullcalendar CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script type="text/javascript"></script>
     <!-- fullcalendar 언어 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
     
@@ -67,6 +68,13 @@
     	margin-bottom:0;
     }
     
+    .inbl{
+    	display:inline-block;
+    }
+    .w-auto{
+    	width:auto;
+    }
+    
     .img-circle{
 		border-radius: 50%;
     	border:none;
@@ -95,7 +103,7 @@
 	.cursor-zoomin{
 		cursor:zoom-in;
 	}
-	
+
 	.img-user-profile {
 		border-radius : 50%;
 		border : 2px solid black;
@@ -112,6 +120,32 @@
 	
 	.span-check-invalid {
 		color : red;
+  }
+  
+	.form-control:focus {
+	  background-color: #fff;
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+	
+	.form-select:focus {
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+
+	.gray:hover {
+	  color: black;
+	  background-color: #E6E6E6;
+	}
+	
+	.middle-items{
+		display:flex;
+		align-items:center;
+	}
+	.blue{
+		color:#76BEFF;
 	}
     
 </style>

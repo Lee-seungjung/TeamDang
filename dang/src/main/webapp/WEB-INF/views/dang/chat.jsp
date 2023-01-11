@@ -21,8 +21,9 @@
 		overflow:scroll;
 		overflow-x:hidden;
 		background-color:#F1F4FF;
-		width:100%; height:600px;
+		width:100%; height:900px;
 		border-top-right-radius: 0.3rem !important;
+		position : relative;
 	}
 	.chat-box::-webkit-scrollbar {
 	    width: 5px;
@@ -127,9 +128,10 @@
 		max-width:800px;
 	}
 	.down-btn{
-		position: absolute;
+		position: fixed;
 		cursor: pointer;
-		top: 700px; left: 805px;
+		top:80%;
+		left:67%;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
@@ -565,7 +567,9 @@
 						<div class="new-chat" style="margin-right:10px;" style="position:relative;"></div>
 						
 						<!-- 하단으로 이동 버튼 생성 -->
-						<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
+						<div  style="position:relative;">
+							<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
+						</div>
 					</div>
 					
 					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">

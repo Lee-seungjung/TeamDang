@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.project.dang.dto.DangScheduleDto;
+import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
 
@@ -23,8 +23,17 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 
 	@Override
 	public List<ScheduleVO> list() {
-		return sqlSession.selectList("schedule.list");
-		
+		return sqlSession.selectList("schedule.list");		
+	}
+
+	@Override
+	public List<ScheduleVO> detail(int scheduleNo) {
+		return sqlSession.selectOne("schedule.detail", scheduleNo);
+	}
+
+	@Override
+	public List<ScheduleOneVO> scheduleOne(int scheduleNo) {
+		return sqlSession.selectOne("schedule.scheduleOne", scheduleNo);
 	}
 
 //	@Override
