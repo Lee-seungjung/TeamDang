@@ -18,6 +18,12 @@
 		sysdate, sysdate, 'N', #{boardCategory})
 	</insert>
 	
+	<!-- 게시글 좋아요 등록 -->
+	<insert id="likeInsert" parameterType="DangBoardLikeDto">
+		insert into dang_board_like(board_no, member_no) values(#{boardNo},#{memberNo})
+	</insert>
+	
+	
 	<!-- 댕모임 게시글 전체조회(동기방식 5개만)-->
 	<!-- 게시글, 작성자 방장여부, 프로필, 게시글첨부파일(수), 댓글수 -->
 	<select id="selectAll" resultType="BoardHistoryVO" parameterType="int">
@@ -36,7 +42,7 @@
 					) total3 on total1.board_no=total3.board_no
 				where total1.dang_no=#{dangNo} order by total1.board_no desc
 		    )TMP
-		) where rn between 1 and 5
+		) where rn between 1 and 12
 	</select>
 	
 	<!-- 내가 쓴 게시글 조회-->
@@ -53,6 +59,21 @@
 	<select id="findImg" resultType="BoardImgDto" parameterType="int">
 		select * from board_img where board_no=#{boardNo}
 	</select>
+	
+	<!-- 게시글 좋아요 수 증가 -->
+	<update id="plusLike" parameterType="int">
+		update dang_board set board_like=board_like+1 where board_no=#{boardNo}
+	</update>
+	
+	<!-- 게시글 좋아요 수 감소 -->
+	<update id="minusLike" parameterType="int">
+		update dang_board set board_like=board_like-1 where board_no=#{boardNo}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete dang_board where board_no=#{boardNo}
+	</delete>
   
 </mapper>
   

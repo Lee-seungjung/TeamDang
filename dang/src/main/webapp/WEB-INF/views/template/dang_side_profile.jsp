@@ -873,7 +873,6 @@
         	var attachmentNo;
         	for(var i=0; i<findtag.length; i++){
         		attachmentNo = findtag.eq(i).attr("data-no");
-        		console.log(attachmentNo);
         		
         		$.ajax({
     				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
