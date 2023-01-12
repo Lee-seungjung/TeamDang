@@ -20,24 +20,20 @@
 	flex-wrap: wrap;
 	flex-wrap: wrap gap: 1em;
 }
-
 .monthly-calendar {
 	height: 1500px;
 }
-
 .calendar {
 	width: 100%;
 	height: 500px;
 	margin: 0 0 30px auto;
 }
-
 .calendar-info {
 	width: 350px;
 	height: 450px;
 	background-color: #FAFAFA;
 	text-align: center;
 }
-
 .more-info {
 	width: 1100px;
 	height: 400px;
@@ -47,13 +43,11 @@
 	gap: 1em;
 	justify-content: center;
 }
-
 .upcoming {
 	font-size: 24px;
 	font-weight: bold;
 	color: #454545;
 }
-
 .schedule-info {
 	width: 95%;
 	background-color: #E2EFFF;
@@ -61,7 +55,6 @@
 	border-radius: 10px;
 	margin: auto;
 }
-
 .dang-place-map {
 	display: block;
 	margin: auto;
@@ -70,7 +63,6 @@
 	border-radius: 10px;
 	background-color: white;
 }
-
 .dang-title {
 	display: block;
 	position: relative;
@@ -80,7 +72,6 @@
 	font-weight: bold;
 	padding: 30px 0px 20px;
 }
-
 .info-commons {
 	margin: 15px auto;
 	width: 85%;
@@ -90,7 +81,6 @@
 	display: flex;
 	flex-direction: row;
 }
-
 .block {
 	display: block;
 	line-height: 40px;
@@ -104,7 +94,6 @@
 	height: 40px;
 	width: 120px;
 }
-
 .block-white {
 	display: block;
 	line-height: 40px;
@@ -117,7 +106,6 @@
 	width: 350px;
 	margin-left: 20px;
 }
-
 .simple-schedule-box {
 	width: 100%;
 	height: 90px;
@@ -127,13 +115,11 @@
 	border-color: #EFEFEF;
 	margin: 15px 0 15px;
 }
-
 .simple-date-box {
 	width: 100%;
 	display: flex;
 	padding: 10px;
 }
-
 .simple-friday {
 	width: 70px;
 	height: 70px;
@@ -142,7 +128,6 @@
 	border-width: 6px 6px 6px 6px;
 	border-color: #89E3E3;
 }
-
 .simple-monday {
 	width: 70px;
 	height: 70px;
@@ -151,7 +136,6 @@
 	border-width: 6px 6px 6px 6px;
 	border-color: #FFCF97;
 }
-
 .simple-sunday {
 	width: 70px;
 	height: 70px;
@@ -160,7 +144,6 @@
 	border-width: 6px 6px 6px 6px;
 	border-color: #D4BAFF;
 }
-
 .simple-thursday {
 	width: 70px;
 	height: 70px;
@@ -169,7 +152,6 @@
 	border-width: 6px 6px 6px 6px;
 	border-color: #FFA6E1;
 }
-
 .simple-day {
 	height: 20px;
 	font-size: 13px;
@@ -179,7 +161,6 @@
 	position: relative;
 	top: 5px;
 }
-
 .simple-number-day {
 	height: 50px;
 	font-size: 28px;
@@ -188,7 +169,6 @@
 	color: #3D3D3D;
 	margin-top: -5;
 }
-
 .simple-when, .simple-where {
 	width: 200px;
 	height: 35px;
@@ -197,16 +177,13 @@
 	color: #3D3D3D;
 	line-height: 35px;
 }
-
 .detail-modal {
 	background-color: #F0F9FF;
 }
-
 .btn-in {
 	border: none;
 	background-color: #76BEFF;
 }
-
 .red-pin {
 	height: 100px;
 	width: 120px;
@@ -214,12 +191,10 @@
 	left: 5px;
 	top: 10px;
 }
-
 .btn-back {
 	border: lightgray;
 	background-color: #DBDBDB;
 }
-
 .btn-common {
 	display: block;
 	text-align: center;
@@ -233,12 +208,17 @@
 	text-align: center;
 	margin: 10px 20px;
 }
-
 .btn-box {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 }
+.btn-yellow {
+	background-color: #FFEF9E;
+	color: #3C5083
+}
+
+
 </style>
 <meta charset='utf-8' />
 
@@ -258,8 +238,8 @@
 				themeSystem : 'bootstrap5',
 				selectable : true, // 날짜 선택
 				locale : 'ko', // 한국어 설정
-				navLinks: true, // 날짜 선택하면 해당 날짜 화면
-				editable : true, // 수정 가능 여부
+				//navLinks: true, // 날짜 선택하면 해당 날짜 화면
+				editable : false, // 수정 가능 여부
 				nowIndicator: true, //현재 시간 마크
 				
 				events: [
@@ -285,57 +265,49 @@
 		               })
 		            ],
 		            
-					navLinkDayClick: function(date, jsEvent){
+		            eventClick: function(arg) {
+		            	//console.log(arg.event);
+		            	var scheduleNo = arg.event.id;
+		            	var date = arg.event.start;
 						var dangDate = moment(date).format('YYYY-MM-DD');
 						$(".dangDate").text(dangDate);						
-						data= {
-								//dangDate:dangDate,
-							scheduleNo: scheduleNo								
-						}				
-						$.ajax({
-							url:"http://localhost:8888/rest/dangSchedule/schedule_modal/"+scheduleNo, 
-							method:"get",
-							date:data,
-							success:function(resp){
+		            	
+		            	$.ajax({
+		            		url: 'http://localhost:8888/rest/dangSchedule/schedule_modal?scheduleNo='+scheduleNo,
+		            		method: "get",
+		            		processDate: false,
+		            		contentType: false,
+		            		success:function(resp){
+		            			console.log(resp!=null);
 								var tbody = $(".ajax-content");
 								$(".ajax-content").empty();
-								if(resp.length>0){
-									for(var i=0; i<resp.length; i++){
+								if(resp!=null){
 										var tr =$("<tr>").attr("class","table-dafault align-middle");
-										var td1= $("<td>").text(resp[i].scheduleTitle);
-										var td2= $("<td>").text(resp[i].scheduleStart).text(resp[i].scheduleHour);
-										var td3= $("<td>").text(resp[i].placeName);
+										var td1= $("<td>").text(resp.scheduleTitle);
+										var td2= $("<td>").text(resp.scheduleStart).text(resp.scheduleHour);
+										var td3= $("<td>").text(resp.placeName);
 										var td4= $("<td>");
 										var a = $("<a>").attr("href",
-					    						"${pageContext.request.contextPath}/dang/schedule_detail?scheduleNo"
+												'http://localhost:8888/rest/dangSchedule/schedule_detail?scheduleNo='+scheduleNo
 					    					 ).attr("class","btn btn-yellow").text('상세');
 										
 				    					 td4.append(a);
 				    					 tr.append(td1).append(td2).append(td3).append(td4);
 				    					 tbody.append(tr);					
-									}
 								}
 									else {
 					    				 var tr =  $("<tr>").attr("class","table-default align-middle");
 					    				 var td = $("<td>").attr("colspan","6").text('일정이 없습니다');
 					    				 tr.append(td);
-					    				 tbody.append(tr);
-							
-					    				 
-									} //else끝
-								
-							} //resp문끝
-															
-						});//ajax끝		
-		            
-					}, //function(date, jsEvent)끝
-          
+					    				 tbody.append(tr);					    				 
+									} //else끝								
+							} //resp문끝		            		
+		            	});         	
+		            }         
 		    });
 		    calendar1.render();
 		  });
-		
-	
-	
+
 </script>
 <body>
 	<div class="container-fluid  mt-3">
@@ -364,7 +336,7 @@
 										<th width="30%">모임 제목</th>
 										<th width="30%">모임 날짜</th>
 										<th width="20%">모임 장소</th>
-										<th>상세</th>
+										<th >상세</th>
 									</tr>
 								</thead>
 								<tbody class="ajax-content">

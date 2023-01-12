@@ -147,6 +147,11 @@
 	.blue{
 		color:#76BEFF;
 	}
+	.text-truncate2 {
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  webkit-line-clamp: 3;
+	}
     
 </style>
 <body>
