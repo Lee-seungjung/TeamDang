@@ -11,6 +11,14 @@
 
     <title>Document</title>
 
+    <style>
+        .editor {
+            min-height: 250px;
+            border: 1px solid black;
+            padding: 1em;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +38,7 @@
         <input type="text" name="placeName"><br><br>
     </label>
     <label>장소정보
-        <input type="text" name="placeInfo"><br><br>
+        <textarea type="text" name="placeInfo" rows="20" cols="40"></textarea><br><br>
     </label>
     <label>장소주소
         <input type="text" name="placeAddress"><br><br>
@@ -46,9 +54,25 @@
     </label>
     <label>가게정보주소
         <input type="text" name="placeUrl"><br><br>
-        <button type="button" class="btn btn-positive insert-btn">등록</button>
     </label>
+    <label> 댕댕이 크기
+        <input type="text" name="dangSize"><br><br>
+    </label>
+    <label>첨부파일
+        <input type="file" class="file-input" accept=".jpg, .png, .gif">
+    </label><br><br>
+    <label>미리보기
+        <div>
+            <img src="" class="change-img" width="100" height="100">
+        </div>
+    </label><br><br>
 
+    <input type="hidden" name="dangNo">
+    <!--댕모임 첨부파일 댕모임 번호-->
+    <input type="hidden" name="attachmentNo">
+    <!--댕모임 첨부파일 첨부파일 번호-->
+
+    <button type="button" class="btn btn-positive insert-btn">등록</button><br>
     <div id="map" style="width:1000px;height:350px;"></div>
 
 
@@ -67,37 +91,29 @@
                 var placeY = $("[name=placeY]").val();
                 var placeSort = $("[name=placeSort]").val();
                 var placeName = $("[name=placeName]").val();
-                var placeInfo = $("[name=placeInfo]").val();
+                var placeInfo = $("[name=placeInfo]").val().replace(/\n/g, "<br />");
                 var placeAddress = $("[name=placeAddress]").val();
                 var placeOperation = $("[name=placeOperation]").val();
                 var placeOff = $("[name=placeOff]").val();
                 var placeTel = $("[name=placeTel]").val();
                 var placeUrl = $("[name=placeUrl]").val();
+                var dangSize = $("[name=dangSize]").val();
+                var attachmentNo = $("[name=attachmentNo]").val();
 
                 //검사
                 placeInsert(placeArea, placeX, placeY, placeSort, placeName,
                     placeInfo, placeAddress, placeOperation, placeOff,
-                    placeTel, placeUrl
+                    placeTel, placeUrl, dangSize, attachmentNo
                 );
 
-                // $("[name=placeArea]").val("");
-                // $("[name=placeX]").val("");
-                // $("[name=placeY]").val("");
-                // $("[name=placeSort]").val("");
-                // $("[name=placeName]").val("");
-                // $("[name=placeInfo]").val("");
-                // $("[name=placeAddress]").val("");
-                // $("[name=placeOperation]").val("");
-                // $("[name=placeOff]").val("");
-                // $("[name=placeTel]").val("");
-                // $("[name=placeUrl]").val("");
+
             });
 
             //장소등록을 하기위한 함수
             function placeInsert(
                 placeArea, placeX, placeY, placeSort, placeName,
                 placeInfo, placeAddress, placeOperation, placeOff,
-                placeTel, placeUrl
+                placeTel, placeUrl, dangSize, attachmentNo
             ) {
                 var data = {
                     placeArea: placeArea,
@@ -111,6 +127,8 @@
                     placeOff: placeOff,
                     placeTel: placeTel,
                     placeUrl: placeUrl,
+                    dangSize: dangSize,
+                    attachmentNo : attachmentNo,
                 };
 
                 $.ajax({
@@ -120,43 +138,46 @@
                     data: JSON.stringify(data),
                     success: function () {
                         console.log("등록성공");
-                        
+
                     }
                 });
             }
 
+
+            $(".file-input").change(function () {
+                var value = $(this).val();
+
+                if (this.files.length > 0) {
+
+                    var formData = new FormData();
+                    formData.append("attachment", this.files[0]);
+
+
+                    $.ajax({
+                        url: "http://localhost:8888/rest_attachment/upload",
+                        method: "post",
+                        data: formData,
+                        //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
+                        processData: false,
+                        contentType: false,
+                        success: function (resp) {
+                            console.log(resp);
+                            $(".change-img").attr("src", resp); //프로필 미리보기
+                            //원래 페이지 프로필 정보 변경
+                            var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+                            var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
+                            console.log(newAttachmentNo);
+                            $("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+
+                        }
+                    });
+                }
+            });
         });
 
-        $.ajax({
-            url: "http://localhost:8888/rest_place/place_list",
-            method: "get",
-            contentType: "application/json",
-            success: function (resp) {
-                console.log(resp);
-            }
-        });
 
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-            mapOption = {
-                center: new kakao.maps.LatLng(37.554614, 126.970730), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
-            };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-        // 마커가 표시될 위치입니다 
-        var markerPosition = new kakao.maps.LatLng(37.554614, 126.970730);
-
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
-
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map);
-
-// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-// marker.setMap(null);  
     </script>
 </body>
 

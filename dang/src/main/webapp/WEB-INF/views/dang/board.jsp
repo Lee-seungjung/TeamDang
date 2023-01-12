@@ -70,11 +70,26 @@
 	 	background-color: #DEEFFF;
 	  	border-color: #DEEFFF;
 	}
+	.dropdown-menu{
+		width: 50%;
+		min-width: 4rem;
+		
+	}
+	.dropdown-item{
+		font-size: 0.8rem;
+	}
+	.dropdown-item:hover{
+		background-color:#EBEBEB;
+		color:#495057;
+	}
 
 </style>
 
 <script>
-	$(function(){		
+	$(function(){
+		
+		printImg();
+
 		//카테고리 색상변경
 		$(".category").click(function(){
 			var category = $(".category");	
@@ -129,7 +144,6 @@
 			}
 		});
 		
-		
 		//댓글 목록
 		function replyRepeat(resp, thisTag){
 			//본인 비교 위해 데이터 준비
@@ -140,12 +154,13 @@
 			
 			var replyContent = $("<div>").attr("class","reply-content d-flex");
 			
-			var col1 = $("<div>").attr("class","col-1");
+			var col1 = $("<div>").attr("class","col-1 middle-items");
 			var img = $("<img>");
 			if(resp.attachmentNo!=null){
-				img = img.attr("class","img-fluid").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
+				img = img.attr("class","img-fluid img-circle").attr("style","width:50px; height:50px;")
+						.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
 			}else{
-				img = img.attr("class","img-fluid").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				img = img.attr("class","img-fluid img-circle").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 			}
 			col1.append(img);
 			
@@ -177,14 +192,45 @@
 			var replyBox = thisTag;
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
 			var col10 =  $("<div>").attr("class","col-10");
-			var input1 = $("<input>").attr("class","input form-control ms-3").attr("type","text").attr("placeholder","댓글을 달아주세요");
+			var input1 = $("<input>").attr("class","input form-control ms-2").attr("type","text").attr("placeholder","댓글을 달아주세요");
 			col10.append(input1);
 			
 			var col2 =  $("<div>").attr("class","col-2");
-			var button1 = $("<button>").attr("class","btn btn-primary me-3").attr("type","button").text("전송");
+			var button1 = $("<button>").attr("class","btn btn-primary me-2").attr("type","button").text("전송");
 			col2.append(button1);
 			inputReply.append(col10).append(col2);
 			replyBox.append(inputReply);
+		}
+		
+		//파일번호 있는 게시글 확인 후 출력
+		function printImg(){
+			var check = $(".img-check");
+			console.log(check);
+
+			if(check!=0){ //첨부파일 게시글이 있을때만 실행!
+				for(var i=0; i<check.length; i++){
+					var boardNo = check.eq(i).data("no");
+					var thistag = check.eq(i);
+					console.log(boardNo);
+
+					$.ajax({
+						url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+						method:"get",
+						async:false,
+						success:function(resp){
+							console.log(resp);
+							thistag.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo);
+							
+							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
+							if(resp.length>1){
+								for(var i=0; i<resp.length; i++){
+									thistag.attr("data-attach"+i,resp[i].attachmentNo);
+								}
+							}
+						}
+					});
+				}
+			}
 		}
 
 		
@@ -235,11 +281,11 @@
 								<div class="first-line d-flex">
 									<div class="col-1">
 										<c:choose>
-											<c:when test="${vo.attachmentNo!=null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid">
+											<c:when test="${vo.attachmentNo==null}">
+												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid">
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid img-circle" style="width:50px; height:50px;">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -253,18 +299,25 @@
 										<span class="date-font me-4">
 											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
 										</span>
-										<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+										<div class="dropdown inbl w-auto">
+											<a class="" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical me-3"></i></a>
+											<div class="dropdown-menu" style="">
+											<span class="dropdown-item" >수정</span>
+											<span class="dropdown-item" >삭제</span>
+											</div>
+										</div>
 									</div>
 								</div>
 								
-								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" style="height:72px;">
-									<div class="col-10 text-start">
-										<span class="content-font">${vo.boardContent}</span>
+								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
+									<div class="col-9 text-start me-1">
+										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
 									</div>
-									<div class="col-2 middle-items">
-										<c:if test="${vo.allImg!=null}">
+									<div class="col-3 middle-items">
+										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
-											<img src="#" class="img-fluid " data-no="${vo.boardNo}">
+											<img src="#" class="img-fluid img-check" data-no="${vo.boardNo}">
+											+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
 										</c:if>
 									</div>
 								</div>
@@ -303,9 +356,7 @@
 					    	
 				    </div>
 				    <!-- 게시글 끝 -->
-				    
-				    
-				    
+
 				</div>
 			</div>
 			

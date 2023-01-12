@@ -5,17 +5,22 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dangReply">
 
-	<!-- 게시글의 댓글조회(회원프로필, 댓글) -->
+	<!-- 게시글의 댓글조회 기본 3개
+		(댓글테이블 전체, 댓글작성자의 방장여부와 프로필사진, 본 게시글 작성자(닉네임)) -->
 	<select id="oneBoardList" resultType="ReplyHistoryVO" parameterType="int">
-		select reply.*, board.member_nick as board_member_nick, 
-		m.member_owner, uimg.attachment_no from dang_reply reply
-		left outer join dang_board board on reply.board_no=board.board_no
-		left outer join dang_member m on board.member_no=m.member_no
-		left outer join user_img uimg on m.user_no=uimg.user_no where reply.board_no=#{boardNo}
-		order by reply.reply_no asc
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select reply.*, board.member_nick as board_member_nick, 
+		        m.member_owner, m.user_no, uimg.attachment_no from dang_reply reply
+			        left outer join dang_board board on reply.board_no=board.board_no
+			        left outer join dang_member m on reply.member_no=m.member_no
+			        left outer join user_img uimg on m.user_no=uimg.user_no 
+		        where reply.board_no=${boardNo} order by reply.reply_no asc
+		    )TMP
+		) where rn between 1 and 3
 	</select>
 
-	<!-- 내가 쓴 게시글 조회-->
+	<!-- 내가 쓴 댓글 조회-->
 	<select id="writeCount" resultType="int" parameterType="int">
 		select count(*) from dang_reply where member_no=#{memberNo}
 	</select>

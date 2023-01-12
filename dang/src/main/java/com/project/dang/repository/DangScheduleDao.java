@@ -31,7 +31,7 @@ public interface DangScheduleDao {
 	 * 달력 내  날짜별 일정 간단조회
 	 * @return List<ScheduleVO>
 	 */
-	List<ScheduleOneVO> scheduleOne(int scheduleNo);
+	ScheduleOneVO scheduleOne(int scheduleNo);
 //	/**
 //	 * 댕모임 회원이 일정등록
 //	 * @param DangScheduleDto

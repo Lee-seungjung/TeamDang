@@ -2,7 +2,12 @@ package com.project.dang.restcontroller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -26,6 +31,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.project.dang.dto.AttachmentDto;
 import com.project.dang.repository.AttachmentDao;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @CrossOrigin
 @RequestMapping("/rest_attachment")
@@ -107,4 +115,36 @@ public class AttachmentRestController {
 	public boolean delete(@PathVariable int attachmentNo) {
 		return attachmentDao.delete(attachmentNo);
 	}
+	
+	
+	//승정테스트
+	//업로드
+		@PostMapping("/upload2")
+		public Map<String,List<String>> upload2(@RequestParam(required = false) List<MultipartFile> attachment) throws IllegalStateException, IOException {
+			
+			Map<String, List<String>> param = new HashMap<>();
+			List<String> list = new ArrayList<>();
+			for(int i=0; i<attachment.size(); i++) {
+				//DB저장
+				int attachmentNo = attachmentDao.sequence();
+				attachmentDao.insert(AttachmentDto.builder()
+						.attachmentNo(attachmentNo)
+						.attachmentName(attachment.get(i).getOriginalFilename())
+						.attachmentType(attachment.get(i).getContentType())
+						.attachmentSize(attachment.get(i).getSize())
+						.build());
+				
+				//파일저장
+				File target = new File(dir, String.valueOf(attachmentNo));
+				attachment.get(i).transferTo(target);
+
+				String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+						.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
+						.toUriString();
+				list.add(url);
+
+			}
+			param.put("url", list);
+			return param;
+		}
 }

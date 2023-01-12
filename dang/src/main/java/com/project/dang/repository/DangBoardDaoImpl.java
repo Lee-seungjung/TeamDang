@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.vo.BoardHistoryVO;
 
@@ -18,13 +19,13 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	//글번호 발급
 	@Override
 	public int sequence() {
-		return sqlSession.selectOne("dangBoard.sequnece");
+		return sqlSession.selectOne("dangBoard.sequence");
 	}
 	
 	//글쓰기 등록
 	@Override
-	public void write(DangBoardDto dto) {
-		sqlSession.insert("dangBoard,write",dto);	
+	public void write(DangBoardDto vo) {
+		sqlSession.insert("dangBoard.write",vo);	
 	}
 	
 	//전체 게시글 조회
@@ -38,6 +39,19 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public int boardWriteCount(int memberNo) {
 		return sqlSession.selectOne("dangBoard.writeCount",memberNo);
 	}
+
+	//게시글 첨부파일 테이블 등록
+	@Override
+	public void imgInsert(BoardImgDto dto) {
+		sqlSession.insert("dangBoard.imgInsert",dto);		
+	}
+
+	//게시글 첨부파일 조회
+	@Override
+	public List<BoardImgDto> findImg(int boardNo) {
+		return sqlSession.selectList("dangBoard.findImg",boardNo);
+	}
+	
 
 	
 

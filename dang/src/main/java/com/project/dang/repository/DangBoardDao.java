@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.vo.BoardHistoryVO;
 
@@ -32,4 +33,17 @@ public interface DangBoardDao {
 	 * @return 게시글 수(int)
 	 */
 	int boardWriteCount(int memberNo);
+	
+	/**
+	 * 게시글 첨부파일 등록
+	 * @param BoardImgDto
+	 */
+	void imgInsert(BoardImgDto dto);
+	
+	/**
+	 * 게시글 첨부파일 조회
+	 * @param boardNo
+	 * @return List<BoardImgDto>
+	 */
+	List<BoardImgDto> findImg(int boardNo);
 }

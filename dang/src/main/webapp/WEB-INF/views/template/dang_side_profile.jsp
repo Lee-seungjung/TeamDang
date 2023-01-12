@@ -15,6 +15,7 @@
   	}
   	.modal-body{
   		padding-top:0;
+  		padding-bottom:0;
   	}
   	.modal-footer{
   		background-color: #fff;
@@ -64,6 +65,28 @@
   	.length-font{
   		font-size:12px;
   	}
+  	.board-write{
+  		color:#495057;
+  	}
+  	.board-write:hover{
+  		color:black;
+  	}
+  	.b-contentbox::-webkit-scrollbar {
+	    width: 5px;
+	 }
+	  .b-contentbox::-webkit-scrollbar-thumb {
+	  	height:30%;
+	    background-color: #B0CBFF;
+	    border-radius: 0.3rem;
+	 }
+	  .b-contentbox::-webkit-scrollbar-track {
+	    background-color: #F1F4FF;
+	    border-radius: 0.3rem;
+	 }
+	 .file-div{
+	 	width:100px;
+	 	height:100px;
+	 }
 </style>
 <script>
 	$(function(){
@@ -447,8 +470,7 @@
 			});
 		}
 		
-		
-		
+
 		
 	});
 </script>
@@ -607,10 +629,11 @@
 	</div>
 	
 	<!-- 게시판 글작성 -->
-	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
-		<span class="board-write cursor-pointer">게시글 작성</span>
+	<div class="p-3 border rounded-3 text-center shadow-lg mt-3 gray">
+		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
+			href="${pageContext.request.contextPath}/dang/{dangNo}/board_write">게시글 작성</a>
 	</div>
-	
+
 	<!-- 출석 체크 -->
 	<c:if test = "${profile.memberOwner == 'Y'}">
 	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
@@ -619,10 +642,259 @@
 	</div>
 	</c:if>
 
+	<!-- 게시판 글작성 모달 시작-->					
+	<div class="modal fade" id="boardModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
+				</div>
+				<form class="board-form">
+				<div class="modal-body">
+					
+					<div class="mb-3 text-start">
+						<label for="write-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
+						<div>
+							<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="write-category">
+							  <option value="">선택</option>
+							  <option value="자유글">자유글</option>
+							  <option value="가입인사">가입인사</option>
+							  <option value="정모후기">정모후기</option>
+							  <c:if test="${profile.memberOwner=='Y'}">
+							  	<option value="공지사항">공지사항</option>
+							  </c:if>
+							</select>
+						</div>
+					</div>
+					
+					<div class="mb-3 text-start">
+						<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
+						<span class="length-font">( </span>
+						<span class="b-length length-font">0</span>
+						<span class="length-font">/ 1000 )</span>
+						<textarea name="boardContent" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+					</div>
+					
+					<div class="mb-3 text-start mt-2">
+						<div>
+							<input class="form-control select-file" type="file" accept=".jpg, .png, .gif" multiple>
+					    </div>
+					    <div class="mt-2 file-wrap">
+							<!-- 비동기화 출력 -->
+					    </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">작성</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 게시판 글작성 모달 끝-->
+
+
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
 	<input type="hidden" name="dangNo" value="${profile.dangNo}">
 	<input type="hidden" name="userNo" value="${profile.userNo}">
 	
+	<input type="hidden" class="cl" data-no="23">
+	<input type="hidden" class="cl" data-no="27">
+	
 </div>
+
+<script>
+	$(function(){
+		$(".board-write").click(function(){
+			$(".file-wrap").empty();
+		});
+		
+		//입력 항목 상태 판정
+		bCheck={
+				boardContent : false, 
+				boardCategory : false,
+				allValid:function(){
+					return this.boardContent && this.boardCategory;
+				}
+		};
+		
+		//카테고리 선택 검사
+		$("[name=boardCategory]").on("change",function(){
+			var value = $(this).val();
+			console.log(value);
+			if(value==""){
+				bCheck.boardCategory=false;
+			}else{
+				bCheck.boardCategory=true;
+			}
+		});
+		
+		//입력창 글자수 확인(최대 1000자)
+		$("[name=boardContent]").on("input",function(){
+			var length = $(this).val().length; //글자수
+			var value = $(this).val(); //입력내용
+			//글자수 표시
+			$(".b-length").text(length);
+			console.log(value);
+			$(this).removeClass("is-invalid");
+			if(length==0){
+				$(".b-length").css("color","#495057");
+				bCheck.boardContent=true;
+			}else if(length>1000){
+				$(this).val(value.substring(0,1000));	
+				$(".b-length").css("color","red").text(1000);
+				bCheck.boardContent=false;
+				$(this).addClass("is-invalid");
+			}else if(length>0){
+				$(".b-length").css("color","#495057");
+				bCheck.boardContent=true;
+			}
+		});
+		
+		//파일 선택
+		$(".select-file").change(function(e){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(value);
+			console.log(this.files); //파일 배열
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+			
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	console.log(resp);
+                    	
+                    	var fileDiv = $(".file-wrap");
+                    	for(var i=0; i<resp.url.length; i++){
+                    		console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
+							div.append(img);
+							fileDiv.append(div);
+                    	}
+
+			        }
+				});
+			}
+		});
+		
+		//모달 취소버튼 누를 경우 첨부파일 삭제
+		$(".write-cancel").click(function(){
+			boardDeleteAttachmentNo();
+		});
+
+		//폼 전송 이벤트
+		$(".board-form").submit(function(e){
+			e.preventDefault();
+			//이벤트 강제실행
+			$("[name=boardCategory]").change();
+
+			var judge = $("[name=boardContent]").val();
+			if(judge.length==0) return; //입력값 없으면
+			
+			if(bCheck.allValid()){
+				//boardNo 시퀀스 미리 받기
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/find_no",
+					method:"get",
+					async:false,
+					success:function(resp){
+						console.log(resp);
+						
+						//비동기화 데이터 준비
+						var boardNo = resp;
+						var memberNo = $("[name=memberNo]").val();
+						var dangNo = $("[name=dangNo]").val();
+						var memberNick = $("[name=memberNick]").val();
+						var boardContent = $("[name=boardContent]").val();
+						var boardCategory = $("[name=boardCategory]").val();
+						
+						boardData = {
+							boardNo:boardNo,
+							memberNo:memberNo,
+							dangNo:dangNo,
+							memberNick:memberNick,
+							boardContent:boardContent,
+							boardCategory:boardCategory
+						}
+						
+						//게시글 DB등록
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/insert",
+							method:"post",
+							async:false,
+							data:JSON.stringify(boardData),
+							contentType:"application/json",
+							success:function(resp){
+								//게시글 이미지 DB 등록
+								var findtag = $(".files");
+					        	var attachmentNo;
+					        	if(findtag.length!=0){
+					        		for(var i=0; i<findtag.length; i++){
+						        		attachmentNo = findtag.eq(i).attr("data-no");
+						        		
+						        		data = {
+						        				boardNo:boardNo,
+						        				attachmentNo:attachmentNo
+						        		}
+						        		
+						        		$.ajax({
+						    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+						    				method:"post",
+						    				data:JSON.stringify(data),
+						    				async:false,
+											contentType:"application/json",
+						    				success:function(resp){
+						    					console.log("저장성공!");
+						    				}
+						    			});
+						        	}
+					        	}
+								$("#boardModal").modal('hide');
+							}
+						});
+			        	location.reload();
+					}
+				});
+			}
+		});
+		
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		console.log(attachmentNo);
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
+		}
+		
+	});
+	
+</script>

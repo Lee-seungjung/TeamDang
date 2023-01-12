@@ -18,6 +18,7 @@ public class ReplyHistoryVO {
 	private String memberNick; //댓글 작성자
 	private String boardMemberNick; //게시글 작성자
 	private String memberOwner; //방장 여부
+	private int userNo;
 	private Integer attachmentNo; //댓글 작성자 프로필사진	
 	
 }
