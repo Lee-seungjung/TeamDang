@@ -57,6 +57,12 @@ public class DangBoardRestController {
 		return dangBoardDao.findImg(boardNo);
 	}
 	
+	//좋아요 조회
+	@GetMapping("/fint_like/{memberNo}")
+	public List<DangBoardLikeDto> findLike(@PathVariable int memberNo){
+		return dangBoardDao.findlike(memberNo);
+	}
+	
 	//좋아요 수 수정
 	@PatchMapping("/update_like/{boardNo}/{type}")
 	public boolean updateLike(@PathVariable int boardNo, @PathVariable int type) {
@@ -68,10 +74,17 @@ public class DangBoardRestController {
 		}
 	}
 	
-	//삭제
+	//게시글 삭제
 	@DeleteMapping("/delete/{boardNo}")
 	public boolean delete(@PathVariable int boardNo) {
 		return dangBoardDao.delete(boardNo);
 	}
+	
+	//좋아요 테이블 삭제
+	@DeleteMapping("/delete_like")
+	public boolean deleteLike(@RequestBody DangBoardLikeDto dto) {
+		return dangBoardDao.deleteLike(dto);
+	}
+	
 
 }

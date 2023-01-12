@@ -50,6 +50,11 @@
 		select count(*) from dang_board where member_no=#{memberNo}
 	</select>
 	
+	<!-- 좋아요 테이블 조회 -->
+	<select id="findLike" resultType="DangBoardLikeDto" parameterType="int">
+		select * from dang_board_like where member_no=#{memberNo}
+	</select>
+	
 	<!-- 게시글 첨부파일 등록 -->
 	<insert id="imgInsert" parameterType="BoardImgDto">
 		insert into board_img(board_no, attachment_no) values(#{boardNo},#{attachmentNo})
@@ -73,6 +78,11 @@
 	<!-- 게시글 삭제 -->
 	<delete id="delete" parameterType="int">
 		delete dang_board where board_no=#{boardNo}
+	</delete>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLike" parameterType="DangBoardLikeDto">
+		delete dang_board_like where board_no=#{boardNo} and member_no=#{memberNo}
 	</delete>
   
 </mapper>
