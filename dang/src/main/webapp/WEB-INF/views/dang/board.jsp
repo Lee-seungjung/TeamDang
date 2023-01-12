@@ -70,6 +70,18 @@
 	 	background-color: #DEEFFF;
 	  	border-color: #DEEFFF;
 	}
+	.dropdown-menu{
+		width: 50%;
+		min-width: 4rem;
+		
+	}
+	.dropdown-item{
+		font-size: 0.8rem;
+	}
+	.dropdown-item:hover{
+		background-color:#EBEBEB;
+		color:#495057;
+	}
 
 </style>
 
@@ -287,7 +299,13 @@
 										<span class="date-font me-4">
 											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
 										</span>
-										<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+										<div class="dropdown inbl w-auto">
+											<a class="" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical me-3"></i></a>
+											<div class="dropdown-menu" style="">
+											<span class="dropdown-item" >수정</span>
+											<span class="dropdown-item" >삭제</span>
+											</div>
+										</div>
 									</div>
 								</div>
 								

@@ -732,7 +732,7 @@
 			console.log(value);
 			$(this).removeClass("is-invalid");
 			if(length==0){
-				$(".b-length").css("color","red");
+				$(".b-length").css("color","#495057");
 				bCheck.boardContent=true;
 			}else if(length>1000){
 				$(this).val(value.substring(0,1000));	
