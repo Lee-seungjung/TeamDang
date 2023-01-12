@@ -379,7 +379,7 @@
             dangArea = $(this).text();
             formValidCheck.checkDangArea = true;
 			formValid();
-        })
+        });
 		
 		// 댕모임 닉네임
 		$("[name=memberNick]").blur(function(){

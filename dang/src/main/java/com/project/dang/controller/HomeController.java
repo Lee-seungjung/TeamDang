@@ -11,4 +11,9 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("/search")
+	public String search() {
+		return "search";
+	}
+	
 }
