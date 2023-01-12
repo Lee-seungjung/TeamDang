@@ -82,6 +82,11 @@
 		background-color:#EBEBEB;
 		color:#495057;
 	}
+	.content-font{
+		white-space:pre-wrap;
+		word-wrap: break-word;
+		word-break: break-word;
+	}
 
 </style>
 
