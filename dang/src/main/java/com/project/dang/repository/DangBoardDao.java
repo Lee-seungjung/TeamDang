@@ -55,6 +55,13 @@ public interface DangBoardDao {
 	List<BoardImgDto> findImg(int boardNo);
 	
 	/**
+	 * 좋아요 테이블 조회
+	 * @param memberNo
+	 * @return
+	 */
+	List<DangBoardLikeDto> findlike(int memberNo);
+	
+	/**
 	 * 게시글 좋아요 수 증가
 	 * @param boardNo
 	 * @return
@@ -74,6 +81,13 @@ public interface DangBoardDao {
 	 * @return true, false
 	 */
 	boolean delete(int boardNo);
+	
+	/**
+	 * 좋아요 테이블 삭제
+	 * @param dto
+	 * @return true, false
+	 */
+	boolean deleteLike(DangBoardLikeDto dto);
 	
 	
 	

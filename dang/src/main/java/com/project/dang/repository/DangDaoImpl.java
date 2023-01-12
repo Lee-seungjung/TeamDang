@@ -1,6 +1,7 @@
 package com.project.dang.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangDto;
 import com.project.dang.vo.DangInfoVO;
+import com.project.dang.vo.DangTopVO;
 
 @Repository
 public class DangDaoImpl implements DangDao {
@@ -87,5 +89,11 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public int selectDangImg(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangImg", dangNo);
+	}
+
+	// 지역별 댕모임 상위 5개 조회(좋아요순 + 인원수순)
+	@Override
+	public List<DangTopVO> searchDangTop(String dangArea) {
+		return sqlSession.selectList("dang.searchDangTop", dangArea);
 	}
 }

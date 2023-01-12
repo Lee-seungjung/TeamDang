@@ -710,7 +710,7 @@
 			// 이메일을 입력하지 않았다면 return
 			if(inputEmail == "") return;
 			$.ajax({
-				url : "http://localhost:8888/rest_user/check_email?userEmail=" + inputEmail,
+				url : "${pageContext.request.contextPath}/rest_user/check_email?userEmail=" + inputEmail,
 				method : "get",
 				success : function(resp){
 					console.log(resp);

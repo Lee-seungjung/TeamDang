@@ -82,13 +82,19 @@
 		background-color:#EBEBEB;
 		color:#495057;
 	}
+	.content-font{
+		white-space:pre-wrap;
+		word-wrap: break-word;
+		word-break: break-word;
+	}
 
 </style>
 
 <script>
 	$(function(){
 		
-		printImg();
+		printImg(); //게시글 사진 출력
+		originLike() //좋아요 출력
 
 		//카테고리 색상변경
 		$(".category").click(function(){
@@ -118,7 +124,7 @@
 			}else{
 				//삭제 ajax 실행
 				$.ajax({
-					url:"http://localhost:8888/rest_board/delete/"+boardNo,
+					url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
 					method:"delete",
 					success:function(resp){
 						console.log("삭제완료!");
@@ -170,58 +176,95 @@
 		
 		//좋아요 버튼 이벤트
 		$(".like-btn").click(function(){
-			//1. 내가 좋아요 했는지 확인
-			//1-1) 좋아요 했다! > 게시글 테이블 좋아요 수 변경(감소), 좋아요테이블 삭제(게시글 번호로)
-			//1-2) 좋아요 안했다! > 게시글 테이블 좋아요 수 변경(증가), 좋아요테이블 등록
+			var thistag = $(this);
+			var type = thistag.children('.islike').data("type");
+			if(type==undefined||type==null){
+				type=1;
+			}else{
+				type=2;
+			}
+			
 			var memberNo = $("[name=memberNo]").val();
 			var boardNo = $(this).prev().data("no");
-			var type = 1;
-			var thistag = $(this);
 			
 			data = {
 					memberNo:memberNo,
 					boardNo:boardNo
 			}
 			$.ajax({
-				url:"http://localhost:8888/rest_board/update_like/"+boardNo+"/"+type,
+				url:"${pageContext.request.contextPath}/rest_board/update_like/"+boardNo+"/"+type,
 				method:"patch",
 				contentType:"application/json",
 				success:function(resp){
-					thistag.children('.full-heart').show();
-					thistag.children('.empty-heart').hide();
 					var number = thistag.children('.islike').text();
-					if(number==""){
-						number = 0;
-					}else{
-						number = parseInt(thistag.children('.islike').text());
-					}
-					thistag.children('.islike').text(number+1);
-					
-					//좋아요 테이블 DB 등록
-					$.ajax({
-						url:"http://localhost:8888/rest_board/like_insert",
-						method:"post",
-						data:JSON.stringify(data),
-						contentType:"application/json",
-						success:function(resp){
-
+					if(type==1){
+						thistag.children('.full-heart').show();
+						thistag.children('.empty-heart').hide();
+						if(number==""){
+							number = 0;
+						}else{
+							number = parseInt(thistag.children('.islike').text());
 						}
-					});
-					
+						thistag.children('.islike').text(number+1);
+						thistag.children('.islike').data("type",1);
+						
+						//좋아요 테이블 DB 등록
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/like_insert",
+							method:"post",
+							async:false,
+							data:JSON.stringify(data),
+							contentType:"application/json",
+							success:function(resp){
+
+							}
+						});
+					}else{
+						thistag.children('.full-heart').hide();
+						thistag.children('.empty-heart').show();
+						
+						var number = parseInt(thistag.children('.islike').text());
+						var checknumber = number-1<=0;
+						if(checknumber){
+							thistag.children('.islike').text("");
+						}else{
+							thistag.children('.islike').text(number-1);
+						}
+						thistag.children('.islike').data("type",null);
+
+						//좋아요 테이블 DB 삭제
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/delete_like",
+							method:"delete",
+							data:JSON.stringify(data),
+							async:false,
+							contentType:"application/json",
+							success:function(resp){								
+							}
+						});						
+					}
 				}
-			});
-			
+			});			
 		});
 		
-		var check = $(".islike");
-		console.log(check.length);
-		//내가 좋아요한 게시글에 꽉찬 하트 표시
-		//1. 좋아요 목록을 가져옴
-		//2. data-no에 숨겨있는 boardNo와 일치여부 확인
-		//3. 일치할 경우 그 태그에 data-likecheck=1로 표시
-		//4. 빈하트 display:none; 꽉찬하트 show 변경
-		
-		
+		//기존 좋아요 목록 출력
+		function originLike(){
+			var memberNo = $("[name=memberNo]").val();
+			$.ajax({
+				url:"http://localhost:8888/rest_board/fint_like/"+memberNo,
+				method:"get",
+				data:memberNo,
+				success:function(resp){
+					for(var i=0; i<resp.length; i++){
+						var tag = $(".islike[data-like="+resp[i].boardNo+"]");
+						tag.attr("data-type",1);
+						tag.siblings('.full-heart').show();
+						tag.siblings('.empty-heart').hide();
+					}
+				}
+			});
+		}
+
 		//댓글 목록
 		function replyRepeat(resp, thisTag){
 			//본인 비교 위해 데이터 준비
@@ -283,20 +326,17 @@
 		//파일번호 있는 게시글 확인 후 출력
 		function printImg(){
 			var check = $(".img-check");
-			console.log(check);
 
 			if(check!=0){ //첨부파일 게시글이 있을때만 실행!
 				for(var i=0; i<check.length; i++){
 					var boardNo = check.eq(i).data("no");
 					var thistag = check.eq(i);
-					console.log(boardNo);
 
 					$.ajax({
 						url:"http://localhost:8888/rest_board/find_img/"+boardNo,
 						method:"get",
 						async:false,
 						success:function(resp){
-							console.log(resp);
 							thistag.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo);
 							
 							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
@@ -417,7 +457,7 @@
 										<i class="fa-solid fa-heart blue me-1 full-heart"></i>
 										<c:choose>
 											<c:when test="${vo.boardLike!=0}">
-												<span class="blue islike" style="font-weight:bolder;">${vo.boardLike}</span>
+												<span class="blue islike" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
 											</c:when>
 											<c:otherwise>
 												<span class="blue islike" style="font-weight:bolder;"></span>

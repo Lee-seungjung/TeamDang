@@ -1,7 +1,10 @@
 package com.project.dang.repository;
 
+import java.util.List;
+
 import com.project.dang.dto.DangDto;
 import com.project.dang.vo.DangInfoVO;
+import com.project.dang.vo.DangTopVO;
 
 public interface DangDao {
 	
@@ -64,4 +67,11 @@ public interface DangDao {
 	 * @return int : 댕모임 프로필 첨부파일 번호
 	 */
 	public int selectDangImg(int dangNo);
+	
+	/**
+	 * 지역별 댕모임 상위 5개 조회(좋아요순 + 인원수순)
+	 * @param dangArea : 댕모임 지역
+	 * @return List<DangInfoVO> : 댕모임 번호, 댕모임 이름, 댕모임 지역이 포함된 DangInfoVO 5개
+	 */
+	public List<DangTopVO> searchDangTop(String dangArea);
 }

@@ -59,6 +59,12 @@ public class DangBoardDaoImpl implements DangBoardDao{
 		return sqlSession.selectList("dangBoard.findImg",boardNo);
 	}
 	
+	//좋아요 테이블 조회
+	@Override
+	public List<DangBoardLikeDto> findlike(int memberNo) {
+		return sqlSession.selectList("dangBoard.findLike",memberNo);
+	}
+	
 	//게시글 좋아요 수 증가
 	@Override
 	public boolean plusLike(int boardNo) {
@@ -76,6 +82,14 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public boolean delete(int boardNo) {
 		return sqlSession.delete("dangBoard.delete",boardNo)>0;
 	}
+	
+	//좋아요 테이블 삭제
+	@Override
+	public boolean deleteLike(DangBoardLikeDto dto) {
+		return sqlSession.delete("dangBoard.deleteLike",dto)>0;
+	}
+
+	
 
 	
 	
