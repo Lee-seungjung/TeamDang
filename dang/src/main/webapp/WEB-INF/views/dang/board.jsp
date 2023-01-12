@@ -125,8 +125,8 @@
 			$("write-edit-btn").text("수정");
 			$(".select-file").val("");
 			
-			$(".form-tag").removeClass("board-form edit-form");
-			$(".form-tag").addClass("edit-form");
+			$(".form-tag").removeClass("board-form board-edit-form");
+			$(".form-tag").addClass("board-edit-form");
 			
 			$.ajax({
 				url:"http://localhost:8888/rest_board/find_img/"+boardNo,

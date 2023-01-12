@@ -717,7 +717,7 @@
 			$(".select-file").val("");
 			$("write-edit-btn").text("작성");
 			
-			$(".form-tag").removeClass("board-form edit-form");
+			$(".form-tag").removeClass("board-form board-edit-form");
 			$(".form-tag").addClass("board-form");
 			
 			
