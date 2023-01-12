@@ -4,14 +4,6 @@
 
 <style>
 	
-	* {
-		border : 1px gray dotted;
-	}
-
-	.span-login-invalid {
-		color: red;
-	}
-	
 </style>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">

@@ -633,7 +633,15 @@
 		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
 			href="${pageContext.request.contextPath}/dang/{dangNo}/board_write">게시글 작성</a>
 	</div>
-	
+
+	<!-- 출석 체크 -->
+	<c:if test = "${profile.memberOwner == 'Y'}">
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
+		<i class="fa-solid fa-gear"></i>
+		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
+	</div>
+	</c:if>
+
 	<!-- 게시판 글작성 모달 시작-->					
 	<div class="modal fade" id="boardModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -685,6 +693,7 @@
 		</div>
 	</div>
 	<!-- 게시판 글작성 모달 끝-->
+
 
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">

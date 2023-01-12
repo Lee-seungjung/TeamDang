@@ -21,9 +21,35 @@
   		insert into dang(dang_no, dang_area, user_no, dang_name, dang_info, dang_headmax, dang_private, dang_pw) values(#{dangNo}, #{dangArea}, #{userNo}, #{dangName}, #{dangInfo}, #{dangHeadmax}, 'Y', #{dangPw})
   	</insert>
   	
-  	<!-- 댕모임 첨부파일 정보 등록 -->
+  	<!-- 댕모임 프로필 첨부파일 정보 등록 -->
   	<insert id = "insertDangImg" parameterType = "map">
   	  	insert into dang_img(dang_no, attachment_no) values(#{dangNo}, #{attachmentNo})
   	</insert>
   	
+  	<!-- 댕모임 회원인지 확인 -->
+  	<select id = "isDangMember" parameterType = "map" resultType = "int">
+  		select member_no from dang_member where dang_no = #{dangNo} and user_no = #{userNo}
+  	</select>
+  	
+  	<!-- 댕모임 정보 조회 -->
+  	<select id = "selectDangEditInfo" parameterType = "int" resultType = "DangInfoVO">
+  		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_private, d.dang_pw, d.dang_area, di.attachment_no
+  			from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
+  	</select>
+  	
+  	<!-- 댕모임 정보 수정(공개 전환) -->
+  	<update id = "editDangInfoPublic" parameterType = "DangInfoVO">
+  		update dang set dang_name = #{dangName}, dang_info = #{dangInfo}, dang_headmax = #{dangHeadmax}, dang_private = #{dangPrivate}, dang_pw = null, dang_area = #{dangArea} where dang_no = #{dangNo}
+  	</update>
+  	
+  	<!-- 댕모임 정보 수정(비공개 전환) -->
+  	<update id = "editDangInfoPrivate" parameterType = "DangInfoVO">
+  		update dang set dang_name = #{dangName}, dang_info = #{dangInfo}, dang_headmax = #{dangHeadmax}, dang_private = #{dangPrivate}, dang_pw = #{dangPw}, dang_area = #{dangArea} where dang_no = #{dangNo}
+  	</update>
+  	
+  	<!-- 댕모임 프로필 첨부파일 번호 조회 -->
+  	<select id = "selectDangImg" parameterType = "int" resultType = "int">
+  		select attachment_no from dang_img where dang_no = #{dangNo}
+  	</select>
+  		
 </mapper>
