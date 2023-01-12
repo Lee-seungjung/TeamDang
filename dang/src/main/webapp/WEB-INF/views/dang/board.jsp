@@ -70,11 +70,26 @@
 	 	background-color: #DEEFFF;
 	  	border-color: #DEEFFF;
 	}
+	.dropdown-menu{
+		width: 50%;
+		min-width: 4rem;
+		
+	}
+	.dropdown-item{
+		font-size: 0.8rem;
+	}
+	.dropdown-item:hover{
+		background-color:#EBEBEB;
+		color:#495057;
+	}
 
 </style>
 
 <script>
-	$(function(){		
+	$(function(){
+		
+		printImg();
+
 		//카테고리 색상변경
 		$(".category").click(function(){
 			var category = $(".category");	
@@ -89,6 +104,31 @@
 		        //검색조회 비동기 필요
 	        }
 	    });
+		
+		//게시글 삭제
+		$(".delete-drop").click(function(){
+			//작성자와 삭제실행자 일치여부 확인
+			//(닉네임 변경 가능성 있으므로 member_no로 확인)
+			var writer = $(this).parent().data("mno"); //작성자
+			var boardNo = $(this).parent().data("bno"); //글번호
+			var memberNo = $("[name=memberNo]").val(); //실행자
+			
+			if(writer!=memberNo){
+				alert('작성자가 일치하지 않습니다! 삭제불가능!');
+			}else{
+				//삭제 ajax 실행
+				$.ajax({
+					url:"http://localhost:8888/rest_board/delete/"+boardNo,
+					method:"delete",
+					success:function(resp){
+						console.log("삭제완료!");
+						//비동기로 목록조회 필요
+					}
+				});
+			}
+			
+			
+		});
 		
 		//댓글창 토글
 		$(".toggle-btn").click(function(){
@@ -105,7 +145,6 @@
 					method:"get",
 					data:boardNo,
 					success:function(resp){
-						console.log(resp);
 						
 						for(var i=0; i<resp.length; i++){
 							<!-- 댓글 목록 -->	
@@ -128,6 +167,59 @@
 				thisTag.empty();
 			}
 		});
+		
+		//좋아요 버튼 이벤트
+		$(".like-btn").click(function(){
+			//1. 내가 좋아요 했는지 확인
+			//1-1) 좋아요 했다! > 게시글 테이블 좋아요 수 변경(감소), 좋아요테이블 삭제(게시글 번호로)
+			//1-2) 좋아요 안했다! > 게시글 테이블 좋아요 수 변경(증가), 좋아요테이블 등록
+			var memberNo = $("[name=memberNo]").val();
+			var boardNo = $(this).prev().data("no");
+			var type = 1;
+			var thistag = $(this);
+			
+			data = {
+					memberNo:memberNo,
+					boardNo:boardNo
+			}
+			$.ajax({
+				url:"http://localhost:8888/rest_board/update_like/"+boardNo+"/"+type,
+				method:"patch",
+				contentType:"application/json",
+				success:function(resp){
+					thistag.children('.full-heart').show();
+					thistag.children('.empty-heart').hide();
+					var number = thistag.children('.islike').text();
+					if(number==""){
+						number = 0;
+					}else{
+						number = parseInt(thistag.children('.islike').text());
+					}
+					thistag.children('.islike').text(number+1);
+					
+					//좋아요 테이블 DB 등록
+					$.ajax({
+						url:"http://localhost:8888/rest_board/like_insert",
+						method:"post",
+						data:JSON.stringify(data),
+						contentType:"application/json",
+						success:function(resp){
+
+						}
+					});
+					
+				}
+			});
+			
+		});
+		
+		var check = $(".islike");
+		console.log(check.length);
+		//내가 좋아요한 게시글에 꽉찬 하트 표시
+		//1. 좋아요 목록을 가져옴
+		//2. data-no에 숨겨있는 boardNo와 일치여부 확인
+		//3. 일치할 경우 그 태그에 data-likecheck=1로 표시
+		//4. 빈하트 display:none; 꽉찬하트 show 변경
 		
 		
 		//댓글 목록
@@ -187,6 +279,37 @@
 			inputReply.append(col10).append(col2);
 			replyBox.append(inputReply);
 		}
+		
+		//파일번호 있는 게시글 확인 후 출력
+		function printImg(){
+			var check = $(".img-check");
+			console.log(check);
+
+			if(check!=0){ //첨부파일 게시글이 있을때만 실행!
+				for(var i=0; i<check.length; i++){
+					var boardNo = check.eq(i).data("no");
+					var thistag = check.eq(i);
+					console.log(boardNo);
+
+					$.ajax({
+						url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+						method:"get",
+						async:false,
+						success:function(resp){
+							console.log(resp);
+							thistag.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo);
+							
+							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
+							if(resp.length>1){
+								for(var i=0; i<resp.length; i++){
+									thistag.attr("data-attach"+i,resp[i].attachmentNo);
+								}
+							}
+						}
+					});
+				}
+			}
+		}
 
 		
 	});
@@ -209,7 +332,7 @@
 					<div class="search-group text-center mt-3">
 						<select class="form-select inbl w-auto me-1" name="type">
 							<option>선택</option>
-							<option value="memberNo">작성자</option>
+							<option value="memberNick">작성자</option>
 							<option value="boardContent">내용</option>
 						</select>
 						<input type="text" class="input form-control inbl w-auto ms-1" size="40" name="keyword">
@@ -254,18 +377,27 @@
 										<span class="date-font me-4">
 											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
 										</span>
-										<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+										<div class="dropdown inbl w-auto">
+											<span data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+												<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+											</span>
+											<div class="dropdown-menu" data-bno="${vo.boardNo}" data-mno="${vo.memberNo}">
+												<span class="dropdown-item edit-drop" >수정</span>
+												<span class="dropdown-item delete-drop" >삭제</span>
+											</div>
+										</div>
 									</div>
 								</div>
 								
-								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" style="height:72px;">
-									<div class="col-10 text-start">
+								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
+									<div class="col-9 text-start me-1">
 										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
 									</div>
-									<div class="col-2 middle-items">
+									<div class="col-3 middle-items">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
-											<img src="#" class="img-fluid " data-no="${vo.boardNo}">
+											<img src="#" class="img-fluid img-check" data-no="${vo.boardNo}">
+											+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
 										</c:if>
 									</div>
 								</div>
@@ -281,11 +413,16 @@
 									</div>
 									<div class="col-3 middle-items cursor-pointer like-btn">
 										<span class="me-2">좋아요</span>
-										<i class="fa-regular fa-heart blue me-1"></i>
+										<i class="fa-regular fa-heart blue me-1 empty-heart"></i>
 										<i class="fa-solid fa-heart blue me-1 full-heart"></i>
-										<c:if test="${vo.boardLike!=0}">
-											<span class="blue" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
-										</c:if>
+										<c:choose>
+											<c:when test="${vo.boardLike!=0}">
+												<span class="blue islike" style="font-weight:bolder;">${vo.boardLike}</span>
+											</c:when>
+											<c:otherwise>
+												<span class="blue islike" style="font-weight:bolder;"></span>
+											</c:otherwise>
+										</c:choose>
 									</div>
 									<div class="col-7 justify-content-end middle-items">
 										<span>${vo.boardCategory}</span>

@@ -30,6 +30,7 @@ import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.DangInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -106,15 +107,112 @@ public class DangController {
 					.attachmentType(dangProfile.getContentType())
 					.attachmentSize(dangProfile.getSize())
 				.build());
+			// 댕모임 프로필 테이블 등록
+			dangDao.insertDangImg(dangNo, attachmentNo);
 			// 첨부파일 저장 하위경로 설정
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 첨부파일 전송
 			dangProfile.transferTo(target);
-			// 댕모임 프로필 테이블 등록
-			dangDao.insertDangImg(dangNo, attachmentNo);
 		}
 		// 댕모임 홈 화면으로 이동
 		return "redirect:/dang/"+dangNo;
+	}
+	
+	// 댕모임 수정
+	@GetMapping("/{dangNo}/edit")
+	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session) {
+		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
+		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		//우측 댕모임 심플스케줄
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		//프로필 파일번호
+		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
+		
+		// 수정할 댕모임 정보를 조회하여 model에 추가
+		model.addAttribute("dangEditInfo", dangDao.selectDangEditInfo(dangNo));
+		
+		return "dang/edit";
+	}
+	
+	@PostMapping("/{dangNo}/edit")
+	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session, @ModelAttribute DangInfoVO dangInfoVO, MultipartFile dangProfile) throws IllegalStateException, IOException {
+		// 댕모임 정보 수정
+		dangDao.editDangInfo(dangInfoVO);
+		// 첨부파일 수정
+		if(dangProfile.getSize() != 0) { // 첨부파일이 있다면
+			// 기존 첨부파일 조회
+			Integer attachmentNoExisting = dangDao.selectDangImg(dangNo);
+			if(attachmentNoExisting != null) { // 기존 첨부파일이 존재한다면
+				// 첨부파일 테이블에서 정보 삭제 (on delete cascade 조건에 의해 연결 테이블은 자동 삭제)
+				attachmentDao.delete(attachmentNoExisting);
+				// 기존 첨부파일 이름 반환
+				String fileName = String.valueOf(attachmentNoExisting);
+				// 삭제할 첨부파일 경로 설정
+				File targetExisting = new File(directory, fileName);
+				// 기존 첨부파일 삭제
+				targetExisting.delete();
+			}
+			// 새로 첨부파일을 등록하기 위해 번호 반환
+			int attachmentNo = attachmentDao.sequence();
+			// 첨부파일 정보 DB 등록
+			attachmentDao.insert(AttachmentDto.builder()
+					.attachmentNo(attachmentNo)
+					.attachmentName(dangProfile.getName())
+					.attachmentType(dangProfile.getContentType())
+					.attachmentSize(dangProfile.getSize())
+					.build());
+			// 댕모임 프로필 테이블 등록
+			dangDao.insertDangImg(dangNo, attachmentNo);
+			// 첨부파일 저장 경로 생성
+			File target = new File(directory, String.valueOf(attachmentNo));
+			// 파일 저장
+			dangProfile.transferTo(target);
+			// HttpSession에서 기존의 회원 프로필 번호 삭제
+			session.removeAttribute("loginProfileImg");
+			// 새로운 회원 프로필 번호를 HttpSession에 저장
+			session.setAttribute("loginProfileImg", attachmentNo);
+		}
+		
+		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
+		model.addAttribute("dangNo", dangNo);
+		// 회원 정보
+		String userNo = String.valueOf(session.getAttribute("loginNo"));
+		DangMemberDto dto = DangMemberDto.builder()
+				.dangNo(dangNo)
+				.userNo(Integer.parseInt(userNo))
+				.build();
+		DangMemberDto memberDto = dangMemberDao.selectOne(dto);
+		model.addAttribute("profile", memberDto);
+		//오늘 출석여부 확인
+		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
+		//참여모임 수
+		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		//작성글
+		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
+		//댓글
+		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		//우측 댕모임 심플스케줄
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		//프로필 파일번호
+		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
+		
+		return "redirect:edit";
 	}
 	
 	@GetMapping("/{dangNo}")

@@ -2,9 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <style>
-	* {
-		border: 1px gray dotted;
-	}
+	
 	
 	.input-user-profile {
 		display : none;

@@ -633,7 +633,15 @@
 		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
 			href="${pageContext.request.contextPath}/dang/{dangNo}/board_write">게시글 작성</a>
 	</div>
-	
+
+	<!-- 출석 체크 -->
+	<c:if test = "${profile.memberOwner == 'Y'}">
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
+		<i class="fa-solid fa-gear"></i>
+		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
+	</div>
+	</c:if>
+
 	<!-- 게시판 글작성 모달 시작-->					
 	<div class="modal fade" id="boardModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -686,6 +694,7 @@
 	</div>
 	<!-- 게시판 글작성 모달 끝-->
 
+
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
@@ -732,7 +741,7 @@
 			console.log(value);
 			$(this).removeClass("is-invalid");
 			if(length==0){
-				$(".b-length").css("color","red");
+				$(".b-length").css("color","#495057");
 				bCheck.boardContent=true;
 			}else if(length>1000){
 				$(this).val(value.substring(0,1000));	
@@ -774,7 +783,7 @@
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
                         	
-                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div");
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
 							div.append(img);
@@ -805,10 +814,12 @@
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_board/find_no",
 					method:"get",
+					async:false,
 					success:function(resp){
 						console.log(resp);
 						
 						//비동기화 데이터 준비
+						var boardNo = resp;
 						var memberNo = $("[name=memberNo]").val();
 						var dangNo = $("[name=dangNo]").val();
 						var memberNick = $("[name=memberNick]").val();
@@ -816,7 +827,7 @@
 						var boardCategory = $("[name=boardCategory]").val();
 						
 						boardData = {
-							boardNo:resp,
+							boardNo:boardNo,
 							memberNo:memberNo,
 							dangNo:dangNo,
 							memberNick:memberNick,
@@ -828,36 +839,38 @@
 						$.ajax({
 							url:"${pageContext.request.contextPath}/rest_board/insert",
 							method:"post",
+							async:false,
 							data:JSON.stringify(boardData),
 							contentType:"application/json",
 							success:function(resp){
+								//게시글 이미지 DB 등록
+								var findtag = $(".files");
+					        	var attachmentNo;
+					        	if(findtag.length!=0){
+					        		for(var i=0; i<findtag.length; i++){
+						        		attachmentNo = findtag.eq(i).attr("data-no");
+						        		
+						        		data = {
+						        				boardNo:boardNo,
+						        				attachmentNo:attachmentNo
+						        		}
+						        		
+						        		$.ajax({
+						    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+						    				method:"post",
+						    				data:JSON.stringify(data),
+						    				async:false,
+											contentType:"application/json",
+						    				success:function(resp){
+						    					console.log("저장성공!");
+						    				}
+						    			});
+						        	}
+					        	}
 								$("#boardModal").modal('hide');
 							}
 						});
-						
-						//게시글 이미지 DB 등록
-						var findtag = $(".files");
-			        	var attachmentNo;
-			        	if(findtag.length!=0){
-			        		for(var i=0; i<findtag.length; i++){
-				        		attachmentNo = findtag.eq(i).attr("data-no");
-				        		
-				        		data = {
-				        				boardNo:resp,
-				        				attachmentNo:attachmentNo
-				        		}
-				        		
-				        		$.ajax({
-				    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
-				    				method:"post",
-				    				data:JSON.stringify(data),
-									contentType:"application/json",
-				    				success:function(resp){
-				    					console.log("저장 성공!");
-				    				}
-				    			});
-				        	}
-			        	}
+			        	location.reload();
 					}
 				});
 			}
@@ -869,7 +882,6 @@
         	var attachmentNo;
         	for(var i=0; i<findtag.length; i++){
         		attachmentNo = findtag.eq(i).attr("data-no");
-        		console.log(attachmentNo);
         		
         		$.ajax({
     				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
