@@ -111,6 +111,46 @@
 	        }
 	    });
 		
+		//게시글 수정
+		$(".edit-drop").click(function(){
+			$("#boardModal").modal("show");
+			//원본데이터 출력준비
+			var boardContent = $(this).parents(".first-line").next().find(".content-font").text();
+			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-7").children().text();
+			var boardNo = $(this).parent().data("bno");
+			//원본데이터 출력
+			$(".modal-title").text("게시글 수정");
+			$("[name=boardCategory]").val(boardCategory).prop("selected", true);
+			$("[name=boardContent]").val(boardContent);
+			$("write-edit-btn").text("수정");
+			$(".select-file").val("");
+			
+			$(".form-tag").removeClass("board-form edit-form");
+			$(".form-tag").addClass("edit-form");
+			
+			$.ajax({
+				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+				method:"get",
+				async:false,
+				success:function(resp){
+					console.log(resp);
+					
+					var fileDiv = $(".file-wrap");
+                	for(var i=0; i<resp.length; i++){
+                    	var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo;
+                		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+                		var img = $("<img>").attr("src",url).attr("class","img-fluid file1")
+                						.attr("style","width:70px; height:70px;").attr("data-no",resp[i].attachmentNo);
+                		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+						div.append(img).append(x);
+						fileDiv.append(div);
+                	}
+				}
+			});
+		});
+		
+		
+		
 		//게시글 삭제
 		$(".delete-drop").click(function(){
 			//작성자와 삭제실행자 일치여부 확인
@@ -118,21 +158,20 @@
 			var writer = $(this).parent().data("mno"); //작성자
 			var boardNo = $(this).parent().data("bno"); //글번호
 			var memberNo = $("[name=memberNo]").val(); //실행자
-			
+
 			if(writer!=memberNo){
 				alert('작성자가 일치하지 않습니다! 삭제불가능!');
 			}else{
+				$(this).parents(".board-box").remove();
 				//삭제 ajax 실행
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
 					method:"delete",
 					success:function(resp){
-						console.log("삭제완료!");
-						//비동기로 목록조회 필요
+						
 					}
 				});
 			}
-			
 			
 		});
 		
@@ -350,7 +389,8 @@
 				}
 			}
 		}
-
+		
+		
 		
 	});
 </script>

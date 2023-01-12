@@ -649,7 +649,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
 				</div>
-				<form class="board-form">
+				<form class="form-tag board-form">
 				<div class="modal-body">
 					
 					<div class="mb-3 text-start">
@@ -686,7 +686,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
-					<button type="submit" class="btn btn-primary">작성</button>
+					<button type="submit" class="btn btn-primary write-edit-btn">작성</button>
 				</div>
 				</form>
 			</div>
@@ -710,6 +710,17 @@
 	$(function(){
 		$(".board-write").click(function(){
 			$(".file-wrap").empty();
+			
+			$(".modal-title").text("게시글 등록");
+			$("[name=boardCategory]").val("").prop("selected", true);
+			$("[name=boardContent]").val("");
+			$(".select-file").val("");
+			$("write-edit-btn").text("작성");
+			
+			$(".form-tag").removeClass("board-form edit-form");
+			$(".form-tag").addClass("board-form");
+			
+			
 		});
 		
 		//입력 항목 상태 판정
@@ -786,7 +797,8 @@
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
-							div.append(img);
+                    		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+    						div.append(img).append(x);
 							fileDiv.append(div);
                     	}
 
