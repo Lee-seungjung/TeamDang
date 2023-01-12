@@ -3,10 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-
-	*{
-		border:1px gray dotted;
-	}
 	
 	.img-member-profile {
 		border-radius: 50%;
@@ -52,9 +48,7 @@
 <div class = "container-fluid my-3">
 	<div class = "row">
 		<div class = "col-6 offset-3">
-			
-			<div class = "row my-3">
-				
+			<div class = "row my-3">	
 				<div class = "col-8 offset-2">
 					<div class = "row my-3">
 						<div class = "col-10 offset-1 d-flex flex-column">	
@@ -213,7 +207,6 @@
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -371,6 +364,9 @@
 			}
 		});
 		
+		// 선택한 댕모임 활동 지역
+		var dangArea;
+		
 		// 댕모임 활동 지역
 		$(".TEXT").click(function () {
 			// 선택(색상) 초기화
@@ -381,7 +377,6 @@
         	$("#CD" + id).addClass("area-selected");
 			// 지역 선택
             dangArea = $(this).text();
-			console.log(dangArea);
             formValidCheck.checkDangArea = true;
 			formValid();
         })
@@ -427,12 +422,6 @@
 		};
 		
 		function formValid() {
-			console.log(formValidCheck.checkDangName);
-			console.log(formValidCheck.checkDangHeadmax);
-			console.log(formValidCheck.checkDangArea);
-			console.log(formValidCheck.checkMemberNick);
-			console.log(formValidCheck.checkDangPrivate);
-			console.log(formValidCheck.checkDangPw);
 			// 유효성 판정을 위해 강제 이벤트 발생
 			if(formValidCheck.isAllValid()) {
 				$(".btn-submit-create").attr("disabled", false);
