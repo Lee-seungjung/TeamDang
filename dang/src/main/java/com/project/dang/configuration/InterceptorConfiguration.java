@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.project.dang.interceptor.DangMemberCheckInterceptor;
 import com.project.dang.interceptor.DangUserLoginInterceptor;
 
 @Configuration
@@ -13,6 +14,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 	// 로그인 인터셉터
 	@Autowired
 	private DangUserLoginInterceptor dangUserLoginInterceptor;
+	
+	// 댕모임 회원 인터셉터
+	@Autowired
+	private DangMemberCheckInterceptor dangMemberCheckInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -34,5 +39,9 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 					"/user/find_pw_change",
 					"/user/find_pw_success"
 					);
+		// 댕모임 회원 감시 경로
+		registry.addInterceptor(dangMemberCheckInterceptor)
+			.addPathPatterns("")
+			.excludePathPatterns("");
 	}
 }

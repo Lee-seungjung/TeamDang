@@ -163,8 +163,11 @@
 						<img src = "/images/logo.png" class = "img-fluid">
 					</a>
 				</div>
-				<div class = "col-4">
+				<div class = "col-2">
 					여백
+				</div>
+				<div class = "col-2">
+					<a href = "/dang/create">댕모임 개설(임시)</a>
 				</div>
 				<div class = "col-6 d-flex flex-row">
 					<div class = "col-4 d-flex justify-content-center align-items-center">
@@ -199,9 +202,4 @@
 	</div>
 </div>	
 
-
-			<div class = "col-3">
-				<a href = "/dang/create">댕모임 개설</a>
-			</div>
-
-	<div class="container-fluid">
+<div class="container-fluid">

@@ -611,7 +611,13 @@
 		<span class="board-write cursor-pointer">게시글 작성</span>
 	</div>
 	
-	
+	<!-- 출석 체크 -->
+	<c:if test = "${profile.memberOwner == 'Y'}">
+	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
+		<i class="fa-solid fa-gear"></i>
+		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
+	</div>
+	</c:if>
 
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">

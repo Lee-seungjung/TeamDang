@@ -3,10 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-	* {
-		border: 1px gray dotted;
-	}
-
+	
 </style>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
