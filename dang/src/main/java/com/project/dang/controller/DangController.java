@@ -2,7 +2,6 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dang.dto.AttachmentDto;
-import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.RoomDto;
@@ -29,8 +27,7 @@ import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
-import com.project.dang.vo.BoardHistoryVO;
-import com.project.dang.vo.DangEditVO;
+import com.project.dang.vo.DangEditInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,9 +148,9 @@ public class DangController {
 	}
 	
 	@PostMapping("/{dangNo}/edit")
-	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session, @ModelAttribute DangEditVO dangInfoVO, MultipartFile dangProfile) throws IllegalStateException, IOException {
+	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session, @ModelAttribute DangEditInfoVO dangEditInfoVO, MultipartFile dangProfile) throws IllegalStateException, IOException {
 		// 댕모임 정보 수정
-		dangDao.editDangInfo(dangInfoVO);
+		dangDao.editDangInfo(dangEditInfoVO);
 		// 첨부파일 수정
 		if(dangProfile.getSize() != 0) { // 첨부파일이 있다면
 			// 기존 첨부파일 조회

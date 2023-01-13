@@ -99,6 +99,10 @@
     	border-radius : 5px;
     	background-color: #EDEDED;
     }
+    
+    .div-select-dang {
+    	cursor:pointer;
+    }
 	
 	
 </style>

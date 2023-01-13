@@ -88,7 +88,7 @@
 	<%-- 댕모임 다가오는 일정 박스 --%>
 	<!-- 다가오는 일정 박스 시작-->
 	<div class="col">
-		<div class="p-3 schedule-box-assorted  shadow1">
+		<div class="p-3 schedule-box-assorted shadow">
 
 			<div class="schedule-wrap">
 				<div class="row justify-content-center mb-3">

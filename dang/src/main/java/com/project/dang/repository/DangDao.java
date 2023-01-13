@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
-import com.project.dang.vo.DangEditVO;
+import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangTopVO;
 
 public interface DangDao {
@@ -53,21 +53,21 @@ public interface DangDao {
 	 * @param dangNo : 댕모임 번호
 	 * @return DangInfoVO : 댕모임 번호, 댕모임명, 댕모임 정보, 총원, 현원, 비공개 여부, 비밀번호, 프로필 첨부파일 번호
 	 */
-	public DangEditVO selectDangEditInfo(int dangNo);
+	public DangEditInfoVO selectDangEditInfo(int dangNo);
 	
 	/**
 	 * 댕모임 수정
 	 * @param dangInfoVO : 댕모임 번호, 댕모임명, 댕모임 정보, 총원, 비공개 여부, 비밀번호
 	 * @return boolean : 수정 여부
 	 */
-	public boolean editDangInfo(DangEditVO dangInfoVO);
+	public boolean editDangInfo(DangEditInfoVO dangEditInfoVO);
 	
 	/**
 	 * 댕모임 프로필 첨부파일 번호 조회
 	 * @param dangNo : 댕모임 번호
 	 * @return int : 댕모임 프로필 첨부파일 번호
 	 */
-	public int selectDangImg(int dangNo);
+	public Integer selectDangImg(int dangNo);
 	
 	/**
 	 * 지역별 댕모임 상위 5개 조회(좋아요순 + 인원수순)

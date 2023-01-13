@@ -32,13 +32,13 @@
   	</select>
   	
   	<!-- 댕모임 정보 조회 -->
-  	<select id = "selectDangEditInfo" parameterType = "int" resultType = "DangInfoVO">
+  	<select id = "selectDangEditInfo" parameterType = "int" resultType = "DangEditInfoVO">
   		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_private, d.dang_pw, d.dang_area, di.attachment_no
   			from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
   	</select>
   	
   	<!-- 댕모임 정보 수정(공개 전환) -->
-  	<update id = "editDangInfoPublic" parameterType = "DangInfoVO">
+  	<update id = "editDangInfoPublic" parameterType = "DangEditInfoVO">
   		update dang set dang_name = #{dangName}, dang_info = #{dangInfo}, dang_headmax = #{dangHeadmax}, dang_private = #{dangPrivate}, dang_pw = null, dang_area = #{dangArea} where dang_no = #{dangNo}
   	</update>
   	

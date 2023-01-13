@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DangEditVO {
+public class DangEditInfoVO {
 
 	private Integer dangNo;
 	private String dangName;
