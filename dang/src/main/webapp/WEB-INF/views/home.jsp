@@ -8,7 +8,11 @@
 	* {
 		border : 1px gray dotted;
 	}
-	
+
+	.img-carousel {
+		aspect-ratio : 7/3;
+	}
+
 	.div-home-menu {
 		border-radius : 15px;
 		background-color : white;
@@ -43,6 +47,48 @@
 
     .area-selected {
         fill : #4C28DD;
+    }
+    
+    .img-dang-profile {
+    	height : 300px;
+    	object-fit : contain;
+    	border-radius : 15px 15px 0 0 !important;
+    }
+    
+    .div-outer-dang-info {
+    	border-radius : 15px !important;
+    }
+    
+    .span-dang-hashtag {
+    	white-space : nowrap;
+    	background-color : #7E9AFF;
+    	color : white;
+    	border-radius : 5px;
+    }
+    
+    .modal-backdrop {
+    	background-color : #CEE3F2 !important;
+    	opacity: 0.5;
+    }
+    
+    .btn-dang {
+    	border : none;
+    	border-radius : 5px;
+    }
+    
+    .btn-dang-like {
+    	background-color: #F94888;
+    	color : white;
+    }
+    
+    .btn-dang-join {
+    	background-color: #76BEFF;
+    	color : white;
+    }
+    
+    .div-dang-head {
+    	border-radius : 5px;
+    	background-color: #EDEDED;
     }
 	
 	
@@ -205,6 +251,54 @@
 	</div>
 </div> <%-- container 끝 --%>
 
+<%-- 댕모임 상세 Modal --%>
+<div class="modal fade" id="modalDangDetail" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content card div-outer-dang-info">
+            <img src="/images/icon-man.png" class="card-img-top img-dang-profile" style = "background-color: black">
+            <div class="modal-body card-body">
+            	<div class = "container-fluid"> <%-- 태그 생성 시작 --%>
+            		<div class = "row my-2">
+            			<span style = "font-size: 10px;">댕모임 개설일 : 2022년 12월 30일</span>
+            		</div>
+            		<div class = "row my-2">
+            			<div class = "col-8 ">            			
+	            			<strong class = "card-title strong-dang-name" style="font-size:24px;">마포 목욕댕댕팸</strong>
+            			</div>
+            			<div class = "col-4 d-flex justify-content-end align-items-center">
+            				<button class = "flex-fill btn-dang btn-dang-like" type = "button">좋아요</button>
+            			</div>
+            		</div>
+            		<div class = "row my-2">
+            			<span class = "card-text">목욕하자 하면 도망가는 댕을 위한... 목욕모임</span>
+            		</div>
+            		<div class = "row my-2">
+            			<div class = "d-flex flex-row flex-wrap div-hashtag-list">          			
+	            			<span class = "span-dang-hashtag mx-1 px-1">#서울</span>
+	            			<span class = "span-dang-hashtag mx-1 px-1">#마포구</span>
+	            			<span class = "span-dang-hashtag mx-1 px-1">#목욕댕당</span>
+	            			<span class = "span-dang-hashtag mx-1 px-1">#댕댕아목욕가자</span>
+            			</div>
+            		</div>
+            		<div class = "row my-2">
+            			<div class = "col-8 d-flex justify-content-start align-items-center">
+            				<div class = "div-dang-head px-1">
+            					<i class="fa-solid fa-paw"></i>
+	            				<span class = "span-dang-head">10</span>
+	            				 / 
+	            				<span class = "span-dang-headmax">20</span>
+            				</div>
+            			</div>
+            			<div class = "col-4 d-flex justify-content-end align-items-center">
+            				<button class = "flex-fill btn-dang btn-dang-join" type = "button">댕모임 가입</button>
+            			</div>
+            		</div>
+            	</div>  <%-- 태그 생성 끝 --%>
+            </div> <%-- 모달 바디 --%>
+        </div>
+    </div>
+</div>
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
@@ -229,7 +323,7 @@
 				success : function(resp){
 					$(".div-dang-search").empty();
 					for(var i = 0 ; i < resp.length ; i ++) {
-						var row = $("<div>").attr("class", "row p-2 my-2 div-home-submenu").attr("data-dangno", resp[i].dangNo)
+						var row = $("<div>").attr("class", "row p-2 my-2 div-home-submenu div-select-dang").attr("data-dangno", resp[i].dangNo)
 										.append($("<div>").attr("class", "col-4").text(resp[i].dangArea))
 										.append($("<div>").attr("class", "col-8").text(resp[i].dangName));
 						$(".div-dang-search").append(row);
@@ -238,6 +332,20 @@
 			})
         });
 		
+		
+		
+		// 상위 5개 댕모임 클릭시
+		$(document).on("click", ".div-select-dang", function(){
+			var dangNo = $(this).attr("data-dangno");
+			$("#modalDangDetail").modal("show");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_dang/detail?dangNo="+dangNo,
+				method : "get",
+				success : function(resp){
+					console.log(resp);	
+				}
+			});
+		});
 	});
 
 </script>

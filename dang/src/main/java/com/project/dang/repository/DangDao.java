@@ -2,8 +2,9 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
-import com.project.dang.vo.DangInfoVO;
+import com.project.dang.vo.DangEditVO;
 import com.project.dang.vo.DangTopVO;
 
 public interface DangDao {
@@ -52,14 +53,14 @@ public interface DangDao {
 	 * @param dangNo : 댕모임 번호
 	 * @return DangInfoVO : 댕모임 번호, 댕모임명, 댕모임 정보, 총원, 현원, 비공개 여부, 비밀번호, 프로필 첨부파일 번호
 	 */
-	public DangInfoVO selectDangEditInfo(int dangNo);
+	public DangEditVO selectDangEditInfo(int dangNo);
 	
 	/**
 	 * 댕모임 수정
 	 * @param dangInfoVO : 댕모임 번호, 댕모임명, 댕모임 정보, 총원, 비공개 여부, 비밀번호
 	 * @return boolean : 수정 여부
 	 */
-	public boolean editDangInfo(DangInfoVO dangInfoVO);
+	public boolean editDangInfo(DangEditVO dangInfoVO);
 	
 	/**
 	 * 댕모임 프로필 첨부파일 번호 조회
@@ -74,4 +75,11 @@ public interface DangDao {
 	 * @return List<DangInfoVO> : 댕모임 번호, 댕모임 이름, 댕모임 지역이 포함된 DangInfoVO 5개
 	 */
 	public List<DangTopVO> searchDangTop(String dangArea);
+	
+	/**
+	 * 댕모임 상세 정보 반환
+	 * @param dangNo : 댕모임 번호
+	 * @return DangDetailVO : 댕모임 정보, 댕모임 해시태그 정보
+	 */
+	public DangDetailDto selectDangDetail(int dangNo);
 }
