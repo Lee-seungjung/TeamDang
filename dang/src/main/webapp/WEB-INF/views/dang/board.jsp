@@ -181,7 +181,7 @@
 				$(".be-length").css("color","#495057");
 				eCheck.boardContent=true;
 			}else if(length>1000){
-				$(this).val(value.substring(0,1000));	
+				$(this).val(value.substring(0,1001));	
 				$(".be-length").css("color","red").text(1000);
 				eCheck.boardContent=false;
 				$(this).addClass("is-invalid");
@@ -352,39 +352,48 @@
 			
 		});
 		
+		function replyList(thisTag,boardNo){
+			//댓글출력
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_reply/list/"+boardNo,
+				method:"get",
+				data:boardNo,
+				success:function(resp){
+					
+					for(var i=0; i<resp.length; i++){
+						<!-- 댓글 목록 -->	
+						replyRepeat(resp[i], thisTag);
+					}
+					
+					<!-- 5개 이상일 경우 더보기 보이게 처리 -->
+					if(resp.length>=5){
+						var more = $("<div>").attr("class","row mt-3 re-more-view");
+						var ptag = $("<p>").attr("class","text-center").attr("data-no",resp[0].boardNo).text("+ 더보기");
+						more.append(ptag);
+						thisTag.append(more);
+					}
+					
+					<!-- 댓글 입력창 -->	
+					inputReply(thisTag);
+				}
+			});
+		}
+		
 		//댓글창 토글
 		$(".toggle-btn").click(function(){
-			var thisTag = $(this).parent().next();
+			var thisTag = $(this).parent().next(); //reply-box
 			thisTag.toggle();
 
 			var style = thisTag.attr("style");
 			if(style=="display: block;"){ //댓글div 열림
-				
 				var boardNo = $(this).data("no");
-				//댓글출력
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_reply/list/"+boardNo,
-					method:"get",
-					data:boardNo,
-					success:function(resp){
-						
-						for(var i=0; i<resp.length; i++){
-							<!-- 댓글 목록 -->	
-							replyRepeat(resp[i], thisTag);
-						}
-						
-						<!-- 3개 이상일 경우 더보기 보이게 처리 -->
-						if(resp.length>=3){
-							var more = $("<div>").attr("class","row mt-3 re-more-view");
-							var ptag = $("<p>").attr("class","text-center").attr("data-no",resp[0].boardNo).text("+ 더보기");
-							more.append(ptag);
-							thisTag.append(more);
-						}
-						
-						<!-- 댓글 입력창 -->	
-						inputReply(thisTag);
-					}
-				});			
+			
+				var hr = $("<hr>");
+				thisTag.append(hr);
+				
+				//목록 출력
+				replyList(thisTag,boardNo);
+				
 			}else{ //댓글div 닫힘
 				thisTag.empty();
 			}
@@ -524,10 +533,8 @@
 			//본인 비교 위해 데이터 준비
 			var memberNo = $("[name=memberNo]").val();
 			var replyBox = thisTag;
-			var hr = $("<hr>");
-			replyBox.append(hr);
 			
-			var replyContent = $("<div>").attr("class","reply-content d-flex");
+			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2");
 			
 			var col1 = $("<div>").attr("class","col-1 middle-items");
 			var img = $("<img>");
@@ -555,9 +562,21 @@
 			col8.append(contentDiv);
 			
 			var col3 = $("<div>").attr("class","col-3 justify-content-end middle-items");
-			var i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
-			col3.append(i);
-			
+			if(memberNo==resp.memberNo){
+				var div1 = $("<div>").attr("class","dropdown inbl w-auto");
+				var span1  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+									.attr("aria-haspopup","true").attr("aria-expanded","false");	
+				var i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
+				span1.append(i);
+				
+				var div2 = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
+				var span2 =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
+				var span3 =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
+				div2.append(span2).append(span3);
+				
+				div1.append(span1).append(div2);
+				col3.append(div1);
+			}
 			replyContent.append(col1).append(col8).append(col3);
 			replyBox.append(replyContent);
 		}
@@ -565,16 +584,90 @@
 		//댓글 입력
 		function inputReply(thisTag){	
 			var replyBox = thisTag;
+			var form = $("<form>").attr("class","input-reply-form");
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
 			var col10 =  $("<div>").attr("class","col-10");
-			var input1 = $("<input>").attr("class","input form-control ms-2").attr("type","text").attr("placeholder","댓글을 달아주세요");
+			var input1 = $("<input>").attr("class","input form-control ms-2 reply-input").attr("type","text").attr("placeholder","댓글을 달아주세요");
 			col10.append(input1);
 			
 			var col2 =  $("<div>").attr("class","col-2");
-			var button1 = $("<button>").attr("class","btn btn-primary me-2").attr("type","button").text("전송");
+			var button1 = $("<button>").attr("class","btn btn-primary me-2 reply-write")
+								.attr("type","submit").text("전송");
 			col2.append(button1);
 			inputReply.append(col10).append(col2);
-			replyBox.append(inputReply);
+			form.append(inputReply);
+			replyBox.append(form);
+			$(".reply-write").attr("disabled",true);
+			
+			//나중에 함수 따로 빼기! function sendReply()
+			//댓글 입력
+			$(".reply-input").on("input",function(){
+				var value = $(this).val();
+				console.log(value.length);
+				$(this).removeClass("is-invalid");
+				if(value.length==0){
+					$(".reply-write").attr("disabled",true);
+				}else if(value.length>100){
+					$(".reply-write").attr("disabled",true);
+					$(this).addClass("is-invalid");
+					$(this).val(value.substring(0,101));
+				}else if(value.length>0){
+					$(".reply-write").attr("disabled",false);
+				}
+			});
+			
+			$(".input-reply-form").submit(function(e){
+				e.preventDefault();
+				
+				var formtag = $(this); //form
+				var inputCheck = $(".reply-input").val();
+				var thisTag = $(this).parent(); //reply-box
+
+				if(inputCheck.length!=0){
+					//댓글 DB저장 데이터 준비
+					var boardNo = $(this).parents(".reply-box").siblings('.third-line').children().data("no");
+					console.log(boardNo);
+					var memberNo = $("[name=memberNo]").val();
+					var memberNick = $("[name=memberNick]").val();
+					var replyContent = inputCheck;
+					
+					replyData = {
+							boardNo:boardNo,
+							memberNo:memberNo,
+							memberNick:memberNick,
+							replyContent:replyContent							
+					}
+					
+					$.ajax({
+						url:"http://localhost:8888/rest_reply/insert",
+						method:"post",
+						data:JSON.stringify(replyData),
+						contentType:"application/json",
+						success:function(resp){
+							console.log("댓글 등록성공!");
+							//목록 출력
+							thisTag.empty();
+							var hr = $("<hr>");
+							thisTag.append(hr);
+							
+							replyList(thisTag,boardNo);
+							
+							//댓글 숫자 증가
+							var findnum = thisTag.prev().children().children('.replycnt');
+							console.log(findnum);
+							var num = findnum.text();
+							console.log(num);
+							if(num==""){
+								num = parseInt(0);
+							}else{
+								num = parseInt(num);
+							}
+							console.log(num);
+							findnum.text(num+1);
+						}
+					});
+				}
+			});
 		}
 		
 		//파일번호 있는 게시글 확인 후 출력
@@ -705,7 +798,7 @@
 										<i class="fa-regular fa-message mt-1 me-2"></i>
 										<span class="me-1">댓글</span>
 										<c:if test="${vo.replyCnt!=0}">
-											<span class="blue" style="font-weight:bolder;">${vo.replyCnt}</span>
+											<span class="blue replycnt" style="font-weight:bolder;">${vo.replyCnt}</span>
 										</c:if>
 									</div>
 									<div class="col-3 middle-items cursor-pointer like-btn">

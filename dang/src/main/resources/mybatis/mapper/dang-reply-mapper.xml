@@ -5,6 +5,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dangReply">
 
+	<!-- 댓글 등록 -->
+	<insert id="insert" parameterType="DangReplyDto">
+		insert into dang_reply(reply_no, board_no, member_no, member_nick, 
+		reply_content, reply_writedate, reply_updatedate, reply_state) 
+		values(dang_reply_seq.nextval, #{boardNo}, #{memberNo}, #{memberNick}
+		, #{replyContent}, sysdate, sysdate, 'N')
+	</insert>
+
 	<!-- 게시글의 댓글조회 기본 3개
 		(댓글테이블 전체, 댓글작성자의 방장여부와 프로필사진, 본 게시글 작성자(닉네임)) -->
 	<select id="oneBoardList" resultType="ReplyHistoryVO" parameterType="int">
@@ -15,9 +23,9 @@
 			        left outer join dang_board board on reply.board_no=board.board_no
 			        left outer join dang_member m on reply.member_no=m.member_no
 			        left outer join user_img uimg on m.user_no=uimg.user_no 
-		        where reply.board_no=${boardNo} order by reply.reply_no asc
+		        where reply.board_no=${boardNo} order by reply.reply_no desc
 		    )TMP
-		) where rn between 1 and 3
+		) where rn between 1 and 5
 	</select>
 
 	<!-- 내가 쓴 댓글 조회-->
