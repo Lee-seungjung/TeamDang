@@ -111,7 +111,7 @@
 	        }
 	    });
 		
-		//게시글 수정
+		//게시글 수정 첫 화면 기본셋팅
 		$(".edit-drop").click(function(){
 			$("#boardEditModal").modal("show");
 			//원본데이터 출력준비
@@ -119,11 +119,11 @@
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-7").children().text();
 			var boardNo = $(this).parent().data("bno");
 			//원본데이터 출력
-			$("[name=boardCategory]").val(boardCategory).prop("selected", true);
-			$("[name=boardContent]").val(boardContent);
+			$("#edit-category").val(boardCategory).prop("selected", true);
+			$("#edit-content").val(boardContent);
 			$(".edit-btn").attr("data-no",boardNo);
-			$(".select-file").val("");
-			$(".file-wrap").empty();
+			$("#edit-select-file").val("");
+			$("#edit-file-wrap").empty();
 	
 			$.ajax({
 				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
@@ -132,7 +132,7 @@
 				success:function(resp){
 					console.log(resp);
 					
-					var fileDiv = $(".file-wrap");
+					var fileDiv = $("#edit-file-wrap");
 	               	for(var i=0; i<resp.length; i++){
 	                   	var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo;
 	               		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
@@ -146,11 +146,153 @@
 			});
 		});
 		
+		//입력 항목 상태 판정
+		eCheck={
+				boardContent : true, 
+				boardCategory : false,
+				allValid:function(){
+					return this.boardContent && this.boardCategory;
+				}
+		};
+		
+		//카테고리 선택 검사
+		$("#edit-category").on("change",function(){
+			var value = $(this).val();
+			if(value==""){
+				eCheck.boardCategory=false;
+			}else{
+				eCheck.boardCategory=true;
+			}
+		});
+		
+		//입력창 글자수 확인(최대 1000자)
+		$("#edit-content").on("input",function(){
+			var length = $(this).val().length; //글자수
+			var value = $(this).val(); //입력내용
+			//글자수 표시
+			$(".be-length").text(length);
+			console.log(value);
+			$(this).removeClass("is-invalid");
+			if(length==0){
+				$(".be-length").css("color","#495057");
+				eCheck.boardContent=true;
+			}else if(length>1000){
+				$(this).val(value.substring(0,1000));	
+				$(".be-length").css("color","red").text(1000);
+				eCheck.boardContent=false;
+				$(this).addClass("is-invalid");
+			}else if(length>0){
+				$(".be-length").css("color","#495057");
+				eCheck.boardContent=true;
+			}
+		});
+		
+		//파일 선택
+		$("#edit-select-file").change(function(e){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(value);
+			console.log(this.files); //파일 배열
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+			
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	console.log(resp);
+                    	
+                    	var fileDiv = $("#edit-file-wrap");
+                    	for(var i=0; i<resp.url.length; i++){
+                    		console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
+                    		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+    						div.append(img).append(x);
+							fileDiv.append(div);
+                    	}
+
+			        }
+				});
+			}
+		});
+		
 		//폼 전송 이벤트
 		$(".board-edit-form").submit(function(e){
 			e.preventDefault();
 			
+			//강제실행
+			$("#edit-category").change();
+			
 			console.log("수정!");
+			console.log("콘텐츠 = "+eCheck.boardContent);
+			console.log("카테고리 = "+eCheck.boardCategory);
+			console.log("수정전체크 = "+eCheck.allValid());
+			
+			if(eCheck.allValid()){
+				//수정 데이터 준비
+				var boardNo = $(this).children(".modal-footer").children(".edit-btn").data("no");
+				var boardContent = $("#edit-content").val();
+				var boardCategory = $("#edit-category").val();
+				console.log("no확인 = "+boardNo);
+				console.log("categ확인 = "+boardCategory);
+				console.log("conte확인 = "+boardContent);
+						
+				editBoardData = {
+					boardNo:boardNo,
+					boardContent:boardContent,
+					boardCategory:boardCategory
+				}
+						
+				//게시글 DB등록
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/edit_board",
+					method:"patch",
+					data:JSON.stringify(editBoardData),
+					contentType:"application/json",
+					success:function(resp){
+						console.log("수정성공!");
+						//게시글 이미지 DB 등록
+						var findtag = $(".files");
+			        	var attachmentNo;
+			        	if(findtag.length!=0){
+			        		for(var i=0; i<findtag.length; i++){
+				        		attachmentNo = findtag.eq(i).attr("data-no");
+				        		
+				        		data = {
+				        				boardNo:boardNo,
+				        				attachmentNo:attachmentNo
+				        		}
+				        		
+				        		$.ajax({
+				    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+				    				method:"post",
+				    				data:JSON.stringify(data),
+				    				async:false,
+									contentType:"application/json",
+				    				success:function(resp){
+				    					console.log("이미지 저장성공!");
+				    				}
+				    			});
+				        	}
+			        	}
+						$("#boardEditModal").modal('hide');
+					}
+				});
+			    location.reload();
+			}
 		});
 		
 		
@@ -590,16 +732,16 @@
 							<div class="mb-3 text-start">
 								<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
 								<span class="length-font">( </span>
-								<span class="b-length length-font">0</span>
+								<span class="be-length length-font">0</span>
 								<span class="length-font">/ 1000 )</span>
-								<textarea name="boardContent" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+								<textarea name="boardContent" id="edit-content" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
 							</div>
 							
 							<div class="mb-3 text-start mt-2">
 								<div>
-									<input class="form-control select-file" type="file" accept=".jpg, .png, .gif" multiple>
+									<input class="form-control" id="edit-select-file" type="file" accept=".jpg, .png, .gif" multiple>
 							    </div>
-							    <div class="mt-2 file-wrap">
+							    <div class="mt-2" id="edit-file-wrap">
 									<!-- 비동기화 출력 -->
 							    </div>
 							</div>

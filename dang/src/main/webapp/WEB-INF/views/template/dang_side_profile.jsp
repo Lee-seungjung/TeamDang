@@ -677,7 +677,7 @@
 					
 					<div class="mb-3 text-start mt-2">
 						<div>
-							<input class="form-control"  id="write-select-file"type="file" accept=".jpg, .png, .gif" multiple>
+							<input class="form-control"  id="write-select-file" type="file" accept=".jpg, .png, .gif" multiple>
 					    </div>
 					    <div class="mt-2" id="write-file-wrap">
 							<!-- 비동기화 출력 -->
@@ -806,9 +806,9 @@
 		$(".board-form").submit(function(e){
 			e.preventDefault();
 			//이벤트 강제실행
-			$("[name=boardCategory]").change();
+			$("#write-category").change();
 
-			var judge = $("[name=boardContent]").val();
+			var judge = $("#write-content").val();
 			if(judge.length==0) return; //입력값 없으면
 			
 			if(bCheck.allValid()){
@@ -825,8 +825,8 @@
 						var memberNo = $("[name=memberNo]").val();
 						var dangNo = $("[name=dangNo]").val();
 						var memberNick = $("[name=memberNick]").val();
-						var boardContent = $("[name=boardContent]").val();
-						var boardCategory = $("[name=boardCategory]").val();
+						var boardContent = $("#write-content").val();
+						var boardCategory = $("#write-category").val();
 						
 						boardData = {
 							boardNo:boardNo,
