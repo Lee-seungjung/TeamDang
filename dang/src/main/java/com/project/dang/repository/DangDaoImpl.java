@@ -8,8 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
-import com.project.dang.vo.DangInfoVO;
+import com.project.dang.vo.DangEditVO;
 import com.project.dang.vo.DangTopVO;
 
 @Repository
@@ -69,13 +70,13 @@ public class DangDaoImpl implements DangDao {
 
 	// 댕모임 수정에 필요한 정보 조회
 	@Override
-	public DangInfoVO selectDangEditInfo(int dangNo) {
+	public DangEditVO selectDangEditInfo(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangEditInfo", dangNo);
 	}
 
 	// 댕모임 수정
 	@Override
-	public boolean editDangInfo(DangInfoVO dangInfoVO) {
+	public boolean editDangInfo(DangEditVO dangInfoVO) {
 		int result;
 		if(dangInfoVO.getDangPrivate().equals("Y")) {
 			result = sqlSession.update("dang.editDangInfoPrivate", dangInfoVO);
@@ -95,5 +96,11 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public List<DangTopVO> searchDangTop(String dangArea) {
 		return sqlSession.selectList("dang.searchDangTop", dangArea);
+	}
+
+	// 댕모임 상세 정보 반환
+	@Override
+	public DangDetailDto selectDangDetail(int dangNo) {
+		return sqlSession.selectOne("dang.selectDangDetail", dangNo);
 	}
 }

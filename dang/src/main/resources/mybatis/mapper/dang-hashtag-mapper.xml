@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dangHashTag">
+
+	<!-- 해시태그 번호 반환 -->
+	<select id = "hashtagNo" resultType = "int">
+		select dang_hashtag_seq.nextval from dual
+	</select>
+
+	<!-- 해시태그 등록 -->
+ 	<insert id = "insert" parameterType = "DangHashtagDto">
+ 		insert into dang_hashtag(hashtag_no, dang_no, hashtag_content) values(dang_hashtag_seq.nextval, #{dangNo}, #{hashtagContent})
+ 	</insert>
+ 	
+ 	<!-- 해시태그 단일 조회 -->
+ 	<select id = "select" parameterType = "int" resultType = "DangHashtagVO">
+ 		select hashtag_no, hashtag_content from dang_hashtag where hashtag_no = #{hashtagNo}
+ 	</select>
+ 	
+ 	<!-- 댕모임 번호로 등록된 해시태그 전체 조회 -->
+ 	<select id = "selectList" parameterType = "int" resultType = "DangHashtagVO">
+ 		select hashtag_no, hashtag_content from dang_hashtag where dang_no = #{dangNo}
+ 	</select>
+ 	
+ 	<!-- 해시태그 수정 -->
+ 	<update id = "update" parameterType = "map">
+ 		update dang_hashtag set hashtag_content = #{hashtagContent} where hashtag_no = #{hashtagNo}
+ 	</update>
+ 	
+ 	<!-- 해시태그 삭제 -->
+ 	<delete id = "delete" parameterType = "int">
+ 		delete dang_hashtag where hashtag_no = #{hashtagNo}
+ 	</delete>
+  	
+</mapper>

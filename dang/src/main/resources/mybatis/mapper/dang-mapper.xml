@@ -56,5 +56,33 @@
   	<select id = "searchDangTop" parameterType = "String" resultType = "DangTopVO">
   		select * from (select tmp.*, rownum rn from(select dang_no, dang_name, dang_area from dang where dang_area = #{dangArea} order by dang_like, dang_head)tmp) where rn between 1 and 5
   	</select>
+  	
+  	<!-- 댕모임 번호로 등록된 해시태그 전체 조회 -->
+ 	<select id = "selectList" parameterType = "int" resultType = "DangHashtagVO">
+ 		select hashtag_no, hashtag_content from dang_hashtag where dang_no = #{dangNo}
+ 	</select>
   		
+  	<!-- 댕모임 상세 정보 -->
+ 	<select id = "selectDangDetail" parameterType = "int" resultMap = "vo">
+ 		select * from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
+ 	</select>
+ 	<resultMap id = "vo" type = "DangDetailDto">
+ 		<association property = "dangInfo">
+ 			<result column = "dang_no" property = "dangNo"/>
+ 			<result column = "dang_name" property = "dangName"/>
+ 			<result column = "dang_info" property = "dangInfo"/>
+ 			<result column = "dang_headmax" property = "dangHeadmax"/>
+ 			<result column = "dang_head" property = "dangHead"/>
+ 			<result column = "dang_area" property = "dangArea"/>
+ 			<result column = "dang_createtime" property = "dangCreatetime" javaType="java.sql.Date"/>
+ 			<result column = "dang_private" property = "dangPrivate"/>
+ 			<result column = "dang_pw" property = "dangPw"/>
+ 			<result column = "attachment" property = "attachmentNo"/>
+ 		</association>
+ 		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectList">
+ 			<result column = "hashtag_no" property = "hashtagNo"></result>
+ 			<result column = "hashtag_content" property = "hashtagContent"></result>
+ 		</collection>
+ 	</resultMap>
+  	
 </mapper>

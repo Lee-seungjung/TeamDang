@@ -54,7 +54,7 @@
 
 <style>
 
-	*{
+	* {
 		font-family: 'Noto Sans KR', 산세리프;
 		font-size : 18px;
     }
@@ -85,10 +85,6 @@
 	.font-gray{
 		color:#373A3C;
 	}
-	
-	.shadow1{
-		box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
-  	}
   	
 	.btn.btn-primary{
 		background-color:#76BEFF;

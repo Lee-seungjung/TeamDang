@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dang.dto.DangDetailDto;
 import com.project.dang.repository.DangDao;
 import com.project.dang.vo.DangTopVO;
 
@@ -23,5 +24,12 @@ public class DangRestController {
 	public List<DangTopVO> searchDangTop(@RequestParam String dangArea) {
 		// 지역에서 좋아요 + 인원수 순으로 상위 5개 댕모임 반환
 		return dangDao.searchDangTop(dangArea);
+	}
+	
+	// 댕모임 상세정보 반환
+	@GetMapping("/detail")
+	public DangDetailDto selectDangDetail(@RequestParam int dangNo) {
+		// 댕모임 상세 정보 반환
+		return dangDao.selectDangDetail(dangNo);
 	}
 }
