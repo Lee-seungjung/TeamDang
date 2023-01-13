@@ -22,17 +22,17 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public List<ScheduleVO> list() {
+	public List<ScheduleVO> list(int DangNo) {
 		return sqlSession.selectList("schedule.list");		
 	}
 
 	@Override
-	public List<ScheduleVO> detail(int scheduleNo) {
+	public ScheduleVO detail(int scheduleNo, int DangNo) {
 		return sqlSession.selectOne("schedule.detail", scheduleNo);
 	}
 
 	@Override
-	public ScheduleOneVO scheduleOne(int scheduleNo) {
+	public ScheduleOneVO scheduleOne(int scheduleNo, int DangNo) {
 		return sqlSession.selectOne("schedule.scheduleOne", scheduleNo);
 	}
 

@@ -477,7 +477,7 @@
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
-	<div class="p-3 profile-box border rounded-3 mb-3 shadow-lg">
+	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
 		<div class="profile-wrap text-center">
 			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-8 ">
@@ -603,7 +603,7 @@
 	</div>
 	
 	<!-- 출석 체크 -->
-	<div class="p-3 border rounded-3 text-center day-check shadow-lg gray">
+	<div class="p-3 border rounded-3 text-center day-check shadow gray">
 		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">출석 체크</span>
 	</div>
 
@@ -629,14 +629,14 @@
 	</div>
 	
 	<!-- 게시판 글작성 -->
-	<div class="p-3 border rounded-3 text-center shadow-lg mt-3 gray">
+	<div class="p-3 border rounded-3 text-center shadow mt-3 gray">
 		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
 			href="#">게시글 작성</a>
 	</div>
 
-	<!-- 출석 체크 -->
+	<!-- 댕모임 정보 수정 -->
 	<c:if test = "${profile.memberOwner == 'Y'}">
-	<div class="p-3 border rounded-3 text-center day-check shadow-lg mt-3 gray">
+	<div class="p-3 border rounded-3 text-center day-check shadow mt-3 gray">
 		<i class="fa-solid fa-gear"></i>
 		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
 	</div>

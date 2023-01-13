@@ -30,7 +30,7 @@ import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.vo.BoardHistoryVO;
-import com.project.dang.vo.DangInfoVO;
+import com.project.dang.vo.DangEditVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,7 +151,7 @@ public class DangController {
 	}
 	
 	@PostMapping("/{dangNo}/edit")
-	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session, @ModelAttribute DangInfoVO dangInfoVO, MultipartFile dangProfile) throws IllegalStateException, IOException {
+	public String dangEdit(@PathVariable int dangNo, Model model, HttpSession session, @ModelAttribute DangEditVO dangInfoVO, MultipartFile dangProfile) throws IllegalStateException, IOException {
 		// 댕모임 정보 수정
 		dangDao.editDangInfo(dangInfoVO);
 		// 첨부파일 수정
@@ -432,7 +432,7 @@ public class DangController {
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		//날짜별 일정 상세 출력
-		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo));
+		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo, dangNo));
 		return "dang/schedule_detail";
 	}
 	

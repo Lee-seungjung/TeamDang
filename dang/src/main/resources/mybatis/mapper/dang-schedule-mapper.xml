@@ -6,75 +6,73 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 
-	mapper 내부에 SQL 구문을 배치
-	- namespace : 외부에서 부르기 위한 별칭(테이블명으로 작성)
+   mapper 내부에 SQL 구문을 배치
+   - namespace : 외부에서 부르기 위한 별칭(테이블명으로 작성)
 -->
 <mapper namespace="schedule">
 
-		<!-- 시퀀스 발행 -->
-  		<select id="sequence" resultType="int">
-  			select dang_schedule_seq.nextval from dual
-  		</select>
-  		
-  		<!-- 스케줄 목록 출력(우측상단) -->
-  		<select id="simpleList" parameterType="int" resultType="SimpleScheduleVO">
+      <!-- 시퀀스 발행 -->
+        <select id="sequence" resultType="int">
+           select dang_schedule_seq.nextval from dual
+        </select>
+        
+        <!-- 스케줄 목록 출력(우측상단) -->
+        <select id="simpleList" parameterType="int" resultType="SimpleScheduleVO">
 			select * from (
 			    select TMP.*, rownum rn from (
-			        select (select to_char(schedule_start+1, 'DAY') from dual) day, extract (day from schedule_start) day_no,
-			        (SELECT TO_CHAR(schedule_start, 'YYYY"년" MM"월" DD"일"' )from dual) schedule_start , p.place_name, d.schedule_hour
-			        from dang_schedule d INNER join dang_place p on d.place_no=p.place_no order by schedule_start asc
-			    )TMP
+                 select * from dang_scheduleList                  
+                )TMP
 			) where rn between 1 and 5
-  		</select>
-  		
-		<!-- 일정 목록 검색하여 달력에 출력-->
-  		<select id="list" parameterType="int" resultType="ScheduleVO">
-				select p.place_name, ddm.* from dang_place p
-				inner join (
-				select D.schedule_no, D.place_no, D.schedule_title, D.schedule_content, D.schedule_headmax, D.schedule_head, D.schedule_start, D.schedule_hour, DM.member_nick
-				from  
-				dang_schedule D INNER join dang_member dm
-				          on d.member_no = dm.member_no) ddm
-				on ddm.place_no = p.place_no
-  		</select> 
-  		
-  				<!--스케줄 번호로 일정 목록 검색하여 날짜별 달력 하단에 모달 출력-->
-  		<select id="scheduleOne" parameterType="int" resultType="ScheduleOneVO">
-				select p.place_name, ddm.* from dang_place p
-				inner join (
-				select D.schedule_no,  D.place_no, D.schedule_title, D.schedule_start, D.schedule_hour
-				from  
-				dang_schedule D INNER join dang_member dm
-				          on d.member_no = dm.member_no) ddm
-				on ddm.place_no = p.place_no where schedule_no = #{scheduleNo}
-  		</select> 
-  		
-  				<!-- 일정에세 상세 클릭시 출력-->
-  		<select id="detail" parameterType="int" resultType="ScheduleVO">
-				select p.place_name, ddm.* from dang_place p
-				inner join (
-				select D.schedule_no, D.place_no, D.schedule_title, D.schedule_content, D.schedule_headmax, D.schedule_head, D.schedule_start, D.schedule_hour, DM.member_nick
-				from  
-				dang_schedule D INNER join dang_member dm
-				          on d.member_no = dm.member_no) ddm
-				on ddm.place_no = p.place_no where schedule_no = #{scheduleNo}
-  		</select> 
-  		  		
-<!--   		댕모임 회원이 일정페이지에서 일정 등록
-  		<insert id="insert" parameterType="DangScheduleDto">
-  			insert into schedule values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent},
-  			#{scheduleHeadmax}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'));
-  		</insert>
-  		
-  		스케줄 입력(시퀀스번호 미리발행
-		<insert id="insert2" parameterType="DangScheduleDto">
-			insert into dangSchedule(schedule_no, member_no, place_no, schedule_title, schedule_content, schedule_maxhead, schedule_start, schedule_end) values(#{scheduleNo}, #{MemberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleMaxhead}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'))
-		</insert>
-		
-		스케줄 삭제
-		<delete id="delete" parameterType="int">
-			delete dangSchedule where schedule_no=#{scheduleNo}
-		</delete> -->
-		
-		
+        </select>
+        
+      <!-- 일정 목록 검색하여 달력에 출력-->
+        <select id="list" parameterType="int" resultType="ScheduleVO">
+            select p.place_name, ddm.* from dang_place p
+            inner join (
+            select D.schedule_no, D.place_no, D.schedule_title, D.schedule_content, D.schedule_headmax, D.schedule_head, D.schedule_start, D.schedule_hour, DM.member_nick
+            from  
+            dang_schedule D INNER join dang_member dm
+                      on d.member_no = dm.member_no) ddm
+            on ddm.place_no = p.place_no where ddm.dang_no=#{dangNo}
+        </select> 
+        
+              <!--스케줄 번호로 일정 목록 검색하여 날짜별 달력 하단에 모달 출력-->
+        <select id="scheduleOne" parameterType="int" resultType="ScheduleOneVO">
+            select p.place_name, ddm.* from dang_place p
+            inner join (
+            select D.schedule_no,  D.place_no, D.schedule_title, D.schedule_start, D.schedule_hour
+            from  
+            dang_schedule D INNER join dang_member dm
+                      on d.member_no = dm.member_no) ddm
+            on ddm.place_no = p.place_no where ddm.schedule_no = #{scheduleNo} and ddm.dang_no=#{dangNo}
+        </select> 
+        
+              <!-- 일정에세 상세 클릭시 출력-->
+        <select id="detail" parameterType="int" resultType="ScheduleVO">
+            select p.place_name, ddm.* from dang_place p
+            inner join (
+            select D.schedule_no, D.place_no, D.schedule_title, D.schedule_content, D.schedule_headmax, D.schedule_head, D.schedule_start, D.schedule_hour, DM.member_nick
+            from  
+            dang_schedule D INNER join dang_member dm
+                      on d.member_no = dm.member_no) ddm
+            on ddm.place_no = p.place_no where ddm.schedule_no = #{scheduleNo} and ddm.dang_no=#{dangNo}
+        </select> 
+                
+<!--         댕모임 회원이 일정페이지에서 일정 등록
+        <insert id="insert" parameterType="DangScheduleDto">
+           insert into schedule values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent},
+           #{scheduleHeadmax}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'));
+        </insert>
+        
+        스케줄 입력(시퀀스번호 미리발행
+      <insert id="insert2" parameterType="DangScheduleDto">
+         insert into dangSchedule(schedule_no, member_no, place_no, schedule_title, schedule_content, schedule_maxhead, schedule_start, schedule_end) values(#{scheduleNo}, #{MemberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleMaxhead}, to_date(#{scheduleStart},'YYYY-MM-DD HH24:MI:SS'), to_date(#{scheduleEnd},'YYYY-MM-DD HH24:MI:SS'))
+      </insert>
+      
+      스케줄 삭제
+      <delete id="delete" parameterType="int">
+         delete dangSchedule where schedule_no=#{scheduleNo}
+      </delete> -->
+      
+      
 </mapper>
