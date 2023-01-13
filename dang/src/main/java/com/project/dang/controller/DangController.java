@@ -432,7 +432,7 @@ public class DangController {
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		//날짜별 일정 상세 출력
-		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo));
+		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo, dangNo));
 		return "dang/schedule_detail";
 	}
 	
