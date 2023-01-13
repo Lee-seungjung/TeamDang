@@ -15,4 +15,5 @@ public class SimpleScheduleVO {
 	private String scheduleHour;
 	private String placeName;
 	private int rn;
+	private int dangNo;
 }

@@ -16,5 +16,6 @@ public class ScheduleVO {
 	private String placeName;
 	private int scheduleHeadMax;
 	private int scheduleHead;
+	private int dangNo;
 
 }
