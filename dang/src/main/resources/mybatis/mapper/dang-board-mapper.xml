@@ -65,6 +65,11 @@
 		select * from board_img where board_no=#{boardNo}
 	</select>
 	
+	<update id="editBoard" parameterType="BoardEditVO">
+		update dang_board set board_category=#{boardCategory}, board_content=#{boardContent} 
+		where board_no=#{boardNo}
+	</update>
+	
 	<!-- 게시글 좋아요 수 증가 -->
 	<update id="plusLike" parameterType="int">
 		update dang_board set board_like=board_like+1 where board_no=#{boardNo}

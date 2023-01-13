@@ -631,7 +631,7 @@
 	<!-- 게시판 글작성 -->
 	<div class="p-3 border rounded-3 text-center shadow-lg mt-3 gray">
 		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
-			href="${pageContext.request.contextPath}/dang/{dangNo}/board_write">게시글 작성</a>
+			href="#">게시글 작성</a>
 	</div>
 
 	<!-- 출석 체크 -->
@@ -672,21 +672,21 @@
 						<span class="length-font">( </span>
 						<span class="b-length length-font">0</span>
 						<span class="length-font">/ 1000 )</span>
-						<textarea name="boardContent" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+						<textarea name="boardContent" id="write-content" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
 					</div>
 					
 					<div class="mb-3 text-start mt-2">
 						<div>
-							<input class="form-control select-file" type="file" accept=".jpg, .png, .gif" multiple>
+							<input class="form-control"  id="write-select-file"type="file" accept=".jpg, .png, .gif" multiple>
 					    </div>
-					    <div class="mt-2 file-wrap">
+					    <div class="mt-2" id="write-file-wrap">
 							<!-- 비동기화 출력 -->
 					    </div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
-					<button type="submit" class="btn btn-primary write-edit-btn">작성</button>
+					<button type="submit" class="btn btn-primary write-btn">작성</button>
 				</div>
 				</form>
 			</div>
@@ -709,17 +709,7 @@
 <script>
 	$(function(){
 		$(".board-write").click(function(){
-			$(".file-wrap").empty();
-			
-			$(".modal-title").text("게시글 등록");
-			$("[name=boardCategory]").val("").prop("selected", true);
-			$("[name=boardContent]").val("");
-			$(".select-file").val("");
-			$("write-edit-btn").text("작성");
-			
-			$(".form-tag").removeClass("board-form board-edit-form");
-			$(".form-tag").addClass("board-form");
-			
+			$("#write-file-wrap").empty();
 			
 		});
 		
@@ -733,7 +723,7 @@
 		};
 		
 		//카테고리 선택 검사
-		$("[name=boardCategory]").on("change",function(){
+		$("#write-category").on("change",function(){
 			var value = $(this).val();
 			console.log(value);
 			if(value==""){
@@ -744,7 +734,7 @@
 		});
 		
 		//입력창 글자수 확인(최대 1000자)
-		$("[name=boardContent]").on("input",function(){
+		$("#write-content").on("input",function(){
 			var length = $(this).val().length; //글자수
 			var value = $(this).val(); //입력내용
 			//글자수 표시
@@ -766,7 +756,7 @@
 		});
 		
 		//파일 선택
-		$(".select-file").change(function(e){
+		$("#write-select-file").change(function(e){
 			var value = $(this).val(); //파일위치+파일명
 			console.log(value);
 			console.log(this.files); //파일 배열
@@ -788,7 +778,7 @@
                     	console.log("등록성공!");
                     	console.log(resp);
                     	
-                    	var fileDiv = $(".file-wrap");
+                    	var fileDiv = $("#write-file-wrap");
                     	for(var i=0; i<resp.url.length; i++){
                     		console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
@@ -828,7 +818,7 @@
 					method:"get",
 					async:false,
 					success:function(resp){
-						console.log(resp);
+						console.log("글번호 = "+resp);
 						
 						//비동기화 데이터 준비
 						var boardNo = resp;

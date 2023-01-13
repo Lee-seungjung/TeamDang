@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
+import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
 
 public interface DangBoardDao {
@@ -62,16 +63,23 @@ public interface DangBoardDao {
 	List<DangBoardLikeDto> findlike(int memberNo);
 	
 	/**
+	 * 게시글 수정
+	 * @param BoardEditVO
+	 * @return true, false 
+	 */
+	boolean editBoard(BoardEditVO vo);
+	
+	/**
 	 * 게시글 좋아요 수 증가
 	 * @param boardNo
-	 * @return
+	 * @return true, false
 	 */
 	boolean plusLike(int boardNo);
 	
 	/**
 	 * 게시글 좋아요 수 감소
 	 * @param boardNo
-	 * @return
+	 * @return true, false
 	 */
 	boolean minusLike(int boardNo);
 	

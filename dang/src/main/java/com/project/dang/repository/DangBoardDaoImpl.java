@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
+import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
 
 @Repository
@@ -65,6 +68,12 @@ public class DangBoardDaoImpl implements DangBoardDao{
 		return sqlSession.selectList("dangBoard.findLike",memberNo);
 	}
 	
+	//게시글 수정
+	@Override
+	public boolean editBoard(BoardEditVO vo) {
+		return sqlSession.update("dangBoard.editBoard",vo)>0;
+	}
+	
 	//게시글 좋아요 수 증가
 	@Override
 	public boolean plusLike(int boardNo) {
@@ -88,6 +97,8 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public boolean deleteLike(DangBoardLikeDto dto) {
 		return sqlSession.delete("dangBoard.deleteLike",dto)>0;
 	}
+
+	
 
 	
 

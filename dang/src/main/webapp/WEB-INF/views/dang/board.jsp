@@ -113,21 +113,18 @@
 		
 		//게시글 수정
 		$(".edit-drop").click(function(){
-			$("#boardModal").modal("show");
+			$("#boardEditModal").modal("show");
 			//원본데이터 출력준비
 			var boardContent = $(this).parents(".first-line").next().find(".content-font").text();
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-7").children().text();
 			var boardNo = $(this).parent().data("bno");
 			//원본데이터 출력
-			$(".modal-title").text("게시글 수정");
 			$("[name=boardCategory]").val(boardCategory).prop("selected", true);
 			$("[name=boardContent]").val(boardContent);
-			$("write-edit-btn").text("수정");
+			$(".edit-btn").attr("data-no",boardNo);
 			$(".select-file").val("");
-			
-			$(".form-tag").removeClass("board-form board-edit-form");
-			$(".form-tag").addClass("board-edit-form");
-			
+			$(".file-wrap").empty();
+	
 			$.ajax({
 				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
 				method:"get",
@@ -136,17 +133,24 @@
 					console.log(resp);
 					
 					var fileDiv = $(".file-wrap");
-                	for(var i=0; i<resp.length; i++){
-                    	var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo;
-                		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
-                		var img = $("<img>").attr("src",url).attr("class","img-fluid file1")
-                						.attr("style","width:70px; height:70px;").attr("data-no",resp[i].attachmentNo);
-                		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+	               	for(var i=0; i<resp.length; i++){
+	                   	var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo;
+	               		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+	               		var img = $("<img>").attr("src",url).attr("class","img-fluid file1")
+	               						.attr("style","width:70px; height:70px;").attr("data-no",resp[i].attachmentNo);
+	               		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
 						div.append(img).append(x);
 						fileDiv.append(div);
-                	}
+	               	}
 				}
 			});
+		});
+		
+		//폼 전송 이벤트
+		$(".board-edit-form").submit(function(e){
+			e.preventDefault();
+			
+			console.log("수정!");
 		});
 		
 		
@@ -162,6 +166,7 @@
 			if(writer!=memberNo){
 				alert('작성자가 일치하지 않습니다! 삭제불가능!');
 			}else{
+				boardDeleteAttachmentAll(boardNo);
 				$(this).parents(".board-box").remove();
 				//삭제 ajax 실행
 				$.ajax({
@@ -285,6 +290,28 @@
 				}
 			});			
 		});
+		
+		//게시글 삭제 시 첨부파일 삭제
+		function boardDeleteAttachmentAll(boardNo){
+			$.ajax({
+				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+				method:"get",
+				async:false,
+				success:function(resp){
+					for(var i=0; i<resp.length; i++){
+						var attachmentNo = resp[i].attachmentNo;
+		        		$.ajax({
+		    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+		    				method:"delete",
+		    				data:attachmentNo,
+		    				async:false,
+		    				success:function(resp){
+		    				}
+		    			});
+		        	}
+				}
+			});
+		}
 		
 		//기존 좋아요 목록 출력
 		function originLike(){
@@ -457,15 +484,17 @@
 										<span class="date-font me-4">
 											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
 										</span>
-										<div class="dropdown inbl w-auto">
-											<span data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-												<i class="fa-solid fa-ellipsis-vertical me-3"></i>
-											</span>
-											<div class="dropdown-menu" data-bno="${vo.boardNo}" data-mno="${vo.memberNo}">
-												<span class="dropdown-item edit-drop" >수정</span>
-												<span class="dropdown-item delete-drop" >삭제</span>
+										<c:if test="${vo.memberNo==profile.memberNo}">
+											<div class="dropdown inbl w-auto">
+												<span data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+													<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+												</span>
+												<div class="dropdown-menu" data-bno="${vo.boardNo}" data-mno="${vo.memberNo}">
+													<span class="dropdown-item edit-drop cursor-pointer" data-bs-toggle="modal" data-bs-target="#boardEditModal" data-bs-whatever="@mdo">수정</span>
+													<span class="dropdown-item delete-drop cursor-pointer">삭제</span>
+												</div>
 											</div>
-										</div>
+										</c:if>
 									</div>
 								</div>
 								
@@ -532,6 +561,59 @@
 			<!-- 다가오는 일정 박스  끝-->
 			
 			<input type="hidden" name="memberNo" value="${profile.memberNo}">
+
+			<!-- 게시판 글수정 모달 시작-->					
+			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">게시글 수정</h5>
+						</div>
+						<form class="form-tag board-edit-form">
+						<div class="modal-body">
+							
+							<div class="mb-3 text-start">
+								<label for="edit-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
+								<div>
+									<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="edit-category">
+									  <option value="">선택</option>
+									  <option value="자유글">자유글</option>
+									  <option value="가입인사">가입인사</option>
+									  <option value="정모후기">정모후기</option>
+									  <c:if test="${profile.memberOwner=='Y'}">
+									  	<option value="공지사항">공지사항</option>
+									  </c:if>
+									</select>
+								</div>
+							</div>
+							
+							<div class="mb-3 text-start">
+								<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
+								<span class="length-font">( </span>
+								<span class="b-length length-font">0</span>
+								<span class="length-font">/ 1000 )</span>
+								<textarea name="boardContent" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+							</div>
+							
+							<div class="mb-3 text-start mt-2">
+								<div>
+									<input class="form-control select-file" type="file" accept=".jpg, .png, .gif" multiple>
+							    </div>
+							    <div class="mt-2 file-wrap">
+									<!-- 비동기화 출력 -->
+							    </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-primary edit-btn">수정</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 게시판 글수정 모달 끝-->
+	
 		</div>
 	</div>
 </div>

@@ -18,6 +18,7 @@ import com.project.dang.dto.BoardImgDto;
 import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.repository.DangBoardDao;
+import com.project.dang.vo.BoardEditVO;
 
 @CrossOrigin
 @RestController
@@ -61,6 +62,12 @@ public class DangBoardRestController {
 	@GetMapping("/fint_like/{memberNo}")
 	public List<DangBoardLikeDto> findLike(@PathVariable int memberNo){
 		return dangBoardDao.findlike(memberNo);
+	}
+	
+	//게시글 수정
+	@PatchMapping("/edit_board")
+	public boolean editBoard(@RequestBody BoardEditVO vo) {
+		return dangBoardDao.editBoard(vo);
 	}
 	
 	//좋아요 수 수정
