@@ -787,15 +787,31 @@
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
-                    		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
     						div.append(img).append(x);
 							fileDiv.append(div);
                     	}
 
+            			$(".x-btn").click(function(){
+            				var attachmentNo = $(this).prev().data("no");
+            				var div = $(this).parent().remove();
+            				console.log(attachmentNo);
+            				
+            				$.ajax({
+            					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+            					method:"delete",
+            					data:attachmentNo,
+            					async:false,
+            					success:function(resp){
+            					}
+            				});
+            			});
 			        }
 				});
 			}
 		});
+		
+		
 		
 		//모달 취소버튼 누를 경우 첨부파일 삭제
 		$(".write-cancel").click(function(){

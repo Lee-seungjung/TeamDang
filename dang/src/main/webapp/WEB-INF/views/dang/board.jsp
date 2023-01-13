@@ -138,10 +138,14 @@
 	               		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
 	               		var img = $("<img>").attr("src",url).attr("class","img-fluid file1")
 	               						.attr("style","width:70px; height:70px;").attr("data-no",resp[i].attachmentNo);
-	               		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+	               		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
 						div.append(img).append(x);
 						fileDiv.append(div);
 	               	}
+	               	$(".x-btn").click(function(){
+                		var thistag = $(this);
+                		xBtn(thistag);
+        			});
 				}
 			});
 		});
@@ -190,7 +194,6 @@
 		//파일 선택
 		$("#edit-select-file").change(function(e){
 			var value = $(this).val(); //파일위치+파일명
-			console.log(value);
 			console.log(this.files); //파일 배열
 			if(this.files.length>0){ //파일 있음
 				var formData = new FormData();
@@ -219,10 +222,15 @@
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
-                    		var x = $("<p>").text("x").attr("class","text-center").attr("style","margin-top:-5px;");
+                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
     						div.append(img).append(x);
 							fileDiv.append(div);
                     	}
+                    	
+                    	$(".x-btn").click(function(){
+                    		var thistag = $(this);
+                    		xBtn(thistag);
+            			});
 
 			        }
 				});
@@ -246,9 +254,6 @@
 				var boardNo = $(this).children(".modal-footer").children(".edit-btn").data("no");
 				var boardContent = $("#edit-content").val();
 				var boardCategory = $("#edit-category").val();
-				console.log("no확인 = "+boardNo);
-				console.log("categ확인 = "+boardCategory);
-				console.log("conte확인 = "+boardContent);
 						
 				editBoardData = {
 					boardNo:boardNo,
@@ -284,14 +289,39 @@
 									contentType:"application/json",
 				    				success:function(resp){
 				    					console.log("이미지 저장성공!");
+			
 				    				}
 				    			});
 				        	}
 			        	}
+			        	
+			        	//원본게시글에 수정내용 찍어주기
+    					var selectTag = $(".img-check[data-no="+boardNo+"]");
+    					var div = selectTag.parent();
+    					var contentTag = selectTag.parent().prev().children();
+    					var categoryTag = selectTag.parent().parent().next().next().children('.col-7').children();
+    					contentTag.text(boardContent);
+    					categoryTag.text(boardCategory);
+    					console.log(categoryTag);
+    					
+    					selectTag.remove(); //img태그 지움
+
+						$.ajax({
+							url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+							method:"get",
+							async:false,
+							success:function(resp){
+								var img = $("<img>").
+   								attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
+   								.attr("class","img-fluid img-check").attr("data-no",boardNo);
+								
+								div.prepend(img);
+							}
+						});
+			        	
 						$("#boardEditModal").modal('hide');
 					}
 				});
-			    location.reload();
 			}
 		});
 		
@@ -432,6 +462,22 @@
 				}
 			});			
 		});
+		
+		//수정 전 게시글 내 첨부파일 삭제
+		function xBtn(thistag){
+			var attachmentNo = thistag.prev().data("no");
+			var div = thistag.parent().remove();
+			console.log(attachmentNo);
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+				method:"delete",
+				data:attachmentNo,
+				async:false,
+				success:function(resp){
+				}
+			});
+		}
 		
 		//게시글 삭제 시 첨부파일 삭제
 		function boardDeleteAttachmentAll(boardNo){
