@@ -20,6 +20,7 @@ public class DangInfoDto {
 	private Integer dangHead;
 	private String dangArea;
 	private Date dangCreatetime;
+	private Integer dangLike;
 	private String dangPrivate;
 	private String dangPw;
 	private Integer attachmentNo;
