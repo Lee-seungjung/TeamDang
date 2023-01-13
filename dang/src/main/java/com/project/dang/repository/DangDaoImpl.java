@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
-import com.project.dang.vo.DangEditVO;
+import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangTopVO;
 
 @Repository
@@ -70,25 +70,25 @@ public class DangDaoImpl implements DangDao {
 
 	// 댕모임 수정에 필요한 정보 조회
 	@Override
-	public DangEditVO selectDangEditInfo(int dangNo) {
+	public DangEditInfoVO selectDangEditInfo(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangEditInfo", dangNo);
 	}
 
 	// 댕모임 수정
 	@Override
-	public boolean editDangInfo(DangEditVO dangInfoVO) {
+	public boolean editDangInfo(DangEditInfoVO dangEditInfoVO) {
 		int result;
-		if(dangInfoVO.getDangPrivate().equals("Y")) {
-			result = sqlSession.update("dang.editDangInfoPrivate", dangInfoVO);
+		if(dangEditInfoVO.getDangPrivate().equals("Y")) {
+			result = sqlSession.update("dang.editDangInfoPrivate", dangEditInfoVO);
 		} else {
-			result = sqlSession.update("dang.editDangInfoPublic", dangInfoVO);
+			result = sqlSession.update("dang.editDangInfoPublic", dangEditInfoVO);
 		}
 		return result > 0;
 	}
 
 	// 댕모임 프로필 첨부파일 번호 조회
 	@Override
-	public int selectDangImg(int dangNo) {
+	public Integer selectDangImg(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangImg", dangNo);
 	}
 

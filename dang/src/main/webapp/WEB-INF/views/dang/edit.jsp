@@ -11,6 +11,7 @@
 	.img-edit-dang-profile {
 		border-radius : 20px;
 		border : 2px solid;
+		aspect-ratio : 1/1;
 	}
 	
 	.input-dang-profile {
@@ -66,9 +67,16 @@
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
 								<span>댕모임 프로필 사진</span>
-								<div class = "row">								
+								<div class = "row">
 									<div class = "col-5 d-flex justify-content-center align-items-center">
-										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${dangEditInfo.attachmentNo}" class = "img-fluid img-edit-dang-profile">
+										<c:choose>
+										<c:when test = "${dangEditInfo.attachmentNo != null}"> <%-- 첨부파일 번호가 없을 때 --%>
+											<img src = "${pageContext.request.contextPath}/rest_attachment/download/${dangEditInfo.attachmentNo}" class = "img-fluid img-edit-dang-profile">
+										</c:when>
+										<c:otherwise>
+											<img src = "${pageContext.request.contextPath}/images/basic-profile.png" class = "img-fluid img-edit-dang-profile">
+										</c:otherwise>
+										</c:choose>
 									</div>
 									<div class = "col-2 d-flex justify-content-center align-items-center">
 										<img src = "${pageContext.request.contextPath}/images/icon-change.png" class = "img-fluid">
