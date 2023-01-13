@@ -58,9 +58,11 @@
   	</select>
   	
   	<!-- 댕모임 번호로 등록된 해시태그 전체 조회 -->
- 	<select id = "selectList" parameterType = "int" resultType = "DangHashtagVO">
+ 	<select id = "selectHashtagList" parameterType = "int" resultType = "DangHashtagVO">
  		select hashtag_no, hashtag_content from dang_hashtag where dang_no = #{dangNo}
  	</select>
+ 	
+ 	<!-- 댕모임 번호로 첨부파일 조회 -->
   		
   	<!-- 댕모임 상세 정보 -->
  	<select id = "selectDangDetail" parameterType = "int" resultMap = "vo">
@@ -75,11 +77,12 @@
  			<result column = "dang_head" property = "dangHead"/>
  			<result column = "dang_area" property = "dangArea"/>
  			<result column = "dang_createtime" property = "dangCreatetime" javaType="java.sql.Date"/>
+ 			<result column = "dang_like" property = "dangLike"/>
  			<result column = "dang_private" property = "dangPrivate"/>
  			<result column = "dang_pw" property = "dangPw"/>
- 			<result column = "attachment" property = "attachmentNo"/>
+ 			<result column = "attachment_no" property = "attachmentNo"/>
  		</association>
- 		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectList">
+ 		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectHashtagList">
  			<result column = "hashtag_no" property = "hashtagNo"></result>
  			<result column = "hashtag_content" property = "hashtagContent"></result>
  		</collection>

@@ -5,10 +5,6 @@
 
 <style>
 
-	* {
-		border : 1px gray dotted;
-	}
-
 	.img-carousel {
 		aspect-ratio : 7/3;
 	}
@@ -57,6 +53,19 @@
     
     .div-outer-dang-info {
     	border-radius : 15px !important;
+    }
+    
+    .span-dang-createdate {
+    	font-size : 10px;
+    	color : #9D9FA2;
+    }
+    
+    .strong-dang-name {
+    	font-size : 24px;
+    }
+    
+    .span-dang-info {
+    	color : #9D9FA2;
     }
     
     .span-dang-hashtag {
@@ -255,24 +264,28 @@
 <div class="modal fade" id="modalDangDetail" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content card div-outer-dang-info">
-            <img src="/images/icon-man.png" class="card-img-top img-dang-profile" style = "background-color: black">
-            <div class="modal-body card-body">
-            	<div class = "container-fluid"> <%-- 태그 생성 시작 --%>
-            		<div class = "row my-2">
-            			<span style = "font-size: 10px;">댕모임 개설일 : 2022년 12월 30일</span>
+            <%-- 
+            <img src="/images/icon-man.png" class="card-img-top img-dang-profile" style = "background-color: black"> 태그 생성 영역
+            <div class="modal-body card-body"> 
+            	<div class = "container-fluid"> 
+            		<div class = "row my-3">
+            			<span class = "span-dang-createdate">댕모임 개설일 : 2022년 12월 30일</span>
             		</div>
-            		<div class = "row my-2">
-            			<div class = "col-8 ">            			
-	            			<strong class = "card-title strong-dang-name" style="font-size:24px;">마포 목욕댕댕팸</strong>
+            		<div class = "row my-3">
+            			<div class = "col-9 ">            			
+	            			<strong class = "card-title strong-dang-name">마포 목욕댕댕팸</strong>
             			</div>
-            			<div class = "col-4 d-flex justify-content-end align-items-center">
-            				<button class = "flex-fill btn-dang btn-dang-like" type = "button">좋아요</button>
+            			<div class = "col-3 d-flex justify-content-end align-items-center">
+            				<button class = "flex-fill btn-dang btn-dang-like" type = "button">
+            					<i class="fa-regular fa-heart"></i>
+            					<span>1223</span>
+            				</button>
             			</div>
             		</div>
-            		<div class = "row my-2">
-            			<span class = "card-text">목욕하자 하면 도망가는 댕을 위한... 목욕모임</span>
+            		<div class = "row my-3">
+            			<span class = "card-text span-dang-info">목욕하자 하면 도망가는 댕을 위한... 목욕모임</span>
             		</div>
-            		<div class = "row my-2">
+            		<div class = "row my-3">
             			<div class = "d-flex flex-row flex-wrap div-hashtag-list">          			
 	            			<span class = "span-dang-hashtag mx-1 px-1">#서울</span>
 	            			<span class = "span-dang-hashtag mx-1 px-1">#마포구</span>
@@ -280,7 +293,7 @@
 	            			<span class = "span-dang-hashtag mx-1 px-1">#댕댕아목욕가자</span>
             			</div>
             		</div>
-            		<div class = "row my-2">
+            		<div class = "row my-3">
             			<div class = "col-8 d-flex justify-content-start align-items-center">
             				<div class = "div-dang-head px-1">
             					<i class="fa-solid fa-paw"></i>
@@ -293,8 +306,9 @@
             				<button class = "flex-fill btn-dang btn-dang-join" type = "button">댕모임 가입</button>
             			</div>
             		</div>
-            	</div>  <%-- 태그 생성 끝 --%>
-            </div> <%-- 모달 바디 --%>
+            	</div>  
+            </div>
+             --%>
         </div>
     </div>
 </div>
@@ -342,7 +356,93 @@
 				url : "${pageContext.request.contextPath}/rest_dang/detail?dangNo="+dangNo,
 				method : "get",
 				success : function(resp){
-					console.log(resp);	
+					
+					console.log(resp);
+					
+					var target = $(".div-outer-dang-info");
+					target.empty();
+					
+					var dangProfileImg;
+					if(resp.dangInfo.attachmentNo != null) {						
+						dangProfileImg = $("<img>").attr("class", "card-img-top img-dang-profile").attr("src" , "${pageContext.request.contextPath}/rest_attachment/download/"+resp.dangInfo.attachmentNo)
+					} else {
+						dangProfileImg = $("<img>").attr("class", "card-img-top img-dang-profile img-fluid").attr("src" , "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
+					}
+					var dangInfoDetail = $("<div>").attr("class", "modal-body card-body").append(
+						$("<div>").attr("class", "container-fluid")
+							.append(
+								$("<div>").attr("class", "row my-3")
+									.append(
+										$("<div>").attr("class","span-dang-createdate").text("since." + resp.dangInfo.dangCreatetime)
+									)
+							)
+							.append(
+								$("<div>").attr("class", "row my-3")
+									.append(
+										$("<div>").attr("class", "col-9")
+											.append(
+												$("<strong>").attr("class", "card-title strong-dang-name").text(resp.dangInfo.dangName)
+											)
+									)
+									.append(
+										$("<div>").attr("class", "col-3 d-flex justify-content-end align-items-center")
+											.append(
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-like").attr("type", "button")
+												.append(
+													$("<i>").attr("class", "fa-regular fa-heart me-1")
+												)
+												.append(
+													$("<span>").text(resp.dangInfo.dangLike)
+												)
+											)
+									)
+							)
+							.append(
+								$("<div>").attr("class", "row my-3")
+									.append(
+										$("<span>").attr("class", "card-text span-dang-info").text(resp.dangInfo.dangInfo)	
+									)
+							)
+							.append(
+								$("<div>").attr("class", "row my-3")
+									.append(
+										$("<span>").attr("class", "d-flex flex-row flex-wrap div-hashtag-list")
+									)
+							)
+							.append(
+								$("<div>").attr("class", "row")
+									.append(
+										$("<div>").attr("class", "col-8 d-flex justify-content-start align-items-center")
+											.append(
+												$("<div>").attr("class", "div-dang-head px-1")
+													.append(
+														$("<i>").attr("class", "fa-solid fa-paw me-1")		
+													)
+													.append(
+														$("<span>").attr("class", "span-dang-head").text(resp.dangInfo.dangHead)
+													)
+													.append(
+														$("<span>").text(" / ")	
+													)
+													.append(
+														$("<span>").attr("class", "span-dang-headmax").text(resp.dangInfo.dangHeadmax)	
+													)
+											)
+									)
+									.append(
+										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center")
+											.append(
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-join").attr("type", "button").text("댕모임 가입")
+											)
+									)
+							)
+						);
+					target.append(dangProfileImg).append(dangInfoDetail);
+					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
+						$(".div-hashtag-list").append(
+							$("<span>").attr("class", "span-dang-hashtag mx-1 px-1").attr("data-hashtagno", resp.dangHashtag[i].hashtagNo).text(resp.dangHashtag[i].hashtagContent)
+						)
+					}
 				}
 			});
 		});

@@ -34,6 +34,9 @@ public class DangPlaceRestController {
 		int attachmentNo = dangPlaceDto.getAttachmentNo();
 		PlaceImg placeImg = PlaceImg.builder().attachmentNo(attachmentNo).placeNo(placeNo).build();
 		
+		//dangPlaceDto.setPlaceInfo(dangPlaceDto.getPlaceInfo().replaceAll("\r\n", "<br>"));
+
+		
 		dangPlaceDao.placeInsert(dangPlaceDto);
 		
 		dangPlaceDao.placeImgInsert(placeImg);
