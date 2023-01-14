@@ -386,12 +386,12 @@
 		//댓글창 토글
 		$(".toggle-btn").click(function(){
 			var thisTag = $(this).parent().next(); //reply-box
-			$(".reply-box").attr("style","display:none;");
-			$(".reply-box").empty();
+			$(".reply-box").not(thisTag).attr("style","display:none;"); //지정 태그 이외 동일한 클래스명 안보이게 처리
+			$(".reply-box").empty(); //비동기화 출력 위해 생성했던 태그 비우기
 			thisTag.toggle();
 
 			var style = thisTag.attr("style");
-			if(style=="display: block;"){ //댓글div 열림
+			if(style=="display: block;"){ //댓글div 열림상태
 				var boardNo = $(this).data("no");
 			
 				var hr = $("<hr>");
@@ -400,8 +400,10 @@
 				//목록 출력
 				replyList(thisTag,boardNo);
 				
-			}else{ //댓글div 닫힘
-				thisTag.empty();
+				$(this).click(function(){
+					$(this).attr("style","")
+				});
+				
 			}
 		});
 		
