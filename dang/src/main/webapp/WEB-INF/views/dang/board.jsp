@@ -11,7 +11,6 @@
 <style>
 	.board-box{
 		border:1px solid #E7E7E7;
-		width:650px;
 		height:auto;
 		margin:0 auto;
 		padding:20px;
@@ -91,8 +90,224 @@
 
 </style>
 
+<div class = "container-fluid mt-3">
+
+	<div class = "col-8 offset-2">
+		<div class = "row">
+		
+			<!-- 프로필 박스 시작-->
+			<div class = "col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
+			</div>
+			<!-- 프로필 박스 끝-->
+			
+			<div class = "col-6">
+				<div class = "col">
+					<!-- 검색바 시작 -->
+					<div class="search-group text-center mt-3">
+						<select class="form-select inbl w-auto me-1" name="type">
+							<option>선택</option>
+							<option value="memberNick">작성자</option>
+							<option value="boardContent">내용</option>
+						</select>
+						<input type="text" class="input form-control inbl w-auto ms-1" size="40" name="keyword">
+						<i class="fa-solid fa-magnifying-glass cursor-pointer" style=" margin-left:-30px; color:#a2c1f6;"></i>
+				    </div>
+				    <!-- 검색바 끝 -->
+				    
+				    <!-- #카테고리 시작 -->
+				    <div class="category-group text-center mt-4">
+						<a class="btn gray category-css rounded-pill me-1 category" data-value="정모후기">#정모후기</a>
+						<a class="btn gray category-css rounded-pill me-1 category" data-value="공지사항">#공지사항</a>
+						<a class="btn gray category-css rounded-pill me-1 category" data-value="가입인사">#가입인사</a>
+						<a class="btn gray category-css rounded-pill me-1 category" data-value="자유글">#자유글</a>
+						<a class="btn gray category-css rounded-pill me-1 category btn-blue">#전체</a>
+				    </div>
+				    <!-- #카테고리 끝 -->
+
+				    <!-- 게시글 시작 -->
+				    <div class="board-group text-center mt-4">
+				    
+				    	<c:forEach var="vo" items="${boardList}">
+				    		<!-- 게시글 박스 시작 -->
+							<div class="board-box shadow-sm mb-3">
+								<div class="first-line d-flex">
+									<div class="col-1">
+										<c:choose>
+											<c:when test="${vo.attachmentNo==null}">
+												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
+											</c:when>
+											<c:otherwise>
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid img-circle" style="width:50px; height:50px;">
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="col-7 middle-items ms-3">
+										<span class="nick-font">${vo.memberNick}</span>
+										<c:if test="${vo.memberOwner=='Y'}">
+											<img src="${pageContext.request.contextPath}/images/crown.png" class="ms-1" width="25" height="25">
+										</c:if>
+									</div>
+									<div class="col-4 justify-content-end middle-items">
+										<span class="date-font me-4">
+											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
+										</span>
+										<c:if test="${vo.memberNo==profile.memberNo}">
+											<div class="dropdown inbl w-auto">
+												<span data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+													<i class="fa-solid fa-ellipsis-vertical me-3"></i>
+												</span>
+												<div class="dropdown-menu" data-bno="${vo.boardNo}" data-mno="${vo.memberNo}">
+													<span class="dropdown-item edit-drop cursor-pointer" data-bs-toggle="modal" data-bs-target="#boardEditModal" data-bs-whatever="@mdo">수정</span>
+													<span class="dropdown-item delete-drop cursor-pointer">삭제</span>
+												</div>
+											</div>
+										</c:if>
+									</div>
+								</div>
+								
+								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
+									<div class="col-9 text-start me-1">
+										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
+									</div>
+									<div class="col-3 middle-items">
+										<c:if test="${vo.boardAttachmentCnt!=null}">
+											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
+											<img src="#" class="img-fluid img-check" data-no="${vo.boardNo}">
+											+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
+										</c:if>
+									</div>
+								</div>
+								<hr>
+								
+								<div class="third-line d-flex ms-3 me-3">
+									<div class="col-2 middle-items cursor-pointer toggle-btn" data-no="${vo.boardNo}">
+										<i class="fa-regular fa-message mt-1 me-2"></i>
+										<span class="me-1">댓글</span>
+										<c:if test="${vo.replyCnt!=0}">
+											<span class="blue replycnt" style="font-weight:bolder;">${vo.replyCnt}</span>
+										</c:if>
+									</div>
+									<div class="col-3 middle-items cursor-pointer like-btn">
+										<span class="me-2">좋아요</span>
+										<i class="fa-regular fa-heart pink me-1 empty-heart"></i>
+										<i class="fa-solid fa-heart me-1 full-heart"></i>
+										<c:choose>
+											<c:when test="${vo.boardLike!=0}">
+												<span class="pink islike" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
+											</c:when>
+											<c:otherwise>
+												<span class="pink islike" style="font-weight:bolder;"></span>
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="col-7 justify-content-end middle-items">
+										<span>${vo.boardCategory}</span>
+									</div>
+								</div>
+								
+								<!-- 댓글 박스 시작 -->
+								<div class="reply-box">
+									<!-- 비동기 처리 -->	
+								</div>
+								<!-- 댓글 박스 끝 -->
+								
+							</div>
+							<!-- 게시글 박스 끝 -->
+					    	</c:forEach>
+					    	
+				    </div>
+				    <!-- 게시글 끝 -->
+
+				</div>
+			</div>
+			
+			<!-- 다가오는 일정 박스 시작-->
+			<div class="col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
+			
+			<input type="hidden" name="memberNo" value="${profile.memberNo}">
+
+			<!-- 게시판 글수정 모달 시작-->					
+			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">게시글 수정</h5>
+						</div>
+						<form class="form-tag board-edit-form">
+						<div class="modal-body">
+							
+							<div class="mb-3 text-start">
+								<label for="edit-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
+								<div>
+									<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="edit-category">
+									  <option value="">선택</option>
+									  <option value="자유글">자유글</option>
+									  <option value="가입인사">가입인사</option>
+									  <option value="정모후기">정모후기</option>
+									  <c:if test="${profile.memberOwner=='Y'}">
+									  	<option value="공지사항">공지사항</option>
+									  </c:if>
+									</select>
+								</div>
+							</div>
+							
+							<div class="mb-3 text-start">
+								<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
+								<span class="length-font">( </span>
+								<span class="be-length length-font">0</span>
+								<span class="length-font">/ 1000 )</span>
+								<textarea name="boardContent" id="edit-content" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+							</div>
+							
+							<div class="mb-3 text-start mt-2">
+								<div>
+									<input class="form-control" id="edit-select-file" type="file" accept=".jpg, .png, .gif" multiple>
+							    </div>
+							    <div class="mt-2" id="edit-file-wrap">
+									<!-- 비동기화 출력 -->
+							    </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-primary edit-btn">수정</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 게시판 글수정 모달 끝-->
+		</div>
+	</div>
+</div>
+
 <script>
 	$(function(){
+		
+		//카테고리 검색조회
+		$(".category").click(function(){
+			var dangNo = $("[name=dangNo]");
+			var keyword = $(this).data("value");
+			
+			//출력 div 비우기
+			if(keyword==undefined){
+				//전체 조회
+				
+			}else{
+				//카테고리 조회
+				
+			}
+			
+		});
+		
+		
+		
+		
+		
 		
 		printImg(); //게시글 사진 출력
 		originLike() //좋아요 출력
@@ -935,203 +1150,5 @@
 			}
 		}
 		
-		
-		
 	});
 </script>
-
-<div class = "container-fluid mt-3">
-
-	<div class = "col-10 offset-1">
-		<div class = "row">
-		
-			<!-- 프로필 박스 시작-->
-			<div class = "col-3">
-				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-			</div>
-			<!-- 프로필 박스 끝-->
-			
-			<div class = "col-6">
-				<div class = "col">
-					<!-- 검색바 시작 -->
-					<div class="search-group text-center mt-3">
-						<select class="form-select inbl w-auto me-1" name="type">
-							<option>선택</option>
-							<option value="memberNick">작성자</option>
-							<option value="boardContent">내용</option>
-						</select>
-						<input type="text" class="input form-control inbl w-auto ms-1" size="40" name="keyword">
-						<i class="fa-solid fa-magnifying-glass cursor-pointer" style=" margin-left:-30px; color:#a2c1f6;"></i>
-				    </div>
-				    <!-- 검색바 끝 -->
-				    
-				    <!-- #카테고리 시작 -->
-				    <div class="category-group text-center mt-4">
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="정모후기">#정모후기</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="공지사항">#공지사항</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="가입인사">#가입인사</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="자유글">#자유글</a>
-						<a class="btn gray category-css rounded-pill me-1 category btn-blue">#전체</a>
-				    </div>
-				    <!-- #카테고리 끝 -->
-
-				    <!-- 게시글 시작 -->
-				    <div class="board-group text-center mt-4">
-				    
-				    	<c:forEach var="vo" items="${boardList}">
-				    		<!-- 게시글 박스 시작 -->
-							<div class="board-box shadow-sm mb-3">
-								<div class="first-line d-flex">
-									<div class="col-1">
-										<c:choose>
-											<c:when test="${vo.attachmentNo==null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
-											</c:when>
-											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid img-circle" style="width:50px; height:50px;">
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="col-7 middle-items ms-3">
-										<span class="nick-font">${vo.memberNick}</span>
-										<c:if test="${vo.memberOwner=='Y'}">
-											<img src="${pageContext.request.contextPath}/images/crown.png" class="ms-1" width="25" height="25">
-										</c:if>
-									</div>
-									<div class="col-4 justify-content-end middle-items">
-										<span class="date-font me-4">
-											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
-										</span>
-										<c:if test="${vo.memberNo==profile.memberNo}">
-											<div class="dropdown inbl w-auto">
-												<span data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-													<i class="fa-solid fa-ellipsis-vertical me-3"></i>
-												</span>
-												<div class="dropdown-menu" data-bno="${vo.boardNo}" data-mno="${vo.memberNo}">
-													<span class="dropdown-item edit-drop cursor-pointer" data-bs-toggle="modal" data-bs-target="#boardEditModal" data-bs-whatever="@mdo">수정</span>
-													<span class="dropdown-item delete-drop cursor-pointer">삭제</span>
-												</div>
-											</div>
-										</c:if>
-									</div>
-								</div>
-								
-								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
-									<div class="col-9 text-start me-1">
-										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
-									</div>
-									<div class="col-3 middle-items">
-										<c:if test="${vo.boardAttachmentCnt!=null}">
-											<!-- 비동기로 사진 불러오기 스와이퍼 태그에 파일번호 data-no숨기기 -->
-											<img src="#" class="img-fluid img-check" data-no="${vo.boardNo}">
-											+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
-										</c:if>
-									</div>
-								</div>
-								<hr>
-								
-								<div class="third-line d-flex ms-3 me-3">
-									<div class="col-2 middle-items cursor-pointer toggle-btn" data-no="${vo.boardNo}">
-										<i class="fa-regular fa-message mt-1 me-2"></i>
-										<span class="me-1">댓글</span>
-										<c:if test="${vo.replyCnt!=0}">
-											<span class="blue replycnt" style="font-weight:bolder;">${vo.replyCnt}</span>
-										</c:if>
-									</div>
-									<div class="col-3 middle-items cursor-pointer like-btn">
-										<span class="me-2">좋아요</span>
-										<i class="fa-regular fa-heart pink me-1 empty-heart"></i>
-										<i class="fa-solid fa-heart me-1 full-heart"></i>
-										<c:choose>
-											<c:when test="${vo.boardLike!=0}">
-												<span class="pink islike" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
-											</c:when>
-											<c:otherwise>
-												<span class="pink islike" style="font-weight:bolder;"></span>
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="col-7 justify-content-end middle-items">
-										<span>${vo.boardCategory}</span>
-									</div>
-								</div>
-								
-								<!-- 댓글 박스 시작 -->
-								<div class="reply-box">
-									<!-- 비동기 처리 -->	
-								</div>
-								<!-- 댓글 박스 끝 -->
-								
-							</div>
-							<!-- 게시글 박스 끝 -->
-					    	</c:forEach>
-					    	
-				    </div>
-				    <!-- 게시글 끝 -->
-
-				</div>
-			</div>
-			
-			<!-- 다가오는 일정 박스 시작-->
-			<div class="col-3">
-				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
-			</div>
-			<!-- 다가오는 일정 박스  끝-->
-			
-			<input type="hidden" name="memberNo" value="${profile.memberNo}">
-
-			<!-- 게시판 글수정 모달 시작-->					
-			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">게시글 수정</h5>
-						</div>
-						<form class="form-tag board-edit-form">
-						<div class="modal-body">
-							
-							<div class="mb-3 text-start">
-								<label for="edit-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
-								<div>
-									<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="edit-category">
-									  <option value="">선택</option>
-									  <option value="자유글">자유글</option>
-									  <option value="가입인사">가입인사</option>
-									  <option value="정모후기">정모후기</option>
-									  <c:if test="${profile.memberOwner=='Y'}">
-									  	<option value="공지사항">공지사항</option>
-									  </c:if>
-									</select>
-								</div>
-							</div>
-							
-							<div class="mb-3 text-start">
-								<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
-								<span class="length-font">( </span>
-								<span class="be-length length-font">0</span>
-								<span class="length-font">/ 1000 )</span>
-								<textarea name="boardContent" id="edit-content" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
-							</div>
-							
-							<div class="mb-3 text-start mt-2">
-								<div>
-									<input class="form-control" id="edit-select-file" type="file" accept=".jpg, .png, .gif" multiple>
-							    </div>
-							    <div class="mt-2" id="edit-file-wrap">
-									<!-- 비동기화 출력 -->
-							    </div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
-							<button type="submit" class="btn btn-primary edit-btn">수정</button>
-						</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<!-- 게시판 글수정 모달 끝-->
-	
-		</div>
-	</div>
-</div>

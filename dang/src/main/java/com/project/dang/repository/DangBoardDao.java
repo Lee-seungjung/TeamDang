@@ -42,6 +42,23 @@ public interface DangBoardDao {
 	List<BoardHistoryVO> selectAll(int dangNo);
 	
 	/**
+	 * 카테고리 선택 조회
+	 * @param dangNo
+	 * @param keyword
+	 * @return BoardHistoryVO
+	 */
+	List<BoardHistoryVO> categorySearch(String keyword, int dangNo);
+	
+	/**
+	 * 검색 조회
+	 * @param type
+	 * @param keyword
+	 * @param dangNo
+	 * @return BoardHistoryVO
+	 */
+	List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo);
+	
+	/**
 	 * 내가 쓴 게시글 수
 	 * @param memberNo
 	 * @return 게시글 수(int)

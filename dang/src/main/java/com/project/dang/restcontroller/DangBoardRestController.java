@@ -19,6 +19,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.vo.BoardEditVO;
+import com.project.dang.vo.BoardHistoryVO;
 
 @CrossOrigin
 @RestController
@@ -52,10 +53,25 @@ public class DangBoardRestController {
 		dangBoardDao.likeInsert(dto);
 	}
 	
-	//기본조회(5개)
+	//이미지 조회
 	@GetMapping("/find_img/{boardNo}")
 	public List<BoardImgDto> findImg(@PathVariable int boardNo){
 		return dangBoardDao.findImg(boardNo);
+	}
+	
+	//카테고리 조회(5개)
+	@GetMapping("/category_search/{dangNo}/{keyword}")
+	public List<BoardHistoryVO> categorySearch(@PathVariable int dangNo,
+			@PathVariable String keyword){
+		return dangBoardDao.categorySearch(keyword, dangNo);
+	}
+	
+	//검색 조회(5개)
+	@GetMapping("/category_search/{dangNo}/{keyword}/{type}")
+	public List<BoardHistoryVO> inputSearch(@PathVariable int dangNo,
+			@PathVariable String keyword,@PathVariable String type
+			){
+		return dangBoardDao.inputSearch(type, keyword, dangNo);
 	}
 	
 	//좋아요 조회

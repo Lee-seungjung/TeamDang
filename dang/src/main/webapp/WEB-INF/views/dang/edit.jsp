@@ -53,7 +53,7 @@
 
 <div class = "container-fluid mt-3">
 
-	<div class = "col-10 offset-1">
+	<div class = "col-8 offset-2">
 		<div class = "row">
 		
 			<!-- 프로필 박스 시작-->

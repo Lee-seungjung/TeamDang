@@ -55,6 +55,25 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public int boardWriteCount(int memberNo) {
 		return sqlSession.selectOne("dangBoard.writeCount",memberNo);
 	}
+	
+	//카테고리 선택조회
+	@Override
+	public List<BoardHistoryVO> categorySearch(String keyword, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("keyword", keyword);
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectList("dangBoard.categorySearch",param);
+	}
+	
+	//검색조회
+		@Override
+		public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo) {
+			Map<String, String> param = new HashMap<>();
+			param.put("keyword", keyword);
+			param.put("type", type);
+			param.put("dangNo", String.valueOf(dangNo));
+			return sqlSession.selectList("dangBoard.inputSearch",param);
+		}
 
 	//게시글 첨부파일 조회
 	@Override
