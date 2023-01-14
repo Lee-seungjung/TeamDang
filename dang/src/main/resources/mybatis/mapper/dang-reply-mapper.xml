@@ -13,7 +13,7 @@
 		, #{replyContent}, sysdate, sysdate, 'N')
 	</insert>
 
-	<!-- 게시글의 댓글조회 기본 3개
+	<!-- 게시글의 댓글조회 기본 5개
 		(댓글테이블 전체, 댓글작성자의 방장여부와 프로필사진, 본 게시글 작성자(닉네임)) -->
 	<select id="oneBoardList" resultType="ReplyHistoryVO" parameterType="int">
 		select*from(
@@ -23,7 +23,23 @@
 			        left outer join dang_board board on reply.board_no=board.board_no
 			        left outer join dang_member m on reply.member_no=m.member_no
 			        left outer join user_img uimg on m.user_no=uimg.user_no 
-		        where reply.board_no=${boardNo} order by reply.reply_no desc
+		        where reply.board_no=#{boardNo} order by reply.reply_no desc
+		    )TMP
+		) where rn between 1 and 5
+	</select>
+	
+	<!-- 더보기 댓글조회(+5개씩)
+		(댓글테이블 전체, 댓글작성자의 방장여부와 프로필사진, 본 게시글 작성자(닉네임)) -->
+	<select id="moreReplyList" resultType="ReplyHistoryVO" parameterType="Map">
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select reply.*, board.member_nick as board_member_nick, 
+		        m.member_owner, m.user_no, uimg.attachment_no from dang_reply reply
+			        left outer join dang_board board on reply.board_no=board.board_no
+			        left outer join dang_member m on reply.member_no=m.member_no
+			        left outer join user_img uimg on m.user_no=uimg.user_no 
+		        where reply.board_no=#{boardNo} and <![CDATA[reply.reply_no<#{replyNo}]]> 
+		        order by reply.reply_no desc
 		    )TMP
 		) where rn between 1 and 5
 	</select>

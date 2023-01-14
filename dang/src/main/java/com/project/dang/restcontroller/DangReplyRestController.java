@@ -38,6 +38,12 @@ public class DangReplyRestController {
 		return dangReplyDao.oneBoardList(boardNo);
 	}
 	
+	//게시글 댓글조회(더보기)
+	@GetMapping("/list/{boardNo}/{replyNo}")
+	public List<ReplyHistoryVO> list(@PathVariable int boardNo,@PathVariable int replyNo){
+		return dangReplyDao.moreReplyList(boardNo,replyNo);
+	}
+	
 	//댓글 수정
 	@PatchMapping("/update/{replyContent}/{replyNo}")
 	public boolean update(@PathVariable int replyNo,
@@ -51,4 +57,4 @@ public class DangReplyRestController {
 		return dangReplyDao.delete(replyNo);
 	}
 
-	 }
+}

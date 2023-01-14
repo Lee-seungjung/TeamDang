@@ -21,6 +21,13 @@ public interface DangReplyDao {
 	List<ReplyHistoryVO> oneBoardList(int boardNo);
 	
 	/**
+	 * 게시글의 댓글조회(더보기+5)
+	 * @param boardNo, replyNo
+	 * @return List<ReplyHistoryVO>
+	 */
+	List<ReplyHistoryVO> moreReplyList(int boardNo, int replyNo);
+	
+	/**
 	 * 내가 쓴 댓글 수
 	 * @param memberNo
 	 * @return 댓글 수(int)

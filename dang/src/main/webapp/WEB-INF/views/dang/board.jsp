@@ -362,11 +362,47 @@
 					
 					<!-- 5개 이상일 경우 더보기 보이게 처리 -->
 					if(resp.length>=5){
-						var more = $("<div>").attr("class","row mt-3 re-more-view");
-						var ptag = $("<p>").attr("class","text-center").attr("data-no",resp[0].boardNo).text("+ 더보기");
+						var more = $("<div>").attr("class","row mt-3 re-more-view-div");
+						var ptag = $("<p>").attr("class","text-center re-more-view cursor-pointer")
+										.attr("data-bno",resp[0].boardNo).attr("data-rno",resp[resp.length-1]
+										.replyNo).text("+ 더보기");
 						more.append(ptag);
 						thisTag.append(more);
 					}
+					
+					<!--더보기 버튼 -->
+					//function moreView(){};
+					$(".re-more-view").click(function(){
+						var thisTag = $(this);
+						var replyBox = $(this).parents(".reply-box");
+						var boardNo = $(this).data("bno");
+						var replyNo = $(this).data("rno");
+						
+						if(replyNo==0) return; //데이터 없을경우 비동기화 실행 중지
+						
+						$.ajax({
+							url:"http://localhost:8888/rest_reply/list/"+boardNo+"/"+replyNo,
+							method:"get",
+							success:function(resp){
+								console.log(resp);
+								if(resp.length<5){
+									thisTag.attr("data-rno",0);
+		            			}else{
+		            				thisTag.attr("data-rno",resp[resp.length-1].replyNo); //다음 비동기화 위한 replyNo 설정
+		            			}
+								
+								thisTag.parent().next().remove();//입력태그 지움
+								thisTag.parent().remove();//더보기 지움
+								
+								for(var i=0; i<resp.length; i++){
+									replyRepeat(resp[i], replyBox); //댓글출력
+								}
+								inputReply(replyBox) //입력태그 생성
+								editSubmitReply(); //댓글 수정
+								deleteReply(); //댓글 삭제
+							}
+						});
+					});
 					
 					<!-- 댓글 입력창 -->	
 					inputReply(thisTag);
@@ -714,6 +750,7 @@
 		//댓글 수정 폼
 		function editSubmitReply(){
 			$(".reply-edit").click(function(){
+				var changeTagDiv = $(this).parent().parent().parent().prev().children().children(".re-content-font");
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var replyBox = $(this).parents(".reply-box");
 				replyBox.children('.edit-reply-form').remove(); //edit-reply-form 수정폼 지우기
@@ -737,7 +774,7 @@
 				$(".edit-reply-form").submit(function(e){
 					e.preventDefault();
 					var replyContent = replyBox.children('.edit-reply-form').children().find(".reply-input").val(); //수정 입력내용
-					replyContent = encodeURIComponent(replyContent); //특수문자까지 전송가능하도록 처리
+					//replyContent = encodeURIComponent(replyContent); //특수문자까지 전송가능하도록 처리
 					var boardNo = replyBox.prev().children().data("no");
 					
 					if(replyContent.length!=0){
@@ -754,15 +791,13 @@
 							contentType:"application/json",
 							success:function(resp){
 								console.log("댓글 수정성공!");
-								//1.수정중문구, 2.스피너 제거, 3.수정폼 제거, 4.댓글태그 비우기 5.댓글 출력(함수 안에 입력폼 포함), 
+								//1.수정중문구, 2.스피너 제거, 3.수정폼 제거, 4.입력창 재생성 5.수정태그만 변경 
 								$(".edit-ing").remove(); //1
 								$(".spinner-border").remove(); //2
 								replyBox.children('.edit-reply-form').remove(); //3
-								replyBox.empty(); //4
 								
-								var hr = $("<hr>");
-								replyBox.append(hr);
-								replyList(replyBox,boardNo); //5
+								inputReply(replyBox); //4
+								changeTagDiv.text(replyContent); //5
 								
 							}
 						});

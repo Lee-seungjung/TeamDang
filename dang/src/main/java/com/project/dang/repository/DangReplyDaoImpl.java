@@ -29,6 +29,15 @@ public class DangReplyDaoImpl implements DangReplyDao{
 		return sqlSession.selectList("dangReply.oneBoardList",boardNo);
 	}
 	
+	//댓글조회(더보기+5)
+	@Override
+	public List<ReplyHistoryVO> moreReplyList(int boardNo, int replyNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("boardNo", boardNo);
+		param.put("replyNo", replyNo);
+		return sqlSession.selectList("dangReply.moreReplyList",param);
+	}
+	
 	//내가 쓴 댓글 수
 	@Override
 	public int ReplyWriteCount(int memberNo) {
