@@ -33,6 +33,12 @@ public class DangReplyDaoImpl implements DangReplyDao{
 		return sqlSession.selectOne("dangReply.writeCount",memberNo);
 	}
 
+	//댓글 삭제
+	@Override
+	public boolean delete(int replyNo) {
+		return sqlSession.delete("dangReply.delete",replyNo)>0;
+	}
+
 	
 
 }

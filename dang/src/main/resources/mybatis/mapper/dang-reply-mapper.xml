@@ -33,6 +33,10 @@
 		select count(*) from dang_reply where member_no=#{memberNo}
 	</select>
 	
+	<!-- 댓글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete dang_reply where reply_no=#{replyNo}
+	</delete>
   
 </mapper>
   

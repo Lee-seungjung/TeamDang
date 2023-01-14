@@ -375,6 +375,10 @@
 					
 					<!-- 댓글 입력창 -->	
 					inputReply(thisTag);
+					
+					<!--댓글 삭제, 수정-->
+					deleteReply(); //댓글 삭제
+					//댓글 수정
 				}
 			});
 		}
@@ -536,7 +540,7 @@
 			var memberNo = $("[name=memberNo]").val();
 			var replyBox = thisTag;
 			
-			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2");
+			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2").attr("data-reply",resp.replyNo);
 			
 			var col1 = $("<div>").attr("class","col-1 middle-items");
 			var img = $("<img>");
@@ -581,9 +585,10 @@
 			}
 			replyContent.append(col1).append(col8).append(col3);
 			replyBox.append(replyContent);
+
 		}
 			
-		//댓글 입력
+		//댓글 입력 태그 생성
 		function inputReply(thisTag){	
 			var replyBox = thisTag;
 			var form = $("<form>").attr("class","input-reply-form");
@@ -601,8 +606,12 @@
 			replyBox.append(form);
 			$(".reply-write").attr("disabled",true);
 			
-			//나중에 함수 따로 빼기! function sendReply()
-			//댓글 입력
+			contentInput(); //댓글 입력
+			submitReply(); //댓글 전송 이벤트
+		}
+		
+		//댓글 입력
+		function contentInput(){
 			$(".reply-input").on("input",function(){
 				var value = $(this).val();
 				console.log(value.length);
@@ -617,7 +626,10 @@
 					$(".reply-write").attr("disabled",false);
 				}
 			});
-			
+		}
+		
+		//댓글 전송
+		function submitReply(){
 			$(".input-reply-form").submit(function(e){
 				e.preventDefault();
 				
@@ -653,10 +665,9 @@
 							thisTag.append(hr);
 							
 							replyList(thisTag,boardNo);
-							
+
 							//댓글 숫자 증가
 							var findnum = thisTag.prev().children().children('.replycnt');
-							console.log(findnum);
 							var num = findnum.text();
 							console.log(num);
 							if(num==""){
@@ -664,11 +675,43 @@
 							}else{
 								num = parseInt(num);
 							}
-							console.log(num);
 							findnum.text(num+1);
 						}
 					});
 				}
+			});
+		}
+		
+		//댓글 삭제
+		function deleteReply(){
+			$(".reply-delete").click(function(){
+				var replyNo = $(this).parents(".reply-content").data("reply");
+				var thisTag = $(this).parents(".reply-box");
+				var boardNo = $(this).parent().data("bno");
+				console.log("댓글번호 : "+replyNo);
+				console.log(thisTag);
+				console.log("게시글번호 : "+boardNo);
+				$.ajax({
+					url:"http://localhost:8888/rest_reply/delete/"+replyNo,
+					method:"delete",
+					success:function(resp){
+						thisTag.empty(); //replb-box 비우기
+						var hr = $("<hr>");
+						thisTag.append(hr);
+						
+						replyList(thisTag,boardNo);
+						
+						//댓글 숫자 감소
+						var findnum = thisTag.prev().children().children('.replycnt');
+						var num = findnum.text();
+						if(num==""){
+							findnum.text(0);
+						}else{
+							num = parseInt(num);
+							findnum.text(num-1);
+						}
+					}
+				});
 			});
 		}
 		
