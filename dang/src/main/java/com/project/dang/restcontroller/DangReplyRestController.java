@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,13 @@ public class DangReplyRestController {
 	@GetMapping("/list/{boardNo}")
 	public List<ReplyHistoryVO> list(@PathVariable int boardNo){
 		return dangReplyDao.oneBoardList(boardNo);
+	}
+	
+	//댓글 수정
+	@PatchMapping("/update/{replyContent}/{replyNo}")
+	public boolean update(@PathVariable int replyNo,
+			@PathVariable String replyContent) {
+		return dangReplyDao.updateContent(replyContent, replyNo);
 	}
 	
 	//댓글 삭제

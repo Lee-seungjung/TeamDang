@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,15 @@ public class DangReplyDaoImpl implements DangReplyDao{
 	@Override
 	public int ReplyWriteCount(int memberNo) {
 		return sqlSession.selectOne("dangReply.writeCount",memberNo);
+	}
+	
+	//댓글 수정
+	@Override
+	public boolean updateContent(String ReplyContent, int replyNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("replyContent", ReplyContent);
+		param.put("replyNo", String.valueOf(replyNo));
+		return sqlSession.delete("dangReply.update",param)>0;
 	}
 
 	//댓글 삭제

@@ -28,9 +28,17 @@ public interface DangReplyDao {
 	int ReplyWriteCount(int memberNo);
 	
 	/**
+	 * 댓글 수정
+	 * @param ReplyContent
+	 * @param replyNo
+	 * @return true, false
+	 */
+	boolean updateContent(String ReplyContent, int replyNo);
+	
+	/**
 	 * 댓글 삭제
 	 * @param replyNo
-	 * @return
+	 * @return true, false
 	 */
 	boolean delete(int replyNo);
 }

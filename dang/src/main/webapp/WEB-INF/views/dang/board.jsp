@@ -379,6 +379,31 @@
 					<!--댓글 삭제, 수정-->
 					deleteReply(); //댓글 삭제
 					//댓글 수정
+					$(".reply-edit").click(function(){
+						var replyNo = $(this).parents(".reply-content").data("reply");
+						var replyBox = $(this).parents(".reply-box");
+						replyBox.children('.input-reply-form').remove(); //input-reply-form 입력폼 지우기
+						editReply(replyBox); //수정폼 생성
+						
+						//수정 취소
+						console.log($(".edit-cancel"));
+						$(".edit-cancel").click(function(){
+							$.ajax({
+								url:"http://localhost:8888/rest_reply/delete/"+replyNo,
+								method:"delete",
+								success:function(resp){
+									replyBox.children('.edit-reply-form').remove(); //edit-reply-form 수정폼 지우기
+									inputReply(replyBox); //입력폼 생성
+								}
+							});
+						});
+						
+
+						//var replyContent;
+						
+						
+					});
+					
 				}
 			});
 		}
@@ -606,6 +631,31 @@
 			
 			contentInput(); //댓글 입력
 			submitReply(); //댓글 전송 이벤트
+		}
+		
+		//댓글 수정 태그 생성
+		function editReply(thisTag){	
+			var replyBox = thisTag;
+			var form = $("<form>").attr("class","edit-reply-form");
+			var inputReply = $("<div>").attr("class","row input-reply mt-3");
+			var col9 =  $("<div>").attr("class","col-9").attr("style","padding-right:0;");
+			var input1 = $("<input>").attr("class","input form-control reply-input").attr("type","text").attr("placeholder","수정할 내용을 입력해주세요");
+			col9.append(input1);
+			
+			var col3 =  $("<div>").attr("class","col-3").attr("style","padding-left:0; padding-right:0;");
+			var button1 = $("<button>").attr("class","btn btn-pink reply-write cursor-pointer")
+								.attr("type","submit").text("수정");
+			var button2 = $("<button>").attr("class","btn btn-secondary edit-cancel ms-1 cursor-pointer")
+								.attr("type","button").text("취소");
+			col3.append(button1).append(button2);
+			inputReply.append(col9).append(col3);
+			form.append(inputReply);
+			replyBox.append(form);
+			$(".reply-write").attr("disabled",true);
+			
+			contentInput(); //댓글 입력
+			//editSubmitReply(); //댓글 전송 이벤트
+
 		}
 		
 		//댓글 입력
