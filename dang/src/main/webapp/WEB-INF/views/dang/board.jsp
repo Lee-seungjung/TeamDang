@@ -378,8 +378,7 @@
 				}
 			});
 		}
-		
-		console.log();
+
 		//댓글창 토글
 		$(".toggle-btn").click(function(){
 			var thisTag = $(this).parent().next(); //reply-box
