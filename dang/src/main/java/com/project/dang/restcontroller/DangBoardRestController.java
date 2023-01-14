@@ -59,6 +59,12 @@ public class DangBoardRestController {
 		return dangBoardDao.findImg(boardNo);
 	}
 	
+	//전체 조회(5개)
+	@GetMapping("/list_all/{dangNo}")
+	public List<BoardHistoryVO> listAll(@PathVariable int dangNo){
+		return dangBoardDao.selectAll(dangNo);
+	}
+	
 	//카테고리 조회(5개)
 	@GetMapping("/category_search/{dangNo}/{keyword}")
 	public List<BoardHistoryVO> categorySearch(@PathVariable int dangNo,

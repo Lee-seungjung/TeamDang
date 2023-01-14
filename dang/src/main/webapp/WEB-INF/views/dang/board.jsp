@@ -290,24 +290,40 @@
 		
 		//카테고리 검색조회
 		$(".category").click(function(){
-			var dangNo = $("[name=dangNo]");
+			var dangNo = $("[name=dangNo]").val();
 			var keyword = $(this).data("value");
 			
 			//출력 div 비우기
 			if(keyword==undefined){
 				//전체 조회
-				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
+					method:"get",
+					success:function(resp){
+						console.log(resp);
+						console.log("전체조회!");
+						
+						//기본 5개 목록 출력하기(반복문)
+						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
+					}
+				});
 			}else{
 				//카테고리 조회
-				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/category_search/"+dangNo+"/"+keyword,
+					method:"get",
+					success:function(resp){
+						console.log(resp);
+						console.log("카테고리조회!");
+						
+						//기본 5개 목록 출력하기(반복문)
+						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
+					}
+				});
 			}
 			
 		});
-		
-		
-		
-		
-		
+				
 		
 		printImg(); //게시글 사진 출력
 		originLike() //좋아요 출력
@@ -342,7 +358,7 @@
 			$("#edit-file-wrap").empty();
 	
 			$.ajax({
-				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+				url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
 				method:"get",
 				async:false,
 				success:function(resp){
@@ -517,7 +533,7 @@
     					selectTag.remove(); //img태그 지움
 
 						$.ajax({
-							url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+							url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
 							method:"get",
 							async:false,
 							success:function(resp){
@@ -596,7 +612,7 @@
 						if(replyNo==0) return; //데이터 없을경우 비동기화 실행 중지
 						
 						$.ajax({
-							url:"http://localhost:8888/rest_reply/list/"+boardNo+"/"+replyNo,
+							url:"${pageContext.request.contextPath}/rest_reply/list/"+boardNo+"/"+replyNo,
 							method:"get",
 							success:function(resp){
 								console.log(resp);
@@ -742,7 +758,7 @@
 		//게시글 삭제 시 첨부파일 삭제
 		function boardDeleteAttachmentAll(boardNo){
 			$.ajax({
-				url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+				url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
 				method:"get",
 				async:false,
 				success:function(resp){
@@ -765,7 +781,7 @@
 		function originLike(){
 			var memberNo = $("[name=memberNo]").val();
 			$.ajax({
-				url:"http://localhost:8888/rest_board/fint_like/"+memberNo,
+				url:"${pageContext.request.contextPath}/rest_board/fint_like/"+memberNo,
 				method:"get",
 				data:memberNo,
 				success:function(resp){
@@ -942,7 +958,7 @@
 					var replyContent = inputCheck;
 					
 					$.ajax({ //댓글번호 미리 생성
-						url:"http://localhost:8888/rest_reply/sequence/",
+						url:"${pageContext.request.contextPath}/rest_reply/sequence/",
 						method:"get",
 						success:function(resp){
 							var replyNo = resp;
@@ -957,7 +973,7 @@
 							}
 							
 							$.ajax({
-								url:"http://localhost:8888/rest_reply/insert",
+								url:"${pageContext.request.contextPath}/rest_reply/insert",
 								method:"post",
 								data:JSON.stringify(replyData),
 								contentType:"application/json",
@@ -966,7 +982,7 @@
 									console.log("댓글 등록성공!");
 									
 									$.ajax({
-										url:"http://localhost:8888/rest_reply/list_one/"+replyNo,
+										url:"${pageContext.request.contextPath}/rest_reply/list_one/"+replyNo,
 										method:"get",
 										async:false,
 										success:function(resp){
@@ -1068,7 +1084,7 @@
 						}
 						
 						$.ajax({
-							url:"http://localhost:8888/rest_reply/update/"+replyContent+"/"+replyNo,
+							url:"${pageContext.request.contextPath}/rest_reply/update/"+replyContent+"/"+replyNo,
 							method:"patch",
 							data:JSON.stringify(replyEditData),
 							contentType:"application/json",
@@ -1099,7 +1115,7 @@
 				console.log(thisTag);
 				console.log("게시글번호 : "+boardNo);
 				$.ajax({
-					url:"http://localhost:8888/rest_reply/delete/"+replyNo,
+					url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
 					method:"delete",
 					success:function(resp){
 						thisTag.empty(); //replb-box 비우기
@@ -1132,7 +1148,7 @@
 					var thistag = check.eq(i);
 
 					$.ajax({
-						url:"http://localhost:8888/rest_board/find_img/"+boardNo,
+						url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
 						method:"get",
 						async:false,
 						success:function(resp){
