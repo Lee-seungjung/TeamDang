@@ -8,6 +8,12 @@ import com.project.dang.vo.ReplyHistoryVO;
 public interface DangReplyDao {
 	
 	/**
+	 * 댓글 시퀀스 조회
+	 * @return replyNo
+	 */
+	int sequence();
+	
+	/**
 	 * 댓글 등록
 	 * @param dto
 	 */
@@ -26,6 +32,13 @@ public interface DangReplyDao {
 	 * @return List<ReplyHistoryVO>
 	 */
 	List<ReplyHistoryVO> moreReplyList(int boardNo, int replyNo);
+	
+	/**
+	 * 댓글 하나만 조회
+	 * @param replyNo
+	 * @return DangReplyDto
+	 */
+	ReplyHistoryVO selectOne(int replyNo);
 	
 	/**
 	 * 내가 쓴 댓글 수

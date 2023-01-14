@@ -617,6 +617,58 @@
 			replyBox.append(replyContent);
 
 		}
+		
+		//댓글 등록 추가
+		function newReply(resp, replyBox){
+			//본인 비교 위해 데이터 준비
+			var memberNo = $("[name=memberNo]").val();
+		
+			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2").attr("data-reply",resp.replyNo);
+			
+			var col1 = $("<div>").attr("class","col-1 middle-items");
+			var img = $("<img>");
+			if(resp.attachmentNo!=null){
+				img = img.attr("class","img-fluid img-circle").attr("style","width:50px; height:50px;")
+						.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
+			}else{
+				img = img.attr("class","img-fluid img-circle").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+			}
+			col1.append(img);
+			
+			var col8 = $("<div>").attr("class","col-8 middle-items ms-3");
+			var contentDiv = $("<div>");
+			if(memberNo!=resp.memberNo){
+				contentDiv.attr("class","col content-div2");
+			}else{
+				contentDiv.attr("class","col content-div1");
+			}
+			var p1 = $("<p>").attr("class","middle-items");
+			var span1 = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
+			var span2 = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
+			p1.append(span1).append(span2);
+			var p2 = $("<p>").attr("class","re-content-font middle-items text-start").text(resp.replyContent);
+			contentDiv.append(p1).append(p2);
+			col8.append(contentDiv);
+			
+			var col3 = $("<div>").attr("class","col-3 justify-content-end middle-items");
+			if(memberNo==resp.memberNo){
+				var div1 = $("<div>").attr("class","dropdown inbl w-auto");
+				var span1  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+									.attr("aria-haspopup","true").attr("aria-expanded","false");	
+				var i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
+				span1.append(i);
+				
+				var div2 = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
+				var span2 =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
+				var span3 =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
+				div2.append(span2).append(span3);
+				
+				div1.append(span1).append(div2);
+				col3.append(div1);
+			}
+			replyContent.append(col1).append(col8).append(col3);
+			replyBox.prepend(replyContent);
+		}
 			
 		//댓글 입력 태그 생성
 		function inputReply(thisTag){	
@@ -662,10 +714,9 @@
 		function submitReply(){
 			$(".input-reply-form").submit(function(e){
 				e.preventDefault();
-				
-				var formtag = $(this); //form
+
 				var inputCheck = $(".reply-input").val();
-				var thisTag = $(this).parent(); //reply-box
+				var replyBox = $(this).parent(); //reply-box
 
 				if(inputCheck.length!=0){
 					//댓글 DB저장 데이터 준비
@@ -675,37 +726,54 @@
 					var memberNick = $("[name=memberNick]").val();
 					var replyContent = inputCheck;
 					
-					replyData = {
-							boardNo:boardNo,
-							memberNo:memberNo,
-							memberNick:memberNick,
-							replyContent:replyContent							
-					}
-					
-					$.ajax({
-						url:"http://localhost:8888/rest_reply/insert",
-						method:"post",
-						data:JSON.stringify(replyData),
-						contentType:"application/json",
+					$.ajax({ //댓글번호 미리 생성
+						url:"http://localhost:8888/rest_reply/sequence/",
+						method:"get",
 						success:function(resp){
-							console.log("댓글 등록성공!");
-							//목록 출력
-							thisTag.empty();
-							var hr = $("<hr>");
-							thisTag.append(hr);
+							var replyNo = resp;
+							console.log(replyNo);
 							
-							replyList(thisTag,boardNo);
-
-							//댓글 숫자 증가
-							var findnum = thisTag.prev().children().children('.replycnt');
-							var num = findnum.text();
-							console.log(num);
-							if(num==""){
-								num = parseInt(0);
-							}else{
-								num = parseInt(num);
+							replyData = {
+									replyNo:replyNo,
+									boardNo:boardNo,
+									memberNo:memberNo,
+									memberNick:memberNick,
+									replyContent:replyContent							
 							}
-							findnum.text(num+1);
+							
+							$.ajax({
+								url:"http://localhost:8888/rest_reply/insert",
+								method:"post",
+								data:JSON.stringify(replyData),
+								contentType:"application/json",
+								async:false,
+								success:function(resp){
+									console.log("댓글 등록성공!");
+									
+									$.ajax({
+										url:"http://localhost:8888/rest_reply/list_one/"+replyNo,
+										method:"get",
+										async:false,
+										success:function(resp){
+											replyBox.children("hr").remove(); //hr태그 지움											
+											newReply(resp, replyBox); //새로운 태그 생성
+											replyBox.prepend($("<hr>")); //hr태그 재생성
+											replyBox.children().find(".reply-input").val(""); //input 입력창 공백처리
+											
+											//댓글 숫자 증가
+											var findnum = replyBox.prev().children().children('.replycnt');
+											var num = findnum.text();
+											console.log(num);
+											if(num==""){
+												num = parseInt(0);
+											}else{
+												num = parseInt(num);
+											}
+											findnum.text(num+1);
+										}
+									});
+								}
+							});
 						}
 					});
 				}

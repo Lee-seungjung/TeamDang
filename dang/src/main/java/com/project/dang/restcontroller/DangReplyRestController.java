@@ -26,6 +26,12 @@ public class DangReplyRestController {
 	@Autowired
 	DangReplyDao dangReplyDao;
 	
+	//댓글 시퀀스 조회
+	@GetMapping("/sequence")
+	public int sequence(){
+		return dangReplyDao.sequence();
+	}
+	
 	//댓글 등록
 	@PostMapping("/insert")
 	public void insert(@RequestBody DangReplyDto dto) {
@@ -42,6 +48,12 @@ public class DangReplyRestController {
 	@GetMapping("/list/{boardNo}/{replyNo}")
 	public List<ReplyHistoryVO> list(@PathVariable int boardNo,@PathVariable int replyNo){
 		return dangReplyDao.moreReplyList(boardNo,replyNo);
+	}
+	
+	//댓글 하나만 조회
+	@GetMapping("/list_one/{replyNo}")
+	public ReplyHistoryVO listone(@PathVariable int replyNo){
+		return dangReplyDao.selectOne(replyNo);
 	}
 	
 	//댓글 수정

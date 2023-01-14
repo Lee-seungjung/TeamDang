@@ -17,6 +17,12 @@ public class DangReplyDaoImpl implements DangReplyDao{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//댓글 시퀀스 조회
+	@Override
+	public int sequence() {
+		return sqlSession.selectOne("dangReply.sequence");
+	}
+	
 	//댓글 등록
 	@Override
 	public void replyInsert(DangReplyDto dto) {
@@ -36,6 +42,12 @@ public class DangReplyDaoImpl implements DangReplyDao{
 		param.put("boardNo", boardNo);
 		param.put("replyNo", replyNo);
 		return sqlSession.selectList("dangReply.moreReplyList",param);
+	}
+	
+	//댓글 하나만 조회
+	@Override
+	public ReplyHistoryVO selectOne(int replyNo) {
+		return sqlSession.selectOne("dangReply.selectone",replyNo);
 	}
 	
 	//내가 쓴 댓글 수

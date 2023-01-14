@@ -5,11 +5,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dangReply">
 
+	<!-- 댓글 시퀀스 조회 -->
+	<select id="sequence" resultType="int">
+		select dang_reply_seq.nextval from dual
+	</select>
+
 	<!-- 댓글 등록 -->
 	<insert id="insert" parameterType="DangReplyDto">
 		insert into dang_reply(reply_no, board_no, member_no, member_nick, 
 		reply_content, reply_writedate, reply_updatedate, reply_state) 
-		values(dang_reply_seq.nextval, #{boardNo}, #{memberNo}, #{memberNick}
+		values(#{replyNo}, #{boardNo}, #{memberNo}, #{memberNick}
 		, #{replyContent}, sysdate, sysdate, 'N')
 	</insert>
 
@@ -47,6 +52,16 @@
 	<!-- 내가 쓴 댓글 조회-->
 	<select id="writeCount" resultType="int" parameterType="int">
 		select count(*) from dang_reply where member_no=#{memberNo}
+	</select>
+	
+	<!-- 댓글 하나만 조회 -->
+	<select id="selectone" resultType="ReplyHistoryVO" parameterType="int">
+		select reply.*, board.member_nick as board_member_nick, 
+		        m.member_owner, m.user_no, uimg.attachment_no from dang_reply reply
+			        left outer join dang_board board on reply.board_no=board.board_no
+			        left outer join dang_member m on reply.member_no=m.member_no
+			        left outer join user_img uimg on m.user_no=uimg.user_no 
+		        where reply_no=#{replyNo}
 	</select>
 	
 	<!-- 댓글 수정 -->
