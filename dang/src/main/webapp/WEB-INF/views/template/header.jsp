@@ -180,7 +180,7 @@
 				</div>
 				<div class = "col-6 d-flex flex-row">
 					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<a href = "#">댕모임 찾기</a>
+						<a href = "/dang/search">댕모임 찾기</a>
 					</div>
 					<c:choose>
 					<c:when test = "${login}">
