@@ -379,9 +379,12 @@
 			});
 		}
 		
+		console.log();
 		//댓글창 토글
 		$(".toggle-btn").click(function(){
 			var thisTag = $(this).parent().next(); //reply-box
+			$(".reply-box").attr("style","display:none;");
+			$(".reply-box").empty();
 			thisTag.toggle();
 
 			var style = thisTag.attr("style");
