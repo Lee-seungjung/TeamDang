@@ -151,6 +151,9 @@
 	.blue{
 		color:#76BEFF;
 	}
+	.pink{
+		color:#F94888;
+	}
 	.text-truncate2 {
 	  overflow: hidden;
 	  text-overflow: ellipsis;

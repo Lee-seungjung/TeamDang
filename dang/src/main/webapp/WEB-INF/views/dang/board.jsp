@@ -43,6 +43,7 @@
 	}
 	.full-heart{
 		display:none;
+		color:#F94888;
 	}
 	.content-div1{
 		background-color:#DEEFFF;
@@ -736,7 +737,7 @@
 				$(".edit-reply-form").submit(function(e){
 					e.preventDefault();
 					var replyContent = replyBox.children('.edit-reply-form').children().find(".reply-input").val(); //수정 입력내용
-					replyContent = encodeURIComponen(replyContent); //특수문자까지 전송가능하도록 처리
+					replyContent = encodeURIComponent(replyContent); //특수문자까지 전송가능하도록 처리
 					var boardNo = replyBox.prev().children().data("no");
 					
 					if(replyContent.length!=0){
@@ -936,14 +937,14 @@
 									</div>
 									<div class="col-3 middle-items cursor-pointer like-btn">
 										<span class="me-2">좋아요</span>
-										<i class="fa-regular fa-heart blue me-1 empty-heart"></i>
-										<i class="fa-solid fa-heart blue me-1 full-heart"></i>
+										<i class="fa-regular fa-heart pink me-1 empty-heart"></i>
+										<i class="fa-solid fa-heart me-1 full-heart"></i>
 										<c:choose>
 											<c:when test="${vo.boardLike!=0}">
-												<span class="blue islike" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
+												<span class="pink islike" style="font-weight:bolder;" data-like="${vo.boardNo}">${vo.boardLike}</span>
 											</c:when>
 											<c:otherwise>
-												<span class="blue islike" style="font-weight:bolder;"></span>
+												<span class="pink islike" style="font-weight:bolder;"></span>
 											</c:otherwise>
 										</c:choose>
 									</div>
