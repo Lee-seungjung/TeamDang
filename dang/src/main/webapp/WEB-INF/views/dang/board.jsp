@@ -399,11 +399,7 @@
 				
 				//목록 출력
 				replyList(thisTag,boardNo);
-				
-				$(this).click(function(){
-					$(this).attr("style","")
-				});
-				
+
 			}
 		});
 		
