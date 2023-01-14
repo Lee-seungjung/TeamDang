@@ -244,11 +244,6 @@
 			//강제실행
 			$("#edit-category").change();
 			
-			console.log("수정!");
-			console.log("콘텐츠 = "+eCheck.boardContent);
-			console.log("카테고리 = "+eCheck.boardCategory);
-			console.log("수정전체크 = "+eCheck.allValid());
-			
 			if(eCheck.allValid()){
 				//수정 데이터 준비
 				var boardNo = $(this).children(".modal-footer").children(".edit-btn").data("no");
@@ -268,7 +263,6 @@
 					data:JSON.stringify(editBoardData),
 					contentType:"application/json",
 					success:function(resp){
-						console.log("수정성공!");
 						//게시글 이미지 DB 등록
 						var findtag = $(".files");
 			        	var attachmentNo;
@@ -378,32 +372,8 @@
 					
 					<!--댓글 삭제, 수정-->
 					deleteReply(); //댓글 삭제
-					//댓글 수정
-					$(".reply-edit").click(function(){
-						var replyNo = $(this).parents(".reply-content").data("reply");
-						var replyBox = $(this).parents(".reply-box");
-						replyBox.children('.input-reply-form').remove(); //input-reply-form 입력폼 지우기
-						editReply(replyBox); //수정폼 생성
-						
-						//수정 취소
-						console.log($(".edit-cancel"));
-						$(".edit-cancel").click(function(){
-							$.ajax({
-								url:"http://localhost:8888/rest_reply/delete/"+replyNo,
-								method:"delete",
-								success:function(resp){
-									replyBox.children('.edit-reply-form').remove(); //edit-reply-form 수정폼 지우기
-									inputReply(replyBox); //입력폼 생성
-								}
-							});
-						});
-						
+					editSubmitReply(); //댓글 수정
 
-						//var replyContent;
-						
-						
-					});
-					
 				}
 			});
 		}
@@ -633,31 +603,6 @@
 			submitReply(); //댓글 전송 이벤트
 		}
 		
-		//댓글 수정 태그 생성
-		function editReply(thisTag){	
-			var replyBox = thisTag;
-			var form = $("<form>").attr("class","edit-reply-form");
-			var inputReply = $("<div>").attr("class","row input-reply mt-3");
-			var col9 =  $("<div>").attr("class","col-9").attr("style","padding-right:0;");
-			var input1 = $("<input>").attr("class","input form-control reply-input").attr("type","text").attr("placeholder","수정할 내용을 입력해주세요");
-			col9.append(input1);
-			
-			var col3 =  $("<div>").attr("class","col-3").attr("style","padding-left:0; padding-right:0;");
-			var button1 = $("<button>").attr("class","btn btn-pink reply-write cursor-pointer")
-								.attr("type","submit").text("수정");
-			var button2 = $("<button>").attr("class","btn btn-secondary edit-cancel ms-1 cursor-pointer")
-								.attr("type","button").text("취소");
-			col3.append(button1).append(button2);
-			inputReply.append(col9).append(col3);
-			form.append(inputReply);
-			replyBox.append(form);
-			$(".reply-write").attr("disabled",true);
-			
-			contentInput(); //댓글 입력
-			//editSubmitReply(); //댓글 전송 이벤트
-
-		}
-		
 		//댓글 입력
 		function contentInput(){
 			$(".reply-input").on("input",function(){
@@ -730,6 +675,101 @@
 			});
 		}
 		
+		//댓글 수정 태그 생성
+		function editReply(thisTag){	
+			var replyBox = thisTag;
+			var form = $("<form>").attr("class","edit-reply-form");
+			var inputReply = $("<div>").attr("class","row input-reply mt-3");
+			var col9 =  $("<div>").attr("class","col-9").attr("style","padding-right:0;");
+			var input1 = $("<input>").attr("class","input form-control reply-input").attr("type","text").attr("placeholder","수정할 내용을 입력해주세요");
+			col9.append(input1);
+			
+			var col3 =  $("<div>").attr("class","col-3").attr("style","padding-left:0; padding-right:0;");
+			var button1 = $("<button>").attr("class","btn btn-pink reply-write cursor-pointer")
+								.attr("type","submit").text("수정");
+			var button2 = $("<button>").attr("class","btn btn-secondary edit-cancel ms-1 cursor-pointer")
+								.attr("type","button").text("취소");
+			col3.append(button1).append(button2);
+			inputReply.append(col9).append(col3);
+			form.append(inputReply);
+			replyBox.append(form);
+			$(".reply-write").attr("disabled",true);
+			
+			contentInput(); //댓글 입력
+
+		}
+		
+		//수정중 스피너
+		function editSpinner(replyEdit){
+			var div = $("<div>").attr("class","spinner-border spinner-border-sm me-4")
+						.attr("role","status").attr("style","color:pink;");
+			var span1 = $("<span>").attr("visually-hidden");
+			div.append(span1);
+			var span2 = $("<span>").attr("class","edit-ing me-1").text("수정중")
+					.attr("style","color:#F94888; font-weight:bolder; font-size:15px;");
+			replyEdit.parents(".col-3").prepend(div).prepend(span2);
+		}
+		
+		//댓글 수정 폼
+		function editSubmitReply(){
+			$(".reply-edit").click(function(){
+				var replyNo = $(this).parents(".reply-content").data("reply");
+				var replyBox = $(this).parents(".reply-box");
+				replyBox.children('.edit-reply-form').remove(); //edit-reply-form 수정폼 지우기
+				replyBox.children('.input-reply-form').remove(); //input-reply-form 입력폼 지우기
+				editReply(replyBox); //수정폼 생성
+				
+				$(".edit-ing").remove(); //수정중 문구 태그 전체 지우기
+				$(".spinner-border").remove(); //스피너 태그 전체 지우기
+				editSpinner($(this)); //this태그에만 수정중, 스피너 생성
+				
+				//수정 취소
+				$(".edit-cancel").click(function(){
+					var deleteSpinner = $(this).parents(".reply-box").children(".reply-content[data-reply="+replyNo+"]");
+					deleteSpinner.children(".col-3").children(".edit-ing").remove();
+					deleteSpinner.children(".col-3").children(".spinner-border").remove();
+					replyBox.children('.edit-reply-form').remove(); //edit-reply-form 수정폼 지우기
+					inputReply(replyBox); //입력폼 생성
+				});
+				
+				//수정 폼 이벤트
+				$(".edit-reply-form").submit(function(e){
+					e.preventDefault();
+					var replyContent = replyBox.children('.edit-reply-form').children().find(".reply-input").val(); //수정 입력내용
+					replyContent = encodeURIComponen(replyContent); //특수문자까지 전송가능하도록 처리
+					var boardNo = replyBox.prev().children().data("no");
+					
+					if(replyContent.length!=0){
+						
+						replyEditData = {
+								replyNo:replyNo,
+								replyContent:replyContent							
+						}
+						
+						$.ajax({
+							url:"http://localhost:8888/rest_reply/update/"+replyContent+"/"+replyNo,
+							method:"patch",
+							data:JSON.stringify(replyEditData),
+							contentType:"application/json",
+							success:function(resp){
+								console.log("댓글 수정성공!");
+								//1.수정중문구, 2.스피너 제거, 3.수정폼 제거, 4.댓글태그 비우기 5.댓글 출력(함수 안에 입력폼 포함), 
+								$(".edit-ing").remove(); //1
+								$(".spinner-border").remove(); //2
+								replyBox.children('.edit-reply-form').remove(); //3
+								replyBox.empty(); //4
+								
+								var hr = $("<hr>");
+								replyBox.append(hr);
+								replyList(replyBox,boardNo); //5
+								
+							}
+						});
+					}
+				});					
+			});
+		}
+
 		//댓글 삭제
 		function deleteReply(){
 			$(".reply-delete").click(function(){

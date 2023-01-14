@@ -35,7 +35,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="update" parameterType="Map">
-		update dang_reply set reply_content=#{ReplyContent}, reply_updatedate=sysdate where reply_no=#{replyNo}
+		update dang_reply set reply_content=#{replyContent}, reply_updatedate=sysdate where reply_no=#{replyNo}
 	</update>
 	
 	<!-- 댓글 삭제 -->
