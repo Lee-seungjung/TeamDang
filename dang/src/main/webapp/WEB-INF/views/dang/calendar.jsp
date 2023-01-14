@@ -226,7 +226,7 @@
    
       document.addEventListener('DOMContentLoaded', function() {
           var calendarEl = document.getElementById('calendar1');   
-          var dangNo = #("[name=dangNo]").val();
+          var dangNo = $("[name=dangNo]").val();
          // var scheduleNo = $("[name=scheduleNo]").val();          
           var calendar1 = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
