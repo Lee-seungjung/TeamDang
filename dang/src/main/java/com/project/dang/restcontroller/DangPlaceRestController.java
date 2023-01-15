@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangPlaceDto;
@@ -50,6 +51,11 @@ public class DangPlaceRestController {
 	@GetMapping("/place_one/{placeNo}")
 	public DangPlaceDto placeOne(@PathVariable int placeNo) {
 		return dangPlaceDao.placeOne(placeNo);
+	}
+	
+	@GetMapping("/place_search")
+	public List<DangPlaceDto> placeSearch(@RequestParam String placeName){
+		return dangPlaceDao.search(placeName);
 	}
 	
 	
