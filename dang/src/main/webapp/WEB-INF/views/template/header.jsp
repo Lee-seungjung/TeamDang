@@ -48,7 +48,11 @@
 	<!-- 배포할때는 min 버전으로-->
 	<!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> -->
 	
-	
+	<!-- sockjs cdn -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+	<!-- moment cdn + 한글 언어팩-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 	
 </head>
 
