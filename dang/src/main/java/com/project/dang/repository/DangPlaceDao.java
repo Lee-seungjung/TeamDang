@@ -27,4 +27,7 @@ public interface DangPlaceDao {
 	
 	//모든 장소의 갯수
 	int countPlace();
+	
+	//장소 검색
+	List<DangPlaceDto> search(String placeName);
 }

@@ -44,6 +44,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	public int countPlace() {
 		return sqlSession.selectOne("place.countAll");
 	}
+
+	@Override
+	public List<DangPlaceDto> search(String placeName) {
+		return sqlSession.selectList("place.searchPlace",placeName);
+	}
 	
 	
 }

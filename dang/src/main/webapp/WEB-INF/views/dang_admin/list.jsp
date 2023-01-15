@@ -156,14 +156,14 @@
 <body>
 	<div class="container-fluid mb-5">
 		<div class="row mt-2">
-			<div class="col-md-8 offset-md-2 text-center">
-				<p>서울시 ${placeCount}곳의 동반장소를 검색해주세요.</p>
+			<div class="col-md-8 offset-md-2">
+				<h3>장소 검색</h3>
 			</div>
 		</div>
-	
+
 		<div class="row mt-2">
 			<div class="col-md-8 offset-md-2">
-					<div id="mapwrap">
+				<div id="mapwrap">
 					<!-- 지도가 표시될 div -->
 					<div id="map" style="width: 100%; height: 350px;"></div>
 					<!-- 지도 위에 표시될 마커 카테고리 -->
@@ -184,8 +184,37 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+			</div>
+			<div class="col-md-8 offset-md-2 text-center">
+				<input type="text" name="placeName" value="">
+				<button type="button" onclick="getSearchList()">검색</button>
+			</div>
+		</div>
+		
+		<div class="row mt-3 border">
+			<div class="col-md-8 offset-md-2 text-center border" >
+				<div class="row border" id="list">
+					<div class="col-2  border">
+					사진
+					</div>
+					<div class="col-8 text-center border">
+						<p class="m-0">이름</p>
+						<p class="m-0">주소</p>
+						<p class="m-0">댕댕이크기</p>
+					</div>
+					<div class="col-2 text-end border">
+					카페
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
-	
+
 
 
 	<div class="modal fade" id="edit" tabindex="-1"
@@ -221,12 +250,49 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
-		
+		var str;
+	function getSearchList(){
+		var keyword = $("[name=placeName]").val();
+		$.ajax({
+			url : "http://localhost:8888/rest_place/place_search?placeName="
+				+ keyword,
+		method : "get",
+		async : false,
+		contentType : "application/json",
+		success : function(resp) {
+			console.log(resp)
+				for(i=0;i<resp.length;i++){
+					str ='<div class="col-2  border">'
+					str +='<img src="http://localhost:8888/rest_attachment/download/"+'resp.attachmentNo[i]'+>'
+					str +='</div>'
+					str +='<div class="col-8 text-center border">'
+					str +='<p class="m-0">'+resp.placeName[i]+'</p>'
+					str +='<p class="m-0">'+resp.placeAddress[i]+'</p>'
+					str +='<p class="m-0">'+resp.dangSize[i]+'</p>'
+						
+						
+					$(".placeImg").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo[i]);
+					
+					<div class="col-2  border">
+					<img src="http://localhost:8888/rest_attachment/download/"+resp.attachmentNo[i]>
+					</div>
+					<div class="col-8 text-center border">
+						<p class="m-0">이름</p>
+						<p class="m-0">주소</p>
+						<p class="m-0">댕댕이크기</p>
+					</div>
+					<div class="col-2 text-end border">
+					카페
+					</div>
+					
+				}
+			}
+		})
+	}
 		
 		var placeNoInfo; //장소번호를 가져오는 변수
 		var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 		var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
-		var abc;
 		function detailMove() {
 			location.href = "http://localhost:8888/place/detail/"+placeNoInfo;
 		}
@@ -280,7 +346,6 @@
 
 						});
 		
-		console.log(placeNoInfo);
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 		mapOption = {

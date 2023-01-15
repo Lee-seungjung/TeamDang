@@ -16,9 +16,7 @@ public class DangAdmin {
 	DangPlaceDao dangPlaceDao;
 	
 	@GetMapping("/place_list")
-	public String placeList(Model model) {
-		model.addAttribute("placeList", dangPlaceDao.placeList());
-		model.addAttribute("placeCount", dangPlaceDao.countPlace());
+	public String placeList() {
 		return "dang_admin/list";
 	}
 }
