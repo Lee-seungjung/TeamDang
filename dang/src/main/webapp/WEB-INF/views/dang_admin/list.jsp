@@ -203,7 +203,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary">상세보기</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='http://localhost:8888/place/detail/' ">상세보기</button>
                 </div>
             </div>
         </div>
@@ -215,6 +215,7 @@
 
         var placeNoInfo; //장소번호를 가져오는 변수
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
+        var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
 
         $(document).on("click", ".edit", function (e) {
 
@@ -232,7 +233,7 @@
                     console.log(resp)
                     $(".span-placeaddress").text(resp.placeAddress);
                     $(".span-placearea").text(resp.placeArea);
-                    $(".span-placeinfo").text(resp.placeInfo);
+                    $(".span-placeinfo").html(resp.placeInfo);
                     $(".span-placename").text(resp.placeName);
                     $(".span-placeoff").text(resp.placeOff);
                     $(".span-placeoperation").text(resp.placeOperation);
@@ -390,12 +391,14 @@
                 cafeMarkers.push(marker);
                 kakao.maps.event.addListener(marker, 'click', function () {
 
+                    
+                    
 
                     for (var i = 0; i < cafePositions.length; i++) {
                         var a1 = this.getPosition().Ma
                         var a2 = contentCafe[i].placeX
-
                         if (a2.toFixed(7) === a1.toFixed(7)) {
+                            placeOriginNo=contentCafe[i].placeNo;
                             content = '<div class="customoverlay">' +
                                 '  <a class="edit" data-placeno=' + contentCafe[i].placeNo + ' target="_blank">' +
                                 '    <span class="title " data-placeno=' + contentCafe[i].placeNo + ' >' + contentCafe[i].placeName + '</span>' +
@@ -459,6 +462,7 @@
                         var a2 = contentFood[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
+                            placeOriginNo=contentCafe[i].placeNo;
                             content = '<div class="customoverlay">' +
                                 '  <a class="edit" data-placeno=' + contentFood[i].placeNo + ' target="_blank">' +
                                 '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >' + contentFood[i].placeName + '</span>' +
@@ -520,6 +524,7 @@
                         var a2 = contentField[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
+                            placeOriginNo=contentCafe[i].placeNo;
                             content = '<div class="customoverlay">' +
                                 '  <a class="edit" data-placeno=' + contentField[i].placeNo + ' target="_blank">' +
                                 '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >' + contentField[i].placeName + '</span>' +
@@ -582,6 +587,7 @@
                         var a2 = contentDogsalon[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
+                            placeOriginNo=contentCafe[i].placeNo;
                             content = '<div class="customoverlay">' +
                                 '  <a class="edit" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">' +
                                 '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >' + contentDogsalon[i].placeName + '</span>' +
@@ -644,6 +650,7 @@
                         var a2 = contentPark[i].placeX
 
                         if (a2.toFixed(7) === a1.toFixed(7)) {
+                            placeOriginNo=contentCafe[i].placeNo;
                             content = '<div class="customoverlay">' +
                                 '  <a class="edit" data-placeno=' + contentPark[i].placeNo + ' target="_blank">' +
                                 '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >' + contentPark[i].placeName + '</span>' +
