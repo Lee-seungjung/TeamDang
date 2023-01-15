@@ -116,6 +116,7 @@
 		border-radius : 50%;
 		border : 2px solid black;
 		width : 1.8em;
+		aspect-ratio: 1/1;
 	}
 	
 	.div-user-profile {
