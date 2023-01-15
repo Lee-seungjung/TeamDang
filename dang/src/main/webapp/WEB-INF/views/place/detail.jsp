@@ -73,7 +73,7 @@
 									<br>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-regular fa-circle-xmark"></i>
+									<i class="fa-regular fa-circle-xmark" style="color: #F781D8"></i><br>
 								</c:otherwise>
 							</c:choose>
 							<span>중형견</span><br> <span style="font-size: 9">10 ~
@@ -82,12 +82,12 @@
 						<div class="col text-center">
 							<c:choose>
 								<c:when
-									test="${placeList.dangSize eq '중형견' || placeList.dangSize eq '대형견' || placeList.dangSize eq '소형견' }">
+									test="${placeList.dangSize eq '대형견'}">
 									<i class="fa-solid fa-circle-check" style="color: #F781D8"></i>
 									<br>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-regular fa-circle-xmark"></i>
+									<i class="fa-regular fa-circle-xmark" style="color: #F781D8"></i><br>
 								</c:otherwise>
 							</c:choose>
 							<span>대형견</span><br> <span style="font-size: 9">25kg

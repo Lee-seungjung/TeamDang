@@ -40,4 +40,8 @@
 	<insert id="placeImg" parameterType="PlaceImg">
 		insert into place_img VALUES(#{placeNo},#{attachmentNo})
 	</insert>
+	
+	<select id="countAll" resultType="int">
+		select count(*) from dang_place
+	</select>
 </mapper>

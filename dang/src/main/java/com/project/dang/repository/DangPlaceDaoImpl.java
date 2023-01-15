@@ -39,6 +39,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	public void placeImgInsert(PlaceImg placeImg) {
 		sqlSession.insert("place.placeImg", placeImg);
 	}
+
+	@Override
+	public int countPlace() {
+		return sqlSession.selectOne("place.countAll");
+	}
 	
 	
 }
