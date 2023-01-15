@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
+import com.project.dang.dto.DangListRequestDto;
+import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangTopVO;
 
@@ -79,7 +81,14 @@ public interface DangDao {
 	/**
 	 * 댕모임 상세 정보 반환
 	 * @param dangNo : 댕모임 번호
-	 * @return DangDetailVO : 댕모임 정보, 댕모임 해시태그 정보
+	 * @return DangDetailDto : 댕모임 정보, 댕모임 해시태그
 	 */
 	public DangDetailDto selectDangDetail(int dangNo);
+	
+	/**
+	 * 댕모임 전체/검색 조회
+	 * @param dangListRequestDto : : 댕모임명, 지역, 정렬 기준(인원수, 좋아요, 개설일)
+	 * @return List<DangListResponseDto> : 댕모임 정보, 댕모임 해시태그의 List
+	 */
+	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto);
 }
