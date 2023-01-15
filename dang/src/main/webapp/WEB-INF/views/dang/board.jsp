@@ -298,7 +298,6 @@
 		printImg(); //게시글 사진 출력
 		originLike() //내가 누른 좋아요 출력
 
-		
 		boardEditReady(); //게시글 수정 첫 화면 기본셋팅
 		editSubmitCheck(); //수정폼 전송 전 항목 체크
 		boardEditFormSubmit(); //게시글 수정폼 전송
@@ -321,6 +320,8 @@
 		        //검색조회 비동기 필요
 	        }
 	    });
+		
+		
 		
 		//카테고리 검색조회
 		$(".category").click(function(){
@@ -355,7 +356,6 @@
 					method:"get",
 					async:false,
 					success:function(resp){
-						console.log(resp.length);
 						
 						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
 						if(resp.length==0){
@@ -371,12 +371,6 @@
 			}
 			printImg(); //게시글 사진 출력
 			originLike() //내가 누른 좋아요 출력
-			boardEditReady(); //게시글 수정 첫 화면 기본셋팅
-			editSubmitCheck(); //수정폼 전송 전 항목 체크
-			boardEditFormSubmit(); //게시글 수정폼 전송
-			boardDelete(); //게시글 삭제
-			replyToggle(); //댓글 토글
-			likeHeart(); //좋아요 버튼 이벤트
 		});
 		
 
@@ -484,7 +478,7 @@
 		
 		//게시글 수정 첫 화면 기본셋팅
 		function boardEditReady(){
-			$(".edit-drop").click(function(){
+			$(document).on("click", ".edit-drop", function(){
 				$("#boardEditModal").modal("show");
 				//원본데이터 출력준비
 				var boardContent = $(this).parents(".first-line").next().children().find(".content-font").text();
@@ -569,7 +563,7 @@
 			});
 			
 			//파일 선택
-			$("#edit-select-file").change(function(e){
+			$("#edit-select-file").on("change",function(e){
 				var value = $(this).val(); //파일위치+파일명
 				console.log(this.files); //파일 배열
 				if(this.files.length>0){ //파일 있음
@@ -715,7 +709,7 @@
 
 		//게시글 삭제	
 		function boardDelete(){
-			$(".delete-drop").click(function(){
+			$(document).on("click", ".delete-drop", function(){
 				//작성자와 삭제실행자 일치여부 확인
 				//(닉네임 변경 가능성 있으므로 member_no로 확인)
 				var writer = $(this).parent().data("mno"); //작성자
@@ -779,7 +773,7 @@
 
 		function replyToggle(){
 			//댓글창 토글
-			$(".toggle-btn").click(function(){
+			$(document).on("click", ".toggle-btn", function(){
 				var thisTag = $(this).parent().next(); //reply-box
 				$(".reply-box").not(thisTag).attr("style","display:none;"); //지정 태그 이외 동일한 클래스명 안보이게 처리
 				$(".reply-box").empty(); //비동기화 출력 위해 생성했던 태그 비우기
@@ -794,6 +788,7 @@
 					
 					//목록 출력
 					replyList(thisTag,boardNo);
+					
 				}
 			});
 		}
@@ -822,7 +817,6 @@
 					}
 					
 					<!--더보기 버튼 -->
-					//function moreView(){};
 					$(".re-more-view").click(function(){
 						var thisTag = $(this);
 						var replyBox = $(this).parents(".reply-box");
@@ -849,19 +843,13 @@
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
 								inputReply(replyBox) //입력태그 생성
-								editSubmitReply(); //댓글 수정
-								deleteReply(); //댓글 삭제
+
 							}
 						});
 					});
-					
-					<!-- 댓글 입력창 -->	
-					inputReply(thisTag);
-					
-					<!--댓글 삭제, 수정-->
-					deleteReply(); //댓글 삭제
-					editSubmitReply(); //댓글 수정
-
+					inputReply(thisTag); //입력태그 생성
+					deleteReply(); //댓글삭제
+					editSubmitReply(); //댓글수정
 				}
 			});
 		}
@@ -1119,7 +1107,7 @@
 		
 		//댓글 수정 폼
 		function editSubmitReply(){
-			$(".reply-edit").click(function(){
+			$(document).on("click", ".reply-edit", function(){
 				var changeTagDiv = $(this).parent().parent().parent().prev().children().children(".re-content-font");
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var replyBox = $(this).parents(".reply-box");
@@ -1178,13 +1166,11 @@
 
 		//댓글 삭제
 		function deleteReply(){
-			$(".reply-delete").click(function(){
+			$(document).on("click", ".reply-delete", function(){
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var thisTag = $(this).parents(".reply-box");
 				var boardNo = $(this).parent().data("bno");
-				console.log("댓글번호 : "+replyNo);
-				console.log(thisTag);
-				console.log("게시글번호 : "+boardNo);
+
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
 					method:"delete",
@@ -1239,7 +1225,7 @@
 		
 		//좋아요 버튼 이벤트
 		function likeHeart(){
-			$(".like-btn").click(function(){
+			$(document).on("click", ".like-btn",function(){
 				var thistag = $(this);
 				var type = thistag.children('.islike').data("type");
 				if(type==undefined||type==null){
