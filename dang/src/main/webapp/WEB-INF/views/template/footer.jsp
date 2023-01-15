@@ -34,5 +34,17 @@
 	</div>
 </div>
 
+<div class = "container-fluid">
+	<div class = "row">
+		로그인 상태 : ${login}
+	</div>
+	<div class = "row">
+		로그인 회원 번호 : ${loginNo}
+	</div>
+	<div class = "row">
+		로그인 회원 등급 : ${loginGrade}
+	</div>
+</div>
+
 </body>
 </html>
