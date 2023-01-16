@@ -106,12 +106,12 @@
 					<!-- 검색바 시작 -->
 					<div class="search-group text-center mt-3">
 						<select class="form-select inbl w-auto me-1" name="type">
-							<option>선택</option>
-							<option value="memberNick">작성자</option>
-							<option value="boardContent">내용</option>
+							<option value="">선택</option>
+							<option value="member_nick">작성자</option>
+							<option value="board_content">내용</option>
 						</select>
 						<input type="text" class="input form-control inbl w-auto ms-1" size="40" name="keyword">
-						<i class="fa-solid fa-magnifying-glass cursor-pointer" style=" margin-left:-30px; color:#a2c1f6;"></i>
+						<i class="fa-solid fa-magnifying-glass cursor-pointer search-btn" style=" margin-left:-30px; color:#a2c1f6;"></i>
 				    </div>
 				    <!-- 검색바 끝 -->
 				    
@@ -321,6 +321,33 @@
 	        }
 	    });
 		
+		//검색조회
+		//검색버튼을 눌렀을 때 type, keyword 값 확인 후 submit넘기기
+		$(document).on("click", ".search-btn", function(){	
+			var dangNo = $("[name=dangNo]").val();
+			var type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val();
+			console.log(dangNo);
+			console.log(type);
+			console.log(keyword);
+			
+			$.ajax({
+				url:"http://localhost:8888/rest_board/input_search/"+dangNo+"/"+type+"/"+keyword,
+				method:"get",
+				success:function(resp){
+					console.log(resp);
+					$(".board-group").empty();//출력 div 비우기
+					
+					for(var i=0; i<resp.length; i++){
+						boardList(resp[i]);
+					}
+					printImg(); //게시글 사진 출력
+					originLike() //내가 누른 좋아요 출력
+				}
+			});
+			
+			
+		});
 		
 		
 		//카테고리 검색조회
@@ -436,7 +463,7 @@
 				if(text==0){
 					text="";
 				} else{
-					text=+(text);
+					text="+"+text;
 				}
 				var se_span2 = $("<span>").attr("style","font-size:13px;").text(text);
 				se_col3.append(se_img1).append(se_span2);
@@ -624,9 +651,6 @@
 					var boardNo = $(this).children(".modal-footer").children(".edit-btn").data("no");
 					var boardContent = $("#edit-content").val();
 					var boardCategory = $("#edit-category").val();
-					console.log(boardNo);
-					console.log(boardContent);
-					console.log(boardCategory);
 							
 					editBoardData = {
 						boardNo:boardNo,
@@ -661,7 +685,6 @@
 										contentType:"application/json",
 					    				success:function(resp){
 					    					console.log("이미지 저장성공!");
-				
 					    				}
 					    			});
 					        	}
@@ -674,25 +697,25 @@
 	    					contentTag.text(boardContent);
 	    					categoryTag.text(boardCategory);
 	    					
-	    					selectTag.children(".img-check").remove(); //img태그 지움
+	    					selectTag.children("img").remove(); //img태그 지움
 
 							$.ajax({
 								url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
 								method:"get",
 								async:false,
 								success:function(resp){
-									console.log(resp);
 									if(resp.length>0){
-										var img = $("<img>").
-		   								attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
+										var img = $("<img>")
+		   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
 		   								.attr("class","img-fluid img-check");
 										selectTag.prepend(img);
+										
 										if(resp.length>1){
 											var spanNum = selectTag.children("span").text();
 											var calcul = resp.length-1;
 											if(calcul==0 || calcul<0){
 												selectTag.children("span").text("");
-											}else if(calcul<0){
+											}else if(calcul>0){
 												selectTag.children("span").text(calcul);
 											}
 										}
@@ -788,7 +811,6 @@
 					
 					//목록 출력
 					replyList(thisTag,boardNo);
-					
 				}
 			});
 		}

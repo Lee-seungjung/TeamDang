@@ -60,7 +60,7 @@
 					left outer join (
 					select reply.board_no, count(*) replycnt from dang_reply reply group by reply.board_no
 					) total3 on total1.board_no=total3.board_no
-				where total1.dang_no=#{dangNo} and instr(total1.board_category,#{keyword})>0 order by total1.board_no desc
+				where total1.dang_no=#{dangNo} and total1.board_category like '%'||#{keyword}||'%' order by total1.board_no desc
 		    )TMP
 		) where rn between 1 and 5
 	</select>
@@ -69,18 +69,20 @@
 	<select id="inputSearch" resultType="BoardHistoryVO" parameterType="Map">
 		select*from(
 		    select TMP.*, rownum rn from(
-		        select total1.*, total2.board_attachment_cnt, total3.replycnt from (
-				select b.*, m.member_owner, uimg.attachment_no from dang_board b
-					left outer join dang_member m on b.member_no=m.member_no
-					left outer join user_img uimg on m.user_no=uimg.user_no
-					) total1 
-					left outer join (
-					select bimg.board_no, count(*) board_attachment_cnt from board_img bimg group by bimg.board_no
-					) total2 on total1.board_no=total2.board_no
-					left outer join (
-					select reply.board_no, count(*) replycnt from dang_reply reply group by reply.board_no
-					) total3 on total1.board_no=total3.board_no
-				where total1.dang_no=#{dangNo} and instr(total1.#{type},#{keyword})>0 order by total1.board_no desc
+		        select * from (
+		        	select total1.*, total2.board_attachment_cnt, total3.replycnt from (
+					select b.*, m.member_owner, uimg.attachment_no from dang_board b
+						left outer join dang_member m on b.member_no=m.member_no
+						left outer join user_img uimg on m.user_no=uimg.user_no
+						) total1 
+						left outer join (
+						select bimg.board_no, count(*) board_attachment_cnt from board_img bimg group by bimg.board_no
+						) total2 on total1.board_no=total2.board_no
+						left outer join (
+						select reply.board_no, count(*) replycnt from dang_reply reply group by reply.board_no
+						) total3 on total1.board_no=total3.board_no
+					where total1.dang_no=#{dangNo} order by total1.board_no desc
+		        ) where instr(${type},#{keyword})>0
 		    )TMP
 		) where rn between 1 and 5
 	</select>

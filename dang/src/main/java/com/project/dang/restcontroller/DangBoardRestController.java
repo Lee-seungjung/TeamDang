@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.BoardImgDto;
@@ -20,6 +21,8 @@ import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
 @RestController
@@ -73,10 +76,12 @@ public class DangBoardRestController {
 	}
 	
 	//검색 조회(5개)
-	@GetMapping("/category_search/{dangNo}/{keyword}/{type}")
+	@GetMapping("/input_search/{dangNo}/{type}/{keyword}")
 	public List<BoardHistoryVO> inputSearch(@PathVariable int dangNo,
 			@PathVariable String keyword,@PathVariable String type
 			){
+//		List<BoardHistoryVO> test = dangBoardDao.inputSearch(type, keyword, dangNo);
+//		System.out.println(test);
 		return dangBoardDao.inputSearch(type, keyword, dangNo);
 	}
 	
