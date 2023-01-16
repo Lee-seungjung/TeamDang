@@ -332,7 +332,7 @@
 			console.log(keyword);
 			
 			$.ajax({
-				url:"http://localhost:8888/rest_board/input_search/"+dangNo+"/"+type+"/"+keyword,
+				url:"${pageContext.request.contextPath}/rest_board/input_search/"+dangNo+"/"+type+"/"+keyword,
 				method:"get",
 				success:function(resp){
 					console.log(resp);
