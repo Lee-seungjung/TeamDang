@@ -96,5 +96,10 @@ public interface DangMemberDao {
 	 */
 	boolean editProfile(MemberEditVO vo);
 	
-	
+	/**
+	 * 특정 회원이 가입한 댕모임 목록을 번호로 조회
+	 * @param userNo : 회원 번호
+	 * @return List<Integer> : 특정 회원이 가입한 댕모임의 댕모임 번호 List
+	 */
+	public List<Integer> searchDangAlreadyJoin(int userNo);
 }
