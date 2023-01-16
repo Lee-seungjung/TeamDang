@@ -1,5 +1,6 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.project.dang.dto.BoardImgDto;
@@ -7,7 +8,6 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
-import com.project.dang.vo.SearchReceiveVO;
 
 public interface DangBoardDao {
 	
@@ -65,6 +65,13 @@ public interface DangBoardDao {
 	 * @return 게시글 수(int)
 	 */
 	int boardWriteCount(int memberNo);
+	
+	/**
+	 * 하루에 작성한 게시글 수
+	 * @param memberNo
+	 * @return 게시글 수(int)
+	 */
+	int dayWriteCount(int dangNo, int memberNo, String boardWriteDate);
 	
 	/**
 	 * 게시글 첨부파일 조회

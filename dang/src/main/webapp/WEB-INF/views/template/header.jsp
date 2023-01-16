@@ -160,9 +160,12 @@
 		color:#F94888;
 	}
 	.text-truncate2 {
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	  webkit-line-clamp: 3;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: normal;
 	}
 	.zoomin {
 	    display: none;

@@ -1,5 +1,6 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,10 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
-import com.project.dang.vo.SearchReceiveVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class DangBoardDaoImpl implements DangBoardDao{
 
@@ -55,6 +58,16 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	@Override
 	public int boardWriteCount(int memberNo) {
 		return sqlSession.selectOne("dangBoard.writeCount",memberNo);
+	}
+	
+	//하루에 작성한 게시글 수
+	@Override
+	public int dayWriteCount(int dangNo, int memberNo, String boardWriteDate) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("memberNo", String.valueOf(memberNo));
+		param.put("BoardWriteDate", boardWriteDate);
+		return sqlSession.selectOne("dangBoard.dayWriteCount",param);
 	}
 	
 	//카테고리 선택조회

@@ -1,6 +1,7 @@
 package com.project.dang.restcontroller;
 
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,13 @@ public class DangBoardRestController {
 	public List<BoardHistoryVO> inputSearch(@RequestParam String type, @RequestParam String keyword,
 			@RequestParam int dangNo, @RequestParam String category){
 		return dangBoardDao.inputSearch(type, keyword, dangNo, category);
+	}
+	
+	//오늘 작성한 게시글 수 조회
+	@GetMapping("/day_write")
+	public int dayWriteCnt(@RequestParam int dangNo,
+			@RequestParam int memberNo, @RequestParam String boardWriteDate){
+		return dangBoardDao.dayWriteCount(dangNo, memberNo, boardWriteDate);
 	}
 	
 	//좋아요 조회

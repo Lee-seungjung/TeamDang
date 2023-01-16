@@ -91,6 +91,14 @@
 		select count(*) from dang_board where member_no=#{memberNo}
 	</select>
 	
+	<!-- 오늘 쓴 게시글 수 조회-->
+	<select id="dayWriteCount" resultType="int" parameterType="Map">
+		select count(*) dayCnt from (
+			select * from dang_board 
+				where member_no=#{memberNo} and dang_no=#{dangNo} 
+					and TO_CHAR(board_writedate, 'YYYY-MM-DD')=#{boardWriteDate})
+	</select>
+	
 	<!-- 좋아요 테이블 조회 -->
 	<select id="findLike" resultType="DangBoardLikeDto" parameterType="int">
 		select * from dang_board_like where member_no=#{memberNo}

@@ -193,13 +193,13 @@
 								</div>
 								
 								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
-									<div class="col-9 text-start me-1">
-										<span class="content-font d-inline-block text-truncate2">${vo.boardContent}</span>
+									<div class="col-9 text-start me-1 truncate-check">
+										<span class="content-font">${vo.boardContent}</span>
 									</div>
 									<div class="col-3 middle-items bimg-find" data-no="${vo.boardNo}">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기-->
-											<img src="#" class="img-fluid img-check">
+											<img src="#" class="img-fluid img-check cursor-zoomin">
 											<c:choose>
 											<c:when test="${vo.boardAttachmentCnt-1==0}">
 												<span style="font-size:13px;"></span>
@@ -340,6 +340,7 @@
 <script>
 	$(function(){
 		
+		truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
 		originLike() //내가 누른 좋아요 출력
 
@@ -393,6 +394,15 @@
 			});
 		});
 		
+		//말줄임표 토글
+		$(document).on("click",".truncate-check",function(){
+			var check = $(this).hasClass("text-truncate2");
+			if(check){
+				$(this).removeClass("text-truncate2");
+			}else{
+				$(this).addClass("text-truncate2");
+			}
+		});
 		
 		//검색조회
 		$(document).on("click", ".search-btn", function(e){	
@@ -421,6 +431,7 @@
 					for(var i=0; i<resp.length; i++){
 						boardList(resp[i]);
 					}
+					truncate(); //말줌일표
 					printImg(); //게시글 사진 출력
 					originLike() //내가 누른 좋아요 출력
 					
@@ -461,7 +472,7 @@
 						for(var i=0; i<resp.length; i++){
 							boardList(resp[i])
 						}
-						
+						truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
 						originLike() //내가 누른 좋아요 출력
 						$("[name=type]").val("");
@@ -522,8 +533,8 @@
 			
 			//두번째 줄
 			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
-			var se_col9 = $("<div>").attr("class","col-9 text-start me-1");
-			var se_span1 = $("<span>").attr("class","content-font d-inline-block text-truncate2")
+			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
+			var se_span1 = $("<span>").attr("class","content-font")
 										.text(resp.boardContent);
 			se_col9.append(se_span1);
 			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
@@ -1414,6 +1425,20 @@
 			var img = $("<img>").attr("src",url).attr("class","d-block w-100");
 			div.append(img);
 			tag.append(div);
+		}
+		
+		//말줄임표 표시
+		function truncate(){
+			var outerHeight = 75;
+			var contentSet = $(".truncate-check");
+			
+			contentSet.removeClass("text-truncate2 cursor-pointer");
+			for(var i=0; i<contentSet.length; i++){
+				var height = contentSet.eq(i).children().outerHeight();
+				if(height>=outerHeight){
+					contentSet.eq(i).addClass("text-truncate2 cursor-pointer");
+				}
+			}
 		}
 		
 	});

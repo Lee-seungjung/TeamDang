@@ -710,7 +710,29 @@
 	$(function(){
 		$(".board-write").click(function(){
 			$("#write-file-wrap").empty();
-			
+			//여기
+			//하루 작성(최대 5개) 확인
+			var memberNo = $("[name=memberNo]").val();
+			var dangNo = $("[name=dangNo]").val();
+			var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
+			console.log(memberNo);
+			console.log(dangNo);
+			console.log(boardWriteDate);
+
+			cntCheckData = {
+				dangNo:dangNo,
+				memberNo:memberNo,
+				boardWriteDate:boardWriteDate
+			}
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_board/day_write",
+				method:"get",
+				data:cntCheckData,
+				contentType:"application/json",
+				success:function(resp){
+					console.log(resp);
+				}
+			});
 		});
 		
 		//입력 항목 상태 판정
@@ -760,9 +782,16 @@
 			var value = $(this).val(); //파일위치+파일명
 			console.log(value);
 			console.log(this.files); //파일 배열
+			
+			if(this.files.length>5){
+				alert('파일은 5개까지 업로드 가능합니다!');
+				$(this).val("");
+				return;
+			}
+			
 			if(this.files.length>0){ //파일 있음
 				var formData = new FormData();
-			
+
 				for(var i=0; i<this.files.length; i++){
 					formData.append("attachment", this.files[i]);
 				}
@@ -885,6 +914,30 @@
 						    			});
 						        	}
 					        	}
+					        	
+					        	//회원 활동점수 +1 증가
+		                    	scorePlusData={
+		                    			memberScore:1,
+		                    			memberNo:memberNo
+		                    	}
+		                    	$.ajax({
+		                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+		                    		method:"patch",
+		                    		data:JSON.stringify(scorePlusData),
+		                    		contentType: 'application/json',
+		                    		async:false,
+		                    		success:function(resp){
+		                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
+		                    			var scoreTag = $("#profileEditModal").parent().children().children();
+		                    			var scoreValue = scoreTag.text();
+		                    			scoreTag.text(scoreValue+1);
+		                    			
+		                    			var writeCntTag = $("#profileEditModal").parent().parent().next()
+		                    											.children().find(".fa-regular").next().next();
+		                    			var writeCnt = writeCntTag.text();
+		                    			writeCntTag.text(writeCnt+1);
+		                    		}
+		                    	});
 								$("#boardModal").modal('hide');
 							}
 						});
