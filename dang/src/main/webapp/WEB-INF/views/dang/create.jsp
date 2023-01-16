@@ -399,7 +399,7 @@
 			var form = $(".form-create-dang");
 			form.append($("<input>").attr("type", "hidden").attr("name", "dangArea").attr("value",dangArea));
 			// 비공개 댕모임일 경우에만
-			if(formValidCheck.checkDangPrivate) {
+			if($("#dangPrivate").is(":checked")) {
 				form
 					.append($("<input>").attr("type", "hidden").attr("name", "dangPrivate").attr("value", "Y"))
 					.append($("<input>").attr("type", "hidden").attr("name", "dangPw").attr("value", $(".input-dang-password").val()));
