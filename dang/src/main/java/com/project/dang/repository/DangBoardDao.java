@@ -7,6 +7,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.SearchReceiveVO;
 
 public interface DangBoardDao {
 	
@@ -56,7 +57,7 @@ public interface DangBoardDao {
 	 * @param dangNo
 	 * @return BoardHistoryVO
 	 */
-	List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo);
+	List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category);
 	
 	/**
 	 * 내가 쓴 게시글 수

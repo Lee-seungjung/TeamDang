@@ -22,8 +22,6 @@ import com.project.dang.repository.DangBoardDao;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
 
-import lombok.extern.slf4j.Slf4j;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/rest_board")
@@ -68,21 +66,11 @@ public class DangBoardRestController {
 		return dangBoardDao.selectAll(dangNo);
 	}
 	
-	//카테고리 조회(5개)
-	@GetMapping("/category_search/{dangNo}/{keyword}")
-	public List<BoardHistoryVO> categorySearch(@PathVariable int dangNo,
-			@PathVariable String keyword){
-		return dangBoardDao.categorySearch(keyword, dangNo);
-	}
-	
-	//검색 조회(5개)
-	@GetMapping("/input_search/{dangNo}/{type}/{keyword}")
-	public List<BoardHistoryVO> inputSearch(@PathVariable int dangNo,
-			@PathVariable String keyword,@PathVariable String type
-			){
-//		List<BoardHistoryVO> test = dangBoardDao.inputSearch(type, keyword, dangNo);
-//		System.out.println(test);
-		return dangBoardDao.inputSearch(type, keyword, dangNo);
+	//복합검색 조회(5개)
+	@GetMapping("/input_search")
+	public List<BoardHistoryVO> inputSearch(@RequestParam String type, @RequestParam String keyword,
+			@RequestParam int dangNo, @RequestParam String category){
+		return dangBoardDao.inputSearch(type, keyword, dangNo, category);
 	}
 	
 	//좋아요 조회

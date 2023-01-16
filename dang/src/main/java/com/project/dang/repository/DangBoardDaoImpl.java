@@ -13,6 +13,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.SearchReceiveVO;
 
 @Repository
 public class DangBoardDaoImpl implements DangBoardDao{
@@ -67,11 +68,12 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	
 	//검색조회
 		@Override
-		public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo) {
+		public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category) {
 			Map<String, String> param = new HashMap<>();
-			param.put("keyword", keyword);
 			param.put("type", type);
+			param.put("keyword", keyword);
 			param.put("dangNo", String.valueOf(dangNo));
+			param.put("category", category);
 			return sqlSession.selectList("dangBoard.inputSearch",param);
 		}
 

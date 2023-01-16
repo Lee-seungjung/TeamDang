@@ -121,7 +121,7 @@
 						<a class="btn gray category-css rounded-pill me-1 category" data-value="공지사항">#공지사항</a>
 						<a class="btn gray category-css rounded-pill me-1 category" data-value="가입인사">#가입인사</a>
 						<a class="btn gray category-css rounded-pill me-1 category" data-value="자유글">#자유글</a>
-						<a class="btn gray category-css rounded-pill me-1 category btn-blue">#전체</a>
+						<a class="btn gray category-css rounded-pill me-1 category btn-blue" data-value="">#전체</a>
 				    </div>
 				    <!-- #카테고리 끝 -->
 
@@ -327,13 +327,19 @@
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
 			var keyword = $("[name=keyword]").val();
-			console.log(dangNo);
-			console.log(type);
-			console.log(keyword);
+			var category = $("a.btn-blue").data("value");
+			
+			SearchData={
+					dangNo:dangNo,
+					type:type,
+					keyword:keyword,
+					category:category
+			}
 			
 			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_board/input_search/"+dangNo+"/"+type+"/"+keyword,
+				url:"${pageContext.request.contextPath}/rest_board/input_search",
 				method:"get",
+				data:SearchData,
 				success:function(resp){
 					console.log(resp);
 					$(".board-group").empty();//출력 div 비우기
@@ -343,45 +349,33 @@
 					}
 					printImg(); //게시글 사진 출력
 					originLike() //내가 누른 좋아요 출력
+					
+					$("[name=type]").val("");
+					$("[name=keyword]").val("");
 				}
 			});
-			
-			
 		});
 		
-		
 		//카테고리 검색조회
-		$(".category").click(function(){
+		$(document).on("click", ".category", function(){
 			var dangNo = $("[name=dangNo]").val();
-			var keyword = $(this).data("value");
+			var type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val();
+			var category = $("a.btn-blue").data("value");
+			
+			SearchData={
+					dangNo:dangNo,
+					type:type,
+					keyword:keyword,
+					category:category
+			}
 			
 			$(".board-group").empty();//출력 div 비우기
-			if(keyword==undefined){
-				//전체 조회
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
-					method:"get",
-					async:false,
-					success:function(resp){
-						console.log(resp);
-						
-						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
-						if(resp.length==0){
-							console.log("내역없음!");
-						}
-						
-						//기본 5개 목록 출력하기(반복문)
-						for(var i=0; i<resp.length; i++){
-							boardList(resp[i])
-						}
-					}
-				});
-			}else{
 				//카테고리 조회
 				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_board/category_search/"+dangNo+"/"+keyword,
+					url:"${pageContext.request.contextPath}/rest_board/input_search",
 					method:"get",
-					async:false,
+					data:SearchData,
 					success:function(resp){
 						
 						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
@@ -395,9 +389,10 @@
 						}
 					}
 				});
-			}
 			printImg(); //게시글 사진 출력
 			originLike() //내가 누른 좋아요 출력
+			$("[name=type]").val("");
+			$("[name=keyword]").val("");
 		});
 		
 
