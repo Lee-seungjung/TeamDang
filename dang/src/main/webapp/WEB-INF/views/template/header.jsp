@@ -164,6 +164,24 @@
 	  text-overflow: ellipsis;
 	  webkit-line-clamp: 3;
 	}
+	.zoomin {
+	    display: none;
+	    z-index: 500;
+	    max-width: 100%;
+	    height: auto;
+	    position: fixed;
+	    top:0; left: 0; bottom: 0; right: 0;
+	    background-color: gray;
+	    background: rgba(0, 0, 0, 0.8);
+	}
+	.zoomin-img {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}
+	
+	
     
 </style>
 <body>

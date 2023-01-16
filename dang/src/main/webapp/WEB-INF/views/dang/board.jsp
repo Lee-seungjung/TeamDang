@@ -87,6 +87,32 @@
 		word-wrap: break-word;
 		word-break: break-word;
 	}
+	#carouselExampleControls{
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}
+	.carousel-item>img{
+		max-width:500px;
+		max-height:500px;
+	}
+	.carousel{
+		width:80%;
+	}
+	.carousel-item{
+	    transform: translate(, -65%);
+	    margin-left:30%;
+	}
+	.carousel-close-btn {
+	  display: inline-block;
+	  width: 2rem;
+	  height: 2rem;
+	  background-repeat: no-repeat;
+	  color:#f5f5f5;
+	  background: rgba(0, 0, 0, 0.8);
+	  transform: translate(100%, 100%);
+	}
+	
 
 </style>
 
@@ -288,7 +314,26 @@
 				</div>
 			</div>
 			<!-- 게시판 글수정 모달 끝-->
+			
 		</div>
+		
+		<!-- 사진 확대 시작-->
+		<div class="zoomin">
+			<button class="carousel-close-btn">X</button>
+			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner zoomin-img">
+					<!-- 비동기화 캐러셀 출력 -->
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		<!-- 사진 확대 끝 -->
+			
 	</div>
 </div>
 
@@ -321,8 +366,35 @@
 	        }
 	    });
 		
+		//게시글 이미지 확대
+		$(document).on("click",".bimg-find",function(){
+			var boardNo = $(this).data("no");
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
+				method:"get",
+				success:function(resp){
+					console.log(resp);
+					
+					$(".carousel-inner").empty(); //캐러셀 태그 비우기
+					for(var i=0; i<resp.length; i++){
+						var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo
+						zoomTagCreate(url); //슬라이더 사진 넣기&태그생성
+					}
+					
+					$(".carousel-item").eq(0).attr("class","carousel-item active");
+					$(".zoomin").show();
+
+					//이미지 확대창 클릭 시 닫기
+					$(".carousel-close-btn").click(function (e) {
+						$(".zoomin").hide();
+					});
+				}
+			});
+		});
+		
+		
 		//검색조회
-		//검색버튼을 눌렀을 때 type, keyword 값 확인 후 submit넘기기
 		$(document).on("click", ".search-btn", function(e){	
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
@@ -389,12 +461,13 @@
 						for(var i=0; i<resp.length; i++){
 							boardList(resp[i])
 						}
+						
+						printImg(); //게시글 사진 출력
+						originLike() //내가 누른 좋아요 출력
+						$("[name=type]").val("");
+						$("[name=keyword]").val("");
 					}
 				});
-			printImg(); //게시글 사진 출력
-			originLike() //내가 누른 좋아요 출력
-			$("[name=type]").val("");
-			$("[name=keyword]").val("");
 		});
 		
 
@@ -521,7 +594,6 @@
 					async:false,
 					success:function(resp){
 						console.log(resp);
-						console.log("여기가 실행되는 중!");
 						
 						var fileDiv = $("#edit-file-wrap");
 		               	for(var i=0; i<resp.length; i++){
@@ -1333,6 +1405,15 @@
 					}
 				}
 			});
+		}
+		
+		//이미지 슬라이더
+		function zoomTagCreate(url){
+			var tag = $(".carousel-inner");
+			var div = $("<div>").attr("class","carousel-item");
+			var img = $("<img>").attr("src",url).attr("class","d-block w-100");
+			div.append(img);
+			tag.append(div);
 		}
 		
 	});
