@@ -93,40 +93,40 @@
  		<choose>
  			<when test = "userNo != null">
  				select
-				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_area, count(case when dudldid.user_no = #{userNo} then 1 end) as is_like 
+				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, count(case when dudldid.user_no = #{userNo} then 1 end) as is_like 
 				from
 				(select did.*, dudl.user_no from 
 				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
 				        right outer join 
-				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
+				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_pw, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
 				on dudl.dang_no = did.dang_no)
 				dudldid 
 				<where>
 		 			<if test = "searchName != null">
 		 				and instr(dudldid.dang_name, #{searchName}) > 0
 		 			</if>
-		 			<if test = "searchArea != null">
-			 			and (1=1
-			 		</if>
+		 			<if test = "searchName != null and searchArea != null">
+			 			and (
+			 		</if>		 		
 			 		<if test = "searchArea != null">
-		 				<foreach collection = "searchArea" item = "searchArea"> 				
-			 				or instr(dudldid.dang_area, #{searchArea}) > 0
+		 				<foreach collection = "searchArea" item = "searchArea" separator = "or"> 				
+			 				instr(dudldid.dang_area, #{searchArea}) > 0
 		 				</foreach>
 		 			</if>
-		 			<if test = "searchArea != null">
+		 			<if test = "searchName != null and searchArea != null">
 			 			)
 			 		</if>
 		 		</where>
-				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_area
+				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
  			</when>
  			<otherwise>
  				select
-				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_area, 0 as is_like 
+				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, 0 as is_like 
 				from
 				(select did.*, dudl.user_no from 
 				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
 				        right outer join 
-				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
+				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_pw, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
 				on dudl.dang_no = did.dang_no)
 				dudldid 
 				<where>
@@ -142,7 +142,7 @@
 		 				</foreach>
 		 			</if>
 		 		</where>
-				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_area
+				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
  			</otherwise>
  		</choose>
  		<if test = "sort != null">
@@ -160,6 +160,7 @@
  			<result column = "dang_createtime" property = "dangCreatetime" javaType="java.sql.Date"/>
  			<result column = "dang_like" property = "dangLike"/>
  			<result column = "dang_private" property = "dangPrivate"/>
+ 			<result column = "dang_pw" property = "dangPw"/>
  			<result column = "is_like" property = "isLike"/>
  			<result column = "attachment_no" property = "attachmentNo"/>
  		</association>

@@ -70,5 +70,9 @@ public class DangMemberRestController {
 		return dangMemberDao.editProfile(vo);
 	}
 	
-	
+	// 특정 회원이 가입한 댕모임 번호 반환
+	@GetMapping("/search_already_join")
+	public List<Integer> searchDangAlreadyJoin(@RequestParam int userNo) {
+		return dangMemberDao.searchDangAlreadyJoin(userNo);
+	}
 }

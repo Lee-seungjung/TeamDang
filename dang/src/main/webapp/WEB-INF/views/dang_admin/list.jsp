@@ -8,6 +8,9 @@
 <title>다양한 이미지 마커 표시하기</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
+<!--font-awesome cdn -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -40,7 +43,7 @@
 	top: 10px;
 	left: 10px;
 	width: 250px;
-	height: 50px;
+	height: 55px;
 	z-index: 10;
 	border: 1px solid black;
 	border-radius: 10px;
@@ -70,7 +73,7 @@
 .category .ico_comm {
 	display: block;
 	margin: 0 auto 2px;
-	width: 22px;
+	width: 26px;
 	height: 26px;
 	background:
 		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
@@ -78,26 +81,23 @@
 }
 
 .category .ico_cafe {
-	background-position: 0px 0px;
-	background-image: url("./mapmarker/cafe.png");
+	background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
 }
 
 .category .ico_food {
-	background-position: -10px -36px;
+	background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
 }
 
 .category .ico_field {
-	background-position: -10px -72px;
+	background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
 }
 
 .category .ico_dogsalon {
-	background-position: 0px 0px;
-	background-image: url("./mapmarker/cafe.png");
+	background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
 }
 
 .category .ico_park {
-	background-position: 0px 0px;
-	background-image: url("./mapmarker/cafe.png");
+	background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
 }
 
 .customoverlay {
@@ -150,6 +150,22 @@
 	background:
 		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
+
+.border1 {
+	border: 1px solid #F2F2F2;
+}
+
+.input1{
+	border : 2px solid #F781D8;
+	height: 50px;
+}
+
+.box1{
+	border : 2px solid #F781D8;
+	height: 50px;
+	border-radius: 5px;
+	background: white;
+}
 </style>
 </head>
 
@@ -189,26 +205,24 @@
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
 			</div>
-			<div class="col-md-8 offset-md-2 text-center">
-				<input type="text" name="placeName" value="">
-				<button type="button" onclick="getSearchList()">검색</button>
+			<div class="col-md-6 offset-md-3 text-center">
+				<div class="row">
+					<div class="col-10">
+						<input class="w-100 input1 form-control rounded" type="text" name="placeName" value="" placeholder="장소명을 검색해주세요 :)">	
+					</div>
+					<div class="col-2 m-0">
+						<button type="button" class="w-100 box1" onclick="getSearchList()">검색</button>
+					</div>
+				</div>
+				
+				
 			</div>
 		</div>
 		
-		<div class="row mt-3 border">
-			<div class="col-md-8 offset-md-2 text-center border" >
-				<div class="row border" id="list">
-					<div class="col-2  border">
-					사진
-					</div>
-					<div class="col-8 text-center border">
-						<p class="m-0">이름</p>
-						<p class="m-0">주소</p>
-						<p class="m-0">댕댕이크기</p>
-					</div>
-					<div class="col-2 text-end border">
-					카페
-					</div>
+		<div class="row mt-3 ">
+			<div class="col-md-8 offset-md-2" >
+				<div class="row  firstLine" >
+					
 				</div>
 			</div>
 		</div>
@@ -250,7 +264,6 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
-		var str;
 	function getSearchList(){
 		var keyword = $("[name=placeName]").val();
 		$.ajax({
@@ -260,35 +273,43 @@
 		async : false,
 		contentType : "application/json",
 		success : function(resp) {
-			console.log(resp)
+			console.log(resp);
+			var firstline=$(".firstLine");
+			firstline.empty();
+			
 				for(i=0;i<resp.length;i++){
-					str ='<div class="col-2  border">'
-					str +='<img src="http://localhost:8888/rest_attachment/download/"+'resp.attachmentNo[i]'+>'
-					str +='</div>'
-					str +='<div class="col-8 text-center border">'
-					str +='<p class="m-0">'+resp.placeName[i]+'</p>'
-					str +='<p class="m-0">'+resp.placeAddress[i]+'</p>'
-					str +='<p class="m-0">'+resp.dangSize[i]+'</p>'
-						
-						
-					$(".placeImg").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo[i]);
-					
-					<div class="col-2  border">
-					<img src="http://localhost:8888/rest_attachment/download/"+resp.attachmentNo[i]>
-					</div>
-					<div class="col-8 text-center border">
-						<p class="m-0">이름</p>
-						<p class="m-0">주소</p>
-						<p class="m-0">댕댕이크기</p>
-					</div>
-					<div class="col-2 text-end border">
-					카페
-					</div>
-					
+					style="background-color : #F2F2F2" 
+					console.log(resp[i].placeSort);
+					var col1 = $("<div>").attr("class","col-2 mt-5 border1").attr("style", "background-color : #F2F2F2; border-radius: 20px 0px 0px 20px;");
+					var img1 = $("<img>").attr("src","http://localhost:8888/rest_attachment/download/"+resp[i].attachmentNo).attr("style","width:150px; height:150px;");
+					col1.append(img1);
+					var col8 = $("<div>").attr("class","col-8 mt-5 border1").attr("style", "background-color : #F2F2F2;");
+					var p1= $("<p>").attr("class","mb-3 mt-2").text(resp[i].placeName);
+					var p2= $("<p>").attr("class","m-1").text(resp[i].placeAddress).attr("style","font-size : 9px;");
+					var p3= $("<p>").attr("class","m-0").text( resp[i].dangSize+"까지 가능").attr("style","font-size : 9px;");
+					col8.append(p1).append(p2).append(p3);
+					var col2 = $("<div>").attr("class","col-2 text-end mt-5 border1 ").attr("style", "background-color : #F2F2F2; border-radius: 0px 20px 20px 0px;");
+					var span1 = $("<span>").text( resp[i].placeSort+" ").attr("class","mt-3").attr("style","font-size : 9px; color: #F781D8;");
+					col2.append(span1);
+					var i1 = $("<i>");
+					if(resp[i].placeSort=="카페"){
+						i1.attr("class","fa-solid fa-mug-saucer mt-2").attr("style","font-size : 9px; color: #F781D8;");
+					} else if(resp[i].placeSort=='음식점'){
+						i1.attr("class","fa-solid fa-utensils mt-2").attr("style","font-size : 9px; color: #F781D8;");
+					}else if(resp[i].placeSort=='미용'){
+						i1.attr("class","fa-solid fa-scissors mt-2").attr("style","font-size : 9px; color: #F781D8;");
+					}else if(resp[i].placeSort=='운동장'){
+						i1.attr("class","fa-solid fa-person-running mt-2").attr("style","font-size : 9px; color: #F781D8;");
+					}else if(resp[i].placeSort=='공원'){
+						i1.attr("class","fa-thin fa-trees mt-2").attr("style","font-size : 9px; color: #F781D8;");
+					}
+					col2.append(i1);
+					firstline.append(col1).append(col8).append(col2);
 				}
 			}
 		})
 	}
+	
 		
 		var placeNoInfo; //장소번호를 가져오는 변수
 		var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
@@ -432,7 +453,11 @@
 		})
 
 		var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png'; // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
-		var cafemarkerImageSrc = './mapmarker/cafe.png'; // 카페의 마커이미지의 주소입니다.
+		var cafemarkerImageSrc = "${pageContext.request.contextPath}/images/cafe-icon.png"; // 카페의 마커이미지의 주소입니다.
+		var foodmarkerImageSrc = "${pageContext.request.contextPath}/images/food-icon.png"; // 카페의 마커이미지의 주소입니다.
+		var fieldmarkerImageSrc = "${pageContext.request.contextPath}/images/field-icon.png"; // 카페의 마커이미지의 주소입니다.
+		var dogsalonmarkerImageSrc = "${pageContext.request.contextPath}/images/salon-icon.png"; // 카페의 마커이미지의 주소입니다.
+		var parkmarkerImageSrc = "${pageContext.request.contextPath}/images/park-icon.png"; // 카페의 마커이미지의 주소입니다.
 
 		cafeMarkers = [], // 카페 마커 객체를 가지고 있을 배열입니다
 		foodMarkers = [], // 음식점 마커 객체를 가지고 있을 배열입니다
@@ -536,13 +561,13 @@
 		function createFoodMarkers() {
 			for (var i = 0; i < foodPositions.length; i++) {
 
-				var imageSize = new kakao.maps.Size(22, 26), imageOptions = {
-					spriteOrigin : new kakao.maps.Point(10, 36),
-					spriteSize : new kakao.maps.Size(36, 98)
+				var imageSize = new kakao.maps.Size(40, 26), imageOptions = {
+					spriteOrigin : new kakao.maps.Point(0, 0),
+					spriteSize : new kakao.maps.Size(20, 20)
 				};
 
 				// 마커이미지와 마커를 생성합니다
-				var markerImage = createMarkerImage(markerImageSrc, imageSize,
+				var markerImage = createMarkerImage(foodmarkerImageSrc, imageSize,
 						imageOptions), marker = createMarker(foodPositions[i],
 						markerImage);
 
@@ -603,13 +628,13 @@
 		function createFieldMarkers() {
 			for (var i = 0; i < fieldPositions.length; i++) {
 
-				var imageSize = new kakao.maps.Size(22, 26), imageOptions = {
-					spriteOrigin : new kakao.maps.Point(10, 72),
-					spriteSize : new kakao.maps.Size(36, 98)
+				var imageSize = new kakao.maps.Size(40, 26), imageOptions = {
+					spriteOrigin : new kakao.maps.Point(0, 0),
+					spriteSize : new kakao.maps.Size(20, 20)
 				};
 
 				// 마커이미지와 마커를 생성합니다
-				var markerImage = createMarkerImage(markerImageSrc, imageSize,
+				var markerImage = createMarkerImage(fieldmarkerImageSrc, imageSize,
 						imageOptions), marker = createMarker(fieldPositions[i],
 						markerImage);
 
@@ -670,13 +695,13 @@
 		function createDogsalonMarkers() {
 			for (var i = 0; i < dogsalonPositions.length; i++) {
 
-				var imageSize = new kakao.maps.Size(22, 26), imageOptions = {
-					spriteOrigin : new kakao.maps.Point(10, 72),
-					spriteSize : new kakao.maps.Size(36, 98)
+				var imageSize = new kakao.maps.Size(40, 26), imageOptions = {
+					spriteOrigin : new kakao.maps.Point(0, 0),
+					spriteSize : new kakao.maps.Size(20, 20)
 				};
 
 				// 마커이미지와 마커를 생성합니다
-				var markerImage = createMarkerImage(markerImageSrc, imageSize,
+				var markerImage = createMarkerImage(dogsalonmarkerImageSrc, imageSize,
 						imageOptions), marker = createMarker(
 						dogsalonPositions[i], markerImage);
 
@@ -738,13 +763,13 @@
 		function createParkMarkers() {
 			for (var i = 0; i < parkPositions.length; i++) {
 
-				var imageSize = new kakao.maps.Size(22, 26), imageOptions = {
-					spriteOrigin : new kakao.maps.Point(10, 72),
-					spriteSize : new kakao.maps.Size(36, 98)
+				var imageSize = new kakao.maps.Size(40, 26), imageOptions = {
+					spriteOrigin : new kakao.maps.Point(0, 0),
+					spriteSize : new kakao.maps.Size(20, 20)
 				};
 
 				// 마커이미지와 마커를 생성합니다
-				var markerImage = createMarkerImage(markerImageSrc, imageSize,
+				var markerImage = createMarkerImage(parkmarkerImageSrc, imageSize,
 						imageOptions), marker = createMarker(parkPositions[i],
 						markerImage);
 

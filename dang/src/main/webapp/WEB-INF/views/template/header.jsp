@@ -123,7 +123,7 @@
 		cursor:pointer;
 	}
 	
-	.span-check-invalid {
+	.span-check-valid {
 		color : green;
 	}
 	

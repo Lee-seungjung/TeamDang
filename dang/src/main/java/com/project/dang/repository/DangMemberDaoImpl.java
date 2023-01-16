@@ -98,11 +98,9 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.update("dangMember.editProfile",vo)>0;
 	}
 
-	
-
-	
-
-	
-
-
+	// 특정 회원이 가입한 댕모임 목록을 번호로 조회
+	@Override
+	public List<Integer> searchDangAlreadyJoin(int userNo) {
+		return sqlSession.selectList("dangMember.searchDangAlreadyJoin", userNo);
+	}
 }

@@ -75,5 +75,9 @@
 		where member_no=#{memberNo}
 	</update>
 	
+	<!-- 특정 회원이 가입한 댕모임 목록을 번호로 조회 -->
+	<select id = "searchDangAlreadyJoin" parameterType = "int" resultType = "int">
+		select dang_no from dang_member where user_no = #{userNo}
+	</select>
 	
 </mapper>
