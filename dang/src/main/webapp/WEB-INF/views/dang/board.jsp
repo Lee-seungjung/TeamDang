@@ -323,11 +323,13 @@
 		
 		//검색조회
 		//검색버튼을 눌렀을 때 type, keyword 값 확인 후 submit넘기기
-		$(document).on("click", ".search-btn", function(){	
+		$(document).on("click", ".search-btn", function(e){	
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
 			var keyword = $("[name=keyword]").val();
 			var category = $("a.btn-blue").data("value");
+			
+			if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
 			
 			SearchData={
 					dangNo:dangNo,
