@@ -235,7 +235,14 @@
 				<div class = "col-4 my-3 p-3">
 					<div class="card col w-100 div-outer-dang-info shadow">
 						<div>
+							<c:choose>
+							<c:when test = "${dangList.dangInfo.attachmentNo == null}">
+							<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="card-img-top img-dang-profile">
+							</c:when>
+							<c:otherwise>
 							<img src="${pageContext.request.contextPath}/rest_attachment/download/${dangList.dangInfo.attachmentNo}" class="card-img-top img-dang-profile">
+							</c:otherwise>
+							</c:choose>
 							<span>${dangList.dangInfo.dangArea}</span>
 						</div>
 						<div class="card-body">
@@ -325,7 +332,7 @@
                     <div class = "col div-modal-enter-dang-content">
                     	<div class = "row">
                             <div class = "col d-flex justify-content-end align-items-center">
-                                <button type="button" class="btn-modal-dang-enter-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="fa-solid fa-xmark btn-modal-dang-enter-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                         </div>
                         <div class = "row my-3">
@@ -362,7 +369,7 @@
                     <div class = "col">
                     	<div class = "row">
                             <div class = "col d-flex justify-content-end align-items-center">
-                                <button type="button" class="btn-modal-dang-join-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="fa-solid fa-xmark btn-modal-dang-join-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                         </div>
                         <div class = "row my-3">
@@ -421,8 +428,24 @@
 
 	$(function(){
 		
+		// 로그인 중인 회원의 회원 번호
+		var userNo = $("#loginNo").val();
+		
 		// 특정 댕모임에 가입했는지 여부에 따라 입장/가입 버튼 태그를 생성하는 함수 실행
 		isMember();
+		
+		// 댕모임 번호
+		var dangNo;
+		// 댕모임 이름
+		var dangName;
+		// 댕모임 총원
+		var dangHeadmax;
+		// 댕모임 현원
+		var dangHead;
+		// 댕모임 비공개 여부
+		var dangPrivate;
+		// 댕모임 비밀번호
+		var dangPw;
 		
 		// 검색 이벤트
 		$(".form-search-submit").submit(function(e){
@@ -430,7 +453,6 @@
 			e.preventDefault();
 			// 새로운 form 생성
 			var form = $("<form>").attr("action", "search").attr("method", "get");
-			console.log($(".option-dang-interest").length);
 			// 기존 form 내부의 name을 가진 태그 각각에 대해
 			$(this).find("[name]").each(function(){
 				if($(this).prop("value") != "") { // value가 ""이 아닌 경우
@@ -460,10 +482,18 @@
 		
 		// 입장 버튼 클릭 이벤트
 		$(document).on("click", ".btn-dang-enter", function(){
+			// 댕모임 번호
+			dangNo = $(this).parent().prevAll("[name=dangNo]").val();
+			// 댕모임명
+			dangName = $(this).parent().prevAll("[name=dangName]").val();
 			// 댕모임 총원
-			var dangHeadmax = $(this).parent().prevAll("[name=dangHeadmax]").val();
+			dangHeadmax = $(this).parent().prevAll("[name=dangHeadmax]").val();
 			// 댕모임 현원
-			var dangHead = $(this).parent().prevAll("[name=dangHead]").val();
+			dangHead = $(this).parent().prevAll("[name=dangHead]").val();
+			// 댕모임 비공개 여부
+			dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
+			// 댕모임 비밀번호
+			dangPw = $(this).parent().prevAll("[name=dangPw]").val();
 			// 댕모임 총원과 현원이 같을 경우
 			if(dangHeadmax == dangHead) {
 				alert("만원입니다");
@@ -481,8 +511,6 @@
 			// 입장 Modal 표시 전 작업
 			// - 댕모임명 초기화
 			$(".div-modal-dang-enter-name").empty();
-			// - 댕모임명
-			var dangName = $(this).parent().prevAll("[name=dangName]").val();
 			// - 입장할 댕모임명 태그 추가
 			$(".div-modal-dang-enter-name")
 				.append(
@@ -490,16 +518,14 @@
 				);
 			// (그렇지 않다면) 비밀번호 입력 Modal 표시
 			$("#modalEnterPirvate").modal("show");
-			// 댕모임 비밀번호
-			var dangPw = $(this).parent().prevAll("[name=dangPw]").val();
 			$(".btn-modal-enter-submit").click(function(){
 				// 비밀번호 입력 Modal의 비밀번호 입력창의 값
 				var inputPw = $(".input-modal-enter-dang-pw").val();
-				// 댕모임 비밀번호와 비밀번호 입력창의 값이 같다면
-				if(inputPw == dangPw) {
+				// 입력 비밀번호와 댕모임 비밀번호 비교
+				if(inputPw == dangPw) { // 댕모임 비밀번호와 비밀번호 입력창의 값이 같다면
 					location.href = "${pageContext.request.contextPath}/dang/"+dangNo; // 입장
 					$(".input-modal-enter-dang-pw").val("");
-				} else {
+				} else { // 그렇지 않다면
 					$(".div-modal-enter-dang-content")
 						.append(
 							$("<div>").attr("class", "row my-3")
@@ -526,25 +552,22 @@
 		
 		// 가입 버튼 클릭 이벤트
 		$(document).on("click", ".btn-dang-join", function(){
-			console.log("가입");
-			// 가입 유효성 검사
-			var formValid = {
-				checkNick : false,
-				checkPw : false,
-				isAllValid : function() {
-					return this.checkNick && this.checkPw;
-				}
-			}
-			function formCheck() {
-				console.log("formValid.checkNick = " + formValid.checkNick);
-				console.log("formValid.checkPw = " + formValid.checkPw);
-			}
+			// Helper Text 초기화
+			$(".span-check").remove();
+			// 댕모임 번호
+			dangNo = $(this).parent().prevAll("[name=dangNo]").val();
+			// 댕모임명
+			dangName = $(this).parent().prevAll("[name=dangName]").val();
+			// 댕모임 총원
+			dangHeadmax = $(this).parent().prevAll("[name=dangHeadmax]").val();
+			// 댕모임 현원
+			dangHead = $(this).parent().prevAll("[name=dangHead]").val();
+			// 댕모임 비공개 여부
+			dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
+			// 댕모임 비밀번호
+			dangPw = $(this).parent().prevAll("[name=dangPw]").val();
 			// 초기화(비공개 댕모임 비밀번호 입력창 제거)
 			$(".div-modal-join-dang-private").remove();
-			// 댕모임 총원
-			var dangHeadmax = $(this).parent().prevAll("[name=dangHeadmax]").val();
-			// 댕모임 현원
-			var dangHead = $(this).parent().prevAll("[name=dangHead]").val();
 			// 댕모임 총원과 현원이 같을 경우
 			if(dangHeadmax == dangHead) {
 				alert("만원입니다");
@@ -553,8 +576,6 @@
 			// 가입 Modal 표시 전 작업
 			// - 댕모임명 초기화
 			$(".div-modal-join-dang-name").empty();
-			// - 댕모임명
-			var dangName = $(this).parent().prevAll("[name=dangName]").val();
 			// - 가입할 댕모임명 태그 추가
 			$(".div-modal-join-dang-name")
 				.append(
@@ -562,10 +583,6 @@
 				);
 			// (그렇지 않다면) 가입 Modal 표시
 			$("#modalJoin").modal("show");
-			// 댕모임 번호
-			var dangNo = $(this).parent().prevAll("[name=dangNo]").val();
-			// 댕모임 비공개 여부
-			var dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
 			// 비공개 댕모임이라면
 			if(dangPrivate == "Y") {
 				$(".row-modal-join-submit")
@@ -585,97 +602,114 @@
 							)
 					)
 			}
-			
-			// 모달 내 닉네임 중복 검사 버튼
-			$(".btn-modal-join-dang-nick-search").click(function(e){
-				// 이벤트 전파 방지
-				e.stopPropagation();
-				// 초기화
-				$(".check-nick").remove();
-				// 닉네임 입력창의 입력값
-				var inputNick = $(".input-modal-join-dang-nick").val();
-				// 입력창의 값이 비어있다면
-				if(inputNick == "") {
-					$(".div-modal-dang-join-check-nick")
-						.append(
-							$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-empty").text("닉네임을 입력해 주세요.")
-						)
-					formValid.checkNick = false;
-					formCheck();
-					return;
-				}
-				$.ajax({
-					url : "${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+inputNick,
-					method : "get",
-					success : function(resp){
-						console.log(resp);
-						if(resp == false ) {
-							console.log("이미 존재하는 닉네임");
+		});
+		
+		// 모달 내 닉네임 중복 검사 버튼
+		$(".btn-modal-join-dang-nick-search").click(function(e){
+			// 이벤트 전파 방지
+			e.stopPropagation();
+			// 초기화
+			$(".span-check").remove();
+			// 닉네임 입력창의 입력값
+			var inputNick = $(".input-modal-join-dang-nick").val();
+			// 입력창의 값이 비어있다면
+			if(inputNick == "") {
+				$(".div-modal-dang-join-check-nick")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-empty").text("닉네임을 입력해 주세요.")
+					)
+				formJoinValid.checkNick = false;
+				formJoinCheck();
+				return;
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+inputNick,
+				method : "get",
+				success : function(resp){
+					console.log(resp);
+					if(resp == false ) {
+						console.log("이미 존재하는 닉네임");
+						$(".div-modal-dang-join-check-nick")
+							.append(
+								$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-already").text("이미 사용 중인 닉네임입니다.")
+							)
+						formJoinValid.checkNick = false;
+						formJoinCheck();
+						return;
+					} else {
+						console.log("사용할 수 있는 닉네임");
 							$(".div-modal-dang-join-check-nick")
-								.append(
-									$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-already").text("이미 사용 중인 닉네임입니다.")
-								)
-							formValid.checkNick = false;
-							formCheck();
-						} else {
-							console.log("사용할 수 있는 닉네임");
-								$(".div-modal-dang-join-check-nick")
-								.append(
-									$("<span>").attr("class", "span-check span-check-valid check-nick check-nick-valid").text("멋진 닉네임이네요!")
-								)
-							formValid.checkNick = true;
-								formCheck();
-						}
+							.append(
+								$("<span>").attr("class", "span-check span-check-valid check-nick check-nick-valid").text("멋진 닉네임이네요!")
+							)
+						formJoinValid.checkNick = true;
+						formJoinCheck();
+						return;
 					}
-				});
+				}
 			});
+		});
+		
+		// 모달 내 가입하기 버튼
+		$(".btn-modal-join-submit").click(function(){
+			// 비밀번호 helper text 초기화
+			$(".check-pw").remove();
+			// Modal 내 비밀번호 입력창의 값
+			var inputPw = $(".input-modal-join-dang-pw").val();
+			// 비밀번호 미입력시
+			if(inputPw == "") {
+				$(".div-modal-dang-join-check-pw")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-empty").text("비밀번호를 입력해 주세요.")	
+					)
+				formJoinValid.checkPw = false;
+				formJoinCheck();
+				return;
+			}
+			// 비밀번호 입력시
+			if(dangPw != inputPw) { // 비밀번호가 옳지 않다면
+				$(".div-modal-dang-join-check-pw")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-invalid").text("비밀번호가 일치하지 않습니다.")	
+					)
+				formJoinValid.checkPw = false;
+				formJoinCheck();
+				return;
+			}
+			formJoinValid.checkPw = true;
+			formJoinCheck();
+			console.log("isAllValid = " + formJoinValid.isAllValid());
+			// 유효성 검사를 통과하지 못하면 return
+			if(formJoinValid.isAllValid() == false) {
+				return;
+			}
 			
-			// 댕모임 비밀번호
-			var dangPw = $(this).parent().prevAll("[name=dangPw]").val();
-			
-			// 댕모임 비밀번호 입력창 이벤트
-			$(".input-modal-join-dang-pw").blur(function(){
-				// 비밀번호 helper text 초기화
-				$(".check-pw").remove();
-				// Modal 내 비밀번호 입력창의 값
-				var inputPw = $(".input-modal-join-dang-pw").val();
-				if(inputPw == "") {
-					$(".div-modal-dang-join-check-pw")
-						.append(
-							$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-empty").text("비밀번호를 입력해 주세요.")	
-						)
-					formValid.checkPw = false;
-					formCheck();
-					return;
-				}
-				if(dangPw != inputPw) {
-					$(".div-modal-dang-join-check-pw")
-						.append(
-							$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-invalid").text("비밀번호가 일치하지 않습니다.")	
-						)
-					formValid.checkPw = false;
-					formCheck();
-					return;
-				}
-				formValid.checkPw = true;
-				formCheck();
-			});
-			
-			// 모달 내 가입하기 버튼
-			$(".btn-modal-join-submit").click(function(){				
-				if(!formValid.isAllValid) {
-					return;
-				}
-				// 가입 완료 메시지
-				alert("댕모임 가입이 완로되었습니다!");
-				location.href = "${pageContext.request.contextPath}/dang/"+dangNo; // 입장
-			})
+			// 닉네임
+			var memberNick = $(".input-modal-join-dang-nick").val();
+			// 상태 메시지
+			var memberMessage = $(".input-modal-join-dang-message").val();
+			// 가입 완료 메시지
+			alert("댕모임 가입이 완로되었습니다!");
+			// 댕모임 가입
+			var form = $("<form>").attr("action", "${pageContext.request.contextPath}/member/join").attr("method", "post")
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", dangNo)
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "userNo").attr("value", userNo)
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "memberNick").attr("value", memberNick)	
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "memberMessage").attr("value", memberMessage)
+							);
+			$("body").append(form);
+			form.submit();
 		});
 		
 		// 특정 댕모임에 가입했는지 여부에 따라 입장/가입 버튼 태그를 생성하는 함수
 		function isMember() {
-			// 로그인 중인 회원의 회원 번호
-			var userNo = $("#loginNo").val();
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_member/search_already_join?userNo=" + userNo,
 				method : "get",
@@ -714,6 +748,19 @@
 					}
 				}
 			})
+		}
+		
+		// 가입 유효성 검사
+		var formJoinValid = {
+			checkNick : false,
+			checkPw : false,
+			isAllValid : function() {
+				return this.checkNick && this.checkPw;
+			}
+		}
+		function formJoinCheck() {
+			console.log("formValid.checkNick = " + formJoinValid.checkNick);
+			console.log("formValid.checkPw = " + formJoinValid.checkPw);
 		}
 	});
 	

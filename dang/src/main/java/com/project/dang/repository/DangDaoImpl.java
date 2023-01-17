@@ -21,17 +21,6 @@ public class DangDaoImpl implements DangDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 댕모임 회원인지 여부 반환
-	@Override
-	public boolean isDangMember(int dangNo, int userNo) {
-		Map<String,String> param = new HashMap<>();
-		param.put("dangNo", String.valueOf(dangNo));
-		param.put("userNo", String.valueOf(userNo));
-		Integer result = sqlSession.selectOne("dang.isDangMember", param);
-		if(result == null) result = 0; 
-		return result > 0;
-	}
-	
 	// 댕모임 번호 반환
 	@Override
 	public int dangNo() {

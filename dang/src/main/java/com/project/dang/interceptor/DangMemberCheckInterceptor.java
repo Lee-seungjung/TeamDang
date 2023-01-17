@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.project.dang.repository.DangDao;
+import com.project.dang.repository.DangMemberDao;
 
 @Component
 public class DangMemberCheckInterceptor implements HandlerInterceptor {
 	
 	@Autowired
-	private DangDao dangDao;
+	private DangMemberDao dangMemberDao;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -32,7 +32,7 @@ public class DangMemberCheckInterceptor implements HandlerInterceptor {
 		Integer dangNo = Integer.valueOf(pathVariables.get("dangNo"));
 		
 		// 댕모임 회원인지 여부
-		boolean isDangMember = dangDao.isDangMember(dangNo, userNo);
+		boolean isDangMember = dangMemberDao.isDangMember(dangNo, userNo);
 		if(isDangMember) { // 회원이라면
 			return true; // 통과
 		}

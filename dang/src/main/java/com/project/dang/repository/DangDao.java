@@ -12,14 +12,6 @@ import com.project.dang.vo.DangTopVO;
 public interface DangDao {
 	
 	/**
-	 * 댕모임 회원인지 여부 반환
-	 * @param dangNo : 댕모임 번호
-	 * @param userNo : 회원 번호
-	 * @return
-	 */
-	public boolean isDangMember(int dangNo, int userNo);
-	
-	/**
 	 * 댕모임 번호 반환
 	 * @return int (댕모임 번호)
 	 */

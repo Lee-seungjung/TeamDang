@@ -80,4 +80,14 @@
 		select dang_no from dang_member where user_no = #{userNo}
 	</select>
 	
+	<!-- 댕모임 가입 -->
+	<insert id = "join" parameterType = "DangMemberJoinDto">
+		insert into dang_member(member_no, dang_no, user_no, member_nick, member_message) values(#{memberNo}, #{dangNo}, #{userNo}, #{memberNick}, #{memberMessage})
+	</insert>
+	
+	<!-- 특정 회원이 특정 댕모임의 회원인지 조회 -->
+	<select id = "isDangMember" parameterType = "map" resultType = "int">
+		select member_no from dang_member where user_no = #{userNo} and dang_no = #{dangNo}
+	</select>
+	
 </mapper>
