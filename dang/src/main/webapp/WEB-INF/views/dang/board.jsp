@@ -865,6 +865,7 @@
 				var writer = $(this).parent().data("mno"); //작성자
 				var boardNo = $(this).parent().data("bno"); //글번호
 				var memberNo = $("[name=memberNo]").val(); //실행자
+				var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
 
 				if(writer!=memberNo){
 					alert('작성자가 일치하지 않습니다! 삭제불가능!');
@@ -888,8 +889,7 @@
 								success:function(resp){
 									$(".modal-delete-btn").removeClass("board-delete-now");
 									$("#deleteModal").modal("hide");
-									//화면 표시 게시글 비동기로 없애기
-									
+									boardBox.remove(); //출력된 게시글 지우기
 								}
 							});
 						});
