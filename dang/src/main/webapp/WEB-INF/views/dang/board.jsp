@@ -154,6 +154,13 @@
 				    <!-- 게시글 시작 -->
 				    <div class="board-group text-center mt-4">
 				    
+				    	<c:if test="${boardList.size()==0}">
+				    		<div class="col zero-boardList">
+				    			<i class="fa-regular fa-clipboard-list"></i>
+				    			<span class="zero-boardList-font">등록된 게시글이 없습니다</span>
+				    		</div>
+				    	</c:if>
+				    
 				    	<c:forEach var="vo" items="${boardList}">
 				    		<!-- 게시글 박스 시작 -->
 							<div class="board-box shadow-sm mb-3">
@@ -428,8 +435,13 @@
 					console.log(resp);
 					$(".board-group").empty();//출력 div 비우기
 					
-					for(var i=0; i<resp.length; i++){
-						boardList(resp[i]);
+					if(resp.length==0){
+						zeroBoardList();
+						$(".not-result").text("일치하는 검색 결과가 없습니다");
+					}else{
+						for(var i=0; i<resp.length; i++){
+							boardList(resp[i]);
+						}
 					}
 					truncate(); //말줌일표
 					printImg(); //게시글 사진 출력
@@ -463,14 +475,12 @@
 					data:SearchData,
 					success:function(resp){
 						
-						//없을 경우 아직 등록된 게시글이 없습니다 문구 표시
 						if(resp.length==0){
-							console.log("내역없음!");
-						}
-						
-						//기본 5개 목록 출력하기(반복문)
-						for(var i=0; i<resp.length; i++){
-							boardList(resp[i])
+							zeroBoardList();
+						}else{
+							for(var i=0; i<resp.length; i++){
+								boardList(resp[i]);
+							}
 						}
 						truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
@@ -480,6 +490,17 @@
 					}
 				});
 		});
+		
+		//게시글 목록 없을 경우 출력
+		function zeroBoardList(){
+			var boardGroup = $(".board-group");
+			var div = $("<div>").attr("class","col zero-boardList middle-items justify-content-center");
+			var img = $("<img>").attr("src","${pageContext.request.contextPath}/images/clipboard.png")
+							.attr("style","width:30px; height:30px;");
+			var span = $("<span>").attr("class","content-font not-result").text("등록된 게시글이 없습니다");
+			div.append(img).append(span);
+			boardGroup.append(div);
+		}
 		
 
 		//게시글 목록 출력
