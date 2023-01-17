@@ -26,11 +26,6 @@
   	  	insert into dang_img(dang_no, attachment_no) values(#{dangNo}, #{attachmentNo})
   	</insert>
   	
-  	<!-- 댕모임 회원인지 확인 -->
-  	<select id = "isDangMember" parameterType = "map" resultType = "int">
-  		select member_no from dang_member where dang_no = #{dangNo} and user_no = #{userNo}
-  	</select>
-  	
   	<!-- 댕모임 정보 조회 -->
   	<select id = "selectDangEditInfo" parameterType = "int" resultType = "DangEditInfoVO">
   		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_private, d.dang_pw, d.dang_area, di.attachment_no
