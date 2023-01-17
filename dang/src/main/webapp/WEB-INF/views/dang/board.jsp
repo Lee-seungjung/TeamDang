@@ -853,10 +853,7 @@
 				}
 			});
 		}
-		
-		//여기하는중
-		
-		
+
 		//게시글 삭제	
 		function boardDelete(){
 			$(document).on("click", ".delete-drop", function(){
@@ -1339,29 +1336,46 @@
 			$(document).on("click", ".reply-delete", function(){
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var thisTag = $(this).parents(".reply-box");
-				var boardNo = $(this).parent().data("bno");
+				var replyContent = $(this).parents(".reply-content");
+				
+				$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+				$(".modal-delete-btn").addClass("reply-delete-now");
+				$("#deleteModal").modal("show");
+				
+				//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
+				var judge = $(".modal-delete-btn").hasClass("reply-delete-now");
+				if(judge){
+					//삭제 확인 버튼 누를 경우
+					$(".reply-delete-now").click(function(){
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
+							method:"delete",
+							async:false,
+							success:function(resp){
+								$(".modal-delete-btn").removeClass("reply-delete-now");
+								$("#deleteModal").modal("hide");
+								
+								replyContent.remove();
 
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
-					method:"delete",
-					success:function(resp){
-						thisTag.empty(); //replb-box 비우기
-						var hr = $("<hr>");
-						thisTag.append(hr);
-						
-						replyList(thisTag,boardNo);
-						
-						//댓글 숫자 감소
-						var findnum = thisTag.prev().children().children('.replycnt');
-						var num = findnum.text();
-						if(num==""){
-							findnum.text(0);
-						}else{
-							num = parseInt(num);
-							findnum.text(num-1);
-						}
-					}
-				});
+								//댓글 숫자 감소
+								var findnum = thisTag.prev().children().children('.replycnt');
+								var num = findnum.text();
+								if(num==""){
+									findnum.text(0);
+								}else{
+									num = parseInt(num);
+									findnum.text(num-1);
+								}
+							}
+						});
+					});
+					
+					//삭제 취소버튼 누를 경우
+					$(".delete-cancel-btn").click(function(){
+						$(".modal-delete-btn").removeClass("reply-delete-now");
+					});
+				}
+
 			});
 		}
 		
