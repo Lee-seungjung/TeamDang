@@ -1216,6 +1216,7 @@
 											newReply(resp, replyBox); //새로운 태그 생성
 											replyBox.prepend($("<hr>")); //hr태그 재생성
 											replyBox.children().find(".reply-input").val(""); //input 입력창 공백처리
+											replyBox.children().find(".reply-write").attr("disabled",true); //전송 버튼 비활성화
 											
 											//댓글 숫자 증가
 											var findnum = replyBox.prev().children().children('.replycnt');
