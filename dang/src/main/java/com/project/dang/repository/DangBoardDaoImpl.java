@@ -66,7 +66,7 @@ public class DangBoardDaoImpl implements DangBoardDao{
 		Map<String, String> param = new HashMap<>();
 		param.put("dangNo", String.valueOf(dangNo));
 		param.put("memberNo", String.valueOf(memberNo));
-		param.put("BoardWriteDate", boardWriteDate);
+		param.put("boardWriteDate", boardWriteDate);
 		return sqlSession.selectOne("dangBoard.dayWriteCount",param);
 	}
 	

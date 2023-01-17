@@ -340,6 +340,29 @@
 			</div>
 		</div>
 		<!-- 사진 확대 끝 -->
+		
+		<!-- 삭제 모달 시작 -->
+		<div class="modal" id="deleteModal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+						</button>
+					</div>
+					<div class="modal-body middle-items">
+						<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+						<span>정말 삭제하시겠습니까?</span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary modal-delete-btn">확인</button>
+						<button type="button" class="btn btn-secondary delete-cancel-btn" data-bs-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 삭제 모달 끝 -->
 			
 	</div>
 </div>
@@ -830,7 +853,10 @@
 				}
 			});
 		}
-
+		
+		//여기하는중
+		
+		
 		//게시글 삭제	
 		function boardDelete(){
 			$(document).on("click", ".delete-drop", function(){
@@ -843,16 +869,37 @@
 				if(writer!=memberNo){
 					alert('작성자가 일치하지 않습니다! 삭제불가능!');
 				}else{
-					boardDeleteAttachmentAll(boardNo);
-					$(this).parents(".board-box").remove();
-					//삭제 ajax 실행
-					$.ajax({
-						url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
-						method:"delete",
-						success:function(resp){
-							
-						}
-					});
+					$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+					$(".modal-delete-btn").addClass("board-delete-now");
+					$("#deleteModal").modal("show");
+					
+					//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
+					var judge = $(".modal-delete-btn").hasClass("board-delete-now");
+					if(judge){
+						//삭제 확인 버튼 누를 경우
+						$(".board-delete-now").click(function(){
+							boardDeleteAttachmentAll(boardNo);
+							$(this).parents(".board-box").remove();
+							//삭제 ajax 실행
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
+								method:"delete",
+								async:false,
+								success:function(resp){
+									$(".modal-delete-btn").removeClass("board-delete-now");
+									$("#deleteModal").modal("hide");
+									//화면 표시 게시글 비동기로 없애기
+									
+								}
+							});
+						});
+						
+						//삭제 취소버튼 누를 경우
+						$(".delete-cancel-btn").click(function(){
+							$(".modal-delete-btn").removeClass("board-delete-now");
+						});
+						
+					}
 				}	
 			});
 		}
