@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%-- dang_header --%>
 <jsp:include page="/WEB-INF/views/template/dang_header.jsp">
@@ -243,26 +244,31 @@
 
                  <div id = "schedule-simple-modal" class = "schedule-info shadow1">  
 
-                    <div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">초코야 목욕가자~!!</div>
+                    <div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">${scheduleDetail.scheduleTitle}</div>
 
                     <div class = "info-commons dang-content">
                         <div class="block">모임 내용</div>
-                        <div class="block-white">목욕댕모임</div>
+                        <div class="block-white">${scheduleDetail.scheduleContent}</div>
                     </div>    
 
                     <div class = "info-commons dang-leader">
                         <div class="block">모임 리더</div>
-                        <div class="block-white">초코는귀여워</div>
+                        <div class="block-white">${scheduleDetail.memberNick}</div>
                     </div>
 
                     <div class = "info-commons dang-when">
                         <div class="block">모임 시간</div>
-                        <div class="block-white">1월 13일 (금) 14:00</div>
+                        <div class="block-white">
+                        	<fmt:parseDate value="${scheduleDetail.scheduleStart}" var="dateValue" pattern="yyyy-MM-dd"/>
+                        	<fmt:formatDate value="${dateValue}" pattern="yyyy-MM-dd"/>  ${scheduleDetail.scheduleHour}
+                        </div>
                     </div>   
+                    
+
                     
                     <div class = "info-commons dang-where">
                         <div class="block">모임 장소</div> 
-                        <div class="block-white">신촌 댕목욕집</div>
+                        <div class="block-white">${scheduleDetail.placeName}</div>
                     </div>
                
                         <div class = "dang-place-map"></div>
@@ -270,7 +276,7 @@
                                      
                     <div class = "info-commons dang-number">
                         <div class="block">참여 인원</div>
-                        <div class="block-white">4명 / 8명</div>
+                        <div class="block-white">${scheduleDetail.scheduleHead}명 / ${scheduleDetail.scheduleHeadMax}명</div>
                     </div>      
                     
                     <div class = "info-commons dang-who">
@@ -279,7 +285,7 @@
                     </div>   
 					
 					<div class="btn-box">
-                    <button class="btn-common btn-in">참여하기</button>  <button class="btn-common btn-back">닫기</button>
+                    <button type="submit" class="btn-common btn-in">참여하기</button>  <button type="submit" class="btn-common btn-back">돌아가기</button>
 					</div>					
                 </div>    
                 </div> 
