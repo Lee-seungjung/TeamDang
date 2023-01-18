@@ -854,14 +854,18 @@
 			// 해당 관심지역 id로 관심지역 영역 태그에 클래스를 부여하여 색 변경
 			$("#CD-" + dangInterestCancelId).removeClass("interest-area-selected");
 			// 태그를 생성할 위치
-			var target = $(this).parent().parent();
-			// 초기화
-			target.empty();
+			var targetAttach = $(this).parents(".div-dang-interest-list");
+			var targetRemove = $(this).parent().parent();
 			// 관심지역 미등록 태그 생성
-			target
+			targetAttach
 				.append(
-					$("<div>").attr("class", "div-dang-interest div-dang-interest-inactive")	
+					$("<div>").attr("class", "col-4")
+						.append(
+							$("<div>").attr("class", "div-dang-interest div-dang-interest-inactive")			
+						)
 				)
+			// 초기화
+			targetRemove.remove();
 		});
 		
 		// 관심지역 저장 - 관심지역 Modal의 관심지역 저장 버튼 클릭 이벤트
