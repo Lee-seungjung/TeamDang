@@ -1416,6 +1416,11 @@
 									num = parseInt(num);
 									findnum.text(num-1);
 								}
+								
+								//사이드 프로필 메뉴 댓글 수량 감소
+								var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+								var replyCnt = parseInt(replyCntTag.text());
+								replyCntTag.text(replyCnt-1);
 							}
 						});
 					});

@@ -9,9 +9,7 @@
 </jsp:include>
 
 <style>
-	/* .profile-box{
-		height:400px;
-	} */
+
 	.chat-box{
 		overflow:scroll;
 		overflow-x:hidden;
@@ -36,6 +34,8 @@
 	 	width:100%;
 	 	background-color:#F1F4FF;
 	 	height:50px;
+	 	position: relative;
+    	z-index: 1;
 	 }
 	 #chat-input{
 	 	width:70%;
@@ -50,12 +50,11 @@
 	 	outline: 0;
 	 }
 	 #send-btn{
-	 	width:15%;
 	 	display:inline-block;
-	 }
-	 .fa-image{
-	 	color:#76BEFF;
-	 	font-size:39px;
+	 	width:45px;
+	 	height:45px;
+	 	background-color:#B0CBFF;
+	 	border-color:#B0CBFF;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -107,7 +106,7 @@
 		position: fixed;
 		cursor: pointer;
 		top:80%;
-		left:67%;
+		left:60%;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
@@ -219,7 +218,7 @@
 		
 		//이미지 첨부 버튼 이벤트
 		//프로필 클릭하면 첨부파일 열림
-		$(".fa-image").click(function(){
+		$(".chat-icon-image").click(function(){
 			$(".chat-img").click();
 		});
 		
@@ -476,7 +475,7 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					<div class="chat-box p-3 shadow-lg">
+					<div class="chat-box p-3 shadow">
 
 						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
 							<!-- 기존 메세지 생성 -->
@@ -555,13 +554,13 @@
 						<div class="new-chat" style="margin-right:10px;" style="position:relative;"></div>
 						
 						<!-- 하단으로 이동 버튼 생성 -->
-						<div  style="position:relative;">
+						<div  style="position:absolute;">
 							<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
 						</div>
 					</div>
 					
-					<div class="chat-submit  justify-content-center rounded-bottom shadow-lg" style="display:flex; align-items:center">
-						<i class="fa-regular fa-image me-1 cursor-pointer"></i>
+					<div class="chat-submit  justify-content-center rounded-bottom shadow" style="display:flex; align-items:center">
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image" width="45" height="45">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
 						<input type="text" id="chat-input" class="me-1 ms-1" >
 						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
