@@ -274,7 +274,7 @@
                   $(".dangDate").text(dangDate);                  
                      
                      $.ajax({
-                        url: 'http://localhost:8888/rest/dangSchedule/schedule_modal?scheduleNo='+scheduleNo,
+                        url: 'http://localhost:8888/rest/dangSchedule/schedule_modal?scheduleNo=' +scheduleNo+ "&dangNo=" +dangNo,               
                         method: "get",
                         processDate: false,
                         contentType: false,
@@ -361,7 +361,7 @@
       </div>
    </div>
    
-   <input type = "text"  name = "dangNo" value= "${dangNo}">
+   <input type = "hidden"  name = "dangNo" value= "${dangNo}">
 
 </body>
 </html>
