@@ -25,13 +25,13 @@ public class DangScheduleRestController {
 	
 	//달력내 일정조회
 	@GetMapping("/schedule")
-	public List<ScheduleVO> list(int dangNo){
+	public List<ScheduleVO> list(@RequestParam Integer dangNo){
 		return dangScheduleDao.list(dangNo);
 	}
 	
 	//달력에서 클릭시 모달에서 일정 간단 조회
 	@GetMapping("/schedule_modal")
-	public ScheduleOneVO scheduleOne(@RequestParam int scheduleNo,int dangNo){
+	public ScheduleOneVO scheduleOne(@RequestParam int scheduleNo, @RequestParam Integer dangNo){
 		return dangScheduleDao.scheduleOne(scheduleNo, dangNo);
 	 }
 	
