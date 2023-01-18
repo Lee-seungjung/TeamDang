@@ -225,7 +225,8 @@
 <script>
    
       document.addEventListener('DOMContentLoaded', function() {
-          var calendarEl = document.getElementById('calendar1');       
+          var calendarEl = document.getElementById('calendar1');   
+          var dangNo = $("[name=dangNo]").val();
          // var scheduleNo = $("[name=scheduleNo]").val();          
           var calendar1 = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -244,7 +245,7 @@
             
             events: [
                      $.ajax({
-                        url:"http://localhost:8888/rest/dangSchedule/schedule",
+                        url:"http://localhost:8888/rest/dangSchedule/schedule?dangNo=" + dangNo,
                         method:"get",
                         success: function(resp) {
                                                                      
@@ -359,6 +360,8 @@
          </div>
       </div>
    </div>
+   
+   <input type = "text"  name = "dangNo" value= "${dangNo}">
 
 </body>
 </html>
