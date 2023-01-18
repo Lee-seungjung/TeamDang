@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dang.dto.AttachmentDto;
@@ -31,7 +32,6 @@ import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
-import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangEditInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -439,7 +439,7 @@ public class DangController {
 	}
 	
 	@GetMapping("/{dangNo}/schedule_detail")
-	public String scheduleDetail(@PathVariable int dangNo, int scheduleNo, Model model, HttpSession session) {
+	public String scheduleDetail(@PathVariable int dangNo, @RequestParam int scheduleNo, Model model, HttpSession session) {
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
 		model.addAttribute("dangNo", dangNo);
 		// 회원 정보
