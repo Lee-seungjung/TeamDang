@@ -83,4 +83,12 @@ public interface DangDao {
 	 * @return List<DangListResponseDto> : 댕모임 정보, 댕모임 해시태그의 List
 	 */
 	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto);
+	
+	/**
+	 * 댕모임 좋아요 갯수 갱신
+	 * @param dangLike : 갱신된 댕모임 좋아요 갯수
+	 * @param dangNo : 갱신할 댕모임 번호
+	 * @return boolean : 댕모임 좋아요 갯수 수정 여부
+	 */
+	public boolean updateDangLike(int dangLike, int dangNo);
 }

@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +24,24 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public List<ScheduleVO> list(int dangNo) {
-		return sqlSession.selectList("schedule.list");		
+	public List<ScheduleVO> list(Integer dangNo) {
+		return sqlSession.selectList("schedule.list", dangNo);		
 	}
 
 	@Override
-	public ScheduleVO detail(int scheduleNo, int dangNo) {
-		return sqlSession.selectOne("schedule.detail", scheduleNo);
+	public ScheduleVO detail(int scheduleNo, Integer dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(dangNo));		
+		return sqlSession.selectOne("schedule.detail",  param);
 	}
 
 	@Override
-	public ScheduleOneVO scheduleOne(int scheduleNo, int dangNo) {
-		return sqlSession.selectOne("schedule.scheduleOne", scheduleNo);
+	public ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectOne("schedule.scheduleOne", param);
 	}
 
 //	@Override
@@ -59,11 +67,4 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 //		return count > 0;
 //	}
 //
-//	@Override
-//	public DangScheduleDto selectOne(int scheduleNo) {
-//		return sqlSession.selectOne("dangSchedule.detail", scheduleNo);
-//	}
-
-
-
 }

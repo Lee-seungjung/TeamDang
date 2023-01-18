@@ -19,19 +19,19 @@ public interface DangScheduleDao {
 	 * 달력 내  일정 조회
 	 * @return List<ScheduleVO>
 	 */
-	List<ScheduleVO> list(int dangNo);
+	List<ScheduleVO> list(Integer dangNo);
 	
 	/**
 	 * 달력 내  날짜별 상세 조회
 	 * @return List<ScheduleVO>
 	 */
-	ScheduleVO detail(int scheduleNo, int dangNo);
+	ScheduleVO detail(int scheduleNo, Integer dangNo);
 	
 	/**
 	 * 달력 내  날짜별 일정 간단조회
 	 * @return List<ScheduleVO>
 	 */
-	ScheduleOneVO scheduleOne(int scheduleNo, int dangNo);
+	ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo);
 //	/**
 //	 * 댕모임 회원이 일정등록
 //	 * @param DangScheduleDto

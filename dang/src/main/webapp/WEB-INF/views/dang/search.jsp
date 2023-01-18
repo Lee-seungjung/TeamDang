@@ -8,6 +8,19 @@
 		border : 1px gray dotted;
 	}
 	
+	.div-dang-profile {
+		position : relative;
+	}
+	
+	.span-dang-area {
+		position : absolute;
+		left : 3%;
+		top : 3%;
+		border-radius : 10px;
+		background-color : #89E3E3;
+		color : white;
+	}
+	
 	.img-dang-profile {
     	height : 300px;
     	object-fit : fit;
@@ -108,6 +121,18 @@
     	color : white;
     }
     
+    .btn-dang-like-inactive {
+    	border : 1px solid #F94888;
+    	background-color: #white;
+    	color : F94888;
+    }
+    
+    .btn-dang-like-active {
+    	border : 1px solid #F94888;
+    	background-color: #F94888;
+    	color : white;
+    }
+    
     .btn-dang-enter {
     	background-color: FFE34E;
     	color : white;
@@ -184,31 +209,28 @@
 				<div class = "col-10 offset-1">
 					<div class = "row">
 						<div class = "col-3 d-flex">
-							<c:choose>
-							<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
-								<select class = "flex-fill p-1" name = "searchArea">
-									<option value = "">관심지역 선택</option>
+							<select class = "flex-fill p-1" name = "searchArea">
+								<option value = "">관심지역 선택</option>
+								<c:choose>
+								<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
 									<c:choose>
-									<c:when test = "${dangInterest.get(0) == null}">
-									<option>등록된 관심지역이 없습니다.</option>
+									<c:when test = "${dangInterest.size() == 0}">
+										<option>등록된 관심지역이 없습니다.</option>
 									</c:when>
 									<c:otherwise>
-									<c:forEach var = "dangInterest" items = "${dangInterest}">
-									<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
-									</c:forEach>
-									<option value = "all">관심지역 전체</option>
+										<c:forEach var = "dangInterest" items = "${dangInterest}">
+										<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
+										</c:forEach>
+										<option value = "all">관심지역 전체</option>
 									</c:otherwise>
 									</c:choose>
 									<option value = "interest-area-setting" class = "option-area-setting">관심지역 설정</option>
-								</select>
-							</c:when>
-							<c:otherwise> <%-- 비로그인 상태일 경우 --%>
-								<select class = "flex-fill p-1" name = "searchArea">
-									<option value = "">관심지역 선택</option>
-									<option value = "">로그인 후 사용할 수 있습니다.</option>
-								</select>
-							</c:otherwise>
-							</c:choose>
+								</c:when>
+								<c:otherwise> <%-- 비로그인 상태일 경우 --%>
+								<option value = "">로그인 후 사용할 수 있습니다.</option>
+								</c:otherwise>
+								</c:choose>
+							</select>
 						</div>
 						<div class= "col-6 d-flex justify-content-center align-items-center">
 							<div class = "d-flex flex-fill">							
@@ -234,7 +256,7 @@
 				<c:forEach var = "dangList" items = "${dangList}">
 				<div class = "col-4 my-3 p-3">
 					<div class="card col w-100 div-outer-dang-info shadow">
-						<div>
+						<div class = "div-dang-profile">
 							<c:choose>
 							<c:when test = "${dangList.dangInfo.attachmentNo == null}">
 							<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="card-img-top img-dang-profile">
@@ -243,7 +265,7 @@
 							<img src="${pageContext.request.contextPath}/rest_attachment/download/${dangList.dangInfo.attachmentNo}" class="card-img-top img-dang-profile">
 							</c:otherwise>
 							</c:choose>
-							<span>${dangList.dangInfo.dangArea}</span>
+							<span class = "px-2 span-dang-area">${dangList.dangInfo.dangArea}</span>
 						</div>
 						<div class="card-body">
 						  	<div class = "row">
@@ -289,19 +311,19 @@
 			            				<span class = "span-dang-headmax">${dangList.dangInfo.dangHeadmax}</span>
 		            				</div>
 	            				</div>
-	            				<div class = "col-4 d-flex justify-content-center align-items-center">
+	            				<div class = "col-4 d-flex justify-content-center align-items-center div-dang-like">
 		            				<c:choose>
 		            				<c:when test = "${dangList.dangInfo.isLike == 1}">
-		            					<button class = "flex-fill btn-dang btn-dang-like-selected" type = "button">
-			            					<i class="fa-regular fa-heart"></i>
-			            					<span>${dangList.dangInfo.dangLike}</span>
-			            				</button>
+	            					<button class = "flex-fill btn-dang btn-dang-like btn-dang-like-selected" type = "button" data-islike = "1">
+		            					<i class="fa-regular fa-heart"></i>
+		            					<span>${dangList.dangInfo.dangLike}</span>
+		            				</button>
 		            				</c:when>
 		            				<c:otherwise>
-		            					<button class = "flex-fill btn-dang btn-dang-like" type = "button">
-			            					<i class="fa-regular fa-heart"></i>
-			            					<span>${dangList.dangInfo.dangLike}</span>
-			            				</button>
+	            					<button class = "flex-fill btn-dang btn-dang-like" type = "button" data-islike = "0">
+		            					<i class="fa-regular fa-heart"></i>
+		            					<span>${dangList.dangInfo.dangLike}</span>
+		            				</button>
 		            				</c:otherwise>
 		            				</c:choose>
 		            			</div>
@@ -447,6 +469,86 @@
 		// 댕모임 비밀번호
 		var dangPw;
 		
+		// 좋아요 이벤트
+		// - 좋아요가 아닌 상태일 때
+		$(document).on("click", ".btn-dang-like", function(){
+			// 비로그인 상태일 때
+			if(userNo == "") {
+				location.href = "${pageContext.request.contextPath}/user/login"; // 로그인 Mapping으로 redirect
+				return;
+			}
+			// 좋아요 할 댕모임 번호
+			var dangLikeNo = $(this).parent().nextAll("[name=dangNo]").val();
+			console.log(dangLikeNo);
+			// 좋아요 상태
+			var dangLikeState = $(this).data("islike");
+			console.log(dangLikeState);
+			// 태그 생성 영역
+			var target = $(this).parent();
+			// 좋아요 등록
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_dang_like/change",
+				method : "post",
+				dataType: "json",
+				data : {
+					userNo : userNo,
+					dangNo : dangLikeNo,
+					isLike : dangLikeState
+				},
+				success : function(resp) {
+					console.log(resp);
+					// 태그 생성 영역 초기화
+					target.empty();
+					// 응답에 따라 다른 처리
+					if(resp.isLike == 1) {
+						console.log("좋아요 등록 완료")
+						target
+							.append(
+								$("<button>").attr("class", "flex-fill btn-dang btn-dang-like btn-dang-like-active").attr("type", "button").attr("data-islike", resp.isLike)
+									.append(
+										$("<i>").attr("class", "fa-regular fa-heart")	
+									)
+									.append(
+										$("<span>").text(resp.dangLikeCount)	
+									)
+							)
+					} else {
+						console.log("좋아요 취소 완료")
+						target
+							.append(
+								$("<button>").attr("class", "flex-fill btn-dang btn-dang-like btn-dang-like-inactive").attr("type", "button").attr("data-islike", resp.isLike)
+									.append(
+										$("<i>").attr("class", "fa-regular fa-heart")	
+									)
+									.append(
+										$("<span>").text(resp.dangLikeCount)	
+									)
+							)
+					}
+				}
+			});
+		});
+		
+		/*
+		// - 좋아요인 상태일 때
+		$(document).on("click", ".btn-dang-like-delete", function(){
+			// 비로그인 상태일 때
+			if(userNo == "") {
+				location.href = "${pageContext.request.contextPath}/user/login"; // 로그인 Mapping으로 redirect
+				return;
+			}
+			// 좋아요 취소 댕모임 번호
+			var dangLikeNo = $(this).parent().nextAll("[name=dangNo]").val();
+			// 좋아요 취소
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_dang_like/delete?userNo="+userNo+"&dangNo="+dangLikeNo,
+				method : "delete",
+				success : function(resp) {
+					console.log("좋아요 등록 취소");
+				}
+			});
+		});
+		*/
 		// 검색 이벤트
 		$(".form-search-submit").submit(function(e){
 			// 기본 이벤트 차단 (form 전송)

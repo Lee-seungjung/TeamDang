@@ -35,7 +35,7 @@
 }
 
 .simple-day {
-	height: 20px;
+	height: 18px;
 	font-size: 13px;
 	font-weight: 700;
 	text-align: center;
@@ -46,7 +46,7 @@
 
 .simple-number-day {
 	height: 50px;
-	font-size: 28px;
+	font-size: 24px;
 	font-weight: 800;
 	text-align: center;
 	color: #3D3D3D;
@@ -54,11 +54,11 @@
 }
 
 .simple-when, .simple-where {
-	width: 200px;
+	width: 150px;
 	height: 35px;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
-	margin: 0px 15px;
+	margin: 0px 8px;
 	color: #3D3D3D;
 	line-height: 35px;
 }
@@ -122,8 +122,6 @@
 					</div>
 				</div>
 				</c:forEach>
-
-
 			</div>
 		</div>
 	</div>

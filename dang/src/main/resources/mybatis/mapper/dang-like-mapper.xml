@@ -7,14 +7,19 @@
 <mapper namespace="dangLike">
 	
 	<!-- 댕모임 좋아요 등록 -->
-	<insert id = "insert" parameterType = "DangLikeVO">
+	<insert id = "insert" parameterType = "map">
 		insert into dang_like(user_no, dang_no) values(#{userNo}, #{dangNo})
 	</insert>
 	
 	<!-- 댕모임 좋아요 삭제 -->
-	<delete id = "delete" parameterType = "DangLikeVO">
+	<delete id = "delete" parameterType = "map">
 		delete dang_like where user_no = #{userNo} and dang_no = #{dangNo}
 	</delete>
+	
+	<!-- 특정 댕모임의 좋아요 갯수 -->
+	<select id = "countDangLike" parameterType = "int" resultType = "int">
+		select count(*) from dang_like where dang_no = #{dangNo}
+	</select>
 	
 	<!-- 회원이 좋아요 한 댕모임 조회 -->
 	<select id = "select" parameterType = "int" resultType = "int">
