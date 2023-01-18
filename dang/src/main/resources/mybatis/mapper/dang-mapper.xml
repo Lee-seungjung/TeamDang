@@ -164,5 +164,10 @@
  			<result column = "hashtag_content" property = "hashtagContent"></result>
  		</collection>
  	</resultMap>
+ 	
+	<!-- 댕모임 좋아요 갯수 갱신 -->
+	<update id = "updateDangLike" parameterType = "map">
+		update dang set dang_like = #{dangLike} where dang_no = #{dangNo}
+	</update>
   	
 </mapper>
