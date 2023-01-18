@@ -289,7 +289,7 @@
                               var td3= $("<td>").text(resp.placeName);
                               var td4= $("<td>");
                               var a = $("<a>").attr("href",
-                                    'http://localhost:8888/rest/dangSchedule/schedule_detail?scheduleNo='+scheduleNo
+                                    'http://localhost:8888/dang/' +dangNo+ '/schedule_detail?scheduleNo='+scheduleNo,            
                                    ).attr("class","btn btn-yellow").text('상세');
                               
                                 td4.append(a);

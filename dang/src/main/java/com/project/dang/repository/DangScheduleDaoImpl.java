@@ -30,7 +30,10 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 
 	@Override
 	public ScheduleVO detail(int scheduleNo, Integer dangNo) {
-		return sqlSession.selectOne("schedule.detail", scheduleNo);
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(dangNo));		
+		return sqlSession.selectOne("schedule.detail",  param);
 	}
 
 	@Override
