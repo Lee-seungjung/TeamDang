@@ -123,8 +123,8 @@
     
     .btn-dang-like-inactive {
     	border : 1px solid #F94888;
-    	background-color: #F94888;
-    	color : white;
+    	background-color: #white;
+    	color : F94888;
     }
     
     .btn-dang-like-active {
@@ -209,31 +209,28 @@
 				<div class = "col-10 offset-1">
 					<div class = "row">
 						<div class = "col-3 d-flex">
-							<c:choose>
-							<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
-								<select class = "flex-fill p-1" name = "searchArea">
-									<option value = "">관심지역 선택</option>
+							<select class = "flex-fill p-1" name = "searchArea">
+								<option value = "">관심지역 선택</option>
+								<c:choose>
+								<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
 									<c:choose>
-									<c:when test = "${dangInterest.get(0) == null}">
-									<option>등록된 관심지역이 없습니다.</option>
+									<c:when test = "${dangInterest.size() == 0}">
+										<option>등록된 관심지역이 없습니다.</option>
 									</c:when>
 									<c:otherwise>
-									<c:forEach var = "dangInterest" items = "${dangInterest}">
-									<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
-									</c:forEach>
-									<option value = "all">관심지역 전체</option>
+										<c:forEach var = "dangInterest" items = "${dangInterest}">
+										<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
+										</c:forEach>
+										<option value = "all">관심지역 전체</option>
 									</c:otherwise>
 									</c:choose>
 									<option value = "interest-area-setting" class = "option-area-setting">관심지역 설정</option>
-								</select>
-							</c:when>
-							<c:otherwise> <%-- 비로그인 상태일 경우 --%>
-								<select class = "flex-fill p-1" name = "searchArea">
-									<option value = "">관심지역 선택</option>
-									<option value = "">로그인 후 사용할 수 있습니다.</option>
-								</select>
-							</c:otherwise>
-							</c:choose>
+								</c:when>
+								<c:otherwise> <%-- 비로그인 상태일 경우 --%>
+								<option value = "">로그인 후 사용할 수 있습니다.</option>
+								</c:otherwise>
+								</c:choose>
+							</select>
 						</div>
 						<div class= "col-6 d-flex justify-content-center align-items-center">
 							<div class = "d-flex flex-fill">							
