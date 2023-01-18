@@ -152,7 +152,7 @@
 				    <!-- #카테고리 끝 -->
 
 				    <!-- 게시글 시작 -->
-				    <div class="board-group text-center mt-4">
+				    <div class="board-group text-center mt-4" data-scrollcheck="1">
 				    
 				    	<c:if test="${boardList.size()==0}">
 				    		<div class="col zero-boardList">
@@ -163,7 +163,7 @@
 				    
 				    	<c:forEach var="vo" items="${boardList}">
 				    		<!-- 게시글 박스 시작 -->
-							<div class="board-box shadow-sm mb-3">
+							<div class="board-box shadow-sm mb-3" data-scrollbno="${vo.boardNo}">
 								<div class="first-line d-flex">
 									<div class="col-1">
 										<c:choose>
@@ -472,6 +472,7 @@
 					
 					$("[name=type]").val("");
 					$("[name=keyword]").val("");
+					
 				}
 			});
 		});
@@ -510,6 +511,7 @@
 						originLike() //내가 누른 좋아요 출력
 						$("[name=type]").val("");
 						$("[name=keyword]").val("");
+		
 					}
 				});
 		});
@@ -530,7 +532,7 @@
 		function boardList(resp){
 			var nowMemberNo = $("[name=memberNo]").val();
 			var boardGroup = $(".board-group"); //큰 외부 틀(여기에 넣어야함)
-			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3");
+			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3").attr("data-scrollbno",resp.boardNo);
 			
 			//첫번째줄
 			var firstLine = $("<div>").attr("class","first-line d-flex");
@@ -1577,6 +1579,63 @@
 				}
 			}
 		}
+		
+		//$(document).scrollTop(".board-group")[0].scrollHeight;
+		//무한스크롤
+		$(document).on("scroll",function(){
+			var totalHeight = document.documentElement.scrollHeight; //스크롤 전체높이
+			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
+			var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
+			
+			console.log(totalHeight);
+			console.log(scrollHeight);
+			console.log(clientHeight);
+			
+			var calcul = (totalHeight - scrollHeight)-clientHeight;
+			console.log("계산 = "+calcul);
+
+			var dangNo = $("[name=dangNo]").val();
+			var category = $("a.btn-blue").data("value");
+			var boardNo = $(".board-box").last().data("scrollbno"); //마지막 게시글 번호
+			var checkno = $(".board-group").data("scrollcheck");
+			
+			console.log(dangNo);
+			console.log(category);
+			console.log(boardNo);
+			console.log(checkno);
+
+			if(checkno==0) return; //데이터 없을경우 비동기화 실행 중지
+			
+			if(calcul<=10){
+
+				moreData={
+						dangNo:dangNo,
+						category:category,
+						boardNo:boardNo
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/more_view",
+					method:"get",
+					data:moreData,
+					async:false,
+					success:function(resp){
+						console.log(resp);
+						
+						for(var i=0; i<resp.length; i++){
+							boardList(resp[i]); //게시글 출력
+						}
+						
+						if(resp.length<5 || resp.length==0){
+							$(".board-group").attr("data-scrollcheck",0);
+						}
+					}
+				});
+				
+				
+			}
+			
+		});
 		
 	});
 </script>

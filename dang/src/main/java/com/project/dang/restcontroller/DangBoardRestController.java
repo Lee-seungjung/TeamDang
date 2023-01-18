@@ -74,6 +74,13 @@ public class DangBoardRestController {
 		return dangBoardDao.inputSearch(type, keyword, dangNo, category);
 	}
 	
+	//비동기 더보기 조회(5개)
+	@GetMapping("/more_view")
+	public List<BoardHistoryVO> moreView(
+			@RequestParam int dangNo, @RequestParam String category, @RequestParam int boardNo){
+		return dangBoardDao.moreView(dangNo, category, boardNo);
+	}
+	
 	//오늘 작성한 게시글 수 조회
 	@GetMapping("/day_write")
 	public int dayWriteCnt(@RequestParam int dangNo,

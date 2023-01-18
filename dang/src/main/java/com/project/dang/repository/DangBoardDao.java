@@ -60,6 +60,15 @@ public interface DangBoardDao {
 	List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category);
 	
 	/**
+	 * 무한스크롤 더보기 게시글 조회
+	 * @param dangNo
+	 * @param category
+	 * @param boardNo
+	 * @return BoardHistoryVO
+	 */
+	List<BoardHistoryVO> moreView(int dangNo, String category, int boardNo);
+	
+	/**
 	 * 내가 쓴 게시글 수
 	 * @param memberNo
 	 * @return 게시글 수(int)

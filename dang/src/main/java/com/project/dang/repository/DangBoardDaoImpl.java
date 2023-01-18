@@ -80,15 +80,25 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	}
 	
 	//검색조회
-		@Override
-		public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category) {
-			Map<String, String> param = new HashMap<>();
-			param.put("type", type);
-			param.put("keyword", keyword);
-			param.put("dangNo", String.valueOf(dangNo));
-			param.put("category", category);
-			return sqlSession.selectList("dangBoard.inputSearch",param);
-		}
+	@Override
+	public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category) {
+		Map<String, String> param = new HashMap<>();
+		param.put("type", type);
+		param.put("keyword", keyword);
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("category", category);
+		return sqlSession.selectList("dangBoard.inputSearch",param);
+	}
+	
+	//무한스크롤 더보기 게시글 조회
+	@Override
+	public List<BoardHistoryVO> moreView(int dangNo, String category, int boardNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("category", category);
+		param.put("boardNo", String.valueOf(boardNo));
+		return sqlSession.selectList("dangBoard.moreviewList",param);
+	}
 
 	//게시글 첨부파일 조회
 	@Override
