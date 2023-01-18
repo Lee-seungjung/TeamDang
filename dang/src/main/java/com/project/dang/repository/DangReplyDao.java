@@ -41,6 +41,13 @@ public interface DangReplyDao {
 	ReplyHistoryVO selectOne(int replyNo);
 	
 	/**
+	 * 게시글에 달린 댓글번호만 조회
+	 * @param boardNo
+	 * @return replyNo 배열
+	 */
+	List<Integer> replyNoList(int boardNo);
+	
+	/**
 	 * 내가 쓴 댓글 수
 	 * @param memberNo
 	 * @return 댓글 수(int)

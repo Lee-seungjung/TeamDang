@@ -56,6 +56,12 @@ public class DangReplyRestController {
 		return dangReplyDao.selectOne(replyNo);
 	}
 	
+	//게시글에 달린 댓글 번호 조회
+	@GetMapping("/replyno_list/{boardNo}")
+	public List<Integer> replyNoList(@PathVariable int boardNo){
+		return dangReplyDao.replyNoList(boardNo);
+	}
+	
 	//댓글 수정
 	@PatchMapping("/update/{replyContent}/{replyNo}")
 	public boolean update(@PathVariable int replyNo,

@@ -48,6 +48,15 @@ public class DangMemberRestController {
 		return dangMemberDao.plusScore(dto);
 	}
 	
+	//댕모임 회원등급 포인트 감소
+	@PatchMapping("/score_minus/{memberScore}/{memberNo}")
+	public boolean updateMinusScore(@PathVariable int memberScore,
+			@PathVariable int memberNo) {
+		System.out.println("dsgsgsdgdg = "+memberScore);
+		System.out.println(memberNo);
+		return dangMemberDao.minusScore(memberScore,memberNo);
+	}
+	
 	//댕모임 회원등급 포인트 조회
 	@GetMapping("/score_find/{memberNo}")
 	public int findScore(@PathVariable int memberNo) {

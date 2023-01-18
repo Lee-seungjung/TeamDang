@@ -48,6 +48,11 @@
 		update dang_member set member_score=member_score+#{memberScore} where member_no=#{memberNo}
 	</update>
 	
+	<!-- 댕모임 회원등급 포인트 감소 -->
+	<update id="minusScore" parameterType="Map">
+		update dang_member set member_score=member_score-#{memberScore} where member_no=#{memberNo}
+	</update>
+	
 	<!-- 댕모임 회원 포인트 조회 -->
 	<select id="findScore" resultType="int" parameterType="int">
 		select member_score from dang_member where member_no=#{memberNo}

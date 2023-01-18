@@ -66,6 +66,15 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.update("dangMember.plusScore",dto)>0;
 	}
 	
+	//댕모임 회원 등급포인트 감소
+	@Override
+	public boolean minusScore(int memberScore, int memberNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("memberScore", memberScore);
+		param.put("memberNo", memberNo);
+		return sqlSession.update("dangMember.minusScore",param)>0;
+	}
+	
 	//댕모임 회원 등급포인트 확인
 	@Override
 	public int findScore(int memberNo) {

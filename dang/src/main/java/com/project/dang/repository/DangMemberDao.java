@@ -44,6 +44,13 @@ public interface DangMemberDao {
 	boolean plusScore(DangMemberDto dto);
 	
 	/**
+	 * 댕모임 회원 등급포인트 감소
+	 * @param memberNo(int),memberScore(int)
+	 * @return true 또는 false
+	 */
+	boolean minusScore(int memberScore, int memberNo);
+	
+	/**
 	 * 댕모임 회원 포인트 조회
 	 * @param memberNo
 	 * @return 포인트 점수(int)

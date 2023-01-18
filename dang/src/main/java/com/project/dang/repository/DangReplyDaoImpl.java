@@ -50,6 +50,12 @@ public class DangReplyDaoImpl implements DangReplyDao{
 		return sqlSession.selectOne("dangReply.selectone",replyNo);
 	}
 	
+	//게시글에 달린 댓글 no 조회
+	@Override
+	public List<Integer> replyNoList(int boardNo) {
+		return sqlSession.selectList("dangReply.replyNoList",boardNo);
+	}
+	
 	//내가 쓴 댓글 수
 	@Override
 	public int ReplyWriteCount(int memberNo) {

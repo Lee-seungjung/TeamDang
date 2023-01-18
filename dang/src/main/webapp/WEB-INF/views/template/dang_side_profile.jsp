@@ -93,6 +93,10 @@
 	 	width:100px;
 	 	height:100px;
 	 }
+	 .progress-bar {
+		background-color: #76BEFF;
+	}
+
 </style>
 <script>
 	$(function(){
@@ -485,9 +489,9 @@
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
 		<div class="profile-wrap text-center">
+		
 			<div class="row justify-content-center mb-3 mt-1" >
-				<div class="col-8 ">
-				
+				<div class="col-10">
 					<c:choose>
 						<c:when test="${attachmentNo==null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
@@ -500,11 +504,9 @@
 			</div>
 
 			<div class="row d-flex justify-content-center">
-				<div class="col-4 pe-1">
-					<img src="${pageContext.request.contextPath}/images/bone.png" class="page-profile float-end" width="30" height="30">
-				</div>
-				<div class="col-6 ps-1" style="display:flex; align-items:center">
-					<span class="font-gray originNickName" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
+				<div class="col-10 middle-items justify-content-center">
+					<img src="${pageContext.request.contextPath}/images/bone.png" class="page-profile pe-1" width="30" height="30">
+					<span class="font-gray ps-1 originNickName" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -515,13 +517,13 @@
 
 			<div class="row mt-3">
 				<div class="col-10 offset-1">
-					<div class="text-start mb-1" style="font-size:15px; color:#6C7AEF; font-weight:bolder;">
+					<div class="text-start mb-1 blue" style="font-size:15px; font-weight:bolder;">
 						<span class="memberScore">${profile.memberScore}</span>점
 					</div>
 					<div class="progress">
 						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
 					</div>
-					<div class="text-start mt-1 font-gray" style="font-size:13px;">
+					<div class="text-start mt-1 mb-1 font-gray" style="font-size:13px;">
 						<span>${profile.memberGrade}</span>
 					</div>
 					

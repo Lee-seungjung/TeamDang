@@ -857,47 +857,92 @@
 		//게시글 삭제	
 		function boardDelete(){
 			$(document).on("click", ".delete-drop", function(){
-				//작성자와 삭제실행자 일치여부 확인
-				//(닉네임 변경 가능성 있으므로 member_no로 확인)
-				var writer = $(this).parent().data("mno"); //작성자
+				var findTag = $(this).parents(".dropdown").prev().text();
+				var trim = jQuery.trim(findTag);
+				var writeDate = trim.substring(0,10); //작성 날짜
+				var now = moment(new Date).format("YYYY.MM.DD"); //현재 날짜
 				var boardNo = $(this).parent().data("bno"); //글번호
-				var memberNo = $("[name=memberNo]").val(); //실행자
+				var memberNo = $("[name=memberNo]").val();
+				var memberScore = 1;
 				var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
 
-				if(writer!=memberNo){
-					alert('작성자가 일치하지 않습니다! 삭제불가능!');
-				}else{
-					$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
-					$(".modal-delete-btn").addClass("board-delete-now");
-					$("#deleteModal").modal("show");
-					
-					//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
-					var judge = $(".modal-delete-btn").hasClass("board-delete-now");
-					if(judge){
-						//삭제 확인 버튼 누를 경우
-						$(".board-delete-now").click(function(){
-							boardDeleteAttachmentAll(boardNo);
-							$(this).parents(".board-box").remove();
-							//삭제 ajax 실행
-							$.ajax({
-								url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
-								method:"delete",
-								async:false,
-								success:function(resp){
-									$(".modal-delete-btn").removeClass("board-delete-now");
-									$("#deleteModal").modal("hide");
-									boardBox.remove(); //출력된 게시글 지우기
+				$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+				$(".modal-delete-btn").addClass("board-delete-now");
+				$("#deleteModal").modal("show");
+				
+				//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
+				var judge = $(".modal-delete-btn").hasClass("board-delete-now");
+				if(judge){
+					//삭제 확인 버튼 누를 경우
+					$(".board-delete-now").click(function(){
+						boardDeleteAttachmentAll(boardNo); //첨부파일 삭제
+						$(this).parents(".board-box").remove(); //출력된 태그 비동기로 삭제
+						//댓글 조회 후 삭제
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_reply/replyno_list/"+boardNo,
+							method:"get",
+							async:false,
+							success:function(resp){
+
+								//댓글 삭제 & 사이드 프로필 메뉴 댓글수량만큼 마이너스
+								if(resp.length>0){
+									
+									for(var i=0; i<resp.length; i++){
+										$.ajax({
+											url:"${pageContext.request.contextPath}/rest_reply/delete/"+resp[i],
+											method:"delete",
+											async:false,
+											success:function(resp){}
+										});	
+									}
+									
+									var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+									var replyCnt = parseInt(replyCntTag.text());
+									replyCntTag.text(replyCnt-(resp.length));
 								}
-							});
+								
+							}
 						});
 						
-						//삭제 취소버튼 누를 경우
-						$(".delete-cancel-btn").click(function(){
-							$(".modal-delete-btn").removeClass("board-delete-now");
+						//삭제 ajax 실행
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
+							method:"delete",
+							async:false,
+							success:function(resp){
+								$(".modal-delete-btn").removeClass("board-delete-now");
+								$("#deleteModal").modal("hide");
+								boardBox.remove(); //출력된 게시글 지우기
+								var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
+								var writeCnt = parseInt(writeCntTag.text());
+								writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
+
+								if(writeDate==now){ //작성날짜와 현재날짜가 같다면 활동점수 -1점
+
+			                    	$.ajax({
+			                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberScore+"/"+memberNo,
+			                    		method:"patch",
+			                    		contentType: 'application/json',
+			                    		async:false,
+			                    		success:function(resp){
+			                    			//사이드 프로필 활동점수-1
+			                    			var scoreTag = $(".profile-box").children().find(".memberScore")
+			                    			var scoreValue = parseInt(scoreTag.text());
+			                    			scoreTag.text(scoreValue-1);
+			                    		}
+			                    	});
+								}
+							}
 						});
-						
-					}
-				}	
+					});
+					
+					//삭제 취소버튼 누를 경우
+					$(".delete-cancel-btn").click(function(){
+						$(".modal-delete-btn").removeClass("board-delete-now");
+					});
+					
+				}
+				
 			});
 		}
 		
