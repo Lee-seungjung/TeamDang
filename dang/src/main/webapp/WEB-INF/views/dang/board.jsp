@@ -152,7 +152,7 @@
 				    <!-- #카테고리 끝 -->
 
 				    <!-- 게시글 시작 -->
-				    <div class="board-group text-center mt-4" data-scrollcheck="1">
+				    <div class="board-group text-center mt-4" data-scrollcheck="">
 				    
 				    	<c:if test="${boardList.size()==0}">
 				    		<div class="col zero-boardList">
@@ -1579,32 +1579,21 @@
 				}
 			}
 		}
-		
-		//$(document).scrollTop(".board-group")[0].scrollHeight;
+
 		//무한스크롤
 		$(document).on("scroll",function(){
 			var totalHeight = document.documentElement.scrollHeight; //스크롤 전체높이
 			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
 			var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
 			
-			console.log(totalHeight);
-			console.log(scrollHeight);
-			console.log(clientHeight);
-			
 			var calcul = (totalHeight - scrollHeight)-clientHeight;
-			console.log("계산 = "+calcul);
 
 			var dangNo = $("[name=dangNo]").val();
 			var category = $("a.btn-blue").data("value");
 			var boardNo = $(".board-box").last().data("scrollbno"); //마지막 게시글 번호
-			var checkno = $(".board-group").data("scrollcheck");
-			
-			console.log(dangNo);
-			console.log(category);
-			console.log(boardNo);
-			console.log(checkno);
+			var checkno = $(".board-group").attr("data-scrollcheck"); //비동기 제어 번호
 
-			if(checkno==0) return; //데이터 없을경우 비동기화 실행 중지
+			if(checkno==1) return; //데이터 없을경우 비동기화 실행 중지
 			
 			if(calcul<=10){
 
@@ -1627,14 +1616,11 @@
 						}
 						
 						if(resp.length<5 || resp.length==0){
-							$(".board-group").attr("data-scrollcheck",0);
+							$(".board-group").attr("data-scrollcheck",1);
 						}
 					}
 				});
-				
-				
-			}
-			
+			}	
 		});
 		
 	});

@@ -560,7 +560,7 @@
 					</div>
 					
 					<div class="chat-submit  justify-content-center rounded-bottom shadow" style="display:flex; align-items:center">
-						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image" width="45" height="45">
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer" width="45" height="45">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
 						<input type="text" id="chat-input" class="me-1 ms-1" >
 						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>

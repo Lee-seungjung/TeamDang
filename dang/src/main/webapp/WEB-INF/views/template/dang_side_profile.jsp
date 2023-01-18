@@ -921,6 +921,21 @@
 							data:JSON.stringify(boardData),
 							contentType:"application/json",
 							success:function(resp){
+								//게시물 출력
+								$(".board-group").empty();
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
+									method:"get",
+									data:dangNo,
+									async:false,
+									success:function(resp){
+										console.log(resp);
+										for(var i=0; i<resp.length; i++){
+											boardList(resp[i]);
+										}					
+									}
+								});
+								
 								//게시글 이미지 DB 등록
 								var findtag = $(".files");
 					        	var attachmentNo;
@@ -959,21 +974,20 @@
 		                    		async:false,
 		                    		success:function(resp){
 		                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
-		                    			var scoreTag = $("#profileEditModal").parent().children().children();
-		                    			var scoreValue = scoreTag.text();
+		                    			var writeCntTag = $("#boardModal").parent().children().children()
+    																	.find(".fa-pen-to-square").next().next();
+		                    			var writeCnt = parseInt(writeCntTag.text());
+										writeCntTag.text(writeCnt+1);
+										
+										var scoreTag = $(".profile-box").children().find(".memberScore")
+		                    			var scoreValue = parseInt(scoreTag.text());
 		                    			scoreTag.text(scoreValue+1);
-		                    			
-		                    			var writeCntTag = $("#profileEditModal").parent().parent().next()
-		                    											.children().find(".fa-regular").next().next();
-		                    			var writeCnt = writeCntTag.text();
-		                    			writeCntTag.text(writeCnt+1);
 		                    		}
 		                    	});
 								$("#boardModal").modal('hide');
 								$(".board-write").attr("data-bs-target","");
 							}
 						});
-			        	location.reload();
 					}
 				});
 			}
@@ -995,6 +1009,108 @@
     				}
     			});
         	}
+		}
+		
+		//게시글 목록 출력(prepend)
+		function boardList(resp){
+			var nowMemberNo = $("[name=memberNo]").val();
+			var boardGroup = $(".board-group"); //큰 외부 틀(여기에 넣어야함)
+			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3").attr("data-scrollbno",resp.boardNo);
+			
+			//첫번째줄
+			var firstLine = $("<div>").attr("class","first-line d-flex");
+			var col1 = $("<div>").attr("class","col-1");
+			var img1 = $("<img>").attr("class","img-fluid img-circle");
+			if(resp.attachmentNo==null){
+				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+			}else{
+				img1.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo)
+						.attr("style","width:50px; height:50px;");
+			}
+			col1.append(img1);
+			
+			var col7 = $("<div>").attr("class","col-7 middle-items ms-3");
+			var span1 = $("<span>").attr("class","nick-font").text(resp.memberNick);
+			col7.append(span1);
+			if(resp.memberOwner=='Y'){
+				var img2 = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
+							.attr("src","${pageContext.request.contextPath}/images/crown.png");
+				col7.append(img2);
+			}
+
+			var col4 = $("<div>").attr("class","col-4 justify-content-end middle-items");
+			var date = moment(resp.boardWriteDate).format("YYYY.MM.DD");
+			var span2 = $("<span>").attr("class","date-font me-4").text(date);
+			col4.append(span2);
+			if(resp.memberNo==nowMemberNo){
+				var dropdown = $("<div>").attr("class","dropdown inbl w-auto");
+				var span3 = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+									.attr("aria-haspopup","true").attr("aria-expanded","false");
+				var i1 = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
+				span3.append(i1);
+				var dropmenu = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo)
+											.attr("data-mno",resp.memberNo);
+				var span4 = $("<span>").attr("class","dropdown-item edit-drop cursor-pointer")
+									.attr("data-bs-toggle","modal").attr("data-bs-target","#boardEditModal")
+									.attr("data-bs-whatever","@mdo").text("수정");
+				var span5 = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
+				dropmenu.append(span4).append(span5);
+				dropdown.append(span3).append(dropmenu);
+				col4.append(dropdown);
+			}
+			firstLine.append(col1).append(col7).append(col4);
+			
+			//두번째 줄
+			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
+			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
+			var se_span1 = $("<span>").attr("class","content-font")
+										.text(resp.boardContent);
+			se_col9.append(se_span1);
+			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
+			if(resp.boardAttachmentCnt!=null){
+				var se_img1 = $("<img>").attr("src","#").attr("class","img-fluid img-check");
+				var text = resp.boardAttachmentCnt-1;
+				if(text==0){
+					text="";
+				} else{
+					text="+"+text;
+				}
+				var se_span2 = $("<span>").attr("style","font-size:13px;").text(text);
+				se_col3.append(se_img1).append(se_span2);
+			}
+			secondLine.append(se_col9).append(se_col3);
+			var hr = $("<hr>");
+			
+			//세번째 줄
+			var thirdLine = $("<div>").attr("class","third-line d-flex ms-3 me-3");
+			var th_col2 = $("<div>").attr("class","col-2 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
+			var th_i1 = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
+			var th_span1 = $("<span>").attr("class","me-1").text("댓글");
+			th_col2.append(th_i1).append(th_span1);
+			if(resp.replyCnt!=0){
+				var th_span2 = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
+				th_col2.append(th_span2);
+			}
+
+			var th_col3 = $("<div>").attr("class","col-3 middle-items cursor-pointer like-btn");
+			var th_span3 = $("<span>").attr("class","me-2").text("좋아요");
+			var th_i2 = $("<i>").attr("class","fa-regular fa-heart pink me-1 empty-heart");
+			var th_i3 = $("<i>").attr("class","fa-solid fa-heart me-1 full-heart");
+			var th_span4 = $("<span>").attr("class","pink islike").attr("style","font-weight:bolder;");
+			if(resp.boardLike!=0){
+				th_span4.attr("data-like",resp.boardNo).text(resp.boardLike);
+			}
+			th_col3.append(th_span3).append(th_i2).append(th_i3).append(th_span4);
+			
+			var th_col7 = $("<div>").attr("class","col-7 justify-content-end middle-items");
+			var th_span5 = $("<span>").text(resp.boardCategory);
+			th_col7.append(th_span5);
+			thirdLine.append(th_col2).append(th_col3).append(th_col7);
+			
+			var replyDiv = $("<div>").attr("class","reply-box");
+			
+			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
+			boardGroup.append(boardBox);
 		}
 		
 	});
