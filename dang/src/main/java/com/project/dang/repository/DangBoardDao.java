@@ -1,5 +1,6 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.project.dang.dto.BoardImgDto;
@@ -42,11 +43,35 @@ public interface DangBoardDao {
 	List<BoardHistoryVO> selectAll(int dangNo);
 	
 	/**
+	 * 카테고리 선택 조회
+	 * @param dangNo
+	 * @param keyword
+	 * @return BoardHistoryVO
+	 */
+	List<BoardHistoryVO> categorySearch(String keyword, int dangNo);
+	
+	/**
+	 * 검색 조회
+	 * @param type
+	 * @param keyword
+	 * @param dangNo
+	 * @return BoardHistoryVO
+	 */
+	List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category);
+	
+	/**
 	 * 내가 쓴 게시글 수
 	 * @param memberNo
 	 * @return 게시글 수(int)
 	 */
 	int boardWriteCount(int memberNo);
+	
+	/**
+	 * 하루에 작성한 게시글 수
+	 * @param memberNo
+	 * @return 게시글 수(int)
+	 */
+	int dayWriteCount(int dangNo, int memberNo, String boardWriteDate);
 	
 	/**
 	 * 게시글 첨부파일 조회

@@ -28,6 +28,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 					"/user/*"
 					) 
 			.excludePathPatterns(
+					"/dang/search",
 					"/user/join", 
 					"/user/join_success", 
 					"/user/login", 

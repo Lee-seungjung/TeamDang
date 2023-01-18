@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.vo.MemberEditVO;
 
 public interface DangMemberDao {
@@ -96,5 +97,24 @@ public interface DangMemberDao {
 	 */
 	boolean editProfile(MemberEditVO vo);
 	
+	/**
+	 * 특정 회원이 가입한 댕모임 목록을 번호로 조회
+	 * @param userNo : 회원 번호
+	 * @return List<Integer> : 특정 회원이 가입한 댕모임의 댕모임 번호 List
+	 */
+	public List<Integer> searchDangAlreadyJoin(int userNo);
 	
+	/**
+	 * 댕모임 가입
+	 * @param dangMemberDto : 댕모임 회원 번호, 댕모임 번호, 회원 번호, 회원 닉네임, 상태 메시지
+	 */
+	public void joinDang(DangMemberJoinDto dangMemberJoinDto);
+	
+	/**
+	 * 특정 회원이 특정 댕모임의 회원인지 조회
+	 * @param userNo : 회원 번호
+	 * @param dangNo : 댕모임 번호
+	 * @return boolean : 댕모임 회원인지 여부
+	 */
+	public boolean isDangMember(int userNo, int dangNo);
 }

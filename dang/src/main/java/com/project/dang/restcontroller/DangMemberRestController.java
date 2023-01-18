@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.vo.MemberEditVO;
 
@@ -70,5 +72,15 @@ public class DangMemberRestController {
 		return dangMemberDao.editProfile(vo);
 	}
 	
+	// 특정 회원이 가입한 댕모임 번호 반환
+	@GetMapping("/search_already_join")
+	public List<Integer> searchDangAlreadyJoin(@RequestParam int userNo) {
+		return dangMemberDao.searchDangAlreadyJoin(userNo);
+	}
 	
+	// 특정 회원이 특정 댕모임의 회원인지 검사
+	@GetMapping("/is_dang_member")
+	public boolean isDangMember(@RequestParam int userNo, @RequestParam int dangNo) {
+		return dangMemberDao.isDangMember(userNo, dangNo);
+	}
 }

@@ -42,12 +42,61 @@
 					) total3 on total1.board_no=total3.board_no
 				where total1.dang_no=#{dangNo} order by total1.board_no desc
 		    )TMP
-		) where rn between 1 and 12
+		) where rn between 1 and 5
+	</select>
+	
+	<!-- 댕모임 게시글 복합검색조회(동기방식 5개만)-->
+	<select id="inputSearch" resultType="BoardHistoryVO" parameterType="Map">
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select * from (
+		        	select total1.*, total2.board_attachment_cnt, total3.replycnt from (
+					select b.*, m.member_owner, uimg.attachment_no from dang_board b
+						left outer join dang_member m on b.member_no=m.member_no
+						left outer join user_img uimg on m.user_no=uimg.user_no
+						) total1 
+						left outer join (
+						select bimg.board_no, count(*) board_attachment_cnt from board_img bimg group by bimg.board_no
+						) total2 on total1.board_no=total2.board_no
+						left outer join (
+						select reply.board_no, count(*) replycnt from dang_reply reply group by reply.board_no
+						) total3 on total1.board_no=total3.board_no
+					where total1.dang_no=#{dangNo} order by total1.board_no desc
+		        )
+		        <where>
+
+					<choose>
+						<when test="category!=''">
+				        	board_category like '%'||#{category}||'%'		        	
+
+							<if test="keyword!=''">
+								and instr(${type},#{keyword})>0
+							</if>
+
+						</when>
+						<otherwise>
+							<if test="keyword!=''">
+								instr(${type},#{keyword})>0
+							</if>						
+						</otherwise>
+					</choose>
+		        	
+		        </where>
+		    )TMP
+		) where rn between 1 and 5
 	</select>
 	
 	<!-- 내가 쓴 게시글 조회-->
 	<select id="writeCount" resultType="int" parameterType="int">
 		select count(*) from dang_board where member_no=#{memberNo}
+	</select>
+	
+	<!-- 오늘 쓴 게시글 수 조회-->
+	<select id="dayWriteCount" resultType="int" parameterType="Map">
+		select count(*) dayCnt from (
+			select * from dang_board 
+				where member_no=#{memberNo} and dang_no=#{dangNo} 
+					and TO_CHAR(board_writedate, 'YYYY-MM-DD')=#{boardWriteDate})
 	</select>
 	
 	<!-- 좋아요 테이블 조회 -->

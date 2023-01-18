@@ -48,7 +48,11 @@
 	<!-- 배포할때는 min 버전으로-->
 	<!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> -->
 	
-	
+	<!-- sockjs cdn -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+	<!-- moment cdn + 한글 언어팩-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 	
 </head>
 
@@ -112,13 +116,14 @@
 		border-radius : 50%;
 		border : 2px solid black;
 		width : 1.8em;
+		aspect-ratio: 1/1;
 	}
 	
 	.div-user-profile {
 		cursor:pointer;
 	}
 	
-	.span-check-invalid {
+	.span-check-valid {
 		color : green;
 	}
 	
@@ -155,10 +160,30 @@
 		color:#F94888;
 	}
 	.text-truncate2 {
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	  webkit-line-clamp: 3;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: normal;
 	}
+	.zoomin {
+	    display: none;
+	    z-index: 500;
+	    max-width: 100%;
+	    height: auto;
+	    position: fixed;
+	    top:0; left: 0; bottom: 0; right: 0;
+	    background-color: gray;
+	    background: rgba(0, 0, 0, 0.8);
+	}
+	.zoomin-img {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	}	
+	
     
 </style>
 <body>

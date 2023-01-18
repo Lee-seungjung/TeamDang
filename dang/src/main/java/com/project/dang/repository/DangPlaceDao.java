@@ -13,11 +13,21 @@ public interface DangPlaceDao {
 	 */
 	void placeInsert(DangPlaceDto dangPlaceDto);
 	
+	//장소 리스트 추출
 	List<DangPlaceDto> placeList();
 	
+	//장소 한개 셀렉트
 	DangPlaceDto placeOne(int placeNo);
 	
+	//시퀀스 번호 추출
 	int sequence();
 	
+	//장소 이미지 삽입
 	void placeImgInsert(PlaceImg placeImg);
+	
+	//모든 장소의 갯수
+	int countPlace();
+	
+	//장소 검색
+	List<DangPlaceDto> search(String placeName);
 }

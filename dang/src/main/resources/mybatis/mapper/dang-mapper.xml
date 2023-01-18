@@ -26,11 +26,6 @@
   	  	insert into dang_img(dang_no, attachment_no) values(#{dangNo}, #{attachmentNo})
   	</insert>
   	
-  	<!-- 댕모임 회원인지 확인 -->
-  	<select id = "isDangMember" parameterType = "map" resultType = "int">
-  		select member_no from dang_member where dang_no = #{dangNo} and user_no = #{userNo}
-  	</select>
-  	
   	<!-- 댕모임 정보 조회 -->
   	<select id = "selectDangEditInfo" parameterType = "int" resultType = "DangEditInfoVO">
   		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_private, d.dang_pw, d.dang_area, di.attachment_no
@@ -65,10 +60,10 @@
  	<!-- 댕모임 번호로 첨부파일 조회 -->
   		
   	<!-- 댕모임 상세 정보 -->
- 	<select id = "selectDangDetail" parameterType = "int" resultMap = "vo">
+ 	<select id = "selectDangDetail" parameterType = "int" resultMap = "dangDetailDto">
  		select * from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
  	</select>
- 	<resultMap id = "vo" type = "DangDetailDto">
+ 	<resultMap id = "dangDetailDto" type = "DangDetailDto">
  		<association property = "dangInfo">
  			<result column = "dang_no" property = "dangNo"/>
  			<result column = "dang_name" property = "dangName"/>
@@ -80,6 +75,88 @@
  			<result column = "dang_like" property = "dangLike"/>
  			<result column = "dang_private" property = "dangPrivate"/>
  			<result column = "dang_pw" property = "dangPw"/>
+ 			<result column = "attachment_no" property = "attachmentNo"/>
+ 		</association>
+ 		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectHashtagList">
+ 			<result column = "hashtag_no" property = "hashtagNo"></result>
+ 			<result column = "hashtag_content" property = "hashtagContent"></result>
+ 		</collection>
+ 	</resultMap>
+ 	
+ 	<!-- 댕모임 조회 -->
+ 	<select id = "selectDangList" parameterType = "DangListRequestDto" resultMap = "dangListDto">
+ 		<choose>
+ 			<when test = "userNo != null">
+ 				select
+				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, count(case when dudldid.user_no = #{userNo} then 1 end) as is_like 
+				from
+				(select did.*, dudl.user_no from 
+				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
+				        right outer join 
+				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_pw, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
+				on dudl.dang_no = did.dang_no)
+				dudldid 
+				<where>
+		 			<if test = "searchName != null">
+		 				and instr(dudldid.dang_name, #{searchName}) > 0
+		 			</if>
+		 			<if test = "searchName != null and searchArea != null">
+			 			and (
+			 		</if>		 		
+			 		<if test = "searchArea != null">
+		 				<foreach collection = "searchArea" item = "searchArea" separator = "or"> 				
+			 				instr(dudldid.dang_area, #{searchArea}) > 0
+		 				</foreach>
+		 			</if>
+		 			<if test = "searchName != null and searchArea != null">
+			 			)
+			 		</if>
+		 		</where>
+				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
+ 			</when>
+ 			<otherwise>
+ 				select
+				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, 0 as is_like 
+				from
+				(select did.*, dudl.user_no from 
+				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
+				        right outer join 
+				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_pw, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
+				on dudl.dang_no = did.dang_no)
+				dudldid 
+				<where>
+		 			<if test = "searchName != null">
+		 				and instr(dudldid.dang_name, #{searchName}) > 0
+		 			</if>
+		 			<if test = "searchArea != null">
+			 			and
+			 		</if>
+			 		<if test = "searchArea != null">
+		 				<foreach collection = "searchArea" item = "searchArea"> 				
+			 				or instr(dudldid.dang_area, #{searchArea}) > 0
+		 				</foreach>
+		 			</if>
+		 		</where>
+				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
+ 			</otherwise>
+ 		</choose>
+ 		<if test = "sort != null">
+ 			order by ${sort}
+ 		</if>
+ 	</select>
+ 	<resultMap id = "dangListDto" type = "DangListResponseDto">
+ 		<association property = "dangInfo">
+ 			<result column = "dang_no" property = "dangNo"/>
+ 			<result column = "dang_name" property = "dangName"/>
+ 			<result column = "dang_info" property = "dangInfo"/>
+ 			<result column = "dang_headmax" property = "dangHeadmax"/>
+ 			<result column = "dang_head" property = "dangHead"/>
+ 			<result column = "dang_area" property = "dangArea"/>
+ 			<result column = "dang_createtime" property = "dangCreatetime" javaType="java.sql.Date"/>
+ 			<result column = "dang_like" property = "dangLike"/>
+ 			<result column = "dang_private" property = "dangPrivate"/>
+ 			<result column = "dang_pw" property = "dangPw"/>
+ 			<result column = "is_like" property = "isLike"/>
  			<result column = "attachment_no" property = "attachmentNo"/>
  		</association>
  		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectHashtagList">

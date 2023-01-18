@@ -1,5 +1,6 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,9 @@ import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class DangBoardDaoImpl implements DangBoardDao{
 
@@ -55,6 +59,36 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public int boardWriteCount(int memberNo) {
 		return sqlSession.selectOne("dangBoard.writeCount",memberNo);
 	}
+	
+	//하루에 작성한 게시글 수
+	@Override
+	public int dayWriteCount(int dangNo, int memberNo, String boardWriteDate) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("memberNo", String.valueOf(memberNo));
+		param.put("boardWriteDate", boardWriteDate);
+		return sqlSession.selectOne("dangBoard.dayWriteCount",param);
+	}
+	
+	//카테고리 선택조회
+	@Override
+	public List<BoardHistoryVO> categorySearch(String keyword, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("keyword", keyword);
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectList("dangBoard.categorySearch",param);
+	}
+	
+	//검색조회
+		@Override
+		public List<BoardHistoryVO> inputSearch(String type, String keyword, int dangNo, String category) {
+			Map<String, String> param = new HashMap<>();
+			param.put("type", type);
+			param.put("keyword", keyword);
+			param.put("dangNo", String.valueOf(dangNo));
+			param.put("category", category);
+			return sqlSession.selectList("dangBoard.inputSearch",param);
+		}
 
 	//게시글 첨부파일 조회
 	@Override

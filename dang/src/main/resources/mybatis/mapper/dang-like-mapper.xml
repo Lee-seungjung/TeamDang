@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dangLike">
+	
+	<!-- 댕모임 좋아요 등록 -->
+	<insert id = "insert" parameterType = "DangLikeVO">
+		insert into dang_like(user_no, dang_no) values(#{userNo}, #{dangNo})
+	</insert>
+	
+	<!-- 댕모임 좋아요 삭제 -->
+	<delete id = "delete" parameterType = "DangLikeVO">
+		delete dang_like where user_no = #{userNo} and dang_no = #{dangNo}
+	</delete>
+	
+	<!-- 회원이 좋아요 한 댕모임 조회 -->
+	<select id = "select" parameterType = "int" resultType = "int">
+		select dang_no from dang_like where user_no = #{userNo}
+	</select>
+
+</mapper>

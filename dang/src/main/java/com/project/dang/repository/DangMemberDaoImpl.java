@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.vo.MemberEditVO;
 
 @Repository
@@ -98,11 +99,26 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.update("dangMember.editProfile",vo)>0;
 	}
 
-	
+	// 특정 회원이 가입한 댕모임 목록을 번호로 조회
+	@Override
+	public List<Integer> searchDangAlreadyJoin(int userNo) {
+		return sqlSession.selectList("dangMember.searchDangAlreadyJoin", userNo);
+	}
 
-	
+	// 댕모임 가입
+	@Override
+	public void joinDang(DangMemberJoinDto dangMemberJoinDto) {
+		sqlSession.insert("dangMember.join", dangMemberJoinDto);
+	}
 
-	
-
-
+	// 특정 회원이 특정 댕모임의 회원인지 조회
+	@Override
+	public boolean isDangMember(int userNo, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("userNo", String.valueOf(userNo));
+		param.put("dangNo", String.valueOf(dangNo));
+		Integer result = sqlSession.selectOne("dangMember.isDangMember", param);
+		if(result == null) result = 0; 
+		return result > 0;
+	}
 }

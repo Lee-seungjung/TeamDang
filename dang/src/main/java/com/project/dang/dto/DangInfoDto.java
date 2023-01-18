@@ -23,5 +23,6 @@ public class DangInfoDto {
 	private Integer dangLike;
 	private String dangPrivate;
 	private String dangPw;
+	private Integer isLike;
 	private Integer attachmentNo;
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
+import com.project.dang.dto.DangListRequestDto;
+import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangTopVO;
 
@@ -18,17 +20,6 @@ public class DangDaoImpl implements DangDao {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
-	// 댕모임 회원인지 여부 반환
-	@Override
-	public boolean isDangMember(int dangNo, int userNo) {
-		Map<String,String> param = new HashMap<>();
-		param.put("dangNo", String.valueOf(dangNo));
-		param.put("userNo", String.valueOf(userNo));
-		Integer result = sqlSession.selectOne("dang.isDangMember", param);
-		if(result == null) result = 0; 
-		return result > 0;
-	}
 	
 	// 댕모임 번호 반환
 	@Override
@@ -102,5 +93,11 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public DangDetailDto selectDangDetail(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangDetail", dangNo);
+	}
+
+	// 댕모임 전체/검색 조회
+	@Override
+	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto) {
+		return sqlSession.selectList("dang.selectDangList", dangListRequestDto);
 	}
 }

@@ -2,6 +2,7 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -18,15 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dang.dto.AttachmentDto;
 import com.project.dang.dto.DangDto;
+import com.project.dang.dto.DangListRequestDto;
+import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.RoomDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangDao;
+import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangScheduleDao;
+import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangEditInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +43,9 @@ public class DangController {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangInterestDao dangInterestDao;
 	
 	@Autowired
 	private AttachmentDao attachmentDao;
@@ -113,6 +121,33 @@ public class DangController {
 		}
 		// 댕모임 홈 화면으로 이동
 		return "redirect:/dang/"+dangNo;
+	}
+	
+	// 댕모임 찾기
+	@GetMapping("/search")
+	public String searchDang(HttpSession session, @ModelAttribute DangListRequestDto dangListRequestDto, Model model) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 로그인 중이라면
+		if(userNo != null) {
+			// 등록했던 관심지역을 조회하여 model에 추가
+			List<String> dangInterest = dangInterestDao.selectInterest(userNo);
+			model.addAttribute("dangInterest", dangInterest);
+			// 입력받은 DangListRequestDto의 회원 번호를 로그인 중인 회원 번호로 설정
+			dangListRequestDto.setUserNo(userNo);
+		}
+		if(userNo != null && dangListRequestDto.getSearchArea() != null) {
+			// 관심지역 전체에 대한 조회일 경우
+			if(dangListRequestDto.getSearchArea().get(0).equals("all")) {
+				// 입력받은 DangListRequestDto의 관심지역 필드를 해당 회원의 관심지역으로 설정
+				dangListRequestDto.setSearchArea(dangInterestDao.selectInterest(userNo));
+			}
+		}
+		// 댕모임 전체/검색 조회
+		List<DangListResponseDto> dangList = dangDao.selectDangList(dangListRequestDto);
+		// 조회 결과를 model에 추가
+		model.addAttribute("dangList", dangList);
+		return "dang/search";
 	}
 	
 	// 댕모임 수정

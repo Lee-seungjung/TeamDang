@@ -3,7 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-	
+	.modal-header{
+		border-bottom: none;
+		padding-bottom:0;
+	}
+	.modal-footer{
+		border-top: none;
+	}
 	.fc-scrollgrid{
 		border-radius:0.5rem;
 	}
@@ -630,7 +636,7 @@
 	
 	<!-- 게시판 글작성 -->
 	<div class="p-3 border rounded-3 text-center shadow mt-3 gray">
-		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="#boardModal" data-bs-whatever="@mdo"
+		<a class="board-write cursor-pointer"  data-bs-toggle="modal" data-bs-target="" data-bs-whatever="@mdo"
 			href="#">게시글 작성</a>
 	</div>
 
@@ -693,8 +699,26 @@
 		</div>
 	</div>
 	<!-- 게시판 글작성 모달 끝-->
-
-
+	<!-- 글 작성제한 모달 시작 -->
+	<div class="modal" id="dayWriteCnt">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body middle-items">
+					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+					<span>게시글은 하루에 최대 5개까지 작성 가능합니다.</span>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 글 작성제한 모달 끝 -->
+	
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
@@ -710,7 +734,33 @@
 	$(function(){
 		$(".board-write").click(function(){
 			$("#write-file-wrap").empty();
-			
+			//게시글 하루 작성(최대 5개) 확인
+			var memberNo = $("[name=memberNo]").val();
+			var dangNo = $("[name=dangNo]").val();
+			var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
+
+			cntCheckData = {
+				dangNo:dangNo,
+				memberNo:memberNo,
+				boardWriteDate:boardWriteDate
+			}
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_board/day_write",
+				method:"get",
+				data:cntCheckData,
+				contentType:"application/json",
+				success:function(resp){
+					console.log(resp);
+					
+					if(resp>=5){ //게시글 작성 수 5개 이상일 경우 작성 차단
+						//alert('게시글은 하루 최대 5개 작성 가능합니다');
+						$("#dayWriteCnt").modal("show");
+					}else{ //게시글 작성 가능
+						$(".board-write").attr("data-bs-target","#boardModal");
+						$("#boardModal").modal("show");
+					}
+				}
+			});
 		});
 		
 		//입력 항목 상태 판정
@@ -760,9 +810,16 @@
 			var value = $(this).val(); //파일위치+파일명
 			console.log(value);
 			console.log(this.files); //파일 배열
+			
+			if(this.files.length>5){
+				alert('파일은 5개까지 업로드 가능합니다!');
+				$(this).val("");
+				return;
+			}
+			
 			if(this.files.length>0){ //파일 있음
 				var formData = new FormData();
-			
+
 				for(var i=0; i<this.files.length; i++){
 					formData.append("attachment", this.files[i]);
 				}
@@ -816,6 +873,7 @@
 		//모달 취소버튼 누를 경우 첨부파일 삭제
 		$(".write-cancel").click(function(){
 			boardDeleteAttachmentNo();
+			$(".board-write").attr("data-bs-target","");
 		});
 
 		//폼 전송 이벤트
@@ -885,7 +943,32 @@
 						    			});
 						        	}
 					        	}
+					        	
+					        	//회원 활동점수 +1 증가
+		                    	scorePlusData={
+		                    			memberScore:1,
+		                    			memberNo:memberNo
+		                    	}
+		                    	$.ajax({
+		                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+		                    		method:"patch",
+		                    		data:JSON.stringify(scorePlusData),
+		                    		contentType: 'application/json',
+		                    		async:false,
+		                    		success:function(resp){
+		                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
+		                    			var scoreTag = $("#profileEditModal").parent().children().children();
+		                    			var scoreValue = scoreTag.text();
+		                    			scoreTag.text(scoreValue+1);
+		                    			
+		                    			var writeCntTag = $("#profileEditModal").parent().parent().next()
+		                    											.children().find(".fa-regular").next().next();
+		                    			var writeCnt = writeCntTag.text();
+		                    			writeCntTag.text(writeCnt+1);
+		                    		}
+		                    	});
 								$("#boardModal").modal('hide');
+								$(".board-write").attr("data-bs-target","");
 							}
 						});
 			        	location.reload();

@@ -8,11 +8,6 @@
 	<jsp:param value="댕모임 대화" name="title"/>
 </jsp:include>
 
-	<!-- sockjs cdn -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
-	<!-- moment cdn + 한글 언어팩-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 <style>
 	/* .profile-box{
 		height:400px;
@@ -108,25 +103,6 @@
 		color:#878787;
 			
 	}
-	.zoomin {
-	    display: none;
-	    z-index: 500;
-	    max-width: 100%;
-	    height: auto;
-	    position: fixed;
-	    top:0; left: 0; bottom: 0; right: 0;
-	    background-color: gray;
-	    background: rgba(0, 0, 0, 0.8);
-	}
-	.zoomin-img {
-	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%);
-	}
-	.zoomin-img>img{
-		max-width:800px;
-	}
 	.down-btn{
 		position: fixed;
 		cursor: pointer;
@@ -135,6 +111,9 @@
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
+	}
+	.zoomin-img>img{
+		max-width:800px;
 	}
 	
 </style>
@@ -485,7 +464,7 @@
 </script>
 
 <div class = "container-fluid mt-3">
-	<div class = "col-10 offset-1">
+	<div class = "col-8 offset-2">
 
 		<div class = "row">
 			<!-- 프로필 박스 시작-->

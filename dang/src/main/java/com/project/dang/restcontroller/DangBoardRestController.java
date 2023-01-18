@@ -1,6 +1,7 @@
 package com.project.dang.restcontroller;
 
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.BoardImgDto;
@@ -19,6 +21,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.vo.BoardEditVO;
+import com.project.dang.vo.BoardHistoryVO;
 
 @CrossOrigin
 @RestController
@@ -52,10 +55,30 @@ public class DangBoardRestController {
 		dangBoardDao.likeInsert(dto);
 	}
 	
-	//기본조회(5개)
+	//이미지 조회
 	@GetMapping("/find_img/{boardNo}")
 	public List<BoardImgDto> findImg(@PathVariable int boardNo){
 		return dangBoardDao.findImg(boardNo);
+	}
+	
+	//전체 조회(5개)
+	@GetMapping("/list_all/{dangNo}")
+	public List<BoardHistoryVO> listAll(@PathVariable int dangNo){
+		return dangBoardDao.selectAll(dangNo);
+	}
+	
+	//복합검색 조회(5개)
+	@GetMapping("/input_search")
+	public List<BoardHistoryVO> inputSearch(@RequestParam String type, @RequestParam String keyword,
+			@RequestParam int dangNo, @RequestParam String category){
+		return dangBoardDao.inputSearch(type, keyword, dangNo, category);
+	}
+	
+	//오늘 작성한 게시글 수 조회
+	@GetMapping("/day_write")
+	public int dayWriteCnt(@RequestParam int dangNo,
+			@RequestParam int memberNo, @RequestParam String boardWriteDate){
+		return dangBoardDao.dayWriteCount(dangNo, memberNo, boardWriteDate);
 	}
 	
 	//좋아요 조회
