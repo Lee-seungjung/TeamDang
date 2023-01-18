@@ -1250,7 +1250,6 @@
 								contentType:"application/json",
 								async:false,
 								success:function(resp){
-									console.log("댓글 등록성공!");
 									
 									$.ajax({
 										url:"${pageContext.request.contextPath}/rest_reply/list_one/"+replyNo,
@@ -1273,6 +1272,11 @@
 												num = parseInt(num);
 											}
 											findnum.text(num+1);
+											
+											//사이드 프로필 메뉴 댓글 수량 증가
+											var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+											var replyCnt = parseInt(replyCntTag.text());
+											replyCntTag.text(replyCnt+1);
 										}
 									});
 								}
