@@ -18,11 +18,11 @@
         
         <!-- 스케줄 목록 출력(우측상단) -->
         <select id="simpleList" parameterType="int" resultType="SimpleScheduleVO">
-			select * from (
-			    select TMP.*, rownum rn from (
-                 select * from dang_scheduleList                  
-                )TMP
-			) where rn between 1 and 5
+				select * from (
+				     select TMP.*, rownum rn from (
+				         select * from dang_scheduleList where time > TO_CHAR(SYSDATE, 'yyyymmdd' )           
+				        )TMP
+				 ) where rn between 1 and 5
         </select>
         
       <!-- 일정 목록 검색하여 달력에 출력-->
