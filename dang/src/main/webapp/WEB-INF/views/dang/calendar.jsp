@@ -256,9 +256,7 @@
                                     title: resp[i]['scheduleTitle'],
                                     start: resp[i]['scheduleStart'],
                                     allDay: true,
-                                    id: resp[i]['scheduleNo']
-                                 
-                                 
+                                    id: resp[i]['scheduleNo']                             
                                  })
                               }
                            }

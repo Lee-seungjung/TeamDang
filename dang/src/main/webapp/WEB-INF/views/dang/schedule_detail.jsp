@@ -271,9 +271,8 @@
                         <div class="block-white">${scheduleDetail.placeName}</div>
                     </div>
                
-                        <div class = "dang-place-map"></div>
-
-                                     
+                        <div class = "dang-place-map"><div id="map" style="width:100%;height:100%;"></div></div>
+                     
                     <div class = "info-commons dang-number">
                         <div class="block">참여 인원</div>
                         <div class="block-white">${scheduleDetail.scheduleHead}명 / ${scheduleDetail.scheduleHeadMax}명</div>
@@ -302,5 +301,59 @@
 		</div>
 
 	</div>
+	<!-- 카카오 맵 API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
+
+				<script>
+				var placeNo1 = ${scheduleDetail.placeNo};
+				console.log(placeNo1);
+				
+                var placeX;
+		        var placeY; 
+				
+				$.ajax({
+                              url : "http://localhost:8888/rest_place/place_one/"+ placeNo1,
+                              method : "get",
+                              async : false,
+                              contentType : "application/json",
+                              success : function(resp) {
+                                 console.log(resp)   
+                                 
+                                 placeX = resp.placeX 
+                                 placeY = resp.placeY
+                                 
+                                 console.log(placeX);
+                                 console.log(placeY);
+                                 
+                              }
+                           })
+                           
+
+				           
+				
+					
+				
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				    mapOption = { 
+				        center: new kakao.maps.LatLng(placeX, placeY), // 지도의 중심좌표
+				        level: 3 // 지도의 확대 레벨
+				    };
+				
+				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+				
+				// 마커가 표시될 위치입니다 
+				var markerPosition  = new kakao.maps.LatLng(placeX, placeY); 
+				
+				// 마커를 생성합니다
+				var marker = new kakao.maps.Marker({
+				    position: markerPosition
+				});
+				
+				// 마커가 지도 위에 표시되도록 설정합니다
+				marker.setMap(map);
+				
+				// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+				// marker.setMap(null);    
+				</script>
 </body>
 </html>
