@@ -100,4 +100,15 @@ public class DangDaoImpl implements DangDao {
 	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto) {
 		return sqlSession.selectList("dang.selectDangList", dangListRequestDto);
 	}
+
+	// 댕모임 좋아요 갯수 갱신
+	@Override
+	public boolean updateDangLike(int dangLike, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangLike", String.valueOf(dangLike));
+		param.put("dangNo", String.valueOf(dangNo));
+		Integer result = sqlSession.update("dang.updateDangLike", param);
+		return result > 0;
+	}
 }
+	
