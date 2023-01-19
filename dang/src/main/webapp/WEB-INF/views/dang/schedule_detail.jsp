@@ -275,7 +275,7 @@
                      
                     <div class = "info-commons dang-number">
                         <div class="block">참여 인원</div>
-                        <div class="block-white">${scheduleDetail.scheduleHead}명 / ${scheduleDetail.scheduleHeadMax}명</div>
+                        <div class="block-white">${countJoin}명 / ${scheduleDetail.scheduleHeadMax}명</div>
                     </div>      
                     
                     <div class = "info-commons dang-who">
@@ -306,7 +306,7 @@
 
 				<script>
 				var placeNo1 = ${scheduleDetail.placeNo};
-				console.log(placeNo1);
+				console.log(${countJoin});
 				
                 var placeX;
 		        var placeY; 

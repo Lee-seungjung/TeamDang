@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangJoinDto;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
@@ -42,6 +43,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		param.put("scheduleNo", String.valueOf(scheduleNo));
 		param.put("dangNo", String.valueOf(dangNo));
 		return sqlSession.selectOne("schedule.scheduleOne", param);
+	}
+
+	@Override
+	public int countJoin(int scheduleNo) {
+		return sqlSession.selectOne("schedule.countJoin", scheduleNo);	
 	}
 
 //	@Override

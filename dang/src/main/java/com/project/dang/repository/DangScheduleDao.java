@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
@@ -23,15 +24,21 @@ public interface DangScheduleDao {
 	
 	/**
 	 * 달력 내  날짜별 상세 조회
-	 * @return List<ScheduleVO>
+	 * @return <ScheduleVO>
 	 */
 	ScheduleVO detail(int scheduleNo, Integer dangNo);
 	
 	/**
 	 * 달력 내  날짜별 일정 간단조회
-	 * @return List<ScheduleVO>
+	 * @return <ScheduleOneVO>
 	 */
 	ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo);
+	
+	/**
+	 * 상세조회 중 참여인원수 조회
+	 * @return <DangJoinDto>
+	 */
+	int countJoin(int scheduleNo);
 //	/**
 //	 * 댕모임 회원이 일정등록
 //	 * @param DangScheduleDto
@@ -57,9 +64,5 @@ public interface DangScheduleDao {
 //	public boolean delete(int scheduleNo);
 //
 //	/**
-//	 * 일정 상세
-//	 * 	 @param scheduleNo
-//	 */
-//	public DangScheduleDto selectOne(int scheduleNo);
 
 }
