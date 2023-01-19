@@ -165,6 +165,11 @@
  		</collection>
  	</resultMap>
  	
+ 	<!-- 댕모임 회원수 갱신 -->
+ 	<update id = "updateDangHead" parameterType = "map">
+ 		update dang set dang_head = #{dangHead} where dang_no = #{dangNo}
+ 	</update>
+ 	
 	<!-- 댕모임 좋아요 갯수 갱신 -->
 	<update id = "updateDangLike" parameterType = "map">
 		update dang set dang_like = #{dangLike} where dang_no = #{dangNo}
