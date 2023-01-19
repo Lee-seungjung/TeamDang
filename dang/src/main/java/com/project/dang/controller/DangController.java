@@ -467,6 +467,8 @@ public class DangController {
 		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo, dangNo));
 		//댕모임 일정별 참여인원수 출력
 		model.addAttribute("countJoin", dangScheduleDao.countJoin(scheduleNo));
+		//댕모임 일정별 참여 멤버 프로필 사진 출력
+		model.addAttribute("joinMemberList", dangScheduleDao.joinMemberList(scheduleNo));
 		return "dang/schedule_detail";
 	}
 	

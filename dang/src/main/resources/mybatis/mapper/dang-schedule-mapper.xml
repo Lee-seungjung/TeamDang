@@ -62,6 +62,13 @@
         <select id="countJoin" parameterType="int" resultType="int">
 			select count(*) from dang_join where schedule_no=#{scheduleNo}
         </select> 
+        
+                              <!-- 상세 일정에서 참여 회원 프로필 출력-->
+        <select id="joinMemberList" parameterType="int" resultType="JoinMemberVO">
+			select * from schedule_join_member where schedule_no=#{scheduleNo}
+        </select> 
+        
+        
                 
 <!--         댕모임 회원이 일정페이지에서 일정 등록
         <insert id="insert" parameterType="DangScheduleDto">

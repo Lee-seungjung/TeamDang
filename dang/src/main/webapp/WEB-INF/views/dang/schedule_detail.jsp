@@ -52,7 +52,7 @@
 .schedule-info{
     width: 95%;
     background-color: #E2EFFF;
-    height: 820px;
+    height: 780px;
     border-radius: 10px;
     margin: auto;
 }
@@ -60,7 +60,7 @@
     display: block;
     margin: auto;
     width: 85%;
-    height: 250px;
+    height: 200px;
     border-radius: 10px;
     background-color: white;
 }
@@ -74,9 +74,9 @@
     padding: 30px 0px 20px;
 }
 .info-commons {
-    margin: 15px auto;
+    margin: 10px auto;
     width: 85%;
-    height: 40px;
+    height: 50px;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -84,7 +84,7 @@
 }
 .block {
     display: block;
-    line-height: 40px;
+    line-height: 50px;
     border: none;
     background-color: #76BEFF;
     text-align: center;
@@ -92,12 +92,12 @@
     color: white;
     font-size: 18px;
     font-weight: 600;
-    height: 40px;
+    height: 50px;
     width: 120px;
 }
 .block-white{
     display: block;
-    line-height: 40px;
+    line-height: 50px;
     border: none;
     border-radius: 10px;
     color: #515151;
@@ -211,7 +211,7 @@
     height: 50px;
     width: 180px;
     text-align: center;
-    margin: 10px 20px;
+    margin: 20px 10px;
 }
 
 .btn-box{
@@ -219,6 +219,12 @@
 	flex-direction: row;
 	justify-content: center;
 }
+
+.member-profile-hover:hover{
+border : 2px solid #76BEFF;
+
+}
+
     </style>
 <meta charset='utf-8' />
 
@@ -279,8 +285,13 @@
                     </div>      
                     
                     <div class = "info-commons dang-who">
-                        <div class="block">참여 멤버</div>
-                        <div class="block-white"></div>
+                    
+                        <div class="block">참여 멤버</div>                        
+                        <div class="block-white">
+                        <c:forEach var="JoinMemberVO" items="${joinMemberList}">
+                         <img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/rest_attachment/download/${JoinMemberVO.attachmentNo}" width="45px" height="45px">
+                        </c:forEach>
+                        </div>
                     </div>   
 					
 					<div class="btn-box">

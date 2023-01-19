@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangJoinDto;
+import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
@@ -48,6 +49,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	@Override
 	public int countJoin(int scheduleNo) {
 		return sqlSession.selectOne("schedule.countJoin", scheduleNo);	
+	}
+
+	@Override
+	public List<JoinMemberVO> joinMemberList(int scheduleNo) {
+		return sqlSession.selectList("schedule.joinMemberList", scheduleNo);	
 	}
 
 //	@Override
