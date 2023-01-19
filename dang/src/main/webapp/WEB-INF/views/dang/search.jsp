@@ -123,8 +123,8 @@
     
     .btn-dang-like-inactive {
     	border : 1px solid #F94888;
-    	background-color: #white;
-    	color : F94888;
+    	background-color: white;
+    	color : #F94888;
     }
     
     .btn-dang-like-active {
