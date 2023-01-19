@@ -821,9 +821,15 @@
 				return;
 			}
 			// 관심지역 등록할 지역 id
-			var dangInterestInsertName = $(this).prop("id");
+			var dangInterestInsertId = $(this).prop("id");
+			// 클래스를 부여할 관심지역 영역 태그
+			var dangInterestInsertPath = $("#CD-" + dangInterestInsertId);
+			// 만약 이미 클래스가 부여된 태그라면(이미 선택된 관심지역이라면)
+			if(dangInterestInsertPath.hasClass("interest-area-selected") == true) {
+				return;
+			}
 			// 해당 관심지역 id로 관심지역 영역 태그에 클래스를 부여하여 색 변경
-			$("#CD-" + dangInterestInsertName).addClass("interest-area-selected");
+			dangInterestInsertPath.addClass("interest-area-selected");
 			// 관심지역 등록할 지역명
 			var dangInterestInsertName = $(this).text();
 			// 가장 앞에 있는 관심지역 미등록 태그 위치
