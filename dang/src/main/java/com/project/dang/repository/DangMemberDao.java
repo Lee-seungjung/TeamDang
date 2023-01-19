@@ -118,6 +118,13 @@ public interface DangMemberDao {
 	public void joinDang(DangMemberJoinDto dangMemberJoinDto);
 	
 	/**
+	 * 특정 댕모임의 회원수 조회
+	 * @param dangNo : 댕모임 번호
+	 * @return Integer : 회원수
+	 */
+	public Integer countMember(int dangNo);
+	
+	/**
 	 * 특정 회원이 특정 댕모임의 회원인지 조회
 	 * @param userNo : 회원 번호
 	 * @param dangNo : 댕모임 번호

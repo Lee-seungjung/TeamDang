@@ -101,6 +101,16 @@ public class DangDaoImpl implements DangDao {
 		return sqlSession.selectList("dang.selectDangList", dangListRequestDto);
 	}
 
+	// 댕모임 회원수 갱신
+	@Override
+	public boolean updateDangHead(int dangNo, int dangHead) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("dangHead", String.valueOf(dangHead));
+		int result = sqlSession.update("dang.updateDangHead", param);
+		return result > 0;
+	}
+	
 	// 댕모임 좋아요 갯수 갱신
 	@Override
 	public boolean updateDangLike(int dangLike, int dangNo) {
