@@ -45,10 +45,15 @@
 		color:#76BEFF;
 		display:none;
 	}
+	.zoomin-img>img{
+		max-width:800px;
+	}
 </style>
 
 <script>
 	$(function(){
+		zoomin(); //이미지 확대
+		
 		var dangNo = $("[name=dangNo]").val();
 		var attachmentNo = $(".img-tag").last().data("attachno");
 
@@ -96,13 +101,28 @@
 				}
 			});
 		});
+		
+		//이미지 확대창 클릭 시 닫기
+		$(".zoomin").click(function (e) {
+		    $(".zoomin").toggle();
+		});
 
 		//이미지 태그 생성
 		function imgTagCreat(resp){
 			var div = $(".img-size");
-			var img = $("<img>").attr("class","img-tag").attr("data-attachno",resp.attachmentNo)
+			var img = $("<img>").attr("class","img-tag cursor-zoomin").attr("data-attachno",resp.attachmentNo)
 			.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
 			div.append(img);
+		}
+		
+		//채팅 이미지 확대
+		function zoomin(){
+			$(document).on("click",".cursor-zoomin",function(){
+				var src = $(this).attr("src");
+				var img = $("<img>").attr("src",src);
+				$(".zoomin-img").html(img);
+				$(".zoomin").show();
+			});
 		}
 
 	});
@@ -133,7 +153,7 @@
 					<div class="img-size mt-5 text-center" data-checkno="">
 						<c:forEach var="vo" items="${imgList}">
 							<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
-										data-attachno="${vo.attachmentNo}" class="img-tag">
+										data-attachno="${vo.attachmentNo}" class="img-tag cursor-zoomin">
 						</c:forEach>
 					</div>
 				</c:otherwise>
@@ -150,6 +170,13 @@
 	<!-- 위로 올라가기 버튼 -->
 	<div class="top-btn-div text-end">
 		<i class="fa-solid fa-circle-up fa-3x"></i>
+	</div>
+	
+	<!-- 이미지 확대 -->
+	<div class="zoomin">
+		<div class="zoomin-img">
+			<!-- 확대 이미지 코드-->
+		</div>
 	</div>
 	
 	<input type="hidden" name="dangNo" value="${dangNo}">
