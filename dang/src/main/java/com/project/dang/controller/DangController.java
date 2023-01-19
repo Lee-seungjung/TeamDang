@@ -371,6 +371,9 @@ public class DangController {
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
+		//초기 출력값
+		model.addAttribute("imgList",dangBoardDao.albumList(dangNo));
+		
 		return "dang/album";
 	}
 	

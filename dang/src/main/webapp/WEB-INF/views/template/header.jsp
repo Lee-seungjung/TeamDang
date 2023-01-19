@@ -95,6 +95,20 @@
 		color:#fff;
 		border-color: #76BEFF;
 	}
+	.btn-outline-primary {
+	  	color: #76BEFF;
+	  	border-color: #76BEFF;
+	}
+	
+	.btn-outline-primary:hover {
+		color: #fff;
+		font-weight:bolder;
+		background-color: #76BEFF;
+		border-color: #76BEFF;
+	}
+	.btn-outline-primary:focus {
+  		box-shadow: 0 0 0 0.25rem rgba(118, 190, 255, 0.5);
+  	}
 	.btn-pink{
 		background-color:#F94888;
 		color:#fff;
