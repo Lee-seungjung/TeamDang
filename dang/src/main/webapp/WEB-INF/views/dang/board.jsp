@@ -113,6 +113,14 @@
 	  transform: translate(100%, 100%);
 	}
 	
+	.top-btn-div{
+		position: fixed;
+		cursor: pointer;
+		top:88%;
+		left:94%;
+		color:#76BEFF;
+		display:none;
+	}
 
 </style>
 
@@ -265,7 +273,7 @@
 					    	
 				    </div>
 				    <!-- 게시글 끝 -->
-
+					<input type="hidden" name="memberNo" value="${profile.memberNo}">
 				</div>
 			</div>
 			
@@ -274,8 +282,6 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 			</div>
 			<!-- 다가오는 일정 박스  끝-->
-			
-			<input type="hidden" name="memberNo" value="${profile.memberNo}">
 
 			<!-- 게시판 글수정 모달 시작-->					
 			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -328,7 +334,11 @@
 				</div>
 			</div>
 			<!-- 게시판 글수정 모달 끝-->
-			
+		</div>
+		
+		<!-- 위로 올라가기 버튼 -->
+		<div class="top-btn-div text-end">
+			<i class="fa-solid fa-circle-up fa-3x"></i>
 		</div>
 		
 		<!-- 사진 확대 시작-->
@@ -1870,6 +1880,14 @@
 			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
 			var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
 			
+			console.log(scrollHeight);
+			//상단으로 이동버튼 표시
+			if(scrollHeight>150){
+				$(".top-btn-div").show();
+			}else{
+				$(".top-btn-div").hide();
+			}
+			
 			var calcul = (totalHeight - scrollHeight)-clientHeight;
 
 			var dangNo = $("[name=dangNo]").val();
@@ -1909,6 +1927,11 @@
 					}
 				});
 			}	
+		});
+		
+		//상단으로 이동
+		$(".fa-circle-up").click(function(){
+			$("html").scrollTop(0);
 		});
 		
 	});

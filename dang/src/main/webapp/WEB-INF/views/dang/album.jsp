@@ -51,19 +51,13 @@
 	$(function(){
 		var dangNo = $("[name=dangNo]").val();
 		var attachmentNo = $(".img-tag").last().data("attachno");
-		
-		//var totalHeight = document.documentElement.scrollHeight; //스크롤 전체높이
-		//var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
-		//var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
-		
+
 		//무한스크롤
 		$(document).on("scroll",function(){
 			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
-			console.log(scrollHeight);
 			
 			if(scrollHeight>150){
 				$(".top-btn-div").show();
-				console.log("생겨야함!");
 			}else{
 				$(".top-btn-div").hide();
 			}
