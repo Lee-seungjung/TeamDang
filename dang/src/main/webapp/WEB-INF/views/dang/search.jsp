@@ -4,10 +4,6 @@
 
 <style>
 	
-	* {
-		border : 1px gray dotted;
-	}
-	
 	.div-dang-profile {
 		position : relative;
 	}
