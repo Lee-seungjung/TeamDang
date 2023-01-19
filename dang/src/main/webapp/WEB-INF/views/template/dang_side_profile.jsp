@@ -583,19 +583,19 @@
 					
 					<div class="row justify-content-center">
 						<div class="col-3">
-							<i class="fa-regular fa-heart fa-2x pink"></i>
+							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray blue" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
 						<div class="col-3">
-							<i class="fa-regular fa-pen-to-square fa-2x pink"></i>
+							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
 							<p class="font-gray" style="font-size:15px;">작성글</p>
-							<p class="font-gray blue" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
 						</div>
 						<div class="col-3">
-							<i class="fa-regular fa-comment-dots fa-2x pink"></i>
+							<i class="fa-regular fa-comment-dots fa-2x" style="color:#C5E0B4;"></i>
 							<p class="font-gray" style="font-size:15px;">댓글</p>
-							<p class="font-gray blue" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
 						</div>
 					</div>
 					
