@@ -119,6 +119,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	public void joinDang(DangMemberJoinDto dangMemberJoinDto) {
 		sqlSession.insert("dangMember.join", dangMemberJoinDto);
 	}
+	
+	// 특정 댕모임의 회원수 조회
+	@Override
+	public Integer countMember(int dangNo) {
+		return sqlSession.selectOne("dangMember.countMember", dangNo);
+	}
 
 	// 특정 회원이 특정 댕모임의 회원인지 조회
 	@Override

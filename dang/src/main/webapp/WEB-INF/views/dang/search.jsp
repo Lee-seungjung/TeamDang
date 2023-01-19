@@ -1130,36 +1130,50 @@
 				url : "${pageContext.request.contextPath}/rest_member/search_already_join?userNo=" + userNo,
 				method : "get",
 				success : function(resp) {
-					// 이미 가입한 댕모임에 대해 입장 버튼 생성
-					for(var i = 0 ; i < resp.length ; i ++) {	
-						$("body").find("[name=dangNo]").each(function(){
-							// 댕모임 번호 추출
-							var dangNo = $(this).val();
-							// 태그 생성 위치
-							var target = $(this).nextAll(".div-dang-btn");
-							// 이미 가입한 댕모임에 대해
-							if($(this).val() == resp[i]) {
-								target.append(
-									$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", dangNo).text("입장") // 입장 버튼 추가
-								);
-							}
-						})
-					}
-					// 가입하지 않은 댕모임에 대해 가입 버튼 생성
-					for(var i = 0 ; i < resp.length ; i ++) {
+					console.log(resp);
+					if(resp.length != 0) {						
+						// 이미 가입한 댕모임에 대해 입장 버튼 생성
+						for(var i = 0 ; i < resp.length ; i ++) {	
+							$("body").find("[name=dangNo]").each(function(){
+								// 댕모임 번호 추출
+								var dangNo = $(this).val();
+								// 태그 생성 위치
+								var target = $(this).nextAll(".div-dang-btn");
+								// 이미 가입한 댕모임에 대해
+								if($(this).val() == resp[i]) {
+									target.append(
+										$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", dangNo).text("입장") // 입장 버튼 추가
+									);
+								}
+							})
+						}
+						// 가입하지 않은 댕모임에 대해 가입 버튼 생성
+						for(var i = 0 ; i < resp.length ; i ++) {
+							$("body").find("[name=dangNo]").each(function(){
+								// 댕모임 번호 추출
+								var dangNo = $(this).val();
+								// 태그 생성 위치
+								var target = $(this).nextAll(".div-dang-btn");
+								// 가입하지 않은 댕모임에 대해
+								if($(this).val() != resp[i]) {
+									if(target.is(":empty")) { // 빈 태그일 경우에만							
+										target.append(
+											$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", dangNo).text("가입") // 가입버튼 추가
+										);
+									}
+								} 
+							})
+						}
+					} else {
 						$("body").find("[name=dangNo]").each(function(){
 							// 댕모임 번호 추출
 							var dangNo = $(this).val();
 							// 태그 생성 위치
 							var target = $(this).nextAll(".div-dang-btn");
 							// 가입하지 않은 댕모임에 대해
-							if($(this).val() != resp[i]) {
-								if(target.is(":empty")) { // 빈 태그일 경우에만							
-									target.append(
-										$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", dangNo).text("가입") // 가입버튼 추가
-									);
-								}
-							} 
+							target.append(
+									$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", dangNo).text("가입") // 가입버튼 추가
+								);
 						})
 					}
 				}
