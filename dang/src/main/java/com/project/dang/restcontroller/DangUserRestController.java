@@ -2,8 +2,10 @@ package com.project.dang.restcontroller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.UserImgDto;
+import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.service.DangCertEmailService;
 import com.project.dang.vo.DangUserVO;
@@ -29,6 +33,9 @@ public class DangUserRestController {
 	
 	@Autowired
 	private DangCertEmailService dangCertEmailService;
+	
+	@Autowired
+	private DangInterestDao dangInterestDao;
 
 	// 아이디 중복 검사
 	@GetMapping("/check_id")
@@ -72,4 +79,16 @@ public class DangUserRestController {
 		return dangUserDao.userImgeDelete(attachmentNo);
 	}
 	
+	// 관심지역 변경(삭제 후 등록)
+	@PostMapping("/change_interest")
+	public void changeInterest(@RequestParam(value = "dangInterestArray[]") List<String> dangInterestArray, HttpSession session) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 이전 관심지역 목록 전체 삭제
+		dangInterestDao.deleteInterest(userNo);
+		// 입력받은 관심지역 등록
+		for(int i = 0 ; i < dangInterestArray.size() ; i ++) {
+			dangInterestDao.insertInterest(DangInterestDto.builder().userNo(userNo).interestArea(dangInterestArray.get(i)).build());
+		}
+	}
 }
