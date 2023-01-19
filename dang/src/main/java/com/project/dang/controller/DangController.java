@@ -465,6 +465,10 @@ public class DangController {
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		//날짜별 일정 상세 출력
 		model.addAttribute("scheduleDetail", dangScheduleDao.detail(scheduleNo, dangNo));
+		//댕모임 일정별 참여인원수 출력
+		model.addAttribute("countJoin", dangScheduleDao.countJoin(scheduleNo));
+		//댕모임 일정별 참여 멤버 프로필 사진 출력
+		model.addAttribute("joinMemberList", dangScheduleDao.joinMemberList(scheduleNo));
 		return "dang/schedule_detail";
 	}
 	
