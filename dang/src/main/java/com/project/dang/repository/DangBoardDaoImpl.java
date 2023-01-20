@@ -14,6 +14,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.DangAlbumVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,6 +105,21 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	@Override
 	public List<BoardImgDto> findImg(int boardNo) {
 		return sqlSession.selectList("dangBoard.findImg",boardNo);
+	}
+	
+	//댕모임 내 게시글 첨부파일 조회
+	@Override
+	public List<DangAlbumVO> albumList(int dangNo) {
+		return sqlSession.selectList("dangBoard.albumImg",dangNo);
+	}
+	
+	//게시글 첨부파일 무한스크롤 조회
+	@Override
+	public List<DangAlbumVO> moreAlbumList(int dangNo, int attachmentNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("dangNo", dangNo);
+		param.put("attachmentNo", attachmentNo);
+		return sqlSession.selectList("dangBoard.moreAlbumImg",param);
 	}
 	
 	//좋아요 테이블 조회

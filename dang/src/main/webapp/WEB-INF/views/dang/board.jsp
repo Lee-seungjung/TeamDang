@@ -113,6 +113,14 @@
 	  transform: translate(100%, 100%);
 	}
 	
+	.top-btn-div{
+		position: fixed;
+		cursor: pointer;
+		top:88%;
+		left:94%;
+		color:#76BEFF;
+		display:none;
+	}
 
 </style>
 
@@ -150,9 +158,16 @@
 						<a class="btn gray category-css rounded-pill me-1 category btn-blue" data-value="">#전체</a>
 				    </div>
 				    <!-- #카테고리 끝 -->
+				    
+				    <!-- 게시글 작성버튼 시작 -->
+				  	<div class="border rounded-3 mt-4 text-center shadow gray">
+						<button class="board-write cursor-pointer w-100 p-2 btn btn-primary"  data-bs-toggle="modal" data-bs-target="" 
+										data-bs-whatever="@mdo">게시글 작성</button>
+					</div>
+				    <!-- 게시글 작성버튼 끝 -->
 
 				    <!-- 게시글 시작 -->
-				    <div class="board-group text-center mt-4" data-scrollcheck="1">
+				    <div class="board-group text-center mt-4" data-scrollcheck="">
 				    
 				    	<c:if test="${boardList.size()==0}">
 				    		<div class="col zero-boardList">
@@ -258,7 +273,7 @@
 					    	
 				    </div>
 				    <!-- 게시글 끝 -->
-
+					<input type="hidden" name="memberNo" value="${profile.memberNo}">
 				</div>
 			</div>
 			
@@ -267,8 +282,6 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 			</div>
 			<!-- 다가오는 일정 박스  끝-->
-			
-			<input type="hidden" name="memberNo" value="${profile.memberNo}">
 
 			<!-- 게시판 글수정 모달 시작-->					
 			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -321,7 +334,11 @@
 				</div>
 			</div>
 			<!-- 게시판 글수정 모달 끝-->
-			
+		</div>
+		
+		<!-- 위로 올라가기 버튼 -->
+		<div class="top-btn-div text-end">
+			<i class="fa-solid fa-circle-up fa-3x"></i>
 		</div>
 		
 		<!-- 사진 확대 시작-->
@@ -628,6 +645,283 @@
 			
 			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
 			boardGroup.append(boardBox);
+		}
+		
+		$(".board-write").click(function(){
+			$("#write-file-wrap").empty();
+			//게시글 하루 작성(최대 5개) 확인
+			var memberNo = $("[name=memberNo]").val();
+			var dangNo = $("[name=dangNo]").val();
+			var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
+
+			cntCheckData = {
+				dangNo:dangNo,
+				memberNo:memberNo,
+				boardWriteDate:boardWriteDate
+			}
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_board/day_write",
+				method:"get",
+				data:cntCheckData,
+				contentType:"application/json",
+				success:function(resp){
+					console.log(resp);
+					
+					if(resp>=5){ //게시글 작성 수 5개 이상일 경우 작성 차단
+						//alert('게시글은 하루 최대 5개 작성 가능합니다');
+						$("#dayWriteCnt").modal("show");
+					}else{ //게시글 작성 가능
+						$(".board-write").attr("data-bs-target","#boardModal");
+						$("#boardModal").modal("show");
+					}
+				}
+			});
+		});
+		
+		//입력 항목 상태 판정
+		bCheck={
+				boardContent : false, 
+				boardCategory : false,
+				allValid:function(){
+					return this.boardContent && this.boardCategory;
+				}
+		};
+		
+		//카테고리 선택 검사
+		$("#write-category").on("change",function(){
+			var value = $(this).val();
+			console.log(value);
+			if(value==""){
+				bCheck.boardCategory=false;
+			}else{
+				bCheck.boardCategory=true;
+			}
+		});
+		
+		//입력창 글자수 확인(최대 1000자)
+		$("#write-content").on("input",function(){
+			var length = $(this).val().length; //글자수
+			var value = $(this).val(); //입력내용
+			//글자수 표시
+			$(".b-length").text(length);
+			console.log(value);
+			$(this).removeClass("is-invalid");
+			if(length==0){
+				$(".b-length").css("color","#495057");
+				bCheck.boardContent=true;
+			}else if(length>1000){
+				$(this).val(value.substring(0,1000));	
+				$(".b-length").css("color","red").text(1000);
+				bCheck.boardContent=false;
+				$(this).addClass("is-invalid");
+			}else if(length>0){
+				$(".b-length").css("color","#495057");
+				bCheck.boardContent=true;
+			}
+		});
+		
+		//파일 선택
+		$("#write-select-file").change(function(e){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(value);
+			console.log(this.files); //파일 배열
+			
+			if(this.files.length>5){
+				alert('파일은 5개까지 업로드 가능합니다!');
+				$(this).val("");
+				return;
+			}
+			
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	console.log(resp);
+                    	
+                    	var fileDiv = $("#write-file-wrap");
+                    	for(var i=0; i<resp.url.length; i++){
+                    		console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
+                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
+    						div.append(img).append(x);
+							fileDiv.append(div);
+                    	}
+
+            			$(".x-btn").click(function(){
+            				var attachmentNo = $(this).prev().data("no");
+            				var div = $(this).parent().remove();
+            				console.log(attachmentNo);
+            				
+            				$.ajax({
+            					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+            					method:"delete",
+            					data:attachmentNo,
+            					async:false,
+            					success:function(resp){
+            					}
+            				});
+            			});
+			        }
+				});
+			}
+		});
+		
+		
+		
+		//모달 취소버튼 누를 경우 첨부파일 삭제
+		$(".write-cancel").click(function(){
+			boardDeleteAttachmentNo();
+			$(".board-write").attr("data-bs-target","");
+		});
+
+		//폼 전송 이벤트
+		$(".board-form").submit(function(e){
+			e.preventDefault();
+			//이벤트 강제실행
+			$("#write-category").change();
+
+			var judge = $("#write-content").val();
+			if(judge.length==0) return; //입력값 없으면
+			
+			if(bCheck.allValid()){
+				//boardNo 시퀀스 미리 받기
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/find_no",
+					method:"get",
+					async:false,
+					success:function(resp){
+						console.log("글번호 = "+resp);
+						
+						//비동기화 데이터 준비
+						var boardNo = resp;
+						var memberNo = $("[name=memberNo]").val();
+						var dangNo = $("[name=dangNo]").val();
+						var memberNick = $("[name=memberNick]").val();
+						var boardContent = $("#write-content").val();
+						var boardCategory = $("#write-category").val();
+						
+						boardData = {
+							boardNo:boardNo,
+							memberNo:memberNo,
+							dangNo:dangNo,
+							memberNick:memberNick,
+							boardContent:boardContent,
+							boardCategory:boardCategory
+						}
+						
+						//게시글 DB등록
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/insert",
+							method:"post",
+							async:false,
+							data:JSON.stringify(boardData),
+							contentType:"application/json",
+							success:function(resp){
+								//게시물 출력
+								$(".board-group").empty();
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
+									method:"get",
+									data:dangNo,
+									async:false,
+									success:function(resp){
+										console.log(resp);
+										for(var i=0; i<resp.length; i++){
+											boardList(resp[i]);
+										}					
+									}
+								});
+								
+								//게시글 이미지 DB 등록
+								var findtag = $(".files");
+					        	var attachmentNo;
+					        	if(findtag.length!=0){
+					        		for(var i=0; i<findtag.length; i++){
+						        		attachmentNo = findtag.eq(i).attr("data-no");
+						        		
+						        		data = {
+						        				boardNo:boardNo,
+						        				attachmentNo:attachmentNo
+						        		}
+						        		
+						        		$.ajax({
+						    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
+						    				method:"post",
+						    				data:JSON.stringify(data),
+						    				async:false,
+											contentType:"application/json",
+						    				success:function(resp){
+						    					console.log("저장성공!");
+						    				}
+						    			});
+						        	}
+					        	}
+					        	
+					        	//회원 활동점수 +1 증가
+		                    	scorePlusData={
+		                    			memberScore:1,
+		                    			memberNo:memberNo
+		                    	}
+		                    	$.ajax({
+		                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+		                    		method:"patch",
+		                    		data:JSON.stringify(scorePlusData),
+		                    		contentType: 'application/json',
+		                    		async:false,
+		                    		success:function(resp){
+		                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
+		                    			var writeCntTag = $("#boardModal").parent().children().children()
+    																	.find(".fa-pen-to-square").next().next();
+		                    			var writeCnt = parseInt(writeCntTag.text());
+										writeCntTag.text(writeCnt+1);
+										
+										var scoreTag = $(".profile-box").children().find(".memberScore")
+		                    			var scoreValue = parseInt(scoreTag.text());
+		                    			scoreTag.text(scoreValue+1);
+		                    		}
+		                    	});
+								$("#boardModal").modal('hide');
+								$(".board-write").attr("data-bs-target","");
+							}
+						});
+					}
+				});
+			}
+		});
+		
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
 		}
 		
 		//게시글 수정 첫 화면 기본셋팅
@@ -1579,32 +1873,29 @@
 				}
 			}
 		}
-		
-		//$(document).scrollTop(".board-group")[0].scrollHeight;
+
 		//무한스크롤
 		$(document).on("scroll",function(){
 			var totalHeight = document.documentElement.scrollHeight; //스크롤 전체높이
 			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
 			var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
 			
-			console.log(totalHeight);
 			console.log(scrollHeight);
-			console.log(clientHeight);
+			//상단으로 이동버튼 표시
+			if(scrollHeight>150){
+				$(".top-btn-div").show();
+			}else{
+				$(".top-btn-div").hide();
+			}
 			
 			var calcul = (totalHeight - scrollHeight)-clientHeight;
-			console.log("계산 = "+calcul);
 
 			var dangNo = $("[name=dangNo]").val();
 			var category = $("a.btn-blue").data("value");
 			var boardNo = $(".board-box").last().data("scrollbno"); //마지막 게시글 번호
-			var checkno = $(".board-group").data("scrollcheck");
-			
-			console.log(dangNo);
-			console.log(category);
-			console.log(boardNo);
-			console.log(checkno);
+			var checkno = $(".board-group").attr("data-scrollcheck"); //비동기 제어 번호
 
-			if(checkno==0) return; //데이터 없을경우 비동기화 실행 중지
+			if(checkno==1) return; //데이터 없을경우 비동기화 실행 중지
 			
 			if(calcul<=10){
 
@@ -1627,14 +1918,20 @@
 						}
 						
 						if(resp.length<5 || resp.length==0){
-							$(".board-group").attr("data-scrollcheck",0);
+							$(".board-group").attr("data-scrollcheck",1);
 						}
+						
+						truncate(); //말줌일표
+						printImg(); //게시글 사진 출력
+						originLike() //내가 누른 좋아요 출력
 					}
 				});
-				
-				
-			}
-			
+			}	
+		});
+		
+		//상단으로 이동
+		$(".fa-circle-up").click(function(){
+			$("html").scrollTop(0);
 		});
 		
 	});
