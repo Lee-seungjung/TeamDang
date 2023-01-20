@@ -338,6 +338,11 @@ border : 2px solid #76BEFF;
                                  
                               }
                            })
+                           
+
+				           
+				
+					
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 
@@ -360,8 +365,6 @@ border : 2px solid #76BEFF;
 				
 				// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 				// marker.setMap(null);    
-				
-
 				</script>
 </body>
 </html>
