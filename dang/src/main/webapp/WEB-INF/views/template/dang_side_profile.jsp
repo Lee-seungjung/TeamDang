@@ -229,6 +229,13 @@
             border-radius: 5px;
             background: white;
         }
+        
+      .form-content:focus {
+	  background-color: #fff;
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
 
 </style>
 <script>
@@ -772,8 +779,9 @@
 	</div>
 	
 	<!-- 댕모임 일정 등록 -->
-    <button type="button"  class="p-3 border rounded-3 text-center day-check shadow gray mt-3" data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">댕모임 등록</button>
+	 <div class="p-3 border rounded-3 text-center day-check shadow gray mt-3">
+		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">댕모임 등록</span>
+	</div>
 
     <!-- 댕모임 일정 등록 모달 -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -790,7 +798,7 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 제목</label>
                               <i class="fa-solid fa-asterisk text-danger"></i>
-                            <span class="b-length length-font">( 0</span>
+                            <span class="b-length length-font"> ( 0</span>
                             <span class="length-font">/ 20 )</span>
                             <input class="schedule-name form-control"/>
                         </div>
@@ -809,8 +817,8 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="2019-09-22" class="form-control"><input type="time" value="13:00" min="00:00"
-                                        max="24:00"  class="form-control"></p>
+                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-content"><input type="time" value="13:00" min="00:00"
+                                        max="24:00"  class="inbl w-50 b-contentbox form-content"></p>
                         </div>
 
                         <div class="mb-3 text-start">
@@ -841,8 +849,8 @@
 
                         <div class="mb-3 text-start">
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
-                                                            <select style="color: #757575;" name="schedule-MaxHead" class="rounded pb-1 ps-1">
-                                    <option value="" class="form-control">인원수</option>
+                                                            <select style="color: #757575;" name="schedule-MaxHead" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
+                                    <option value="" >인원수</option>
                                     <option class="people-5">5명</option>
                                     <option class="people-10">10명</option>
                                     <option class="people-15">15명</option>
