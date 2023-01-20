@@ -81,14 +81,20 @@ public class DangUserRestController {
 	
 	// 관심지역 변경(삭제 후 등록)
 	@PostMapping("/change_interest")
-	public void changeInterest(@RequestParam(value = "dangInterestArray[]") List<String> dangInterestArray, HttpSession session) {
+	public void changeInterest(@RequestParam(value = "dangInterestArray[]", required=false) List<String> dangInterestArray, HttpSession session) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
-		// 이전 관심지역 목록 전체 삭제
-		dangInterestDao.deleteInterest(userNo);
-		// 입력받은 관심지역 등록
-		for(int i = 0 ; i < dangInterestArray.size() ; i ++) {
-			dangInterestDao.insertInterest(DangInterestDto.builder().userNo(userNo).interestArea(dangInterestArray.get(i)).build());
+		// 입력받은 관심지역 배열의 원소 유무에 따라 다른 처리
+		if(dangInterestArray == null) { // 입력받은 관심지역 배열의 원소가 하나도 없을 경우
+			// 이전 관심지역 목록 전체 삭제
+			dangInterestDao.deleteInterest(userNo);
+		} else { // 그렇지 않을 경우
+			// 이전 관심지역 목록 전체 삭제
+			dangInterestDao.deleteInterest(userNo);
+			// 입력받은 관심지역 등록
+			for(int i = 0 ; i < dangInterestArray.size() ; i ++) {
+				dangInterestDao.insertInterest(DangInterestDto.builder().userNo(userNo).interestArea(dangInterestArray.get(i)).build());
+			}
 		}
 	}
 }

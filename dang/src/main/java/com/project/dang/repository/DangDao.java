@@ -85,6 +85,14 @@ public interface DangDao {
 	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto);
 	
 	/**
+	 * 댕모임 회원수 갱신
+	 * @param dangNo : 댕모임 번호
+	 * @param dangHead : 댕모임 회원수
+	 * @return boolean : 댕모임 회원수 수정 여부
+	 */
+	public boolean updateDangHead(int dangNo, int dangHead);
+	
+	/**
 	 * 댕모임 좋아요 갯수 갱신
 	 * @param dangLike : 갱신된 댕모임 좋아요 갯수
 	 * @param dangNo : 갱신할 댕모임 번호
