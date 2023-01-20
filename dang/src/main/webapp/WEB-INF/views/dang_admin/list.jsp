@@ -181,7 +181,7 @@
 			<div class="col-md-8 offset-md-2">
 				<div id="mapwrap">
 					<!-- 지도가 표시될 div -->
-					<div id="map" style="width: 100%; height: 350px;"></div>
+					<div id="map1" style="width: 100%; height: 350px;"></div>
 					<!-- 지도 위에 표시될 마커 카테고리 -->
 					<div class="category">
 						<ul>
@@ -368,15 +368,15 @@
 						});
 		
 
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-		mapOption = {
+		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
+		mapOption1 = {
 			center : new kakao.maps.LatLng(37.498004414546934,
 					127.02770621963765), // 지도의 중심좌표 
 			level : 9
 		// 지도의 확대 레벨 
 		};
 
-		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		var map1 = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
 
 		var clickedOverlay = null;//클릭이벤트 오버레이 전역변수 초기값
 
@@ -533,7 +533,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map,
+												map : map1,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -543,7 +543,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map);
+									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
 
 								});
@@ -551,9 +551,9 @@
 		}
 
 		// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setCafeMarkers(map) {
+		function setCafeMarkers(map1) {
 			for (var i = 0; i < cafeMarkers.length; i++) {
-				cafeMarkers[i].setMap(map);
+				cafeMarkers[i].setMap(map1);
 			}
 		}
 
@@ -600,7 +600,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map,
+												map : map1,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -610,7 +610,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map);
+									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
 
 								});
@@ -618,9 +618,9 @@
 		}
 
 		// 음식점 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setFoodMarkers(map) {
+		function setFoodMarkers(map1) {
 			for (var i = 0; i < foodMarkers.length; i++) {
-				foodMarkers[i].setMap(map);
+				foodMarkers[i].setMap(map1);
 			}
 		}
 
@@ -667,7 +667,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map,
+												map : map1,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -677,7 +677,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map);
+									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
 
 								});
@@ -685,9 +685,9 @@
 		}
 
 		// 운동장 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setFieldMarkers(map) {
+		function setFieldMarkers(map1) {
 			for (var i = 0; i < fieldMarkers.length; i++) {
-				fieldMarkers[i].setMap(map);
+				fieldMarkers[i].setMap(map1);
 			}
 		}
 
@@ -735,7 +735,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map,
+												map : map1,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -745,7 +745,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map);
+									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
 
 								});
@@ -753,9 +753,9 @@
 		}
 
 		// 미용 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setDogsalonMarkers(map) {
+		function setDogsalonMarkers(map1) {
 			for (var i = 0; i < dogsalonMarkers.length; i++) {
-				dogsalonMarkers[i].setMap(map);
+				dogsalonMarkers[i].setMap(map1);
 			}
 		}
 
@@ -803,7 +803,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map,
+												map : map1,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -813,7 +813,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map);
+									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
 
 								});
@@ -823,7 +823,7 @@
 		// 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
 		function setParkMarkers(map) {
 			for (var i = 0; i < parkMarkers.length; i++) {
-				parkMarkers[i].setMap(map);
+				parkMarkers[i].setMap(map1);
 			}
 		}
 
@@ -849,7 +849,7 @@
 				parkMenu.className = '';
 
 				// 카페 마커들만 지도에 표시하도록 설정합니다
-				setCafeMarkers(map);
+				setCafeMarkers(map1);
 				setFoodMarkers(null);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
@@ -866,7 +866,7 @@
 
 				// 음식점 마커들만 지도에 표시하도록 설정합니다
 				setCafeMarkers(null);
-				setFoodMarkers(map);
+				setFoodMarkers(map1);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
 				setParkMarkers(null);
@@ -883,7 +883,7 @@
 				// 운동장 마커들만 지도에 표시하도록 설정합니다
 				setCafeMarkers(null);
 				setFoodMarkers(null);
-				setFieldMarkers(map);
+				setFieldMarkers(map1);
 				setDogsalonMarkers(null);
 				setParkMarkers(null);
 
@@ -900,7 +900,7 @@
 				setCafeMarkers(null);
 				setFoodMarkers(null);
 				setFieldMarkers(null);
-				setDogsalonMarkers(map);
+				setDogsalonMarkers(map1);
 				setParkMarkers(null);
 			} else if (type === 'park') {
 
@@ -916,7 +916,7 @@
 				setFoodMarkers(null);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
-				setParkMarkers(map);
+				setParkMarkers(map1);
 			}
 		}
 	</script>
