@@ -8,10 +8,6 @@
 
 <style>
 	
-	* {
-		border : 1px gray dotted;
-	}
-	
 	.select-dang-search-area,
 	.select-dang-search-sort {
 		border : 1px solid #76BEFF;
@@ -275,6 +271,24 @@
 	    cursor: pointer;
 	}
 	
+	.div-container-dang-search {
+		position : relative;
+	}
+	
+	.btn-dang-create {
+		position : absolute;
+	    left: 90%;
+	    transform: translate(-50%, -50%);
+	    border : none;
+	    border-radius : 15px;
+	}
+	
+	.img-dang-create {
+		border-radius : 15px;
+		aspect-ratio : 1/1;
+		height : 110px;
+	}
+	
 </style>
 
 <%-- 로그인 상태 판정 --%>
@@ -284,7 +298,7 @@
 <%-- 댕모임 전체/검색 조회시 마지막 페이지 번호 --%>
 <input type = "hidden" id = "pLast" value = "${pLast}">
 
-<div class = "container-fluid my-3"> <%-- container 시작 --%>
+<div class = "container-fluid my-3 div-container-dang-search"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<form class = "row my-3 form-search-submit"> <%-- 검색 영역 시작 --%>
@@ -434,6 +448,7 @@
 			</div>
 		</div>
 	</div>
+	<button class = "btn-dang-create p-0" onClick = "location.href='${pageContext.request.contextPath}/dang/create'"><img class = "img-fluid img-dang-create" src = "${pageContext.request.contextPath}/images/icon-dang-create.png"></button>
 </div> <%-- container 끝 --%>
 
 <%-- 댕모임 입장용 Modal --%>
@@ -1173,6 +1188,16 @@
 		var queryString = url.searchParams.toString();
 		
 		// 댕모임 목록 무한 스크롤
+		// - 댕모임 생성 버튼 초기 위치
+		$(".btn-dang-create").css("top", $(window).scrollTop() + ($(window).height() * 0.70));
+		// - 스크롤시 댕모임 생성 버튼 따라오게 하기
+		$(window).scroll(_.throttle(function(){
+			// 댕모임 생성 버튼의 위치
+			// $(".btn-dang-create").css("top", $(window).scrollTop() + ($(window).height() * 0.70)); // 고정 위치
+			$(".btn-dang-create").stop().animate({"top" : $(window).scrollTop() + ($(window).height() * 0.70)}); // 스크롤 시 따라오도록
+		}, 0));
+		
+		// - 다음 페이지 생성
 		$(window).scroll(_.debounce(function(){
 			// 현재 페이지가 마지막 페이지와 같으면 return
 			if(p == pLast) return;
