@@ -197,18 +197,15 @@
 			<div class = "row">
 				<div class = "col-2">
 					<a href = "/">
-						<img src = "/images/logo.png" class = "img-fluid">
+						<img src = "${pageContext.request.contextPath}/images/logo.png" class = "img-fluid">
 					</a>
 				</div>
-				<div class = "col-2">
+				<div class = "col-4">
 					<a href = "/dang/1">1번 댕모임</a>
-				</div>
-				<div class = "col-2">
-					<a href = "/dang/create">댕모임 개설(임시)</a>
 				</div>
 				<div class = "col-6 d-flex flex-row">
 					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<a href = "/dang/search">댕모임 찾기</a>
+						<a href = "${pageContext.request.contextPath}/dang/search">댕모임 찾기</a>
 					</div>
 					<c:choose>
 					<c:when test = "${login}">
@@ -221,15 +218,15 @@
 						</label>
 					</div>
 					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<a href = "/user/logout">로그아웃</a>
+						<a href = "${pageContext.request.contextPath}/user/logout">로그아웃</a>
 					</div>
 					</c:when>
 					<c:otherwise>
 						<div class = "col-4 d-flex justify-content-center align-items-center">
-							<a href = "/user/join">회원가입</a>
+							<a href = "${pageContext.request.contextPath}/user/join">회원가입</a>
 						</div>
 						<div class = "col-4 d-flex justify-content-center align-items-center">
-							<a href = "/user/login">로그인</a>
+							<a href = "${pageContext.request.contextPath}/user/login">로그인</a>
 						</div>
 					</c:otherwise>
 					</c:choose>
