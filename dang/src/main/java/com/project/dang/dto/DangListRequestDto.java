@@ -18,11 +18,19 @@ public class DangListRequestDto {
 	private List<String> searchArea;
 	
 	// 정렬용 필드
-	private String sort = "dang_head desc, dudldid.dang_like desc";
+	private String sort = "dang_head desc, dang_like desc";
 	
 	// 페이징용 필드
 	private Integer p = 1;
 	private Integer cnt = 6;
+	
+	// - 마지막 페이지 블럭을 구하기 위한 게시글 총 수
+	private int total;
+	
+	// 페이징용 메소드 결과 필드
+	private Integer rownumStart = this.rownumStart();
+	private Integer rownumEnd = this.rownumEnd();
+	private Integer blockLast = this.blockLast();
 	
 	// 페이징용 메소드
 	// - 표시할 열 시작 번호
@@ -34,9 +42,6 @@ public class DangListRequestDto {
 	public int rownumEnd() {
 		return p * cnt;
 	}
-	
-	// - 마지막 페이지 블럭을 구하기 위한 게시글 총 수
-	private int total;
 	
 	// - 마지막 페이지 블럭
 	public int blockLast() {

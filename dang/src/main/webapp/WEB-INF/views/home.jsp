@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+   <jsp:param value="DangHome" name="title"/>
+</jsp:include>
 
 <style>
 
@@ -106,10 +109,6 @@
 	
 	
 </style>
-
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-   <jsp:param value="DangHome" name="title"/>
-</jsp:include>
 
 <div class = "container-fluid my-3"> <%-- container 시작 --%>
 	<div class = "row">
@@ -350,7 +349,27 @@
 			})
         });
 		
-		
+		// 무한 스크롤
+		$(window).scroll(_.debounce(function(){
+			// 화면의 위치[%]
+			
+			var percent = $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
+            console.log("scrollTop = " + $(window).scrollTop());
+            console.log("document.height = " + $(document).height());
+            console.log("window.height = " + $(window).height());
+            
+            console.log("document.height - window.height = " + ($(document).height() - $(window).height()));
+            
+			//var percentage = $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
+			//console.log("퍼센트 = " + percentage);
+			
+			return;
+			
+			if(p == pLast) return; // 페이지 끝 번호에 도달하면 비동기 조회 요청을 보내지 않도록 설정
+			
+			if(percentage > 80) {
+			}
+		}, 300));
 		
 		// 상위 5개 댕모임 클릭시
 		$(document).on("click", ".div-select-dang", function(){

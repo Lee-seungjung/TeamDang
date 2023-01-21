@@ -136,6 +136,7 @@ public class DangController {
 			// 입력받은 DangListRequestDto의 회원 번호를 로그인 중인 회원 번호로 설정
 			dangListRequestDto.setUserNo(userNo);
 		}
+		// 로그인 중인 회원이 관심지역에 대해 조회를 한 경우
 		if(userNo != null && dangListRequestDto.getSearchArea() != null) {
 			// 관심지역 전체에 대한 조회일 경우
 			if(dangListRequestDto.getSearchArea().get(0).equals("all")) {
@@ -143,8 +144,26 @@ public class DangController {
 				dangListRequestDto.setSearchArea(dangInterestDao.selectInterest(userNo));
 			}
 		}
+		// 댕모임 전체/검색 조회 총 갯수 반환
+		int countDangTotal = dangDao.countDangTotal(dangListRequestDto);
+		// 반환한 총 갯수를 입력받은 DangListRequestDto에 설정
+		dangListRequestDto.setTotal(countDangTotal);
+		// 마지막 페이지 블럭 번호를 model에 추가
+		model.addAttribute("pLast", dangListRequestDto.blockLast());
 		// 댕모임 전체/검색 조회
 		List<DangListResponseDto> dangList = dangDao.selectDangList(dangListRequestDto);
+		if(userNo != null) {
+			// 회원이 가입한 댕모임 번호 조회
+			List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
+			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+				for(int j = 0 ; j < searchDangListAlreadyJoin.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
+					if(dangList.get(i).getDangInfo().getDangNo() == searchDangListAlreadyJoin.get(j)) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
+						dangList.get(i).getDangInfo().setIsMember(1); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+					}
+				}
+			}
+		}
 		// 조회 결과를 model에 추가
 		model.addAttribute("dangList", dangList);
 		return "dang/search";
