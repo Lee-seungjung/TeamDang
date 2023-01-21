@@ -22,6 +22,7 @@ import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.repository.DangBoardDao;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.DangAlbumVO;
 
 @CrossOrigin
 @RestController
@@ -88,6 +89,12 @@ public class DangBoardRestController {
 		return dangBoardDao.dayWriteCount(dangNo, memberNo, boardWriteDate);
 	}
 	
+	//댕모임 내 게시글 첨부파일 조회
+	@GetMapping("/img_list")
+	public List<DangAlbumVO> moreAlbumList(@RequestParam int dangNo,@RequestParam int attachmentNo){
+		return dangBoardDao.moreAlbumList(dangNo,attachmentNo);
+	}
+	
 	//좋아요 조회
 	@GetMapping("/fint_like/{memberNo}")
 	public List<DangBoardLikeDto> findLike(@PathVariable int memberNo){
@@ -122,6 +129,9 @@ public class DangBoardRestController {
 	public boolean deleteLike(@RequestBody DangBoardLikeDto dto) {
 		return dangBoardDao.deleteLike(dto);
 	}
+	
+	
+	
 	
 
 }

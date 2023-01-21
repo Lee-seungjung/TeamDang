@@ -143,6 +143,29 @@
 		select * from board_img where board_no=#{boardNo}
 	</select>
 	
+	<!-- 댕모임 내 첨부파일 조회 -->
+	<select id="albumImg" resultType="DangAlbumVO" parameterType="int">
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select img.*, b.dang_no from board_img img inner join dang_board b 
+                on img.board_no=b.board_no
+                where b.dang_no=#{dangNo} order by img.attachment_no desc
+		    )TMP
+		) where rn between 1 and 10
+	</select>
+	
+	<!-- 무한스크롤 댕모임 내 첨부파일 조회 -->
+	<select id="moreAlbumImg" resultType="DangAlbumVO" parameterType="Map">
+		select*from(
+		    select TMP.*, rownum rn from(
+		        select*from (select img.*, b.dang_no from board_img img inner join dang_board b 
+				on img.board_no=b.board_no
+				where b.dang_no=#{dangNo} order by img.attachment_no desc) 
+				a where <![CDATA[a.attachment_no<#{attachmentNo}]]>
+		    )TMP
+		) where rn between 1 and 10
+	</select>
+	
 	<update id="editBoard" parameterType="BoardEditVO">
 		update dang_board set board_category=#{boardCategory}, board_content=#{boardContent} 
 		where board_no=#{boardNo}

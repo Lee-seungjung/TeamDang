@@ -8,42 +8,68 @@ import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
 
 public interface DangScheduleDao {
-	
+
 	/**
 	 * 우측 심플 스케줄 조회
+	 * 
 	 * @return List<SimpleScheduleVO>
 	 */
 	List<SimpleScheduleVO> simpleList();
-	
+
 	/**
-	 * 달력 내  일정 조회
+	 * 달력 내 일정 조회
+	 * 
 	 * @return List<ScheduleVO>
 	 */
 	List<ScheduleVO> list(Integer dangNo);
-	
+
 	/**
-	 * 달력 내  날짜별 상세 조회
+	 * 달력 내 날짜별 상세 조회
+	 * 
 	 * @return <ScheduleVO>
 	 */
 	ScheduleVO detail(int scheduleNo, Integer dangNo);
-	
+
 	/**
-	 * 달력 내  날짜별 일정 간단조회
+	 * 달력 내 날짜별 일정 간단조회
+	 * 
 	 * @return <ScheduleOneVO>
 	 */
 	ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo);
-	
+
 	/**
 	 * 상세조회 중 참여인원수 조회
+	 * 
 	 * @return <DangJoinDto>
 	 */
 	int countJoin(int scheduleNo);
-	
+
 	/**
-	 * 상세조회 중 참여인원수 조회
+	 * 상세조회 중 참여인원에 대한 프로필 사진 출력
+	 * 
 	 * @return <JoinMemberVO>
 	 */
 	List<JoinMemberVO> joinMemberList(int scheduleNo);
+	/*	
+		*//**
+			 * 댕모임 참여
+			 * 
+			 * @param scehduleNo : 일정 번호
+			 * @param memberNo   : 댕모임 멤버 번호
+			 * @return Integer : 참여인원수 증가 후 상태
+			 */
+	/*
+	 * public Integer dangInsert(int scheduleNo, int memberNo);
+	 * 
+	 *//**
+		 * 댕모임 참여 취소
+		 * 
+		 * @param scehduleNo : 일정 번호
+		 * @param memberNo   : 댕모임 멤버 번호
+		 * @return Integer : 참여인원수 감소 후 상태
+		 *//*
+			 * public Integer dangCancel(int scheduleNo, int memberNo);
+			 */
 //	/**
 //	 * 댕모임 회원이 일정등록
 //	 * @param DangScheduleDto

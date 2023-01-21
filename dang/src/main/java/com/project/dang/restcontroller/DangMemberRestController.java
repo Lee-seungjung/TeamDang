@@ -40,6 +40,12 @@ public class DangMemberRestController {
 	 public List<DangAttendanceDto> list(@RequestParam("memberNo") int memberNo){
 		 return dangMemberDao.attendanceList(memberNo);
 	 }
+	 
+	 //출석 여부
+	 @GetMapping("/is_attendance")
+	 public DangAttendanceDto isAttendance(@RequestParam int memberNo){
+		 return dangMemberDao.isAttendance(memberNo);
+	 }
 
 	
 	//댕모임 회원등급 포인트 증가
