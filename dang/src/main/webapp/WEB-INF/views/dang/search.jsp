@@ -2,10 +2,36 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="댕모임 찾기" name="title"/>
+</jsp:include>
+
 <style>
 	
 	* {
 		border : 1px gray dotted;
+	}
+	
+	.select-dang-search-area,
+	.select-dang-search-sort {
+		border : 1px solid #76BEFF;
+	}
+	
+	.input-dang-search-keyword {
+		border : 1px solid #76BEFF;
+		border-right : none;
+	}
+	
+	.btn-dang-search-submit {
+		border : 1px solid #76BEFF;
+		border-left : none;
+		background-color : white;
+	}
+	
+	.select-dang-search-area:focus,
+	.select-dang-search-sort:focus,
+	.input-dang-search-keyword:focus {
+		border : 1.5px solid #76BEFF;
 	}
 	
 	.div-dang-profile {
@@ -60,7 +86,7 @@
     	font-size : 20px;
     }
     
-    .div-dang-private {
+    .span-dang-private {
     	background-color : #FFE34E;
     	border : none;
     	border-radius : 5px;
@@ -123,8 +149,8 @@
     
     .btn-dang-like-inactive {
     	border : 1px solid #F94888;
-    	background-color: #white;
-    	color : F94888;
+    	background-color: white;
+    	color : #F94888;
     }
     
     .btn-dang-like-active {
@@ -134,7 +160,7 @@
     }
     
     .btn-dang-enter {
-    	background-color: FFE34E;
+    	background-color: #FFE34E;
     	color : white;
     }
     
@@ -251,13 +277,12 @@
 	
 </style>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="댕모임 찾기" name="title"/>
-</jsp:include>
-
 <%-- 로그인 상태 판정 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
+<%-- 로그인 중인 회원의 회원 번호 --%>
 <input type = "hidden" id = "loginNo" value = "${loginNo}"> 
+<%-- 댕모임 전체/검색 조회시 마지막 페이지 번호 --%>
+<input type = "hidden" id = "pLast" value = "${pLast}">
 
 <div class = "container-fluid my-3"> <%-- container 시작 --%>
 	<div class = "row">
@@ -266,7 +291,7 @@
 				<div class = "col-10 offset-1">
 					<div class = "row">
 						<div class = "col-3 d-flex">
-							<select class = "flex-fill p-1" name = "searchArea">
+							<select class = "flex-fill p-1 select-dang-search-area" name = "searchArea">
 								<option value = "">관심지역 선택</option>
 								<c:choose>
 								<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
@@ -291,14 +316,14 @@
 						</div>
 						<div class= "col-6 d-flex justify-content-center align-items-center">
 							<div class = "d-flex flex-fill">							
-								<input class = "flex-fill" placeholder = "검색어" name = "searchName">
-								<button class = "btn-search-submit" type = "submit">
+								<input class = "flex-fill p-1 input-dang-search-keyword" placeholder = "검색어" name = "searchName">
+								<button class = "btn-dang-search-submit" type = "submit">
 									<i class="fa-solid fa-magnifying-glass"></i>
 								</button>
 							</div>
 						</div>
 						<div class= "col-3 d-flex justify-content-center align-items-center">
-							<select class = "flex-fill p-1" name = "sort">
+							<select class = "flex-fill p-1 select-dang-search-sort" name = "sort">
 								<option value = "">정렬 선택</option>
 								<option value = "dudldid.dang_head desc">인원수 높은순</option>
 								<option value = "dudldid.dang_like desc">좋아요 높은순</option>
@@ -309,9 +334,9 @@
 					</div>
 				</div>
 			</form> <%-- 검색 영역 끝 --%>
-			<div class = "row my-3">
+			<div class = "row my-3 div-dang-search-list">
 				<c:forEach var = "dangList" items = "${dangList}">
-				<div class = "col-4 my-3 p-3">
+				<div class = "col-4 my-3 p-3"> <%-- 태그 생성 시작 --%>
 					<div class="card col w-100 div-outer-dang-info shadow">
 						<div class = "div-dang-profile">
 							<c:choose>
@@ -332,11 +357,11 @@
 		            			<div class = "col-9 d-flex justify-content-start align-items-center">            			
 			            			<strong class = "text-middle strong-dang-name">${dangList.dangInfo.dangName}</strong>
 		            			</div>
-		            			<div class = "col-3 d-flex justify-content-center align-items-center">
+		            			<div class = "col-3 d-flex justify-content-center align-items-center div-dang-private">
 		            				<c:if test = "${dangList.dangInfo.dangPrivate == 'Y'}">
-		            					<div class = "w-100 p-1 text-center text-middle div-dang-private">
+		            					<span class = "w-100 p-1 text-center text-middle span-dang-private">
 		            						<i class="fa-solid fa-lock"></i>
-		            					</div>
+		            					</span>
 		            				</c:if>
 		            			</div>
 		            		</div>
@@ -364,7 +389,7 @@
 		            				<div class = "div-dang-head flex-fill d-flex justify-content-center align-items-center">		            				
 		            					<i class="fa-solid fa-paw me-1"></i>
 			            				<span class = "span-dang-head">${dangList.dangInfo.dangHead}</span>
-			            				 / 
+			            				<span>/</span> 
 			            				<span class = "span-dang-headmax">${dangList.dangInfo.dangHeadmax}</span>
 		            				</div>
 	            				</div>
@@ -372,14 +397,12 @@
 		            				<c:choose>
 		            				<c:when test = "${dangList.dangInfo.isLike == 1}">
 	            					<button class = "flex-fill btn-dang btn-dang-like btn-dang-like-selected" type = "button" data-islike = "1">
-		            					<i class="fa-regular fa-heart"></i>
-		            					<span>${dangList.dangInfo.dangLike}</span>
+		            					<i class="fa-regular fa-heart me-1"></i><span>${dangList.dangInfo.dangLike}</span>
 		            				</button>
 		            				</c:when>
 		            				<c:otherwise>
 	            					<button class = "flex-fill btn-dang btn-dang-like" type = "button" data-islike = "0">
-		            					<i class="fa-regular fa-heart"></i>
-		            					<span>${dangList.dangInfo.dangLike}</span>
+		            					<i class="fa-regular fa-heart me-1"></i><span>${dangList.dangInfo.dangLike}</span>
 		            				</button>
 		            				</c:otherwise>
 		            				</c:choose>
@@ -390,12 +413,23 @@
 		            			<input type = "hidden" name = "dangHead" value = "${dangList.dangInfo.dangHead}">
 		            			<input type = "hidden" name = "dangPrivate" value = "${dangList.dangInfo.dangPrivate}">
 		            			<input type = "hidden" name = "dangPw" value = "${dangList.dangInfo.dangPw}">
-		            			<div class = "col-4 d-flex justify-content-end align-items-center div-dang-btn"></div> <%-- 비동기로 버튼 태그를 추가할 영역 --%>
+		            			<c:if test = "${login}">		            			
+		            			<div class = "col-4 d-flex justify-content-end align-items-center div-dang-btn">
+	            				<c:choose>
+	            				<c:when test = "${dangList.dangInfo.isMember == 1}">
+	            					<button class = "flex-fill btn-dang btn-dang-enter" type = "button">입장</button>
+	            				</c:when>
+	            				<c:otherwise>
+	            					<button class = "flex-fill btn-dang btn-dang-join" type = "button">가입</button>
+	            				</c:otherwise>
+	            				</c:choose>
+		            			</div> <%-- 비동기로 버튼 태그를 추가할 영역 --%>
 		            			<%-- <button class = "flex-fill btn-dang btn-dang-join" type = "button">가입</button> --%>
+		            			</c:if>
 		            		</div>
 						</div>
 					</div>
-				</div>
+				</div> <%-- 태그 생성 끝 --%>
 				</c:forEach>
 			</div>
 		</div>
@@ -632,7 +666,6 @@
     </div>
 </div>
 
-
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
@@ -641,10 +674,7 @@
 		
 		// 로그인 중인 회원의 회원 번호
 		var userNo = $("#loginNo").val();
-		
-		// 특정 댕모임에 가입했는지 여부에 따라 입장/가입 버튼 태그를 생성하는 함수 실행
-		isMember();
-		
+
 		// 댕모임 번호
 		var dangNo;
 		// 댕모임 이름
@@ -668,10 +698,8 @@
 			}
 			// 좋아요 할 댕모임 번호
 			var dangLikeNo = $(this).parent().nextAll("[name=dangNo]").val();
-			console.log(dangLikeNo);
 			// 좋아요 상태
 			var dangLikeState = $(this).data("islike");
-			console.log(dangLikeState);
 			// 태그 생성 영역
 			var target = $(this).parent();
 			// 좋아요 등록
@@ -684,29 +712,25 @@
 					isLike : dangLikeState
 				},
 				success : function(resp) {
-					console.log(resp);
-					// 태그 생성 영역 초기화
 					target.empty();
 					// 응답에 따라 다른 처리
 					if(resp.isLike == 1) {
-						console.log("좋아요 등록 완료")
 						target
 							.append(
 								$("<button>").attr("class", "flex-fill btn-dang btn-dang-like btn-dang-like-active").attr("type", "button").attr("data-islike", resp.isLike)
 									.append(
-										$("<i>").attr("class", "fa-regular fa-heart")	
+										$("<i>").attr("class", "fa-regular fa-heart me-1")	
 									)
 									.append(
 										$("<span>").text(resp.dangLikeCount)	
 									)
 							)
 					} else {
-						console.log("좋아요 취소 완료")
 						target
 							.append(
 								$("<button>").attr("class", "flex-fill btn-dang btn-dang-like btn-dang-like-inactive").attr("type", "button").attr("data-islike", resp.isLike)
 									.append(
-										$("<i>").attr("class", "fa-regular fa-heart")	
+										$("<i>").attr("class", "fa-regular fa-heart me-1")	
 									)
 									.append(
 										$("<span>").text(resp.dangLikeCount)	
@@ -1124,62 +1148,6 @@
 			form.submit();
 		});
 		
-		// 특정 댕모임에 가입했는지 여부에 따라 입장/가입 버튼 태그를 생성하는 함수
-		function isMember() {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/rest_member/search_already_join?userNo=" + userNo,
-				method : "get",
-				success : function(resp) {
-					console.log(resp);
-					if(resp.length != 0) {						
-						// 이미 가입한 댕모임에 대해 입장 버튼 생성
-						for(var i = 0 ; i < resp.length ; i ++) {	
-							$("body").find("[name=dangNo]").each(function(){
-								// 댕모임 번호 추출
-								var dangNo = $(this).val();
-								// 태그 생성 위치
-								var target = $(this).nextAll(".div-dang-btn");
-								// 이미 가입한 댕모임에 대해
-								if($(this).val() == resp[i]) {
-									target.append(
-										$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", dangNo).text("입장") // 입장 버튼 추가
-									);
-								}
-							})
-						}
-						// 가입하지 않은 댕모임에 대해 가입 버튼 생성
-						for(var i = 0 ; i < resp.length ; i ++) {
-							$("body").find("[name=dangNo]").each(function(){
-								// 댕모임 번호 추출
-								var dangNo = $(this).val();
-								// 태그 생성 위치
-								var target = $(this).nextAll(".div-dang-btn");
-								// 가입하지 않은 댕모임에 대해
-								if($(this).val() != resp[i]) {
-									if(target.is(":empty")) { // 빈 태그일 경우에만							
-										target.append(
-											$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", dangNo).text("가입") // 가입버튼 추가
-										);
-									}
-								} 
-							})
-						}
-					} else {
-						$("body").find("[name=dangNo]").each(function(){
-							// 댕모임 번호 추출
-							var dangNo = $(this).val();
-							// 태그 생성 위치
-							var target = $(this).nextAll(".div-dang-btn");
-							// 가입하지 않은 댕모임에 대해
-							target.append(
-									$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", dangNo).text("가입") // 가입버튼 추가
-								);
-						})
-					}
-				}
-			})
-		}
-		
 		// 가입 유효성 검사
 		var formJoinValid = {
 			checkNick : false,
@@ -1192,6 +1160,207 @@
 			console.log("formValid.checkNick = " + formJoinValid.checkNick);
 			console.log("formValid.checkPw = " + formJoinValid.checkPw);
 		}
+		
+		// 현재 페이지
+		var p = 1;
+		// 댕모임 전체/검색 결과 총 갯수
+		var pLast = $("#pLast").val();
+		// Query String	
+		// - 현재 주소
+		var urlHref = window.location.href;
+		var url = new URL(urlHref);
+		// - Query String
+		var queryString = url.searchParams.toString();
+		
+		// 댕모임 목록 무한 스크롤
+		$(window).scroll(_.debounce(function(){
+			// 현재 페이지가 마지막 페이지와 같으면 return
+			if(p == pLast) return;
+			// 화면 바닥의 위치[%]
+			var percentage = $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
+			// 전체 문서 위치의 80%에 도달했을 때
+			if(percentage > 80) {
+				// 페이지 수 증가
+				p = p + 1;
+				// 비동기 조회
+				$.ajax({
+					url : "${pageContext.request.contextPath}/rest_dang/list?p=" + p + "&" +  queryString,
+					method : "get",
+					success : function(resp) {
+						
+						var target = $(".div-dang-search-list");
+						
+						for(var i = 0 ; i < resp.length ; i ++) {
+							
+							var divDangInfoContainer = $("<div>").attr("class", "col-4 my-3 p-3");
+							
+							var divDangInfoOuter = $("<div>").attr("class", "card col w-100 div-outer-dang-info shadow");
+							
+							var divDangProfile = $("<div>").attr("class", "div-dang-profile")
+													.append(
+															$("<img>").attr("class", "card-img-top img-dang-profile").attr("src", "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
+														)
+														.append(
+															$("<span>").attr("class", "px-2 span-dang-area").text(resp[i].dangInfo.dangArea)
+														)
+							
+							var divDangCardBody = $("<div>").attr("class", "card-body");
+							
+							var rowDangCreatetime = $("<div>").attr("class", "row")
+														.append(
+																$("<span>").attr("class", "span-dang-createdate").text("since."+resp[i].dangInfo.dangCreatetime)		
+															)
+												
+							var rowDangName = $("<div>").attr("class", "row my-2")
+												.append(
+														$("<div>").attr("class", "col-9 d-flex justify-content-start align-items-center")
+															.append(
+																$("<strong>").attr("class", "text-middle strong-dang-name").text(resp[i].dangInfo.dangName)
+															)
+													)
+							
+							if(resp[i].dangInfo.dangPrivate == "Y") {
+								rowDangName
+									.append(
+										$("<div>").attr("class", "col-3 d-flex justify-content-center align-items-center div-dang-private")
+											.append(
+												$("<div>").attr("class", "w-100 p-1 text-center text-middle span-dang-private")
+													.append(
+														$("<i>").attr("class", "fa-solid fa-lock")		
+													)
+											)
+									)
+								
+							}
+							
+							var rowDangInfo = $("<div>").attr("class", "row my-2")
+								.append(
+									$("<div>").attr("class", "div-dang-info")
+										.append(
+											$("<span>").attr("class", "card-text span-dang-info py-0").text(resp[i].dangInfo.dangInfo)
+										)
+								)
+								
+							var rowDangHashtag = $("<div>").attr("class", "row mb-2")
+								.append(
+									$("<div>").attr("class", "d-flex flex-row flex-wrap div-hashtag-list")	
+								)	
+							if(resp[i].dangHashtag.length != 0) {
+								for(var j = 0 ; j < resp[i].dangHashtag.length ; j ++) {									
+									rowDangHashtag.children()
+										.append(
+											$("<span>").attr("class", "span-dang-hashtag me-1 my-1 px-2").text("#"+ resp[i].dangHashtag[j].hashtagContent)
+										)
+								}	
+							}
+							
+							var rowDangButton = $("<div>").attr("class", "row")
+								.append(
+									$("<div>").attr("class", "col-4 d-flex justify-content-center align-items-center")
+										.append(
+											$("<div>").attr("class", "div-dang-head flex-fill d-flex justify-content-center align-items-center")
+												.append(
+													$("<i>").attr("class", "fa-solid fa-paw me-1")		
+												)
+												.append(
+													$("<span>").attr("class", "span-dang-head").text(resp[i].dangInfo.dangHead)	
+												)
+												.append(
+													$("<span>").text(" / ")		
+												)
+												.append(
+													$("<span>").attr("class", "span-dang-headmax").text(resp[i].dangInfo.dangHeadmax)
+												)
+										)
+								)
+							
+							if(resp[i].dangInfo.isLike == 1) {
+								rowDangButton
+								.append(
+									$("<div>").attr("class", "col-4 d-flex justify-content-center align-items-center div-dang-like")
+										.append(
+											$("<button>").attr("class", "flex-fill btn-dang btn-dang-like btn-dang-like-selected").attr("type", "button").attr("data-islike", 1)
+												.append(
+													$("<i>").attr("class", "fa-regular fa-heart me-1")
+												)
+												.append(
+													$("<span>").text(resp[i].dangInfo.dangLike)
+												)
+										)
+								)
+							} else {
+								rowDangButton
+									.append(
+										$("<div>").attr("class", "col-4 d-flex justify-content-center align-items-center div-dang-like")
+											.append(
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-like").attr("type", "button").attr("data-islike", 0)
+													.append(
+														$("<i>").attr("class", "fa-regular fa-heart me-1")
+													)
+													.append(
+														$("<span>").text(resp[i].dangInfo.dangLike)
+													)
+											)
+									)
+							}
+							rowDangButton
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", resp[i].dangInfo.dangNo)
+								)
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangName").attr("value", resp[i].dangInfo.dangName)
+								)
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangHeadmax").attr("value", resp[i].dangInfo.dangHeadmax)
+								)
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangHead").attr("value", resp[i].dangInfo.dangHead)
+								)
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangPrivate").attr("value", resp[i].dangInfo.dangPrivate)
+								)
+								.append(
+									$("<input>").attr("type", "hidden").attr("name", "dangPw").attr("value", resp[i].dangInfo.dangPw)
+								)
+							
+							if(userNo != "" && resp[i].dangInfo.isMember == 1) {
+								rowDangButton
+									.append(
+										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-btn")
+											.append(
+												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", resp[i].dangInfo.dangNo).text("입장")
+											)
+									)
+							} else if(userNo != "" && resp[i].dangInfo.isMember == 0){
+								rowDangButton
+									.append(
+										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-btn")
+											.append(
+												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", resp[i].dangInfo.dangNo).text("입장")
+											)
+									)
+							}
+								
+							divDangCardBody
+								.append(rowDangCreatetime)
+								.append(rowDangName)
+								.append(rowDangInfo)
+								.append(rowDangHashtag)
+								.append(rowDangButton)
+								
+							divDangInfoOuter
+								.append(divDangProfile)
+								.append(divDangCardBody)
+								
+							divDangInfoContainer.append(divDangInfoOuter)
+							
+							target.append(divDangInfoContainer);
+
+						}
+					}
+				});
+			}
+		}, 300));
 	});
 	
 </script>

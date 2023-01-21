@@ -85,6 +85,13 @@ public interface DangDao {
 	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto);
 	
 	/**
+	 * 댕모임 전체/검색 조회시 총 결과 갯수
+	 * @param dangListRequestDto : 댕모임명, 지역
+	 * @return int : 댕모임 전체/검색 조회 결과 총 갯수
+	 */
+	public int countDangTotal(DangListRequestDto dangListRequestDto);
+	
+	/**
 	 * 댕모임 회원수 갱신
 	 * @param dangNo : 댕모임 번호
 	 * @param dangHead : 댕모임 회원수
