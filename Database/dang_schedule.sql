@@ -9,7 +9,7 @@ schedule_headmax number not null,
 schedule_head number default 1 not null,
 schedule_start date,
 schedule_hour varchar2(5),
-schedule_money varchar2(6) default 0
+schedule_money number default 0
 );
 
 -- 시퀀스 번호 생성
