@@ -235,8 +235,9 @@
 	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
 	}
 	.schedule-where{
-	height: 1.6em;
     border: 1px solid gray;
+    margin: 0px 0px 10px;
+    height: 42px;
 	}
 	
     .modal-place-body{
@@ -327,6 +328,7 @@
 			var placeUrl = $(".span-placeurl").text();			
 			window.location.href=placeUrl;			
 		});
+		
 		
 		//모달 띄워지기 직전 캘린더 미리 생성
 		$("#day-check-modal").on("shown.bs.modal", function () {
@@ -885,9 +887,10 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 제목</label>
                               <i class="fa-solid fa-asterisk text-danger"></i>
-                            <span class="b-length length-font"> ( 0</span>
+                              <span class="length-font">(</span>
+                            <span class="title-length length-font">0</span> 
                             <span class="length-font">/ 20 )</span>
-                            <input class="schedule-name form-control"/>
+                            <input type="text" class="schedule-name form-control" maxlength="20">
                         </div>
 
 
@@ -895,17 +898,18 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 내용</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                            <span class="b-length length-font"> ( 0</span>
+                            <span class="length-font">(</span>
+                            <span class="content-length length-font">0</span>
                             <span class="length-font">/ 100 )</span>
-                            <textarea name="boardContent" id="write-content" class="form-control b-contentbox" rows="2"
+                            <textarea name="boardContent"  class="write-content form-control b-contentbox" maxlength="100" rows="2"
                                 style="resize:none;"></textarea>
                         </div>
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-content"><input type="time" value="13:00" min="00:00"
-                                        max="24:00"  class="inbl w-50 b-contentbox form-content"></p>
+                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-control "><input type="time" value="13:00" min="00:00"
+                                        max="24:00"  class="inbl w-50 b-contentbox form-control "></p>
                         </div>
 
                         <div class="mb-3 text-start">
@@ -913,7 +917,7 @@
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
                             </div>
-                            <div class="schedule-where inbl w-50"></div>                       
+                            <div class="schedule-where form-control"></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -989,8 +993,8 @@
                 </div>
                 <div class="modal-footer pt-0">
                     <button type="button" class="btn btn-primary btn-placeurl" >홈페이지</button>                
-                    <button type="button" class="btn btn-secondary" onclick="detailMove()">상세보기</button>
-                    <button type="button" class="btn btn-select-place" onclick="insertPlace">등록하기</button>
+                    <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
+                    <button type="button" class="btn btn-select-place">등록하기</button>
                 </div>
             </div>
         </div>
@@ -1023,7 +1027,49 @@
         var placeNoInfo; //장소번호를 가져오는 변수
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
         var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
-
+		
+		$(".btn-select-place").click(function(){			
+			var placeWhere = $(".span-placename").text();	
+			
+			$(".schedule-where").text(placeWhere);
+			
+			$("#edit").modal("hide");
+			
+		});
+        
+        $(document).on("input", ".schedule-name", function(){
+        	
+        	console.log("확인");
+        	
+        	var nameLength = $(this).val().length;
+        	console.log(nameLength);
+        	$(".title-length").text(nameLength);
+        	
+         	if(nameLength >= 20) {
+         		$(".title-length").css("color","red");
+        		
+        	} 
+         	else{
+         		$(".title-length").css("color","black");
+         	}
+        });
+          
+        $(document).on("input", ".write-content", function(){
+        	     	
+        	var contentLength = $(this).val().length;
+        	console.log(contentLength);
+        	$(".content-length").text(contentLength);
+        	
+         	if(contentLength >= 100) {
+         		$(".content-length").css("color","red");
+        
+        	} 
+         	else{
+         		$(".content-length").css("color","black");
+         	}
+        });
+        
+		//회비는 6자까지므로 999999원까지 제한시키기(이상이 되면 helpertext로 1백만원이하만 가능하다고 하기)
 
         function detailMove() {
             location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
