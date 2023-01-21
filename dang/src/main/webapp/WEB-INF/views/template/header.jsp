@@ -53,137 +53,158 @@
 	<!-- MomentJS 언어팩 CDN-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 	
-	<style>
-	
-		* {
-			font-family: 'Noto Sans KR', 산세리프;
-			font-size : 18px;
-	    }
-	    
-		a {
-	       text-decoration: none;
-	       color:black;
-	    }
-	    
-	    p{
-	    	margin-bottom:0;
-	    }
-	    
-	    .inbl{
-	    	display:inline-block;
-	    }
-	    .w-auto{
-	    	width:auto;
-	    }
-	    
-	    .img-circle{
-			border-radius: 50%;
-	    	border:none;
-	    	background-color:#fff;
-	    	overflow: hidden;
-		}
-		
-		.font-gray{
-			color:#373A3C;
-		}
-	  	
-		.btn.btn-primary{
-			background-color:#76BEFF;
-			color:#fff;
-			border-color: #76BEFF;
-		}
-		.btn-pink{
-			background-color:#F94888;
-			color:#fff;
-			border-color: #F94888;
-		}
-		.btn-pink:hover{
-			color:#fff;
-		}
-		
-		.cursor-pointer{
-			cursor: pointer;
-		}
-		
-		.cursor-zoomin{
-			cursor:zoom-in;
-		}
-	
-		.img-user-profile {
-			border-radius : 50%;
-			border : 2px solid black;
-			width : 1.8em;
-			aspect-ratio: 1/1;
-		}
-		
-		.div-user-profile {
-			cursor:pointer;
-		}
-		
-		.span-check-valid {
-			color : green;
-		}
-		
-		.span-check-invalid {
-			color : red;
-	  }
-	  
-		.form-control:focus {
-		  background-color: #fff;
-		  border-color: #a2c1f6;
-		  outline: 0;
-		  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
-		}
-		
-		.form-select:focus {
-		  border-color: #a2c1f6;
-		  outline: 0;
-		  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
-		}
-	
-		.gray:hover {
-		  color: black;
-		  background-color: #E6E6E6;
-		}
-		
-		.middle-items{
-			display:flex;
-			align-items:center;
-		}
-		.blue{
-			color:#76BEFF;
-		}
-		.pink{
-			color:#F94888;
-		}
-		.text-truncate2 {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-line-clamp: 3;
-			-webkit-box-orient: vertical;
-			white-space: normal;
-		}
-		.zoomin {
-		    display: none;
-		    z-index: 500;
-		    max-width: 100%;
-		    height: auto;
-		    position: fixed;
-		    top:0; left: 0; bottom: 0; right: 0;
-		    background-color: gray;
-		    background: rgba(0, 0, 0, 0.8);
-		}
-		.zoomin-img {
-		    position: absolute;
-		    top: 50%;
-		    left: 50%;
-		    transform: translate(-50%, -50%);
-		}	
-		
-	    
-	</style>
-	
+<style>
+
+  * {
+    font-family: 'Noto Sans KR', 산세리프;
+    font-size : 18px;
+  }
+
+  a {
+    text-decoration: none;
+    color:black;
+  }
+
+  p {
+    margin-bottom:0;
+  }
+
+  .inbl {
+    display:inline-block;
+  }
+  
+  .w-auto {
+    width:auto;
+  }
+  
+  .img-circle {
+    border-radius: 50%;
+    border:none;
+    background-color:#fff;
+    overflow: hidden;
+  }
+
+  .font-gray {
+    color:#373A3C;
+  }
+
+  .btn.btn-primary {
+    background-color:#76BEFF;
+    color:#fff;
+    border-color: #76BEFF;
+  }
+  
+  .btn-outline-primary {
+    color: #76BEFF;
+    border-color: #76BEFF;
+  }
+  
+  .btn-outline-primary:hover {
+    color: #fff;
+    font-weight:bolder;
+    background-color: #76BEFF;
+    border-color: #76BEFF;
+  }
+  .btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(118, 190, 255, 0.5);
+  }
+  
+  .btn-pink{
+    background-color:#F94888;
+    color:#fff;
+    border-color: #F94888;
+  }
+  
+  .btn-pink:hover {
+    color:#fff;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .cursor-zoomin {
+    cursor:zoom-in;
+  }
+  
+  .img-user-profile {
+    border-radius : 50%;
+    border : 2px solid black;
+    width : 1.8em;
+    aspect-ratio: 1/1;
+  }
+
+  .div-user-profile {
+    cursor:pointer;
+  }
+
+  .span-check-valid {
+    color : green;
+  }
+
+  .span-check-invalid {
+    color : red;
+  }
+
+  .form-control:focus {
+    background-color: #fff;
+    border-color: #a2c1f6;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+  }
+  
+  .form-select:focus {
+    border-color: #a2c1f6;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+  }
+  
+  .gray:hover {
+    color: black;
+    background-color: #E6E6E6;
+  }
+
+  .middle-items{
+    display:flex;
+    align-items:center;
+  }
+  
+  .blue{
+    color:#76BEFF;
+  }
+  
+  .pink{
+    color:#F94888;
+  }
+  
+  .text-truncate2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+  
+  .zoomin {
+    display: none;
+    z-index: 500;
+    max-width: 100%;
+    height: auto;
+    position: fixed;
+    top:0; left: 0; bottom: 0; right: 0;
+    background-color: gray;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .zoomin-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
 </head>
 
 <body>

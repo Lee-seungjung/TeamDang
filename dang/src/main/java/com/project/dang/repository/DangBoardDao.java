@@ -1,6 +1,5 @@
 package com.project.dang.repository;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.project.dang.dto.BoardImgDto;
@@ -8,6 +7,7 @@ import com.project.dang.dto.DangBoardDto;
 import com.project.dang.dto.DangBoardLikeDto;
 import com.project.dang.vo.BoardEditVO;
 import com.project.dang.vo.BoardHistoryVO;
+import com.project.dang.vo.DangAlbumVO;
 
 public interface DangBoardDao {
 	
@@ -88,6 +88,20 @@ public interface DangBoardDao {
 	 * @return List<BoardImgDto>
 	 */
 	List<BoardImgDto> findImg(int boardNo);
+	
+	/**
+	 * 댕모임 내 게시글 첨부파일 조회
+	 * @param dangNo
+	 * @return DangAlbumVO
+	 */
+	List<DangAlbumVO> albumList(int dangNo);
+	
+	/**
+	 * 댕모임 내 게시글 첨부파일 무한스크롤 조회
+	 * @param dangNo, attachmentNo
+	 * @return DangAlbumVO
+	 */
+	List<DangAlbumVO> moreAlbumList(int dangNo, int attachmentNo);
 	
 	/**
 	 * 좋아요 테이블 조회
