@@ -7,9 +7,6 @@
 		border-bottom: none;
 		padding-bottom:0;
 	}
-	.modal-footer{
-		border-top: none;
-	}
 	.fc-scrollgrid{
 		border-radius:0.5rem;
 	}
@@ -24,6 +21,7 @@
   		padding-bottom:0;
   	}
   	.modal-footer{
+  		border-top: none;
   		background-color: #fff;
   	}
   	
@@ -229,6 +227,89 @@
             border-radius: 5px;
             background: white;
         }
+        
+      .form-content:focus {
+	  background-color: #fff;
+	  border-color: #a2c1f6;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+	.schedule-where{
+	height: 1.6em;
+    border: 1px solid gray;
+	}
+	
+    .modal-place-body{
+	border-radius: 0.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 15px;
+    height: 150px;
+	}
+
+    .body1{
+        width: 33%;
+        position: relative;
+    }
+
+    .body2{
+        width: 67%;
+        padding: 10px;
+    }
+
+    .span-placeoperation{
+        font-size: small;
+    }
+
+    .span-placetel{
+        color: #76BEFF;
+        font-size: 15px;
+    }
+
+    .origin-img{
+        width:150px;
+        height:150px;
+        border-radius: 0.3em;
+    }
+
+    .span-placearea{
+        border-radius: 0.4em;
+        background-color: #FF8888;
+        color: white;
+        position: absolute;
+        font-size: 13px;
+        top: 3px;
+        left: 4px;
+    }
+    .span-placesort{
+        font-size: 14px;
+        color: gray;
+    }
+    .span-placename{
+        font-weight: bolder;
+    }
+    .span-placeaddress{
+        font-size: 14px;
+        word-spacing: 1px;
+        letter-spacing: -1px;
+    }
+    .span-placeoff{
+	    border-radius: 3px;
+	    background-color: #F1F1F0;
+	    color: #5A5A5A;
+	    font-size: 13px;
+    }
+    
+    .btn-select-place{
+    background-color: #F94888;
+    color: white;
+    }
+    .fa-square-phone{
+    color: #C2C4C6;
+    font-size: 18px;
+    margin-right: 7px;
+    }
 
 </style>
 <script>
@@ -772,8 +853,9 @@
 	</div>
 	
 	<!-- 댕모임 일정 등록 -->
-    <button type="button"  class="p-3 border rounded-3 text-center day-check shadow gray mt-3" data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">댕모임 등록</button>
+	 <div class="p-3 border rounded-3 text-center day-check shadow gray mt-3">
+		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">댕모임 등록</span>
+	</div>
 
     <!-- 댕모임 일정 등록 모달 -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -790,7 +872,7 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 제목</label>
                               <i class="fa-solid fa-asterisk text-danger"></i>
-                            <span class="b-length length-font">( 0</span>
+                            <span class="b-length length-font"> ( 0</span>
                             <span class="length-font">/ 20 )</span>
                             <input class="schedule-name form-control"/>
                         </div>
@@ -809,12 +891,16 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="2019-09-22" class="form-control"><input type="time" value="13:00" min="00:00"
-                                        max="24:00"  class="form-control"></p>
+                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-content"><input type="time" value="13:00" min="00:00"
+                                        max="24:00"  class="inbl w-50 b-contentbox form-content"></p>
                         </div>
 
                         <div class="mb-3 text-start">
+                        <div>
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
+                            <i class="fa-solid fa-asterisk text-danger"></i>
+                            </div>
+                            <div class="schedule-where inbl w-50"></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -841,8 +927,8 @@
 
                         <div class="mb-3 text-start">
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
-                                                            <select style="color: #757575;" name="schedule-MaxHead" class="rounded pb-1 ps-1">
-                                    <option value="" class="form-control">인원수</option>
+                                                            <select style="color: #757575;" name="schedule-MaxHead" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
+                                    <option value="" >인원수</option>
                                     <option class="people-5">5명</option>
                                     <option class="people-10">10명</option>
                                     <option class="people-15">15명</option>
@@ -871,23 +957,26 @@
 
 	    <!-- 댕모임 일정 장소 모달 시작-->
     <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-place-body">
+                    <div class="body-flex body1">
+                        <span class="span-placearea px-2"></span>
+                    <img src=""  class="origin-img">
                 </div>
-                <div class="modal-body">
-                    <span class="span-placeaddress"></span><br> <span class="span-placearea"></span><br> <span
-                        class="span-placeinfo"></span><br> <span class="span-placename"></span><br> <span
-                        class="span-placeoff"></span><br> <span class="span-placeoperation"></span><br> <span
-                        class="span-placesort"></span><br> <span class="span-placetel"></span><br> <span
-                        class="span-placeurl"></span><br>
-                    <img src="" width="100" height="100" class="origin-img"><br>
+                <div class="body-flex body2">
+                    <span class="span-placename"></span>
+                     <span  class="span-placesort"></span><br>
+                    <span class="span-placeaddress"></span><br>
+                    <span class="span-placeoff"></span>
+                    <span class="span-placeoperation"></span><br>
+                    <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary" onclick="detailMove()">상세보기</button>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-primary" onclick="">홈페이지</button>
+                    <button type="button" class="btn btn-secondary" onclick="detailMove()">상세보기</button>
+                    <button type="button" class="btn btn-select-place" onclick="">등록하기</button>
                 </div>
             </div>
         </div>
