@@ -259,7 +259,7 @@
     }
 
     .span-placeoperation{
-        font-size: small;
+        font-size: 14px;
     }
 
     .span-placetel{
@@ -968,7 +968,7 @@
                     <span class="span-placename"></span>
                      <span  class="span-placesort"></span><br>
                     <span class="span-placeaddress"></span><br>
-                    <span class="span-placeoff"></span>
+                    <span class="span-placeoff px-2"></span>
                     <span class="span-placeoperation"></span><br>
                     <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
                     </div>
