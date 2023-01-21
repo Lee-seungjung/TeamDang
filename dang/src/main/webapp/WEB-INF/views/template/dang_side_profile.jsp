@@ -267,7 +267,7 @@
         font-size: 15px;
     }
 
-    .origin-img{
+    .place-img{
         width:150px;
         height:150px;
         border-radius: 0.3em;
@@ -962,7 +962,7 @@
                 <div class="modal-place-body">
                     <div class="body-flex body1">
                         <span class="span-placearea px-2"></span>
-                    <img src=""  class="origin-img">
+                    <img src=""  class="place-img">
                 </div>
                 <div class="body-flex body2">
                     <span class="span-placename"></span>
@@ -1048,7 +1048,7 @@
                                     resp.placeTel);
                                 $(".span-placeurl").text(
                                     resp.placeUrl);
-                                $(".origin-img")
+                                $(".place-img")
                                     .attr(
                                         "src",
                                         "http://localhost:8888/rest_attachment/download/"
