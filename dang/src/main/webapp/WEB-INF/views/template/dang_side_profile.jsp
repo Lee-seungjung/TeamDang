@@ -310,10 +310,23 @@
     font-size: 18px;
     margin-right: 7px;
     }
+    .span-placeurl{
+    display: none;
+    }
+    .btn-placeurl{
+    color: white;
+    background-clolr: #76BEFF;
+    }
 
 </style>
 <script>
 	$(function(){
+		
+		$(".btn-placeurl").click(function(){
+			$(".span-placeurl").text();			
+			var placeUrl = $(".span-placeurl").text();			
+			window.location.href=placeUrl;			
+		});
 		
 		//모달 띄워지기 직전 캘린더 미리 생성
 		$("#day-check-modal").on("shown.bs.modal", function () {
@@ -971,12 +984,13 @@
                     <span class="span-placeoff px-2"></span>
                     <span class="span-placeoperation"></span><br>
                     <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                    <span  class="span-placeurl"></span>
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
-                    <button type="button" class="btn btn-primary" onclick="">홈페이지</button>
+                    <button type="button" class="btn btn-primary btn-placeurl" >홈페이지</button>                
                     <button type="button" class="btn btn-secondary" onclick="detailMove()">상세보기</button>
-                    <button type="button" class="btn btn-select-place" onclick="">등록하기</button>
+                    <button type="button" class="btn btn-select-place" onclick="insertPlace">등록하기</button>
                 </div>
             </div>
         </div>
