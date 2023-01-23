@@ -1,11 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="마이페이지" name="title"/>
+</jsp:include>
+
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
+
+	* {
+		border : 1px gray dotted;
+	}
 	
 	.img-mypage-profile {
 		border-radius : 50%;
 		border : 2px solid black;
+		aspect-ratio : 1/1;
 	}
 	
 	.div-user-info {
@@ -15,10 +26,6 @@
 	}
 </style>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="마이페이지" name="title"/>
-</jsp:include>
-
 <div class = "container-fluid my-3">	
 	<div class = "row">
 		<div class = "col-8 offset-2 my-3 py-5">
@@ -27,12 +34,8 @@
 					<a href = "mypage">마이페이지</a>
 				</div>
 			</div>
-			<div class = "row">			
-				<div class = "col-3">
-					<%-- 사이드 메뉴 불러오기 --%>
-					<jsp:include page="/WEB-INF/views/template/mypage_side_menu.jsp"></jsp:include>
-				</div>
-				<div class = "col-9">
+			<div class = "row">		
+				<div class = "col">
 					<div class = "row px-3">
 						<div class = "col div-user-info p-5">
 							<div class = "row">
