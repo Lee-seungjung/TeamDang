@@ -295,14 +295,27 @@
     background-clolr: #76BEFF;
     }
     .invalid-money{
-     display: block;
       font-size: 0.875em;
-	  color: #d9534f;
+	  color: red;
     }
 </style>
 <script>
 	$(function(){
 		
+		$(".invalid-money").hide();
+		
+ 		//참여 회비는 1백만원미만으로 제한(6자)
+ 		$(document).on("input", ".money", function(){
+ 			
+			var moneyLength = $(this).val().length;
+			
+			console.log(moneyLength);
+			
+			if(moneyLength >= 7) {
+				$(".invalid-money").show();
+			}
+		});
+        
 		$(".btn-placeurl").click(function(){
 			$(".span-placeurl").text();			
 			var placeUrl = $(".span-placeurl").text();			
@@ -931,7 +944,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">참여 회비</label>
-                            <input class="money form-control" maxLength="6" />
+                            <input class="money form-control" maxLength="7" />
                             <span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>                            
                         </div>
 
@@ -1043,19 +1056,6 @@
          		$(".content-length").css("color","black");
          	}
         });
-        
- 		//참여 회비는 1백만원미만으로 제한(6자)
-
-/* 		$(document).on("input", ".money", function(){
-			$(."invalid-money").removeClass();
-			var moneyLength = $(this).val().length;
-			console.log(moneyLength);
-			$(".money").text(moneyLength);
-			
-			if(moneyLength > 6) {
-				$(".invalid-money").css("color","red");		
-			}
-		});  */
         
         function detailMove() {
             location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
