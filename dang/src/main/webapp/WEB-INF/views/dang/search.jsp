@@ -1353,7 +1353,7 @@
 									.append(
 										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-btn")
 											.append(
-												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", resp[i].dangInfo.dangNo).text("입장")
+												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", resp[i].dangInfo.dangNo).text("가입")
 											)
 									)
 							} else if(userNo != "" && resp[i].dangInfo.isMember == 0){

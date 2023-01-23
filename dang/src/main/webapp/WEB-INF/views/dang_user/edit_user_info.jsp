@@ -11,6 +11,8 @@
 	.img-edit-profile {
 		border-radius : 50%;
 		padding: 5px;
+		object-fit : fill;
+		aspect-ratio : 1/1;
 	}
 	
 	.div-user-info {
@@ -43,7 +45,7 @@
 							<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "form-edit-info"> <%-- form 시작 --%>
 							<div class = "row">
 								<div class = "col-4 d-flex justify-content-center align-items-center">
-									<label for = "userProfile" class = "img-user-profile">
+									<label for = "userProfile">
 										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
 										<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
 									</label>
