@@ -225,55 +225,55 @@
                 <div class="row mypage-1">
 
                     <div class="mypage-one col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/dang-interest-area.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5">
+                        <div class="row px-4 py-4  mt-5 mb-5">
                             <span class="mypage-menu-common">관심지역 설정</span>
                         </div>
                     </div>     
 
 
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4 mb-5">
-                            <span class="mypage-menu-common">관심지역 설정</span>
+                        <div class="row px-4 py-4 mb-5 mt-5">
+                            <span class="mypage-menu-common">회원정보 변경</span>
                         </div>
                     </div> 
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5">
-                            <span class="mypage-menu-common">관심지역 설정</span>
+                        <div class="row px-4 py-4  mb-5 mt-5">
+                            <span class="mypage-menu-common">비밀번호 변경</span>
                         </div>
                     </div>    
                 </div>
                 <div class="row mypage-2">
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5 ">
-                            <span class="mypage-menu-common">관심지역 설정</span>
+                        <div class="row px-4 py-4  mb-5 mt-5">
+                            <span class="mypage-menu-common">댕 정보 변경</span>
                         </div>
                     </div> 
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5">
-                            <span class="mypage-menu-common">관심지역 설정</span>
+                        <div class="row px-4 py-4  mb-5 mt-5">
+                            <span class="mypage-menu-common">가입 댕모임</span>
                         </div>
                     </div>   
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-5 d-flex flex-column align-items-center justify-content-center" mx-2>
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5">
-                            <span class="mypage-menu-common">관심지역 설정</span>
+                        <div class="row px-4 py-4  mb-5 mt-5">
+                            <span class="mypage-menu-common">참여일정 조회</span>
                         </div>
                     </div> 
                 </div>
