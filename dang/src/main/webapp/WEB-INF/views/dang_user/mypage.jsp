@@ -111,7 +111,7 @@
                         <div class="row">
 
                             <div class="col-6 dang-owner-profile">
-                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-4">
+                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">
                                     <!--  <img class="row img-fluid img-owner-profile w-100" src="image/img-mypage-profile.png" >-->
                                     <img class = "row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
                                     <span class="dang-nick2 row align-items-center justify-content-center py-2 ">초코야사랑해</span>
@@ -168,10 +168,10 @@
                     <div class="col-5 mydang-border">
                         <div class="row">
                             <div class="col-6 dang-profile">
-                                <div class="dang-photo row px-5 py-5 d-flex flex-column align-items-center justify-content-center">
+                                <div class="dang-photo row px-3 py-4 d-flex flex-column align-items-center justify-content-center">
                                     <img class="row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" >
                                     <div class="dang-gender">
-                                     <img class="row img-fluid img-dang" src ="/dang/female">
+                                     <img class="row img-fluid img-dang" src ="">
                                     </div>
                                     <span class="row d-flex align-items-center justify-content-center py-1 ">초코</span>
                                 </div>
@@ -220,7 +220,7 @@
                         </div>
                     </div>
 
-            <div class="mypage-border py-5 mt-3">
+            <div class="mypage-border py-3 mt-3">
 
                 <div class="row mypage-1">
 
@@ -228,7 +228,7 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/dang-interest-area.png" >
                         </div>
-                        <div class="row px-4 py-4  mt-5 mb-5">
+                        <div class="row px-4 py-2  mb-5 mt-4">
                             <span class="mypage-menu-common">관심지역 설정</span>
                         </div>
                     </div>     
@@ -238,7 +238,7 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4 mb-5 mt-5">
+                        <div class="row px-4 py-2 mb-5 mt-4">
                             <span class="mypage-menu-common">회원정보 변경</span>
                         </div>
                     </div> 
@@ -246,7 +246,7 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5 mt-5">
+                        <div class="row px-4 py-2 mb-5 mt-4">
                             <span class="mypage-menu-common">비밀번호 변경</span>
                         </div>
                     </div>    
@@ -256,7 +256,7 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5 mt-5">
+                        <div class="row px-4 py-2  mb-4 mt-5">
                             <span class="mypage-menu-common">댕 정보 변경</span>
                         </div>
                     </div> 
@@ -264,7 +264,7 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5 mt-5">
+                        <div class="row px-4 py-2  mb-4 mt-5">
                             <span class="mypage-menu-common">가입 댕모임</span>
                         </div>
                     </div>   
@@ -272,8 +272,8 @@
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
                         </div>
-                        <div class="row px-4 py-4  mb-5 mt-5">
-                            <span class="mypage-menu-common">참여일정 조회</span>
+                        <div class="row px-4 py-2  mb-4 mt-5">
+                            <span class="mypage-menu-common">일정 히스토리</span>
                         </div>
                     </div> 
                 </div>
