@@ -282,6 +282,77 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
 			</div>
 			<!-- 다가오는 일정 박스  끝-->
+			
+			<!-- 게시판 글작성 모달 시작-->					
+			<div class="modal fade" id="boardModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
+						</div>
+						<form class="form-tag board-form">
+						<div class="modal-body">
+							
+							<div class="mb-3 text-start">
+								<label for="write-category" class="col-form-label ms-2 me-1">카테고리</label><i class="fa-solid fa-asterisk text-danger"></i>
+								<div>
+									<select class="form-select form-select-sm inbl w-auto" aria-label=".form-select-sm example" name="boardCategory" id="write-category">
+									  <option value="">선택</option>
+									  <option value="자유글">자유글</option>
+									  <option value="가입인사">가입인사</option>
+									  <option value="정모후기">정모후기</option>
+									  <c:if test="${profile.memberOwner=='Y'}">
+									  	<option value="공지사항">공지사항</option>
+									  </c:if>
+									</select>
+								</div>
+							</div>
+							
+							<div class="mb-3 text-start">
+								<label for="message-text" class="col-form-label ms-2 me-1">내용</label>
+								<span class="length-font">( </span>
+								<span class="b-length length-font">0</span>
+								<span class="length-font">/ 1000 )</span>
+								<textarea name="boardContent" id="write-content" class="form-control b-contentbox" rows="7" style="resize:none;"></textarea>
+							</div>
+							
+							<div class="mb-3 text-start mt-2">
+								<div>
+									<input class="form-control"  id="write-select-file" type="file" accept=".jpg, .png, .gif" multiple>
+							    </div>
+							    <div class="mt-2" id="write-file-wrap">
+									<!-- 비동기화 출력 -->
+							    </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-primary write-btn">작성</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 게시판 글작성 모달 끝-->
+			<!-- 글 작성제한 모달 시작 -->
+			<div class="modal" id="dayWriteCnt">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title"></h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true"></span>
+							</button>
+						</div>
+						<div class="modal-body middle-items">
+							<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+							<span>게시글은 하루에 최대 5개까지 작성 가능합니다.</span>
+						</div>
+						<div class="modal-footer"></div>
+					</div>
+				</div>
+			</div>
+			<!-- 글 작성제한 모달 끝 -->
 
 			<!-- 게시판 글수정 모달 시작-->					
 			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -533,121 +604,7 @@
 				});
 		});
 		
-		//게시글 목록 없을 경우 출력
-		function zeroBoardList(){
-			var boardGroup = $(".board-group");
-			var div = $("<div>").attr("class","col zero-boardList middle-items justify-content-center");
-			var img = $("<img>").attr("src","${pageContext.request.contextPath}/images/clipboard.png")
-							.attr("style","width:30px; height:30px;");
-			var span = $("<span>").attr("class","content-font not-result").text("등록된 게시글이 없습니다");
-			div.append(img).append(span);
-			boardGroup.append(div);
-		}
-		
-
-		//게시글 목록 출력
-		function boardList(resp){
-			var nowMemberNo = $("[name=memberNo]").val();
-			var boardGroup = $(".board-group"); //큰 외부 틀(여기에 넣어야함)
-			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3").attr("data-scrollbno",resp.boardNo);
-			
-			//첫번째줄
-			var firstLine = $("<div>").attr("class","first-line d-flex");
-			var col1 = $("<div>").attr("class","col-1");
-			var img1 = $("<img>").attr("class","img-fluid img-circle");
-			if(resp.attachmentNo==null){
-				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
-			}else{
-				img1.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo)
-						.attr("style","width:50px; height:50px;");
-			}
-			col1.append(img1);
-			
-			var col7 = $("<div>").attr("class","col-7 middle-items ms-3");
-			var span1 = $("<span>").attr("class","nick-font").text(resp.memberNick);
-			col7.append(span1);
-			if(resp.memberOwner=='Y'){
-				var img2 = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
-							.attr("src","${pageContext.request.contextPath}/images/crown.png");
-				col7.append(img2);
-			}
-
-			var col4 = $("<div>").attr("class","col-4 justify-content-end middle-items");
-			var date = moment(resp.boardWriteDate).format("YYYY.MM.DD");
-			var span2 = $("<span>").attr("class","date-font me-4").text(date);
-			col4.append(span2);
-			if(resp.memberNo==nowMemberNo){
-				var dropdown = $("<div>").attr("class","dropdown inbl w-auto");
-				var span3 = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
-									.attr("aria-haspopup","true").attr("aria-expanded","false");
-				var i1 = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
-				span3.append(i1);
-				var dropmenu = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo)
-											.attr("data-mno",resp.memberNo);
-				var span4 = $("<span>").attr("class","dropdown-item edit-drop cursor-pointer")
-									.attr("data-bs-toggle","modal").attr("data-bs-target","#boardEditModal")
-									.attr("data-bs-whatever","@mdo").text("수정");
-				var span5 = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
-				dropmenu.append(span4).append(span5);
-				dropdown.append(span3).append(dropmenu);
-				col4.append(dropdown);
-			}
-			firstLine.append(col1).append(col7).append(col4);
-			
-			//두번째 줄
-			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
-			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
-			var se_span1 = $("<span>").attr("class","content-font")
-										.text(resp.boardContent);
-			se_col9.append(se_span1);
-			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
-			if(resp.boardAttachmentCnt!=null){
-				var se_img1 = $("<img>").attr("src","#").attr("class","img-fluid img-check");
-				var text = resp.boardAttachmentCnt-1;
-				if(text==0){
-					text="";
-				} else{
-					text="+"+text;
-				}
-				var se_span2 = $("<span>").attr("style","font-size:13px;").text(text);
-				se_col3.append(se_img1).append(se_span2);
-			}
-			secondLine.append(se_col9).append(se_col3);
-			var hr = $("<hr>");
-			
-			//세번째 줄
-			var thirdLine = $("<div>").attr("class","third-line d-flex ms-3 me-3");
-			var th_col2 = $("<div>").attr("class","col-2 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
-			var th_i1 = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
-			var th_span1 = $("<span>").attr("class","me-1").text("댓글");
-			th_col2.append(th_i1).append(th_span1);
-			if(resp.replyCnt!=0){
-				var th_span2 = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
-				th_col2.append(th_span2);
-			}
-
-			var th_col3 = $("<div>").attr("class","col-3 middle-items cursor-pointer like-btn");
-			var th_span3 = $("<span>").attr("class","me-2").text("좋아요");
-			var th_i2 = $("<i>").attr("class","fa-regular fa-heart pink me-1 empty-heart");
-			var th_i3 = $("<i>").attr("class","fa-solid fa-heart me-1 full-heart");
-			var th_span4 = $("<span>").attr("class","pink islike").attr("style","font-weight:bolder;");
-			if(resp.boardLike!=0){
-				th_span4.attr("data-like",resp.boardNo).text(resp.boardLike);
-			}
-			th_col3.append(th_span3).append(th_i2).append(th_i3).append(th_span4);
-			
-			var th_col7 = $("<div>").attr("class","col-7 justify-content-end middle-items");
-			var th_span5 = $("<span>").text(resp.boardCategory);
-			th_col7.append(th_span5);
-			thirdLine.append(th_col2).append(th_col3).append(th_col7);
-			
-			var replyDiv = $("<div>").attr("class","reply-box");
-			
-			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
-			boardGroup.append(boardBox);
-		}
-		
-		$(".board-write").click(function(){
+		$(document).on("click",".board-write",function(){
 			$("#write-file-wrap").empty();
 			//게시글 하루 작성(최대 5개) 확인
 			var memberNo = $("[name=memberNo]").val();
@@ -672,6 +629,9 @@
 						$("#dayWriteCnt").modal("show");
 					}else{ //게시글 작성 가능
 						$(".board-write").attr("data-bs-target","#boardModal");
+						$("#write-category").val("");
+						$("#write-content").val("");
+						$("#write-select-file").val("");
 						$("#boardModal").modal("show");
 					}
 				}
@@ -1055,8 +1015,6 @@
 				}
 			});
 		}
-		
-		
 
 		//수정폼 전송 이벤트
 		function boardEditFormSubmit(){
@@ -1148,6 +1106,119 @@
 					});
 				}
 			});
+		}
+		
+		//게시글 목록 없을 경우 출력
+		function zeroBoardList(){
+			var boardGroup = $(".board-group");
+			var div = $("<div>").attr("class","col zero-boardList middle-items justify-content-center");
+			var img = $("<img>").attr("src","${pageContext.request.contextPath}/images/clipboard.png")
+							.attr("style","width:30px; height:30px;");
+			var span = $("<span>").attr("class","content-font not-result").text("등록된 게시글이 없습니다");
+			div.append(img).append(span);
+			boardGroup.append(div);
+		}
+
+		//게시글 목록 출력
+		function boardList(resp){
+			var nowMemberNo = $("[name=memberNo]").val();
+			var boardGroup = $(".board-group"); //큰 외부 틀(여기에 넣어야함)
+			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3").attr("data-scrollbno",resp.boardNo);
+			
+			//첫번째줄
+			var firstLine = $("<div>").attr("class","first-line d-flex");
+			var col1 = $("<div>").attr("class","col-1");
+			var img1 = $("<img>").attr("class","img-fluid img-circle");
+			if(resp.attachmentNo==null){
+				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+			}else{
+				img1.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo)
+						.attr("style","width:50px; height:50px;");
+			}
+			col1.append(img1);
+			
+			var col7 = $("<div>").attr("class","col-7 middle-items ms-3");
+			var span1 = $("<span>").attr("class","nick-font").text(resp.memberNick);
+			col7.append(span1);
+			if(resp.memberOwner=='Y'){
+				var img2 = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
+							.attr("src","${pageContext.request.contextPath}/images/crown.png");
+				col7.append(img2);
+			}
+
+			var col4 = $("<div>").attr("class","col-4 justify-content-end middle-items");
+			var date = moment(resp.boardWriteDate).format("YYYY.MM.DD");
+			var span2 = $("<span>").attr("class","date-font me-4").text(date);
+			col4.append(span2);
+			if(resp.memberNo==nowMemberNo){
+				var dropdown = $("<div>").attr("class","dropdown inbl w-auto");
+				var span3 = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+									.attr("aria-haspopup","true").attr("aria-expanded","false");
+				var i1 = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
+				span3.append(i1);
+				var dropmenu = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo)
+											.attr("data-mno",resp.memberNo);
+				var span4 = $("<span>").attr("class","dropdown-item edit-drop cursor-pointer")
+									.attr("data-bs-toggle","modal").attr("data-bs-target","#boardEditModal")
+									.attr("data-bs-whatever","@mdo").text("수정");
+				var span5 = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
+				dropmenu.append(span4).append(span5);
+				dropdown.append(span3).append(dropmenu);
+				col4.append(dropdown);
+			}
+			firstLine.append(col1).append(col7).append(col4);
+			
+			//두번째 줄
+			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
+			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
+			var se_span1 = $("<span>").attr("class","content-font")
+										.text(resp.boardContent);
+			se_col9.append(se_span1);
+			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
+			if(resp.boardAttachmentCnt!=null){
+				var se_img1 = $("<img>").attr("src","#").attr("class","img-fluid img-check");
+				var text = resp.boardAttachmentCnt-1;
+				if(text==0){
+					text="";
+				} else{
+					text="+"+text;
+				}
+				var se_span2 = $("<span>").attr("style","font-size:13px;").text(text);
+				se_col3.append(se_img1).append(se_span2);
+			}
+			secondLine.append(se_col9).append(se_col3);
+			var hr = $("<hr>");
+			
+			//세번째 줄
+			var thirdLine = $("<div>").attr("class","third-line d-flex ms-3 me-3");
+			var th_col2 = $("<div>").attr("class","col-2 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
+			var th_i1 = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
+			var th_span1 = $("<span>").attr("class","me-1").text("댓글");
+			th_col2.append(th_i1).append(th_span1);
+			if(resp.replyCnt!=0){
+				var th_span2 = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
+				th_col2.append(th_span2);
+			}
+
+			var th_col3 = $("<div>").attr("class","col-3 middle-items cursor-pointer like-btn");
+			var th_span3 = $("<span>").attr("class","me-2").text("좋아요");
+			var th_i2 = $("<i>").attr("class","fa-regular fa-heart pink me-1 empty-heart");
+			var th_i3 = $("<i>").attr("class","fa-solid fa-heart me-1 full-heart");
+			var th_span4 = $("<span>").attr("class","pink islike").attr("style","font-weight:bolder;");
+			if(resp.boardLike!=0){
+				th_span4.attr("data-like",resp.boardNo).text(resp.boardLike);
+			}
+			th_col3.append(th_span3).append(th_i2).append(th_i3).append(th_span4);
+			
+			var th_col7 = $("<div>").attr("class","col-7 justify-content-end middle-items");
+			var th_span5 = $("<span>").text(resp.boardCategory);
+			th_col7.append(th_span5);
+			thirdLine.append(th_col2).append(th_col3).append(th_col7);
+			
+			var replyDiv = $("<div>").attr("class","reply-box");
+			
+			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
+			boardGroup.append(boardBox);
 		}
 
 		//게시글 삭제	

@@ -2,13 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="회원탈퇴" name="title"/>
+</jsp:include>
+
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
 	
 </style>
-
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="마이페이지" name="title"/>
-</jsp:include>
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
@@ -18,12 +20,8 @@
 					<a href = "mypage">마이페이지</a>
 				</div>
 			</div>
-			<div class = "row">			
-				<div class = "col-3">
-					<%-- 사이드 메뉴 불러오기 --%>
-					<jsp:include page="/WEB-INF/views/template/mypage_side_menu.jsp"></jsp:include>
-				</div>
-				<div class = "col-9">
+			<div class = "row">
+				<div class = "col">
 					<div class = "row px-3">
 						<div class = "col div-user-info p-5">
 							<div class = "row">
@@ -61,30 +59,17 @@
 
 	$(function(){
 		
-		// 수정 전 프로필 다운로드 링크
-		var originalProfile = $(".img-user-profile").attr("src");
+		// 
+		$(".div-mypage-edit-user-info").css("background-color", "#F94888");
 		
-		// 수정한 회원 프로필 미리보기
-		$(".input-user-profile").change(function(){
-			if(this.files.length > 0) {
-				var formData = new FormData();
-				formData.append("attachment", this.files[0]);
-				$.ajax({
-					url : "${pageContext.request.contextPath}/rest_attachment/upload",
-					method : "post",
-					data : formData,
-					processData:false,
-                    contentType:false,
-                    success : function(resp) {
-                    	console.log(resp);
-                    	$(".img-user-profile").prop("src", resp);
-                    }
-				});
-			}
-		});
-		
-		// 수정
-		
+	});
+	
+</script>
+
+<script type="text/javascript">
+
+	$(function(){
+		$(".div-mypage-edit-user-info").css("background-color", "#F94888");
 	});
 	
 </script>

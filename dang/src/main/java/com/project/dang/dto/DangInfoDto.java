@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class DangInfoDto {
 
+	private Integer attachmentNo;
 	private Integer dangNo;
 	private String dangName;
 	private String dangInfo;
@@ -24,5 +24,5 @@ public class DangInfoDto {
 	private String dangPrivate;
 	private String dangPw;
 	private Integer isLike;
-	private Integer attachmentNo;
+	private Integer isMember = 0;
 }

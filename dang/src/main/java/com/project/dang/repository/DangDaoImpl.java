@@ -98,7 +98,16 @@ public class DangDaoImpl implements DangDao {
 	// 댕모임 전체/검색 조회
 	@Override
 	public List<DangListResponseDto> selectDangList(DangListRequestDto dangListRequestDto) {
+		dangListRequestDto.setRownumStart(dangListRequestDto.rownumStart());
+		dangListRequestDto.setRownumEnd(dangListRequestDto.rownumEnd());
+		dangListRequestDto.setBlockLast(dangListRequestDto.blockLast());
 		return sqlSession.selectList("dang.selectDangList", dangListRequestDto);
+	}
+	
+	// 댕모임 전체/검색 조회시 총 결과 갯수
+	@Override
+	public int countDangTotal(DangListRequestDto dangListRequestDto) {
+		return sqlSession.selectOne("dang.countDangTotal", dangListRequestDto);
 	}
 
 	// 댕모임 회원수 갱신

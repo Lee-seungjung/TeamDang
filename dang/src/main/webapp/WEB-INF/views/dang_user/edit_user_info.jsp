@@ -1,8 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="회원정보 변경" name="title"/>
+</jsp:include>
+
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
 	
+	* {
+		border : 1px gray dotted;
+	}
+	
+	.label-user-profile {
+		border : 2px black solid;
+		border-radius : 50%;
+		aspect-ratio : 1/1;
+	}
 	
 	.input-user-profile {
 		display : none;
@@ -10,7 +25,12 @@
 	
 	.img-edit-profile {
 		border-radius : 50%;
-		padding: 5px;
+		object-fit : fill;
+		aspect-ratio : 1/1;
+	}
+	
+	.input-edit-user-info {
+		border : 2px black solid;
 	}
 	
 	.div-user-info {
@@ -20,10 +40,6 @@
 	}
 </style>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="마이페이지" name="title"/>
-</jsp:include>
-
 <div class = "container-fluid my-3">	
 	<div class = "row">
 		<div class = "col-8 offset-2 my-3 py-5">
@@ -32,18 +48,14 @@
 					<a href = "mypage">마이페이지</a>
 				</div>
 			</div>
-			<div class = "row">			
-				<div class = "col-3">
-					<%-- 사이드 메뉴 불러오기 --%>
-					<jsp:include page="/WEB-INF/views/template/mypage_side_menu.jsp"></jsp:include>
-				</div>
-				<div class = "col-9">
+			<div class = "row">		
+				<div class = "col">
 					<div class = "row px-3">
 						<div class = "col div-user-info p-5">
 							<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "form-edit-info"> <%-- form 시작 --%>
 							<div class = "row">
 								<div class = "col-4 d-flex justify-content-center align-items-center">
-									<label for = "userProfile" class = "img-user-profile">
+									<label class = "label-user-profile" for = "userProfile">
 										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
 										<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
 									</label>
@@ -63,7 +75,7 @@
 											<span class = "span-info-category">Nick.</span>
 										</div>
 										<div class = "col-6">
-											<input name = "userNick" value = "${userInfo.userNick}">
+											<input name = "userNick" class = "input-edit-user-info w-100" value = "${userInfo.userNick}">
 										</div>
 									</div>
 									<div class = "row my-2">
@@ -71,7 +83,7 @@
 											<span class = "span-info-category">E-Mail.</span>
 										</div>
 										<div class = "col-6">
-											<input name = "userEmail" value = "${userInfo.userEmail}">
+											<input name = "userEmail" class = "input-edit-user-info w-100" value = "${userInfo.userEmail}">
 										</div>
 									</div>
 									<div class = "row my-2">
@@ -79,7 +91,7 @@
 											<span class = "span-info-category">TEL.</span>
 										</div>
 										<div class = "col-6">
-											<input name = "userTel" value = "${userInfo.userTel}">
+											<input name = "userTel" class = "input-edit-user-info w-100" value = "${userInfo.userTel}">
 										</div>
 									</div>
 									<div class = "row my-2">
@@ -106,11 +118,20 @@
 	</div>
 </div>
 
+<div class = "col-2 d-flex justify-content-center align-items-center">
+					<a href = "${pageContext.request.contextPath}/user/close_pwck">
+						회원탈퇴
+					</a>
+				</div>
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
 
 	$(function(){
+		
+		// 사이드 메뉴의 회원정보 변경 색 변경
+		$(".div-mypage-edit-user-info").css("background-color", "#F94888");
 		
 		// 수정 전 프로필 다운로드 링크
 		var originalProfile = $(".img-user-profile").attr("src");
@@ -135,6 +156,8 @@
 		});
 		
 		// 수정
+		
+		
 		
 	});
 	
