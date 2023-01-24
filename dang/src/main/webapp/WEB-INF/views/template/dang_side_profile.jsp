@@ -701,8 +701,9 @@
 		}
 		
 		$(".write-btn").click(function(e){
-
-			var scheduleName = $("[name=scheduleTitle]").val();
+			console.log(${profile.memberNo});
+			var memberNo = ${profile.memberNo};
+			 var scheduleTitle = $("[name=scheduleTitle]").val();
 			var scheduleContent =$("[name=scheduleContent]").val();
 			var scheduleStart = $("[name=scheduleStart]").val();
 			var scheduleHour = $("[name=scheduleHour]").val();
@@ -710,10 +711,36 @@
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 
-			saveData(scheduleName, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney);  
-
+			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
+			
 			});
-
+		
+		//등록 함수
+		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
+				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
+			var data = {
+					scheduleTitle: scheduleTitle,
+					memberNo: memberNo,
+					scheduleContent: scheduleContent,
+					scheduleStart: scheduleStart,
+					scheduleHour: scheduleHour,
+					placeNo: placeNo,
+					scheduleHeadmax: scheduleHeadmax,
+					scheduleMoney: scheduleMoney
+			};
+			
+			$.ajax({
+				url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
+				method:"post",
+				contentType:"application/json",
+				data:JSON.stringify(data),
+				success:function(){
+					//loadList();
+					console.log("데헷");	
+				}
+			});
+		}
+/* 
 			function saveData(scheduleName, scheduleContent, scheduleStart, 
 			scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
 
@@ -741,7 +768,7 @@
 
 			});
 
-			};
+			}; */
 		
 	});
 </script>
@@ -974,10 +1001,10 @@
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
                                                             <select style="color: #757575;" name="scheduleHeadmax" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
                                     <option value="" >인원수</option>
-                                    <option class="people-5">5명</option>
-                                    <option class="people-10">10명</option>
-                                    <option class="people-15">15명</option>
-                                    <option class="people-20">20명</option>
+                                    <option class="people-5">5</option>
+                                    <option class="people-10">10</option>
+                                    <option class="people-15">15</option>
+                                    <option class="people-20">20</option>
                                 </select>
                         </div>
 

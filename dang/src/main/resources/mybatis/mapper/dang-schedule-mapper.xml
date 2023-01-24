@@ -73,7 +73,7 @@
 						<!--댕모임 회원이 일정페이지에서 일정 등록-->
         <insert id="scheduleInsert" parameterType="DangScheduleDto">
            insert into dang_schedule(schedule_no, member_no, place_no, schedule_title, schedule_content, schedule_headmax, schedule_start, schedule_hour, schedule_money)
-			values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleHeadmax}, #[scheduleStart}, #{scheduleHour}, #{scheduleMoney});
+			values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleHeadmax}, #{scheduleStart}, #{scheduleHour}, #{scheduleMoney})
         </insert>
         
 
