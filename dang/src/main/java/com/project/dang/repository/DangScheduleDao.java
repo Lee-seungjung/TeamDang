@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
@@ -50,6 +51,16 @@ public interface DangScheduleDao {
 	 * @return <JoinMemberVO>
 	 */
 	List<JoinMemberVO> joinMemberList(int scheduleNo);
+	
+	/**
+	* 댕모임 회원이 일정등록
+	* *
+	* @param DangScheduleDto
+	*/
+	public void insert(DangScheduleDto dangScheduleDto);
+
+	
+	
 	/*	
 		*//**
 			 * 댕모임 참여
@@ -70,12 +81,7 @@ public interface DangScheduleDao {
 		 *//*
 			 * public Integer dangCancel(int scheduleNo, int memberNo);
 			 */
-//	/**
-//	 * 댕모임 회원이 일정등록
-//	 * @param DangScheduleDto
-//	 */
-//	public void insert(DangScheduleDto dangScheduleDto);
-//	
+
 //	/**
 //	 * 일정 등록을 위한 시퀀스 번호 발행
 //	 * 	 @return scheduleSequence

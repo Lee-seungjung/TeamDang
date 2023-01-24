@@ -700,6 +700,48 @@
 			});
 		}
 		
+		$(".write-btn").click(function(e){
+
+			var scheduleName = $("[name=scheduleTitle]").val();
+			var scheduleContent =$("[name=scheduleContent]").val();
+			var scheduleStart = $("[name=scheduleStart]").val();
+			var scheduleHour = $("[name=scheduleHour]").val();
+			var placeNo = $(".schedule-where").attr('data-placeno');
+			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
+			var scheduleMoney = $("[name=scheduleMoney]").val();
+
+			saveData(scheduleName, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney);  
+
+			});
+
+			function saveData(scheduleName, scheduleContent, scheduleStart, 
+			scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
+
+				var data = {
+					scheduleName: scheduleName,
+					scheduleContent: scheduleContent,
+					scheduleStart: scheduleStart,
+					scheduleHour: scheduleHour,
+					placeNo: placeNo,
+					scheduleHeadmax: scheduleHeadmax,
+					scheduleMoney: scheduleMoney
+				};
+					$.ajax({
+					url : "http://localhost:8888/rest/dangSchedule/schedule_insert",
+					method : "post",
+					contentType: "application/json",
+					data: JSON.stringfy(data),
+					success:function(){
+					//location.href='http://localhost:8888/dang/1/schedule_detail?scheduleNo=62';
+					console.log("성공!!");
+				};
+				
+				
+
+
+			});
+
+			};
 		
 	});
 </script>
@@ -758,7 +800,6 @@
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
 								</div>
-								<form class="edit-form">
 								<div class="modal-body">
 									<div class="mb-3">
 										<c:choose>
@@ -793,7 +834,6 @@
 									<button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">취소</button>
 									<button type="submit" class="btn btn-primary confirm-btn" data-bs-dismiss="modal">확인</button>
 								</div>
-								</form>
 							</div>
 						</div>
 					</div>
@@ -878,7 +918,7 @@
                               <span class="length-font">(</span>
                             <span class="title-length length-font">0</span> 
                             <span class="length-font">/ 20 )</span>
-                            <input type="text" class="schedule-name form-control" maxlength="20">
+                            <input type="text" class="schedule-name form-control" name="scheduleTitle" maxlength="20">
                         </div>
 
 
@@ -889,15 +929,15 @@
                             <span class="length-font">(</span>
                             <span class="content-length length-font">0</span>
                             <span class="length-font">/ 100 )</span>
-                            <textarea name="boardContent"  class="write-content form-control b-contentbox" maxlength="100" rows="2"
+                            <textarea  class="write-content form-control b-contentbox" name="scheduleContent" maxlength="100" rows="2"
                                 style="resize:none;"></textarea>
                         </div>
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-control "><input type="time" value="13:00" min="00:00"
-                                        max="24:00"  class="inbl w-50 b-contentbox form-control "></p>
+                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" value="13:00" min="00:00"
+                                        max="24:00"  class="inbl w-50 b-contentbox form-control" name="scheduleHour"></p>
                         </div>
 
                         <div class="mb-3 text-start">
@@ -905,7 +945,7 @@
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
                             </div>
-                            <div class="schedule-where form-control"></div>                       
+                            <div class="schedule-where form-control" ></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -932,7 +972,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
-                                                            <select style="color: #757575;" name="schedule-MaxHead" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
+                                                            <select style="color: #757575;" name="scheduleHeadmax" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
                                     <option value="" >인원수</option>
                                     <option class="people-5">5명</option>
                                     <option class="people-10">10명</option>
@@ -943,8 +983,8 @@
 
 
                         <div class="mb-3 text-start">
-                            <label for="message-text" class="col-form-label ms-2 me-1">참여 회비</label>
-                            <input class="money form-control" maxLength="7" />
+                            <label for="message-text" class="col-form-label ms-2 me-1" >참여 회비</label>
+                            <input class="money form-control" name="scheduleMoney" maxLength="7" />
                             <span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>                            
                         </div>
 
@@ -952,7 +992,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
-                        <button type="submit" class="btn btn-primary write-btn">등록</button>
+                        <button type="button" class="btn btn-primary write-btn">등록</button>
                     </div>
                 </form>
 
@@ -1016,8 +1056,12 @@
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
         var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
 		
+        
+        
 		$(".btn-select-place").click(function(){			
 			var placeWhere = $(".span-placename").text();	
+			//장소번호로 장소데이터 불러오기(테스트)
+			$(".schedule-where").attr("data-placeno", placeNoInfo);
 			
 			$(".schedule-where").text(placeWhere);
 			
@@ -1563,5 +1607,6 @@
                 setParkMarkers(map1);
             }
         }
+        
   
     </script>

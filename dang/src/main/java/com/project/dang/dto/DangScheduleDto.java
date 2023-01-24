@@ -17,6 +17,9 @@ public class DangScheduleDto {
 	private int scheduleHeadmax;
 	private int schdeuleHead;
 	private Date scheduleStart;
-	private Date scheduleEnd;
+	private String scheduleHour;
+	private int scheduleMoney;
 
+	
+	
 }
