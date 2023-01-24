@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangJoinDto;
+import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
@@ -56,11 +57,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		return sqlSession.selectList("schedule.joinMemberList", scheduleNo);	
 	}
 
-//	@Override
-//	public void insert(DangScheduleDto dangScheduleDto) {
-//		sqlSession.insert("dangSchedule.insert", dangScheduleDto);
-//		
-//	}
+	@Override
+	public void insert(DangScheduleDto dangScheduleDto) {	
+		sqlSession.insert("schedule.scheduleInsert", dangScheduleDto);		
+	}
+
 //	
 //	@Override
 //	public int scheduleSequence() {
