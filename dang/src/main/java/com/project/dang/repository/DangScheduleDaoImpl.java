@@ -62,12 +62,32 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		sqlSession.insert("schedule.scheduleInsert", dangScheduleDto);		
 	}
 
-//	
-//	@Override
-//	public int scheduleSequence() {
-//		return sqlSession.selectOne("dangSchedule.scheduleSequence");
-//	}
-//
+
+	@Override
+	public int scheduleSequence() {
+		return sqlSession.selectOne("schedule.scheduleSequence");
+	}
+
+
+	@Override
+	public void memberJoin(DangJoinDto dangJoinDto) {
+		sqlSession.insert("schedule.memberJoin", dangJoinDto);		
+		
+	}
+
+	@Override
+	public boolean memberJoinCancle(DangJoinDto dangJoinDto) {
+		// TODO Auto-generated method stub
+		return false;
+	}//
+	
+	@Override
+	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("memberNo", String.valueOf(memberNo));
+		return sqlSession.selectList("schedule.checkMemberList", param);
+	}
 //	@Override
 //	public boolean update(DangScheduleDto dangScheduleDto) {
 //		int count = sqlSession.delete("dangSchedule.update", dangScheduleDto);
@@ -80,4 +100,6 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 //		return count > 0;
 //	}
 //
+
+
 }

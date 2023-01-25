@@ -2,6 +2,7 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.ScheduleOneVO;
@@ -58,36 +59,44 @@ public interface DangScheduleDao {
 	* @param DangScheduleDto
 	*/
 	public void insert(DangScheduleDto dangScheduleDto);
-
 	
-	
-	/*	
-		*//**
-			 * 댕모임 참여
-			 * 
-			 * @param scehduleNo : 일정 번호
-			 * @param memberNo   : 댕모임 멤버 번호
-			 * @return Integer : 참여인원수 증가 후 상태
-			 */
-	/*
-	 * public Integer dangInsert(int scheduleNo, int memberNo);
+	/**
+	 * 일정 등록을 위한 시퀀스 번호 발행
+	 * 	 @return scheduleSequence
 	 * 
-	 *//**
-		 * 댕모임 참여 취소
-		 * 
-		 * @param scehduleNo : 일정 번호
-		 * @param memberNo   : 댕모임 멤버 번호
-		 * @return Integer : 참여인원수 감소 후 상태
-		 *//*
-			 * public Integer dangCancel(int scheduleNo, int memberNo);
-			 */
+	 */
+	public int scheduleSequence();
 
-//	/**
-//	 * 일정 등록을 위한 시퀀스 번호 발행
-//	 * 	 @return scheduleSequence
-//	 */
-//	public int scheduleSequence();
-//	
+
+	/**
+	* 댕모임 참여(일정 등록한 멤버)
+	 * 
+	* @param scehduleNo : 일정 번호
+	 * @param memberNo   : 댕모임 멤버 번호
+	* @return Integer : 참여인원수 증가 후 상태
+	 */
+	 public void memberJoin(DangJoinDto dangJoinDto);
+	
+		  /**
+	 * 댕모임 참여 취소
+	 * 
+	 * @param scehduleNo : 일정 번호
+	 * @param memberNo   : 댕모임 멤버 번호
+	 * @return Integer : 참여인원수 감소 후 상태
+	 */
+    public boolean memberJoinCancle(DangJoinDto dangJoinDto);
+		  
+  	/**
+	 * 댕모임 일정 참여 확인
+	 * 
+	 * @param scehduleNo : 일정 번호
+	 * @param memberNo   : 댕모임 멤버 번호
+	 * @return JoinMemberVO : 일정 참여자가 맞는지 체크
+	 */
+		  public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
+			 
+
+
 //	/**
 //	 * 일정 수정
 //	 * 	 @param DangScheduleDto

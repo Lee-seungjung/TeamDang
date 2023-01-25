@@ -183,9 +183,33 @@
 .detail-modal{
     background-color: #F0F9FF;
 }
-.btn-in{
+.btn-plus{
+    display: block;
+    line-height: 50px;
     border: none;
     background-color: #76BEFF;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: 50px;
+    width: 120px;
+     margin: 25px auto;
+}
+.btn-minus{
+    display: block;
+    line-height: 50px;
+    border: none;
+    background-color: #F94888;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: 50px;
+    width: 120px;
+	margin: 25px auto;
 }
 .red-pin{
     height: 100px;
@@ -294,8 +318,9 @@ border : 2px solid #76BEFF;
                         </div>
                     </div>   
 					
-					<div class="btn-box">
-                    <button type="submit" class="btn-common btn-in">참여하기</button>  <button type="submit" class="btn-common btn-back">돌아가기</button>
+					<div class="btn-box btn-join">
+					<!--비동기 버튼 출력 부분
+                     <button type="submit" class="btn-common btn-in">참여하기</button> -->
 					</div>					
                 </div>    
                 </div> 
@@ -312,10 +337,71 @@ border : 2px solid #76BEFF;
 		</div>
 
 	</div>
+
 	<!-- 카카오 맵 API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 
 				<script>
+				
+				$(function(){
+					
+					$.ajax({
+						
+                        url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
+                        method : "get",
+                        async : false,
+                        contentType : "application/json",
+                        success : function(resp) {
+                        	
+                        	//console.log("성공"+resp.memberNo);
+                        	//console.log("성공"+${scheduleDetail.scheduleNo});
+                        	//console.log("성공"+${scheduleDetail.memberNo});
+                        	 console.log("로그인 정보" + ${profile.memberNo});
+                        	 var join= $(".btn	-join");
+                        	 join.empty();
+        					 
+	                        	for(var i=0;i<resp.length;i++){
+	                        		
+                     		if(resp[i].memberNo!=${profile.memberNo}){
+                     		
+                     			var join= $(".btn-join");	
+		                           var b = $("<button>").attr("class","btn-plus").text('참여하기');
+                           
+                             join.append(b);
+                             
+                             
+                     		}else{
+		                           var joinCancel= $(".btn-join");	
+		                           var b = $("<button>").attr("class","btn-minus").text('취소하기');
+                           
+                             joinCancel.append(b);   
+                            
+                             
+                     		}
+                     		
+                     	}
+                        
+                        	
+                        }
+                        
+                        
+					});
+					
+					$(".btn-plus").click(function(){
+                    	
+                    	console.log("참여버튼누름");
+                    });
+                    
+                    $(".btn-minus").click(function(){
+                    
+                    	console.log("취소버튼누름");
+                    	
+                    });
+					
+				});
+				
+				
+				
 				var placeNo1 = ${scheduleDetail.placeNo};
 				console.log(${countJoin});
 				

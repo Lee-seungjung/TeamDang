@@ -56,8 +56,9 @@
 .simple-when, .simple-where {
 	width: 150px;
 	height: 35px;
-	font-size: 16px;
+	font-size: 13px;
 	font-weight: 400;
+	letter-spacing :-0.9px;
 	margin: 0px 8px;
 	color: #3D3D3D;
 	line-height: 35px;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class ScheduleVO {
 	private int scheduleNo;
+	private int memberNo;
 	private String scheduleTitle;
 	private String scheduleContent;
 	private String memberNick;
