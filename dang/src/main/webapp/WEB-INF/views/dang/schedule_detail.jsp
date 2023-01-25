@@ -319,8 +319,9 @@ border : 2px solid #76BEFF;
                     </div>   
 					
 					<div class="btn-box btn-join">
-					<!--비동기 버튼 출력 부분
-                     <button type="submit" class="btn-common btn-in">참여하기</button> -->
+					
+                     <button type="submit" class="btn-plus">참여하기</button>
+                     <button type="submit" class="btn-minus">취소하기</button>
 					</div>					
                 </div>    
                 </div> 
@@ -344,9 +345,10 @@ border : 2px solid #76BEFF;
 				<script>
 				
 				$(function(){
+					$(".btn-plus").hide();
+					$(".btn-minus").hide();
 					
 					$.ajax({
-						
                         url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
                         method : "get",
                         async : false,
@@ -358,24 +360,21 @@ border : 2px solid #76BEFF;
                         	//console.log("성공"+${scheduleDetail.memberNo});
                         	 console.log("로그인 정보" + ${profile.memberNo});
                         	 var join= $(".btn	-join");
-                        	 join.empty();
+                        	 //join.empty();
         					 
 	                        	for(var i=0;i<resp.length;i++){
 	                        		
                      		if(resp[i].memberNo!=${profile.memberNo}){
                      		
-                     			var join= $(".btn-join");	
-		                           var b = $("<button>").attr("class","btn-plus").text('참여하기');
-                           
-                             join.append(b);
-                             
+                     			$(".btn-minus").hide();
+                     			$(".btn-plus").show();
+                        
                              
                      		}else{
-		                           var joinCancel= $(".btn-join");	
-		                           var b = $("<button>").attr("class","btn-minus").text('취소하기');
-                           
-                             joinCancel.append(b);   
-                            
+                     			
+                     			$(".btn-plus").hide();
+                     			$(".btn-minus").show();
+                     			
                              
                      		}
                      		
@@ -386,15 +385,41 @@ border : 2px solid #76BEFF;
                         
                         
 					});
-					
 					$(".btn-plus").click(function(){
                     	
                     	console.log("참여버튼누름");
+    					$.ajax({
+                            url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
+                            method : "post",
+                            async : false,
+                            contentType : "application/json",
+                            success : function(resp) {
+                            	$(".btn-plus").hide();
+                     			$(".btn-minus").show();
+                            	console.log("참여하기 성공");
+                            
+                            }
+    					});
                     });
                     
                     $(".btn-minus").click(function(){
                     
                     	console.log("취소버튼누름");
+    					$.ajax({
+                            url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
+                            method : "delete",
+                            async : false,
+                            contentType : "application/json",
+                            success : function(resp) {
+                            	
+                            	console.log("참여취소 성공");
+                            	$(".btn-minus").hide();
+                            	$(".btn-plus").show();
+                     
+                            	
+                            
+                            }
+    					});
                     	
                     });
 					
