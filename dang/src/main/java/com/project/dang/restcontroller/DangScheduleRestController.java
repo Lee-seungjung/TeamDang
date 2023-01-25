@@ -52,7 +52,7 @@ public class DangScheduleRestController {
 		// Dto에서 멤버 번호, 스케줄 번호 삽입
 		DangJoinDto dangJoinDto = DangJoinDto.builder().memberNo(memberNo).scheduleNo(scheduleNo).build();
 		System.out.println(dangJoinDto);
-		// 참여하기
+		// 댕모임 일정등록자 참여
 		dangScheduleDao.memberJoin(dangJoinDto);
 
 		return scheduleNo;
@@ -62,7 +62,17 @@ public class DangScheduleRestController {
 	@GetMapping("schedule_memberCheck")
 	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {		
 		return dangScheduleDao.checkMemberList(scheduleNo, memberNo);
-
 	}
+	
+	@PostMapping("schedule_join")
+	public void  scheduleJoin(DangJoinDto dangJoinDto) {		
+		 dangScheduleDao.memberJoin(dangJoinDto);
+	}
+	
+	/*
+	 * @GetMapping("schedule_joinCancel") public boolean scheduleJoinCancel(int
+	 * scheduleNo, int memberNo) { return
+	 * dangScheduleDao.scheduleJoinCancel(scheduleNo, memberNo); }
+	 */
 
 }

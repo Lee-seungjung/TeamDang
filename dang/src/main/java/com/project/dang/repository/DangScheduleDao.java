@@ -69,13 +69,13 @@ public interface DangScheduleDao {
 
 
 	/**
-	* 댕모임 참여
+	* 댕모임 참여(일정 등록한 멤버)
 	 * 
 	* @param scehduleNo : 일정 번호
 	 * @param memberNo   : 댕모임 멤버 번호
 	* @return Integer : 참여인원수 증가 후 상태
 	 */
-		  public void memberJoin(DangJoinDto dangJoinDto);
+	 public void memberJoin(DangJoinDto dangJoinDto);
 	
 		  /**
 	 * 댕모임 참여 취소
@@ -84,7 +84,7 @@ public interface DangScheduleDao {
 	 * @param memberNo   : 댕모임 멤버 번호
 	 * @return Integer : 참여인원수 감소 후 상태
 	 */
-		  public boolean memberJoinCancle(DangJoinDto dangJoinDto);
+    public boolean memberJoinCancle(DangJoinDto dangJoinDto);
 		  
   	/**
 	 * 댕모임 일정 참여 확인

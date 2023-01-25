@@ -911,7 +911,6 @@
                     <h5 class="modal-title" id="staticBackdropLabel">댕모임 등록</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="form-tag board-form">
                     <div class="modal-body">
 
                         <div class="mb-3 text-start">
@@ -996,7 +995,6 @@
                         <button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
                         <button type="button" class="btn btn-primary write-btn">등록</button>
                     </div>
-                </form>
 
             </div>
         </div>
