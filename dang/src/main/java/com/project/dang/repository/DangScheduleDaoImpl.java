@@ -82,11 +82,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}//
 	
 	@Override
-	public JoinMemberVO checkMember(int scheduleNo, int memberNo) {
+	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {
 		Map<String, String> param = new HashMap<>();
 		param.put("scheduleNo", String.valueOf(scheduleNo));
 		param.put("memberNo", String.valueOf(memberNo));
-		return sqlSession.selectOne("schedule.checkMember", param);
+		return sqlSession.selectList("schedule.checkMemberList", param);
 	}
 //	@Override
 //	public boolean update(DangScheduleDto dangScheduleDto) {
