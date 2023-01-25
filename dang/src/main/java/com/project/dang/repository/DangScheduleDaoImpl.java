@@ -76,10 +76,9 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public boolean memberJoinCancle(DangJoinDto dangJoinDto) {
-		// TODO Auto-generated method stub
-		return false;
-	}//
+	public boolean memberJoinCancel(DangJoinDto dangJoinDto) {
+		return sqlSession.delete("schedule.memberJoinCancel", dangJoinDto)>0;
+	}
 	
 	@Override
 	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {

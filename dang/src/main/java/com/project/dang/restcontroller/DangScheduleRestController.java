@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +68,11 @@ public class DangScheduleRestController {
 	@PostMapping("schedule_join")
 	public void  scheduleJoin(DangJoinDto dangJoinDto) {		
 		 dangScheduleDao.memberJoin(dangJoinDto);
+	}
+	
+	@DeleteMapping("schedule_cancel")
+	public void  scheduleCancel(DangJoinDto dangJoinDto) {		
+		 dangScheduleDao.memberJoinCancel(dangJoinDto);
 	}
 	
 	/*
