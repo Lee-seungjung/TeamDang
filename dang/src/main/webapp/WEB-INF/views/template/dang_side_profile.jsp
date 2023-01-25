@@ -734,41 +734,15 @@
 				method:"post",
 				contentType:"application/json",
 				data:JSON.stringify(data),
-				success:function(){
-					//loadList();
-					console.log("데헷");	
+				success:function(resp){
+					console.log(resp);	
+					//location.href='http://localhost:8888/dang/1/schedule_detail?scheduleNo=83';
+					
+					//var placeNo = $(".schedule-where").attr('data-placeno');
 				}
 			});
 		}
-/* 
-			function saveData(scheduleName, scheduleContent, scheduleStart, 
-			scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
 
-				var data = {
-					scheduleName: scheduleName,
-					scheduleContent: scheduleContent,
-					scheduleStart: scheduleStart,
-					scheduleHour: scheduleHour,
-					placeNo: placeNo,
-					scheduleHeadmax: scheduleHeadmax,
-					scheduleMoney: scheduleMoney
-				};
-					$.ajax({
-					url : "http://localhost:8888/rest/dangSchedule/schedule_insert",
-					method : "post",
-					contentType: "application/json",
-					data: JSON.stringfy(data),
-					success:function(){
-					//location.href='http://localhost:8888/dang/1/schedule_detail?scheduleNo=62';
-					console.log("성공!!");
-				};
-				
-				
-
-
-			});
-
-			}; */
 		
 	});
 </script>
