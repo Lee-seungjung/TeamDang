@@ -330,6 +330,7 @@
 		
 		//오늘 출석여부 확인+판정객체
 		var isAttendance = $("[name=isAttendance]").val();
+		console.log(isAttendance=="");
 		var AttendanceValid = false;
 		if(isAttendance==""){
 			$(".checkAttendance").text("출석 체크");
@@ -398,14 +399,14 @@
    				                    			//4. 활동점수 실시간 출력
    				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
    				                    			var sideScoreValue = parseInt(sideScoreTag.text());
-   				                    			sideScoreTag.text(scoreValue+1);
+   				                    			sideScoreTag.text(sideScoreValue+1);
    				                    		}
    				                    	});
-   				                    }	
+   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
+   			   							$(".checkAttendance").text("출석 완료");
+   				                    }
    				            	});
    							});
-   							//5. 출석체크 박스 문구 출석완료로 변경
-   							$(".checkAttendance").text("출석 완료");
    						}
    					}
 			});
