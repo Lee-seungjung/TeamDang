@@ -60,8 +60,8 @@ public class DangScheduleRestController {
 	}
 
 	@GetMapping("schedule_memberCheck")
-	public JoinMemberVO checkMember(int scheduleNo, int memberNo) {		
-		return dangScheduleDao.checkMember(scheduleNo, memberNo);
+	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {		
+		return dangScheduleDao.checkMemberList(scheduleNo, memberNo);
 
 	}
 

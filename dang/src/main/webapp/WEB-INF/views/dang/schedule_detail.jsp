@@ -313,10 +313,42 @@ border : 2px solid #76BEFF;
 		</div>
 
 	</div>
+	
 	<!-- 카카오 맵 API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 
 				<script>
+				
+				$(function(){
+					
+					$.ajax({
+						
+                        url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
+                        method : "get",
+                        async : false,
+                        contentType : "application/json",
+                        success : function(resp) {
+                        	
+                        	//console.log("성공"+resp.memberNo);
+                        	//console.log("성공"+${scheduleDetail.scheduleNo});
+                        	//console.log("성공"+${scheduleDetail.memberNo});
+                        	/* console.log("로그인 정보" + ${attendance.memberNo});
+                        	for(var i=0;i<resp.length;i++){
+                        		if(resp[i].memberNo!=${attendance.memberNo}) {
+                            		$(".btn-box").text("참여하기");
+                            	}
+                            	else{
+                            		$(".btn-box").text("취소하기");
+                            	}
+                        	} 
+                        	 */
+                        	
+                        }
+					});
+					
+					
+					
+				});
 				
 				
 				

@@ -93,7 +93,7 @@ public interface DangScheduleDao {
 	 * @param memberNo   : 댕모임 멤버 번호
 	 * @return JoinMemberVO : 일정 참여자가 맞는지 체크
 	 */
-		  public JoinMemberVO checkMember(int scheduleNo, int memberNo);
+		  public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
 			 
 
 
