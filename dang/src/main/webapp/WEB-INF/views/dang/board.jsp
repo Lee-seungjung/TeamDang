@@ -151,11 +151,11 @@
 				    
 				    <!-- #카테고리 시작 -->
 				    <div class="category-group text-center mt-4">
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="정모후기">#정모후기</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="공지사항">#공지사항</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="가입인사">#가입인사</a>
-						<a class="btn gray category-css rounded-pill me-1 category" data-value="자유글">#자유글</a>
-						<a class="btn gray category-css rounded-pill me-1 category btn-blue" data-value="">#전체</a>
+						<a class="btn gray category-css rounded-pill me-1 b-category" data-value="정모후기">#정모후기</a>
+						<a class="btn gray category-css rounded-pill me-1 b-category" data-value="공지사항">#공지사항</a>
+						<a class="btn gray category-css rounded-pill me-1 b-category" data-value="가입인사">#가입인사</a>
+						<a class="btn gray category-css rounded-pill me-1 b-category" data-value="자유글">#자유글</a>
+						<a class="btn gray category-css rounded-pill me-1 b-category btn-blue" data-value="">#전체</a>
 				    </div>
 				    <!-- #카테고리 끝 -->
 				    
@@ -471,8 +471,8 @@
 		likeHeart(); //좋아요 버튼 이벤트
 		
 		//카테고리 색상변경
-		$(".category").click(function(){
-			var category = $(".category");	
+		$(".b-category").click(function(){
+			var category = $(".b-category");	
 			category.removeClass("btn-blue");
 			$(this).addClass("btn-blue");
 		});
@@ -566,7 +566,7 @@
 		});
 		
 		//카테고리 검색조회
-		$(document).on("click", ".category", function(){
+		$(document).on("click", ".b-category", function(){
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
 			var keyword = $("[name=keyword]").val();
