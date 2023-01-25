@@ -181,6 +181,11 @@
 		update dang_board set board_like=board_like-1 where board_no=#{boardNo}
 	</update>
 	
+	<!-- 기존 게시글 닉네임 변경 -->
+	<update id="updateNick" parameterType="DangBoardDto">
+		update dang_board set member_nick=#{memberNick} where member_no=#{memberNo}
+	</update>
+	
 	<!-- 게시글 삭제 -->
 	<delete id="delete" parameterType="int">
 		delete dang_board where board_no=#{boardNo}
