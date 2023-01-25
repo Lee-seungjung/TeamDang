@@ -84,6 +84,7 @@
 			select dang_schedule_seq.nextval from dual       
         </select>		
         
+         				<!--댕모임 회원이 일정페이지에서 일정 등록관련 시퀀스 발행-->       
         <insert id="memberJoin" parameterType="DangJoinDto">
         insert into dang_join values(#{scheduleNo}, #{memberNo})
         </insert>		
