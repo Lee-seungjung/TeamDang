@@ -330,7 +330,6 @@
 		
 		//오늘 출석여부 확인+판정객체
 		var isAttendance = $("[name=isAttendance]").val();
-		console.log(isAttendance=="");
 		var AttendanceValid = false;
 		if(isAttendance==""){
 			$(".checkAttendance").text("출석 체크");

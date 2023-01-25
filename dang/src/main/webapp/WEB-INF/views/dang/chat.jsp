@@ -51,10 +51,14 @@
 	 }
 	 #send-btn{
 	 	display:inline-block;
-	 	width:45px;
-	 	height:45px;
+	 	width:40px;
+	 	height:40px;
 	 	background-color:#B0CBFF;
 	 	border-color:#B0CBFF;
+	 }
+	 .chat-icon-image{
+	 	width:30px;
+	 	height:30px;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -559,12 +563,14 @@
 						</div>
 					</div>
 					
-					<div class="chat-submit  justify-content-center rounded-bottom shadow" style="display:flex; align-items:center">
-						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer" width="45" height="45">
+					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100" style="display:flex; align-items:center">
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1" style="width:10%;">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
-						<input type="text" id="chat-input" class="me-1 ms-1" >
-						<button class="btn btn-primary ms-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+						<input type="text" id="chat-input" class="ms-1 me-1" style="width:80%;">
+						<button class="btn btn-primary me-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
 					</div>
+					
+					
 				</div>
 			</div>
 			
@@ -593,7 +599,5 @@
 		
 	</div>
 </div>
-
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

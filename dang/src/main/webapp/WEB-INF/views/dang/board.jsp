@@ -124,9 +124,9 @@
 
 </style>
 
-<div class = "container-fluid mt-3">
+<div class = "container-fluid mt-3 body-wrapper">
 
-	<div class = "col-8 offset-2">
+	<div class = "col-8 offset-2 body-content">
 		<div class = "row">
 		
 			<!-- 프로필 박스 시작-->
@@ -236,9 +236,9 @@
 								<hr>
 								
 								<div class="third-line d-flex ms-3 me-3">
-									<div class="col-2 middle-items cursor-pointer toggle-btn" data-no="${vo.boardNo}">
+									<div class="col-3 middle-items cursor-pointer toggle-btn" data-no="${vo.boardNo}">
 										<i class="fa-regular fa-message mt-1 me-2"></i>
-										<span class="me-1">댓글</span>
+										<span class="me-2">댓글</span>
 										<c:if test="${vo.replyCnt!=0}">
 											<span class="blue replycnt" style="font-weight:bolder;">${vo.replyCnt}</span>
 										</c:if>
@@ -256,7 +256,7 @@
 											</c:otherwise>
 										</c:choose>
 									</div>
-									<div class="col-7 justify-content-end middle-items">
+									<div class="col-6 justify-content-end middle-items">
 										<span>${vo.boardCategory}</span>
 									</div>
 								</div>
@@ -453,6 +453,7 @@
 		<!-- 삭제 모달 끝 -->
 			
 	</div>
+	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 </div>
 
 <script>
@@ -1191,13 +1192,13 @@
 			
 			//세번째 줄
 			var thirdLine = $("<div>").attr("class","third-line d-flex ms-3 me-3");
-			var th_col2 = $("<div>").attr("class","col-2 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
+			var th_col3_1 = $("<div>").attr("class","col-3 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
 			var th_i1 = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
-			var th_span1 = $("<span>").attr("class","me-1").text("댓글");
-			th_col2.append(th_i1).append(th_span1);
+			var th_span1 = $("<span>").attr("class","me-2").text("댓글");
+			th_col3_1.append(th_i1).append(th_span1);
 			if(resp.replyCnt!=0){
 				var th_span2 = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
-				th_col2.append(th_span2);
+				th_col3_1.append(th_span2);
 			}
 
 			var th_col3 = $("<div>").attr("class","col-3 middle-items cursor-pointer like-btn");
@@ -1210,10 +1211,10 @@
 			}
 			th_col3.append(th_span3).append(th_i2).append(th_i3).append(th_span4);
 			
-			var th_col7 = $("<div>").attr("class","col-7 justify-content-end middle-items");
+			var th_col6 = $("<div>").attr("class","col-6 justify-content-end middle-items");
 			var th_span5 = $("<span>").text(resp.boardCategory);
-			th_col7.append(th_span5);
-			thirdLine.append(th_col2).append(th_col3).append(th_col7);
+			th_col6.append(th_span5);
+			thirdLine.append(th_col3_1).append(th_col3).append(th_col6);
 			
 			var replyDiv = $("<div>").attr("class","reply-box");
 			
@@ -2007,3 +2008,4 @@
 		
 	});
 </script>
+

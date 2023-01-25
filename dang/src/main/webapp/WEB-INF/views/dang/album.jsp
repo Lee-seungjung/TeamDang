@@ -10,8 +10,8 @@
 
 <style>
 	.img-size>img{
-		max-width:400px;
-		max-height:300px;
+		max-width:250px;
+		max-height:150px;
 		object-fit: cover;
 		padding:10px 10px;
 		border-radius: 20px;
@@ -48,6 +48,7 @@
 	.zoomin-img>img{
 		max-width:800px;
 	}
+	
 </style>
 
 <script>
@@ -128,9 +129,9 @@
 	});
 </script>
 
-<div class = "container-fluid mt-3">
+<div class = "container-fluid mt-3 body-wrapper">
 
-	<div class = "col-8 offset-2">
+	<div class = "col-10 offset-1 body-content">
 		<div class="image-group mb-5" >
 			<!-- 이미지 불러오기 -->
 			<c:choose>
@@ -161,7 +162,7 @@
 			
 			<c:if test="${imgList.size()!=0}">
 				<div class="text-center mt-4 mb-5 more-view-div">
-					<button type="button" class="btn btn-outline-primary p-2 more-btn" style="width:25%; font-size:20px;">더보기</button>
+					<button type="button" class="btn btn-outline-primary p-2 more-btn" style="width:20%; font-size:15px;">더보기</button>
 				</div>
 			</c:if>	
 		</div>
@@ -180,4 +181,6 @@
 	</div>
 	
 	<input type="hidden" name="dangNo" value="${dangNo}">
+	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 </div>
+
