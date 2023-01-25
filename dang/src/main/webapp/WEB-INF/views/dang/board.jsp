@@ -121,7 +121,12 @@
 		color:#76BEFF;
 		display:none;
 	}
-
+	.search-btn{
+		display:flex;
+		margin-left:250px;
+		margin-top:-30px;
+		color:#a2c1f6;
+	}
 </style>
 
 <div class = "container-fluid mt-3 body-wrapper">
@@ -139,13 +144,15 @@
 				<div class = "col">
 					<!-- 검색바 시작 -->
 					<div class="search-group text-center mt-3">
-						<select class="form-select inbl w-auto me-1" name="type">
+						<select class="form-select inbl me-1" style="width:20%;" name="type">
 							<option value="">선택</option>
 							<option value="member_nick">작성자</option>
 							<option value="board_content">내용</option>
 						</select>
-						<input type="text" class="input form-control inbl w-auto ms-1" size="40" name="keyword">
-						<i class="fa-solid fa-magnifying-glass cursor-pointer search-btn" style=" margin-left:-30px; color:#a2c1f6;"></i>
+						<div class="inbl" style="width:70%;">
+							<input type="text" class="input form-control  ms-1" name="keyword">
+							<i class="fa-solid fa-magnifying-glass cursor-pointer search-btn"></i>
+				    	</div>
 				    </div>
 				    <!-- 검색바 끝 -->
 				    

@@ -528,6 +528,7 @@
     					method:"get",
     					data:checkData,
     		    		dataType:"json",
+    		    		async:false,
     		    		contentType:"application/json",
     					success:function(resp){
     						$(this).removeClass("is-valid is-invalid invalid");
@@ -630,7 +631,6 @@
 						memberNick:memberNick,
 						memberMessage:memberMessage
 				}
-				console.log(editData);
 				$.ajax({ //2
 					url:"${pageContext.request.contextPath}/rest_member/profile_edit",
 					method:"patch",
@@ -673,6 +673,29 @@
 									}
 								}
 							});
+
+							//댓글 닉네임 변경
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_reply/update_nick",
+								method:"patch",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(updateNickData),
+								success:function(resp){
+									
+									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
+									var nickcheck = $(".reply-box").children().find(".re-nick-font");
+									//기존 닉네임과 예전 닉네임이 같을 경우
+									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
+									for(var i=0; i<nickcheck.length; i++){
+										var nick = nickcheck.eq(i).text();
+										if(nick==originMemberNick && originMemberNick!=memberNick){
+											nickcheck.eq(i).text(memberNick);
+										}
+									}
+								}
+							});
+							
 							
 							//채팅 닉네임 변경
 							updateChatNickData={
@@ -680,7 +703,6 @@
 									roomNo:roomNo,
 									memberNick:memberNick
 							}
-							console.log(updateChatNickData);
 							$.ajax({
 								url:"${pageContext.request.contextPath}/rest_chat/update_nick",
 								method:"patch",

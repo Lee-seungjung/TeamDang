@@ -63,6 +63,13 @@ public interface DangReplyDao {
 	boolean updateContent(String ReplyContent, int replyNo);
 	
 	/**
+	 * 댓글 작성자 닉네임 변경
+	 * @param DangReplyDto
+	 * @return true, false
+	 */
+	boolean updateNick(DangReplyDto dto);
+	
+	/**
 	 * 댓글 삭제
 	 * @param replyNo
 	 * @return true, false

@@ -69,6 +69,12 @@ public class DangReplyRestController {
 		return dangReplyDao.updateContent(replyContent, replyNo);
 	}
 	
+	//댓글작성자 닉네임 변경
+	@PatchMapping("/update_nick")
+	public boolean updateNick(@RequestBody DangReplyDto dto) {
+		return dangReplyDao.updateNick(dto);
+	}
+	
 	//댓글 삭제
 	@DeleteMapping("/delete/{replyNo}")
 	public boolean delete(@PathVariable int replyNo) {
