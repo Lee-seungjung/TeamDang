@@ -735,13 +735,14 @@
 				contentType:"application/json",
 				data:JSON.stringify(data),
 				success:function(resp){
-					console.log(resp);	
-					//location.href='http://localhost:8888/dang/1/schedule_detail?scheduleNo=83';
+					console.log("헤헿"+resp);	
+					location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
 					
 					//var placeNo = $(".schedule-where").attr('data-placeno');
 				}
 			});
 		}
+		
 
 		
 	});
