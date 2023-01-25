@@ -29,11 +29,26 @@ public interface DangMemberDao {
 	String findNick(DangMemberDto dto);
 	
 	/**
+	 * memberNo 조회
+	 * @param userNo
+	 * @param dangNo
+	 * @return memberNo
+	 */
+	int findMemberNo(int userNo, int dangNo);
+	
+	/**
 	 * 댕모임 회원 단일조회
 	 * @param DangMemberDto
 	 * @return DangMemberDto
 	 */
 	DangMemberDto selectOne(DangMemberDto dto);
+	
+	/**
+	 * 댕모임 회원 단일조회
+	 * @param DangMemberDto
+	 * @return DangMemberDto
+	 */
+	DangMemberDto restSelectOne(int memberNo);
 	
 	/**
 	 * 댕모임 회원 등급포인트 증가

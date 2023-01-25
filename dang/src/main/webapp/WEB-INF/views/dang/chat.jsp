@@ -359,13 +359,12 @@
 				var tbody = $("<tbody>");
 				var tr1 = $("<tr>");
 				var td1 = $("<td>").attr("rowspan","2");
-				var img = $("<img>");
+				var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
+								.attr("width","45").attr("height","45").attr("data-uno",data.userNo);
 				if(data.attachment==null){
-					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png")
-					.attr("class","img-circle").attr("width","45").attr("height","45");
+					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 				}else{
-					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo)
-					.attr("class","img-circle").attr("width","45").attr("height","45");
+					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo);
 				}
 				td1.append(img);
 				var td2 = $("<td>");
@@ -423,13 +422,12 @@
 					var tbody = $("<tbody>");
 					var tr1 = $("<tr>");
 					var td1 = $("<td>").attr("rowspan","2");
-					var img = $("<img>");
+					var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
+										.attr("width","45").attr("height","45").attr("data-uno",data[i].userNo);
 					if(data[i].attachment==0){
-						img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png")
-						.attr("class","img-circle").attr("width","45").attr("height","45");
+						img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 					}else{
-						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo)
-						.attr("class","img-circle").attr("width","45").attr("height","45");
+						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo);
 					}
 					td1.append(img);
 					var td2 = $("<td>");
@@ -510,7 +508,8 @@
 													<span class="message2">${vo.chatContent}</span>
 												</c:when>
 												<c:otherwise>
-													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" width="100" height="100" class="cursor-zoomin">
+													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" 
+															width="100" height="100" class="cursor-zoomin">
 												</c:otherwise>
 											</c:choose>
 										</div>
@@ -523,10 +522,12 @@
 														<td rowspan="2" class="align-top">
 															<c:choose>
 																<c:when test="${vo.attachmentNo==0}">
-																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img" width="45" height="45">
+																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
+																			class="img-fluid img-circle origin-img" width="45" height="45">
 																</c:when>
 																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-circle" width="45" height="45">
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
+																		class="img-circle c-profile-info cursor-pointer" width="45" height="45" data-uno="${vo.userNo}">
 																</c:otherwise>
 															</c:choose>
 														</td>
@@ -540,7 +541,8 @@
 																	<span class="message">${vo.chatContent}</span>
 																</c:when>
 																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" class="img-css cursor-zoomin">
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
+																			class="img-css cursor-zoomin">
 																</c:otherwise>
 															</c:choose>
 															<span style="font-size:10px;" class="align-bottom ms-1">

@@ -178,15 +178,17 @@
 				    
 				    	<c:forEach var="vo" items="${boardList}">
 				    		<!-- 게시글 박스 시작 -->
-							<div class="board-box shadow-sm mb-3" data-scrollbno="${vo.boardNo}">
+							<div class="board-box shadow-sm mb-3" data-scrollbno="${vo.boardNo}" data-mno="${vo.memberNo}">
 								<div class="first-line d-flex">
-									<div class="col-1">
+									<div class="col-1 b-b-profile-info cursor-pointer">
 										<c:choose>
 											<c:when test="${vo.attachmentNo==null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle">
+												<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
+														class="img-fluid img-circle">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" class="img-fluid img-circle" style="width:50px; height:50px;">
+												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
+														 class="img-fluid img-circle" style="width:50px; height:50px;">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -1124,11 +1126,12 @@
 		function boardList(resp){
 			var nowMemberNo = $("[name=memberNo]").val();
 			var boardGroup = $(".board-group"); //큰 외부 틀(여기에 넣어야함)
-			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3").attr("data-scrollbno",resp.boardNo);
+			var boardBox = $("<div>").attr("class","board-box shadow-sm mb-3")
+									.attr("data-scrollbno",resp.boardNo).attr("data-mno",resp.memberNo);
 			
 			//첫번째줄
 			var firstLine = $("<div>").attr("class","first-line d-flex");
-			var col1 = $("<div>").attr("class","col-1");
+			var col1 = $("<div>").attr("class","col-1 b-b-profile-info cursor-pointer");
 			var img1 = $("<img>").attr("class","img-fluid img-circle");
 			if(resp.attachmentNo==null){
 				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
@@ -1443,12 +1446,12 @@
 			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2").attr("data-reply",resp.replyNo);
 			
 			var col1 = $("<div>").attr("class","col-1 middle-items");
-			var img = $("<img>");
+			var img = $("<img>").attr("class","img-fluid img-circle r-profile-info cursor-pointer").attr("data-mno",resp.memberNo);
 			if(resp.attachmentNo!=null){
-				img = img.attr("class","img-fluid img-circle").attr("style","width:50px; height:50px;")
+				img = img.attr("style","width:50px; height:50px;")
 						.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
 			}else{
-				img = img.attr("class","img-fluid img-circle").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				img = img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 			}
 			col1.append(img);
 			
@@ -1496,12 +1499,12 @@
 			var replyContent = $("<div>").attr("class","reply-content d-flex mb-2").attr("data-reply",resp.replyNo);
 			
 			var col1 = $("<div>").attr("class","col-1 middle-items");
-			var img = $("<img>");
+			var img = $("<img>").attr("class","img-fluid img-circle r-profile-info cursor-pointer").attr("data-mno",resp.memberNo);
 			if(resp.attachmentNo!=null){
-				img = img.attr("class","img-fluid img-circle").attr("style","width:50px; height:50px;")
+				img = img.attr("style","width:50px; height:50px;")
 						.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo);
 			}else{
-				img = img.attr("class","img-fluid img-circle").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				img = img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 			}
 			col1.append(img);
 			

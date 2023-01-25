@@ -38,9 +38,19 @@
 		select member_nick from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
 	</select>
 	
+	<!-- 회원번호 찾기 -->
+	<select id = "findMemberNo" resultType = "int" parameterType="Map">
+		select member_no from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
+	</select>
+	
 	<!-- 댕모임 회원 단일조회 -->
-	<select id="fintMember" resultType="DangMemberDto" parameterType="DangMemberDto">
+	<select id="findMember" resultType="DangMemberDto" parameterType="DangMemberDto">
 		select * from dang_member where user_no=#{userNo} and dang_no=#{dangNo}
+	</select>
+	
+	<!-- ajax 댕모임 회원 단일조회 -->
+	<select id="restFindMember" resultType="DangMemberDto" parameterType="int">
+		select * from dang_member where member_no=#{memberNo}
 	</select>
 	
 	<!-- 댕모임 회원등급 포인트 증가 -->

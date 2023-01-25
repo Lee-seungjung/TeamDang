@@ -309,7 +309,19 @@
     .modal-profile-btn{
     	font-size:16px;
     	text-align:center;
-    	padding-top:3px;
+    }
+    .modal-profile-btn2{
+    	text-align:center;
+    	padding:5px 10px;
+
+    }
+    .modal-profile-siren{
+    	width:22px;
+    	height:22px;
+    	margin-bottom:3px;
+    }
+    .fn:focus{
+    	box-shadow: none;
     }
 </style>
 <script>
@@ -807,11 +819,51 @@
 			});
 		}
 		
-		//프로필 상세 정보
-		$(".profile-info").click(function(){
-			$("#profile-info-modal").modal("show");
+		//프로필 상세 정보(게시글)
+		$(document).on("click",".b-profile-info",function(){
+			var memberNo = $(this).parents(".board-box").data("mno");
+			var url = $(this).children().attr("src");
+			detailInfo(memberNo, url);
+		});
+		//프로필 상세 정보(댓글)
+		$(document).on("click",".r-profile-info",function(){
+			var memberNo = $(this).data("mno");
+			var url = $(this).attr("src");
+			console.log(memberNo);
+			console.log(url);
+			detailInfo(memberNo, url);
+		});
+		//프로필 상세 정보(채팅)
+		$(document).on("click",".c-profile-info",function(){
+			var dangNo = $("[name=dangNo]").val();
+			var userNo = $(this).data("uno");
+			var url = $(this).attr("src");
+			//유저번호로 멤버번호 찾기
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/find_member_no?userNo="+userNo+"&dangNo="+dangNo,
+				method:"get",
+				success:function(resp){
+					detailInfo(resp, url);
+				}
+			});
 		});
 		
+		//프로필 상세정보 함수
+		function detailInfo(memberNo, url){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
+				method:"get",
+				success:function(resp){
+					$(".profile-info-img").attr("src",url);
+					$(".profile-info-nick").text(resp.memberNick);
+					$(".profile-info-message").text(resp.memberMessage);
+					$(".profile-info-grade").text(resp.memberGrade);
+					var text = resp.memberScore+"점";
+					$(".profile-info-score").text(text);
+					$("#profile-info-modal").modal("show");
+				}
+			});
+		}
 		
 	});
 </script>
@@ -950,7 +1002,7 @@
 	<div class="modal fade" id="day-check-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header" style="margin:0 auto;">
+				<div class="modal-header mb-2" style="margin:0 auto;">
 					<img src="${pageContext.request.contextPath}/images/logo.png" width="70" height="35">
 					<p style="color:#303030; font-size:15px;" class="ms-1 me-1 modal-title1"> 댕모임의 </p>
 					<h5 class="modal-title modal-title2" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
@@ -977,20 +1029,20 @@
 				<div style="position:absolute;">
 					<div>
 						<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
-								class="img-circle" style="width:130px; height:130px; margin-left:100%; margin-top:50%;">
+								class="img-circle profile-info-img" style="width:130px; height:130px; margin-left:100%; margin-top:50%;">
 					</div>
 				</div>
 				<div class="modal-body" >
 					<div class="row">
 						<div class="col-8 offset-2 text-center" style="margin-top:90px;">
-							<p class="font-gray nick-font">닉네임</p>
-							<p class="mt-1" style="font-size:14px;">상태메세지에요 이건 상태메시지에요</p>
+							<p class="font-gray nick-font profile-info-nick">닉네임</p>
+							<p class="mt-1 profile-info-message" style="font-size:14px;">상태메세지에요 이건 상태메시지에요</p>
 						</div>
 						<div class="col 6 offset 3 text-center m-3 mb-5">
-							<button type="button" class="btn btn-primary modal-profile-btn">등급</button>
-							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn">활동점수</button>
-							<button type="button" class="btn btn-outline-pink modal-profile-btn">
-								<img src="${pageContext.request.contextPath}/images/siren.png" style="width:20px; height:20px;">
+							<button type="button" class="btn btn-primary modal-profile-btn fn profile-info-grade" style="cursor:default;">등급</button>
+							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn fn profile-info-score" style="cursor:default;">활동점수</button>
+							<button type="button" class="btn btn-outline-pink modal-profile-btn2">
+								<img src="${pageContext.request.contextPath}/images/siren.png" class="modal-profile-siren">
 							</button>
 						</div>
 					</div>
