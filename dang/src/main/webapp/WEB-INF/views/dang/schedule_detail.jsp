@@ -394,10 +394,14 @@ border : 2px solid #76BEFF;
                             async : false,
                             contentType : "application/json",
                             success : function(resp) {
-                            	$(".btn-plus").hide();
-                     			$(".btn-minus").show();
                             	console.log("참여하기 성공");
-                            
+                            	$(".btn-plus").hide();
+                            	
+                            	window.confirm("일정 참여가 완료되었습니다");
+                            	
+
+                     			location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
+                     			$(".btn-minus").show();
                             }
     					});
                     });
@@ -414,7 +418,10 @@ border : 2px solid #76BEFF;
                             	
                             	console.log("참여취소 성공");
                             	$(".btn-minus").hide();
+                            	window.confirm("일정이 취소되었습니다");
+                            	 
                             	$(".btn-plus").show();
+                            	location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
                      
                             	
                             
