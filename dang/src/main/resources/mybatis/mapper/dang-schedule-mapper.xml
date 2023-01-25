@@ -89,6 +89,11 @@
         insert into dang_join values(#{scheduleNo}, #{memberNo})
         </insert>		
         
+                 				<!--댕모임 회원이 참여일정 취소-->       
+        <delete id="memberJoinCancel" parameterType="DangJoinDto">
+       	delete dang_join where member_no=#{memberNo} and schedule_no=#{scheduleNo}
+        </delete>	
+        
 
       
 <!--       스케줄 삭제
