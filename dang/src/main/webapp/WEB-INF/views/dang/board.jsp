@@ -1952,7 +1952,6 @@
 			var scrollHeight = document.documentElement.scrollTop; //스크롤 현재 높이
 			var clientHeight = document.documentElement.clientHeight; //사용자가 보는 높이
 			
-			console.log(scrollHeight);
 			//상단으로 이동버튼 표시
 			if(scrollHeight>150){
 				$(".top-btn-div").show();
@@ -1983,7 +1982,6 @@
 					data:moreData,
 					async:false,
 					success:function(resp){
-						console.log(resp);
 						
 						for(var i=0; i<resp.length; i++){
 							boardList(resp[i]); //게시글 출력

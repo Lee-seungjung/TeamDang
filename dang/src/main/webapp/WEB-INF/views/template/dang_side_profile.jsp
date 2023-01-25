@@ -298,6 +298,19 @@
       font-size: 0.875em;
 	  color: red;
     }
+    .modal-header .btn-close{
+    	margin:-0.5rem -0.5rem 4.5rem auto;
+    }
+    .nick-font{
+    	font-size:20px;
+    	font-weight:bolder;
+    	letter-spacing:0.7px;
+    }
+    .modal-profile-btn{
+    	font-size:16px;
+    	text-align:center;
+    	padding-top:3px;
+    }
 </style>
 <script>
 	$(function(){
@@ -554,6 +567,7 @@
 			//   - 기존파일 없을 경우 user-img insert만 처리
 			//2. 댕회원 정보 변경
 			//3. 새로고침없이 본화면 프로필사진, 닉네임, 상태메세지 변경
+			
 			if(check.allValid()){
 				imgInsertData={	
 					attachmentNo:attachmentNo,
@@ -566,6 +580,7 @@
 						contentType:"application/json",
 						data:JSON.stringify(imgInsertData),
 						success:function(){
+							
 						}
 					});
 				}else{
@@ -588,7 +603,7 @@
 						memberMessage:memberMessage
 				}
 				$.ajax({ //2
-					url:"http://localhost:8888/rest_member/profile_edit",
+					url:"${pageContext.request.contextPath}/rest_member/profile_edit",
 					method:"patch",
 					contentType:"application/json",
 					data:JSON.stringify(editData),
@@ -602,6 +617,7 @@
 							$(".originNickName").text(memberNick);
 							$(".originMessage").text(memberMessage);
 							$("[name=originAttachmentNo]").val(attachmentNo);
+							
 						}
 					}
 				});
@@ -742,7 +758,13 @@
 				}
 			});
 		}
+		
+		//프로필 상세 정보
+		$(".profile-info").click(function(){
+			$("#profile-info-modal").modal("show");
+		});
 
+		
 		
 	});
 </script>
@@ -768,7 +790,7 @@
 			<div class="row d-flex justify-content-center">
 				<div class="col-10 middle-items justify-content-center">
 					<img src="${pageContext.request.contextPath}/images/bone.png" class="page-profile pe-1" width="30" height="30">
-					<span class="font-gray ps-1 originNickName" style="font-size:20px; font-weight:bolder;">${profile.memberNick}</span>
+					<span class="font-gray nick-font ps-1 originNickName">${profile.memberNick}</span>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -797,6 +819,7 @@
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
+							<form class="edit-form">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
@@ -836,6 +859,7 @@
 									<button type="submit" class="btn btn-primary confirm-btn" data-bs-dismiss="modal">확인</button>
 								</div>
 							</div>
+							</form>
 						</div>
 					</div>
 					<!-- 프로필 편집 모달 끝-->
@@ -891,6 +915,38 @@
 				<div class="modal-footer mb-2" style="margin:0 auto;">
 					<button type="button" class="btn btn-secondary attendance-btn">출석하기</button>
 					<button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 프로필 상세 모달 -->
+	<div class="modal fade" id="profile-info-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content" style="width:400px; height:auto;">
+				<div class="modal-header" style="background-color:#E7F3FF; height:130px; position:relative;">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div style="position:absolute;">
+					<div>
+						<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
+								class="img-circle" style="width:130px; height:130px; margin-left:100%; margin-top:50%;">
+					</div>
+				</div>
+				<div class="modal-body" >
+					<div class="row">
+						<div class="col-8 offset-2 text-center" style="margin-top:90px;">
+							<p class="font-gray nick-font">닉네임</p>
+							<p class="mt-1" style="font-size:14px;">상태메세지에요 이건 상태메시지에요</p>
+						</div>
+						<div class="col 6 offset 3 text-center m-3 mb-5">
+							<button type="button" class="btn btn-primary modal-profile-btn">등급</button>
+							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn">활동점수</button>
+							<button type="button" class="btn btn-outline-pink modal-profile-btn">
+								<img src="${pageContext.request.contextPath}/images/siren.png" style="width:20px; height:20px;">
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

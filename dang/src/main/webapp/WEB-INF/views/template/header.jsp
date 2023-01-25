@@ -113,12 +113,14 @@
     background-color:#F94888;
     color:#fff;
     border-color: #F94888;
-  }
-  
+  }  
   .btn-pink:hover {
     color:#fff;
   }
-
+	.btn-outline-pink {
+    color: #F94888;
+    border-color: #F94888;
+  }
   .cursor-pointer {
     cursor: pointer;
   }
