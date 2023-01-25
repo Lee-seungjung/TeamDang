@@ -68,13 +68,25 @@
 			select * from schedule_join_member where schedule_no=#{scheduleNo}
         </select> 
         
-        
-                
+                      <!-- 상세 일정에서 참여 회원 확인-->
+        <select id="checkMember" parameterType="Map" resultType="JoinMemberVO">
+			select * from schedule_join_member where schedule_no=#{scheduleNo} and member_no=#{memberNo}
+        </select> 
+                   
 						<!--댕모임 회원이 일정페이지에서 일정 등록-->
         <insert id="scheduleInsert" parameterType="DangScheduleDto">
            insert into dang_schedule(schedule_no, member_no, place_no, schedule_title, schedule_content, schedule_headmax, schedule_start, schedule_hour, schedule_money)
-			values(dang_schedule_seq.nextval, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleHeadmax}, #{scheduleStart}, #{scheduleHour}, #{scheduleMoney})
+			values(#{scheduleNo}, #{memberNo}, #{placeNo}, #{scheduleTitle}, #{scheduleContent}, #{scheduleHeadmax}, #{scheduleStart}, #{scheduleHour}, #{scheduleMoney})
         </insert>
+        
+        				<!--댕모임 회원이 일정페이지에서 일정 등록관련 시퀀스 발행-->
+          <select id="scheduleSequence" resultType="int">
+			select dang_schedule_seq.nextval from dual       
+        </select>		
+        
+        <insert id="memberJoin" parameterType="DangJoinDto">
+        insert into dang_join values(#{scheduleNo}, #{memberNo})
+        </insert>		
         
 
       

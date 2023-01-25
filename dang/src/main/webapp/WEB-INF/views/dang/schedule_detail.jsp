@@ -295,7 +295,8 @@ border : 2px solid #76BEFF;
                     </div>   
 					
 					<div class="btn-box">
-                    <button type="submit" class="btn-common btn-in">참여하기</button>  <button type="submit" class="btn-common btn-back">돌아가기</button>
+					<!--비동기 버튼 출력 부분
+                     <button type="submit" class="btn-common btn-in">참여하기</button> -->
 					</div>					
                 </div>    
                 </div> 
@@ -316,6 +317,9 @@ border : 2px solid #76BEFF;
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 
 				<script>
+				
+				
+				
 				var placeNo1 = ${scheduleDetail.placeNo};
 				console.log(${countJoin});
 				
