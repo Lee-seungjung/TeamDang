@@ -556,6 +556,7 @@
 			
 			//비동기 데이터 준비
 			var userNo = $("[name=userNo]").val();
+			var roomNo = $("[name=roomNo]").val();
 			var attachmentNo=$("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			var memberNo = $("[name=memberNo]").val();
@@ -626,10 +627,9 @@
 							//기존 게시글 닉네임 변경
 							updateNickData={
 									memberNo:memberNo,
-									memberNick:memberNick,
+									memberNick:memberNick
 							}
-							console.log(updateNickData);
-							$.ajax({ //2
+							$.ajax({
 								url:"${pageContext.request.contextPath}/rest_board/update_nick",
 								method:"patch",
 								async:false,
@@ -638,7 +638,6 @@
 								success:function(resp){
 									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
 									var nickcheck = $(".board-box").children().find(".nick-font");
-									console.log(nickcheck);
 									//기존 닉네임과 예전 닉네임이 같을 경우
 									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
 									for(var i=0; i<nickcheck.length; i++){
@@ -649,6 +648,24 @@
 									}
 								}
 							});
+							
+							//채팅 닉네임 변경
+							updateChatNickData={
+									userNo:userNo,
+									roomNo:roomNo,
+									memberNick:memberNick
+							}
+							console.log(updateChatNickData);
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_chat/update_nick",
+								method:"patch",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(updateChatNickData),
+								success:function(resp){
+								}
+							});
+							
 						}
 					}
 				});

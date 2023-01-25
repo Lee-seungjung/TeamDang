@@ -60,4 +60,11 @@ public interface DangChatDao {
 	 * @param ChatImgDto
 	 */
 	void chatImgInsert(ChatImgDto dto);
+	
+	/**
+	 * 기존 채팅 내역 닉네임 변경
+	 * @param DangChatDto
+	 * @return true, false
+	 */
+	boolean updateNick(DangChatDto dto);
 }

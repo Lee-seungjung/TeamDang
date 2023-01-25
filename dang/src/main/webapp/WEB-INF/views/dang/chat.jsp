@@ -14,7 +14,7 @@
 		overflow:scroll;
 		overflow-x:hidden;
 		background-color:#F1F4FF;
-		width:100%; height:900px;
+		width:100%; height:725px;
 		border-top-right-radius: 0.3rem !important;
 		position : relative;
 	}
@@ -530,7 +530,7 @@
 																</c:otherwise>
 															</c:choose>
 														</td>
-														<td><span style="font-size:14px;">${vo.memberNick}</span></td>
+														<td><span class="chat-nick" style="font-size:14px;">${vo.memberNick}</span></td>
 														<td rowspan="2"></td>
 													</tr>
 													<tr>

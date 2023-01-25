@@ -71,7 +71,11 @@ public class DangChatDaoImpl implements DangChatDao{
 		sqlSession.insert("chat.imgInsert",dto);
 	}
 
-	
+	//기존 채팅 내역 닉네임 변경
+	@Override
+	public boolean updateNick(DangChatDto dto) {
+		return sqlSession.insert("chat.updateNick",dto)>0;
+	}
 
 	
 
