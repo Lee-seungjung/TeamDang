@@ -201,7 +201,35 @@
     display: block;
     line-height: 50px;
     border: none;
-    background-color: #F94888;
+    background-color: #E0E0E0;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: 50px;
+    width: 120px;
+	margin: 25px auto;
+}
+.btn-edit{
+    display: block;
+    line-height: 50px;
+    border: none;
+    background-color: #E0E0E0;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: 50px;
+    width: 120px;
+	margin: 25px auto;
+}
+.btn-delete{
+    display: block;
+    line-height: 50px;
+    border: none;
+    background-color: #E0E0E0;
     text-align: center;
     border-radius: 10px;
     color: white;
@@ -320,8 +348,10 @@ border : 2px solid #76BEFF;
 					
 					<div class="btn-box btn-join">
 					
-                     <button type="submit" class="btn-plus">참여하기</button>
-                     <button type="submit" class="btn-minus">취소하기</button>
+                     <button type="submit" class="btn-plus">참여</button>
+                     <button type="submit" class="btn-minus">참여취소</button>
+                     <button type="submit" class="btn-edit">수정</button>
+                     <button type="submit" class="btn-delete">삭제</button>
 					</div>					
                 </div>    
                 </div> 
@@ -347,7 +377,9 @@ border : 2px solid #76BEFF;
 				$(function(){
 					$(".btn-plus").hide();
 					$(".btn-minus").hide();
-					
+					$(".btn-edit").hide();
+					$(".btn-delete").hide();
+					//일정 등록한 멤버가 맞는지 확인
 					$.ajax({
                         url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
                         method : "get",
@@ -362,19 +394,21 @@ border : 2px solid #76BEFF;
                         	 var join= $(".btn	-join");
                         	 //join.empty();
         					 
-	                        	for(var i=0;i<resp.length;i++){
-	                        		
+	                        for(var i=0;i<resp.length;i++){
+	                        //일정 등록한 멤버라면?
                      		if(resp[i].memberNo!=${profile.memberNo}){
                      		
                      			$(".btn-minus").hide();
                      			$(".btn-plus").show();
+            					$(".btn-edit").show();
+            					$(".btn-delete").show();
+ 
                         
                              
                      		}else{
                      			
                      			$(".btn-plus").hide();
-                     			$(".btn-minus").show();
-                     			
+                     			$(".btn-minus").show();                     			
                              
                      		}
                      		
@@ -385,6 +419,7 @@ border : 2px solid #76BEFF;
                         
                         
 					});
+					//댕모임 일정 등록한 멤버가 아닌 다른 멤버들의 일정상세화면(참여하기,참여취소)
 					$(".btn-plus").click(function(){
                     	
                     	console.log("참여버튼누름");
