@@ -323,6 +323,19 @@
     .fn:focus{
     	box-shadow: none;
     }
+    .profile-info-img{
+    	 width:130px;
+    	 height:130px;
+    	 margin-left:100%;
+    	 margin-top:50%;
+    }
+    .profile-info-owner{
+    	 width:30px;
+    	 height:30px;
+    	 margin-left:750%;
+    	 margin-top:215%;
+    	 display:none;
+    }
 </style>
 <script>
 	$(function(){
@@ -829,8 +842,6 @@
 		$(document).on("click",".r-profile-info",function(){
 			var memberNo = $(this).data("mno");
 			var url = $(this).attr("src");
-			console.log(memberNo);
-			console.log(url);
 			detailInfo(memberNo, url);
 		});
 		//프로필 상세 정보(채팅)
@@ -850,10 +861,14 @@
 		
 		//프로필 상세정보 함수
 		function detailInfo(memberNo, url){
+			$(".profile-info-owner").attr("style","dispaly:none;")
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
 				method:"get",
 				success:function(resp){
+					if(resp.memberOwner=='Y'){
+						$(".profile-info-owner").show();
+					}
 					$(".profile-info-img").attr("src",url);
 					$(".profile-info-nick").text(resp.memberNick);
 					$(".profile-info-message").text(resp.memberMessage);
@@ -1027,10 +1042,11 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div style="position:absolute;">
-					<div>
-						<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
-								class="img-circle profile-info-img" style="width:130px; height:130px; margin-left:100%; margin-top:50%;">
-					</div>
+					<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
+							class="img-circle profile-info-img">
+				</div>
+				<div style="position:absolute;">
+					<img src="${pageContext.request.contextPath}/images/crown.png" class="profile-info-owner">
 				</div>
 				<div class="modal-body" >
 					<div class="row">

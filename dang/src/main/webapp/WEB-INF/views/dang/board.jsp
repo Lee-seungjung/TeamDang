@@ -180,7 +180,7 @@
 				    		<!-- 게시글 박스 시작 -->
 							<div class="board-box shadow-sm mb-3" data-scrollbno="${vo.boardNo}" data-mno="${vo.memberNo}">
 								<div class="first-line d-flex">
-									<div class="col-1 b-b-profile-info cursor-pointer">
+									<div class="col-1 b-profile-info cursor-pointer">
 										<c:choose>
 											<c:when test="${vo.attachmentNo==null}">
 												<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
@@ -1131,7 +1131,7 @@
 			
 			//첫번째줄
 			var firstLine = $("<div>").attr("class","first-line d-flex");
-			var col1 = $("<div>").attr("class","col-1 b-b-profile-info cursor-pointer");
+			var col1 = $("<div>").attr("class","col-1 b-profile-info cursor-pointer");
 			var img1 = $("<img>").attr("class","img-fluid img-circle");
 			if(resp.attachmentNo==null){
 				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
