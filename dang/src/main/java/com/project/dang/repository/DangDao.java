@@ -7,6 +7,7 @@ import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
+import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
 
 public interface DangDao {
@@ -78,6 +79,13 @@ public interface DangDao {
 	public DangDetailDto selectDangDetail(int dangNo);
 	
 	/**
+	 * 댕모임 단일 조회
+	 * @param dangNo
+	 * @return DangOneInfoVO : 첨부파일 번호 , 댕모임
+	 */
+	public DangOneInfoVO selectOne(int dangNo);
+	
+	/**
 	 * 댕모임 전체/검색 조회
 	 * @param dangListRequestDto : : 댕모임명, 지역, 정렬 기준(인원수, 좋아요, 개설일)
 	 * @return List<DangListResponseDto> : 댕모임 정보, 댕모임 해시태그의 List
@@ -90,6 +98,13 @@ public interface DangDao {
 	 * @return int : 댕모임 전체/검색 조회 결과 총 갯수
 	 */
 	public int countDangTotal(DangListRequestDto dangListRequestDto);
+	
+	/**
+	 * 댕모임 참여 회원수
+	 * @param dangNo
+	 * @return int : 회원수
+	 */
+	public int dangMemberCnt(int dangNo);
 	
 	/**
 	 * 댕모임 회원수 갱신

@@ -457,6 +457,12 @@ public class DangController {
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
+		//댕모임 정보
+		model.addAttribute("dangInfo",dangDao.selectOne(dangNo));
+		//댕모임 참여회원 수
+		model.addAttribute("memberCnt", dangDao.dangMemberCnt(dangNo));
+		//댕모임 회원정보
+		
 		return "dang/member";
 	}
 	

@@ -13,6 +13,7 @@ import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
+import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
 
 @Repository
@@ -94,6 +95,12 @@ public class DangDaoImpl implements DangDao {
 	public DangDetailDto selectDangDetail(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangDetail", dangNo);
 	}
+	
+	//댕모임 단일 조회
+	@Override
+	public DangOneInfoVO selectOne(int dangNo) {
+		return sqlSession.selectOne("dang.selectOneDangInfo", dangNo);
+	}
 
 	// 댕모임 전체/검색 조회
 	@Override
@@ -108,6 +115,12 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public int countDangTotal(DangListRequestDto dangListRequestDto) {
 		return sqlSession.selectOne("dang.countDangTotal", dangListRequestDto);
+	}
+	
+	//댕모임 참여 회원수
+	@Override
+	public int dangMemberCnt(int dangNo) {
+		return sqlSession.selectOne("dang.dangMemberCnt", dangNo);
 	}
 
 	// 댕모임 회원수 갱신

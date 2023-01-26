@@ -32,6 +32,13 @@
   			from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
   	</select>
   	
+  	<!-- 댕모임 단일조회(첨부파일 + 댕모임) -->
+	<select id="selectOneDangInfo" parameterType = "int" resultType = "DangOneInfoVO">
+		select d.*, img.attachment_no from dang d 
+		left outer join dang_img img on d.dang_no=img.dang_no
+		where d.dang_no=#{dangNo}
+	</select>
+	
   	<!-- 댕모임 정보 수정(공개 전환) -->
   	<update id = "editDangInfoPublic" parameterType = "DangEditInfoVO">
   		update dang set dang_name = #{dangName}, dang_info = #{dangInfo}, dang_headmax = #{dangHeadmax}, dang_private = #{dangPrivate}, dang_pw = null, dang_area = #{dangArea} where dang_no = #{dangNo}
@@ -191,6 +198,11 @@
 	 			)
 	 		</if>
  		</where>
+ 	</select>
+ 	
+ 	<!-- 댕모임 참여 회원수 -->
+ 	<select id="dangMemberCnt" parameterType = "int" resultType="int">
+ 		select count(*) from (select*from dang_member where dang_no=#{dangNo})
  	</select>
  	
  	<!-- 댕모임 회원수 갱신 -->
