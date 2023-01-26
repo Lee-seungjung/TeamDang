@@ -484,12 +484,16 @@
 			}
 		});
 		
+		//프로필 수정 전 준비
+		var originNick = $("[name=memberNick]").val();
+		var originMessage = $("[name=memberMessage]").val();
 		
-		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
-		$(".cancel-btn").click(function(){
+		//모달 취소버튼 클릭 시 첨부파일 DB 삭제, 닉네임/메세지 원본으로 되돌리기
+		$(document).on("click",".cancel-btn",function(){
 			deleteAttachmentNo();
+			$("[name=memberNick]").val(originNick);
+			$("[name=memberMessage]").val(originMessage);
 		});
-		
 		
 		//입력 항목 상태 판정
 		check={
