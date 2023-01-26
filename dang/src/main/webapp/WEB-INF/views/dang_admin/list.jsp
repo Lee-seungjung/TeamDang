@@ -273,13 +273,13 @@
 		async : false,
 		contentType : "application/json",
 		success : function(resp) {
-			console.log(resp);
+			//console.log(resp);
 			var firstline=$(".firstLine");
 			firstline.empty();
 			
 				for(i=0;i<resp.length;i++){
 					style="background-color : #F2F2F2" 
-					console.log(resp[i].placeSort);
+					//console.log(resp[i].placeSort);
 					var col1 = $("<div>").attr("class","col-2 mt-5 border1").attr("style", "background-color : #F2F2F2; border-radius: 20px 0px 0px 20px;");
 					var img1 = $("<img>").attr("src","http://localhost:8888/rest_attachment/download/"+resp[i].attachmentNo).attr("style","width:150px; height:150px;");
 					col1.append(img1);
@@ -314,6 +314,8 @@
 		var placeNoInfo; //장소번호를 가져오는 변수
 		var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 		var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
+		
+		
 		function detailMove() {
 			location.href = "http://localhost:8888/place/detail/"+placeNoInfo;
 		}
@@ -336,7 +338,7 @@
 										async : false,
 										contentType : "application/json",
 										success : function(resp) {
-											console.log(resp)
+											//console.log(resp)
 											$(".span-placeaddress").text(
 													resp.placeAddress);
 											$(".span-placearea").text(
@@ -545,10 +547,14 @@
 									}
 									customOverlay.setMap(map1);
 									clickedOverlay = customOverlay;
+									
+									
 
 								});
 			}
 		}
+		
+		console.log(placeOriginNo);
 
 		// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
 		function setCafeMarkers(map1) {
@@ -918,6 +924,8 @@
 				setDogsalonMarkers(null);
 				setParkMarkers(map1);
 			}
+			
+			
 		}
 	</script>
 </body>

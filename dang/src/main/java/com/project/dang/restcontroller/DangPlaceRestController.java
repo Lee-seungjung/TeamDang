@@ -44,8 +44,12 @@ public class DangPlaceRestController {
 	}
 	
 	@GetMapping("/place_list")
-	public List<DangPlaceDto> placeList() {
-		return dangPlaceDao.placeList();
+	public List<DangPlaceDto> placeList(@RequestParam Double lat1,@RequestParam Double lng1,@RequestParam Double lat2,@RequestParam Double lng2) {
+		System.out.println("lat1 : "+ lat1);
+		System.out.println("lng1 : "+lng1);
+		System.out.println("lat2 : "+lat2);
+		System.out.println("lng2 : "+lng2);
+		return dangPlaceDao.placeList(lat1,lng1,lat2,lng2);
 	}
 	
 	@GetMapping("/place_one/{placeNo}")

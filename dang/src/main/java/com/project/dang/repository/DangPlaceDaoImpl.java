@@ -1,6 +1,8 @@
 package com.project.dang.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,13 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	}
 
 	@Override
-	public List<DangPlaceDto> placeList() {
-		return sqlSession.selectList("place.placeList");
+	public List<DangPlaceDto> placeList(Double lat1,Double lng1,Double lat2,Double lng2) {
+		Map<String, String> param = new HashMap<>();
+		param.put("lat1", String.valueOf(lat1));
+		param.put("lng1", String.valueOf(lng1));
+		param.put("lat2", String.valueOf(lat2));
+		param.put("lng2", String.valueOf(lng2));
+		return sqlSession.selectList("place.placeList",param);
 	}
 
 	@Override
