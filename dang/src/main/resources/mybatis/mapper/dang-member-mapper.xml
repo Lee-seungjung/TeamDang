@@ -53,6 +53,13 @@
 		select * from dang_member where member_no=#{memberNo}
 	</select>
 	
+	<!-- 댕모임 내 회원(리스트) 조회 -->
+	<select id="memberList" resultType="MemberListVO" parameterType="int">
+		select d.member_no, d.member_nick,d.member_message, d.member_owner, img.attachment_no 
+			from dang_member d left outer join user_img img 
+			on d.user_no=img.user_no where d.dang_no=#{dangNo} order by d.member_owner desc, d.member_nick asc
+	</select>
+	
 	<!-- 댕모임 회원등급 포인트 증가 -->
 	<update id="plusScore" parameterType="DangMemberDto">
 		update dang_member set member_score=member_score+#{memberScore} where member_no=#{memberNo}

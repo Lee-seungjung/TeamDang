@@ -12,6 +12,7 @@ import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.vo.MemberEditVO;
+import com.project.dang.vo.MemberListVO;
 
 @Repository
 public class DangMemberDaoImpl implements DangMemberDao{
@@ -67,6 +68,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	@Override
 	public DangMemberDto selectOne(DangMemberDto dto) {
 		return sqlSession.selectOne("dangMember.findMember",dto);
+	}
+	
+	//특정 댕모임 회원 리스트 조회
+	@Override
+	public List<MemberListVO> memberList(int dangNo) {
+		return sqlSession.selectList("dangMember.memberList",dangNo);
 	}
 	
 	//ajax 댕모임 회원 찾기

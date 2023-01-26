@@ -6,6 +6,7 @@ import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.vo.MemberEditVO;
+import com.project.dang.vo.MemberListVO;
 
 public interface DangMemberDao {
 	
@@ -138,6 +139,13 @@ public interface DangMemberDao {
 	 * @return Integer : 회원수
 	 */
 	public Integer countMember(int dangNo);
+	
+	/**
+	 * 특정 댕모임 회원 리스트 조회
+	 * @param dangNo
+	 * @return MemberListVO
+	 */
+	public List<MemberListVO> memberList(int dangNo);
 	
 	/**
 	 * 특정 회원이 특정 댕모임의 회원인지 조회

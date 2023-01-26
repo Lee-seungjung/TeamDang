@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 
 <style>
 	.d-member-owner{
@@ -11,6 +13,9 @@
 	.title-font{
 		font-size:20px;
 		font-weight:bolder;
+	}
+	.cover{
+		object-fit: cover;
 	}
 </style>
 
@@ -34,14 +39,24 @@
 			<div class = "col-6">
 				<div id="d-info">
 					<div>
-						<img src="${pageContext.request.contextPath}/images/puppys2.jpg"
-									style="height:auto;" class = "w-100 rounded-3">
+						<c:choose>
+							<c:when test="${dangInfo.attachmentNo==null}">
+								<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png"
+									style="height:200px;" class = "w-100 rounded-3 cover">
+							</c:when>
+							<c:otherwise>
+								<img src="${pageContext.request.contextPath}/rest_attachment/download/${dangInfo.attachmentNo}"
+									style="height:200px;" class = "w-100 rounded-3 cover">
+							</c:otherwise>
+						</c:choose>
 					</div>
+					
 					<div class="col-10 offset-1 mt-4 middle-items">
-						<p class="title-font font-gray me-2">${dangInfo.dangName}</p>
-						<div>
+						<img src="${pageContext.request.contextPath}/images/logo2.png" width="23" height="23">
+						<p class="title-font font-gray ms-1 me-2">${dangInfo.dangName}</p>
+						<div class="middle-items">
 							<img src="${pageContext.request.contextPath}/images/maps-and-flags.png" width="15" height="15">
-							<span class="font-gray" style="font-size:13px; margin-left:-3px;">${dangInfo.dangArea}</span>
+							<span class="font-gray" style="font-size:13px; ">${dangInfo.dangArea}</span>
 						</div>
 					</div>
 					<div class="col-10 offset-1">
@@ -50,25 +65,38 @@
 				</div>
 				
 				<div id="d-member-list" class="mt-5">
-					<div class="col-10 offset-1">
-						<p class="title-font font-gray">모임에 참여중인 멤버(<span>${memberCnt}</span>명)</p>
+					<div class="col-10 offset-1 middle-items">
+						<i class="fa-solid fa-users pink me-1"></i>
+						<span class="title-font font-gray">모임에 참여중인 멤버(<span>${memberCnt}</span>명)</span>
 					</div>
+					
 					<div class="col-10 offset-1 mt-3">
-						<!-- 반복문 들어갈 자리 -->
-						<div class="d-member-wrap middle-items">
-							<div class="d-member-img" style="position:relative;">
-								<img src="" class="img-circle" width="70" height="70">
-								<img src="${pageContext.request.contextPath}/images/crown.png" class="d-member-owner">
+						<c:forEach var="vo" items="${memberList}">
+							<div class="d-member-wrap middle-items mb-2">
+								<div class="d-member-img" style="position:relative;">
+									<c:choose>
+										<c:when test="${vo.attachmentNo==null}">
+											<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
+													class="img-circle" width="60" height="60" data-mno="${vo.memberNo}">
+										</c:when>
+										<c:otherwise>
+											<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
+													class="img-circle" width="60" height="60" data-mno="${vo.memberNo}">
+										</c:otherwise>
+									</c:choose>
+									<c:if test="${vo.memberOwner=='Y'}">
+										<img src="${pageContext.request.contextPath}/images/crown.png" class="d-member-owner">
+									</c:if>
+								</div>
+								<div class="d-member-detail ms-3">
+									<p style="font-size:16px; font-weight:15px;">${vo.memberNick}</p>
+									<p style="font-size:13px;">${vo.memberMessage}</p>
+								</div>
 							</div>
-							<div class="d-member-detail ms-3">
-								<p style="font-weight:10px;">댕모임닉네임</p>
-								<p style="font-size:15px;">댕모임회원 상태메세지</p>
-							</div>
-						</div>
-						
+						</c:forEach>
 					</div>
+					
 				</div>
-				
 			</div>
 			
 			<!-- 다가오는 일정 박스 시작-->
