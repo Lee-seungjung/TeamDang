@@ -216,7 +216,7 @@
 	  outline: 0;
 	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
 	}
-	.where{
+	.schedule-where{
     border: 1px solid gray;
     margin: 0px 0px 10px;
     height: 42px;
@@ -822,7 +822,7 @@
 			var scheduleContent =$("[name=scheduleContent]").val();
 			var scheduleStart = $("[name=scheduleStart]").val();
 			var scheduleHour = $("[name=scheduleHour]").val();
-			var placeNo = $(".where").attr('data-placeno');
+			var placeNo = $(".schedule-where").attr('data-placeno');
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 
@@ -839,7 +839,7 @@
 					$(".write-content").val(""); //일정 내용
 					$(".when-date ").val(""); //일정 날짜
 					$(".when-time").val(""); //일정 시간		
-					$(".where").val(""); //장소
+					$(".schedule-where").val(""); //장소
 					$("#persons").prop("selected", true);//최대 참여인원							
 					$(".money").val(""); //회비 
 
@@ -1170,7 +1170,7 @@
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
                             </div>
-                            <div class="where form-control" ></div>                       
+                            <div class="schedule-where form-control" ></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -1285,9 +1285,9 @@
 		$(".btn-select-place").click(function(){			
 			var placeWhere = $(".span-placename").text();	
 			//장소번호로 장소데이터 불러오기(테스트)
-			$(".where").attr("data-placeno", placeNoInfo);
+			$(".schedule-where").attr("data-placeno", placeNoInfo);
 			
-			$(".where").text(placeWhere);
+			$(".schedule-where").text(placeWhere);
 			
 			$("#edit").modal("hide");
 			
