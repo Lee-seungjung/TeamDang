@@ -87,18 +87,17 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		param.put("memberNo", String.valueOf(memberNo));
 		return sqlSession.selectList("schedule.checkMemberList", param);
 	}
-//	@Override
-//	public boolean update(DangScheduleDto dangScheduleDto) {
-//		int count = sqlSession.delete("dangSchedule.update", dangScheduleDto);
-//		return count > 0;
-//	}
-//	
-//	@Override
-//	public boolean delete(int scheduleNo) {
-//		int count = sqlSession.delete("dangSchedule.delete", scheduleNo);
-//		return count > 0;
-//	}
-//
+	
+	@Override
+	public boolean scheduleEdit(DangScheduleDto dangScheduleDto) {
+		return sqlSession.update("schedule.scheduleEdit", dangScheduleDto)>0;
+
+	}
+
+	@Override
+	public boolean scheduleDelete(DangScheduleDto dangScheduleDto) {	
+		return sqlSession.delete("schedule.scheduleDelete", dangScheduleDto)>0;
+	}
 
 
 }
