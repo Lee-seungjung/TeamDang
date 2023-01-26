@@ -76,8 +76,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public boolean memberJoinCancel(DangJoinDto dangJoinDto) {
-		return sqlSession.delete("schedule.memberJoinCancel", dangJoinDto)>0;
+	public  boolean memberJoinCancel(int scheduleNo, int memberNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("memberNo", String.valueOf(memberNo));	
+		return sqlSession.delete("schedule.memberJoinCancel", param)>0;
 	}
 	
 	@Override
@@ -95,8 +98,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	}
 
 	@Override
-	public boolean scheduleDelete(DangScheduleDto dangScheduleDto) {	
-		return sqlSession.delete("schedule.scheduleDelete", dangScheduleDto)>0;
+	public boolean scheduleDelete(int scheduleNo, int memberNo) {	
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("memberNo", String.valueOf(memberNo));		
+		return sqlSession.delete("schedule.scheduleDelete", param)>0;
 	}
 
 

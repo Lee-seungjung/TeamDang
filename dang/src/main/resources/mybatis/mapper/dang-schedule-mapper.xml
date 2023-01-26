@@ -90,7 +90,7 @@
         </insert>		
         
                  		<!--댕모임 회원이 참여일정 취소-->       
-        <delete id="memberJoinCancel" parameterType="DangJoinDto">
+        <delete id="memberJoinCancel" parameterType="Map">
        		delete dang_join where member_no=#{memberNo} and schedule_no=#{scheduleNo}
         </delete>	
         
@@ -102,7 +102,7 @@
       </update> 
       
              			<!-- 일정 삭제 -->
-      <delete id="scheduleDelete" parameterType="DangScheduleDto">
+      <delete id="scheduleDelete" parameterType="Map">
 		delete dang_schedule where member_no=#{memberNo} and schedule_no=#{scheduleNo}	
       </delete> 
             

@@ -216,7 +216,7 @@
 	  outline: 0;
 	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
 	}
-	.schedule-where{
+	.where{
     border: 1px solid gray;
     margin: 0px 0px 10px;
     height: 42px;
@@ -814,22 +814,39 @@
 				}
 			});
 		}
-		
+		//일정등록 모달에서 등록 버튼 클릭
 		$(".write-btn").click(function(e){
 			console.log(${profile.memberNo});
 			var memberNo = ${profile.memberNo};
-			 var scheduleTitle = $("[name=scheduleTitle]").val();
+			var scheduleTitle = $("[name=scheduleTitle]").val();
 			var scheduleContent =$("[name=scheduleContent]").val();
 			var scheduleStart = $("[name=scheduleStart]").val();
 			var scheduleHour = $("[name=scheduleHour]").val();
-			var placeNo = $(".schedule-where").attr('data-placeno');
+			var placeNo = $(".where").attr('data-placeno');
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 
 			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 			
+	        	$(window).on("beforeunload", function(){
+	        		removescheduleTitle();
+				});
 			});
-		
+		//일정등록 모달에서 취소 버튼 클리시 일정등록 모달 닫기 및 내용초기화
+				$(document).on("click",".write-cancel",function(){
+					console.log("취소버튼클릭");
+					$(".schedule-name").val(""); //일정 제목
+					$(".write-content").val(""); //일정 내용
+					$(".when-date ").val(""); //일정 날짜
+					$(".when-time").val(""); //일정 시간		
+					$(".where").val(""); //장소
+					$("#persons").prop("selected", true);//최대 참여인원							
+					$(".money").val(""); //회비 
+
+		});
+		//$("#write-cancel").click(function(e){
+			
+
 		//등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
@@ -843,19 +860,30 @@
 					scheduleHeadmax: scheduleHeadmax,
 					scheduleMoney: scheduleMoney
 			};
+			var result = confirm("일정을 등록하시겠습니까?")
 			
-			$.ajax({
-				url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
-				method:"post",
-				contentType:"application/json",
-				data:JSON.stringify(data),
-				success:function(resp){
-					console.log("헤헿"+resp);	
-					location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
-					
-					//var placeNo = $(".schedule-where").attr('data-placeno');
-				}
-			});
+			if(result ==true){
+				$.ajax({
+					url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
+					method:"post",
+					contentType:"application/json",
+					data:JSON.stringify(data),
+					success:function(resp){
+						console.log("헤헿"+resp);	
+						
+						location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
+						
+						//var placeNo = $(".schedule-where").attr('data-placeno');
+					}
+				});
+				alert("일정 등록이 완료되었습니다.")
+			}
+			else {
+				alert("일정 등록이 취소되었습니다.")
+				//적혀진 값들 지우기
+				
+			}
+
 		}
 		
 		//프로필 상세 정보(게시글)
@@ -1133,7 +1161,7 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="2023-02-02" class="inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" value="13:00" min="00:00"
+                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time" value="10:00" min="00:00"
                                         max="24:00"  class="inbl w-50 b-contentbox form-control" name="scheduleHour"></p>
                         </div>
 
@@ -1142,7 +1170,7 @@
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
                             </div>
-                            <div class="schedule-where form-control" ></div>                       
+                            <div class="where form-control" ></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -1169,7 +1197,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
-                                                            <select style="color: #757575;" name="scheduleHeadmax" class="rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
+                                                            <select style="color: #757575;" name="scheduleHeadmax" class="persons rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
                                     <option value="" >인원수</option>
                                     <option class="people-5">5</option>
                                     <option class="people-10">10</option>
@@ -1257,9 +1285,9 @@
 		$(".btn-select-place").click(function(){			
 			var placeWhere = $(".span-placename").text();	
 			//장소번호로 장소데이터 불러오기(테스트)
-			$(".schedule-where").attr("data-placeno", placeNoInfo);
+			$(".where").attr("data-placeno", placeNoInfo);
 			
-			$(".schedule-where").text(placeWhere);
+			$(".where").text(placeWhere);
 			
 			$("#edit").modal("hide");
 			
