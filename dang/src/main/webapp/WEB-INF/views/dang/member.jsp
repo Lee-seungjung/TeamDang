@@ -77,11 +77,11 @@
 									<c:choose>
 										<c:when test="${vo.attachmentNo==null}">
 											<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
-													class="img-circle" width="60" height="60" data-mno="${vo.memberNo}">
+													class="img-circle m-profile-info cursor-pointer" width="60" height="60" data-mno="${vo.memberNo}">
 										</c:when>
 										<c:otherwise>
 											<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
-													class="img-circle" width="60" height="60" data-mno="${vo.memberNo}">
+													class="img-circle m-profile-info cursor-pointer" width="60" height="60" data-mno="${vo.memberNo}">
 										</c:otherwise>
 									</c:choose>
 									<c:if test="${vo.memberOwner=='Y'}">

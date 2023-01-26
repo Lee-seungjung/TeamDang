@@ -883,7 +883,6 @@
 				//적혀진 값들 지우기
 				
 			}
-
 		}
 		
 		//프로필 상세 정보(게시글)
@@ -911,6 +910,13 @@
 					detailInfo(resp, url);
 				}
 			});
+		});
+		
+		//프로필 상세정보(멤버)
+		$(document).on("click",".m-profile-info",function(){
+			var memberNo = $(this).data("mno");
+			var url = $(this).attr("src");
+			detailInfo(memberNo, url);
 		});
 		
 		//프로필 상세정보 함수
