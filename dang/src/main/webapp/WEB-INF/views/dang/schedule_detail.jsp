@@ -407,8 +407,9 @@ border : 2px solid #76BEFF;
                              
                      		}else{
                      			
-                     			$(".btn-plus").hide();
-                     			$(".btn-minus").show();                     			
+                     			$(".btn-plus").hide();  
+            					$(".btn-edit").show();
+            					$(".btn-delete").show();
                              
                      		}
                      		

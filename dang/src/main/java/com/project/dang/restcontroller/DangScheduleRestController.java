@@ -72,8 +72,8 @@ public class DangScheduleRestController {
 	}
 	
 	@DeleteMapping("schedule_cancel")
-	public void  scheduleCancel(DangJoinDto dangJoinDto) {		
-		 dangScheduleDao.memberJoinCancel(dangJoinDto);
+	public void  scheduleCancel(int scheduleNo, int memberNo) {		
+		 dangScheduleDao.memberJoinCancel(scheduleNo, memberNo);
 	}
 	
 	 @PutMapping("schedule_edit") 
@@ -82,8 +82,8 @@ public class DangScheduleRestController {
 	 }
 	 
 	 @DeleteMapping("schedule_delete") 
-	 public boolean scheduleJoinCancel(DangScheduleDto dangScheduleDto) { 
-		 return	 dangScheduleDao.scheduleDelete(dangScheduleDto);
+	 public boolean scheduleJoinCancel(int scheduleNo, int memberNo) { 
+		 return	 dangScheduleDao.scheduleDelete(scheduleNo, memberNo);
 	 }
 	 
 
