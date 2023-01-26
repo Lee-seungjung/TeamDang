@@ -200,11 +200,6 @@
  		</where>
  	</select>
  	
- 	<!-- 댕모임 참여 회원수 -->
- 	<select id="dangMemberCnt" parameterType = "int" resultType="int">
- 		select count(*) from (select*from dang_member where dang_no=#{dangNo})
- 	</select>
- 	
  	<!-- 댕모임 회원수 갱신 -->
  	<update id = "updateDangHead" parameterType = "map">
  		update dang set dang_head = #{dangHead} where dang_no = #{dangNo}

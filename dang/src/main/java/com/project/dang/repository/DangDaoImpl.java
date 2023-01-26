@@ -116,12 +116,6 @@ public class DangDaoImpl implements DangDao {
 	public int countDangTotal(DangListRequestDto dangListRequestDto) {
 		return sqlSession.selectOne("dang.countDangTotal", dangListRequestDto);
 	}
-	
-	//댕모임 참여 회원수
-	@Override
-	public int dangMemberCnt(int dangNo) {
-		return sqlSession.selectOne("dang.dangMemberCnt", dangNo);
-	}
 
 	// 댕모임 회원수 갱신
 	@Override

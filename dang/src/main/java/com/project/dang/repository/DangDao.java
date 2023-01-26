@@ -100,13 +100,6 @@ public interface DangDao {
 	public int countDangTotal(DangListRequestDto dangListRequestDto);
 	
 	/**
-	 * 댕모임 참여 회원수
-	 * @param dangNo
-	 * @return int : 회원수
-	 */
-	public int dangMemberCnt(int dangNo);
-	
-	/**
 	 * 댕모임 회원수 갱신
 	 * @param dangNo : 댕모임 번호
 	 * @param dangHead : 댕모임 회원수

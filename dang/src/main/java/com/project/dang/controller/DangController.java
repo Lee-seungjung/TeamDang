@@ -460,7 +460,7 @@ public class DangController {
 		//댕모임 정보
 		model.addAttribute("dangInfo",dangDao.selectOne(dangNo));
 		//댕모임 참여회원 수
-		model.addAttribute("memberCnt", dangDao.dangMemberCnt(dangNo));
+		model.addAttribute("memberCnt", dangMemberDao.countMember(dangNo));
 		//댕모임 회원정보
 		
 		return "dang/member";
