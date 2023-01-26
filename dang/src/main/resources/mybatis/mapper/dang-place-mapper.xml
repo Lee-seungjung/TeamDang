@@ -29,8 +29,8 @@
 			)
 	</insert>
 	
-	<select id="placeList" resultType="DangPlaceDto">
-		select * from dang_place
+	<select id="placeList" resultType="DangPlaceDto" parameterType="Map">
+		select * from dang_place where place_x >= #{lng1} and place_y >= #{lat1} <![CDATA[ and place_x <= #{lng2} and place_y <= #{lat2} ]]>
 	</select>
 	
 	<select id="listOne" resultType="DangPlaceDto" parameterType="int">

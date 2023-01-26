@@ -14,7 +14,7 @@ public interface DangPlaceDao {
 	void placeInsert(DangPlaceDto dangPlaceDto);
 	
 	//장소 리스트 추출
-	List<DangPlaceDto> placeList();
+	List<DangPlaceDto> placeList(Double lat1,Double lng1,Double lat2,Double lng2);
 	
 	//장소 한개 셀렉트
 	DangPlaceDto placeOne(int placeNo);
