@@ -216,7 +216,7 @@
 	  outline: 0;
 	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
 	}
-	.schedule-where{
+	.where{
     border: 1px solid gray;
     margin: 0px 0px 10px;
     height: 42px;
@@ -484,16 +484,12 @@
 			}
 		});
 		
-		//프로필 수정 전 준비
-		var originNick = $("[name=memberNick]").val();
-		var originMessage = $("[name=memberMessage]").val();
 		
-		//모달 취소버튼 클릭 시 첨부파일 DB 삭제, 닉네임/메세지 원본으로 되돌리기
-		$(document).on("click",".cancel-btn",function(){
+		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
+		$(".cancel-btn").click(function(){
 			deleteAttachmentNo();
-			$("[name=memberNick]").val(originNick);
-			$("[name=memberMessage]").val(originMessage);
 		});
+		
 		
 		//입력 항목 상태 판정
 		check={
@@ -822,7 +818,7 @@
 			var scheduleContent =$("[name=scheduleContent]").val();
 			var scheduleStart = $("[name=scheduleStart]").val();
 			var scheduleHour = $("[name=scheduleHour]").val();
-			var placeNo = $(".schedule-where").attr('data-placeno');
+			var placeNo = $(".where").attr('data-placeno');
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 
@@ -839,7 +835,7 @@
 					$(".write-content").val(""); //일정 내용
 					$(".when-date ").val(""); //일정 날짜
 					$(".when-time").val(""); //일정 시간		
-					$(".schedule-where").val(""); //장소
+					$(".where").val(""); //장소
 					$("#persons").prop("selected", true);//최대 참여인원							
 					$(".money").val(""); //회비 
 
@@ -1176,7 +1172,7 @@
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 장소 찾기</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
                             </div>
-                            <div class="schedule-where form-control" ></div>                       
+                            <div class="where form-control" ></div>                       
                             <div class="dang-schedule-map">
                                 <div id="mapwrap">
                                     <!-- 지도가 표시될 div -->
@@ -1291,9 +1287,9 @@
 		$(".btn-select-place").click(function(){			
 			var placeWhere = $(".span-placename").text();	
 			//장소번호로 장소데이터 불러오기(테스트)
-			$(".schedule-where").attr("data-placeno", placeNoInfo);
+			$(".where").attr("data-placeno", placeNoInfo);
 			
-			$(".schedule-where").text(placeWhere);
+			$(".where").text(placeWhere);
 			
 			$("#edit").modal("hide");
 			
