@@ -86,20 +86,24 @@
         
          				<!--댕모임 회원이 일정페이지에서 일정 등록관련 시퀀스 발행-->       
         <insert id="memberJoin" parameterType="DangJoinDto">
-        insert into dang_join values(#{scheduleNo}, #{memberNo})
+      		 insert into dang_join values(#{scheduleNo}, #{memberNo})
         </insert>		
         
-                 				<!--댕모임 회원이 참여일정 취소-->       
+                 		<!--댕모임 회원이 참여일정 취소-->       
         <delete id="memberJoinCancel" parameterType="DangJoinDto">
-       	delete dang_join where member_no=#{memberNo} and schedule_no=#{scheduleNo}
+       		delete dang_join where member_no=#{memberNo} and schedule_no=#{scheduleNo}
         </delete>	
         
-
+       					 <!-- 일정 수정 -->
+      <update id="scheduleEdit" parameterType="DangScheduleDto" >
+         update dang_schedule set schedule_title=#{scheduleTitle}, schedule_content=#{scheduleContent}, place_no=#{placeNo}, 
+         schedule_headmax=#{scheduleHeadmax}, schedule_start=#{scheduleStart}, schedule_hour=#{scheduleHour}, schedule_money=#{scheduleMoney}
+         where member_no=#{memberNo} and schedule_no=#{scheduleNo}
+      </update> 
       
-<!--       스케줄 삭제
-      <delete id="delete" parameterType="int">
-         delete dangSchedule where schedule_no=#{scheduleNo}
-      </delete> -->
-      
-      
+             			<!-- 일정 삭제 -->
+      <delete id="scheduleDelete" parameterType="DangScheduleDto">
+		delete dang_schedule where member_no=#{memberNo} and schedule_no=#{scheduleNo}	
+      </delete> 
+            
 </mapper>

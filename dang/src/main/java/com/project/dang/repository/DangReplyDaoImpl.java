@@ -68,7 +68,13 @@ public class DangReplyDaoImpl implements DangReplyDao{
 		Map<String, String> param = new HashMap<>();
 		param.put("replyContent", ReplyContent);
 		param.put("replyNo", String.valueOf(replyNo));
-		return sqlSession.delete("dangReply.update",param)>0;
+		return sqlSession.update("dangReply.update",param)>0;
+	}
+	
+	//댓글 작성자 닉네임 변경
+	@Override
+	public boolean updateNick(DangReplyDto dto) {
+		return sqlSession.update("dangReply.updateNick",dto)>0;
 	}
 
 	//댓글 삭제

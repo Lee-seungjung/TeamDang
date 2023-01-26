@@ -53,11 +53,26 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	public String findNick(DangMemberDto dto) {
 		return sqlSession.selectOne("dangMember.findNick",dto);
 	}
+	
+	//memberNo 조회
+	@Override
+	public int findMemberNo(int userNo, int dangNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("dangNo", dangNo);
+		return sqlSession.selectOne("dangMember.findMemberNo",param);
+	}
 
 	//댕모임 회원 찾기
 	@Override
 	public DangMemberDto selectOne(DangMemberDto dto) {
-		return sqlSession.selectOne("dangMember.fintMember",dto);
+		return sqlSession.selectOne("dangMember.findMember",dto);
+	}
+	
+	//ajax 댕모임 회원 찾기
+	@Override
+	public DangMemberDto restSelectOne(int memberNo) {
+		return sqlSession.selectOne("dangMember.restFindMember",memberNo);
 	}
 	
 	//댕모임 회원 등급포인트 증가

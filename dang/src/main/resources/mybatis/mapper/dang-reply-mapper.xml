@@ -74,6 +74,11 @@
 		update dang_reply set reply_content=#{replyContent}, reply_updatedate=sysdate where reply_no=#{replyNo}
 	</update>
 	
+	<!-- 댓글 닉네임 수정 -->
+	<update id="updateNick" parameterType="DangReplyDto">
+		update dang_reply set member_nick=#{memberNick} where member_no=#{memberNo}
+	</update>
+	
 	<!-- 댓글 삭제 -->
 	<delete id="delete" parameterType="int">
 		delete dang_reply where reply_no=#{replyNo}

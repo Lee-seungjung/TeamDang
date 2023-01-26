@@ -309,7 +309,32 @@
     .modal-profile-btn{
     	font-size:16px;
     	text-align:center;
-    	padding-top:3px;
+    }
+    .modal-profile-btn2{
+    	text-align:center;
+    	padding:5px 10px;
+
+    }
+    .modal-profile-siren{
+    	width:22px;
+    	height:22px;
+    	margin-bottom:3px;
+    }
+    .fn:focus{
+    	box-shadow: none;
+    }
+    .profile-info-img{
+    	 width:130px;
+    	 height:130px;
+    	 margin-left:100%;
+    	 margin-top:50%;
+    }
+    .profile-info-owner{
+    	 width:30px;
+    	 height:30px;
+    	 margin-left:750%;
+    	 margin-top:215%;
+    	 display:none;
     }
 </style>
 <script>
@@ -503,6 +528,7 @@
     					method:"get",
     					data:checkData,
     		    		dataType:"json",
+    		    		async:false,
     		    		contentType:"application/json",
     					success:function(resp){
     						$(this).removeClass("is-valid is-invalid invalid");
@@ -556,9 +582,11 @@
 			
 			//비동기 데이터 준비
 			var userNo = $("[name=userNo]").val();
+			var roomNo = $("[name=roomNo]").val();
 			var attachmentNo=$("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			var memberNo = $("[name=memberNo]").val();
+			var originMemberNick = $(".originNickName").text(); //기존 닉네임
 			var memberNick = $("[name=memberNick]").val();
 			var memberMessage = $("[name=memberMessage]").val();
 			
@@ -588,6 +616,7 @@
 						$.ajax({ //1
 							url:"${pageContext.request.contextPath}/rest_user/img_insert",
 							method:"post",
+							async:false,
 							contentType:"application/json",
 							data:JSON.stringify(imgInsertData),
 							success:function(){
@@ -605,6 +634,7 @@
 				$.ajax({ //2
 					url:"${pageContext.request.contextPath}/rest_member/profile_edit",
 					method:"patch",
+					async:false,
 					contentType:"application/json",
 					data:JSON.stringify(editData),
 					success:function(resp){
@@ -617,6 +647,71 @@
 							$(".originNickName").text(memberNick);
 							$(".originMessage").text(memberMessage);
 							$("[name=originAttachmentNo]").val(attachmentNo);
+							
+							
+							//기존 게시글 닉네임 변경
+							updateNickData={
+									memberNo:memberNo,
+									memberNick:memberNick
+							}
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_board/update_nick",
+								method:"patch",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(updateNickData),
+								success:function(resp){
+									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
+									var nickcheck = $(".board-box").children().find(".nick-font");
+									//기존 닉네임과 예전 닉네임이 같을 경우
+									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
+									for(var i=0; i<nickcheck.length; i++){
+										var nick = nickcheck.eq(i).text();
+										if(nick==originMemberNick && originMemberNick!=memberNick){
+											nickcheck.eq(i).text(memberNick);
+										}
+									}
+								}
+							});
+
+							//댓글 닉네임 변경
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_reply/update_nick",
+								method:"patch",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(updateNickData),
+								success:function(resp){
+									
+									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
+									var nickcheck = $(".reply-box").children().find(".re-nick-font");
+									//기존 닉네임과 예전 닉네임이 같을 경우
+									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
+									for(var i=0; i<nickcheck.length; i++){
+										var nick = nickcheck.eq(i).text();
+										if(nick==originMemberNick && originMemberNick!=memberNick){
+											nickcheck.eq(i).text(memberNick);
+										}
+									}
+								}
+							});
+							
+							
+							//채팅 닉네임 변경
+							updateChatNickData={
+									userNo:userNo,
+									roomNo:roomNo,
+									memberNick:memberNick
+							}
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_chat/update_nick",
+								method:"patch",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(updateChatNickData),
+								success:function(resp){
+								}
+							});
 							
 						}
 					}
@@ -759,11 +854,54 @@
 			});
 		}
 		
-		//프로필 상세 정보
-		$(".profile-info").click(function(){
-			$("#profile-info-modal").modal("show");
+		//프로필 상세 정보(게시글)
+		$(document).on("click",".b-profile-info",function(){
+			var memberNo = $(this).parents(".board-box").data("mno");
+			var url = $(this).children().attr("src");
+			detailInfo(memberNo, url);
 		});
-
+		//프로필 상세 정보(댓글)
+		$(document).on("click",".r-profile-info",function(){
+			var memberNo = $(this).data("mno");
+			var url = $(this).attr("src");
+			detailInfo(memberNo, url);
+		});
+		//프로필 상세 정보(채팅)
+		$(document).on("click",".c-profile-info",function(){
+			var dangNo = $("[name=dangNo]").val();
+			var userNo = $(this).data("uno");
+			var url = $(this).attr("src");
+			//유저번호로 멤버번호 찾기
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/find_member_no?userNo="+userNo+"&dangNo="+dangNo,
+				method:"get",
+				success:function(resp){
+					detailInfo(resp, url);
+				}
+			});
+		});
+		
+		//프로필 상세정보 함수
+		function detailInfo(memberNo, url){
+			$(".profile-info-owner").attr("style","dispaly:none;")
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
+				method:"get",
+				success:function(resp){
+					if(resp.memberOwner=='Y'){
+						$(".profile-info-owner").show();
+					}
+					$(".profile-info-img").attr("src",url);
+					$(".profile-info-nick").text(resp.memberNick);
+					$(".profile-info-message").text(resp.memberMessage);
+					$(".profile-info-grade").text(resp.memberGrade);
+					var text = resp.memberScore+"점";
+					$(".profile-info-score").text(text);
+					$("#profile-info-modal").modal("show");
+				}
+			});
+		}
+		
 	});
 </script>
 
@@ -870,17 +1008,17 @@
 					<hr>
 					
 					<div class="row justify-content-center">
-						<div class="col-3">
+						<div class="col-4">
 							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
-						<div class="col-3">
+						<div class="col-4">
 							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
 							<p class="font-gray" style="font-size:15px;">작성글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
 						</div>
-						<div class="col-3">
+						<div class="col-4">
 							<i class="fa-regular fa-comment-dots fa-2x" style="color:#C5E0B4;"></i>
 							<p class="font-gray" style="font-size:15px;">댓글</p>
 							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
@@ -901,7 +1039,7 @@
 	<div class="modal fade" id="day-check-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header" style="margin:0 auto;">
+				<div class="modal-header mb-2" style="margin:0 auto;">
 					<img src="${pageContext.request.contextPath}/images/logo.png" width="70" height="35">
 					<p style="color:#303030; font-size:15px;" class="ms-1 me-1 modal-title1"> 댕모임의 </p>
 					<h5 class="modal-title modal-title2" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
@@ -926,22 +1064,23 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div style="position:absolute;">
-					<div>
-						<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
-								class="img-circle" style="width:130px; height:130px; margin-left:100%; margin-top:50%;">
-					</div>
+					<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
+							class="img-circle profile-info-img">
+				</div>
+				<div style="position:absolute;">
+					<img src="${pageContext.request.contextPath}/images/crown.png" class="profile-info-owner">
 				</div>
 				<div class="modal-body" >
 					<div class="row">
 						<div class="col-8 offset-2 text-center" style="margin-top:90px;">
-							<p class="font-gray nick-font">닉네임</p>
-							<p class="mt-1" style="font-size:14px;">상태메세지에요 이건 상태메시지에요</p>
+							<p class="font-gray nick-font profile-info-nick">닉네임</p>
+							<p class="mt-1 profile-info-message" style="font-size:14px;">상태메세지에요 이건 상태메시지에요</p>
 						</div>
 						<div class="col 6 offset 3 text-center m-3 mb-5">
-							<button type="button" class="btn btn-primary modal-profile-btn">등급</button>
-							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn">활동점수</button>
-							<button type="button" class="btn btn-outline-pink modal-profile-btn">
-								<img src="${pageContext.request.contextPath}/images/siren.png" style="width:20px; height:20px;">
+							<button type="button" class="btn btn-primary modal-profile-btn fn profile-info-grade" style="cursor:default;">등급</button>
+							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn fn profile-info-score" style="cursor:default;">활동점수</button>
+							<button type="button" class="btn btn-outline-pink modal-profile-btn2">
+								<img src="${pageContext.request.contextPath}/images/siren.png" class="modal-profile-siren">
 							</button>
 						</div>
 					</div>

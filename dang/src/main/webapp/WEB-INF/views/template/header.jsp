@@ -117,7 +117,10 @@
   .btn-pink:hover {
     color:#fff;
   }
-	.btn-outline-pink {
+  .btn-outline-pink:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 189, 213, 0.5);
+  }
+  .btn-outline-pink {
     color: #F94888;
     border-color: #F94888;
   }

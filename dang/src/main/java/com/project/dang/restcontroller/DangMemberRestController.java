@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
-import com.project.dang.dto.DangMemberJoinDto;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.vo.MemberEditVO;
 
@@ -46,8 +44,19 @@ public class DangMemberRestController {
 	 public DangAttendanceDto isAttendance(@RequestParam int memberNo){
 		 return dangMemberDao.isAttendance(memberNo);
 	 }
-
-	
+	 
+	 //회원 단일조회
+	 @GetMapping("/find_member")
+	 public DangMemberDto findMember(@RequestParam int memberNo){
+		 return dangMemberDao.restSelectOne(memberNo);
+	 }
+	 
+	//회원 단일조회
+	@GetMapping("/find_member_no")
+	public int findMemberNo(@RequestParam int userNo, @RequestParam int dangNo){
+		return dangMemberDao.findMemberNo(userNo,dangNo);
+	}
+		 
 	//댕모임 회원등급 포인트 증가
 	@PatchMapping("/score_plus")
 	public boolean updateScore(@RequestBody DangMemberDto dto) {

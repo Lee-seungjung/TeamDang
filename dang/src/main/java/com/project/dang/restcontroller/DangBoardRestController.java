@@ -1,7 +1,6 @@
 package com.project.dang.restcontroller;
 
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +115,12 @@ public class DangBoardRestController {
 		}else {
 			return dangBoardDao.minusLike(boardNo);
 		}
+	}
+	
+	//기존 게시글 닉네임 수정
+	@PatchMapping("/update_nick")
+	public boolean updateNick(@RequestBody DangBoardDto dto) {
+		return dangBoardDao.updateNick(dto);
 	}
 	
 	//게시글 삭제

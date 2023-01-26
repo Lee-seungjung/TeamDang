@@ -52,63 +52,64 @@ public interface DangScheduleDao {
 	 * @return <JoinMemberVO>
 	 */
 	List<JoinMemberVO> joinMemberList(int scheduleNo);
-	
+
 	/**
-	* 댕모임 회원이 일정등록
-	* *
-	* @param DangScheduleDto
-	*/
+	 * 댕모임 회원이 일정등록 *
+	 * 
+	 * @param DangScheduleDto
+	 */
 	public void insert(DangScheduleDto dangScheduleDto);
-	
+
 	/**
 	 * 일정 등록을 위한 시퀀스 번호 발행
-	 * 	 @return scheduleSequence
+	 * 
+	 * @return scheduleSequence
 	 * 
 	 */
 	public int scheduleSequence();
 
+	/**
+	 * 댕모임 참여(일정 등록한 멤버)
+	 * 
+	 * @param scehduleNo : 일정 번호
+	 * @param memberNo   : 댕모임 멤버 번호
+	 * @return Integer : 참여인원수 증가 후 상태
+	 */
+	public void memberJoin(DangJoinDto dangJoinDto);
 
 	/**
-	* 댕모임 참여(일정 등록한 멤버)
-	 * 
-	* @param scehduleNo : 일정 번호
-	 * @param memberNo   : 댕모임 멤버 번호
-	* @return Integer : 참여인원수 증가 후 상태
-	 */
-	 public void memberJoin(DangJoinDto dangJoinDto);
-	
-		  /**
 	 * 댕모임 참여 취소
 	 * 
 	 * @param scehduleNo : 일정 번호
 	 * @param memberNo   : 댕모임 멤버 번호
 	 * @return Integer : 참여인원수 감소 후 상태
 	 */
-    public boolean memberJoinCancel(DangJoinDto dangJoinDto);
-		  
-  	/**
+	public boolean memberJoinCancel(DangJoinDto dangJoinDto);
+
+	/**
 	 * 댕모임 일정 참여 확인
 	 * 
 	 * @param scehduleNo : 일정 번호
 	 * @param memberNo   : 댕모임 멤버 번호
-	 * @return JoinMemberVO : 일정 참여자가 맞는지 체크
+	 * @return JoinMemberVO 
 	 */
-		  public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
-			 
+	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
 
+	/**
+	 * 일정 수정
+	 * @param memberNo   : 댕모임 멤버 번호
+	 * @param DangScheduleDto  : 댕모임 스케줄 
+	 * @return DangScheduleDto
+	 */
+	public boolean scheduleEdit(DangScheduleDto dangScheduleDto);
 
-//	/**
-//	 * 일정 수정
-//	 * 	 @param DangScheduleDto
-//	 */
-//	public boolean update(DangScheduleDto dangScheduleDto);
-//	
-//	/**
-//	 * 일정 삭제
-//	 * 	 @param scheduleNo
-//	 */
-//	public boolean delete(int scheduleNo);
-//
-//	/**
+	/**
+	 * 일정 삭제
+	 * 
+	 * @param scheduleNo :댕모임 스케줄 번호
+	 * @param memberNo : 댕모임 멤버 번호
+	 */
+	 public boolean scheduleDelete(DangScheduleDto dangScheduleDto);
+
 
 }

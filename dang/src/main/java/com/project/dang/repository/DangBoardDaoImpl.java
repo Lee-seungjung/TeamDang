@@ -145,6 +145,12 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	public boolean minusLike(int boardNo) {
 		return sqlSession.update("dangBoard.minusLike",boardNo)>0;
 	}
+	
+	//기존 게시글 닉네임 변경
+	@Override
+	public boolean updateNick(DangBoardDto dto) {
+		return sqlSession.update("dangBoard.updateNick",dto)>0;
+	}
 
 	//게시글 삭제
 	@Override

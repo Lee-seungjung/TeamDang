@@ -132,6 +132,13 @@ public interface DangBoardDao {
 	boolean minusLike(int boardNo);
 	
 	/**
+	 * 기존 게시글 닉네임 변경
+	 * @param DangBoardDto
+	 * @return true, false
+	 */
+	boolean updateNick(DangBoardDto dto);
+	
+	/**
 	 * 게시글 삭제
 	 * @param boardNo
 	 * @return true, false

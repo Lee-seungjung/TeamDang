@@ -62,6 +62,10 @@
 	<insert id="imgInsert" parameterType="ChatImgDto">
 		insert into chat_img values(#{chatNo}, #{attachmentNo})
 	</insert>
+	
+	<update id="updateNick" parameterType="DangChatDto">
+		update dang_chat set member_nick=#{memberNick} where room_no=#{roomNo} and user_no=#{userNo}
+	</update>
   
 </mapper>
   
