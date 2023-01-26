@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="마이페이지" name="title"/>
+</jsp:include>
+
+<%-- 작업 끝나면 지우면 될 것 같습니다 --%>
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
 	
     * {
@@ -53,13 +60,14 @@
         font-weight: 600;
         color :#76BEFF;
     }
-      .owner-profile,.dang-profile{
+    
+    .owner-profile,.dang-profile{
         font-size: 20px;
         font-weight: 600;
         color :#515151;
     }
     
-       .dang-nick2{
+    .dang-nick2{
         font-size: 24px;
         font-weight: 600;
         color :#515151;
@@ -79,18 +87,16 @@
     }
     
     .dang-photo{
-    position: relative;
+    	position: relative;
+    
     }
+    
     .dang-gender{
-    position: absolute;
-    top: 60%;
-    left: 60%;
+	    position: absolute;
+	    top: 60%;
+	    left: 60%;
     }
 </style>
-
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="마이페이지" name="title"/>
-</jsp:include>
 
 <body>
 
