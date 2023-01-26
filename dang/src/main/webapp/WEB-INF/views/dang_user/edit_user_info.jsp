@@ -130,8 +130,8 @@
 
 	$(function(){
 		
-		// 사이드 메뉴의 회원정보 변경 색 변경
-		$(".div-mypage-edit-user-info").css("background-color", "#F94888");
+		// 마이페이지 메뉴 색 변경
+		$(".img-change-user-info").attr("src", "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png");
 		
 		// 수정 전 프로필 다운로드 링크
 		var originalProfile = $(".img-user-profile").attr("src");
@@ -154,11 +154,6 @@
 				});
 			}
 		});
-		
-		// 수정
-		
-		
-		
 	});
 	
 </script>

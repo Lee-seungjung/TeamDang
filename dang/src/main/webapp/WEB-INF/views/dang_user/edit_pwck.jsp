@@ -58,7 +58,8 @@
 <script type="text/javascript">
 
 	$(function(){
-		$(".div-mypage-edit-user-info").css("background-color", "#F94888");
+		// 마이페이지 메뉴 색 변경
+		$(".img-change-user-info").attr("src", "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png");
 	});
 	
 </script>

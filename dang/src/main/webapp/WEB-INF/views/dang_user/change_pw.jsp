@@ -63,7 +63,8 @@
 <script type="text/javascript">
 
 	$(function(){
-		$(".div-mypage-edit-user-pw").css("background-color", "#F94888");
+		// 마이페이지 메뉴 색 변경
+		$(".img-change-user-pw").attr("src", "${pageContext.request.contextPath}/images/mypage-pw_change_pink.png");
 	});
 	
 </script>

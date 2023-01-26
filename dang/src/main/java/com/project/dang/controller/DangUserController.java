@@ -2,6 +2,7 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
@@ -20,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.dang.dto.AttachmentDto;
+import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
+import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
 import com.project.dang.vo.DangUserFindVO;
@@ -38,6 +41,9 @@ public class DangUserController {
 	
 	@Autowired
 	private AttachmentDao attachmentDao;
+	
+	@Autowired
+	private DangPuppyDao dangPuppyDao;
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -348,5 +354,17 @@ public class DangUserController {
 	@GetMapping("/find_pw_success")
 	public String findPwSuccess() {
 		return "dang_user/find_pw_success";
+	}
+	
+	// 댕댕이 수정
+	@GetMapping("/edit_puppy_info")
+	public String editPuppyInfo(HttpSession session, Model model) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 로그인 중인 회원의 댕댕이 목록 반환
+		List<DangPuppyListDto> dangPuppyList = dangPuppyDao.selectPuppyList(userNo);
+		// 조회한 댕댕이 정보를 Model에 추가
+		model.addAttribute("dangPuppyList", dangPuppyList);
+		return "dang_puppy/edit_puppy_info";
 	}
 }

@@ -26,18 +26,43 @@
 		insert into puppy_img(puppy_no, attachment_no) values(#{puppyNo}, #{attachmentNo})
 	</insert>
 	
-	<!-- 특정 회원의 댕댕이 정보 조회 -->
-	<!-- 
-	<select id = "selectPuppy" parameterType = "int" resultMap = "dangPuppyInfo">
-	
+	<!-- 댕댕이 특이사항 조회 -->
+	<select id = "selectPuppyCharacterList" parameterType = "int" resultType = "String">
+		select character_content from puppy_character where puppy_no = #{puppyNo}
 	</select>
-	<resultMap id = "dangPuppyInfo" type = "DangPuppyInfoDto">
-		<association property="dangPuppyDto">
-			<result column = "attachment_no" property = "attachmentNo"/>
-			<result column = "attachment_no" property = "attachmentNo"/>
-			<result column = "attachment_no" property = "attachmentNo"/>
+	
+	<!-- 특정 회원의 댕댕이 정보 조회 -->
+	<select id = "selectPuppyList" parameterType = "int" resultMap = "dangPuppyInfo">
+		select pup.puppy_no, pup.puppy_name, pup.puppy_gender, pup.puppy_age, img.attachment_no 
+		from dang_puppy pup 
+		left outer join 
+		puppy_img img 
+		on pup.puppy_no = img.puppy_no 
+		where user_no = #{userNo}
+	</select>
+	<resultMap id = "dangPuppyInfo" type = "DangPuppyListDto">
+		<association property="dangPuppyInfoDto">
+			<result column = "puppy_no" property = "puppyNo"/>
+			<result column = "puppy_name" property = "puppyName"/>
+			<result column = "puppy_gender" property = "puppyGender"/>
+			<result column = "puppy_age" property = "puppyAge"/>
 			<result column = "attachment_no" property = "attachmentNo"/>
 		</association>
+		<collection column = "puppy_no" property = "dangPuppyCharacter" ofType = "String" select = "selectPuppyCharacterList"></collection>
 	</resultMap>
-	 -->
+	
+	<!-- 댕댕이 정보 수정 -->
+	<update id = "updatePuppy" parameterType = "DangPuppyInfoDto">
+		update dang_puppy set puppy_name = #{puppyName}, puppy_age = #{puppyAge}, puppy_gender = #{puppyGender} where puppy_no = #{puppyNo}
+	</update>
+	
+	<!-- 댕댕이 특이사항 삭제 -->
+	<delete id = "deletePuppyCharacter" parameterType = "int">
+		delete puppy_character where puppy_no = #{puppyNo}
+	</delete>
+	
+	<!-- 댕댕이 첨부파일 조회 -->
+	<select id = "findPuppyImg" parameterType = "int" resultType = "int">
+		select attachment_no from puppy_img where puppy_no = #{puppyNo}
+	</select>
 </mapper>
