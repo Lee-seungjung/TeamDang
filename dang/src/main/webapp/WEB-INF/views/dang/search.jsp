@@ -1105,8 +1105,8 @@
 			});
 		});
 		
-		// 모달 내 가입하기 버튼
-		$(".btn-modal-join-submit").click(function(){
+		$(document).on("blur", ".input-modal-join-dang-pw", function(){
+			console.log(dangPrivate);
 			// 비밀번호 helper text 초기화
 			$(".check-pw").remove();
 			// Modal 내 비밀번호 입력창의 값
@@ -1133,6 +1133,15 @@
 			}
 			formJoinValid.checkPw = true;
 			formJoinCheck();
+		});
+		
+		// 모달 내 가입하기 버튼
+		$(".btn-modal-join-submit").click(function(){
+			// 공개 댕모임이라면
+			if(dangPrivate == "N") {
+				formJoinValid.checkPw = true;
+				formJoinCheck();
+			}
 			console.log("isAllValid = " + formJoinValid.isAllValid());
 			// 유효성 검사를 통과하지 못하면 return
 			if(formJoinValid.isAllValid() == false) {

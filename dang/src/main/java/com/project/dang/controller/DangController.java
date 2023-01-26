@@ -158,7 +158,7 @@ public class DangController {
 			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
 			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
 				for(int j = 0 ; j < searchDangListAlreadyJoin.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
-					if(dangList.get(i).getDangInfo().getDangNo() == searchDangListAlreadyJoin.get(j)) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
+					if(dangList.get(i).getDangInfo().getDangNo().equals(searchDangListAlreadyJoin.get(j))) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
 						dangList.get(i).getDangInfo().setIsMember(1); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
 					}
 				}
