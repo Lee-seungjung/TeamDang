@@ -442,10 +442,9 @@
 		<div class="modal" id="deleteModal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title"></h5>
+					<div class="modal-header" style="height:20px;">
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
 						</button>
 					</div>
 					<div class="modal-body middle-items">
@@ -1296,19 +1295,21 @@
 								writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
 
 								if(writeDate==now){ //작성날짜와 현재날짜가 같다면 활동점수 -1점
-
-			                    	$.ajax({
-			                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberScore+"/"+memberNo,
-			                    		method:"patch",
-			                    		contentType: 'application/json',
-			                    		async:false,
-			                    		success:function(resp){
-			                    			//사이드 프로필 활동점수-1
-			                    			var scoreTag = $(".profile-box").children().find(".memberScore")
-			                    			var scoreValue = parseInt(scoreTag.text());
-			                    			scoreTag.text(scoreValue-1);
-			                    		}
-			                    	});
+									var scoreTag = $(".profile-box").children().find(".memberScore")
+	                    			var scoreValue = parseInt(scoreTag.text());
+	                    			var calcul = scoreValue-1;
+	                    			if(calcul>0){
+	                    				$.ajax({
+				                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberScore+"/"+memberNo,
+				                    		method:"patch",
+				                    		contentType: 'application/json',
+				                    		async:false,
+				                    		success:function(resp){
+				                    			//사이드 프로필 활동점수-1
+				                    			scoreTag.text(calcul);
+				                    		}
+				                    	});
+	                    			}
 								}
 							}
 						});

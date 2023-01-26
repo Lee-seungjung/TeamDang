@@ -16,7 +16,7 @@ public class BoardHistoryVO {
 	//5. 게시글 댓글 수
 	
 	private int boardNo;
-	private int memberNo;
+	private Integer memberNo;
 	private String boardContent;
 	private int boardLike;
 	private Date boardWriteDate;
