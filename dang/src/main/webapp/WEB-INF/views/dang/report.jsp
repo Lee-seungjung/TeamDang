@@ -207,7 +207,7 @@
 		
 		<div class="btn-box text-center mt-5 mb-5">
 			<button type="submit" class="btn btn-primary w-25">신고하기</button>
-			<button type="button" class="btn btn-secondary report-cancel w-25">취소</button>
+			<button type="button" class="btn btn-pink report-cancel w-25">취소</button>
 		</div>
 		
 	</div>
