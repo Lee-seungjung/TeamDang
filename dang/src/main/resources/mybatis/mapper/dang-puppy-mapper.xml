@@ -39,6 +39,7 @@
 		puppy_img img 
 		on pup.puppy_no = img.puppy_no 
 		where user_no = #{userNo}
+		order by puppy_no desc
 	</select>
 	<resultMap id = "dangPuppyInfo" type = "DangPuppyListDto">
 		<association property="dangPuppyInfoDto">
