@@ -310,7 +310,7 @@
     	font-size:16px;
     	text-align:center;
     }
-    .modal-profile-btn2{
+    .modal-profile-report-btn{
     	text-align:center;
     	padding:5px 10px;
 
@@ -732,10 +732,12 @@
 				});
 			}
 		});
-		var memberNo = $("[name=memberNo]").val();
-		var test2 = $(".m-profile-info[data-mno="+memberNo+"]");
-		console.log(memberNo);
-		console.log(test2);
+		
+		//신고 처리
+		$(".modal-profile-report-btn").click(function(){
+			var memberNo = $(this).data("mno"); //신고당한 사람의 memberNo
+			location.href="${pageContext.request.contextPath}/dang/report/"+memberNo
+		});
 		
 		
 		//풀캘린더 생성
@@ -936,11 +938,14 @@
 		
 		//프로필 상세정보 함수
 		function detailInfo(memberNo, url){
+			var originMemberNo = $("[name=memberNo]").val();	
+		
 			$(".profile-info-owner").attr("style","dispaly:none;")
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
 				method:"get",
 				success:function(resp){
+					console.log(resp);
 					if(resp.memberOwner=='Y'){
 						$(".profile-info-owner").show();
 					}
@@ -950,6 +955,12 @@
 					$(".profile-info-grade").text(resp.memberGrade);
 					var text = resp.memberScore+"점";
 					$(".profile-info-score").text(text);
+					if(originMemberNo==memberNo){
+						$(".modal-profile-report-btn").hide();
+					}else{
+						$(".modal-profile-report-btn").show();
+						$(".modal-profile-report-btn").attr("data-mno",resp.memberNo);
+					}
 					$("#profile-info-modal").modal("show");
 				}
 			});
@@ -1132,9 +1143,10 @@
 						<div class="col 6 offset 3 text-center m-3 mb-5">
 							<button type="button" class="btn btn-primary modal-profile-btn fn profile-info-grade" style="cursor:default;">등급</button>
 							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn fn profile-info-score" style="cursor:default;">활동점수</button>
-							<button type="button" class="btn btn-outline-pink modal-profile-btn2">
+							<a type="button" class="btn btn-outline-pink modal-profile-report-btn"
+									href="#">
 								<img src="${pageContext.request.contextPath}/images/siren.png" class="modal-profile-siren">
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>

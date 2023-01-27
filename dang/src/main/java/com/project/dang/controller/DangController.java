@@ -500,4 +500,13 @@ public class DangController {
 		return "dang/schedule_detail";
 	}
 	
+	@GetMapping("/report/{memberNo}")
+	public String report(@PathVariable int memberNo,
+			HttpSession session, Model model) {
+		model.addAttribute("memberInfo", dangMemberDao.restSelectOne(memberNo));
+		
+		return "dang/report";
+	}
+	
+	
 }
