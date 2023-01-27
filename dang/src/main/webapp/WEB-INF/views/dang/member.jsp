@@ -109,8 +109,8 @@
 				</div>
 				
 				<div class="report-div mt-4">
-					<div class="col-10 offset-1 text-end">
-						<button type="button" class="btn report-btn">탈퇴</button>
+					<div class="col-10 offset-1 text-center mt-1 mb-5">
+						<button type="button" class="btn report-btn w-25">탈퇴</button>
 					</div>
 				</div>
 				
