@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +21,6 @@ import com.project.dang.dto.AttachmentDto;
 import com.project.dang.dto.DangPuppyDto;
 import com.project.dang.dto.DangPuppyInfoDto;
 import com.project.dang.dto.DangPuppyListDto;
-import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangPuppyDao;
 
@@ -85,7 +85,7 @@ public class DangPuppyRestController {
 			// 파일 저장
 			puppyImg.transferTo(target);
 			// 반환용 객체에 첨부파일 번호 설정
-			dangPuppyInfoDto.getAttachmentNo();
+			dangPuppyInfoDto.setAttachmentNo(attachmentNo);
 		}
 		// 반환용 객체에 댕댕이 정보 설정
 		dangPuppyListDto.setDangPuppyInfoDto(dangPuppyInfoDto);
@@ -102,12 +102,12 @@ public class DangPuppyRestController {
 	}
 	
 	@PutMapping("/edit")
-	public boolean editPuppy(HttpSession session, 
+	public Integer editPuppy(HttpSession session, 
 			@ModelAttribute DangPuppyInfoDto dangPuppyInfoDto,
 			@RequestParam(required = false) List<String> puppyCharacter, 
 			MultipartFile puppyImg) throws IllegalStateException, IOException {
 		// 댕댕이 정보 수정
-		boolean result = dangPuppyDao.updatePuppy(dangPuppyInfoDto);
+		dangPuppyDao.updatePuppy(dangPuppyInfoDto);
 		// 댕댕이 특이사항
 		// 댕댕이 특이사항 수정을 위한 삭제
 		dangPuppyDao.deletePuppyCharacter(dangPuppyInfoDto.getPuppyNo());
@@ -119,7 +119,7 @@ public class DangPuppyRestController {
 			}
 		}
 		// 첨부파일 수정
-		if(puppyImg != null) {
+		if(puppyImg != null) { // 첨부파일을 수정한다면
 			// 기존 첨부파일 조회
 			Integer attachmentNoExisting = dangPuppyDao.findPuppyImgNo(dangPuppyInfoDto.getPuppyNo());
 			// 기존 첨부파일이 있다면
@@ -148,8 +148,31 @@ public class DangPuppyRestController {
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 파일 저장
 			puppyImg.transferTo(target);
+			// 바뀐 첨부파일 번호 반환
+			return attachmentNo;
+		} else { // 첨부파일 변화가 없다면
+			// null 반환
+			return null;
 		}
-		
-		return result;
+	}
+	
+	@DeleteMapping("/delete")
+	public int deletePuppy(@RequestParam int puppyNo) {
+		// 댕댕이 삭제
+		dangPuppyDao.deletePuppy(puppyNo);
+		// 기존 첨부파일 조회
+		Integer attachmentNoExisting = dangPuppyDao.findPuppyImgNo(puppyNo);
+		// 기존 첨부파일이 있다면
+		if(attachmentNoExisting != null) {
+			// 첨부파일 테이블에서 정보 삭제 (on delete cascade 조건에 의해 연결 테이블은 자동 삭제)
+			attachmentDao.delete(attachmentNoExisting);
+			// 기존 첨부파일 이름 반환
+			String fileName = String.valueOf(attachmentNoExisting);
+			// 삭제할 첨부파일 경로 설정
+			File targetExisting = new File(directory, fileName);
+			// 기존 첨부파일 삭제
+			targetExisting.delete();
+		}
+		return puppyNo;
 	}
 }

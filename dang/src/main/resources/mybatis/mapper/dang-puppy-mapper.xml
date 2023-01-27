@@ -39,6 +39,7 @@
 		puppy_img img 
 		on pup.puppy_no = img.puppy_no 
 		where user_no = #{userNo}
+		order by puppy_no desc
 	</select>
 	<resultMap id = "dangPuppyInfo" type = "DangPuppyListDto">
 		<association property="dangPuppyInfoDto">
@@ -65,4 +66,9 @@
 	<select id = "findPuppyImg" parameterType = "int" resultType = "int">
 		select attachment_no from puppy_img where puppy_no = #{puppyNo}
 	</select>
+	
+	<!-- 댕댕이 정보 삭제 -->
+	<delete id = "deletePuppy" parameterType = "int">
+		delete dang_puppy where puppy_no = #{puppyNo}
+	</delete>
 </mapper>
