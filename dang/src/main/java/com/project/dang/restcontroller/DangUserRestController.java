@@ -64,7 +64,11 @@ public class DangUserRestController {
 	
 	//프로필 이미지 등록
 	@PostMapping("/img_insert")
-	public void imgInsert(@RequestBody UserImgDto dto) {
+	public void imgInsert(@RequestBody UserImgDto dto, HttpSession session) {
+		// HttpSession에서 기존의 회원 프로필 번호 삭제
+		session.removeAttribute("loginProfileImg");
+		// 새로운 회원 프로필 번호를 HttpSession에 저장
+		session.setAttribute("loginProfileImg", dto.getAttachmentNo());
 		dangUserDao.userImgInsert(dto);
 	}
 	

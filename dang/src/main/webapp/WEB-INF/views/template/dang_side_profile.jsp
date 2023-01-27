@@ -727,6 +727,9 @@
 							mTag.attr("src",url);
 							mTag.parent().next().children().text(memberNick);
 							mTag.parent().next().children().next().text(memberMessage);
+							
+							//헤더 프로필 변경
+							$(".img-user-profile").attr("src",url);
 						}
 					}
 				});
