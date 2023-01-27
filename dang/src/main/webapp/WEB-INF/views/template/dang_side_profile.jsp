@@ -721,11 +721,22 @@
 								}
 							});
 							
+							//멤버 프로필 사진, 닉네임, 상태메세지 변경
+							var mTag = $(".m-profile-info[data-mno="+memberNo+"]");
+							var url = "${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo;
+							mTag.attr("src",url);
+							mTag.parent().next().children().text(memberNick);
+							mTag.parent().next().children().next().text(memberMessage);
 						}
 					}
 				});
 			}
 		});
+		var memberNo = $("[name=memberNo]").val();
+		var test2 = $(".m-profile-info[data-mno="+memberNo+"]");
+		console.log(memberNo);
+		console.log(test2);
+		
 		
 		//풀캘린더 생성
 		function createCalendar(){
