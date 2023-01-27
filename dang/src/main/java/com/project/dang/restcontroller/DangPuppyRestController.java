@@ -47,7 +47,7 @@ public class DangPuppyRestController {
 	@PostMapping("/insert")
 	public DangPuppyListDto insertPuppy(HttpSession session, 
 			@ModelAttribute DangPuppyDto dangPuppyDto, 
-			@RequestParam List<String> puppyCharacter, 
+			@RequestParam(required = false) List<String> puppyCharacter, 
 			MultipartFile puppyImg) throws IllegalStateException, IOException {
 		// 반환용 객체 생성
 		DangPuppyListDto dangPuppyListDto = new DangPuppyListDto();
@@ -90,7 +90,7 @@ public class DangPuppyRestController {
 		// 반환용 객체에 댕댕이 정보 설정
 		dangPuppyListDto.setDangPuppyInfoDto(dangPuppyInfoDto);
 		// 댕댕이 특이사항 등록
-		if(puppyCharacter.size() != 0) {
+		if(puppyCharacter != null) {
 			for(int i = 0 ; i < puppyCharacter.size() ; i ++) {
 				dangPuppyDao.insertPuppyCharacter(puppyNo, puppyCharacter.get(i));
 			}
@@ -104,14 +104,15 @@ public class DangPuppyRestController {
 	@PutMapping("/edit")
 	public boolean editPuppy(HttpSession session, 
 			@ModelAttribute DangPuppyInfoDto dangPuppyInfoDto,
-			@RequestParam List<String> puppyCharacter, 
+			@RequestParam(required = false) List<String> puppyCharacter, 
 			MultipartFile puppyImg) throws IllegalStateException, IOException {
 		// 댕댕이 정보 수정
 		boolean result = dangPuppyDao.updatePuppy(dangPuppyInfoDto);
 		// 댕댕이 특이사항
-		if(puppyCharacter.size() != 0) {			
-			// 댕댕이 특이사항 수정을 위한 삭제
-			dangPuppyDao.deletePuppyCharacter(dangPuppyInfoDto.getPuppyNo());
+		// 댕댕이 특이사항 수정을 위한 삭제
+		dangPuppyDao.deletePuppyCharacter(dangPuppyInfoDto.getPuppyNo());
+		// 변경할 특이사항이 있다면
+		if(puppyCharacter != null) {			
 			// 댕댕이 특이사항 수정(재등록)
 			for(int i = 0 ; i < puppyCharacter.size() ; i ++) {				
 				dangPuppyDao.insertPuppyCharacter(dangPuppyInfoDto.getPuppyNo(), puppyCharacter.get(i));
