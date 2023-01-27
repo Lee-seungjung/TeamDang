@@ -44,11 +44,56 @@
 		overflow:hidden;
 		object-fit: cover;
 	}
+	.form-check-input:checked {
+		background-color: #F94888;
+    	border-color: #F94888;
+    }
 </style>
 
 <script>
 	$(function(){
+		//직접 입력 클릭시 div 보이게 처리
+		$("#optionsRadios6").click(function(){
+			$("input[type=radio][name=reportContent]").prop("checked",false);
+			$(".typing-wrap").show();
+		});
+		$(".typing").click(function(){
+			$("input[type=radio][name=reportContent]").prop("checked",false);
+			$("#optionsRadios6").prop("checked",true);
+			$(".typing-wrap").show();
+		});
+		
+		//라디오버튼 체크 설정/해제
+		$("input[type=radio][name=reportContent]").click(function(){
+			$("#optionsRadios6").prop("checked",false);
+			$(".typing-wrap").hide();
+		});
+		$("#optionsRadios6").click(function(){
+			$("input[type=radio][name=reportContent]").prop("checked",false);
+		});
+		
+		//여기
+		//입력 항목 상태 판정
+		var reportContent= false;
+		console.log($("[name=reportContent]"));
+		$("[name=reportContent]").on("change",function(){
+			console.log("입력항목 실행중!");
+			var value = $(this).val();
+			console.log(value);
+			/* if(value==""){
+				bCheck.boardCategory=false;
+			}else{
+				bCheck.boardCategory=true;
+			} */
+		});
 
+		
+		$(".report-form").submit(function(e){
+			e.preventDefault();
+			
+			console.log($("[name=reportContent]:checked").val());
+		});
+		
 	});
 </script>
 <hr>
@@ -61,6 +106,7 @@
 			</div>
 		</div>
 		
+		<form class="report-form">
 		<div class = "row mt-4">
 			<div class="col middle-items">
 				<h5 style="margin:0;">신고대상</h5>
@@ -79,7 +125,7 @@
 			
 				<div class="accordion-item form-check">	
 					<div class="accordion-button collapsed cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios1" value="스팸홍보/도배글입니다.">
+						<input class="form-check-input cursor-pointer me-2" type="radio" name="reportContent" id="optionsRadios1" value="스팸홍보/도배글입니다.">
 						<label class="form-check-label cursor-pointer" for="optionsRadios1">
 				        	스팸홍보/도배글입니다.
 				        </label>
@@ -97,7 +143,7 @@
 				
 				<div class="accordion-item form-check">	
 					<div class="accordion-button collapsed cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios2" value="음란물입니다.">
+						<input class="form-check-input cursor-pointer me-2" type="radio" name="reportContent" id="optionsRadios2" value="음란물입니다.">
 						<label class="form-check-label cursor-pointer" for="optionsRadios2">
 				        	음란물입니다.
 				        </label>
@@ -117,7 +163,7 @@
 				
 				<div class="accordion-item form-check">	
 					<div class="accordion-button collapsed cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios3" value="청소년에게 유해한 내용입니다.">
+						<input class="form-check-input cursor-pointer me-2" type="radio" name="reportContent" id="optionsRadios3" value="청소년에게 유해한 내용입니다.">
 						<label class="form-check-label cursor-pointer" for="optionsRadios3">
 				        	청소년에게 유해한 내용입니다.
 				        </label>
@@ -134,7 +180,7 @@
 				
 				<div class="accordion-item form-check">	
 					<div class="accordion-button collapsed cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios4" value="욕설/생명경시/혐오/차별적 표현입니다.">
+						<input class="form-check-input cursor-pointer me-2" type="radio" name="reportContent" id="optionsRadios4" value="욕설/생명경시/혐오/차별적 표현입니다.">
 						<label class="form-check-label cursor-pointer" for="optionsRadios4">
 				        	욕설/생명경시/혐오/차별적 표현입니다.
 				        </label>
@@ -154,7 +200,7 @@
 				
 				<div class="accordion-item form-check">	
 					<div class="accordion-button collapsed cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios5" value="개인정보 노출 게시물입니다.">
+						<input class="form-check-input cursor-pointer me-2" type="radio" name="reportContent" id="optionsRadios5" value="개인정보 노출 게시물입니다.">
 						<label class="form-check-label cursor-pointer" for="optionsRadios5">
 				        	개인정보 노출 게시물입니다.
 				        </label>
@@ -172,14 +218,15 @@
 				
 				<div class="accordion-item form-check mb-4">	
 					<div class="accordion-button collapsed cursor-pointer typing">
-						<input class="form-check-input cursor-pointer me-2" type="radio" name="optionsRadios" id="optionsRadios6" value="">
+						<input class="form-check-input cursor-pointer me-2" name="reportContent" 
+									type="radio" id="optionsRadios6" value="1">
 						<label class="form-check-label cursor-pointer" for="optionsRadios6">
 				        	직접 입력
 				        </label>
 					</div>
 				</div>
 				
-				<div class="typing-wrap mb-2">
+				<div class="typing-wrap mb-2" style="display:none;">
 					<div class="mb-2 middle-items">
 						<h5 style="margin:0;">직접 입력</h5>
 						<span style="font-size:13px;" class="pink ms-2">* 100자 이내로 입력해주세요</span>
@@ -197,10 +244,17 @@
 	            <input type="file"  class="form-control" accept=".jpg, .png, .gif">
 			</div>
 			<div class="preview-file mt-1">
-				<div class="preview-box">
+				<div class="preview-box inbl">
 					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
+					<p class="x-btn pink text-center cursor-pointer">X</p>
+				</div>
+				<div class="preview-box inbl">
 					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
+					<p class="x-btn pink text-center cursor-pointer">X</p>
+				</div>
+				<div class="preview-box inbl">
 					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
+					<p class="x-btn pink text-center cursor-pointer">X</p>
 				</div>
 			</div>
 		</div>
@@ -210,6 +264,10 @@
 			<button type="button" class="btn btn-pink report-cancel w-25">취소</button>
 		</div>
 		
+		<input type="hidden" name="userNo" value="${memberInfo.userNo}">
+		<input type="hidden" name="dangNo" value="${memberInfo.dangNo}">
+		<input type="hidden" name="memberNick" value="${memberInfo.memberNick}">
+		</form>	
 	</div>
 </div>
 
