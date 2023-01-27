@@ -154,4 +154,12 @@ public interface DangMemberDao {
 	 * @return boolean : 댕모임 회원인지 여부
 	 */
 	public boolean isDangMember(int userNo, int dangNo);
+	
+	/**
+	 * 댕모임 회원 탈퇴
+	 * @param dangNo
+	 * @param memberNo
+	 * @return boolean : 댕모임 탈퇴성공 여부
+	 */
+	public boolean deleteDangMember(int dangNo, int memberNo);
 }
