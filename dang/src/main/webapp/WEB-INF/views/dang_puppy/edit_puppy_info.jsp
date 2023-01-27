@@ -24,7 +24,7 @@
 	}
 	
 	.div-puppy-info {
-	    height : 33em;
+	    height : 34em;
 	    border-radius: 15px;
 	    border: 20px solid #EBEBEB;
 	    box-shadow: 3px 3px 3px #E0E0E0;
@@ -98,7 +98,8 @@
 	    border: 2px solid #EBEBEB;
 	}
 	
-	.btn-modal-insert-puppy-close {
+	.btn-modal-insert-puppy-close,
+	.btn-modal-edit-puppy-close {
 	    border : none;
 	    background-color: white;
 	    font-size: 24px;
@@ -134,7 +135,8 @@
 	}
 	
 	.btn-modal-insert-puppy-character,
-	.btn-modal-edit-puppy-character {
+	.btn-modal-edit-puppy-character,
+	.i-modal-edit-puppy-add-character {
 	    font-size: 24px;
 	}
 	
@@ -423,10 +425,9 @@
                     <div class = "offset-1 col-10">
                         <div class = "row div-puppy-info-menu">
                             <div class = "col-4 d-flex justify-content-center align-items-center div-puppy-info-menu-category div-puppy-info-menu-category-character-list">
-                                <span class="span-modal-insert-puppy-helper-text">특이사항</span>
-                                <i class="fa-solid fa-square-plus ms-1 btn-insert-puppy-character btn-modal-insert-puppy-add-character"></i>
+                                <strong>특이사항</strong>
                             </div>
-                            <div class = "col d-flex flex-column div-modal-edit-puppy-character-list"></div>
+                            <div class = "col d-flex flex-column py-2 div-modal-edit-puppy-character-list"></div>
                         </div>
                     </div>
                 </div>
@@ -648,6 +649,11 @@
 			$("#modalInsertPuppy").modal("hide");
 		});
 		
+		// 댕댕이 수정 Modal에서 상단 x버튼 클릭 시 Modal 초기화
+		$(".btn-modal-insert-puppy-close").click(function(){
+			clearInsertPuppyModal();
+		});
+		
 		// 댕댕이 수정 Modal
 		$(document).on("click", ".btn-dropdown-edit-puppy-info", function(){
 			// 기준점
@@ -674,9 +680,9 @@
 			if(norm.nextAll(".input-puppy-character").length != 0) {
 				for(var i = 0 ; i < norm.nextAll(".input-puppy-character").length ; i ++) {
 					$(".div-modal-edit-puppy-character-list").append(
-						$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center")
+						$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center my-2")
 							.append(
-								$("<span>").attr("class", "w-100 my-1 count-modal-edit-puppy-character span-modal-edit-puppy-character").text("#" + norm.nextAll(".input-puppy-character").eq(i).val())	
+								$("<span>").attr("class", "w-100 count-modal-edit-puppy-character span-modal-edit-puppy-character").text("#" + norm.nextAll(".input-puppy-character").eq(i).val())	
 							)
 							.append(
 								$("<i>").attr("class", "fa-solid fa-square-pen ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-edit-character")		
@@ -693,7 +699,7 @@
 							.append(
 								$("<label>").attr("class", "w-100 my-1 d-flex justify-content-center align-items-center label-modal-add-puppy-character btn-modal-edit-puppy-add-character")
 									.append(
-										$("<i>").attr("class", "fa-solid fa-square-plus btn-modal-edit-puppy-character btn-modal-edit-puppy-add-character")		
+										$("<i>").attr("class", "fa-solid fa-square-plus i-modal-edit-puppy-add-character")		
 									)
 							)
 					)
@@ -704,7 +710,7 @@
 							.append(
 								$("<label>").attr("class", "w-100 my-1 d-flex justify-content-center align-items-center label-modal-add-puppy-character btn-modal-edit-puppy-add-character")
 									.append(
-										$("<i>").attr("class", "fa-solid fa-square-plus btn-modal-edit-puppy-character btn-modal-edit-puppy-add-character")		
+										$("<i>").attr("class", "fa-solid fa-square-plus i-modal-edit-puppy-add-character")		
 									)
 							)
 					)
@@ -741,9 +747,9 @@
 			var target = $(this).parent();
 			target
 				.before(
-					$("<div>").attr("class" , "d-flex flex-row justify-content-center align-items-center")
+					$("<div>").attr("class" , "d-flex flex-row justify-content-center align-items-center my-2")
 						.append(
-							$("<input>").attr("class", "w-100 my-1 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 10).attr("placeholder", "특이사항(10자 이내)").val(puppyCharacterContent)
+							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 10).attr("placeholder", "특이사항(10자 이내)").val(puppyCharacterContent)
 						)
 						.append(
 							$("<i>").attr("class", "fa-solid fa-square-check ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-submit-character")	
@@ -764,7 +770,7 @@
 			}
 			target.remove();
 			$(this).before(
-				$("<span>").attr("class", "w-100 my-1 count-modal-edit-puppy-character span-modal-edit-puppy-character").text("#"+puppyContentEdit)
+				$("<span>").attr("class", "w-100 count-modal-edit-puppy-character span-modal-edit-puppy-character").text("#"+puppyContentEdit)
 			)
 			$(this).attr("class", "fa-solid fa-square-pen ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-edit-character");
 		});
@@ -779,9 +785,9 @@
 				.append(
 					$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center")
 					.append(
-						$("<label>").attr("class", "w-100 my-1 d-flex justify-content-center align-items-center label-modal-add-puppy-character btn-modal-edit-puppy-add-character")
+						$("<label>").attr("class", "w-100 d-flex justify-content-center align-items-center label-modal-add-puppy-character btn-modal-edit-puppy-add-character")
 							.append(
-								$("<i>").attr("class", "fa-solid fa-square-plus btn-modal-edit-puppy-character btn-modal-edit-puppy-add-character")		
+								$("<i>").attr("class", "fa-solid fa-square-plus i-modal-edit-puppy-add-character")		
 							)
 					)
 				);
@@ -792,12 +798,12 @@
 			// label과 동시 클릭 방지
 			e.stopPropagation();
 			// +버튼 영역 앞에 태그 생성
-			var target = $(this).parent().parent();
+			var target = $(this).parent();
 			target
 				.before(
-					$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center")
+					$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center my-2")
 						.append(
-							$("<input>").attr("class", "w-100 my-1 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 10).attr("placeholder", "특이사항(10자 이내)")		
+							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 10).attr("placeholder", "특이사항(10자 이내)")		
 						)
 						.append(
 							$("<i>").attr("class", "fa-solid fa-square-check ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-submit-character")		
@@ -925,6 +931,11 @@
 		$(".btn-modal-edit-puppy-cancel").click(function(){
 			clearEditPuppyModal();
 			$("#modalEditPuppy").modal("hide");
+		});
+		
+		// 댕댕이 수정 Modal에서 상단 x버튼 클릭 시 Modal 초기화
+		$(".btn-modal-edit-puppy-close").click(function(){
+			clearEditPuppyModal();
 		});
 		
 		// esc를 누를 때 Modal 초기화
