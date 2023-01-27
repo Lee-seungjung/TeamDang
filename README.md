@@ -8,16 +8,16 @@
 * 반려인들의 친목 댕모임 개설, 정기 모임장소 맞춤 콘텐츠 추천
 
 #### :moneybag: 시장 조사 
-  - 출처  
+  - 출처 : 
 
 #### :calendar: 개발 일정   
-* 기간 :    
+* 기간 : 12/31 ~ 2/1 (약 34일)
 
 #### :computer: 개발 환경   
 * Windows 10, 11
 * Oracle 11g XE / SQL Developer 22
 * HTML5 / CSS3 / JavaScript ES5 / jQuery 3 / Bootstrap 5
-* STS 4.15.3 / VS Code 1.68   
+* STS 4.15.3 / VS Code 1.68
 
 :clap: Contributor
 ---------------
