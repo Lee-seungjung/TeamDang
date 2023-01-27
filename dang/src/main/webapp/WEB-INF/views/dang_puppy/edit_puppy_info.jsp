@@ -616,7 +616,7 @@
 					var target = $(".div-puppy-insert").parent();
 					
 					var insertPuppyInfoContainer 
-						= $("<div>").attr("class", "col-4 px-4 pt-2 pb-3")
+						= $("<div>").attr("class", "col-4 px-4 pt-2 pb-3 div-count-puppy")
 							.append(
 								$("<div>").attr("class", "row div-puppy-info")
 									.append(
@@ -629,7 +629,7 @@
 							.append(
 								$("<div>").attr("class", "dropdown d-flex justify-content-end")	
 									.append(
-										$("<div>").attr("class", "fa-solid fa-ellipsis div-dropdown-change-puppy-info-menu").attr("data-bs-toggle", "toggle")		
+										$("<div>").attr("class", "fa-solid fa-ellipsis div-dropdown-change-puppy-info-menu").attr("data-bs-toggle", "dropdown")
 									)
 									.append(
 										$("<ul>").attr("class", "dropdown-menu")
@@ -648,22 +648,22 @@
 									)
 							)
 							.append(
-								$("<input>").attr("hidden", "text").attr("class", "input-puppy-no").val(resp.dangPuppyInfoDto.puppyNo)
+								$("<input>").attr("type", "hidden").attr("class", "input-puppy-no").val(resp.dangPuppyInfoDto.puppyNo)
 							)
 							.append(
-								$("<input>").attr("hidden", "text").attr("class", "input-puppy-name").val(resp.dangPuppyInfoDto.puppyName)
+								$("<input>").attr("type", "hidden").attr("class", "input-puppy-name").val(resp.dangPuppyInfoDto.puppyName)
 							)
 							.append(
-								$("<input>").attr("hidden", "tetx").attr("class", "input-puppy-age").val(resp.dangPuppyInfoDto.puppyAge)
+								$("<input>").attr("type", "hidden").attr("class", "input-puppy-age").val(resp.dangPuppyInfoDto.puppyAge)
 							)
 							.append(
-								$("<input>").attr("hidden", "text").attr("class", "input-puppy-gender").val(resp.dangPuppyInfoDto.puppyGender)
+								$("<input>").attr("type", "hidden").attr("class", "input-puppy-gender").val(resp.dangPuppyInfoDto.puppyGender)
 							)
 					
 					if(resp.dangPuppyInfoDto.attachmentNo != null) {
 						rowDropdown
 							.append(
-									$("<input>").attr("hidden", "text").attr("class", "input-puppy-attachment-no").val(resp.dangPuppyInfoDto.attachmentNo)
+									$("<input>").attr("type", "hidden").attr("class", "input-puppy-attachment-no").val(resp.dangPuppyInfoDto.attachmentNo)
 							)
 					}
 					
@@ -767,7 +767,7 @@
 									)
 							)
 					
-					if(resp.dangPuppyCharacter.length != 0) {
+					if(resp.dangPuppyCharacter != null) {
 						for(var i = 0 ; i < resp.dangPuppyCharacter.length ; i ++) {
 							rowPuppyCharacter.children().children()
 								.append(
@@ -1110,8 +1110,8 @@
 				contentType: false,
 				success : function(resp){
 					// 첨부파일을 변경했을 경우 resp에는 바뀐 첨부파일 번호를 포함, 변경하지 않을 경우 null 반환
-					console.log(resp);
-					console.log("성공");
+					//console.log(resp);
+					//console.log("성공");
 					// 수정할 댕댕이 기준 row
 					var norm = $(".input-puppy-no[value="+puppyNo+"]").parent();
 					
@@ -1166,9 +1166,7 @@
 								)
 						}
 					}
-					
-					console.log(puppyCharacterListEdit)
-					
+					// 댕댕이 수정 Modal 초기화
 					clearEditPuppyModal();
 					alert("댕댕이 정보 수정이 완료되었습니다!");
 					$("#modalEditPuppy").modal("hide");
@@ -1205,6 +1203,31 @@
 				clearEditPuppyModal();
 			}
 		});
+		
+		// 댕댕이 삭제
+		$(document).on("click", ".btn-dropdown-delete-puppy-info", function(){
+			// 선택창
+			var choice = window.confirm("댕댕이를 삭제하시겠습니까?");
+			if(choice == false){
+				return;
+			}
+			// 기준점
+			var norm = $(this).parents(".dropdown");
+			// 댕댕이 번호 설정
+			var puppyNo = $(this).parents(".dropdown").nextAll(".input-puppy-no").val();
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_puppy/delete?puppyNo="+puppyNo,
+				method : "delete",
+				success : function(resp){
+					console.log(resp)
+					// 수정할 댕댕이 기준 row
+					var norm = $(".input-puppy-no[value="+resp+"]").parent();
+					norm.parents(".div-count-puppy").remove();
+				}
+			});
+		});
+		
 	});
 	
 </script>

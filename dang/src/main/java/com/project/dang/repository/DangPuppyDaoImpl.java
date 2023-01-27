@@ -71,4 +71,10 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 	public Integer findPuppyImgNo(int puppyNo) {
 		return sqlSession.selectOne("dangPuppy.findPuppyImg", puppyNo);
 	}
+
+	// 댕댕이 정보 삭제
+	@Override
+	public boolean deletePuppy(int puppyNo) {
+		return sqlSession.delete("dangPuppy.deletePuppy", puppyNo) > 0;
+	}
 }
