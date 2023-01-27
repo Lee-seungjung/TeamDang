@@ -72,19 +72,23 @@
 	
 	/* --- 댕모임 목록 스타일 */
 	
-	.select-modal-insert-puppy-gender {
+	.select-modal-insert-puppy-gender,
+	.select-modal-edit-puppy-gender {
 		color : rgba(117, 117, 117);
 	}
 	
-	.select-modal-insert-puppy-gender-none {
+	.select-modal-insert-puppy-gender-none,
+	.select-modal-edit-puppy-gender-none {
 		color : rgba(117, 117, 117);
 	}
 	
-	.select-modal-insert-puppy-gender-male {
+	.select-modal-insert-puppy-gender-male,
+	.select-modal-edit-puppy-gender-male {
 		color: #76BEFF; 
 	}
 	
-	.select-modal-insert-puppy-gender-female {
+	.select-modal-insert-puppy-gender-female,
+	.select-modal-edit-puppy-gender-female {
 		color: #F94888;
 	}
 	
@@ -152,7 +156,8 @@
 	    border-radius : 5px;
 	}
 	
-	.btn-modal-insert-puppy-cancel {
+	.btn-modal-insert-puppy-cancel,
+	.btn-modal-edit-puppy-cancel {
 	    background-color : #787878;
 	    color : white;
 	    border: none;
@@ -281,7 +286,6 @@
 </div>
 
 <%-- 댕댕이 등록 Modal --%>
-<!-- <%-- 댕댕이 등록 Modal --%> -->
 <div class="modal fade" id="modalInsertPuppy" data-bs-backdrop="static" tabindex="-1" aria-modal="true" role="dialog"> 
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content div-modal-puppy-insert-info">
@@ -362,117 +366,87 @@
     </div>
 </div>
 
-<%-- 
-<div class="modal fade" id="modalInsertPuppy" data-bs-backdrop="static" tabindex="-1" aria-modal="true" role="dialog"> 
+<%-- 댕댕이 수정 Modal --%>
+<div class="modal fade" id="modalEditPuppy" data-bs-backdrop="static" tabindex="-1" aria-modal="true" role="dialog"> 
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content div-modal-puppy-info">
-            <div class="container-fluid px-3 py-1">
-                <div class="row">
-                    <div class="col-5 pt-5 px-3 d-flex flex-column justify-content-start align-items-center">
-                        <label class = "label-modal-insert-puppy-profile w-100" for = "insertPuppyProfile">
-                            <img class = "img-modal-insert-puppy-profile w-100" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png">
-                            <input class = "input-modal-insert-puppy-profile" id = "insertPuppyProfile" type = "file" accept = ".png, .jpg">
-                        </label>
-                        <button class="mt-5 w-100 btn-modal-insert-puppy-submit">저장</button>
-                    </div>
-                    <div class="col-7 pt-4">
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
-                                <strong>이름</strong>
-                            </div>
-                            <div class="col-7 div-modal-insert-puppy-name">
-                                <input class = "w-100 input-modal-insert-puppy-name" type = "text" maxlength="10" placeholder="이름(5자 이내)">
-                            </div>
-                        </div>
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
-                                <strong>나이</strong>
-                            </div>
-                            <div class="col-7 div-modal-insert-puppy-age">
-                                <input class = "w-50 input-modal-insert-puppy-age" type = "text" placeholder="나이">
-                            </div>
-                        </div>
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
-                                <strong>성별</strong>
-                            </div>
-                            <div class="col-7">
-                                <select class = "w-100 select-modal-insert-puppy-gender">
-                                    <option value = "">성별</option>
-                                    <option value = "M">남아</option>
-                                    <option value = "F">여아</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6 d-flex justify-content-center align-items-center">
-                                <span class="span-modal-insert-puppy-helper-text">특이사항</span>
-                                <i class="fa-solid fa-square-plus ms-1 btn-insert-puppy-character btn-modal-insert-puppy-add-character"></i>
-                            </div>
-                        </div>
-                        <div class="row ms-2">
-                            <div class="col div-modal-insert-puppy-character-list">
-                            </div>
-                        </div>
+        <div class="modal-content div-modal-puppy-edit-info">
+            <div class="container-fluid px-4 py-2">
+                <div class = "row">
+                    <div class = "col d-flex justify-content-end align-items-center">
+                        <button type="button" class="fa-solid fa-xmark btn-modal-edit-puppy-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div> --%>
-
-<%-- 댕댕이 수정 Modal --%>
-<div class="modal fade" id="modalEditPuppy" data-bs-backdrop="static" tabindex="-1" aria-hidden="true"> 
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content div-modal-puppy-info">
-            <div class="container-fluid px-3 py-1">
-                <div class="row">
-                	<input class = "input-modal-edit-puppy-no" type = "hidden">
-                    <div class="col-5 pt-4 px-3 d-flex flex-column justify-content-start align-items-center">
+                <div class = "row">
+                    <input class = "input-modal-edit-puppy-no" type = "hidden">
+                    <div class = "offset-3 col-6 d-flex justify-content-center align-items-center">
                         <label class = "label-modal-edit-puppy-profile" for = "editPuppyProfile">
                             <img class = "img-modal-edit-puppy-profile w-100" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png">
                             <input class = "input-modal-edit-puppy-profile" id = "editPuppyProfile" type = "file" accept = ".png, .jpg">
                         </label>
-                        <button class = "mt-5 w-100 btn-modal-edit-puppy-submit">저장</button>
                     </div>
-                    <div class="col-7 pt-4">
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>이름</strong>
                             </div>
-                            <div class="col-7 div-modal-edit-puppy-name">
-                                <input class = "w-100 input-modal-edit-puppy-name" type = "text" maxlength="10" placeholder="이름(5자 이내)">
-                            </div>
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-edit-puppy-name" type = "text" maxlength="10" placeholder="이름(5자 이내)">
                         </div>
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>나이</strong>
                             </div>
-                            <div class="col-7 div-modal-edit-puppy-age">
-                                <input class = "w-50 input-modal-edit-puppy-age" type = "text" placeholder="나이">살
-                            </div>
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-edit-puppy-age" type = "text" placeholder="나이">
                         </div>
-                        <div class="row my-2">
-                            <div class="col-5 d-flex justify-content-center align-items-center">
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>성별</strong>
                             </div>
-                            <div class="col-7">
-                                <select class = "w-100 select-modal-edit-puppy-gender">
-                                    <option value = "">성별</option>
-                                    <option value = "M">남아</option>
-                                    <option value = "F">여아</option>
-                                </select>
-                            </div>
+                            <select class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content select-modal-edit-puppy-gender">
+                                <option value = "" class = "select-modal-edit-puppy-gender-none">성별</option>
+                                <option value = "M" class = "select-modal-edit-puppy-gender-male">남아</option>
+                                <option value = "F" class = "select-modal-edit-puppy-gender-female">여아</option>
+                            </select>
                         </div>
-                        <div class = "row my-3 ms-3">
-                            <div class = "col d-flex flex-column div-modal-edit-puppy-character-list"></div> <%-- 댕댕이 특이사항 --%>
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 d-flex justify-content-center align-items-center div-puppy-info-menu-category div-puppy-info-menu-category-character-list">
+                                <span class="span-modal-insert-puppy-helper-text">특이사항</span>
+                                <i class="fa-solid fa-square-plus ms-1 btn-insert-puppy-character btn-modal-insert-puppy-add-character"></i>
+                            </div>
+                            <div class = "col d-flex flex-column div-modal-edit-puppy-character-list"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row">
+                            <div class = "col-6">
+                                <button class="w-100 py-1 btn-modal-edit-puppy-cancel">취소</button>
+                            </div>
+                            <div class = "col-6">
+                                <button class="w-100 py-1 btn-modal-edit-puppy-submit">저장</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
@@ -651,6 +625,7 @@
    			}
    		};
 		
+		// 댕댕이 등록 Modal 초기화
 		function clearInsertPuppyModal() {
 			// 첨부파일 초기화
 			$(".input-modal-insert-puppy-profile").val("");
@@ -660,10 +635,18 @@
 			// 댕댕이 나이 초기화
 			$(".input-modal-insert-puppy-age").val("");
 			// 댕댕이 성별 초기화
-			$($(".select-modal-insert-puppy-gender").get(0), ":option:eq(0)").prop("selected", true);
+			$(".select-modal-insert-puppy-gender").val("").prop("selected", true);
+			$(".select-modal-insert-puppy-gender").removeClass("select-modal-insert-puppy-gender-male select-modal-insert-puppy-gender-female");
 			// 댕댕이 특이사항 초기화
 			$(".div-modal-insert-puppy-character-list").empty();
 		}
+		
+		// 댕댕이 수정 Modal에서 취소 버튼 클릭시 Modal 초기화
+		$(".btn-modal-insert-puppy-cancel").click(function(){
+			console.log()
+			clearInsertPuppyModal();
+			$("#modalInsertPuppy").modal("hide");
+		});
 		
 		// 댕댕이 수정 Modal
 		$(document).on("click", ".btn-dropdown-edit-puppy-info", function(){
@@ -678,6 +661,12 @@
 			// 댕댕이 성별 설정
 			var puppyGenderSelected = norm.nextAll(".input-puppy-gender").val();
 			$(".select-modal-edit-puppy-gender").val(puppyGenderSelected).prop("selected", true);
+			if(puppyGenderSelected == "M") {
+				$(".select-modal-edit-puppy-gender").addClass("select-modal-edit-puppy-gender-male");
+			} else {
+				$(".select-modal-edit-puppy-gender").addClass("select-modal-edit-puppy-gender-female");
+			}
+				
 			// 댕댕이 프로필 첨부파일 설정
 			var puppyAttachmentNo = norm.nextAll(".input-puppy-attachment-no").val();
 			$(".img-modal-edit-puppy-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/" + puppyAttachmentNo);
@@ -843,10 +832,18 @@
 		
 		// 댕댕이 수정 Modal 댕댕이 성별
 		$(document).on("change", ".select-modal-edit-puppy-gender", function(){
-			if($(".select-modal-edit-puppy-gender").val() == "") {
-				puppyEditValid.checkPuppyGender = false;
+			var selectPuppyGender = $(this).val();
+			$(this).removeClass("select-modal-edit-puppy-gender-male select-modal-edit-puppy-gender-female");
+			if(selectPuppyGender == "") {
+				puppyInsertValid.checkPuppyGender = false;
+				return;
 			}
-			puppyEditValid.checkPuppyGender = true;
+			if($(this).val() == "M") {
+				$(this).addClass("select-modal-edit-puppy-gender-male");
+			} else {
+				$(this).addClass("select-modal-edit-puppy-gender-female");
+			}
+			puppyInsertValid.checkPuppyGender = true;
 		});
 		
 		// 댕댕이 수정 유효성 검사
@@ -920,13 +917,21 @@
 			$(".input-modal-edit-puppy-profile").val("");
 			$(".input-modal-edit-puppy-name").val("");
 			$(".select-modal-edit-puppy-gender").val("").prop("selected", true);
+			$(".select-modal-edit-puppy-gender").removeClass("select-modal-edit-puppy-gender-male select-modal-edit-puppy-gender-female");
 			$(".div-modal-edit-puppy-character-list").empty();
 		}
 		
+		// 댕댕이 수정 Modal에서 취소 버튼 클릭시 Modal 초기화
+		$(".btn-modal-edit-puppy-cancel").click(function(){
+			clearEditPuppyModal();
+			$("#modalEditPuppy").modal("hide");
+		});
+		
+		// esc를 누를 때 Modal 초기화
 		$(document).keydown(function(event){
 			if(event.keycode == 27 || event.which == 27) {
 				// 등록 Modal 초기화
-				clearInsertPuppyModal()
+				clearInsertPuppyModal();
 				// 수정 Modal 초기화
 				clearEditPuppyModal();
 			}
