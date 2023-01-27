@@ -451,6 +451,12 @@
 			});
 		});
 		
+		//출석모달 닫기
+		$(".close-btn").click(function(){
+			var today = $('#calendar').children().find(".fc-day-today");
+			today.removeClass("addImg");
+		});
+		
 		//프로필 수정
 		//프로필 클릭하면 첨부파일 열림
 		$(".profile-img").click(function(){
