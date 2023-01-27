@@ -122,6 +122,7 @@ public class DangPuppyRestController {
 		if(puppyImg != null) { // 첨부파일을 수정한다면
 			// 기존 첨부파일 조회
 			Integer attachmentNoExisting = dangPuppyDao.findPuppyImgNo(dangPuppyInfoDto.getPuppyNo());
+			System.out.println(attachmentNoExisting);
 			// 기존 첨부파일이 있다면
 			if(attachmentNoExisting != null) {
 				// 첨부파일 테이블에서 정보 삭제 (on delete cascade 조건에 의해 연결 테이블은 자동 삭제)
@@ -158,8 +159,6 @@ public class DangPuppyRestController {
 	
 	@DeleteMapping("/delete")
 	public int deletePuppy(@RequestParam int puppyNo) {
-		// 댕댕이 삭제
-		dangPuppyDao.deletePuppy(puppyNo);
 		// 기존 첨부파일 조회
 		Integer attachmentNoExisting = dangPuppyDao.findPuppyImgNo(puppyNo);
 		// 기존 첨부파일이 있다면
@@ -173,6 +172,8 @@ public class DangPuppyRestController {
 			// 기존 첨부파일 삭제
 			targetExisting.delete();
 		}
+		// 댕댕이 삭제
+		dangPuppyDao.deletePuppy(puppyNo);
 		return puppyNo;
 	}
 }
