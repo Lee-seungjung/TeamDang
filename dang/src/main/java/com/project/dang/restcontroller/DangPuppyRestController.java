@@ -85,7 +85,7 @@ public class DangPuppyRestController {
 			// 파일 저장
 			puppyImg.transferTo(target);
 			// 반환용 객체에 첨부파일 번호 설정
-			dangPuppyInfoDto.getAttachmentNo();
+			dangPuppyInfoDto.setAttachmentNo(attachmentNo);
 		}
 		// 반환용 객체에 댕댕이 정보 설정
 		dangPuppyListDto.setDangPuppyInfoDto(dangPuppyInfoDto);
@@ -102,7 +102,7 @@ public class DangPuppyRestController {
 	}
 	
 	@PutMapping("/edit")
-	public boolean editPuppy(HttpSession session, 
+	public Integer editPuppy(HttpSession session, 
 			@ModelAttribute DangPuppyInfoDto dangPuppyInfoDto,
 			@RequestParam(required = false) List<String> puppyCharacter, 
 			MultipartFile puppyImg) throws IllegalStateException, IOException {
@@ -119,7 +119,7 @@ public class DangPuppyRestController {
 			}
 		}
 		// 첨부파일 수정
-		if(puppyImg != null) {
+		if(puppyImg != null) { // 첨부파일을 수정한다면
 			// 기존 첨부파일 조회
 			Integer attachmentNoExisting = dangPuppyDao.findPuppyImgNo(dangPuppyInfoDto.getPuppyNo());
 			// 기존 첨부파일이 있다면
@@ -148,8 +148,11 @@ public class DangPuppyRestController {
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 파일 저장
 			puppyImg.transferTo(target);
+			// 바뀐 첨부파일 번호 반환
+			return attachmentNo;
+		} else { // 첨부파일 변화가 없다면
+			// null 반환
+			return null;
 		}
-		
-		return result;
 	}
 }
