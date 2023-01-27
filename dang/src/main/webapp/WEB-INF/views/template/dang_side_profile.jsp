@@ -379,11 +379,12 @@
 			$(".attendance-btn").hide("fast");
 			AttendanceValid = true;
 		}
-	
+		
+		
 		//출석체크 모달
 		$(document).on("click",".day-check",function(){
 			var memberNo = $("[name=memberNo]").val();
-			$(".fc-day-today").removeClass("addImg");
+			
 			//출석체크 확인
 			$.ajax({
               		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
@@ -404,7 +405,8 @@
    							$(".attendance-btn").click(function(){
    								AttendanceValid = true;
    								//1. 오늘날짜 배경에 로고 이미지 넣기
-   								$(".fc-day-today").addClass("addImg");
+   								var today = $('#calendar').children().find(".fc-day-today");
+   								today.addClass("addImg");
    								
    								//2. ajax 출석 테이블 insert
    								attendanceData={
