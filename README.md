@@ -1,6 +1,6 @@
 # TeamDang
 
-<img src="" width="40%"/>
+<img src="dang/src/main/resources/static/images/logo.png" width="40%"/>
 
 :information_desk_person: TeamDang 소개
 ------------------------------
