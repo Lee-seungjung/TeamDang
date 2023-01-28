@@ -225,11 +225,9 @@
 <div class = "container-fluid">
 	<div class = "row">
 		<div class = "col-8 offset-2">
-			<div class = "row">
-				<div class = "col-2">
-					<a href = "/">
-						<img src = "${pageContext.request.contextPath}/images/logo.png" class = "img-fluid main-img">
-					</a>
+			<div class = "row mt-2">
+				<div class = "col-2 d-flex justify-content-center align-items-center px-4" onClick = "location.href = '${pageContext.request.contextPath}/'">
+					<img src = "${pageContext.request.contextPath}/images/logo.png" class = "w-100 m-0 main-img">
 				</div>
 				<div class = "col-4 middle-items">
 					<a href = "/dang/1">1번 댕모임</a>
