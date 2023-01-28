@@ -222,7 +222,7 @@
 <%-- 로그인 여부 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
-<div class = "container-fluid mb-5">
+<div class = "container-fluid">
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row">
