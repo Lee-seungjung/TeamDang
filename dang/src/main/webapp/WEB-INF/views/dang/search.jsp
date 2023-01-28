@@ -653,9 +653,8 @@
                         </div>
                         <div class = "row my-3 div-dang-interest-list">
                             <div class = "col-4">
-                                <div class = "position-relative div-dang-interest div-dang-interest-active">
-                                    <span class = "span-dang-interest">강동구</span>
-                                    <i class="fa-solid fa-xmark i-dang-interest"></i>
+                                <div class = "d-flex justify-content-center align-items-center div-dang-interest div-dang-interest-inactive">
+                                
                                 </div>
                             </div>
                             <div class = "col-4">
