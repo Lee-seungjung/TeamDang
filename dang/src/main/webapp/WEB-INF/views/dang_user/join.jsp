@@ -743,7 +743,7 @@
 			btn.attr("disabled", true);
 			// 해당 이메일로 인증번호 발송
 			$.ajax({
-				url : "http://localhost:8888/rest_user/send_email?userEmail=" + inputEmail,
+				url : "${pageContext.request.contextPath}/rest_user/send_email?userEmail=" + inputEmail,
 				method : "get",
 				success : function(resp){
 					// 이메일 발송이 완료되면 인증 버튼 다시 활성화
