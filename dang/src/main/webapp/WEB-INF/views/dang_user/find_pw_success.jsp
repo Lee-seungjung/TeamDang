@@ -8,7 +8,7 @@
 
 <style>
 	* {
-		
+		border : 1px gray dotted;
 	}
 	
 	input {
@@ -127,6 +127,9 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class = "row py-4">
+						<div class = "col"></div>
 					</div>
 				</div>
 			</div>
