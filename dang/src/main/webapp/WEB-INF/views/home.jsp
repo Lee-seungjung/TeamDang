@@ -120,7 +120,7 @@
 	
 </style>
 
-<div class = "container-fluid"> <%-- container 시작 --%>
+<div class = "container-fluid my-5"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row my-3"> <%-- 스와이퍼 영역 --%>
