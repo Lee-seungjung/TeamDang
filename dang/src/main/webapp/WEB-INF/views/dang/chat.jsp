@@ -57,8 +57,8 @@
 	 	border-color:#B0CBFF;
 	 }
 	 .chat-icon-image{
-	 	width:30px;
-	 	height:30px;
+	 	width:35px;
+	 	height:auto;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -76,10 +76,6 @@
 	 }
 	 table>tbody>tr>td{
 	 	padding:5px;
-	 }
-	 .progress {
-	 	background-color: #F1F4FF;
-	 	height: 0.5rem;
 	 }
 	 .progress-bar{
 	 	background-color: #6C7AEF;
@@ -109,14 +105,17 @@
 	.down-btn{
 		position: fixed;
 		cursor: pointer;
-		top:80%;
-		left:60%;
+		top:85%;
+		left:62%;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
 	}
 	.zoomin-img>img{
 		max-width:800px;
+	}
+	.alert{
+		margin-bottom:0.7rem;
 	}
 	
 </style>
@@ -274,9 +273,9 @@
 			
 			var scrollBottomCheck = parseInt($("[name=originHeight]").val());
 			var judge = scrollBottomCheck-boxHeight;
-			console.log(boxHeight);
-			console.log(scrollBottomCheck);
-			console.log(judge);
+			//console.log(boxHeight);
+			//console.log(scrollBottomCheck);
+			//console.log(judge);
 			if(judge>300){
 				$(".down-btn").show();
 				downBtn();
@@ -316,6 +315,19 @@
     			});
 			}
 		});
+		
+		//경고창 x버튼 클릭 시 출력안되게 처리
+		$(".alert-xbtn").click(function(){
+			var reportNo = $(this).data("rno");
+			console.log(reportNo);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_chat/alert_update/"+reportNo,
+				method:"patch",
+				success:function(resp){
+				}
+			});
+		});
+		
 		
 		//하단이동 버튼 클릭 이벤트
 		function downBtn(){
@@ -477,25 +489,18 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
+					<!-- 신고 경고창 -->
+					<c:if test="${report!=null}">
+						<div class="alert alert-dismissible alert-danger">
+							<button type="button" class="btn-close alert-xbtn" data-bs-dismiss="alert" data-rno="${report.reportNo}"></button>
+							<strong>신고 1건 발생! </strong>
+							<p style="font-size:15px;">신고 2번 경과 시 현재 댕모임에서 자동 탈퇴처리 됩니다.<br>
+									* 자세한 사항은 관리자에게 문의부탁드립니다.</p>
+						</div>
+					</c:if>
 					<div class="chat-box p-3 shadow">
-
 						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
 							<!-- 기존 메세지 생성 -->
-							<div class="date-print text-center" style="position:relative;">
-								<c:choose>
-									<c:when test="${history.size()==0}">
-										<span class="date-font">
-											<fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy년 M월 d일 E요일"/>
-										</span>
-									</c:when>
-									<c:otherwise>
-										<span class="date-font">
-											<fmt:formatDate value="${history[0].chatDate}" pattern="yyyy년 M월 d일 E요일"/>
-										</span>
-									</c:otherwise>
-								</c:choose>
-								
-							</div>
 							<c:forEach var="vo" items="${history}">
 								<c:choose>
 									<c:when test="${profile.userNo==vo.userNo}">
@@ -563,13 +568,16 @@
 						<div  style="position:absolute;">
 							<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
 						</div>
+
 					</div>
 					
-					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100" style="display:flex; align-items:center">
-						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1" style="width:10%;">
+					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
-						<input type="text" id="chat-input" class="ms-1 me-1" style="width:80%;">
-						<button class="btn btn-primary me-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+						<input type="text" id="chat-input" class="ms-1 me-1" style="width:85%;">
+						<button class="btn btn-primary me-1" id="send-btn" type="button">
+							<i class="fa-solid fa-paper-plane middle-items"></i>
+						</button>
 					</div>
 					
 					

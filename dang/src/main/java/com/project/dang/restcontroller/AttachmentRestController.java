@@ -113,6 +113,8 @@ public class AttachmentRestController {
 	
 	@DeleteMapping("/delete/{attachmentNo}")
 	public boolean delete(@PathVariable int attachmentNo) {
+		File file = new File(dir,String.valueOf(attachmentNo));
+		file.delete();
 		return attachmentDao.delete(attachmentNo);
 	}
 	

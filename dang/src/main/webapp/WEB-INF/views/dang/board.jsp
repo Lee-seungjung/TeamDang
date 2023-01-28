@@ -347,8 +347,8 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
-							<button type="submit" class="btn btn-primary write-btn">작성</button>
+							<button type="button" class="btn btn-secondary b-write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-primary b-write-btn">작성</button>
 						</div>
 						</form>
 					</div>
@@ -359,7 +359,7 @@
 			<div class="modal" id="dayWriteCnt">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
-						<div class="modal-header">
+						<div class="modal-header" style="height:20px;">
 							<h5 class="modal-title"></h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true"></span>
@@ -418,7 +418,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-secondary b-write-cancel" data-bs-dismiss="modal">취소</button>
 							<button type="submit" class="btn btn-primary edit-btn">수정</button>
 						</div>
 						</form>
@@ -767,7 +767,7 @@
 		
 		
 		//모달 취소버튼 누를 경우 첨부파일 삭제
-		$(".write-cancel").click(function(){
+		$(".b-write-cancel").click(function(){
 			boardDeleteAttachmentNo();
 			$(".board-write").attr("data-bs-target","");
 		});
@@ -815,21 +815,6 @@
 							data:JSON.stringify(boardData),
 							contentType:"application/json",
 							success:function(resp){
-								//게시물 출력
-								$(".board-group").empty();
-								$.ajax({
-									url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
-									method:"get",
-									data:dangNo,
-									async:false,
-									success:function(resp){
-										console.log(resp);
-										for(var i=0; i<resp.length; i++){
-											boardList(resp[i]);
-										}					
-									}
-								});
-								
 								//게시글 이미지 DB 등록
 								var findtag = $(".files");
 					        	var attachmentNo;
@@ -855,6 +840,22 @@
 						        	}
 					        	}
 					        	
+								//게시물 출력
+								$(".board-group").empty();
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_board/list_all/"+dangNo,
+									method:"get",
+									data:dangNo,
+									async:false,
+									success:function(resp){
+										console.log(resp);
+										for(var i=0; i<resp.length; i++){
+											boardList(resp[i]);
+										}
+										printImg();
+									}
+								});
+								
 					        	//회원 활동점수 +1 증가
 		                    	scorePlusData={
 		                    			memberScore:1,

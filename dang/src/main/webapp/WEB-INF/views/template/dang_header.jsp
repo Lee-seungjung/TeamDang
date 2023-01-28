@@ -19,6 +19,10 @@
 		line-height:50px;
 		text-align:center;
 	}
+	.progress {
+	 	background-color: #F1F4FF;
+	 	height: 0.5rem;
+	 }
 
 </style>
 <%-- 댕모임 header --%>

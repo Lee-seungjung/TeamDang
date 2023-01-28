@@ -23,6 +23,8 @@ import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.dto.DangMemberDto;
+import com.project.dang.dto.DangReportDto;
+import com.project.dang.dto.ReportImgDto;
 import com.project.dang.dto.RoomDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangBoardDao;
@@ -31,8 +33,10 @@ import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
+import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.vo.DangEditInfoVO;
+import com.project.dang.vo.ReportInsertVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,13 +47,10 @@ public class DangController {
 	
 	@Autowired
 	private DangDao dangDao;
-	
 	@Autowired
 	private DangInterestDao dangInterestDao;
-	
 	@Autowired
 	private AttachmentDao attachmentDao;
-	
 	@Autowired
 	private DangChatDao dangChatDao;	
 	@Autowired
@@ -60,6 +61,9 @@ public class DangController {
 	private DangReplyDao dangReplyDao;
 	@Autowired
 	private DangScheduleDao dangScheduleDao;
+	@Autowired
+	private DangReportDao dangReportDao;
+
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -297,7 +301,8 @@ public class DangController {
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
-		
+		//신고 정보 확인
+		model.addAttribute("report", dangReportDao.checkReport(dangNo, Integer.parseInt(userNo)));
 		return "dang/chat";
 	}
 	
@@ -499,5 +504,44 @@ public class DangController {
 		model.addAttribute("joinMemberList", dangScheduleDao.joinMemberList(scheduleNo));
 		return "dang/schedule_detail";
 	}
+	
+	@GetMapping("/report/{memberNo}")
+	public String report(@PathVariable int memberNo,
+			HttpSession session, Model model) {
+		model.addAttribute("memberInfo", dangMemberDao.restSelectOne(memberNo));
+		return "dang/report";
+	}
+	
+	@PostMapping("/report/{memberNo}")
+	public String report(@ModelAttribute ReportInsertVO vo, Model model) {
+		//신고 번호
+		int reportNo = dangReportDao.sequence();
+		//신고 테이블 DB등록
+		DangReportDto dto = DangReportDto.builder()
+				.reportNo(reportNo)
+				.dangNo(vo.getDangNo())
+				.userNo(vo.getUserNo())
+				.memberNick(vo.getMemberNick())
+				.reportContent(vo.getReportContent())
+				.build();
+		dangReportDao.insert(dto);
+		//신고 이미지 테이블 DB등록
+		List<Integer> attachmentNo = vo.getAttachmentNo();
+		for(int i=0; i<attachmentNo.size(); i++) {
+			if(attachmentNo.get(i)!=null) {
+				dangReportDao.imgInsert(ReportImgDto.builder()
+						.attachmentNo(attachmentNo.get(i))
+						.reportNo(reportNo)
+						.build());
+			}
+		}
+		return "redirect:/dang/report_success";
+	}
+	
+	@GetMapping("/report_success")
+	public String reportSuccess() {
+		return "dang/report_success";
+	}
+	
 	
 }

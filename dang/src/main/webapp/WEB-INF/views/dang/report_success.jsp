@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="댕모임 탈퇴" name="title"/>
+	<jsp:param value="신고접수 완료" name="title"/>
 </jsp:include>
 
 <style>
@@ -24,8 +24,8 @@
 						<img src="${pageContext.request.contextPath}/images/logo2.png" width="130" height="130">
 					</div>
 					<div class="mt-4">
-						<h4 style="font-weight:bolder;">댕모임 탈퇴가 정상적으로 처리되었습니다!</h4>
-						<p>그동안 댕모임을 이용해주셔서 감사합니다.</p>
+						<h4 style="font-weight:bolder;">신고 접수가 정상적으로 완료되었습니다!</h4>
+						<p>관리자 승인 후 처리될 예정입니다.</p>
 					</div>
 					<div class="mt-4 mb-5">
 						<a href="${pageContext.request.contextPath}/" class="btn btn-primary">홈으로 이동</a>

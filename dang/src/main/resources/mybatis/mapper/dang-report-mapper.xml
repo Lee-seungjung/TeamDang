@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dangReport">
+
+	<!-- 신고번호 시퀀스 -->
+	<select id="sequence" resultType="int">
+		select dang_report_seq.nextval from dual
+	</select>
+	
+	<!-- 신고 접수등록 -->
+	<insert id="insert" parameterType="DangReportDto">
+		insert into dang_report(report_no, user_no, dang_no, member_nick,
+		report_content, report_date, report_state, report_alert) values(
+		#{reportNo}, #{userNo}, #{dangNo}, #{memberNick}, #{reportContent}, 
+		sysdate, '접수', 1)
+	</insert>
+	
+	<!-- 신고 파일등록 -->
+	<insert id="imgInsert" parameterType="ReportImgDto">
+		insert into report_img(attachment_no, report_no) values(#{attachmentNo}, #{reportNo})
+	</insert>
+	
+	<!-- 신고 정보 확인 -->
+	<select id="checkReport" parameterType="Map" resultType="DangReportDto">
+		select*from dang_report where dang_no=#{dangNo} and user_no=#{userNo} and report_state='완료' and report_alert=1
+	</select>
+	
+	<!-- 신고창확인 컬럼 변경 -->
+	<update id="alertUpdate" parameterType="int">
+		update dang_report set report_alert=0 where report_no=#{reportNo}
+	</update>
+</mapper>
+  
+  
+  
