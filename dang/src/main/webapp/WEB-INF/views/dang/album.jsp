@@ -48,6 +48,7 @@
 	.zoomin-img>img{
 		max-width:800px;
 	}
+
 	
 </style>
 

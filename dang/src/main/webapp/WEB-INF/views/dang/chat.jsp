@@ -77,10 +77,6 @@
 	 table>tbody>tr>td{
 	 	padding:5px;
 	 }
-	 .progress {
-	 	background-color: #F1F4FF;
-	 	height: 0.5rem;
-	 }
 	 .progress-bar{
 	 	background-color: #6C7AEF;
 	 }
@@ -117,6 +113,9 @@
 	}
 	.zoomin-img>img{
 		max-width:800px;
+	}
+	.alert{
+		margin-bottom:0.7rem;
 	}
 	
 </style>
@@ -317,6 +316,19 @@
 			}
 		});
 		
+		//경고창 x버튼 클릭 시 출력안되게 처리
+		$(".alert-xbtn").click(function(){
+			var reportNo = $(this).data("rno");
+			console.log(reportNo);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_chat/alert_update/"+reportNo,
+				method:"patch",
+				success:function(resp){
+				}
+			});
+		});
+		
+		
 		//하단이동 버튼 클릭 이벤트
 		function downBtn(){
 			$(".down-btn").click(function(){
@@ -477,25 +489,18 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
+					<!-- 신고 경고창 -->
+					<c:if test="${report!=null}">
+						<div class="alert alert-dismissible alert-danger">
+							<button type="button" class="btn-close alert-xbtn" data-bs-dismiss="alert" data-rno="${report.reportNo}"></button>
+							<strong>신고 1건 발생! </strong>
+							<p style="font-size:15px;">신고 2번 경과 시 현재 댕모임에서 자동 탈퇴처리 됩니다.<br>
+									* 자세한 사항은 관리자에게 문의부탁드립니다.</p>
+						</div>
+					</c:if>
 					<div class="chat-box p-3 shadow">
-
 						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
 							<!-- 기존 메세지 생성 -->
-							<div class="date-print text-center" style="position:relative;">
-								<c:choose>
-									<c:when test="${history.size()==0}">
-										<span class="date-font">
-											<fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy년 M월 d일 E요일"/>
-										</span>
-									</c:when>
-									<c:otherwise>
-										<span class="date-font">
-											<fmt:formatDate value="${history[0].chatDate}" pattern="yyyy년 M월 d일 E요일"/>
-										</span>
-									</c:otherwise>
-								</c:choose>
-								
-							</div>
 							<c:forEach var="vo" items="${history}">
 								<c:choose>
 									<c:when test="${profile.userNo==vo.userNo}">

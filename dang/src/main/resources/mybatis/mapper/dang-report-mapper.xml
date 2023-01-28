@@ -22,7 +22,16 @@
 	<insert id="imgInsert" parameterType="ReportImgDto">
 		insert into report_img(attachment_no, report_no) values(#{attachmentNo}, #{reportNo})
 	</insert>
-
+	
+	<!-- 신고 정보 확인 -->
+	<select id="checkReport" parameterType="Map" resultType="DangReportDto">
+		select*from dang_report where dang_no=#{dangNo} and user_no=#{userNo} and report_state='완료' and report_alert=1
+	</select>
+	
+	<!-- 신고창확인 컬럼 변경 -->
+	<update id="alertUpdate" parameterType="int">
+		update dang_report set report_alert=0 where report_no=#{reportNo}
+	</update>
 </mapper>
   
   

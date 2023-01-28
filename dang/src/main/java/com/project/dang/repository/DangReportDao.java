@@ -23,5 +23,18 @@ public interface DangReportDao {
 	 */
 	void imgInsert(ReportImgDto dto);
 	
+	/**
+	 * 신고 정보 확인
+	 * @param dangNo
+	 * @param userNo
+	 * @return DangReportDto
+	 */
+	DangReportDto checkReport(int dangNo, int userNo);
 	
+	/**
+	 * 알림컬럼 변경
+	 * @param reportNo
+	 * @return true, false
+	 */
+	boolean alertUpdate(int reportNo);
 }

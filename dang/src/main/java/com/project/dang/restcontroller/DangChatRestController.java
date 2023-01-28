@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangChatDto;
 import com.project.dang.repository.DangChatDao;
+import com.project.dang.repository.DangReportDao;
 import com.project.dang.vo.ChatHistoryVO;
 
 @CrossOrigin
@@ -23,6 +24,8 @@ public class DangChatRestController {
 	//의존성 주입
 	@Autowired
 	private DangChatDao dangChatDao;
+	@Autowired
+	private DangReportDao dangReportDao;
 
 	//채팅 내역 조회(20개씩)
 	@GetMapping("/scroll_list/{roomNo}/{chatNo}")
@@ -37,7 +40,11 @@ public class DangChatRestController {
 		return dangChatDao.updateNick(dto);
 	}
 	
-	
+	//경고 확인 컬럼 변경
+	@PatchMapping("/alert_update/{reportNo}")
+	public boolean alertUpdate(@PathVariable int reportNo) {
+		return dangReportDao.alertUpdate(reportNo);
+	}
 	
 	
 }
