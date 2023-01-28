@@ -427,14 +427,14 @@ border : 2px solid #76BEFF;
                             async : false,
                             contentType : "application/json",
                             success : function(resp) {
-/*                             	console.log("참여하기 성공");
+                             	console.log("참여하기 성공");
                             	$(".btn-plus").hide();
                             	
                             	window.confirm("일정 참여가 완료되었습니다");
                             	
 
                      			location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
-                     			$(".btn-minus").show(); */
+                     			$(".btn-minus").show(); 
                      			console.log(${profile.memberNo});
                             }
     					});

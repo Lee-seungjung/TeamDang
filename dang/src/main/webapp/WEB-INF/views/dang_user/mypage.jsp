@@ -5,9 +5,6 @@
 	<jsp:param value="마이페이지" name="title"/>
 </jsp:include>
 
-<%-- 작업 끝나면 지우면 될 것 같습니다 --%>
-<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
-
 <style>
 	
     * {
@@ -117,8 +114,7 @@
                         <div class="row">
 
                             <div class="col-6 dang-owner-profile">
-                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">
-                                    <!--  <img class="row img-fluid img-owner-profile w-100" src="image/img-mypage-profile.png" >-->
+                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">                                    
                                     <img class = "row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
                                     <span class="dang-nick2 row align-items-center justify-content-center py-2 ">초코야사랑해</span>
                                     <a class="myprofile-edit row align-items-center justify-content-center">내정보 수정</a>
@@ -137,6 +133,8 @@
                                         <span class = "span-info-category">관심지역</span>
                                     </div>
                                     <div class = "owner-common2 col-5">
+                                        <span class = "span-info">서울 강남구</span>
+                                        <span class = "span-info">서울 강남구</span>
                                         <span class = "span-info">서울 강남구</span>
                                     </div>
                                 </div>
@@ -230,9 +228,9 @@
 
                 <div class="row mypage-1">
 
-                    <div class="mypage-one col-4 d-flex flex-column justify-content-center align-items-center">
+                    <div class="mypage-one col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_interest_area'">
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/dang-interest-area.png" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-interest_area_pink.png" >
                         </div>
                         <div class="row px-4 py-2  mb-5 mt-4">
                             <span class="mypage-menu-common">관심지역 설정</span>
@@ -240,17 +238,17 @@
                     </div>     
 
 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='${pageContext.request.contextPath}/user/edit_pwck'">
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >                        
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png" >
                         </div>
                         <div class="row px-4 py-2 mb-5 mt-4">
                             <span class="mypage-menu-common">회원정보 변경</span>
                         </div>
                     </div> 
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_pw'">
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-pw_change_pink.png" >
                         </div>
                         <div class="row px-4 py-2 mb-5 mt-4">
                             <span class="mypage-menu-common">비밀번호 변경</span>
@@ -259,26 +257,26 @@
                 </div>
                 <div class="row mypage-2">
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
+                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/edit_puppy_info'">
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-4 mt-5">
+                        <div class="row px-4 py-2  mb-5 mt-4">
                             <span class="mypage-menu-common">댕 정보 변경</span>
                         </div>
                     </div> 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='#'">
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join_dang_pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-4 mt-5">
+                        <div class="row px-4 py-2  mb-5 mt-4">
                             <span class="mypage-menu-common">가입 댕모임</span>
                         </div>
                     </div>   
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='#'">
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src="image/img-mypage-profile.png" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-4 mt-5">
+                        <div class="row px-4 py-2  mb-5 mt-4">
                             <span class="mypage-menu-common">일정 히스토리</span>
                         </div>
                     </div> 
