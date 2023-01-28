@@ -956,6 +956,9 @@
 			}
 			// 댕모임 번호
 			var dangNo = $(this).parent().prevAll("[name=dangNo]").val();
+			// 입장
+			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
+			/*
 			// 댕모임 비공개 여부
 			var dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
 			// 비공개 댕모임이 아니라면(공개 댕모임이라면)
@@ -993,6 +996,7 @@
 						);
 				}
 			});
+			*/
 		});
 		
 		// 가입 Modal 내에서 X버튼 클릭시 입력창 초기화		
