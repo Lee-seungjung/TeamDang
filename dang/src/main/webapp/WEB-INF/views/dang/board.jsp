@@ -920,8 +920,11 @@
 				$("#boardEditModal").modal("show");
 				//원본데이터 출력준비
 				var boardContent = $(this).parents(".first-line").next().children().find(".content-font").text();
-				var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-7").children().text();
+				var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 				var boardNo = $(this).parent().data("bno");
+				console.log(boardContent);
+				console.log(boardCategory);
+				console.log(boardNo);
 				//원본데이터 출력
 				$("#edit-category").val(boardCategory).prop("selected", true);
 				$("#edit-content").val(boardContent);
@@ -1195,7 +1198,7 @@
 				var delete_span = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
 				dropmenu.append(edit_span).append(delete_span);
 				dropdown.append(drop_span).append(dropmenu);
-				col4.append(dropdown);
+				fir_col4.append(dropdown);
 			}
 			firstLine.append(fir_col1).append(fir_col7).append(fir_col4);
 			
