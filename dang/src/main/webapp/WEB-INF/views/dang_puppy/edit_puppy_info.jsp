@@ -167,9 +167,9 @@
 	}
 </style>
 
-<div class = "container-fluid my-3">	
+<div class = "container-fluid">	
 	<div class = "row">
-		<div class = "col-8 offset-2 my-3 py-5">
+		<div class = "col-8 offset-2 my-3">
 			<div class = "row">
 				<div class = "col d-flex justify-content-center align-items-center">				
 					<a href = "mypage">댕댕이 정보 변경</a>

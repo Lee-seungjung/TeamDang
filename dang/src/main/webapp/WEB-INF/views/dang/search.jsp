@@ -156,12 +156,12 @@
     }
     
     .btn-dang-enter {
-    	background-color: #FFE34E;
+    	background-color: #76BEFF;
     	color : white;
     }
     
     .btn-dang-join {
-    	background-color: #76BEFF;
+    	background-color: #FFE34E;
     	color : white;
     }
     
@@ -1225,6 +1225,8 @@
 					method : "get",
 					success : function(resp) {
 						
+						console.log(resp);
+						
 						var target = $(".div-dang-search-list");
 						
 						for(var i = 0 ; i < resp.length ; i ++) {
@@ -1360,20 +1362,20 @@
 									$("<input>").attr("type", "hidden").attr("name", "dangPw").attr("value", resp[i].dangInfo.dangPw)
 								)
 							
-							if(userNo != "" && resp[i].dangInfo.isMember == 1) {
+							if(resp[i].dangInfo.isMember == 1) {
 								rowDangButton
 									.append(
 										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-btn")
 											.append(
-												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", resp[i].dangInfo.dangNo).text("가입")
+												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-enter").attr("data-dangno", resp[i].dangInfo.dangNo).text("입장")
 											)
 									)
-							} else if(userNo != "" && resp[i].dangInfo.isMember == 0){
+							} else if(resp[i].dangInfo.isMember == 0){
 								rowDangButton
 									.append(
 										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-btn")
 											.append(
-												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", resp[i].dangInfo.dangNo).text("입장")
+												$("<button>").attr("type", "button").attr("class", "flex-fill btn-dang btn-dang-join").attr("data-dangno", resp[i].dangInfo.dangNo).text("가입")
 											)
 									)
 							}

@@ -15,6 +15,7 @@ import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
+import com.project.dang.vo.DangUserJoinVO;
 
 @Repository
 public class DangDaoImpl implements DangDao {
@@ -141,6 +142,12 @@ public class DangDaoImpl implements DangDao {
 		param.put("dangNo", String.valueOf(dangNo));
 		Integer result = sqlSession.update("dang.updateDangLike", param);
 		return result > 0;
+	}
+
+	// 특정 회원이 가입한 댕모임 리스트
+	@Override
+	public List<DangUserJoinVO> selectDangUserJoinList(int userNo) {
+		return sqlSession.selectList("dang.selectMydang", userNo);
 	}
 }
 	

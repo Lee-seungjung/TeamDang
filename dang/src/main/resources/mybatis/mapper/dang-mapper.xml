@@ -214,5 +214,14 @@
 	<update id = "updateDangLike" parameterType = "map">
 		update dang set dang_like = #{dangLike} where dang_no = #{dangNo}
 	</update>
+	
+	<!-- 마이페이지 내가 가입한 댕모임 -->
+	<select id = "selectMydang" parameterType = "int" resultType = "DangUserJoinVO">
+		select ddi.*, dm.member_joindate from dang_member dm 
+		inner join 
+		(select d.dang_no, d.dang_name, d.dang_info, d.dang_area, d.dang_private, di.attachment_no from dang d left outer join dang_img di on d.dang_no = di.dang_no) ddi 
+		on dm.dang_no = ddi.dang_no
+		where dm.user_no = #{userNo}
+	</select>
   	
 </mapper>

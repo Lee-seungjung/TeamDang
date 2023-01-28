@@ -225,7 +225,7 @@
     width: 120px;
 	margin: 25px auto;
 }
-.btn-delete{
+.btn-delete, .btn-end{
     display: block;
     line-height: 50px;
     border: none;
@@ -351,6 +351,7 @@ border : 2px solid #76BEFF;
                      <button type="submit" class="btn-minus">참여취소</button>
                      <button type="submit" class="btn-edit">수정</button>
                      <button type="submit" class="btn-delete">삭제</button>
+                     <button type="submit" class="btn-end">참여마감</button>
 					</div>					
                 </div>    
                 </div> 
@@ -372,51 +373,63 @@ border : 2px solid #76BEFF;
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 
 				<script>
+				
 				$(function(){
-					$(".btn-plus").hide();
-					$(".btn-minus").hide();
-					$(".btn-edit").hide();
-					$(".btn-delete").hide();
-					//일정 개설한 멤버가 맞는지 확인
-					$.ajax({
-                        url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
-                        method : "get",
-                        async : false,
-                        contentType : "application/json",
-                        success : function(resp) {
-                        	
-                        	//console.log("성공"+resp.memberNo);
-                        	//console.log("성공"+${scheduleDetail.scheduleNo});
-                        	//console.log("성공"+${scheduleDetail.memberNo});
-                        	 console.log("로그인 정보" + ${profile.memberNo}); 
-                        	 console.log("개설자 정보" + ${scheduleDetail.memberNo}); 
-                        	 
-                        	 var join= $(".btn	-join");
-                        	 //join.empty();
-        					 
-	                        for(var i=0;i<resp.length;i++){
-	                        //일정 등록한 멤버아니라면?
-                     		if(resp[i].memberNo==${scheduleDetail.memberNo}){
-                     			console.log("일정 개설자 아님");
-                     			$(".btn-plus").show(); 
-            					            					
-	                   		}
-                     		else{
-                     			//일정 등록한 멤버라면?
-                     			console.log("일정 개설자");
-            					$(".btn-edit").show();
-            					$(".btn-delete").show();   
-                     		                       		 	
-                     		}
-                     		
-                     	}                      
-                        	
-                        }
-                                             
-					});
 					
+					$(".btn-plus").hide(); //참여
+					$(".btn-minus").hide(); //참여취소
+					$(".btn-edit").hide(); //일정수정
+					$(".btn-delete").hide(); //일정삭제
+					$(".btn-end").hide(); //일정 인원수 마감
 					
-					
+					//개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
+					if(${profile.memberNo} == ${scheduleDetail.memberNo}){		
+						//수정, 삭제버튼 보여주기
+						$(".btn-edit").show();
+						$(".btn-delete").show();											
+					}
+					//개설자가 아니라면(로그인 멤버번호가 개설자 멤버번호와 불일치하면)
+					else{
+						//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
+						$.ajax({
+	                        url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${profile.memberNo},
+	                        method : "get",
+	                        async : false,
+	                        contentType : "application/json",
+	                        success : function(resp) {
+	                        	//console.log(resp.length);
+	                        	//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
+	                        	//일정상세에서 참여인원인 마감되었는지?
+	                        	if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
+	                        		//참여된 멤버가 아니라면
+	                        		if(resp.length == 0){
+	                        			$(".btn-end").show();	                        			
+	                        		} 
+	                        		//참여된 멤버라면
+	                        		else{
+	                        			$(".btn-minus").show();                        			
+	                        		}
+	                        	}
+	                        	//일정상세에서 참여인원이 남아있는지?
+	                        	else{
+	                        		console.log("마감안했음");
+	                        		//참여된 멤버가 아니라면
+	                        		if(resp.length == 0){
+	                        			console.log("마감안했는데 참여안했음");
+	                        			$(".btn-plus").show();	 
+	                        		}
+	                        		//참여된 멤버라면
+	                        		else{
+	                        			console.log("마감안했는데 참여했음");
+	                        			$(".btn-minus").show();
+	                        		}
+	                        	}
+	                        }
+	                                             
+						});
+						
+					}
+				
 					//댕모임 일정 등록한 멤버가 아닌 다른 멤버들의 일정상세화면(참여하기,참여취소)
 					$(".btn-plus").click(function(){
                     	
@@ -435,7 +448,7 @@ border : 2px solid #76BEFF;
 
                      			location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
                      			$(".btn-minus").show(); 
-                     			console.log(${profile.memberNo});
+                     			console.log("참여취소 보여야함");
                             }
     					});
                     });
@@ -453,6 +466,7 @@ border : 2px solid #76BEFF;
                             	console.log("참여취소 성공");
                             	$(".btn-minus").hide();
                             	window.confirm("일정이 취소되었습니다");
+                            	console.log("참여버튼 보여야함");
                             	 
                             	$(".btn-plus").show();
                             	location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
