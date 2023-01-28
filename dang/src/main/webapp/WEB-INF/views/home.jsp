@@ -8,11 +8,16 @@
 
 <style>
 
+	* {
+		
+	}
+
 	.img-carousel {
 		aspect-ratio : 7/3;
 	}
 
 	.div-home-menu {
+		border : 1px solid #EBEBEB;
 		border-radius : 15px;
 		background-color : white;
 	}
@@ -106,6 +111,11 @@
     .div-select-dang {
     	cursor:pointer;
     }
+    
+    .img-dang-home-category {
+    	width : 3rem;
+    	height : 3rem;
+    }
 	
 	
 </style>
@@ -117,13 +127,13 @@
 				<div id="carousel-main" class="carousel slide" data-bs-ride="carousel">
 				  	<div class="carousel-inner">
 				    	<div class="carousel-item active">
-				     		<img src = "/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
+				     		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				    	<div class="carousel-item">
-				      		<img src = "/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
+				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				    	<div class="carousel-item">
-				      		<img src = "/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
+				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				  	</div>
 				  	<button class="carousel-control-prev" type="button" data-bs-target="#carousel-main" data-bs-slide="prev">
@@ -140,13 +150,9 @@
 				<div class = "col-8">
 					<div class = "col div-home-menu shadow">
 						<div class = "row px-4 py-2">
-							<div class = "col p-2 d-flex flex-row">						
-								<div class = "col-1">
-									<img src = "/images/icon-change.png" class= "img-fluid">
-								</div>
-								<div class = "col-11">
-									<strong>댕모임 찾기</strong>
-								</div>
+							<div class = "col p-2 d-flex align-items-center">						
+								<img src = "${pageContext.request.contextPath}/images/img-home-dang-recommendation.png" class= "me-2 img-dang-home-category">
+								<strong>댕모임 찾기</strong>
 							</div>
 						</div>
 						<div class = "row px-4 py-2">
@@ -242,13 +248,9 @@
 				<div class = "col-4">
 					<div class = "col div-home-menu shadow">
 						<div class = "row px-4 py-2">
-							<div class = "col p-2 d-flex flex-row">						
-								<div class = "col-2">
-									<img src = "/images/icon-change.png" class= "img-fluid">
-								</div>
-								<div class = "col-10">
-									<strong>댕모임 장소 추천</strong>
-								</div>
+							<div class = "col p-2 d-flex align-items-center">
+								<img src = "${pageContext.request.contextPath}/images/img-home-place-recommendation.png" class= "me-2 img-dang-home-category">		
+								<strong>댕모임 장소 추천</strong>
 							</div>
 						</div>
 						<div class = "row px-4 py-2">

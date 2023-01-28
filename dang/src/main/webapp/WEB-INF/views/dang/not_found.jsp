@@ -6,9 +6,6 @@
 </jsp:include>
 
 <style>
-	* {
-		border : 1px gray dotted;
-	}
 	
 	.strong-title {
 		font-size : 32px;
@@ -18,7 +15,7 @@
 <div class = "container-fluid my-3 div-container-dang-search"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
-			<div class = "row">
+			<div class = "row my-2">
 				<div class = "col d-flex justify-content-center align-items-center">
 					<strong class = "strong-title">페이지를 찾을 수 없습니다.</strong>
 				</div>
