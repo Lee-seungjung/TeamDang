@@ -346,8 +346,7 @@ border : 2px solid #76BEFF;
                         </div>
                     </div>   
 					
-					<div class="btn-box btn-join">
-					
+					<div class="btn-box btn-join">				
                      <button type="submit" class="btn-plus">참여</button>
                      <button type="submit" class="btn-minus">참여취소</button>
                      <button type="submit" class="btn-edit">수정</button>
@@ -373,13 +372,12 @@ border : 2px solid #76BEFF;
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 
 				<script>
-				
 				$(function(){
 					$(".btn-plus").hide();
 					$(".btn-minus").hide();
 					$(".btn-edit").hide();
 					$(".btn-delete").hide();
-					//일정 등록한 멤버가 맞는지 확인
+					//일정 개설한 멤버가 맞는지 확인
 					$.ajax({
                         url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
                         method : "get",
@@ -390,36 +388,35 @@ border : 2px solid #76BEFF;
                         	//console.log("성공"+resp.memberNo);
                         	//console.log("성공"+${scheduleDetail.scheduleNo});
                         	//console.log("성공"+${scheduleDetail.memberNo});
-                        	 console.log("로그인 정보" + ${profile.memberNo});
+                        	 console.log("로그인 정보" + ${profile.memberNo}); 
+                        	 console.log("개설자 정보" + ${scheduleDetail.memberNo}); 
+                        	 
                         	 var join= $(".btn	-join");
                         	 //join.empty();
         					 
 	                        for(var i=0;i<resp.length;i++){
-	                        //일정 등록한 멤버라면?
-                     		if(resp[i].memberNo!=${profile.memberNo}){
-                     		
-                     			$(".btn-minus").hide();
-                     			$(".btn-plus").show();
+	                        //일정 등록한 멤버아니라면?
+                     		if(resp[i].memberNo==${scheduleDetail.memberNo}){
+                     			console.log("일정 개설자 아님");
+                     			$(".btn-plus").show(); 
+            					            					
+	                   		}
+                     		else{
+                     			//일정 등록한 멤버라면?
+                     			console.log("일정 개설자");
             					$(".btn-edit").show();
-            					$(".btn-delete").show();
- 
-                        
-                             
-                     		}else{
-                     			
-                     			$(".btn-plus").hide();  
-            					$(".btn-edit").show();
-            					$(".btn-delete").show();
-                             
+            					$(".btn-delete").show();   
+                     		                       		 	
                      		}
                      		
-                     	}
-                        
+                     	}                      
                         	
                         }
-                        
-                        
+                                             
 					});
+					
+					
+					
 					//댕모임 일정 등록한 멤버가 아닌 다른 멤버들의 일정상세화면(참여하기,참여취소)
 					$(".btn-plus").click(function(){
                     	
@@ -430,14 +427,15 @@ border : 2px solid #76BEFF;
                             async : false,
                             contentType : "application/json",
                             success : function(resp) {
-                            	console.log("참여하기 성공");
+/*                             	console.log("참여하기 성공");
                             	$(".btn-plus").hide();
                             	
                             	window.confirm("일정 참여가 완료되었습니다");
                             	
 
                      			location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
-                     			$(".btn-minus").show();
+                     			$(".btn-minus").show(); */
+                     			console.log(${profile.memberNo});
                             }
     					});
                     });
@@ -464,7 +462,7 @@ border : 2px solid #76BEFF;
                             }
     					});
                     	
-                    });
+                    }); 
 					
 				});
 				
