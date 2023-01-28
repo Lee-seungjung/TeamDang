@@ -15,14 +15,14 @@
 	
 </style>
 
-<div class= "container-fluid my-3">
+<div class= "container-fluid my-5">
 	<div class = "row">
 		<div class = "offset-2 col-8">
 			<div class = "row">
 				<div class = "col-2">
 					<div class = "row">
 						<div class = "col-10 offset-1">			
-							<div class = "offset-2 col-8 d-flex justify-content-center align-items-center div-icon-mypage" onClick = "location.href='#'">
+							<div class = "offset-2 col-8 d-flex justify-content-center align-items-center div-icon-mypage" onClick = "location.href='${pageContext.request.contextPath}/user/change_interest_area'">
 								<img class = "w-100 img-change-interest-area" src = "${pageContext.request.contextPath}/images/mypage-interest_area_gray.png">
 							</div>
 							<div class = "w-100 d-flex justify-content-center align-items-center">						

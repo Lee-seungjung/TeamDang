@@ -653,9 +653,8 @@
                         </div>
                         <div class = "row my-3 div-dang-interest-list">
                             <div class = "col-4">
-                                <div class = "position-relative div-dang-interest div-dang-interest-active">
-                                    <span class = "span-dang-interest">강동구</span>
-                                    <i class="fa-solid fa-xmark i-dang-interest"></i>
+                                <div class = "d-flex justify-content-center align-items-center div-dang-interest div-dang-interest-inactive">
+                                
                                 </div>
                             </div>
                             <div class = "col-4">
@@ -956,6 +955,9 @@
 			}
 			// 댕모임 번호
 			var dangNo = $(this).parent().prevAll("[name=dangNo]").val();
+			// 입장
+			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
+			/*
 			// 댕모임 비공개 여부
 			var dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
 			// 비공개 댕모임이 아니라면(공개 댕모임이라면)
@@ -993,6 +995,7 @@
 						);
 				}
 			});
+			*/
 		});
 		
 		// 가입 Modal 내에서 X버튼 클릭시 입력창 초기화		
