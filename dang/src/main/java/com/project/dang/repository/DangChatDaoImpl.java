@@ -77,6 +77,15 @@ public class DangChatDaoImpl implements DangChatDao{
 		return sqlSession.insert("chat.updateNick",dto)>0;
 	}
 
+	//탈퇴한 회원의 채팅내역 삭제
+	@Override
+	public boolean deleteChatList(int roomNo, int userNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("roomNo", roomNo);
+		param.put("chatNo", userNo);
+		return sqlSession.delete("chat.deleteChatList",param)>0;
+	}
+
 	
 
 	

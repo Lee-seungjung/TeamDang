@@ -158,4 +158,13 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		if(result == null) result = 0; 
 		return result > 0;
 	}
+
+	//댕모임 회원 탈퇴
+	@Override
+	public boolean deleteDangMember(int dangNo, int memberNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("dangNo", dangNo);
+		param.put("memberNo", memberNo);
+		return sqlSession.delete("dangMember.deleteMember",param)>0;
+	}
 }

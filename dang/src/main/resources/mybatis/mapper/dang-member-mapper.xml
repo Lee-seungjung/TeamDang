@@ -117,4 +117,9 @@
 		select member_no from dang_member where user_no = #{userNo} and dang_no = #{dangNo}
 	</select>
 	
+	<!-- 댕모임 회원 탈퇴 -->
+	<delete id="deleteMember" parameterType = "map" >
+		delete dang_member where dang_no=#{dangNo} and member_no=#{memberNo}
+	</delete>
+	
 </mapper>

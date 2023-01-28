@@ -121,11 +121,21 @@
 		color:#76BEFF;
 		display:none;
 	}
-	.search-btn{
-		display:flex;
-		margin-left:250px;
-		margin-top:-30px;
+	.search-input{
+		border-right : none;
+		border-top-right-radius:0;
+		border-bottom-right-radius:0;
+	}
+	.fa-magnifying-glass{
 		color:#a2c1f6;
+	}
+	.search-btn{
+		border : 1px solid #ced4da;
+		border-left : none;
+		background-color : white;
+		padding: 0.375rem 0.75rem;
+		border-top-right-radius:0.25rem;
+		border-bottom-right-radius:0.25rem;
 	}
 </style>
 
@@ -143,15 +153,17 @@
 			<div class = "col-6">
 				<div class = "col">
 					<!-- 검색바 시작 -->
-					<div class="search-group text-center mt-3">
-						<select class="form-select inbl me-1" style="width:20%;" name="type">
+					<div class="search-group text-center mt-3 d-flex">
+						<select class="form-select flex-fill me-1" style="width:20%;" name="type">
 							<option value="">선택</option>
 							<option value="member_nick">작성자</option>
 							<option value="board_content">내용</option>
 						</select>
-						<div class="inbl" style="width:70%;">
-							<input type="text" class="input form-control  ms-1" name="keyword">
-							<i class="fa-solid fa-magnifying-glass cursor-pointer search-btn"></i>
+						<div class="d-flex" style="width:70%;">
+							<input type="text" class="input form-control search-input ms-1 flex-fill" name="keyword">
+							<button class="search-btn">
+								<i class="fa-solid fa-magnifying-glass cursor-pointer "></i>
+							</button>
 				    	</div>
 				    </div>
 				    <!-- 검색바 끝 -->

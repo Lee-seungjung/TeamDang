@@ -127,6 +127,12 @@ public class DangDaoImpl implements DangDao {
 		return result > 0;
 	}
 	
+	// 댕모임 회원수 갱신
+	@Override
+	public boolean minusDangHead(int dangNo) {
+		return sqlSession.update("dang.minusDangHead", dangNo)>0;
+	}
+	
 	// 댕모임 좋아요 갯수 갱신
 	@Override
 	public boolean updateDangLike(int dangLike, int dangNo) {

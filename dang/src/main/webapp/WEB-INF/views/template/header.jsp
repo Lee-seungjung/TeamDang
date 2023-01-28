@@ -208,6 +208,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  .main-img{
+  	width:130px;
+  	height:auto;
+  	margin-top:10px;
+  }
 </style>
 
 </head>
@@ -217,16 +222,16 @@
 <%-- 로그인 여부 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
-<div class = "container-fluid my-3">
+<div class = "container-fluid">
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row">
 				<div class = "col-2">
 					<a href = "/">
-						<img src = "${pageContext.request.contextPath}/images/logo.png" class = "img-fluid">
+						<img src = "${pageContext.request.contextPath}/images/logo.png" class = "img-fluid main-img">
 					</a>
 				</div>
-				<div class = "col-4">
+				<div class = "col-4 middle-items">
 					<a href = "/dang/1">1번 댕모임</a>
 				</div>
 				<div class = "col-6 d-flex flex-row">

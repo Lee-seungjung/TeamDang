@@ -109,8 +109,8 @@
 				</div>
 				
 				<div class="report-div mt-4">
-					<div class="col-10 offset-1 text-end">
-						<button type="button" class="btn report-btn">탈퇴</button>
+					<div class="col-10 offset-1 text-center mt-1 mb-5">
+						<button type="button" class="btn report-btn w-25">탈퇴</button>
 					</div>
 				</div>
 				
@@ -124,7 +124,7 @@
 		</div>
 	</div>
 	
-	<!-- 삭제 모달 시작 -->
+	<!-- 탈퇴 모달 시작 -->
 		<div class="modal" id="m-deleteModal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -135,28 +135,43 @@
 					</div>
 					<div class="modal-body middle-items">
 						<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
-						<span>정말 삭제하시겠습니까?</span>
+						<span>탈퇴 시 모든 정보가 삭제됩니다.</span>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary m-delete-btn">확인</button>
+						<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
 						<button type="button" class="btn btn-secondary m-cancel-btn" data-bs-dismiss="modal">취소</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- 삭제 모달 끝 -->
+		<!-- 탈퇴 모달 끝 -->
 	
 </div>
 
 <script>
 	$(function(){
+		//탈퇴 여부 재확인 모달창 띄우기
 		$(".report-btn").click(function(){
-			//탈퇴 여부 재확인 모달창 띄우기
 			$("#m-deleteModal").modal("show");
-			//확인 버튼 누를 경우 멤버 탈퇴(댕회원 삭제) 처리
-			
-			
 		});
+		
+		//확인 버튼 누를 경우 멤버 탈퇴(댕회원 삭제) 처리
+		$(".m-delete-btn").click(function(){
+			var dangNo = $("[name=dangNo]").val();
+			var memberNo = $("[name=memberNo]").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/delete_member?dangNo="+dangNo+"&memberNo="+memberNo,
+				method:"delete",
+				success:function(resp){
+					console.log(resp);
+					if(resp){
+						//홈화면으로 이동 또는 삭제가 완료되었습니다 화면으로 이동
+						location.href="${pageContext.request.contextPath}/member/delete_success?dangNo="+dangNo;
+					}
+				}
+			});
+		});
+		
 	});
 </script>
 

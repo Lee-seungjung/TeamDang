@@ -61,4 +61,11 @@ public interface DangPuppyDao {
 	 * @return Integer : 댕댕이 첨부파일 번호
 	 */
 	public Integer findPuppyImgNo(int puppyNo);
+	
+	/**
+	 * 댕댕이 정보 삭제
+	 * @param puppyNo : 댕댕이 번호
+	 * @return boolean : 댕댕이 삭제 여부
+	 */
+	public boolean deletePuppy(int puppyNo);
 }

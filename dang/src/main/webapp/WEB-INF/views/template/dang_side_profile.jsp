@@ -310,7 +310,7 @@
     	font-size:16px;
     	text-align:center;
     }
-    .modal-profile-btn2{
+    .modal-profile-report-btn{
     	text-align:center;
     	padding:5px 10px;
 
@@ -379,11 +379,12 @@
 			$(".attendance-btn").hide("fast");
 			AttendanceValid = true;
 		}
-	
+		
+		
 		//출석체크 모달
 		$(document).on("click",".day-check",function(){
 			var memberNo = $("[name=memberNo]").val();
-			$(".fc-day-today").removeClass("addImg");
+			
 			//출석체크 확인
 			$.ajax({
               		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
@@ -404,7 +405,8 @@
    							$(".attendance-btn").click(function(){
    								AttendanceValid = true;
    								//1. 오늘날짜 배경에 로고 이미지 넣기
-   								$(".fc-day-today").addClass("addImg");
+   								var today = $('#calendar').children().find(".fc-day-today");
+   								today.addClass("addImg");
    								
    								//2. ajax 출석 테이블 insert
    								attendanceData={
@@ -447,6 +449,12 @@
    						}
    					}
 			});
+		});
+		
+		//출석모달 닫기
+		$(".close-btn").click(function(){
+			var today = $('#calendar').children().find(".fc-day-today");
+			today.removeClass("addImg");
 		});
 		
 		//프로필 수정
@@ -713,11 +721,27 @@
 								}
 							});
 							
+							//멤버 프로필 사진, 닉네임, 상태메세지 변경
+							var mTag = $(".m-profile-info[data-mno="+memberNo+"]");
+							var url = "${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo;
+							mTag.attr("src",url);
+							mTag.parent().next().children().text(memberNick);
+							mTag.parent().next().children().next().text(memberMessage);
+							
+							//헤더 프로필 변경
+							$(".img-user-profile").attr("src",url);
 						}
 					}
 				});
 			}
 		});
+		
+		//신고 처리
+		$(".modal-profile-report-btn").click(function(){
+			var memberNo = $(this).data("mno"); //신고당한 사람의 memberNo
+			location.href="${pageContext.request.contextPath}/dang/report/"+memberNo
+		});
+		
 		
 		//풀캘린더 생성
 		function createCalendar(){
@@ -917,11 +941,14 @@
 		
 		//프로필 상세정보 함수
 		function detailInfo(memberNo, url){
+			var originMemberNo = $("[name=memberNo]").val();	
+		
 			$(".profile-info-owner").attr("style","dispaly:none;")
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
 				method:"get",
 				success:function(resp){
+					console.log(resp);
 					if(resp.memberOwner=='Y'){
 						$(".profile-info-owner").show();
 					}
@@ -931,6 +958,12 @@
 					$(".profile-info-grade").text(resp.memberGrade);
 					var text = resp.memberScore+"점";
 					$(".profile-info-score").text(text);
+					if(originMemberNo==memberNo){
+						$(".modal-profile-report-btn").hide();
+					}else{
+						$(".modal-profile-report-btn").show();
+						$(".modal-profile-report-btn").attr("data-mno",resp.memberNo);
+					}
 					$("#profile-info-modal").modal("show");
 				}
 			});
@@ -1113,9 +1146,10 @@
 						<div class="col 6 offset 3 text-center m-3 mb-5">
 							<button type="button" class="btn btn-primary modal-profile-btn fn profile-info-grade" style="cursor:default;">등급</button>
 							<button type="button" class="btn btn-primary ms-1 me-1 modal-profile-btn fn profile-info-score" style="cursor:default;">활동점수</button>
-							<button type="button" class="btn btn-outline-pink modal-profile-btn2">
+							<a type="button" class="btn btn-outline-pink modal-profile-report-btn"
+									href="#">
 								<img src="${pageContext.request.contextPath}/images/siren.png" class="modal-profile-siren">
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>

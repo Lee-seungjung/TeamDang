@@ -67,4 +67,12 @@ public interface DangChatDao {
 	 * @return true, false
 	 */
 	boolean updateNick(DangChatDto dto);
+	
+	/**
+	 * 탈퇴한 회원의 채팅내역 삭제
+	 * @param roomNo
+	 * @param userNo
+	 * @return true, false
+	 */
+	boolean deleteChatList(int roomNo, int userNo);
 }

@@ -57,8 +57,8 @@
 	 	border-color:#B0CBFF;
 	 }
 	 .chat-icon-image{
-	 	width:30px;
-	 	height:30px;
+	 	width:35px;
+	 	height:auto;
 	 }
 	 .message{
 	 	border:1px solid #B0CBFF;
@@ -109,8 +109,8 @@
 	.down-btn{
 		position: fixed;
 		cursor: pointer;
-		top:80%;
-		left:60%;
+		top:85%;
+		left:62%;
 		color:#B0CBFF;
 		opacity:0.7;
 		display:none;
@@ -274,9 +274,9 @@
 			
 			var scrollBottomCheck = parseInt($("[name=originHeight]").val());
 			var judge = scrollBottomCheck-boxHeight;
-			console.log(boxHeight);
-			console.log(scrollBottomCheck);
-			console.log(judge);
+			//console.log(boxHeight);
+			//console.log(scrollBottomCheck);
+			//console.log(judge);
 			if(judge>300){
 				$(".down-btn").show();
 				downBtn();
@@ -563,13 +563,16 @@
 						<div  style="position:absolute;">
 							<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
 						</div>
+
 					</div>
 					
-					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100" style="display:flex; align-items:center">
-						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1" style="width:10%;">
+					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
-						<input type="text" id="chat-input" class="ms-1 me-1" style="width:80%;">
-						<button class="btn btn-primary me-1" id="send-btn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+						<input type="text" id="chat-input" class="ms-1 me-1" style="width:85%;">
+						<button class="btn btn-primary me-1" id="send-btn" type="button">
+							<i class="fa-solid fa-paper-plane middle-items"></i>
+						</button>
 					</div>
 					
 					

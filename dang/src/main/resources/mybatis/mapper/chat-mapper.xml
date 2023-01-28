@@ -66,6 +66,11 @@
 	<update id="updateNick" parameterType="DangChatDto">
 		update dang_chat set member_nick=#{memberNick} where room_no=#{roomNo} and user_no=#{userNo}
 	</update>
+	
+	<!-- 탈퇴한 댕모임회원의 채팅내역 삭제 -->
+	<delete id="deleteChatList" parameterType="Map">
+		delete dang_chat where room_no=#{roomNo} and user_no=#{userNo}
+	</delete>
   
 </mapper>
   
