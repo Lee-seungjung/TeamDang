@@ -319,12 +319,10 @@
 		//경고창 x버튼 클릭 시 출력안되게 처리
 		$(".alert-xbtn").click(function(){
 			var reportNo = $(this).data("rno");
-			console.log(reportNo);
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_chat/alert_update/"+reportNo,
 				method:"patch",
-				success:function(resp){
-				}
+				success:function(resp){}
 			});
 		});
 		
@@ -369,8 +367,8 @@
 				var div = $("<div>").attr("class","text-start ms-2");
 				var table = $("<table>").attr("class","mb-2");
 				var tbody = $("<tbody>");
-				var tr1 = $("<tr>");
-				var td1 = $("<td>").attr("rowspan","2");
+				var tr_one = $("<tr>");
+				var td_one = $("<td>").attr("rowspan","2");
 				var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 								.attr("width","45").attr("height","45").attr("data-uno",data.userNo);
 				if(data.attachment==null){
@@ -378,15 +376,15 @@
 				}else{
 					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo);
 				}
-				td1.append(img);
-				var td2 = $("<td>");
+				td_one.append(img);
+				var td_two = $("<td>");
 				var nick = $("<span>").text(data.memberNick).attr("style","font-size:14px;");
-				td2.append(nick);
-				var td3 = $("<td>").attr("rowspan","2");
-				tr1.append(td1).append(td2).append(td3);
+				td_two.append(nick);
+				var td_three = $("<td>").attr("rowspan","2");
+				tr_one.append(td_one).append(td_two).append(td_three);
 				
-				var tr2 = $("<tr>");
-				var td4 = $("<td>");
+				var tr_two = $("<tr>");
+				var td_four = $("<td>");
 				var text;
 				if(data.imgAttachmentNo==null){
 					text = $("<span>").attr("class","message").text(data.chatContent);
@@ -396,10 +394,10 @@
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
-				td4.append(text).append(time);
-				tr2.append(td4);
+				td_four.append(text).append(time);
+				tr_two.append(td_four);
 				
-				tbody.append(tr1).append(tr2);
+				tbody.append(tr_one).append(tr_two);
 				table.append(tbody);
 				div.append(table);
 				chatDiv.append(div);
@@ -432,8 +430,8 @@
 					var div = $("<div>").attr("class","text-start ms-2");
 					var table = $("<table>").attr("class","mb-2");
 					var tbody = $("<tbody>");
-					var tr1 = $("<tr>");
-					var td1 = $("<td>").attr("rowspan","2");
+					var tr_one = $("<tr>");
+					var td_one = $("<td>").attr("rowspan","2");
 					var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 										.attr("width","45").attr("height","45").attr("data-uno",data[i].userNo);
 					if(data[i].attachment==0){
@@ -441,15 +439,15 @@
 					}else{
 						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo);
 					}
-					td1.append(img);
-					var td2 = $("<td>");
+					td_one.append(img);
+					var td_two = $("<td>");
 					var nick = $("<span>").text(data[i].memberNick).attr("style","font-size:14px;");
-					td2.append(nick);
-					var td3 = $("<td>").attr("rowspan","2");
-					tr1.append(td1).append(td2).append(td3);
+					td_two.append(nick);
+					var td_three = $("<td>").attr("rowspan","2");
+					tr_one.append(td_one).append(td_two).append(td_three);
 					
-					var tr2 = $("<tr>");
-					var td4 = $("<td>");
+					var tr_two = $("<tr>");
+					var td_four = $("<td>");
 					var text;
 					if(data[i].imgAttachmentNo==0){
 						text = $("<span>").attr("class","message").text(data[i].chatContent);
@@ -459,10 +457,10 @@
 					}
 					var formatTime = moment(data[i].chatDate).format('a h:mm');
 					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
-					td4.append(text).append(time);
-					tr2.append(td4);
+					td_four.append(text).append(time);
+					tr_two.append(td_four);
 					
-					tbody.append(tr1).append(tr2);
+					tbody.append(tr_one).append(tr_two);
 					table.append(tbody);
 					div.append(table);
 					chatDiv.prepend(div);

@@ -1150,64 +1150,64 @@
 			
 			//첫번째줄
 			var firstLine = $("<div>").attr("class","first-line d-flex");
-			var col1 = $("<div>").attr("class","col-1 b-profile-info cursor-pointer");
-			var img1 = $("<img>").attr("class","img-fluid img-circle");
+			var fir_col1 = $("<div>").attr("class","col-1 b-profile-info cursor-pointer");
+			var fir_img = $("<img>").attr("class","img-fluid img-circle");
 			if(resp.attachmentNo==null){
-				img1.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				fir_img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 			}else{
-				img1.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo)
+				fir_img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp.attachmentNo)
 						.attr("style","width:50px; height:50px;");
 			}
-			col1.append(img1);
+			fir_col1.append(fir_img);
 			
-			var col7 = $("<div>").attr("class","col-7 middle-items ms-3");
-			var span1 = $("<span>").attr("class","nick-font").text(resp.memberNick);
-			col7.append(span1);
+			var fir_col7 = $("<div>").attr("class","col-7 middle-items ms-3");
+			var nick_span = $("<span>").attr("class","nick-font").text(resp.memberNick);
+			fir_col7.append(nick_span);
 			if(resp.memberOwner=='Y'){
-				var img2 = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
+				var owner_img = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
 							.attr("src","${pageContext.request.contextPath}/images/crown.png");
-				col7.append(img2);
+				fir_col7.append(owner_img);
 			}
 
-			var col4 = $("<div>").attr("class","col-4 justify-content-end middle-items");
+			var fir_col4 = $("<div>").attr("class","col-4 justify-content-end middle-items");
 			var date = moment(resp.boardWriteDate).format("YYYY.MM.DD");
-			var span2 = $("<span>").attr("class","date-font me-4").text(date);
-			col4.append(span2);
+			var date_span = $("<span>").attr("class","date-font me-4").text(date);
+			fir_col4.append(date_span);
 			if(resp.memberNo==nowMemberNo){
 				var dropdown = $("<div>").attr("class","dropdown inbl w-auto");
-				var span3 = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+				var drop_span = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
 									.attr("aria-haspopup","true").attr("aria-expanded","false");
-				var i1 = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
-				span3.append(i1);
+				var drop_i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
+				drop_span.append(drop_i);
 				var dropmenu = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo)
 											.attr("data-mno",resp.memberNo);
-				var span4 = $("<span>").attr("class","dropdown-item edit-drop cursor-pointer")
+				var edit_span = $("<span>").attr("class","dropdown-item edit-drop cursor-pointer")
 									.attr("data-bs-toggle","modal").attr("data-bs-target","#boardEditModal")
 									.attr("data-bs-whatever","@mdo").text("수정");
-				var span5 = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
-				dropmenu.append(span4).append(span5);
-				dropdown.append(span3).append(dropmenu);
+				var delete_span = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
+				dropmenu.append(edit_span).append(delete_span);
+				dropdown.append(drop_span).append(dropmenu);
 				col4.append(dropdown);
 			}
-			firstLine.append(col1).append(col7).append(col4);
+			firstLine.append(fir_col1).append(fir_col7).append(fir_col4);
 			
 			//두번째 줄
 			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
 			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
-			var se_span1 = $("<span>").attr("class","content-font")
+			var se_span = $("<span>").attr("class","content-font")
 										.text(resp.boardContent);
-			se_col9.append(se_span1);
+			se_col9.append(se_span);
 			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
 			if(resp.boardAttachmentCnt!=null){
-				var se_img1 = $("<img>").attr("src","#").attr("class","img-fluid img-check");
+				var se_img = $("<img>").attr("src","#").attr("class","img-fluid img-check");
 				var text = resp.boardAttachmentCnt-1;
 				if(text==0){
 					text="";
 				} else{
 					text="+"+text;
 				}
-				var se_span2 = $("<span>").attr("style","font-size:13px;").text(text);
-				se_col3.append(se_img1).append(se_span2);
+				var se_span = $("<span>").attr("style","font-size:13px;").text(text);
+				se_col3.append(se_img).append(se_span);
 			}
 			secondLine.append(se_col9).append(se_col3);
 			var hr = $("<hr>");
@@ -1215,27 +1215,27 @@
 			//세번째 줄
 			var thirdLine = $("<div>").attr("class","third-line d-flex ms-3 me-3");
 			var th_col3_1 = $("<div>").attr("class","col-3 middle-items cursor-pointer toggle-btn").attr("data-no",resp.boardNo);
-			var th_i1 = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
-			var th_span1 = $("<span>").attr("class","me-2").text("댓글");
-			th_col3_1.append(th_i1).append(th_span1);
+			var message_i = $("<i>").attr("class","fa-regular fa-message mt-1 me-2");
+			var th_span = $("<span>").attr("class","me-2").text("댓글");
+			th_col3_1.append(message_i).append(th_span);
 			if(resp.replyCnt!=0){
-				var th_span2 = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
-				th_col3_1.append(th_span2);
+				var cnt_span = $("<span>").attr("class","blue replycnt").attr("style","font-weight:bolder;").text(resp.replyCnt);
+				th_col3_1.append(cnt_span);
 			}
 
 			var th_col3 = $("<div>").attr("class","col-3 middle-items cursor-pointer like-btn");
-			var th_span3 = $("<span>").attr("class","me-2").text("좋아요");
-			var th_i2 = $("<i>").attr("class","fa-regular fa-heart pink me-1 empty-heart");
-			var th_i3 = $("<i>").attr("class","fa-solid fa-heart me-1 full-heart");
-			var th_span4 = $("<span>").attr("class","pink islike").attr("style","font-weight:bolder;");
+			var like_span = $("<span>").attr("class","me-2").text("좋아요");
+			var empty_i = $("<i>").attr("class","fa-regular fa-heart pink me-1 empty-heart");
+			var full_i = $("<i>").attr("class","fa-solid fa-heart me-1 full-heart");
+			var islike_span = $("<span>").attr("class","pink islike").attr("style","font-weight:bolder;");
 			if(resp.boardLike!=0){
-				th_span4.attr("data-like",resp.boardNo).text(resp.boardLike);
+				islike_span.attr("data-like",resp.boardNo).text(resp.boardLike);
 			}
-			th_col3.append(th_span3).append(th_i2).append(th_i3).append(th_span4);
+			th_col3.append(like_span).append(empty_i).append(full_i).append(islike_span);
 			
 			var th_col6 = $("<div>").attr("class","col-6 justify-content-end middle-items");
-			var th_span5 = $("<span>").text(resp.boardCategory);
-			th_col6.append(th_span5);
+			var category_span = $("<span>").text(resp.boardCategory);
+			th_col6.append(category_span);
 			thirdLine.append(th_col3_1).append(th_col3).append(th_col6);
 			
 			var replyDiv = $("<div>").attr("class","reply-box");
@@ -1483,29 +1483,29 @@
 			}else{
 				contentDiv.attr("class","col content-div1");
 			}
-			var p1 = $("<p>").attr("class","middle-items");
-			var span1 = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
-			var span2 = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
-			p1.append(span1).append(span2);
-			var p2 = $("<p>").attr("class","re-content-font middle-items text-start").text(resp.replyContent);
-			contentDiv.append(p1).append(p2);
+			var p = $("<p>").attr("class","middle-items");
+			var nick_span = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
+			var date_span = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
+			p.append(nick_span).append(date_span);
+			var content_p = $("<p>").attr("class","re-content-font middle-items text-start").text(resp.replyContent);
+			contentDiv.append(p).append(content_p);
 			col8.append(contentDiv);
 			
 			var col3 = $("<div>").attr("class","col-3 justify-content-end middle-items");
 			if(memberNo==resp.memberNo){
-				var div1 = $("<div>").attr("class","dropdown inbl w-auto");
-				var span1  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+				var div = $("<div>").attr("class","dropdown inbl w-auto");
+				var span  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
 									.attr("aria-haspopup","true").attr("aria-expanded","false");	
 				var i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
-				span1.append(i);
+				span.append(i);
 				
-				var div2 = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
-				var span2 =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
-				var span3 =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
-				div2.append(span2).append(span3);
+				var menu_div = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
+				var edit_span =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
+				var delete_span =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
+				menu_div.append(edit_span).append(delete_span);
 				
-				div1.append(span1).append(div2);
-				col3.append(div1);
+				div.append(span).append(menu_div);
+				col3.append(div);
 			}
 			replyContent.append(col1).append(col8).append(col3);
 			replyBox.append(replyContent);
@@ -1536,29 +1536,29 @@
 			}else{
 				contentDiv.attr("class","col content-div1");
 			}
-			var p1 = $("<p>").attr("class","middle-items");
-			var span1 = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
-			var span2 = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
-			p1.append(span1).append(span2);
-			var p2 = $("<p>").attr("class","re-content-font middle-items text-start").text(resp.replyContent);
-			contentDiv.append(p1).append(p2);
+			var p = $("<p>").attr("class","middle-items");
+			var nick_span = $("<span>").attr("class","re-nick-font").text(resp.memberNick);
+			var date_span = $("<span>").attr("class","re-date-font ms-2").text(resp.replyWriteDate);
+			p.append(nick_span).append(date_span);
+			var content_p = $("<p>").attr("class","re-content-font middle-items text-start").text(resp.replyContent);
+			contentDiv.append(p).append(content_p);
 			col8.append(contentDiv);
 			
 			var col3 = $("<div>").attr("class","col-3 justify-content-end middle-items");
 			if(memberNo==resp.memberNo){
-				var div1 = $("<div>").attr("class","dropdown inbl w-auto");
-				var span1  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
+				var div = $("<div>").attr("class","dropdown inbl w-auto");
+				var span  = $("<span>").attr("data-bs-toggle","dropdown").attr("role","button")
 									.attr("aria-haspopup","true").attr("aria-expanded","false");	
 				var i = $("<i>").attr("class","fa-solid fa-ellipsis-vertical me-3");
-				span1.append(i);
+				span.append(i);
 				
-				var div2 = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
-				var span2 =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
-				var span3 =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
-				div2.append(span2).append(span3);
+				var menu_div = $("<div>").attr("class","dropdown-menu").attr("data-bno",resp.boardNo).attr("data-mno",memberNo);
+				var edit_span =  $("<span>").attr("class","dropdown-item reply-edit cursor-pointer").text("수정");	
+				var delete_span =  $("<span>").attr("class","dropdown-item reply-delete cursor-pointer").text("삭제");	
+				menu_div.append(edit_span).append(delete_span);
 				
-				div1.append(span1).append(div2);
-				col3.append(div1);
+				div.append(span).append(menu_div);
+				col3.append(div);
 			}
 			replyContent.append(col1).append(col8).append(col3);
 			replyBox.prepend(replyContent);
@@ -1570,13 +1570,13 @@
 			var form = $("<form>").attr("class","input-reply-form");
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
 			var col10 =  $("<div>").attr("class","col-10");
-			var input1 = $("<input>").attr("class","input form-control ms-2 reply-input").attr("type","text").attr("placeholder","댓글을 달아주세요");
-			col10.append(input1);
+			var input = $("<input>").attr("class","input form-control ms-2 reply-input").attr("type","text").attr("placeholder","댓글을 달아주세요");
+			col10.append(input);
 			
 			var col2 =  $("<div>").attr("class","col-2");
-			var button1 = $("<button>").attr("class","btn btn-primary me-2 reply-write")
+			var write_button = $("<button>").attr("class","btn btn-primary me-2 reply-write")
 								.attr("type","submit").text("전송");
-			col2.append(button1);
+			col2.append(write_button);
 			inputReply.append(col10).append(col2);
 			form.append(inputReply);
 			replyBox.append(form);
@@ -1685,15 +1685,15 @@
 			var form = $("<form>").attr("class","edit-reply-form");
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
 			var col9 =  $("<div>").attr("class","col-9").attr("style","padding-right:0;");
-			var input1 = $("<input>").attr("class","input form-control reply-input").attr("type","text").attr("placeholder","수정할 내용을 입력해주세요");
-			col9.append(input1);
+			var reply_input = $("<input>").attr("class","input form-control reply-input").attr("type","text").attr("placeholder","수정할 내용을 입력해주세요");
+			col9.append(reply_input);
 			
 			var col3 =  $("<div>").attr("class","col-3").attr("style","padding-left:0; padding-right:0;");
-			var button1 = $("<button>").attr("class","btn btn-pink reply-write cursor-pointer")
+			var write_button = $("<button>").attr("class","btn btn-pink reply-write cursor-pointer")
 								.attr("type","submit").text("수정");
-			var button2 = $("<button>").attr("class","btn btn-secondary edit-cancel ms-1 cursor-pointer")
+			var cancel_button = $("<button>").attr("class","btn btn-secondary edit-cancel ms-1 cursor-pointer")
 								.attr("type","button").text("취소");
-			col3.append(button1).append(button2);
+			col3.append(write_button).append(cancel_button);
 			inputReply.append(col9).append(col3);
 			form.append(inputReply);
 			replyBox.append(form);
@@ -1707,11 +1707,11 @@
 		function editSpinner(replyEdit){
 			var div = $("<div>").attr("class","spinner-border spinner-border-sm me-4")
 						.attr("role","status").attr("style","color:pink;");
-			var span1 = $("<span>").attr("visually-hidden");
-			div.append(span1);
-			var span2 = $("<span>").attr("class","edit-ing me-1").text("수정중")
+			var span = $("<span>").attr("visually-hidden");
+			div.append(span);
+			var edit_span = $("<span>").attr("class","edit-ing me-1").text("수정중")
 					.attr("style","color:#F94888; font-weight:bolder; font-size:15px;");
-			replyEdit.parents(".col-3").prepend(div).prepend(span2);
+			replyEdit.parents(".col-3").prepend(div).prepend(edit_span);
 		}
 		
 		//댓글 수정 폼
