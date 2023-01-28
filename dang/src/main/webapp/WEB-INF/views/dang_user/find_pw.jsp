@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-	
+
 </style>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="마이페이지" name="title"/>
+	<jsp:param value="비밀번호 찾기" name="title"/>
 </jsp:include>
 
 <div class = "container-fluid my-3">	
@@ -112,10 +112,13 @@
 		var certSerial;
 		
 		$(".btn-email-submit").click(function(){
+			// 초기화
+			$(".div-check-sert-send").remove();
+			
 			var inputEmail = $(".input-user-email").val();
 			
 			// 발송 문구
-			var checkCertSend = $("<div>").attr("class", "col my-2 d-flex justify-content-center align-items-center");
+			var checkCertSend = $("<div>").attr("class", "col my-2 d-flex justify-content-center align-items-center div-check-sert-send");
 			checkCertSend.append($("<span>").attr("class", "span-check span-check-valid check-cert check-cert-send").html("인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요."));
 			
 			$(".div-cert-check").append(checkCertSend);
