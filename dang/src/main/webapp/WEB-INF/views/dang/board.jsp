@@ -253,7 +253,7 @@
 											<img src="#" class="img-fluid img-check cursor-pointer">
 											<c:choose>
 											<c:when test="${vo.boardAttachmentCnt-1==0}">
-												<span style="font-size:13px;"></span>
+												<span></span>
 											</c:when>
 											<c:otherwise>
 												<span class="blue attach-cnt cursor-pointer">+ ${vo.boardAttachmentCnt-1}</span>
@@ -1118,7 +1118,7 @@
 									if(resp.length>0){
 										var img = $("<img>")
 		   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
-		   								.attr("class","img-fluid img-check");
+		   								.attr("class","img-fluid img-check cursor-pointer").attr("style","filter: brightness(50%);");
 										selectTag.prepend(img);
 										
 										if(resp.length>1){
@@ -1127,7 +1127,9 @@
 											if(calcul==0 || calcul<0){
 												selectTag.children("span").text("");
 											}else if(calcul>0){
-												selectTag.children("span").text(calcul);
+												var text = "+"+calcul;
+												console.log(text);
+												selectTag.children("span").text(text).attr("class","blue attach-cnt cursor-pointer");
 											}
 										}
 									}
@@ -1856,7 +1858,7 @@
 							
 							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
 							if(resp.length>1){
-								thistag.attr("style","opacity:0.5;").attr("style","filter: brightness(50%);");				
+								thistag.attr("style","filter: brightness(50%);");				
 								for(var i=0; i<resp.length; i++){
 									thistag.attr("data-attach"+i,resp[i].attachmentNo);
 								}
