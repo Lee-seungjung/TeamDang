@@ -24,11 +24,13 @@ import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
+import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
 import com.project.dang.vo.DangUserFindVO;
+import com.project.dang.vo.DangUserJoinVO;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -47,6 +49,9 @@ public class DangUserController {
 	
 	@Autowired
 	private DangInterestDao dangInterestDao;
+	
+	@Autowired
+	private DangDao dangDao;
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -379,7 +384,17 @@ public class DangUserController {
 		// 이전에 저장한 관심지역 조회
 		List<String> interestAreaList = dangInterestDao.selectInterest(userNo);
 		model.addAttribute("interestAreaList", interestAreaList);
-		System.out.println(interestAreaList);
 		return "dang_user/change_interest_area";
+	}
+	
+	// 내가 가입한 댕모임
+	@GetMapping("/list_mydang")
+	public String listMydang(HttpSession session, Model model) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 회원이 가입한 댕모임 목록 반환
+		List<DangUserJoinVO> dangUserJoinList = dangDao.selectDangUserJoinList(userNo); 
+		model.addAttribute("dangUserJoinList", dangUserJoinList);
+		return "dang_user/list_mydang";
 	}
 }

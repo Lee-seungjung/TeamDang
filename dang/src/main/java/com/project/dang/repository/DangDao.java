@@ -9,6 +9,7 @@ import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
+import com.project.dang.vo.DangUserJoinVO;
 
 public interface DangDao {
 	
@@ -121,4 +122,11 @@ public interface DangDao {
 	 * @return boolean : 댕모임 좋아요 갯수 수정 여부
 	 */
 	public boolean updateDangLike(int dangLike, int dangNo);
+	
+	/**
+	 * 특정 회원이 가입한 댕모임 리스트
+	 * @param userNo : 회원 번호
+	 * @return List<DangUserJoinVO> : 댕모임 번호, 이름, 상세정보, 활동지역, 비공개여부, 첨부파일 번호, 회원의 댕모임 가입일
+	 */
+	public List<DangUserJoinVO> selectDangUserJoinList(int userNo);
 }

@@ -17,10 +17,10 @@
 				<div class = "col-6 offset-3">
 					<div class = "row">
 						<div class = "col p-2">
-							<a href = "/user/find_id"><span>아이디 찾기</span></a>
+							<a href = "${pageContext.request.contextPath}/user/find_id"><span>아이디 찾기</span></a>
 						</div>
 						<div class = "col p-2">
-							<a href = "/user/find_pw"><span>비밀번호 찾기</span></a>
+							<a href = "${pageContext.request.contextPath}/user/find_pw"><span>비밀번호 찾기</span></a>
 						</div>
 					</div>
 					<div class = "row my-3">
@@ -73,7 +73,7 @@
 			btn.prop("disabled", true);
 			// 해당 이메일로 인증번호 발송
 			$.ajax({
-				url : "http://localhost:8888/rest_user/send_email?userEmail=" + inputEmail,
+				url : "${pageContext.request.contextPath}/rest_user/send_email?userEmail=" + inputEmail,
 				method : "get",
 				success : function(resp){
 					// 이메일 발송이 완료되면 인증 버튼 다시 활성화

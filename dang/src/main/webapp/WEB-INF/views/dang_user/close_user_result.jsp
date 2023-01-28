@@ -31,7 +31,7 @@
 										<span>그동안 댕모임을 이용해주셔서 감사합니다.</span>
 									</div>
 									<div class = "d-flex flex-column justify-content-center align-items-center">
-										<a href = "/">홈</a>
+										<a href = "${pageContext.request.contextPath}/">홈</a>
 									</div>
 								</div>
 							</div>

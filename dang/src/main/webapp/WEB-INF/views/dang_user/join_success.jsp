@@ -28,10 +28,10 @@
 				</div>
 				<div class = "row mt-3">
 					<div class = "col-3 offset-3">
-						<button onClick = "location.href='/user/login'">로그인</button>
+						<button onClick = "location.href='${pageContext.request.contextPath}/user/login'">로그인</button>
 					</div>
 					<div class = "col-3 offset-1">
-						<button onClick = "location.href='/'">홈</button>
+						<button onClick = "location.href='${pageContext.request.contextPath}/'">홈</button>
 					</div>
 				</div>
 			</div>
