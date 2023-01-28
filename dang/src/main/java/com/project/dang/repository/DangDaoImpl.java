@@ -12,7 +12,8 @@ import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
-import com.project.dang.dto.DangUserJoinDto;
+import com.project.dang.dto.DangUserJoinRequestDto;
+import com.project.dang.dto.DangUserJoinResponseDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
@@ -146,8 +147,18 @@ public class DangDaoImpl implements DangDao {
 
 	// 특정 회원이 가입한 댕모임 리스트
 	@Override
-	public List<DangUserJoinDto> selectDangUserJoinList(int userNo) {
-		return sqlSession.selectList("dang.selectMydang", userNo);
+	public List<DangUserJoinResponseDto> selectDangUserJoinList(DangUserJoinRequestDto dangUserJoinRequestDto) {
+		Map<String, String> param = new HashMap<>();
+		param.put("userNo", String.valueOf(dangUserJoinRequestDto.getUserNo()));
+		param.put("rownumStart", String.valueOf(dangUserJoinRequestDto.rownumStart()));
+		param.put("rownumEnd", String.valueOf(dangUserJoinRequestDto.rownumEnd()));
+		return sqlSession.selectList("dang.selectMydang", param);
+	}
+	
+	// 특정 회원이 가입한 댕모임 갯수
+	@Override
+	public int countDangUserJoin(int userNo) {
+		return sqlSession.selectOne("dang.countMydang", userNo);
 	}
 
 	// 마이페이지 로그인 중인 회원이 개설한 댕모임 목록

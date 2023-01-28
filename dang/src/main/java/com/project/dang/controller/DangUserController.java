@@ -22,7 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.dang.dto.AttachmentDto;
 import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
-import com.project.dang.dto.DangUserJoinDto;
+import com.project.dang.dto.DangUserJoinRequestDto;
+import com.project.dang.dto.DangUserJoinResponseDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangDao;
@@ -393,14 +394,18 @@ public class DangUserController {
 	
 	// 마이페이지 내가 가입한 댕모임
 	@GetMapping("/list_mydang")
-	public String listMydang(HttpSession session, Model model) {
+	public String listMydang(HttpSession session, Model model, @ModelAttribute DangUserJoinRequestDto dangUserJoinRequestDto) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 내가 가입한 댕모임 갯수 반환
+		int dangJoinCount = dangDao.countDangUserJoin(userNo);
+		// 입력받은 DTO에 회원 번호, 댕모임 총 갯수 설정
+		dangUserJoinRequestDto.setUserNo(userNo);
+		dangUserJoinRequestDto.setTotal(dangJoinCount);
 		// 회원이 가입한 댕모임 목록 반환
-		List<DangUserJoinDto> dangUserJoinList = dangDao.selectDangUserJoinList(userNo);
+		List<DangUserJoinResponseDto> dangUserJoinList = dangDao.selectDangUserJoinList(dangUserJoinRequestDto);
 		// 특정 회원이 개설한 댕모임 리스트
 		List<Integer> dangUserCreateList = dangDao.selectMydangOwnerList(userNo);
-		System.out.println(dangUserCreateList.toString());
 		// 댕모임 전체/검색 조회 목록에 가입 여부 설정
 		for(int i = 0 ; i < dangUserJoinList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
 			for(int j = 0 ; j < dangUserCreateList.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
@@ -409,7 +414,6 @@ public class DangUserController {
 				}
 			}
 		}
-		
 		model.addAttribute("dangUserJoinList", dangUserJoinList);
 		return "dang_user/list_mydang";
 	}

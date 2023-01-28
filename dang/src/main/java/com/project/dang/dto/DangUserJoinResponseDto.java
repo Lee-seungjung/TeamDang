@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DangUserJoinDto {
+public class DangUserJoinResponseDto {
 
 	private Integer dangNo;
 	private String dangName;
