@@ -378,7 +378,7 @@ public class DangUserController {
 		List<DangPuppyListDto> dangPuppyList = dangPuppyDao.selectPuppyList(userNo);
 		// 조회한 댕댕이 정보를 Model에 추가
 		model.addAttribute("dangPuppyList", dangPuppyList);
-		return "dang_puppy/edit_puppy_info";
+		return "dang_user/edit_puppy_info";
 	}
 	
 	// 마이페이지 관심지역 설정
