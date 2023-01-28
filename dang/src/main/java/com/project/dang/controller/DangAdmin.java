@@ -15,8 +15,19 @@ public class DangAdmin {
 	@Autowired
 	DangPlaceDao dangPlaceDao;
 	
+	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
+	@GetMapping("/dash_board")
+	public String dashBoard() {
+		return "dang_admin/dashBoard";
+	}
+	//관리자 페이지 장소목록 이동 맵핑
 	@GetMapping("/place_list")
 	public String placeList() {
 		return "dang_admin/list";
+	}
+	//관리자 페이지 장소목록 이동 맵핑
+	@GetMapping("/place_insert")
+	public String placeInsert() {
+		return "dang_admin/insert";
 	}
 }
