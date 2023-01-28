@@ -12,6 +12,12 @@ public class DangReportDaoImpl implements DangReportDao{
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	//신고번호
+	@Override
+	public int sequence() {
+		return sqlSession.selectOne("dangReport.sequence");
+	}
 
 	//신고 접수 등록
 	@Override

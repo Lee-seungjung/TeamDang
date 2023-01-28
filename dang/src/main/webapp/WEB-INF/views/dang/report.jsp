@@ -40,14 +40,17 @@
 	.preview-box>img{
 		width:100px;
 		height:100px;
-		border:1px solid #fff;
+		border:1px solid rgba(0,0,0,.125);
 		overflow:hidden;
 		object-fit: cover;
+		padding: 1px;
 	}
 	.form-check-input:checked {
 		background-color: #F94888;
     	border-color: #F94888;
     }
+
+
 </style>
 
 <script>
@@ -56,43 +59,174 @@
 		$("#optionsRadios6").click(function(){
 			$("input[type=radio][name=reportContent]").prop("checked",false);
 			$(".typing-wrap").show();
+			$(".typing-area").val("");
 		});
 		$(".typing").click(function(){
 			$("input[type=radio][name=reportContent]").prop("checked",false);
 			$("#optionsRadios6").prop("checked",true);
 			$(".typing-wrap").show();
+			$(".typing-area").val("");
 		});
 		
 		//라디오버튼 체크 설정/해제
 		$("input[type=radio][name=reportContent]").click(function(){
 			$("#optionsRadios6").prop("checked",false);
 			$(".typing-wrap").hide();
-		});
-		$("#optionsRadios6").click(function(){
-			$("input[type=radio][name=reportContent]").prop("checked",false);
-		});
-		
-		//여기
-		//입력 항목 상태 판정
-		var reportContent= false;
-		console.log($("[name=reportContent]"));
-		$("[name=reportContent]").on("change",function(){
-			console.log("입력항목 실행중!");
-			var value = $(this).val();
-			console.log(value);
-			/* if(value==""){
-				bCheck.boardCategory=false;
-			}else{
-				bCheck.boardCategory=true;
-			} */
+			$("#optionsRadios6").val(1);
 		});
 
+		// textarea blur 이벤트
+		var reportContent=false;
+		$(".typing-area").blur(function(){
+			var textarea = $(this).val();
+			console.log(textarea);
+			$(".typing-area").removeClass("is-invalid");
+			if(textarea==""){
+				$(".typing-area").addClass("is-invalid");
+				reportContent=false;
+			}else{
+				$("[name=reportContent]:checked").val(textarea);
+				reportContent=true;
+			}
+		});
 		
+		//파일 선택
+		$(".file-btn").change(function(){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(value);
+			console.log(this.files); //파일 배열
+			
+			//기존파일 검사
+			var originFiles = arrayFiles();
+			console.log(originFiles);
+			console.log(originFiles.length);
+			var filesLenght = originFiles.length + this.files.length;
+
+			if(filesLenght>3){
+				alert('파일은 3개까지 업로드 가능합니다!');
+				$(this).val("");
+				return;
+			}
+			
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
+				}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	console.log(resp);
+                    	
+                    	for(var i=0; i<resp.url.length; i++){
+                    		//console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                        	var imgTag = $(".files");
+                        	//비어있는 숫자 세기
+                        	var cnt=0;
+                        	for(var j=0; j<imgTag.length; j++){
+                        		var nocheck = imgTag.eq(j).data("no");
+                        		if(nocheck==undefined) cnt++;
+                        	}
+                        	console.log("cnt = "+cnt);
+                        	//빈박스 시작은 k =(원래크기-빈박스)
+                        	var k = imgTag.length-cnt;
+							console.log(k);
+                   			imgTag.eq(k).attr("src",resp.url[i]) //이미지 넣기
+           					.attr("data-no",attachmentNo); //data-no 첨부파일 번호 넣기
+                    	}
+			        }
+				});
+			}
+		});
+		
+		//신고취소버튼 누를 경우 첨부파일 삭제
+		$(".report-cancel").click(function(){
+			var findtag = $(".files");
+			for(var i=0; i<findtag.length; i++){
+        		var attachmentNo = findtag.eq(i).data("no");
+        		console.log(attachmentNo);
+        		if(attachmentNo!=undefined){
+        			boardDeleteAttachmentNo(attachmentNo);
+        			 findtag.eq(i).attr("data","")
+        			 		.attr("src","${pageContext.request.contextPath}/images/img-dang-profile-default.png");
+        		}
+			}
+			history.go(-1);
+		});
+		
+		//전송
 		$(".report-form").submit(function(e){
 			e.preventDefault();
 			
-			console.log($("[name=reportContent]:checked").val());
+			//체크항목 검사
+			var value = $("[name=reportContent]:checked").val();
+			console.log(value);
+			
+			if(value==1){
+				//직접 입력 textarea 확인
+				$(".typing-area").blur();
+			}else if(value==undefined){
+				reportContent=false;
+			}else{
+				reportContent=true;
+			}
+			console.log(reportContent);
+			
+			//파일 검사
+			var fileList = $(".files");
+			for(var i=0; i<fileList.length; i++){
+				var attachmentNo = fileList.eq(i).data("no");
+				if(attachmentNo!=undefined){
+					fileList.eq(i).prev().val(attachmentNo);
+				}
+			}
+			
+			//최종 submit
+			if(reportContent) this.submit();
+			
+			
 		});
+
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(attachmentNo){
+       		$.ajax({
+   				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+   				method:"delete",
+   				data:attachmentNo,
+   				async:false,
+   				success:function(resp){
+   					console.log("신고 파일 삭제 성공!");
+   				}
+   			});
+		}
+		
+		//기존파일 검사(첨부파일 번호 배열반환)
+		function arrayFiles(){
+			var originFiles = $(".files");
+			var arr = [];
+			for(var i=0; i<originFiles.length; i++){
+				var no = originFiles.eq(i).data("no");
+				if(no!=undefined){
+					arr.push(no);
+				}
+			}
+			return arr;
+		}
+		
+		
+		
+		
 		
 	});
 </script>
@@ -106,7 +240,7 @@
 			</div>
 		</div>
 		
-		<form class="report-form">
+		<form class="report-form" action="/dang/report/${memberInfo.memberNick}" method="post">
 		<div class = "row mt-4">
 			<div class="col middle-items">
 				<h5 style="margin:0;">신고대상</h5>
@@ -218,8 +352,8 @@
 				
 				<div class="accordion-item form-check mb-4">	
 					<div class="accordion-button collapsed cursor-pointer typing">
-						<input class="form-check-input cursor-pointer me-2" name="reportContent" 
-									type="radio" id="optionsRadios6" value="1">
+						<input class="form-check-input cursor-pointer me-2" type="radio" 
+							name="reportContent" id="optionsRadios6" value="1">
 						<label class="form-check-label cursor-pointer" for="optionsRadios6">
 				        	직접 입력
 				        </label>
@@ -232,7 +366,7 @@
 						<span style="font-size:13px;" class="pink ms-2">* 100자 이내로 입력해주세요</span>
 					</div>
 					<div class="typing-box">
-						<textarea class="typing-area rounded-3 w-100" maxlength="100" rows="5"></textarea>
+						<textarea class="typing-area rounded-3 w-100 form-control" maxlength="100" rows="5"></textarea>
 					</div>
 				</div>
 			</div>		
@@ -241,32 +375,37 @@
 		
 		<div class="report-file-wrap">
 			<div class="select-file">
-	            <input type="file"  class="form-control" accept=".jpg, .png, .gif">
+	            <input type="file"  class="form-control file-btn" accept=".jpg, .png, .gif" multiple>
 			</div>
 			<div class="preview-file mt-1">
-				<div class="preview-box inbl">
-					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
-					<p class="x-btn pink text-center cursor-pointer">X</p>
+				<div class="preview-box inbl me-1">
+					<input type="hidden" name="attachmentNo" value="">
+					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" 
+							class="files rounded-3">
 				</div>
-				<div class="preview-box inbl">
-					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
-					<p class="x-btn pink text-center cursor-pointer">X</p>
+				<div class="preview-box inbl me-1">
+					<input type="hidden" name="attachmentNo" value="">
+					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" 
+							class="files rounded-3">
 				</div>
-				<div class="preview-box inbl">
-					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" class="rounded-3 me-1">
-					<p class="x-btn pink text-center cursor-pointer">X</p>
+				<div class="preview-box inbl me-1">
+					<input type="hidden" name="attachmentNo" value="">
+					<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png" 
+							class="files rounded-3">
 				</div>
 			</div>
 		</div>
+		
+		<!-- form data -->
+		<input type="hidden" name="userNo" value="${memberInfo.userNo}">
+		<input type="hidden" name="dangNo" value="${memberInfo.dangNo}">
+		<input type="hidden" name="memberNick" value="${memberInfo.memberNick}">
 		
 		<div class="btn-box text-center mt-5 mb-5">
 			<button type="submit" class="btn btn-primary w-25">신고하기</button>
 			<button type="button" class="btn btn-pink report-cancel w-25">취소</button>
 		</div>
-		
-		<input type="hidden" name="userNo" value="${memberInfo.userNo}">
-		<input type="hidden" name="dangNo" value="${memberInfo.dangNo}">
-		<input type="hidden" name="memberNick" value="${memberInfo.memberNick}">
+
 		</form>	
 	</div>
 </div>

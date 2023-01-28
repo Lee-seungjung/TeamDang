@@ -5,18 +5,22 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dangReport">
 
+	<!-- 신고번호 시퀀스 -->
+	<select id="sequence" resultType="int">
+		select dang_report_seq.nextval from dual
+	</select>
 	
 	<!-- 신고 접수등록 -->
 	<insert id="insert" parameterType="DangReportDto">
 		insert into dang_report(report_no, user_no, dang_no, member_nick,
 		report_content, report_date, report_state, report_alert) values(
-		dang_report_seq.nextval, #{userNo}, #{dangNo}, #{memberNick}, #{reportContent}, 
-		sysdate, '접수', 1);
+		#{reportNo}, #{userNo}, #{dangNo}, #{memberNick}, #{reportContent}, 
+		sysdate, '접수', 1)
 	</insert>
 	
 	<!-- 신고 파일등록 -->
 	<insert id="imgInsert" parameterType="ReportImgDto">
-		insert into report_img(attachment_no, report_no) values(#{attachmentNo}, #{reportNo});
+		insert into report_img(attachment_no, report_no) values(#{attachmentNo}, #{reportNo})
 	</insert>
 
 </mapper>
