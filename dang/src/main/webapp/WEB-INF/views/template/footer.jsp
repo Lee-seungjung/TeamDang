@@ -10,9 +10,9 @@
 <%-- 로그인 상태 판정 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
-<div class = "container-fluid my-3">
+<div class = "container-fluid my-5">
 	<div class = "row">
-		<div class = "col-6 offset-3">
+		<div class = "col-8 offset-2">
 			<div class = "row">
 				<div class = "col d-flex justify-content-center align-itesm-center">
 					<img src = "/images/logo.png" class = "img-fluid">
@@ -33,18 +33,5 @@
 		</div>
 	</div>
 </div>
-
-<div class = "container-fluid">
-	<div class = "row">
-		로그인 상태 : ${login}
-	</div>
-	<div class = "row">
-		로그인 회원 번호 : ${loginNo}
-	</div>
-	<div class = "row">
-		로그인 회원 등급 : ${loginGrade}
-	</div>
-</div>
-
 </body>
 </html>

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +24,7 @@ import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
+import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
@@ -44,6 +44,9 @@ public class DangUserController {
 	
 	@Autowired
 	private DangPuppyDao dangPuppyDao;
+	
+	@Autowired
+	private DangInterestDao dangInterestDao;
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -366,5 +369,17 @@ public class DangUserController {
 		// 조회한 댕댕이 정보를 Model에 추가
 		model.addAttribute("dangPuppyList", dangPuppyList);
 		return "dang_puppy/edit_puppy_info";
+	}
+	
+	// 관심지역 설정
+	@GetMapping("/change_interest_area")
+	public String changeInterestArea(HttpSession session, Model model) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 이전에 저장한 관심지역 조회
+		List<String> interestAreaList = dangInterestDao.selectInterest(userNo);
+		model.addAttribute("interestAreaList", interestAreaList);
+		System.out.println(interestAreaList);
+		return "dang_user/change_interest_area";
 	}
 }
