@@ -12,10 +12,10 @@ import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
+import com.project.dang.dto.DangUserJoinDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
-import com.project.dang.vo.DangUserJoinVO;
 
 @Repository
 public class DangDaoImpl implements DangDao {
@@ -146,8 +146,14 @@ public class DangDaoImpl implements DangDao {
 
 	// 특정 회원이 가입한 댕모임 리스트
 	@Override
-	public List<DangUserJoinVO> selectDangUserJoinList(int userNo) {
+	public List<DangUserJoinDto> selectDangUserJoinList(int userNo) {
 		return sqlSession.selectList("dang.selectMydang", userNo);
+	}
+
+	// 마이페이지 로그인 중인 회원이 개설한 댕모임 목록
+	@Override
+	public List<Integer> selectMydangOwnerList(int userNo) {
+		return sqlSession.selectList("dang.selectMydangOwner", userNo);
 	}
 }
 	

@@ -162,4 +162,12 @@ public interface DangMemberDao {
 	 * @return boolean : 댕모임 탈퇴성공 여부
 	 */
 	public boolean deleteDangMember(int dangNo, int memberNo);
+	
+	/**
+	 * 마이페이지 댕모임 회원 탈퇴
+	 * @param dangNo : 댕모임 번호
+	 * @param userNo : 회원 번호
+	 * @return boolean : 댕모임 탈퇴 성공 여부
+	 */
+	public boolean closeDangMember(int dangNo, int userNo);
 }

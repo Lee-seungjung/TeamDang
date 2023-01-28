@@ -6,10 +6,10 @@ import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
+import com.project.dang.dto.DangUserJoinDto;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.DangOneInfoVO;
 import com.project.dang.vo.DangTopVO;
-import com.project.dang.vo.DangUserJoinVO;
 
 public interface DangDao {
 	
@@ -126,7 +126,14 @@ public interface DangDao {
 	/**
 	 * 특정 회원이 가입한 댕모임 리스트
 	 * @param userNo : 회원 번호
-	 * @return List<DangUserJoinVO> : 댕모임 번호, 이름, 상세정보, 활동지역, 비공개여부, 첨부파일 번호, 회원의 댕모임 가입일
+	 * @return List<DangUserJoinDto> : 댕모임 번호, 이름, 상세정보, 활동지역, 비공개여부, 첨부파일 번호, 회원의 댕모임 가입일
 	 */
-	public List<DangUserJoinVO> selectDangUserJoinList(int userNo);
+	public List<DangUserJoinDto> selectDangUserJoinList(int userNo);
+	
+	/**
+	 * 마이페이지 로그인 중인 회원이 개설한 댕모임 목록
+	 * @param userNo : 회원 번호
+	 * @return List<Integer> : 댕모임 번호 리스트
+	 */
+	public List<Integer> selectMydangOwnerList(int userNo);
 }

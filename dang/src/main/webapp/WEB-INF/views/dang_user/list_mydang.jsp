@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="관심지역 설정" name="title"/>
+	<jsp:param value="내가 가입한 댕모임" name="title"/>
 </jsp:include>
 
 <style>
@@ -64,6 +64,13 @@
 	.btn-mydang-dang-close {
 		border : none;
 		border-radius : 10px;
+		background-color : #787878;
+		color : white;
+	}
+	
+	.btn-mydang-dang-delete {
+		border : none;
+		border-radius : 10px;
 		background-color : #E8E8E8;
 		color : white;
 	}
@@ -75,6 +82,8 @@
 <style>
 	
 </style>
+
+<input type = "hidden" class = "input-user-no" value = "${loginNo}">
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
@@ -124,7 +133,14 @@
 									<button class = "w-100 btn-mydang-dang-enter">입장</button>
 								</div>
 								<div class = "col-2 d-flex align-items-center">
+									<c:choose>
+									<c:when test = "${dangUserJoinList.isOwner == 1}">
+									<button class = "w-100 btn-mydang-dang-delete">해체</button>
+									</c:when>
+									<c:otherwise>
 									<button class = "w-100 btn-mydang-dang-close">탈퇴</button>
+									</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</div>
@@ -141,7 +157,35 @@
 <script type="text/javascript">
 	$(function(){
 		
-		$(".img-select-user-dang").attr("src", "/images/mypage-join_dang_pink.png")
-	
+		// 마이페이지 메뉴 색 변경
+		$(".img-select-user-dang").attr("src", "/images/mypage-join_dang_pink.png");
+		
+		// 입장 버튼 클릭
+		$(document).on("click", ".btn-mydang-dang-enter", function(){
+			// 댕모임 번호
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			// 댕모임 입장
+			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
+		});
+		
+		// 탈퇴 버튼 클릭
+		$(document).on("click", ".btn-mydang-dang-close", function(){
+			var choice = window.confirm("정말 탈퇴하시겠습니까?");
+			if(choice == false) {
+				return;
+			}
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			var userNo = $(".input-user-no").val();
+			var form = $("<form>").attr("method", "post").attr("action", "delete_member");
+			form
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", dangNo)		
+				)
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "userNo").attr("value", userNo)		
+				)
+			$("body").append(form);
+			form.submit();
+		});
 	});
 </script>

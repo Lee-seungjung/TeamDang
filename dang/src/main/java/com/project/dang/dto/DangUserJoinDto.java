@@ -1,13 +1,15 @@
-package com.project.dang.vo;
+package com.project.dang.dto;
 
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
-public class DangUserJoinVO {
+@NoArgsConstructor
+public class DangUserJoinDto {
 
 	private Integer dangNo;
 	private String dangName;
@@ -16,4 +18,5 @@ public class DangUserJoinVO {
 	private String dangPrivate;
 	private Integer attachmentNo;
 	private Date memberJoindate;
+	private Integer isOwner = 0;
 }
