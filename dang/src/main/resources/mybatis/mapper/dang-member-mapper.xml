@@ -122,4 +122,9 @@
 		delete dang_member where dang_no=#{dangNo} and member_no=#{memberNo}
 	</delete>
 	
+	<!-- 마이페이지 댕모임 회원 탈퇴 -->
+	<delete id = "closeDangMember" parameterType = "map">
+		delete dang_member where dang_no = #{dangNo} and user_no = #{userNo}
+	</delete>
+	
 </mapper>
