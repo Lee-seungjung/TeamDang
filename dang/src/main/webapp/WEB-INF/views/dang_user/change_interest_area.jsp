@@ -7,11 +7,7 @@
 </jsp:include>
 
 <style>
-	* {
-		border : 1px gray dotted;
-	}
-	
-	
+
 	.interest-OUTLINE {
 		stroke-linejoin: round;
 		stroke: #F5F2FF;
@@ -215,6 +211,8 @@
 
 <script type="text/javascript">
 	$(function(){
+		
+		$(".img-change-interest-area").attr("src", "/images/mypage-interest_area_pink.png")
 		
 		if($("[name=interestArea]").length != 0) {
 			console.log($("[name=interestArea]").eq(0).val());

@@ -15,7 +15,7 @@
 	
 </style>
 
-<div class= "container-fluid my-3">
+<div class= "container-fluid my-5">
 	<div class = "row">
 		<div class = "offset-2 col-8">
 			<div class = "row">
