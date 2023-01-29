@@ -814,7 +814,7 @@ border : 2px solid #76BEFF;
 		        function detailMove() {
 		            location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
 		        }
-		        $(document).on("click",".edit",function (e) {
+		        $(document).on("click",".editPlace",function (e) {
 		                    $("#editPlaceModal").modal("show");//모달 실행
 		                    placeNoInfo = $(this).data("placeno");
 		                    //비동기통신 시작
