@@ -454,7 +454,7 @@ border : 2px solid #76BEFF;
                     });
                     
                     $(".btn-minus").click(function(){
-                    
+                    	
                     	console.log("취소버튼누름");
     					$.ajax({
                             url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
@@ -477,6 +477,39 @@ border : 2px solid #76BEFF;
     					});
                     	
                     }); 
+					
+				});
+				
+				$(".btn-edit").click(function(){
+					
+					console.log("수정버튼누름");
+					
+					
+					
+				});
+				
+				
+				$(".btn-delete").click(function(){
+					
+					console.log("삭제버튼누름");
+					$.ajax({
+						url : "http://localhost:8888/rest/dangSchedule/schedule_delete?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${scheduleDetail.memberNo},
+						method: "delete",
+						async: false,
+						contentTyep : "application/json",
+						success: function(resp) {
+							
+							console.log("일정 삭제 성공");
+							window.confirm("일정이 삭제되었습니다");
+							
+							location.href="http://localhost:8888/dang/"+${dangNo}+"/calendar"
+						}
+						
+						
+						
+					});
+					
+					
 					
 				});
 				
