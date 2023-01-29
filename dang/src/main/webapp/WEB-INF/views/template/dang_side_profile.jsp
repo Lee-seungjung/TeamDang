@@ -353,7 +353,8 @@
 				$(".invalid-money").show();
 			}
 		});
-        
+       
+ 		//장소 등록버튼 클릭시 모달 장소에 장소명 삽입
 		$(".btn-placeurl").click(function(){
 			$(".span-placeurl").text();			
 			var placeUrl = $(".span-placeurl").text();			
@@ -823,7 +824,6 @@
 		}
 		
 		//기존 첨부파일 삭제
-		function deleteOriginAttachmentNo(){
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
@@ -833,7 +833,7 @@
 					
 				}
 			});
-		}
+		
 		//일정등록 모달에서 등록 버튼 클릭
 		$(".write-btn").click(function(e){
 			console.log(${profile.memberNo});
@@ -852,7 +852,7 @@
 	        		removescheduleTitle();
 				});
 			});
-		//일정등록 모달에서 취소 버튼 클리시 일정등록 모달 닫기 및 내용초기화
+		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
 				$(document).on("click",".write-cancel",function(){
 					console.log("취소버튼클릭");
 					$(".schedule-name").val(""); //일정 제목
@@ -864,10 +864,10 @@
 					$(".money").val(""); //회비 
 
 		});
-		//$("#write-cancel").click(function(e){
+		
 			
 
-		//등록 함수
+		//일정 등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
 			var data = {
@@ -889,7 +889,7 @@
 					contentType:"application/json",
 					data:JSON.stringify(data),
 					success:function(resp){
-						console.log("헤헿"+resp);	
+						console.log("수정성공");	
 						
 						location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
 						
@@ -1368,8 +1368,7 @@
                     $("#edit").modal("show");//모달 실행
                     placeNoInfo = $(this).data("placeno");
                     //비동기통신 시작
-                    $
-                        .ajax({
+                    $.ajax({
                             url: "http://localhost:8888/rest_place/place_one/"
                                 + placeNoInfo,
                             method: "get",

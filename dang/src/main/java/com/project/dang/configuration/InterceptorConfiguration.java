@@ -46,7 +46,9 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 			.excludePathPatterns(
 					"/dang/create",
 					"/dang/search",
-					"/dang/not_found"
+					"/dang/not_found",
+					"/dang/report/**",
+					"/dang/report_success"
 					);
 	}
 }
