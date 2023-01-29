@@ -98,7 +98,7 @@
       <update id="scheduleEdit" parameterType="DangScheduleDto" >
          update dang_schedule set schedule_title=#{scheduleTitle}, schedule_content=#{scheduleContent}, place_no=#{placeNo}, 
          schedule_headmax=#{scheduleHeadmax}, schedule_start=#{scheduleStart}, schedule_hour=#{scheduleHour}, schedule_money=#{scheduleMoney}
-         where member_no=#{memberNo} and schedule_no=#{scheduleNo}
+         where  schedule_no=#{scheduleNo}
       </update> 
       
              			<!-- 일정 삭제 -->

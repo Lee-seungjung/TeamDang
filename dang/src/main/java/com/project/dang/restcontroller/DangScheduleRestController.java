@@ -17,6 +17,7 @@ import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.vo.JoinMemberVO;
+import com.project.dang.vo.ScheduleEditVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 
@@ -77,8 +78,8 @@ public class DangScheduleRestController {
 	}
 	
 	 @PutMapping("schedule_edit") 
-	 public boolean scheduleEdit(DangScheduleDto dangScheduleDto) { 
-		 return	 dangScheduleDao.scheduleEdit(dangScheduleDto);
+	 public boolean scheduleEdit(ScheduleEditVO scheduleEditVO) { 
+		 return	 dangScheduleDao.scheduleEdit(scheduleEditVO);
 	 }
 	 
 	 @DeleteMapping("schedule_delete") 
