@@ -481,10 +481,23 @@ border : 2px solid #76BEFF;
 				});
 				
 				$(".btn-edit").click(function(){
-					
 					console.log("수정버튼누름");
 					
+					//일정 수정 모달에서 수정 버튼 클릭
 					
+					var scheduleTitle = $("[name=scheduleTitle]").val();
+					var scheduleContent =$("[name=scheduleContent]").val();
+					var scheduleStart = $("[name=scheduleStart]").val();
+					var scheduleHour = $("[name=scheduleHour]").val();
+					var placeNo = $(".where").attr('data-placeno');
+					var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
+					var scheduleMoney = $("[name=scheduleMoney]").val();
+
+					saveData(scheduleTitle, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
+					
+			        	$(window).on("beforeunload", function(){
+			        		removescheduleTitle();
+						});				
 					
 				});
 				

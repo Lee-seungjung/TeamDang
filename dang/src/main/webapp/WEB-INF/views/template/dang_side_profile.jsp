@@ -823,7 +823,6 @@
 		}
 		
 		//기존 첨부파일 삭제
-		function deleteOriginAttachmentNo(){
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
@@ -852,7 +851,7 @@
 	        		removescheduleTitle();
 				});
 			});
-		//일정등록 모달에서 취소 버튼 클리시 일정등록 모달 닫기 및 내용초기화
+		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
 				$(document).on("click",".write-cancel",function(){
 					console.log("취소버튼클릭");
 					$(".schedule-name").val(""); //일정 제목
