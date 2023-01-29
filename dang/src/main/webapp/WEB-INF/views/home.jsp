@@ -146,7 +146,7 @@
 				  	</button>
 				</div>
 			</div>
-			<div class = "row my-3">
+			<div class = "row my-5">
 				<div class = "col-8">
 					<div class = "col div-home-menu shadow">
 						<div class = "row px-4 py-2">

@@ -1,7 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+   <jsp:param value="댕모임 가입" name="title"/>
+</jsp:include>
+
 <style>
+
+	* {
+		
+	}
+	
+	.img-dang-join-logo {
+		width : 3rem;
+	}
+	
+	.strong-page-title {
+		font-size : 36px;
+	}
+	
+	.div-row-input-dang-user-join {
+		height : 9rem;
+	}
+	
+	.div-row-input-dang-user-join-gender-select {
+		height : 16rem;
+	}
+	
+	.div-row-input-dang-user-join-email-send {
+		height : 14rem;
+	}
+	
+	.div-row-input-dang-user-join-check-term {
+		height : 12rem;
+	}
+	
+	.span-dang-join-main-text {
+		font-size : 20px;
+	}
 	
 	.input-check-gender {
 		display: none;
@@ -17,118 +53,235 @@
 		padding: 1px;
 	}
 	
+	.label-open-modal-condition,
+	.label-open-modal-privacy {
+		cursor : pointer;
+	}
+	
+	.span-dang-term-check-required {
+		color : red;
+	}
+	
+	.btn-dang-send-email {
+		border-radius : 5px;
+		background-color : #787878;
+		color : white;
+	}
+	
+	.btn-dang-send-email:disabled {
+		opacity : 0.5;
+	}
+	
+	.btn-submit-join {
+		border-radius : 5px;
+		background-color : #76BEFF;
+		color : white;
+	}
+	
+	.btn-submit-join:disabled {
+		opacity : 0.5;
+	}
+	
 </style>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp">
-   <jsp:param value="댕모임 가입" name="title"/>
-</jsp:include>
-
-<div class = "container-fluid my-3">	
+<div class = "container-fluid my-3">
 	<div class = "row">
-		<div class = "col-6 offset-3 my-3 py-5">
-			<div class = "col mx-5">
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>아이디</span>
-						<input class = "flex-fill" id = "userId" type = "text" autocomplete = "false">
-						<span class = "span-check span-check-invalid check-id check-id-empty">ID를 입력해주세요.</span>
-						<span class = "span-check span-check-valid check-id check-id-valid">사용할 수 있는 아이디입니다.</span>
-						<span class = "span-check span-check-invalid check-id check-id-already">이미 사용 중이거나 탈퇴한 아이디입니다.</span>
-						<span class = "span-check span-check-invalid check-id check-id-invalid">영문 소문자, 숫자를 반드시 포함된 8~20자가 되어야 합니다.</span>
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>비밀번호</span>
-						<input class = "flex-fill" id = "userPw" type = "password" autocomplete = "false">
-						<span class = "span-check span-check-invalid check-pw check-pw-empty">비밀번호를 입력해주세요.</span>
-						<span class = "span-check span-check-valid check-pw check-pw-valid">사용할 수 있는 비밀번호입니다.</span>
-						<span class = "span-check span-check-invalid check-pw check-pw-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>비밀번호 확인</span>
-						<input class = "flex-fill" id = "userPwck" type = "password" autocomplete = "false">
-						<span class = "span-check span-check-invalid check-pwck check-pwck-empty">비밀번호를 한번 더 입력해주세요.</span>
-						<span class = "span-check span-check-valid check-pwck check-pwck-valid">비밀번호가 일치합니다.</span>
-						<span class = "span-check span-check-invalid check-pwck check-pwck-different">비밀번호가 일치하지 않습니다.</span>
-						<span class = "span-check span-check-invalid check-pwck check-pwck-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>닉네임</span>
-						<input class = "flex-fill" id = "userNick" type = "text" autocomplete = "false">
-						<span class = "span-check span-check-invalid check-nick check-nick-empty">닉네임을 입력해주세요.</span>
-						<span class = "span-check span-check-invalid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 반드시 포함한 2~10자리가 되어야 합니다.</span>
-						<span class = "span-check span-check-valid check-nick check-nick-valid">멋진 닉네임이네요!</span>
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>전화번호(선택)</span>
-						<input class = "flex-fill" id = "userTel" type = "text" autocomplete = "false">
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>성별</span>
-						<div class = "d-flex flex-row">
-							<label class = "col-3 offset-2" for = "checkGenderMan">
-								<input type = "checkbox" class = "input-check-gender" id = "checkGenderMan" value = "M">
-								<img class = "img-fluid img-user-gender" src = "${pageContext.request.contextPath}/images/icon-man.png">
-							</label>
-							<label class = "col-3 offset-2" for = "checkGenderWoman">
-								<input type = "checkbox" class = "input-check-gender" id = "checkGenderWoman" value = "F">
-								<img class = "img-fluid img-user-gender" src = "${pageContext.request.contextPath}/images/icon-woman.png">
-							</label>
+		<div class = "col-6 offset-3">
+			<div class = "row">
+				<div class = "offset-2 col-8">
+					<div class = "row my-3">
+						<div class = "col d-flex justify-content-center align-items-center">
+							<img class = "img-dang-join-logo me-2" src = "${pageContext.request.contextPath}/images/logo2.png">
+							<strong class = "strong-page-title">회원가입</strong>
 						</div>
 					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>이메일</span>
-						<div class = "d-flex flex-row">						
-							<input class = "flex-fill" id = "userEmail" type = "text">
-							<button id = "sendEmail" type = "button">인증</button>
-						</div>
-						<div class = "d-flex flex-column mt-3">						
-							<input class = "flex-fill" id = "userCert" type = "text">
-							<span class = "span-check span-check-invalid check-cert check-cert-already">이미 가입한 이메일입니다.</span>
-							<span class = "span-check span-check-valid check-cert check-cert-send">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.</span>
-							<span class = "span-check span-check-valid check-cert check-cert-valid">인증 완료!</span>
-							<span class = "span-check span-check-invalid check-cert check-cert-invalid">인증번호를 다시 확인해주세요.</span>
-						</div>
-					</div>
-				</div>
-				<div class = "row mt-3">
-					<div class = "d-flex flex-column">
-						<span>이용약관</span>
-						<div class = "d-flex flex-column">	
-							<div>	
-								<input type = "checkbox" id = "checkAll">			
-								<span>전체 동의</span>
-							</div>	
-							<div>							
-								<input type = "checkbox" class = "check-term" id = "checkCondition">
-								<label class = "label-open-modal-condition">
-									<span>이용약관</span>
-									<span>(필수)</span>
-								</label>
+					<div class = "row div-row-input-dang-user-join">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">아이디</strong>
+								</div>
 							</div>
-							<div>							
-								<input type = "checkbox" class = "check-term" id = "checkPrivacy">
-								<label class = "label-open-modal-privacy">
-									<span>개인정보수집 및 이용동의</span>
-									<span>(필수)</span>
-								</label>
+							<div class = "row my-3">
+								<div class = "col">								
+									<input class = "w-100 p-2" id = "userId" type = "text" autocomplete = "false" placeholder = "아이디(영문 소문자, 숫자를 포함한 8~20자)">
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col">								
+									<span class = "span-check span-check-invalid check-id check-id-empty">ID를 입력해주세요.</span>
+									<span class = "span-check span-check-valid check-id check-id-valid">사용할 수 있는 아이디입니다.</span>
+									<span class = "span-check span-check-invalid check-id check-id-already">이미 사용 중이거나 탈퇴한 아이디입니다.</span>
+									<span class = "span-check span-check-invalid check-id check-id-invalid">영문 소문자, 숫자를 반드시 포함된 8~20자가 되어야 합니다.</span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class = "row mt-3">
-					<button type = "submit" class = "btn-submit-join">가입</button>
+					<div class = "row div-row-input-dang-user-join">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">비밀번호</strong>
+								</div>
+							</div>
+							<div class = "row my-3">
+								<div class = "col">								
+									<input class = "w-100 p-2" id = "userPw" type = "password" autocomplete = "false">
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col">								
+									<span class = "span-check span-check-invalid check-pw check-pw-empty">비밀번호를 입력해주세요.</span>
+									<span class = "span-check span-check-valid check-pw check-pw-valid">사용할 수 있는 비밀번호입니다.</span>
+									<span class = "span-check span-check-invalid check-pw check-pw-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">비밀번호 확인</strong>
+								</div>
+							</div>
+							<div class = "row my-3">	
+								<div class = "col">								
+									<input class = "w-100 p-2" id = "userPwck" type = "password" autocomplete = "false">
+								</div>						
+							</div>
+							<div class = "row">
+								<div class = "col">								
+									<span class = "span-check span-check-invalid check-pwck check-pwck-empty">비밀번호를 한번 더 입력해주세요.</span>
+									<span class = "span-check span-check-valid check-pwck check-pwck-valid">비밀번호가 일치합니다.</span>
+									<span class = "span-check span-check-invalid check-pwck check-pwck-different">비밀번호가 일치하지 않습니다.</span>
+									<span class = "span-check span-check-invalid check-pwck check-pwck-invalid">영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">	
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">닉네임</strong>
+								</div>						
+							</div>
+							<div class = "row my-3">
+								<div class = "col">								
+									<input class = "w-100 p-2" id = "userNick" type = "text" autocomplete = "false">
+								</div>
+							</div>
+							<div class = "row">	
+								<div class = "col">								
+									<span class = "span-check span-check-invalid check-nick check-nick-empty">닉네임을 입력해주세요.</span>
+									<span class = "span-check span-check-invalid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 반드시 포함한 2~10자리가 되어야 합니다.</span>
+									<span class = "span-check span-check-valid check-nick check-nick-valid">멋진 닉네임이네요!</span>
+								</div>						
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">
+									<strong class = "span-dang-join-main-text">전화번호(선택)</strong>								
+								</div>
+							</div>
+							<div class = "row my-3">
+								<div class = "col">								
+									<input class = "w-100 p-2" id = "userTel" type = "text" autocomplete = "false">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join-gender-select">
+						<div class = "col d-flex flex-column py-2">
+							<div class = row>
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">성별</strong>
+								</div>
+							</div>
+							<div class = "row">
+								<label class = "col-4 offset-1" for = "checkGenderMan">
+									<input type = "checkbox" class = "input-check-gender" id = "checkGenderMan" value = "M">
+									<img class = "w-100 img-user-gender" src = "${pageContext.request.contextPath}/images/icon-man.png">
+								</label>
+								<label class = "col-4 offset-2" for = "checkGenderWoman">
+									<input type = "checkbox" class = "input-check-gender" id = "checkGenderWoman" value = "F">
+									<img class = "img-fluid img-user-gender" src = "${pageContext.request.contextPath}/images/icon-woman.png">
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join-email-send">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">								
+									<strong class = "span-dang-join-main-text">이메일</strong>
+								</div>
+							</div>
+							<div class = "row my-3">
+								<div class = "col-9">
+									<input class = "w-100 p-2" id = "userEmail" type = "text" placeholder = "이메일">
+								</div>
+								<div class = "col-3">
+									<button id = "sendEmail" class = "w-100 p-2 btn-dang-send-email" type = "button">전송</button>
+								</div>
+							</div>
+							<div class = "row mb-3">
+								<div class = "col">
+									<input class = "w-100 p-2" id = "userCert" type = "text" placeholder = "인증번호(6자리)">
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col">
+									<span class = "span-check span-check-invalid check-cert check-cert-already">이미 가입한 이메일입니다.</span>
+									<span class = "span-check span-check-valid check-cert check-cert-send">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.</span>
+									<span class = "span-check span-check-valid check-cert check-cert-valid">인증 완료!</span>
+									<span class = "span-check span-check-invalid check-cert check-cert-invalid">인증번호를 다시 확인해주세요.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class = "row div-row-input-dang-user-join-check-term">
+						<div class = "col d-flex flex-column py-2">
+							<div class = "row">
+								<div class = "col">
+									<strong class = "span-dang-join-main-text">이용약관</strong>
+								</div>
+							</div>
+							<div class = "row my-2">
+								<div class = "col d-flex flex-row">
+									<input type = "checkbox" id = "checkAll">			
+									<span class = "ms-1">전체 동의</span>
+								</div>
+							</div>
+							<div class = "row mb-2">
+								<div class = "col d-flex flex-row">
+									<input type = "checkbox" class = "check-term" id = "checkCondition">
+									<label class = "label-open-modal-condition ms-1">
+										<span>이용약관</span>
+										<span class = "span-dang-term-check-required">(필수)</span>
+									</label>
+								</div>
+							</div>
+							<div class = "row mb-2">
+								<div class = "col d-flex flex-row">
+									<input type = "checkbox" class = "check-term" id = "checkPrivacy">
+									<label class = "label-open-modal-privacy ms-1">
+										<span>개인정보수집 및 이용동의</span>
+										<span class = "span-dang-term-check-required">(필수)</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class = "row my-3">
+						<div class = "col-6 offset-3">						
+							<button type = "submit" class = "w-100 p-2 btn-submit-join">가입</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -748,6 +901,8 @@
 				success : function(resp){
 					// 이메일 발송이 완료되면 인증 버튼 다시 활성화
 					btn.attr("disabled", false);
+					// 초기화
+					$(".check-cert").hide();
 					// 인증메일 발송 메시지
 					$(".check-cert-send").show();
 					// 반환한 인증번호

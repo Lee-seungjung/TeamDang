@@ -32,12 +32,11 @@ public class DangMemberCheckInterceptor implements HandlerInterceptor {
 		Integer dangNo = Integer.valueOf(pathVariables.get("dangNo"));
 		
 		// 댕모임 회원인지 여부
-		boolean isDangMember = dangMemberDao.isDangMember(dangNo, userNo);
-		if(!isDangMember) { // 회원이 아니라면
-			response.sendRedirect("/dang/not_found");
-			return false; // 차단
+		boolean isDangMember = dangMemberDao.isDangMember(userNo, dangNo);
+		if(isDangMember) { 
+			return true; 
 		}
-		// 그 외
-		return true;
+		response.sendRedirect("/dang/not_found");
+		return false; 
 	}
 }
