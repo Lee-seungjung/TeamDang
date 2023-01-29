@@ -100,6 +100,15 @@
           font-size: 0.5em;
           line-height: 1em;
         }
+        
+        .btn.btn-primary {
+		    background-color:#76BEFF;
+		    color:#fff;
+		    border-color: #76BEFF;
+		}
+		p{
+			margin:0;
+		}
       
       </style>
 

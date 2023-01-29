@@ -32,6 +32,33 @@
 	<update id="alertUpdate" parameterType="int">
 		update dang_report set report_alert=0 where report_no=#{reportNo}
 	</update>
+	
+	<!-- 신고+댕모임명 검색조회 -->
+	<select id="selectList" resultType="ReportListVO" parameterType="Map">
+		select*from (select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no
+		order by r.report_date desc) 
+			<where>
+				report_state=#{reportState}
+				
+				<if test="keyword!=''">
+					and instr(${type},#{keyword})>0
+				</if>
+			</where>
+	</select>
+	
+	<!-- 신고 단일조회 -->
+	<select id="selectOne" resultType="ReportListVO" parameterType="int">
+		select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no
+		where r.report_no=#{reportNo}
+	</select>
+	
+	<!-- 신고현황 카운트 조회 -->
+	<select id="cntList" resultType="ReportCntVO">
+		select rec.*, rej.*, app.* from (select count(*) received from dang_report where report_state='접수') rec 
+		inner join (select count(*) rejected from dang_report where report_state='반려') rej on 1=1 
+		inner join (select count(*) approved from dang_report where report_state='완료') app on 1=1
+	</select>
+	
 </mapper>
   
   
