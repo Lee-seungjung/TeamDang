@@ -137,6 +137,14 @@
 		border-top-right-radius:0.25rem;
 		border-bottom-right-radius:0.25rem;
 	}
+	.attach-cnt{
+		font-size:18px;
+		font-weight:bolder;
+		position:absolute;
+		top: 50%;
+	    left: 50%;
+	    transform: translate( -50%, -50% );
+	}
 </style>
 
 <div class = "container-fluid mt-3 body-wrapper">
@@ -239,16 +247,16 @@
 									<div class="col-9 text-start me-1 truncate-check">
 										<span class="content-font">${vo.boardContent}</span>
 									</div>
-									<div class="col-3 middle-items bimg-find" data-no="${vo.boardNo}">
+									<div class="col-3 middle-items bimg-find" data-no="${vo.boardNo}" style="position:relative;">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기-->
-											<img src="#" class="img-fluid img-check cursor-zoomin">
+											<img src="#" class="img-fluid img-check cursor-pointer">
 											<c:choose>
 											<c:when test="${vo.boardAttachmentCnt-1==0}">
-												<span style="font-size:13px;"></span>
+												<span></span>
 											</c:when>
 											<c:otherwise>
-												+<span style="font-size:13px;">${vo.boardAttachmentCnt-1}</span>
+												<span class="blue attach-cnt cursor-pointer">+ ${vo.boardAttachmentCnt-1}</span>
 											</c:otherwise>
 										</c:choose>
 										</c:if>
@@ -912,8 +920,11 @@
 				$("#boardEditModal").modal("show");
 				//원본데이터 출력준비
 				var boardContent = $(this).parents(".first-line").next().children().find(".content-font").text();
-				var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-7").children().text();
+				var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 				var boardNo = $(this).parent().data("bno");
+				console.log(boardContent);
+				console.log(boardCategory);
+				console.log(boardNo);
 				//원본데이터 출력
 				$("#edit-category").val(boardCategory).prop("selected", true);
 				$("#edit-content").val(boardContent);
@@ -1107,7 +1118,7 @@
 									if(resp.length>0){
 										var img = $("<img>")
 		   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
-		   								.attr("class","img-fluid img-check");
+		   								.attr("class","img-fluid img-check cursor-pointer").attr("style","filter: brightness(50%);");
 										selectTag.prepend(img);
 										
 										if(resp.length>1){
@@ -1116,7 +1127,9 @@
 											if(calcul==0 || calcul<0){
 												selectTag.children("span").text("");
 											}else if(calcul>0){
-												selectTag.children("span").text(calcul);
+												var text = "+"+calcul;
+												console.log(text);
+												selectTag.children("span").text(text).attr("class","blue attach-cnt cursor-pointer");
 											}
 										}
 									}
@@ -1187,7 +1200,7 @@
 				var delete_span = $("<span>").attr("class","dropdown-item delete-drop cursor-pointer").text("삭제");
 				dropmenu.append(edit_span).append(delete_span);
 				dropdown.append(drop_span).append(dropmenu);
-				col4.append(dropdown);
+				fir_col4.append(dropdown);
 			}
 			firstLine.append(fir_col1).append(fir_col7).append(fir_col4);
 			
@@ -1197,16 +1210,17 @@
 			var se_span = $("<span>").attr("class","content-font")
 										.text(resp.boardContent);
 			se_col9.append(se_span);
-			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find").attr("data-no",resp.boardNo);
+			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find")
+									.attr("data-no",resp.boardNo).attr("style","position:relative;");
 			if(resp.boardAttachmentCnt!=null){
-				var se_img = $("<img>").attr("src","#").attr("class","img-fluid img-check");
+				var se_img = $("<img>").attr("src","#").attr("class","img-fluid img-check cursor-pointer");
 				var text = resp.boardAttachmentCnt-1;
 				if(text==0){
 					text="";
 				} else{
 					text="+"+text;
 				}
-				var se_span = $("<span>").attr("style","font-size:13px;").text(text);
+				var se_span = $("<span>").attr("class","blue attach-cnt cursor-pointer").text(text);
 				se_col3.append(se_img).append(se_span);
 			}
 			secondLine.append(se_col9).append(se_col3);
@@ -1844,6 +1858,7 @@
 							
 							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
 							if(resp.length>1){
+								thistag.attr("style","filter: brightness(50%);");				
 								for(var i=0; i<resp.length; i++){
 									thistag.attr("data-attach"+i,resp[i].attachmentNo);
 								}

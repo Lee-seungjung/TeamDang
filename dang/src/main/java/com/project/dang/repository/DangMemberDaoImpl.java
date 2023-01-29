@@ -167,4 +167,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		param.put("memberNo", memberNo);
 		return sqlSession.delete("dangMember.deleteMember",param)>0;
 	}
+
+	@Override
+	public boolean closeDangMember(int dangNo, int userNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("userNo", String.valueOf(userNo));
+		return sqlSession.delete("dangMember.closeDangMember", param) > 0;
+	}
 }

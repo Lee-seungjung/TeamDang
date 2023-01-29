@@ -42,7 +42,11 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 					);
 		// 댕모임 회원 감시 경로
 		registry.addInterceptor(dangMemberCheckInterceptor)
-			.addPathPatterns("")
-			.excludePathPatterns("");
+			.addPathPatterns("/dang/**")
+			.excludePathPatterns(
+					"/dang/create",
+					"/dang/search",
+					"/dang/not_found"
+					);
 	}
 }

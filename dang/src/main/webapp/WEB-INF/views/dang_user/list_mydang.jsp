@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="관심지역 설정" name="title"/>
+	<jsp:param value="내가 가입한 댕모임" name="title"/>
 </jsp:include>
 
 <style>
@@ -64,7 +64,40 @@
 	.btn-mydang-dang-close {
 		border : none;
 		border-radius : 10px;
+		background-color : #787878;
+		color : white;
+	}
+	
+	.btn-mydang-dang-delete {
+		border : none;
+		border-radius : 10px;
 		background-color : #E8E8E8;
+		color : white;
+	}
+	
+	/* ul 태그 CSS 초기화 */
+	ul {
+	    list-style: none;
+	    margin:0px; 
+	    padding:0px;
+	}
+	
+	.ul-dang-list-page-item {
+		cursor : pointer;
+		width : 2.5rem;
+		height : 2rem;
+		border : 1px solid #CEE3F2;
+		color : #76BEFF;
+	}
+	
+	.ul-dang-list-page-item:hover {
+		border : 2px solid #76BEFF;
+		background-color : #F0F9FF;
+	}
+	
+	.ul-dang-list-page-item-selected {
+		border : 2px solid #76BEFF;
+		background-color : #76BEFF;
 		color : white;
 	}
 	
@@ -75,6 +108,8 @@
 <style>
 	
 </style>
+
+<input type = "hidden" class = "input-user-no" value = "${loginNo}">
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
@@ -124,12 +159,82 @@
 									<button class = "w-100 btn-mydang-dang-enter">입장</button>
 								</div>
 								<div class = "col-2 d-flex align-items-center">
+									<c:choose>
+									<c:when test = "${dangUserJoinList.isOwner == 1}">
+									<button class = "w-100 btn-mydang-dang-delete">해체</button>
+									</c:when>
+									<c:otherwise>
 									<button class = "w-100 btn-mydang-dang-close">탈퇴</button>
+									</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</div>
 					</div>
 					</c:forEach>
+				</div>
+			</div>
+			<div class = "row mt-5">
+				<div class = "offset-2 col-8 d-flex justify-content-center align-items-center">
+					<ul class = "d-flex flex-row ul-dang-list-page-navigator">
+						<c:choose>
+						<c:when test = "${dangUserJoinRequestDto.isFirst()}">
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
+							<span><i class="fa-solid fa-backward"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockFirst()}'">
+							<span><i class="fa-solid fa-backward"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+						
+						<c:choose>
+						<c:when test = "${dangUserJoinRequestDto.hasPrev()}">
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockPrev()}'">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+						
+						<c:forEach var = "i" begin = "${dangUserJoinRequestDto.blockStart()}" end = "${dangUserJoinRequestDto.blockEnd()}" step = "1">
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
+							<span>${i}</span>
+						</li>
+						</c:forEach>
+						
+						<c:choose>
+						<c:when test = "${dangUserJoinRequestDto.hasNext()}">
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockNext()}'">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+						
+						<c:choose>
+						<c:when test = "${dangUserJoinRequestDto.isLast()}">
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
+							<span><i class="fa-solid fa-forward"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockLast()}'">
+							<span><i class="fa-solid fa-forward"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -141,7 +246,46 @@
 <script type="text/javascript">
 	$(function(){
 		
-		$(".img-select-user-dang").attr("src", "/images/mypage-join_dang_pink.png")
-	
+		// 마이페이지 메뉴 색 변경
+		$(".img-select-user-dang").attr("src", "/images/mypage-join_dang_pink.png");
+		
+		// 입장 버튼 클릭
+		$(document).on("click", ".btn-mydang-dang-enter", function(){
+			// 댕모임 번호
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			// 댕모임 입장
+			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
+		});
+		
+		// 탈퇴 버튼 클릭
+		$(document).on("click", ".btn-mydang-dang-close", function(){
+			var choice = window.confirm("정말 탈퇴하시겠습니까?");
+			if(choice == false) {
+				return;
+			}
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			var userNo = $(".input-user-no").val();
+			var form = $("<form>").attr("method", "post").attr("action", "delete_member");
+			form
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", dangNo)		
+				)
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "userNo").attr("value", userNo)		
+				)
+			$("body").append(form);
+			form.submit();
+		});
+		
+		// 페이지 네비게이터
+		// - 현재 주소
+		var urlHref = window.location.href;
+		var url = new URL(urlHref);
+		// - 페이지번호 추출
+		var urlParameters = url.searchParams;
+		var pageNo = urlParameters.get("p");
+		// - 페이지 네비게이터에 선택 여부를 나타내는 클레스 부여
+		var pageNavigatorNoTarget = $(".ul-dang-list-page-item").children(":contains("+pageNo+")")
+		pageNavigatorNoTarget.parent().addClass("ul-dang-list-page-item-selected");
 	});
 </script>

@@ -22,15 +22,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.dang.dto.AttachmentDto;
 import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
+import com.project.dang.dto.DangUserJoinRequestDto;
+import com.project.dang.dto.DangUserJoinResponseDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
+import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
 import com.project.dang.vo.DangUserFindVO;
-import com.project.dang.vo.DangUserJoinVO;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -52,6 +54,9 @@ public class DangUserController {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangMemberDao dangMemberDao;
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -364,7 +369,7 @@ public class DangUserController {
 		return "dang_user/find_pw_success";
 	}
 	
-	// 댕댕이 수정
+	// 마이페이지 댕댕이 정보 변경
 	@GetMapping("/edit_puppy_info")
 	public String editPuppyInfo(HttpSession session, Model model) {
 		// 로그인 중인 회원번호 반환
@@ -373,10 +378,10 @@ public class DangUserController {
 		List<DangPuppyListDto> dangPuppyList = dangPuppyDao.selectPuppyList(userNo);
 		// 조회한 댕댕이 정보를 Model에 추가
 		model.addAttribute("dangPuppyList", dangPuppyList);
-		return "dang_puppy/edit_puppy_info";
+		return "dang_user/edit_puppy_info";
 	}
 	
-	// 관심지역 설정
+	// 마이페이지 관심지역 설정
 	@GetMapping("/change_interest_area")
 	public String changeInterestArea(HttpSession session, Model model) {
 		// 로그인 중인 회원번호 반환
@@ -387,14 +392,41 @@ public class DangUserController {
 		return "dang_user/change_interest_area";
 	}
 	
-	// 내가 가입한 댕모임
+	// 마이페이지 내가 가입한 댕모임
 	@GetMapping("/list_mydang")
-	public String listMydang(HttpSession session, Model model) {
+	public String listMydang(HttpSession session, Model model, @ModelAttribute DangUserJoinRequestDto dangUserJoinRequestDto) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 내가 가입한 댕모임 갯수 반환
+		int dangJoinCount = dangDao.countDangUserJoin(userNo);
+		// 입력받은 DTO에 회원 번호, 댕모임 총 갯수 설정
+		dangUserJoinRequestDto.setUserNo(userNo);
+		dangUserJoinRequestDto.setTotal(dangJoinCount);
 		// 회원이 가입한 댕모임 목록 반환
-		List<DangUserJoinVO> dangUserJoinList = dangDao.selectDangUserJoinList(userNo); 
+		List<DangUserJoinResponseDto> dangUserJoinList = dangDao.selectDangUserJoinList(dangUserJoinRequestDto);
+		// 특정 회원이 개설한 댕모임 리스트
+		List<Integer> dangUserCreateList = dangDao.selectMydangOwnerList(userNo);
+		// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+		for(int i = 0 ; i < dangUserJoinList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+			for(int j = 0 ; j < dangUserCreateList.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
+				if(dangUserJoinList.get(i).getDangNo().equals(dangUserCreateList.get(j))) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
+					dangUserJoinList.get(i).setIsOwner(1);// 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+				}
+			}
+		}
 		model.addAttribute("dangUserJoinList", dangUserJoinList);
 		return "dang_user/list_mydang";
+	}
+	
+	// 마이페이지 내 내가 가입한 댕모임 페이지에서 댕모임 탈퇴
+	@PostMapping("/delete_member")
+	public String deleteMember(@RequestParam int dangNo, @RequestParam int userNo) {
+		// 댕모임 회원 탈퇴
+		dangMemberDao.closeDangMember(dangNo, userNo);
+		// 댕모임 회원 수 갱신
+		int dangHead = dangMemberDao.countMember(dangNo);
+		dangDao.updateDangHead(dangNo, dangHead);
+		// 내가 가입한 댕모임 페이지로 redirect
+		return "redirect:list_mydang";
 	}
 }
