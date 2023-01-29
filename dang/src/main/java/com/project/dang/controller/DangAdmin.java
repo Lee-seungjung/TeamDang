@@ -30,4 +30,10 @@ public class DangAdmin {
 	public String placeInsert() {
 		return "dang_admin/insert";
 	}
+	
+	//관리자페이지 신고
+	@GetMapping("/report")
+	public String report() {
+		return "dang_admin/report";
+	}
 }

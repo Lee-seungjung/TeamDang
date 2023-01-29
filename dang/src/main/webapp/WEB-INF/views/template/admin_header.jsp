@@ -120,7 +120,7 @@
             <li><a href="${pageContext.request.contextPath}/admin/place_insert" class="mb-2"><i class="fa-solid fa-location-dot"></i> 장소 등록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/place_list" class="mb-2"><i class="fa-solid fa-map-location"></i> 장소 조회</a></li>
             <li><a href="#" class="mb-2"><i class="fa-solid fa-user"></i> 회원 관리</a></li>
-            <li><a href="#" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 접수</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/report" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 접수</a></li>
             
           </ul>
         </div>
