@@ -1,30 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+	
+<jsp:include page="/WEB-INF/views/template/admin_header.jsp">
+   <jsp:param value="DangHome" name="title"/>
+</jsp:include>
 
-<head>
-<meta charset="utf-8">
-<title>다양한 이미지 마커 표시하기</title>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
-<!--font-awesome cdn -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- Bootstrap CDN -->
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
-
-<!-- Bootswatch CDN-->
-<link rel="stylesheet" type="text/css"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.2/zephyr/bootstrap.css">
 <style>
 #mapwrap {
 	position: relative;
@@ -42,7 +22,7 @@
 	overflow: hidden;
 	top: 10px;
 	left: 10px;
-	width: 250px;
+	width: 251px;
 	height: 55px;
 	z-index: 10;
 	border: 1px solid black;
@@ -167,9 +147,7 @@
 	background: white;
 }
 </style>
-</head>
 
-<body>
 	<div class="container-fluid mb-5">
 		<div class="row mt-2">
 			<div class="col-md-8 offset-md-2">
@@ -928,6 +906,3 @@
 			
 		}
 	</script>
-</body>
-
-</html>

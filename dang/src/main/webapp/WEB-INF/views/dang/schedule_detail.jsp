@@ -393,8 +393,10 @@ border : 2px solid #76BEFF;
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
+
                                 <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
                                         max="24:00"  name="scheduleHour"></p>
+
                         </div>
 
                         <div class="mb-3 text-start">
@@ -516,10 +518,6 @@ border : 2px solid #76BEFF;
 						window.location.href=placeUrl;			
 					});
 			 		
-			 		//일정 수정모달 
-			 		
-			 		
-			 		//일정 수정모달 닫기
 					
 					$(".btn-plus").hide(); //참여
 					$(".btn-minus").hide(); //참여취소
@@ -627,6 +625,7 @@ border : 2px solid #76BEFF;
 					console.log("수정버튼누름");
 					
 					 $("#editPlaceModal").modal("hide");//모달 숨기기
+
 					 placeNoInfo = $(this).data("placeno");
 					 
 	                   //비동기통신 시작
@@ -677,6 +676,7 @@ border : 2px solid #76BEFF;
 					var placeNo = $(".where").attr('data-placeno');
 					var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 					var scheduleMoney = $("[name=scheduleMoney]").val();
+
 					saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 					
 			        	$(window).on("beforeunload", function(){
@@ -693,6 +693,7 @@ border : 2px solid #76BEFF;
 							$(".where").val(""); //장소
 							$("#persons").prop("selected", true);//최대 참여인원							
 							$(".money").val(""); //회비 
+
 				});
 				
 						//일정 수정 함수
@@ -1364,6 +1365,7 @@ border : 2px solid #76BEFF;
 				// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 				// marker.setMap(null);   
 				
+
 				</script>
 </body>
 </html>

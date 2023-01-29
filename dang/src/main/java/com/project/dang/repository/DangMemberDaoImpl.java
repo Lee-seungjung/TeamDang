@@ -154,8 +154,7 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		Map<String, String> param = new HashMap<>();
 		param.put("userNo", String.valueOf(userNo));
 		param.put("dangNo", String.valueOf(dangNo));
-		Integer result = sqlSession.selectOne("dangMember.isDangMember", param);
-		if(result == null) result = 0; 
+		int result = sqlSession.selectOne("dangMember.isDangMember", param);
 		return result > 0;
 	}
 
@@ -166,5 +165,13 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		param.put("dangNo", dangNo);
 		param.put("memberNo", memberNo);
 		return sqlSession.delete("dangMember.deleteMember",param)>0;
+	}
+
+	@Override
+	public boolean closeDangMember(int dangNo, int userNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("userNo", String.valueOf(userNo));
+		return sqlSession.delete("dangMember.closeDangMember", param) > 0;
 	}
 }

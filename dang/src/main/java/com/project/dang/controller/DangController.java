@@ -301,7 +301,8 @@ public class DangController {
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
-		
+		//신고 정보 확인
+		model.addAttribute("report", dangReportDao.checkReport(dangNo, Integer.parseInt(userNo)));
 		return "dang/chat";
 	}
 	
@@ -542,5 +543,8 @@ public class DangController {
 		return "dang/report_success";
 	}
 	
-	
+	@GetMapping("/not_found")
+	public String notFound() {
+		return "dang/not_found";
+	}
 }

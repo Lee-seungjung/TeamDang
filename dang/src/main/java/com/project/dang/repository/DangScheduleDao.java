@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.JoinMemberVO;
+import com.project.dang.vo.ScheduleEditVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
 import com.project.dang.vo.SimpleScheduleVO;
@@ -96,12 +97,11 @@ public interface DangScheduleDao {
 	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
 
 	/**
-	 * 일정 수정
-	 * @param memberNo   : 댕모임 멤버 번호
-	 * @param DangScheduleDto  : 댕모임 스케줄 
-	 * @return DangScheduleDto
+	 * 댕모임 일정 수정
+	 * @param scheduleEditVO  : 일정명, 일정내용, 일정 최대참여인원 ,장소번호, 일정 날짜, 일정 시간, 참여 회비
+	 * @return boolean: 수정 여부
 	 */
-	public boolean scheduleEdit(DangScheduleDto dangScheduleDto);
+	public boolean scheduleEdit(ScheduleEditVO scheduleEditVO);
 
 	/**
 	 * 일정 삭제

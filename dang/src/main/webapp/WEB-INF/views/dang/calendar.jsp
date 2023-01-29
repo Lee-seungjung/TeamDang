@@ -326,7 +326,7 @@
 
                   <div class="text-center">
                      <div class="text-center">
-                        <span class="select-font">선택 날짜 : </span> <span
+                        <span class="select-font">선택 날짜 : <img  src="${pageContext.request.contextPath}/rest_attachment/download/383" width="45px" height="45px"> </span> <span
                            class=" dangDate select-font blue"></span>
                      </div>
                      <table class="table text-center">

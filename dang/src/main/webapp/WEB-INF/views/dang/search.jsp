@@ -948,11 +948,6 @@
 			dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
 			// 댕모임 비밀번호
 			dangPw = $(this).parent().prevAll("[name=dangPw]").val();
-			// 댕모임 총원과 현원이 같을 경우
-			if(dangHeadmax == dangHead) {
-				alert("만원입니다");
-				return;
-			}
 			// 댕모임 번호
 			var dangNo = $(this).parent().prevAll("[name=dangNo]").val();
 			// 입장
@@ -1028,7 +1023,7 @@
 			$(".div-modal-join-dang-private").remove();
 			// 댕모임 총원과 현원이 같을 경우
 			if(dangHeadmax == dangHead) {
-				alert("만원입니다");
+				alert("댕모임 정원이 초과되어 가입할 수 없습니다.");
 				return;
 			}
 			// 가입 Modal 표시 전 작업

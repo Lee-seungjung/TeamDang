@@ -44,8 +44,7 @@
 	<jsp:param value="댕모임 개설" name="title"/>
 </jsp:include>
 
-<form action = "create" method = "post" enctype="multipart/form-data" class = "form-create-dang">
-<div class = "container-fluid my-3">
+<form action = "create" method = "post" enctype="multipart/form-data" class = "form-create-dang container-fluid my-3">
 	<div class = "row">
 		<div class = "col-6 offset-3">
 			<div class = "row my-3">	
@@ -210,7 +209,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 </form>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
