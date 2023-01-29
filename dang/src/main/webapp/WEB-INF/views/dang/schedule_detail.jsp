@@ -431,6 +431,8 @@ border : 2px solid #76BEFF;
 					}
 				
 					//댕모임 일정 등록한 멤버가 아닌 다른 멤버들의 일정상세화면(참여하기,참여취소)
+					
+					//상세일정에서 참여하기 클릭
 					$(".btn-plus").click(function(){
                     	
                     	console.log("참여버튼누름");
@@ -452,7 +454,7 @@ border : 2px solid #76BEFF;
                             }
     					});
                     });
-                    
+                    //상세일정에서 참여취소 클릭
                     $(".btn-minus").click(function(){
                     	
                     	console.log("취소버튼누름");
@@ -470,34 +472,18 @@ border : 2px solid #76BEFF;
                             	 
                             	$(".btn-plus").show();
                             	location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
-                     
-                            	
-                            
+                                      
                             }
-    					});
-                    	
-                    }); 
-					
+    					});                   	
+                    }); 					
 				});
-				
+				//상세일정에서 수정버튼 클릭
 				$(".btn-edit").click(function(){
 					console.log("수정버튼누름");
 					
-					//일정 수정 모달에서 수정 버튼 클릭
 					
-					var scheduleTitle = $("[name=scheduleTitle]").val();
-					var scheduleContent =$("[name=scheduleContent]").val();
-					var scheduleStart = $("[name=scheduleStart]").val();
-					var scheduleHour = $("[name=scheduleHour]").val();
-					var placeNo = $(".where").attr('data-placeno');
-					var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
-					var scheduleMoney = $("[name=scheduleMoney]").val();
-
-					saveData(scheduleTitle, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 					
-			        	$(window).on("beforeunload", function(){
-			        		removescheduleTitle();
-						});				
+		
 					
 				});
 				
@@ -517,16 +503,10 @@ border : 2px solid #76BEFF;
 							
 							location.href="http://localhost:8888/dang/"+${dangNo}+"/calendar"
 						}
-						
-						
-						
-					});
+		
+					});					
 					
-					
-					
-				});
-				
-				
+				});								
 				
 				var placeNo1 = ${scheduleDetail.placeNo};
 				console.log(${countJoin});
@@ -550,11 +530,7 @@ border : 2px solid #76BEFF;
                                  
                               }
                            })
-                           
-
-				           
-				
-					
+                           				
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 

@@ -832,7 +832,7 @@
 					
 				}
 			});
-		}
+		
 		//일정등록 모달에서 등록 버튼 클릭
 		$(".write-btn").click(function(e){
 			console.log(${profile.memberNo});
