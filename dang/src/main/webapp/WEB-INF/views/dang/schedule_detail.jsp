@@ -775,7 +775,7 @@ border : 2px solid #76BEFF;
 					
 					$(".where").text(placeWhere);
 					
-					$("#edit").modal("hide");
+					$("#editPlaceModal").modal("hide");
 					
 				});
 		        
