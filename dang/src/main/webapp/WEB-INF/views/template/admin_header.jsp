@@ -49,7 +49,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<!-- MomentJS 언어팩 CDN-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
-	
+	<!--chartJS CDN-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <style>
         /* 사이드바 래퍼 스타일 */
         
@@ -123,7 +124,7 @@
               <img src="${pageContext.request.contextPath}/images/logo.png" width="200px" height="100px" class="mt-3 mb-3">
             </li>
             <hr class="ms-2 me-2">
-            <p class="text-center"><img src="./static/mapmarker/cafe.png" class="me-2">관리자 누구</p>
+            <p class="text-center"><img src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}" class="me-2">${loginNick}</p>
             <hr class="ms-2 me-2">
             <li><a href="${pageContext.request.contextPath}/admin/dash_board" class="mb-2"><i class="fa-solid fa-border-all"></i> 대쉬 보드</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/place_insert" class="mb-2"><i class="fa-solid fa-location-dot"></i> 장소 등록</a></li>
@@ -139,8 +140,8 @@
       <div class="container-fluid">
         <a class="navbar-brand ms-3">관리자 페이지</a>
         <form class="d-flex">
-          <button class="btn btn-outline-success" type="submit">댕모임 홈으로</button>
-          <button class="btn btn-outline-success ms-3 me-5" type="submit">로그아웃</button>
+          <button onClick = "location.href = '${pageContext.request.contextPath}/'"  class="btn btn-outline-success" type="button">댕모임 홈으로</button>
+          <button  class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
         </form>
       </div>
     </nav>
