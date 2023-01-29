@@ -10,7 +10,7 @@
 <%-- 로그인 상태 판정 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 
-<div class = "container-fluid">
+<div class = "container-fluid mb-4">
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row">

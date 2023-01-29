@@ -154,8 +154,7 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		Map<String, String> param = new HashMap<>();
 		param.put("userNo", String.valueOf(userNo));
 		param.put("dangNo", String.valueOf(dangNo));
-		Integer result = sqlSession.selectOne("dangMember.isDangMember", param);
-		if(result == null) result = 0; 
+		int result = sqlSession.selectOne("dangMember.isDangMember", param);
 		return result > 0;
 	}
 
