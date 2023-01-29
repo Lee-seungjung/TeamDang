@@ -313,7 +313,6 @@
     .modal-profile-report-btn{
     	text-align:center;
     	padding:5px 10px;
-
     }
     .modal-profile-siren{
     	width:22px;
@@ -353,7 +352,8 @@
 				$(".invalid-money").show();
 			}
 		});
-        
+       
+ 		//장소 등록버튼 클릭시 모달 장소에 장소명 삽입
 		$(".btn-placeurl").click(function(){
 			$(".span-placeurl").text();			
 			var placeUrl = $(".span-placeurl").text();			
@@ -681,7 +681,6 @@
 									}
 								}
 							});
-
 							//댓글 닉네임 변경
 							$.ajax({
 								url:"${pageContext.request.contextPath}/rest_reply/update_nick",
@@ -832,7 +831,7 @@
 					
 				}
 			});
-		}
+		
 		//일정등록 모달에서 등록 버튼 클릭
 		$(".write-btn").click(function(e){
 			console.log(${profile.memberNo});
@@ -844,7 +843,6 @@
 			var placeNo = $(".where").attr('data-placeno');
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
-
 			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 			
 	        	$(window).on("beforeunload", function(){
@@ -861,12 +859,10 @@
 					$(".where").val(""); //장소
 					$("#persons").prop("selected", true);//최대 참여인원							
 					$(".money").val(""); //회비 
-
 		});
-		//$("#write-cancel").click(function(e){
+		
 			
-
-		//등록 함수
+		//일정 등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
 			var data = {
@@ -888,7 +884,7 @@
 					contentType:"application/json",
 					data:JSON.stringify(data),
 					success:function(resp){
-						console.log("헤헿"+resp);	
+						console.log("수정성공");	
 						
 						location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
 						
@@ -1196,8 +1192,8 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time" value="10:00" min="00:00"
-                                        max="24:00"  class="inbl w-50 b-contentbox form-control" name="scheduleHour"></p>
+                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
+                                        max="24:00"  name="scheduleHour"></p>
                         </div>
 
                         <div class="mb-3 text-start">
@@ -1367,8 +1363,7 @@
                     $("#edit").modal("show");//모달 실행
                     placeNoInfo = $(this).data("placeno");
                     //비동기통신 시작
-                    $
-                        .ajax({
+                    $.ajax({
                             url: "http://localhost:8888/rest_place/place_one/"
                                 + placeNoInfo,
                             method: "get",
