@@ -46,6 +46,12 @@ public class DangReportDaoImpl implements DangReportDao{
 		return sqlSession.selectOne("dangReport.checkReport",param);
 	}
 	
+	//신고 파일 조회
+	@Override
+	public List<ReportImgDto> imgSelectList(int reportNo) {
+		return sqlSession.selectList("dangReport.fingImg",reportNo);
+	}
+	
 	//경고 알림 컬럼 변경
 	@Override
 	public boolean alertUpdate(int reportNo) {

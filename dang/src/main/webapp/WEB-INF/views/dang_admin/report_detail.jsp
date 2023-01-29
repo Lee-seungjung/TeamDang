@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
@@ -9,10 +9,28 @@
 <style>
 	table>tbody>tr>th{
 		width:35%;
-		height:50px;
+		height:55px;
 	}
 	table>tbody>tr>td{
 		width:65%;
+	}
+	.detail-wrap{
+		background-color:#F1F4FF;
+	}
+	.table>:not(caption)>*>* {
+		border-bottom-width: 0;
+	}
+	.img-wrap{
+		padding:0 10px;
+		display:flex;
+	}
+	.img-box{
+		width:100px;
+		height:100px;
+		border:1px solid #F1F4FF;
+	}
+	.table{
+		margin-bottom:0;	
 	}
 	
 	
@@ -22,35 +40,66 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:25px; font-weight:bolder;">½Å°í »ó¼¼</p>
+				<p style="font-size:25px; font-weight:bolder;">ì‹ ê³  ìƒì„¸</p>
 			</div>
 
-			<div class="row mt-5">
+			<div class="row mt-4">
 				<div class="col-6 offset-3 detail-wrap">
 					<table class="table">
 						<tbody class="text-center">
-							<tr class="table align-middle">
-								<th scope="col">È¸¿ø¹øÈ£</th>
+							<tr class="table ">
+								<th scope="col">íšŒì›ë²ˆí˜¸</th>
 								<td>${detail.userNo}</td>
 							</tr>
-							<tr class="table align-middle">
-								<th scope="col">´Ğ³×ÀÓ</th>
+							<tr class="table">
+								<th scope="col">ë‹‰ë„¤ì„</th>
 								<td>${detail.memberNick}</td>
 							</tr>
-							<tr class="table align-middle">
-								<th scope="col">´ó¸ğÀÓ¸í</th>
+							<tr class="table">
+								<th scope="col">ëŒ•ëª¨ì„ëª…</th>
 								<td>${detail.dangName}</td>
 							</tr>
-							<tr class="table align-middle">
-								<th scope="col">½Å°í³¯Â¥</th>
+							<tr class="table">
+								<th scope="col">ì‹ ê³ ë‚ ì§œ</th>
 								<td>${detail.reportDate}</td>
 							</tr>
-							<tr class="table align-middle">
-								<th scope="col">½Å°í»çÀ¯</th>
+							<tr class="table">
+								<th scope="col">ì‹ ê³ ì‚¬ìœ </th>
 								<td>${detail.reportContent}</td>
 							</tr>
 						</tbody>
 					</table>
+					
+					<!-- ì²¨ë¶€íŒŒì¼ ì—¬ë¶€ì— ë”°ë¼ show/hide -->
+					<c:if test="${img!=null}">
+						<table class="table report-img">
+							<tbody class="text-center">
+								<tr class="table">
+									<th scope="col">ì²¨ë¶€íŒŒì¼</th>
+									<td></td>
+								</tr>
+								<tr class="table align-middle">
+									<th scope="col" colspan="2">
+										<div class="img-wrap">
+											<c:forEach var="img" items="${img}">
+												<div class="img-box me-1">
+													<img src="${pageContext.request.contextPath}/rest_attachment/download/${img.attachmentNo}" class="img-fluid">
+												</div>
+											</c:forEach>
+										</div>
+									</th>
+								</tr>
+							</tbody>
+						</table>
+					</c:if>
+					
+					<div class="btn-div text-center mt-4 mb-4">
+						<button class="btn btn-primary">ìŠ¹ì¸</button>
+						<button class="btn btn-secondary">ë°˜ë ¤</button>
+						<a class="btn btn-outline-secondary" 
+							href="${pageContext.request.contextPath}/admin/report?reportState=${detail.reportState}">ëª©ë¡</a>
+					</div>
+					
 				</div>
 			</div>
 			

@@ -36,6 +36,13 @@ public interface DangReportDao {
 	DangReportDto checkReport(int dangNo, int userNo);
 	
 	/**
+	 * 신고 파일 조회
+	 * @param reportNo
+	 * @return List<ReportImgDto>
+	 */
+	List<ReportImgDto> imgSelectList(int reportNo);
+	
+	/**
 	 * 알림컬럼 변경
 	 * @param reportNo
 	 * @return true, false

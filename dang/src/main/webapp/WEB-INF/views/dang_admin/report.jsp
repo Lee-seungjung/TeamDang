@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
@@ -36,25 +36,25 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:25px; font-weight:bolder;">�Ű� ��Ȳ</p>
+				<p style="font-size:25px; font-weight:bolder;">신고 현황</p>
 			</div>
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
 					<div class = "col report-box select-color">
-						<p class="mb-1 cnt-title">�Ű� ����</p>
+						<p class="mb-1 cnt-title">신고 접수</p>
 						<p class="mt-1 cnt-num">${cnt.received}</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col report-box">
-						<p class="mb-1 cnt-title">�Ű� ����</p>
+						<p class="mb-1 cnt-title">신고 승인</p>
 						<p class="mt-1 cnt-num">${cnt.approved}</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col report-box">
-						<p class="mb-1 cnt-title">�Ű� �ݷ�</p>
+						<p class="mb-1 cnt-title">신고 반려</p>
 						<p class="mt-1 cnt-num">${cnt.rejected}</p>
 					</div>
 				</div>
@@ -63,10 +63,10 @@
 			<div class="row mt-5">
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
 					<select class="form-select flex-fill me-1" style="width:20%;" name="type">
-						<option value="">����</option>
-						<option value="user_no">ȸ����ȣ</option>
-						<option value="dang_name">����Ӹ�</option>
-						<option value="member_nick">�г���</option>
+						<option value="">선택</option>
+						<option value="user_no">회원번호</option>
+						<option value="dang_name">댕모임명</option>
+						<option value="member_nick">닉네임</option>
 					</select>
 					<div class="d-flex" style="width:70%;">
 						<input type="text" class="input form-control search-input ms-1 flex-fill" name="keyword">
@@ -81,18 +81,18 @@
 				<table class="table text-center ">
 					<thead>
 						<tr class="table">
-							<th scope="col" style="width:15%;">ȸ����ȣ</th>
-							<th scope="col" style="width:25%;">����Ӹ�</th>
-							<th scope="col" style="width:25%;">�г���</th>
-							<th scope="col" style="width:20%;">�Ű���¥</th>
-							<th scope="col">��</th>
+							<th scope="col" style="width:15%;">회원번호</th>
+							<th scope="col" style="width:25%;">댕모임명</th>
+							<th scope="col" style="width:25%;">닉네임</th>
+							<th scope="col" style="width:20%;">신고날짜</th>
+							<th scope="col">상세</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
 							<c:when test="${list==null}">
 								<tr class="table align-middle">
-									<td colspan="5" style="height:200px; border-bottom:none;">������ �������� �ʽ��ϴ�.</td>
+									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
 							</c:when>
 							<c:otherwise>
@@ -105,7 +105,7 @@
 										<td>
 											<a class="btn btn-primary" 
 												href="${pageContext.request.contextPath}/admin/report_detail?
-															reportNo=${list.reportNo}&dangNo=${list.dangNo}">��</a>
+															reportNo=${list.reportNo}">상세</a>
 										</td>
 									</tr>
 								</c:forEach>	

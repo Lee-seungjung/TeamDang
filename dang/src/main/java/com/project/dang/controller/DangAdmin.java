@@ -45,11 +45,13 @@ public class DangAdmin {
 	
 	//관리자페이지 신고
 	@GetMapping("/report")
-	public String report(Model model) {
+	public String report(Model model, @RequestParam(required = false) String reportState) {
 		//신고 현황 카운트
 		model.addAttribute("cnt", dangReportDao.cnt());
 		//신고 목록 조회(첫화면)
-		String reportState="접수";
+		if(reportState==null) {
+			reportState="접수";
+		}
 		String type="";
 		String keyword="";
 		model.addAttribute("list", dangReportDao.reportList(reportState, type, keyword));
@@ -59,9 +61,11 @@ public class DangAdmin {
 	//관리자페이지 신고 상세
 	@GetMapping("/report_detail")
 	public String reportDetail(@RequestParam int reportNo, 
-			@RequestParam int dangNo, Model model) {
+			Model model) {
 		//신고 단일조회
 		model.addAttribute("detail", dangReportDao.selectOne(reportNo));
+		//파일 조회
+		model.addAttribute("img", dangReportDao.imgSelectList(reportNo));
 		return "dang_admin/report_detail";
 	}
 	

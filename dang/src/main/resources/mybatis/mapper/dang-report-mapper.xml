@@ -59,6 +59,11 @@
 		inner join (select count(*) approved from dang_report where report_state='완료') app on 1=1
 	</select>
 	
+	<!-- 신고 이미지 조회 -->
+	<select id="fingImg" resultType="ReportImgDto" parameterType="int">
+		select*from report_img where report_no=#{reportNo}
+	</select>
+	
 </mapper>
   
   
