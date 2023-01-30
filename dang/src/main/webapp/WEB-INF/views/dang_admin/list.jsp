@@ -6,6 +6,17 @@
 </jsp:include>
 
 <style>
+
+ .editor {
+            min-height: 250px;
+            border: 1px solid black;
+            padding: 1em;
+            font-size: 16px;
+        }
+ .accent{
+     color : red;
+     font-size: 13px;
+ }
 #mapwrap {
 	position: relative;
 	overflow: hidden;
@@ -15,7 +26,7 @@
 	margin: 0;
 	padding: 0;
 	color: #000;
-}
+} 
 
 .category {
 	position: absolute;
@@ -146,6 +157,117 @@
 	border-radius: 5px;
 	background: white;
 }
+
+.modal-place-body{
+	border-radius: 0.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 15px;
+    height: 150px;
+	}
+    .body1{
+        width: 33%;
+        position: relative;
+    }
+    .body2{
+        width: 67%;
+        padding: 10px;
+    }
+    .span-placeoperation{
+        font-size: 14px;
+    }
+    .span-placetel{
+        color: #76BEFF;
+        font-size: 15px;
+    }
+    .place-img{
+        width:150px;
+        height:150px;
+        border-radius: 0.3em;
+    }
+    .span-placearea{
+        border-radius: 0.4em;
+        background-color: #FF8888;
+        color: white;
+        position: absolute;
+        font-size: 13px;
+        top: 3px;
+        left: 4px;
+    }
+    .span-placesort{
+        font-size: 14px;
+        color: gray;
+    }
+    .span-placename{
+        font-weight: bolder;
+    }
+    .span-placeaddress{
+        font-size: 14px;
+        word-spacing: 1px;
+        letter-spacing: -1px;
+    }
+    .span-placeoff{
+	    border-radius: 3px;
+	    background-color: #F1F1F0;
+	    color: #5A5A5A;
+	    font-size: 13px;
+    }
+    
+    
+    .btn-place-delete{
+    background-color: #F94888;
+    color: white;
+    }
+    .fa-square-phone{
+    color: #C2C4C6;
+    font-size: 18px;
+    margin-right: 7px;
+    }
+    .span-placeurl{
+    display: none;
+    }
+    .invalid-money{
+      font-size: 0.875em;
+	  color: red;
+    }
+    .modal-header .btn-close{
+    	margin:-0.5rem -0.5rem 4.5rem auto;
+    }
+    .nick-font{
+    	font-size:20px;
+    	font-weight:bolder;
+    	letter-spacing:0.7px;
+    }
+    .modal-profile-btn{
+    	font-size:16px;
+    	text-align:center;
+    }
+    .modal-profile-report-btn{
+    	text-align:center;
+    	padding:5px 10px;
+    }
+    .modal-profile-siren{
+    	width:22px;
+    	height:22px;
+    	margin-bottom:3px;
+    }
+    .fn:focus{
+    	box-shadow: none;
+    }
+    .profile-info-img{
+    	 width:130px;
+    	 height:130px;
+    	 margin-left:100%;
+    	 margin-top:50%;
+    }
+    .profile-info-owner{
+    	 width:30px;
+    	 height:30px;
+    	 margin-left:750%;
+    	 margin-top:215%;
+    	 display:none;
+    }
 </style>
 
 	<div class="container-fluid mb-5">
@@ -209,39 +331,284 @@
 
 
 
-	<div class="modal fade" id="edit" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<span class="span-placeaddress"></span><br> <span
-						class="span-placearea"></span><br> <span
-						class="span-placeinfo"></span><br> <span
-						class="span-placename"></span><br> <span
-						class="span-placeoff"></span><br> <span
-						class="span-placeoperation"></span><br> <span
-						class="span-placesort"></span><br> <span
-						class="span-placetel"></span><br> <span class="span-placeurl"></span><br>
-					<img src="" width="100" height="100" class="origin-img"><br>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary"
-						onclick="detailMove()">상세보기</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-place-body">
+                    <div class="body-flex body1">
+                        <span class="span-placearea px-2"></span>
+                    <img src=""  class="place-img origin-img">
+                </div>
+                <div class="body-flex body2">
+                    <span class="span-placename"></span>
+                     <span  class="span-placesort"></span><br>
+                    <span class="span-placeaddress"></span><br>
+                    <span class="span-placeoff px-2"></span>
+                    <span class="span-placeoperation"></span><br>
+                    <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                    <span  class="span-placeurl"></span>
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
+                    <button type="button" class="btn btn-place-delete" onclick="deleteMarker()">장소삭제하기</button>
+                    <button type="button" class="btn btn-warning btn-placeinfoModal" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" >장소수정하기</button>                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 장소마커 수정을 위한 모달 -->
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h3 class="modal-title">장소 수정하기</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                
+        <div class="row mt-2">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 행정구역을 적어주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeArea" class="form-control rounded" placeholder="행정구역(구)">
+                    <label>행정구역(구)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할  장소의 좌표를 지정해 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        
+        <div class="row mt-1">
+            <div class="col-md-5 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeX" class="form-control rounded" placeholder="위도">
+                    <label>위도</label>
+                </div>
+            </div>
+            <div class="col-md-5 offset">
+                <div class="form-floating">
+                    <input type="text" name="placeY" class="form-control rounded" placeholder="경도">
+                    <label>경도</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 카테고리를 선택해 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeSort" class="form-control rounded" placeholder="카테고리">
+                    <label>카테고리</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 이름을 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeName" class="form-control rounded" placeholder="장소이름">
+                    <label>장소이름</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 정보를 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
+                    <label>(최대 500자 까지 가능합니다.)</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 현주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeAddress" class="form-control rounded" placeholder="현주소">
+                    <label>현주소</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 운영시간을 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeOperation" class="form-control rounded" placeholder="운영시간">
+                    <label>운영시간</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 휴무일을 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeOff" class="form-control rounded" placeholder="휴무일">
+                    <label>휴무일</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 전화번호를 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="placeTel" class="form-control rounded" placeholder="전화번호">
+                    <label>전화번호</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 홈페이지 주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" value="" name="placeUrl" class="form-control rounded" placeholder="정보URL">
+                    <label>홈페이지 주소</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <input type="text" name="dangSize" class="form-control rounded" placeholder="댕댕이 크기">
+                    <label>댕댕이 크기</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
+                <input class="form-control form-control-sm file-input" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <div>미리보기</div>
+                <img src="" class="change-img" width="100" height="100">
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="editMarker()">수정하기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
+	function editMarker() {
+		var placeNo = placeNoInfo;
+		var placeArea = $("[name=placeArea]").val();
+		var placeX = $("[name=placeX]").val(); 
+		var placeY = $("[name=placeY]").val();
+		var placeSort = $("[name=placeSort]").val();
+		var placeName = $("[name=placeName]").val();
+		var placeInfo = $("[name=placeInfo]").val();
+		var placeAddress = $("[name=placeAddress]").val();
+		var placeOperation = $("[name=placeOperation]").val();
+		var placeOff = $("[name=placeOff]").val();
+		var placeTel = $("[name=placeTel]").val();
+		var placeUrl = $("[name=placeUrl]").val();
+		var dangSize = $("[name=dangSize]").val();
+		
+		
+		var data = {
+				placeNo : placeNo,
+				placeArea:placeArea,
+				placeX : placeX,
+				placeY : placeY,
+				placeSort : placeSort,
+				placeName : placeName,
+				placeInfo : placeInfo,
+				placeAddress : placeAddress,
+				placeOperation : placeOperation,
+				placeOff : placeOff,
+				placeTel : placeTel,
+				placeUrl : placeUrl,
+				dangSize : dangSize
+			};
+			
+			 $.ajax({
+				url:"${pageContext.request.contextPath}/rest_place/update",
+				method:"put",
+				contentType:"application/json",
+				data:JSON.stringify(data),
+				success:function(){
+					location.href = "http://localhost:8888/admin/place_list";
+				}
+			}); 
+	}
+	
+	//장소 마커를 삭제하는 함수
+	function deleteMarker(){
+		if(confirm("정말삭제하시겠습니까?")==true){
+			$.ajax({
+				url : "http://localhost:8888/rest_place/detail/"+placeNoInfo,
+				method : "delete",
+				async : false,
+				contentType : "application/json",
+				success : function(resp) {
+					location.href = "http://localhost:8888/admin/place_list";
+				}
+			})
+		}else{
+			return;
+		}
+		
+			
+	};
+	// 장소검색시 실행되는 함수
 	function getSearchList(){
 		var keyword = $("[name=placeName]").val();
 		$.ajax({
@@ -297,55 +664,46 @@
 		function detailMove() {
 			location.href = "http://localhost:8888/place/detail/"+placeNoInfo;
 		}
-		$(document)
-				.on(
-						"click",
-						".edit",
-						function(e) {
+		$(document).on("click",".infoModal",function(e) {
+			
+			$("#infoModal").modal("show");//모달 실행
 
-							$("#edit").modal("show");//모달 실행
+			placeNoInfo = $(this).data("placeno");
 
-							placeNoInfo = $(this).data("placeno");
-
-							//비동기통신 시작
-							$
-									.ajax({
-										url : "http://localhost:8888/rest_place/place_one/"
-												+ placeNoInfo,
-										method : "get",
-										async : false,
-										contentType : "application/json",
-										success : function(resp) {
-											//console.log(resp)
-											$(".span-placeaddress").text(
-													resp.placeAddress);
-											$(".span-placearea").text(
-													resp.placeArea);
-											$(".span-placeinfo").html(
-													resp.placeInfo);
-											$(".span-placename").text(
-													resp.placeName);
-											$(".span-placeoff").text(
-													resp.placeOff);
-											$(".span-placeoperation").text(
-													resp.placeOperation);
-											$(".span-placesort").text(
-													resp.placeSort);
-											$(".span-placetel").text(
-													resp.placeTel);
-											$(".span-placeurl").text(
-													resp.placeUrl);
-											$(".origin-img")
-													.attr(
-															"src",
-															"http://localhost:8888/rest_attachment/download/"
-																	+ resp.attachmentNo);
-											abc=resp.placeNo;
-											
-										}
-									})
-
-						});
+			//비동기통신 시작
+			$.ajax({
+				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
+				method : "get",
+				async : false,
+				contentType : "application/json",
+				success : function(resp) {
+					//클릭한 마커의 해당하는 placeNo를 data속성 추가
+					$(".span-placeaddress").text(resp.placeAddress);
+					$(".span-placearea").text(resp.placeArea);
+					$(".span-placeinfo").html(resp.placeInfo);
+					$(".span-placename").text(resp.placeName);
+					$(".span-placeoff").text(resp.placeOff);
+					$(".span-placeoperation").text(resp.placeOperation);
+					$(".span-placesort").text(resp.placeSort);
+					$(".span-placetel").text(resp.placeTel);
+					$(".span-placeurl").text(resp.placeUrl);
+					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+					//수정 input태그에 값 밀어넣기
+					$('input[name=placeArea]').attr('value',resp.placeArea);
+					$('input[name=placeX]').attr('value',resp.placeX);
+					$('input[name=placeY]').attr('value',resp.placeY);
+					$('input[name=placeSort]').attr('value',resp.placeSort);
+					$('input[name=placeName]').attr('value',resp.placeName);
+					$('textarea[name=placeInfo]').text(resp.placeInfo);
+					$('input[name=placeAddress]').attr('value',resp.placeAddress);
+					$('input[name=placeOperation]').attr('value',resp.placeOperation);
+					$('input[name=placeOff]').attr('value',resp.placeOff);
+					$('input[name=placeTel]').attr('value',resp.placeTel);
+					$('input[name=placeUrl]').attr('value',resp.placeUrl);
+					$('input[name=dangSize]').attr('value',resp.dangSize);
+				}
+			})
+		});
 		
 
 		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
@@ -492,14 +850,14 @@
 								marker,
 								'click',
 								function() {
-
+									
 									for (var i = 0; i < cafePositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentCafe[i].placeX
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentCafe[i].placeX
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
-													+ '  <a class="edit" data-placeno=' + contentCafe[i].placeNo + ' target="_blank">'
+													+ '  <a class="infoModal" data-placeno=' + contentCafe[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentCafe[i].placeNo + ' >'
 													+ contentCafe[i].placeName
 													+ '</span>'
@@ -564,13 +922,13 @@
 								function() {
 
 									for (var i = 0; i < foodPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentFood[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentFood[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
-													+ '  <a class="edit" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
+													+ '  <a class="infoModal" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >'
 													+ contentFood[i].placeName
 													+ '</span>'
@@ -631,13 +989,13 @@
 								function() {
 
 									for (var i = 0; i < fieldPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentField[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentField[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
-													+ '  <a class="edit" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
+													+ '  <a class="infoModal" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >'
 													+ contentField[i].placeName
 													+ '</span>'
@@ -699,13 +1057,13 @@
 								function() {
 
 									for (var i = 0; i < dogsalonPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentDogsalon[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentDogsalon[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
-													+ '  <a class="edit" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
+													+ '  <a class="infoModal" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >'
 													+ contentDogsalon[i].placeName
 													+ '</span>'
@@ -767,13 +1125,13 @@
 								function() {
 
 									for (var i = 0; i < parkPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentPark[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentPark[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
-													+ '  <a class="edit" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
+													+ '  <a class="infoModal" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >'
 													+ contentPark[i].placeName
 													+ '</span>'
