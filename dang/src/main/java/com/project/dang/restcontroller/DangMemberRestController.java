@@ -75,6 +75,12 @@ public class DangMemberRestController {
 		return dangMemberDao.minusScore(memberScore,memberNo);
 	}
 	
+	//댕모임 회원 방장여부 변경
+	@PatchMapping("/owner_update/{memberNo}")
+	public boolean ownerUpdate(@PathVariable int memberNo) {
+		return dangMemberDao.ownerUpdate(memberNo);
+	}
+	
 	//댕모임 회원등급 포인트 조회
 	@GetMapping("/score_find/{memberNo}")
 	public int findScore(@PathVariable int memberNo) {
@@ -115,6 +121,12 @@ public class DangMemberRestController {
 	@DeleteMapping("/delete_member")
 	public boolean deleteMember(@RequestParam int dangNo, @RequestParam int memberNo) {
 		return dangMemberDao.deleteDangMember(dangNo, memberNo);
+	}
+	
+	// 댕모임 회원 강퇴
+	@DeleteMapping("/report_delete_member")
+	public boolean reportDeleteMember(@RequestParam int dangNo, @RequestParam int userNo) {
+		return dangMemberDao.closeDangMember(dangNo, userNo);
 	}
 	
 }

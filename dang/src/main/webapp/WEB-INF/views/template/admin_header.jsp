@@ -110,7 +110,16 @@
 		p{
 			margin:0;
 		}
-      
+		.cursor-pointer{
+			cursor: pointer;
+		}
+		.middle-items{
+		    display:flex;
+		    align-items:center;
+		}
+	   .pink{
+	   		color:#F94888;
+	   }     
       </style>
 
 

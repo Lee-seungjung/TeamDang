@@ -144,4 +144,11 @@ public interface DangDao {
 	 * @return List<Integer> : 댕모임 번호 리스트
 	 */
 	public List<Integer> selectMydangOwnerList(int userNo);
+	
+	/**
+	 * 댕모임 개설자 userNo 변경
+	 * @param DangDto
+	 * @return true, false
+	 */
+	public boolean userNoUpdate(DangDto dto);
 }

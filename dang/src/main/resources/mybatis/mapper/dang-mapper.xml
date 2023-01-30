@@ -238,5 +238,9 @@
 	<select id = "selectMydangOwner" parameterType = "int" resultType = "int">
 		select dang_no from dang_member where user_no = #{userNo} and member_owner = 'Y'
 	</select>
+	
+	<update id="userNoUpdate" parameterType="DangDto">
+		update dang set user_no=#{userNo} where dang_no=${dangNo}
+	</update>
   	
 </mapper>

@@ -12,6 +12,7 @@ import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.ReportImgDto;
 import com.project.dang.vo.ReportCntVO;
 import com.project.dang.vo.ReportListVO;
+import com.project.dang.vo.ReportOneListVO;
 
 @Repository
 public class DangReportDaoImpl implements DangReportDao{
@@ -46,6 +47,15 @@ public class DangReportDaoImpl implements DangReportDao{
 		return sqlSession.selectOne("dangReport.checkReport",param);
 	}
 	
+	//신고 누적수 확인
+	@Override
+	public int reportAppCnt(int dangNo, int userNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("dangNo", dangNo);
+		param.put("userNo", userNo);
+		return sqlSession.selectOne("dangReport.reportAppCnt",param);
+	}
+	
 	//신고 파일 조회
 	@Override
 	public List<ReportImgDto> imgSelectList(int reportNo) {
@@ -56,6 +66,12 @@ public class DangReportDaoImpl implements DangReportDao{
 	@Override
 	public boolean alertUpdate(int reportNo) {
 		return sqlSession.update("dangReport.alertUpdate",reportNo)>0;
+	}
+	
+	//신고 상태 변경
+	@Override
+	public boolean stateUpdate(DangReportDto dto) {
+		return sqlSession.update("dangReport.stateUpdate",dto)>0;
 	}
 
 	//(관리자) 신고 현황 카운트 조회
@@ -76,7 +92,7 @@ public class DangReportDaoImpl implements DangReportDao{
 	
 	//(관리자) 신고 단일조회
 	@Override
-	public ReportListVO selectOne(int reportNo) {
+	public ReportOneListVO selectOne(int reportNo) {
 		return sqlSession.selectOne("dangReport.selectOne",reportNo);
 	}
 	

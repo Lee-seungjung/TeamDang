@@ -28,9 +28,19 @@
 		select*from dang_report where dang_no=#{dangNo} and user_no=#{userNo} and report_state='완료' and report_alert=1
 	</select>
 	
+	<!-- 신고 누적 횟수 확인 -->
+	<select id="reportAppCnt" parameterType="Map" resultType="int">
+		select count(*) from dang_report where dang_no=#{dangNo} and user_no=#{userNo} and report_state='완료'
+	</select>
+	
 	<!-- 신고창확인 컬럼 변경 -->
 	<update id="alertUpdate" parameterType="int">
 		update dang_report set report_alert=0 where report_no=#{reportNo}
+	</update>
+	
+	<!-- 신고상태 컬럼 변경 -->
+	<update id="stateUpdate" parameterType="DangReportDto">
+		update dang_report set report_state=#{reportState} where report_no=#{reportNo}
 	</update>
 	
 	<!-- 신고+댕모임명 검색조회 -->
@@ -47,8 +57,10 @@
 	</select>
 	
 	<!-- 신고 단일조회 -->
-	<select id="selectOne" resultType="ReportListVO" parameterType="int">
-		select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no
+	<select id="selectOne" resultType="ReportOneListVO" parameterType="int">
+		select r.*, d.dang_name, m.member_no, m.member_owner from dang_report r 
+		inner join dang d on r.dang_no=d.dang_no
+		inner join dang_member m on r.user_no=m.user_no and r.dang_no=m.dang_no
 		where r.report_no=#{reportNo}
 	</select>
 	

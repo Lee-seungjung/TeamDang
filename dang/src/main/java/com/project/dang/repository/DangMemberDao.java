@@ -52,6 +52,13 @@ public interface DangMemberDao {
 	DangMemberDto restSelectOne(int memberNo);
 	
 	/**
+	 * 가입일 가장 오래된 회원 1명만 조회
+	 * @param dangNo
+	 * @return DangMemberDto
+	 */
+	DangMemberDto oldOneMember(int dangNo);
+	
+	/**
 	 * 댕모임 회원 등급포인트 증가
 	 * (코드 재사용 위해 변수값 dto로 넣음!)
 	 * @param DangMemberDto
@@ -65,6 +72,13 @@ public interface DangMemberDao {
 	 * @return true 또는 false
 	 */
 	boolean minusScore(int memberScore, int memberNo);
+	
+	/**
+	 * 댕모임 회원 방장여부 변경
+	 * @param memberNo
+	 * @return true 또는 false
+	 */
+	boolean ownerUpdate(int memberNo);
 	
 	/**
 	 * 댕모임 회원 포인트 조회

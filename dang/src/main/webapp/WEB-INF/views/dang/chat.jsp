@@ -434,7 +434,7 @@
 					var td_one = $("<td>").attr("rowspan","2");
 					var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 										.attr("width","45").attr("height","45").attr("data-uno",data[i].userNo);
-					if(data[i].attachment==0){
+					if(data[i].attachmentNo==0){
 						img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 					}else{
 						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo);
@@ -526,7 +526,7 @@
 															<c:choose>
 																<c:when test="${vo.attachmentNo==0}">
 																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
-																			class="img-fluid img-circle origin-img" width="45" height="45">
+																			class="img-fluid c-profile-info img-circle  cursor-pointer" width="45" height="45">
 																</c:when>
 																<c:otherwise>
 																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 

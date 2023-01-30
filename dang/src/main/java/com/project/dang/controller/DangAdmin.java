@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dang.repository.AdminDao;
+import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPlaceDao;
 import com.project.dang.repository.DangReportDao;
+import com.project.dang.vo.ReportOneListVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -21,6 +23,8 @@ public class DangAdmin {
 	AdminDao adminDao;
 	@Autowired
 	private DangReportDao dangReportDao;
+	@Autowired
+	private DangMemberDao dangMemberDao;
 	
 	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
 	@GetMapping("/dash_board")
@@ -63,9 +67,14 @@ public class DangAdmin {
 	public String reportDetail(@RequestParam int reportNo, 
 			Model model) {
 		//신고 단일조회
-		model.addAttribute("detail", dangReportDao.selectOne(reportNo));
+		ReportOneListVO vo = dangReportDao.selectOne(reportNo);
+		model.addAttribute("detail", vo);
 		//파일 조회
 		model.addAttribute("img", dangReportDao.imgSelectList(reportNo));
+		//신고 누적수(완료건) 조회
+		model.addAttribute("reportAppCnt", dangReportDao.reportAppCnt(vo.getDangNo(), vo.getUserNo()));
+		//가장 오래된 멤버 조회
+		model.addAttribute("oldMember", dangMemberDao.oldOneMember(vo.getDangNo()));
 		return "dang_admin/report_detail";
 	}
 	

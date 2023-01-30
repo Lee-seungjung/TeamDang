@@ -53,6 +53,15 @@
 		select * from dang_member where member_no=#{memberNo}
 	</select>
 	
+	<!-- 가입일 오래된 순으로 1명만 조회 -->
+	<select id="oldOneMember" resultType="DangMemberDto" parameterType="int">
+		select * from 
+		    (select rownum rn, TMP.* from 
+		        (select*from dang_member where dang_no=#{dangNo} and member_owner='N' order by member_joindate asc)
+		    TMP ) 
+		where rn=1
+	</select>
+	
 	<!-- 댕모임 내 회원(리스트) 조회 -->
 	<select id="memberList" resultType="MemberListVO" parameterType="int">
 		select d.member_no, d.member_nick,d.member_message, d.member_owner, img.attachment_no 
@@ -68,6 +77,11 @@
 	<!-- 댕모임 회원등급 포인트 감소 -->
 	<update id="minusScore" parameterType="Map">
 		update dang_member set member_score=member_score-#{memberScore} where member_no=#{memberNo}
+	</update>
+	
+	<!-- 댕모임 회원 방장여부 변경 -->
+	<update id="ownerUpdate" parameterType="int">
+		update dang_member set member_owner='Y' where member_no=#{memberNo}
 	</update>
 	
 	<!-- 댕모임 회원 포인트 조회 -->

@@ -6,6 +6,7 @@ import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.ReportImgDto;
 import com.project.dang.vo.ReportCntVO;
 import com.project.dang.vo.ReportListVO;
+import com.project.dang.vo.ReportOneListVO;
 
 public interface DangReportDao {
 
@@ -36,6 +37,14 @@ public interface DangReportDao {
 	DangReportDto checkReport(int dangNo, int userNo);
 	
 	/**
+	 * 신고 누적수 확인
+	 * @param dangNo
+	 * @param userNo
+	 * @return int
+	 */
+	int reportAppCnt(int dangNo, int userNo);
+	
+	/**
 	 * 신고 파일 조회
 	 * @param reportNo
 	 * @return List<ReportImgDto>
@@ -48,6 +57,14 @@ public interface DangReportDao {
 	 * @return true, false
 	 */
 	boolean alertUpdate(int reportNo);
+	
+	/**
+	 * 신고 상태 변경
+	 * @param reportState
+	 * @param reportNo
+	 * @return true, false
+	 */
+	boolean stateUpdate(DangReportDto dto);
 	
 	/**
 	 * (관리자) 신고 현황 카운트 조회
@@ -64,8 +81,8 @@ public interface DangReportDao {
 	/**
 	 * (관리자) 신고 단일조회
 	 * @param reportNo
-	 * @return ReportListVO
+	 * @return ReportOneListVO
 	 */
-	ReportListVO selectOne(int reportNo);
+	ReportOneListVO selectOne(int reportNo);
 	
 }

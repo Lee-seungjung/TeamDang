@@ -82,6 +82,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.selectOne("dangMember.restFindMember",memberNo);
 	}
 	
+	//가입일 가장 오래된 회원 1명만 조회
+	@Override
+	public DangMemberDto oldOneMember(int dangNo) {
+		return sqlSession.selectOne("dangMember.oldOneMember",dangNo);
+	}
+	
 	//댕모임 회원 등급포인트 증가
 	@Override
 	public boolean plusScore(DangMemberDto dto) {
@@ -95,6 +101,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		param.put("memberScore", memberScore);
 		param.put("memberNo", memberNo);
 		return sqlSession.update("dangMember.minusScore",param)>0;
+	}
+	
+	//댕모임 회원 방장 변경
+	@Override
+	public boolean ownerUpdate(int memberNo) {
+		return sqlSession.update("dangMember.ownerUpdate",memberNo)>0;
 	}
 	
 	//댕모임 회원 등급포인트 확인

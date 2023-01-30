@@ -166,5 +166,11 @@ public class DangDaoImpl implements DangDao {
 	public List<Integer> selectMydangOwnerList(int userNo) {
 		return sqlSession.selectList("dang.selectMydangOwner", userNo);
 	}
+	
+	//댕모임 개설자 userNo 변경
+	@Override
+	public boolean userNoUpdate(DangDto dto) {
+		return sqlSession.update("dang.userNoUpdate", dto)>0;
+	}
 }
 	

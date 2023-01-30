@@ -7,11 +7,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangDetailDto;
+import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.repository.DangDao;
@@ -78,5 +81,10 @@ public class DangRestController {
 			}
 		}
 		return dangList;
+	}
+	
+	@PatchMapping("/userno_update")
+	public boolean userNoUpdate(@RequestBody DangDto dto) {
+		return dangDao.userNoUpdate(dto);
 	}
 }

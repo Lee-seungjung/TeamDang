@@ -729,6 +729,14 @@
 							
 							//헤더 프로필 변경
 							$(".img-user-profile").attr("src",url);
+							
+							//게시판 프로필 사진 변경
+							var bTag = $(".board-box[data-mno="+memberNo+"]").children().find(".b-profile-info").children();
+							bTag.attr("src",url);
+							
+							//대화 프로필 사진 변경
+							var cTag =  $(".c-profile-info[data-uno="+userNo+"]");
+							cTag.attr("src",url);
 						}
 					}
 				});
@@ -820,17 +828,6 @@
 				});
 			}
 		}
-		
-		//기존 첨부파일 삭제
-			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
-				method:"delete",
-				data:originAttachmentNo,
-				success:function(resp){
-					
-				}
-			});
 		
 		//일정등록 모달에서 등록 버튼 클릭
 		$(".write-btn").click(function(e){
