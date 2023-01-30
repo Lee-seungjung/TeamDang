@@ -102,6 +102,15 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		return sqlSession.selectList("schedule.checkMemberList", param);
 	}
 	
+	//일정 수정에 필요한 정보 조회
+	@Override
+	public ScheduleEditVO selectScheduleInfo(int scheduleNo, Integer dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectOne("schedule.selectScheduleInfo", param);
+	}
+	
 	//일정 수정
 	@Override
 	public boolean scheduleEdit(ScheduleEditVO scheduleEditVO) {
@@ -118,6 +127,7 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		param.put("memberNo", String.valueOf(memberNo));		
 		return sqlSession.delete("schedule.scheduleDelete", param)>0;
 	}
+
 
 
 }
