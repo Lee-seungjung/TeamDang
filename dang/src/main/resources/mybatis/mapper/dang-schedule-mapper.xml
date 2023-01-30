@@ -102,7 +102,7 @@
       </update> 
       
         					 <!-- (수정위한)일정 정보 조회 -->
-      	<select id = "selectDangEditInfo" parameterType = "Map" resultType = "ScheduleEditVO">
+      	<select id = "selectScheduleInfo" parameterType = "Map" resultType = "ScheduleEditVO">
 			                                  select p.place_name, ddm.* from dang_place p
             inner join (
             select D.schedule_no, D.place_no, D.schedule_title, D.schedule_content, D.schedule_headmax, D.schedule_head, D.schedule_start, D.schedule_hour,  DM.dang_no

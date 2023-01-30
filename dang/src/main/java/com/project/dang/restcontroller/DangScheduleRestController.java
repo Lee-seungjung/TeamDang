@@ -77,8 +77,8 @@ public class DangScheduleRestController {
 		 dangScheduleDao.memberJoinCancel(scheduleNo, memberNo);
 	}
 	
-	@GetMapping("schdule_edifInfo")
-	public ScheduleEditVO scheduleEditInfo(@RequestParam int scheduleNo, @RequestParam Integer dangNo) {
+	@GetMapping("schdule_editInfo")
+	public ScheduleEditVO selectScheduleInfo(@RequestParam int scheduleNo, @RequestParam Integer dangNo) {
 		return dangScheduleDao.selectScheduleInfo(scheduleNo, dangNo);
 	}
 	
