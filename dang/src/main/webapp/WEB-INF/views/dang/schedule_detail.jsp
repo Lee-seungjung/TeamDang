@@ -76,7 +76,7 @@
 .info-commons {
     margin: 10px auto;
     width: 85%;
-    height: 50px;
+    height: 40px;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -84,7 +84,7 @@
 }
 .block {
     display: block;
-    line-height: 50px;
+    line-height: 40px;
     border: none;
     background-color: #76BEFF;
     text-align: center;
@@ -92,12 +92,12 @@
     color: white;
     font-size: 18px;
     font-weight: 600;
-    height: 50px;
+    height: 40px;
     width: 120px;
 }
 .block-white{
     display: block;
-    line-height: 50px;
+    line-height: 40px;
     border: none;
     border-radius: 10px;
     color: #515151;
@@ -337,6 +337,11 @@ border : 2px solid #76BEFF;
                         </c:forEach>
                         </div>
                     </div>   
+                    
+                    <div class = "info-commons dang-money">
+                        <div class="block">참여 회비</div>
+                        <div class="block-white">${scheduleDetail.scheduleMoney}원</div>
+                    </div>    
 					
 					<div class="btn-box btn-join">				
                      <button type="submit" class="btn-plus">참여</button>
@@ -360,7 +365,7 @@ border : 2px solid #76BEFF;
 		</div>
 		
 		
-		    <!-- 댕모임 일정 수정 모달 (테스트후 아이디이름 수정예정-->
+		    <!-- 댕모임 일정 수정 모달 -->
     <div class="modal fade" id="scheduleEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -668,20 +673,31 @@ border : 2px solid #76BEFF;
 				//일정수정 모달에서 수정 버튼 클릭
 				$(".edit-btn").click(function(e){
 					console.log(${profile.memberNo});
-					var memberNo = ${profile.memberNo};
-					var scheduleTitle = $("[name=scheduleTitle]").val();
-					var scheduleContent =$("[name=scheduleContent]").val();
-					var scheduleStart = $("[name=scheduleStart]").val();
-					var scheduleHour = $("[name=scheduleHour]").val();
-					var placeNo = $(".where").attr('data-placeno');
-					var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
-					var scheduleMoney = $("[name=scheduleMoney]").val();
+					//var memberNo = ${profile.memberNo};
+/* 					var scheduleTitle = $("[name=scheduleTitle]").val();
+						var scheduleContent =$("[name=scheduleContent]").val();
+						var scheduleStart = $("[name=scheduleStart]").val();
+						var scheduleHour = $("[name=scheduleHour]").val();
+						var placeNo = $(".where").attr('data-placeno');
+						var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
+						var scheduleMoney = $("[name=scheduleMoney]").val();
 
 					saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 					
 			        	$(window).on("beforeunload", function(){
 			        		removescheduleTitle();
-						});
+						}); */
+						//$(.schedule-name).text();
+						//모임 제목 ${scheduleDetail.scheduleTitle};
+						//모임 내용 ${scheduleDetail.scheduleContent};
+						//모임 시간 ${scheduleDetail.scheduleStart};
+						//모임 장소 ${scheduleDetail.scheduleHour}		;				
+						//참여 인원 ${scheduleDetail.scheduleHeadMax};
+						//참여 회비 
+						
+						// text()로 출해서 모달 띄우고 거기다 붙이면. 인풋창 있잖어
+						//$(인풋창).val(추출한 값) 이거 하면 인풋 값으로 입력되어져있게 되거든
+						
 					});
 				//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
 						$(document).on("click",".edit-cancel",function(){

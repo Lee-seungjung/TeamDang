@@ -12,6 +12,10 @@
 		
 	}
 	
+	.strong-mypage-title {
+		font-size : 30px;
+	}
+	
 	.div-mydang-dang-list-unit {
 		border : 2px solid #E8E8E8;
 		border-radius : 10px;
@@ -113,10 +117,10 @@
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
-		<div class = "col-8 offset-2 my-3">
-			<div class = "row">
+		<div class = "col-8 offset-2">
+			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
-                    <strong class = "strong-modal-interest-dang-area">가입한 댕모임</strong>
+                    <strong class = "strong-mypage-title">가입한 댕모임</strong>
                 </div>
             </div>
 			<div class = "row">

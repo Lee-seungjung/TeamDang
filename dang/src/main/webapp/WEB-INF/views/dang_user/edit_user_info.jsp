@@ -72,9 +72,9 @@
 	
 </style>
 
-<div class = "container-fluid my-3">	
+<div class = "container-fluid my-2">	
 	<div class = "row">
-		<div class = "col-4 offset-4 my-3 px-5">
+		<div class = "col-4 offset-4 px-5">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">회원정보 변경</strong>
