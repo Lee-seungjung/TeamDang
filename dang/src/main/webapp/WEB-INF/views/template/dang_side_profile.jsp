@@ -313,7 +313,6 @@
     .modal-profile-report-btn{
     	text-align:center;
     	padding:5px 10px;
-
     }
     .modal-profile-siren{
     	width:22px;
@@ -682,7 +681,6 @@
 									}
 								}
 							});
-
 							//댓글 닉네임 변경
 							$.ajax({
 								url:"${pageContext.request.contextPath}/rest_reply/update_nick",
@@ -845,7 +843,6 @@
 			var placeNo = $(".where").attr('data-placeno');
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
-
 			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 			
 	        	$(window).on("beforeunload", function(){
@@ -862,11 +859,9 @@
 					$(".where").val(""); //장소
 					$("#persons").prop("selected", true);//최대 참여인원							
 					$(".money").val(""); //회비 
-
 		});
 		
 			
-
 		//일정 등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
@@ -1197,8 +1192,8 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time" value="10:00" min="00:00"
-                                        max="24:00"  class="inbl w-50 b-contentbox form-control" name="scheduleHour"></p>
+                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
+                                        max="24:00"  name="scheduleHour"></p>
                         </div>
 
                         <div class="mb-3 text-start">
