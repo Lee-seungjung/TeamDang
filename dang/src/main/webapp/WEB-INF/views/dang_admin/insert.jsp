@@ -205,7 +205,6 @@
         <!--댕모임 첨부파일 첨부파일 번호-->
 
         
-        <div id="map" style="width:1000px;height:350px;"></div>
 
     </div>
 
