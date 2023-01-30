@@ -28,7 +28,7 @@
 	}
 	
 	.div-change-pw-input {
-		height : 18rem;
+		height : 20rem;
 	}
 	
 	.btn-change-user-pw-submit {

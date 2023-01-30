@@ -55,163 +55,181 @@
 	
 <style>
 
-  * {
-    font-family: 'Noto Sans KR', 산세리프;
-    font-size : 18px;
-  }
-  
-  a {
-    text-decoration: none;
-    color:black;
-  }
-
-  p {
-    margin-bottom:0;
-  }
-
-  .inbl {
-    display:inline-block;
-  }
-  
-  .w-auto {
-    width:auto;
-  }
-  
-  .img-circle {
-    border-radius: 50%;
-    border:none;
-    background-color:#fff;
-    overflow: hidden;
-  }
-
-  .font-gray {
-    color:#373A3C;
-  }
-
-  .btn.btn-primary {
-    background-color:#76BEFF;
-    color:#fff;
-    border-color: #76BEFF;
-  }
-  
-  .btn-outline-primary {
-    color: #76BEFF;
-    border-color: #76BEFF;
-  }
-  
-  .btn-outline-primary:hover {
-    color: #fff;
-    font-weight:bolder;
-    background-color: #76BEFF;
-    border-color: #76BEFF;
-  }
-  .btn-outline-primary:focus {
-    box-shadow: 0 0 0 0.25rem rgba(118, 190, 255, 0.5);
-  }
-  
-  .btn-pink{
-    background-color:#F94888;
-    color:#fff;
-    border-color: #F94888;
-  }  
-  .btn-pink:hover {
-    color:#fff;
-  }
-  .btn-outline-pink:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 189, 213, 0.5);
-  }
-  .btn-outline-pink {
-    color: #F94888;
-    border-color: #F94888;
-  }
-  .cursor-pointer {
-    cursor: pointer;
-  }
-
-  .cursor-zoomin {
-    cursor:zoom-in;
-  }
-  
-  .img-user-profile {
-    border-radius : 50%;
-    border : 2px solid black;
-    width : 1.8em;
-    aspect-ratio: 1/1;
-  }
-
-  .div-user-profile {
-    cursor:pointer;
-  }
-
-  .span-check-valid {
-    color : green;
-  }
-
-  .span-check-invalid {
-    color : red;
-  }
-
-  .form-control:focus {
-    background-color: #fff;
-    border-color: #a2c1f6;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
-  }
-  
-  .form-select:focus {
-    border-color: #a2c1f6;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
-  }
-  
-  .gray:hover {
-    color: black;
-    background-color: #E6E6E6;
-  }
-
-  .middle-items{
-    display:flex;
-    align-items:center;
-  }
-  
-  .blue{
-    color:#76BEFF;
-  }
-  
-  .pink{
-    color:#F94888;
-  }
-  
-  .text-truncate2 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    white-space: normal;
-  }
-  
-  .zoomin {
-    display: none;
-    z-index: 500;
-    max-width: 100%;
-    height: auto;
-    position: fixed;
-    top:0; left: 0; bottom: 0; right: 0;
-    background-color: gray;
-    background: rgba(0, 0, 0, 0.8);
-  }
-  
-  .zoomin-img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .div-dang-logo {
-  	cursor : pointer;
-  }
+	* {
+		font-family: 'Noto Sans KR', 산세리프;
+		font-size : 18px;
+	}
+	
+	a {
+		text-decoration: none;
+		color:black;
+	}
+	
+	p {
+		margin-bottom:0;
+	}
+	
+	.inbl {
+		display:inline-block;
+	}
+	
+	.w-auto {
+		width:auto;
+	}
+	
+	.img-circle {
+		border-radius: 50%;
+		border:none;
+		background-color:#fff;
+		overflow: hidden;
+	}
+	
+	.font-gray {
+		color:#373A3C;
+	}
+	
+	.btn.btn-primary {
+		background-color:#76BEFF;
+		color:#fff;
+		border-color: #76BEFF;
+	}
+	
+	.btn-outline-primary {
+		color: #76BEFF;
+		border-color: #76BEFF;
+	}
+	
+	.btn-outline-primary:hover {
+		color: #fff;
+		font-weight:bolder;
+		background-color: #76BEFF;
+		border-color: #76BEFF;
+	}
+	.btn-outline-primary:focus {
+		box-shadow: 0 0 0 0.25rem rgba(118, 190, 255, 0.5);
+	}
+	
+	.btn-pink{
+		background-color:#F94888;
+		color:#fff;
+		border-color: #F94888;
+	}  
+	.btn-pink:hover {
+		color:#fff;
+	}
+	.btn-outline-pink:focus {
+		box-shadow: 0 0 0 0.25rem rgba(255, 189, 213, 0.5);
+	}
+	.btn-outline-pink {
+		color: #F94888;
+		border-color: #F94888;
+	}
+	.cursor-pointer {
+		cursor: pointer;
+	}
+	
+	.cursor-zoomin {
+		cursor:zoom-in;
+	}
+	
+	.img-user-profile {
+		border-radius : 50%;
+		border : 4px solid #373A3C;
+		width : 2em;
+		aspect-ratio: 1/1;
+	}
+	
+	.div-user-profile {
+		cursor:pointer;
+	}
+	
+	.span-check-valid {
+		color : green;
+	}
+	
+	.span-check-invalid {
+		color : red;
+	}
+	
+	.form-control:focus {
+		background-color: #fff;
+		border-color: #a2c1f6;
+		outline: 0;
+		box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+	
+	.form-select:focus {
+		border-color: #a2c1f6;
+		outline: 0;
+		box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
+	}
+	
+	.gray:hover {
+		color: black;
+		background-color: #E6E6E6;
+	}
+	
+	.middle-items{
+		display:flex;
+		align-items:center;
+	}
+	
+	.blue{
+		color:#76BEFF;
+	}
+	
+	.pink{
+		color:#F94888;
+	}
+	
+	.text-truncate2 {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: normal;
+	}
+	
+	.zoomin {
+		display: none;
+		z-index: 500;
+		max-width: 100%;
+		height: auto;
+		position: fixed;
+		top:0; left: 0; bottom: 0; right: 0;
+		background-color: gray;
+		background: rgba(0, 0, 0, 0.8);
+	}
+	
+	.zoomin-img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	
+	.div-dang-logo,
+	.header-menu {
+		cursor : pointer;
+	}
+	
+	.strong-header-menu {
+		font-size : 20px
+	}
+	
+	.i-header-menu {
+		font-size : 24px
+	}
+	
+	.i-header-menu-admin-enter,
+	.span-header-menu-admin-enter {
+		color : red;
+	}
+	
+	.strong-header-user-nick {
+		color : #76BEFF;
+	}
 
 </style>
 
@@ -226,36 +244,51 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row mt-2">
-				<div class = "col-2 d-flex justify-content-center align-items-center px-4 div-dang-logo" onClick = "location.href = '${pageContext.request.contextPath}/'">
+				<div class = "col-2 d-flex justify-content-center align-items-center px-4 div-dang-logo" onclick = "location.href = '${pageContext.request.contextPath}/'">
 					<img src = "${pageContext.request.contextPath}/images/logo.png" class = "w-100 main-img">
 				</div>
-				<div class = "col-4 middle-items">
-					<a href = "/dang/1">1번 댕모임</a>
+				<div class = "offset-2 col-2 d-flex justify-content-center align-items-center">
+					<c:if test = "${loginGrade == '관리자'}">					
+					<div class = "d-flex justify-content-center align-items-center header-menu" onclick = "location.href = '${pageContext.request.contextPath}/admin/dash_board'">
+						<i class="fa-solid fa-screwdriver-wrench i-header-menu me-2 i-header-menu-admin-enter"></i>
+						<strong class = "strong-header-menu span-header-menu-admin-enter">관리자 모드</strong>
+					</div>
+					</c:if>
 				</div>
 				<div class = "col-6 d-flex flex-row">
-					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<a href = "${pageContext.request.contextPath}/dang/search">댕모임 찾기</a>
+					<div class = "col-4 d-flex justify-content-center align-items-center header-menu" onclick = "location.href = '${pageContext.request.contextPath}/dang/search'">
+						<i class="fa-solid fa-magnifying-glass i-header-menu me-2"></i>
+						<strong class = "strong-header-menu">댕모임 찾기</strong>
 					</div>
 					<c:choose>
 					<c:when test = "${login}">
-					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<label class = "col d-flex justify-content-center align-items-center div-user-profile" onClick = "location.href = '${pageContext.request.contextPath}/user/mypage'">
-							<img class = "col-3 img-user-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
-							<span class = "ms-2">
-								${loginNick}
-							</span>
+					<div class = "col-4 d-flex justify-content-center align-items-center header-menu">
+						<label class = "col d-flex justify-content-center align-items-center div-user-profile" onclick = "location.href = '${pageContext.request.contextPath}/user/mypage'">
+							<c:choose>
+							<c:when test = "${loginProfileImg != null}">
+							<img class = "col-3 img-user-profile me-2" src = "${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+							</c:when>
+							<c:otherwise>
+							<img class = "col-3 img-user-profile me-2" src = "${pageContext.request.contextPath}/images/basic-profile.png">
+							</c:otherwise>
+							</c:choose>
+							<strong class = "strong-header-menu strong-header-user-nick me-1">${loginNick}</strong>
+							<strong class = "strong-header-menu">님</strong>
 						</label>
 					</div>
-					<div class = "col-4 d-flex justify-content-center align-items-center">
-						<a href = "${pageContext.request.contextPath}/user/logout">로그아웃</a>
+					<div class = "col-4 d-flex justify-content-center align-items-center header-menu" onclick = "location.href = '${pageContext.request.contextPath}/user/logout'">
+						<i class="fa-solid fa-right-from-bracket i-header-menu me-2"></i>
+						<strong class = "strong-header-menu">로그아웃</strong>
 					</div>
 					</c:when>
 					<c:otherwise>
-						<div class = "col-4 d-flex justify-content-center align-items-center">
-							<a href = "${pageContext.request.contextPath}/user/join">회원가입</a>
+						<div class = "col-4 d-flex justify-content-center align-items-center header-menu" onclick = "location.href = '${pageContext.request.contextPath}/user/join'">
+							<i class="fa-solid fa-user-plus i-header-menu me-2"></i>
+							<strong class = "strong-header-menu">회원가입</strong>
 						</div>
-						<div class = "col-4 d-flex justify-content-center align-items-center">
-							<a href = "${pageContext.request.contextPath}/user/login">로그인</a>
+						<div class = "col-4 d-flex justify-content-center align-items-center header-menu" onclick = "location.href = '${pageContext.request.contextPath}/user/login'">
+							<i class="fa-solid fa-right-to-bracket i-header-menu me-2"></i>
+							<strong class = "strong-header-menu">로그인</strong>
 						</div>
 					</c:otherwise>
 					</c:choose>

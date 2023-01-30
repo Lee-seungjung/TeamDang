@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-	<jsp:param value="회원탈퇴" name="title"/>
+	<jsp:param value="회원정보 변경" name="title"/>
 </jsp:include>
 
 <jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>

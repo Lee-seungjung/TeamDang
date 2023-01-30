@@ -27,7 +27,7 @@
 	}
 	
 	.div-col-change-pw-success-content {
-		height : 17rem;
+		height : 19rem;
 	}
 </style>
 
