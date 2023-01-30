@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.vo.JoinMemberVO;
+import com.project.dang.vo.JoinScheduleListVO;
 import com.project.dang.vo.ScheduleEditVO;
 import com.project.dang.vo.ScheduleOneVO;
 import com.project.dang.vo.ScheduleVO;
@@ -127,6 +128,17 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		param.put("memberNo", String.valueOf(memberNo));		
 		return sqlSession.delete("schedule.scheduleDelete", param)>0;
 	}
+	
+	//참여일정 리스트 조회
+	@Override
+	public List<JoinScheduleListVO> joinScheduleList(int scheduleNo, int memberNo, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(memberNo));
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectList("schedule.joinScheduleList", param);
+	}
+
 
 
 

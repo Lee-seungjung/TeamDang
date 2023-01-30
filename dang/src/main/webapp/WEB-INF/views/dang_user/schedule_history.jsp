@@ -32,7 +32,7 @@
                                 <select class = "col-2 py-1 d-flex align-items-center div-puppy-info-menu-content select-modal-insert-puppy-gender">
                                 <option value = "" class = "">1개월</option>
                                 <option value = "" class = "">3개월</option>
-                                <option value = "" class = "">6개월</option>
+                                <option value = "" class = "">전체</option>
                             </select>
                 </div>
             </div>

@@ -30,11 +30,13 @@ import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPuppyDao;
+import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangUserChangePwVO;
 import com.project.dang.vo.DangUserFindVO;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
+import com.project.dang.vo.JoinScheduleListVO;
 
 @Controller
 @RequestMapping("/user")
@@ -57,6 +59,9 @@ public class DangUserController {
 	
 	@Autowired
 	private DangMemberDao dangMemberDao;
+	
+	@Autowired
+	private DangScheduleDao dangScheduleDao;
 	
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
@@ -435,4 +440,14 @@ public class DangUserController {
 		// 내가 가입한 댕모임 페이지로 redirect
 		return "redirect:list_mydang";
 	}
+	
+	//마이페이지 참여일정 조회
+	@GetMapping("/schedule_history")
+	public String scheduleHistory(Model model, @ModelAttribute JoinScheduleListVO joinScheduleListVO) {		
+		// 조회 정보를 Model에 추가
+		//model.addAttribute("joinScheduleList", joinScheduleList);
+		return "dang_user/schedule_history";	
+	}
+		
+	
 }
