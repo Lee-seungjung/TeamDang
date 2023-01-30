@@ -27,22 +27,24 @@
 	}
 	
 	.div-col-edit-user-info-success-content {
-		height : 20vw;
+		height : 17rem;
 	}
 </style>
 
-<div class = "container-fluid my-3">	
+<div class = "container-fluid my-2">	
 	<div class = "row">
-		<div class = "col-4 offset-4 my-3 px-5 div-col-edit-user-info-success-content">
+		<div class = "col-4 offset-4 px-5">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">회원정보 변경</strong>
                 </div>
             </div>
-			<div class = "row my-4 mb-4">
-				<div class = "col d-flex flex-row justify-content-center align-items-center">
-					<img src = "${pageContext.request.contextPath}/images/img-checked.png" class = "img-change-user-info-result me-3">
-					<span class = "my-2 span-change-user-info-result">회원정보 변경이 완료되었습니다.</span>
+			<div class = "row my-4 div-col-edit-user-info-success-content">
+				<div class = "col d-flex flex-row justify-content-center align-items-start mt-3">
+					<div class = "d-flex justify-content-center align-items-center">					
+						<img src = "${pageContext.request.contextPath}/images/img-checked.png" class = "img-change-user-info-result me-3">
+						<span class = "my-2 span-change-user-info-result">회원정보 변경이 완료되었습니다.</span>
+					</div>
 				</div>
 			</div>
 		</div>

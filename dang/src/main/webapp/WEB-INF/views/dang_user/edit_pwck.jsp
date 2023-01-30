@@ -37,11 +37,15 @@
 		outline : 2px solid #76BEFF;
 	}
 	
+	.div-edit-user-info-pwck-input {
+		height : 14rem;
+	}
+	
 </style>
 
-<div class = "container-fluid my-3">	
+<div class = "container-fluid my-2">	
 	<div class = "row">
-		<div class = "col-4 offset-4 my-3 px-5">
+		<div class = "col-4 offset-4 px-5">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">회원정보 변경</strong>
@@ -57,7 +61,7 @@
 					<span>회원님의 정보를 보호하기 위해 비밀번호를 다시 확인합니다.</span>
                 </div>
             </div>
-			<div class = "row my-2 mb-4">
+			<div class = "row my-2 mb-2 div-edit-user-info-pwck-input">
 				<form action = "edit_pwck" method = "post" class = "col-10 offset-1 div-edit-user-innfo-pwck">
 					<div class = "row my-4">
 						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인">
