@@ -103,7 +103,7 @@
 
                 <div class="row">
                     <div class="col d-flex flex-column justify-content-center align-items-center py-3">				
-                        <span class="hello-common">안녕하세요 <span class="dang-nick">초코야사랑해</span>님,</span>
+                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님,</span>
                         <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                             <div class="col-6 dang-owner-profile">
                                 <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">                                    
                                     <img class = "row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
-                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">초코야사랑해</span>
+                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>
                                     <a class="myprofile-edit row align-items-center justify-content-center">내정보 수정</a>
                                 </div>
                             </div>
@@ -133,6 +133,7 @@
                                         <span class = "span-info-category">관심지역</span>
                                     </div>
                                     <div class = "owner-common2 col-5">
+                                    
                                         <span class = "span-info">서울 강남구</span>
                                         <span class = "span-info">서울 강남구</span>
                                         <span class = "span-info">서울 강남구</span>
@@ -272,7 +273,7 @@
                             <span class="mypage-menu-common">가입 댕모임</span>
                         </div>
                     </div>   
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='#'">
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='${pageContext.request.contextPath}/user/schedule_history'">
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png" >
                         </div>
