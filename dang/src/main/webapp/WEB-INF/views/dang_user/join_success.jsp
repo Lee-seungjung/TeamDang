@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-   <jsp:param value="댕모임 가입 완료" name="title"/>
+   <jsp:param value="댕모임 가입" name="title"/>
 </jsp:include>
 
 <style>

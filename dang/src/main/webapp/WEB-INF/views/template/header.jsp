@@ -240,7 +240,14 @@
 					<c:when test = "${login}">
 					<div class = "col-4 d-flex justify-content-center align-items-center">
 						<label class = "col d-flex justify-content-center align-items-center div-user-profile" onClick = "location.href = '${pageContext.request.contextPath}/user/mypage'">
+							<c:choose>
+							<c:when test = "${loginProfileImg != null}">
 							<img class = "col-3 img-user-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+							</c:when>
+							<c:otherwise>
+							<img class = "col-3 img-user-profile" src = "${pageContext.request.contextPath}/images/basic-profile.png">
+							</c:otherwise>
+							</c:choose>
 							<span class = "ms-2">
 								${loginNick}
 							</span>
