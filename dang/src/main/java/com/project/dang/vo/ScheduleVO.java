@@ -19,5 +19,6 @@ public class ScheduleVO {
 	private int scheduleHead;
 	private Integer dangNo;
 	private int placeNo;
+	private int scheduleMoney;
 
 }
