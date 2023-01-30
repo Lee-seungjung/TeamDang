@@ -145,6 +145,10 @@
 	    left: 50%;
 	    transform: translate( -50%, -50% );
 	}
+	.b-profile-info{
+		width:50px;
+		height:50px;
+	}
 </style>
 
 <div class = "container-fluid mt-3 body-wrapper">
@@ -197,9 +201,9 @@
 				    <div class="board-group text-center mt-4" data-scrollcheck="">
 				    
 				    	<c:if test="${boardList.size()==0}">
-				    		<div class="col zero-boardList">
-				    			<i class="fa-regular fa-clipboard-list"></i>
-				    			<span class="zero-boardList-font">등록된 게시글이 없습니다</span>
+				    		<div class="col zero-boardList middle-items justify-content-center">
+				    			<img src="${pageContext.request.contextPath}/images/clipboard.png" width="30" height="30">
+				    			<span class="zero-boardList-font content-font">등록된 게시글이 없습니다</span>
 				    		</div>
 				    	</c:if>
 				    
@@ -215,7 +219,7 @@
 											</c:when>
 											<c:otherwise>
 												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
-														 class="img-fluid img-circle" style="width:50px; height:50px;">
+														 class="img-fluid img-circle">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -1177,7 +1181,7 @@
 			var nick_span = $("<span>").attr("class","nick-font").text(resp.memberNick);
 			fir_col7.append(nick_span);
 			if(resp.memberOwner=='Y'){
-				var owner_img = $("<img>").attr("style","width:50px; height:50px;").attr("class","ms-1")
+				var owner_img = $("<img>").attr("style","width:25px; height:25px;").attr("class","ms-1")
 							.attr("src","${pageContext.request.contextPath}/images/crown.png");
 				fir_col7.append(owner_img);
 			}

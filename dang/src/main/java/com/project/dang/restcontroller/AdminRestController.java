@@ -36,4 +36,11 @@ public class AdminRestController {
 	public boolean stateUpdate(@RequestBody DangReportDto dto) {
 		return dangReportDao.stateUpdate(dto);
 	}
+	
+	//경고 확인 컬럼 변경(신고 처리 못한 건 접수>반려)
+	@PatchMapping("/report_rejected")
+	public boolean stateRejUpdate(@RequestBody DangReportDto dto) {
+		return dangReportDao.stateRejUpdate(dto);
+	}
+		
 }

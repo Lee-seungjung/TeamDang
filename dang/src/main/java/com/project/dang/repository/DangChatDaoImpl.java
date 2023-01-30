@@ -82,7 +82,7 @@ public class DangChatDaoImpl implements DangChatDao{
 	public boolean deleteChatList(int roomNo, int userNo) {
 		Map<String, Integer> param = new HashMap<>();
 		param.put("roomNo", roomNo);
-		param.put("chatNo", userNo);
+		param.put("userNo", userNo);
 		return sqlSession.delete("chat.deleteChatList",param)>0;
 	}
 

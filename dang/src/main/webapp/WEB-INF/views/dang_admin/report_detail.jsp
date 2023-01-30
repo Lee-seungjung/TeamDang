@@ -72,25 +72,32 @@
 			//누적 신고 2회일 경우 
 			//승인확인 버튼 클릭 시 신고테이블 상태 변경
 			$(".app-confirm-btn").click(function(){
-				var reportState = "완료";
-				updateState(reportNo, reportState);
-			});
-		});
-		
-		//반려 모달
-		$(".report-rej-btn").click(function(){
-			$("#report-rej-Modal").modal("show");
-			
-			//반려확인 버튼 클릭 시 신고테이블 상태 변경
-			$(".rej-confirm-btn").click(function(){
 				var reportAppCnt = $("[name=reportAppCnt]").val();
 				var memberOwner = $("[name=memberOwner]").val();
 				var dangNo = $("[name=dangNo]").val();
 				var userNo = $(".userNo").text();
-				var reportState = "반려";
-				updateState(reportNo, reportState); //신고 상태 승인으로 변경
+				var roomNo = $("[name=roomNo]").val();
+				var reportState = "완료";
+				updateState(reportNo, reportState);
 				
 				if(reportAppCnt==1){
+					//강퇴예정인 사람 나머지 신고내역 있을 경우 신고상태 반려로 이동,, 
+					//이제와서 컬럼 추가하기 어려워서 ㅠ 일단 반려로 돌림
+					rejectData = {
+							userNo:userNo,
+							dangNo:dangNo
+					}
+					$.ajax({
+						url:"${pageContext.request.contextPath}/admin/report_rejected",
+						method:"patch",
+						data:JSON.stringify(rejectData),
+		        		contentType: 'application/json',
+		        		async:false,
+		        		success:function(resp){
+		        			console.log("반려로 이동 성공!");
+		        		}
+					});
+					
 					//해당 댕모임 강퇴처리
 					$.ajax({
 						url:"${pageContext.request.contextPath}/rest_member/report_delete_member?dangNo="+dangNo+"&userNo="+userNo,
@@ -98,9 +105,17 @@
 						async:false,
 						success:function(resp){
 							console.log("회원 삭제 성공!");
+							$.ajax({
+								url:"${pageContext.request.contextPath}/rest_chat/delete_member_history?userNo="+userNo+"&roomNo="+roomNo,
+								method:"delete",
+								async:false,
+								success:function(resp){
+									console.log("채팅내역 삭제 성공!");
+								}
+							});
 						}
 					});
-					
+
 					//개설자일 경우 가입 오래된 멤버를 방장으로 변경
 					//1. 댕모임 테이블 - 개설자 회원번호 컬럼 변경
 					//2. 댕모임 회원 테이블 - 새로운 방장의 방장여부 컬럼 변경
@@ -116,7 +131,7 @@
 						$.ajax({
 							url:"${pageContext.request.contextPath}/rest_dang/userno_update",
 							method:"patch",
-							data:JSON.stringify(data),
+							data:JSON.stringify(updateData),
 			        		contentType: 'application/json',
 			        		async:false,
 			        		success:function(resp){
@@ -134,8 +149,19 @@
 			        		}
 						});
 					}
-					
 				}
+				location.href="${pageContext.request.contextPath}/admin/report";
+			});
+		});
+		
+		//반려 모달
+		$(".report-rej-btn").click(function(){
+			$("#report-rej-Modal").modal("show");
+			
+			//반려확인 버튼 클릭 시 신고테이블 상태 변경
+			$(".rej-confirm-btn").click(function(){
+				var reportState = "반려";
+				updateState(reportNo, reportState); //신고 상태 반려로 변경
 				
 			});
 		});
@@ -158,7 +184,6 @@
         			}else{
         				$("#report-app-Modal").modal("hide");
         			}
-        			location.href="${pageContext.request.contextPath}/admin/report";
         		}
 			});
 		}
@@ -263,11 +288,11 @@
 								<span style="font-weight:bolder;">해당 신고건을 승인하시겠습니까?</span><br>
 							</div>
 							<span style="font-size:13px; margin-left:35px;">
-								댕모임 내 누적신고 ${reportAppCnt}회(승인 완료 기준) 회원입니다.
+								댕모임 내 누적신고 <strong class="pink">${reportAppCnt}회</strong>(승인 완료 기준) 회원입니다.
 							</span><br>
 							<c:if test="${reportAppCnt==1}">
 								<span style="font-size:13px; margin-left:35px;">
-									신고건 승인 후 해당 댕모임에서 <strong>자동 강퇴</strong> 처리됩니다.
+									신고건 승인 후 해당 댕모임에서 <strong class="pink">자동 강퇴</strong> 처리됩니다.
 								</span>
 							</c:if>
 						</div>
@@ -302,7 +327,7 @@
 			<input type="hidden" name="memberOwner" value="${detail.memberOwner}">
 			<input type="hidden" name="oldUserNo" value="${oldMember.userNo}">
 			<input type="hidden" name="oldMemberNo" value="${oldMember.memberNo}">
-
+			<input type="hidden" name="roomNo" value="${roomNo}">
 		</div>
 	</div>
 </div>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dang.repository.AdminDao;
+import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPlaceDao;
 import com.project.dang.repository.DangReportDao;
@@ -25,6 +26,8 @@ public class DangAdmin {
 	private DangReportDao dangReportDao;
 	@Autowired
 	private DangMemberDao dangMemberDao;
+	@Autowired
+	private DangChatDao dangChatDao;
 	
 	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
 	@GetMapping("/dash_board")
@@ -75,6 +78,8 @@ public class DangAdmin {
 		model.addAttribute("reportAppCnt", dangReportDao.reportAppCnt(vo.getDangNo(), vo.getUserNo()));
 		//가장 오래된 멤버 조회
 		model.addAttribute("oldMember", dangMemberDao.oldOneMember(vo.getDangNo()));
+		//채팅방 번호 조회
+		model.addAttribute("roomNo", dangChatDao.findRoomNo(vo.getDangNo()));
 		return "dang_admin/report_detail";
 	}
 	

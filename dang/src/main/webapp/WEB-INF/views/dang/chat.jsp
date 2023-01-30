@@ -166,6 +166,7 @@
 			//수신된 e.data는 JSON 문자열
 			var data = JSON.parse(e.data);
 			console.log(data);
+			$(".no-chat").hide();
 			
 			//메세지 찍어주기 - 함수로 처리
 			newChatList(data);
@@ -497,6 +498,11 @@
 						</div>
 					</c:if>
 					<div class="chat-box p-3 shadow">
+						<c:if test="${history.size()==0}">
+							<div class="no-chat text-center">
+								<span style="font-size:15px; border-bottom:1px solid gray;">아직 채팅내역이 없습니다 :)</span>
+							</div>
+						</c:if>
 						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
 							<!-- 기존 메세지 생성 -->
 							<c:forEach var="vo" items="${history}">

@@ -16,6 +16,12 @@
 	}
 	.cover{
 		object-fit: cover;
+		width:100%;
+		height:100%;
+	}
+	.cover-box{
+		height:200px;
+		overflow:hidden;
 	}
 	.btn.report-btn{
 		border:1px solid #939aa1;
@@ -49,15 +55,15 @@
 			<!-- 멤버 메인-->
 			<div class = "col-6">
 				<div id="d-info">
-					<div>
+					<div class="w-100 rounded-3 cover-box">
 						<c:choose>
 							<c:when test="${dangInfo.attachmentNo==null}">
 								<img src="${pageContext.request.contextPath}/images/img-dang-profile-default.png"
-									style="height:200px;" class = "w-100 rounded-3 cover">
+									class = "img-cluid cover">
 							</c:when>
 							<c:otherwise>
 								<img src="${pageContext.request.contextPath}/rest_attachment/download/${dangInfo.attachmentNo}"
-									style="height:200px;" class = "w-100 rounded-3 cover">
+									class = "img-cluid cover">
 							</c:otherwise>
 						</c:choose>
 					</div>

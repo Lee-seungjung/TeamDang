@@ -43,6 +43,11 @@
 		update dang_report set report_state=#{reportState} where report_no=#{reportNo}
 	</update>
 	
+	<!-- 신고상태 컬럼 변경(처리못한 접수>반려) -->
+	<update id="stateRejUpdate" parameterType="DangReportDto">
+		update dang_report set report_state='반려' where report_state='접수' and user_no=#{userNo} and dang_no=#{dangNo}
+	</update>
+	
 	<!-- 신고+댕모임명 검색조회 -->
 	<select id="selectList" resultType="ReportListVO" parameterType="Map">
 		select*from (select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no

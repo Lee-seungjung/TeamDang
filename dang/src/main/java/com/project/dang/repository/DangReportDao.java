@@ -60,11 +60,17 @@ public interface DangReportDao {
 	
 	/**
 	 * 신고 상태 변경
-	 * @param reportState
-	 * @param reportNo
+	 * @param DangReportDto
 	 * @return true, false
 	 */
 	boolean stateUpdate(DangReportDto dto);
+	
+	/**
+	 * 신고 상태 변경(처리못한 건 접수>반려)
+	 * @param DangReportDto
+	 * @return true, false
+	 */
+	boolean stateRejUpdate(DangReportDto dto);
 	
 	/**
 	 * (관리자) 신고 현황 카운트 조회

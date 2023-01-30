@@ -73,6 +73,12 @@ public class DangReportDaoImpl implements DangReportDao{
 	public boolean stateUpdate(DangReportDto dto) {
 		return sqlSession.update("dangReport.stateUpdate",dto)>0;
 	}
+	
+	//처리 못한 건 신고 상태 변경
+	@Override
+	public boolean stateRejUpdate(DangReportDto dto) {
+		return sqlSession.update("dangReport.stateRejUpdate",dto)>0;
+	}
 
 	//(관리자) 신고 현황 카운트 조회
 	@Override
