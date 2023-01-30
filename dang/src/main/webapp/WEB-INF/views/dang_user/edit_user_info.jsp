@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
 	<jsp:param value="회원정보 변경" name="title"/>
@@ -85,7 +86,14 @@
 					<div class = "row my-4">
 						<div class = "col-4 offset-4">
 							<label class = "label-user-profile" for = "userProfile">
-								<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
+								<c:choose>
+								<c:when test = "${userInfo.attachmentNo != null}">
+									<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "w-100 img-edit-profile">
+								</c:when>
+								<c:otherwise>
+									<img src = "${pageContext.request.contextPath}/images/basic-profile.png" class = "w-100 img-edit-profile">
+								</c:otherwise>
+								</c:choose>
 								<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
 							</label>
 						</div>

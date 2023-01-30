@@ -38,7 +38,7 @@
 	}
 	
 	.div-edit-user-info-pwck-input {
-		height : 14rem;
+		height : 18rem;
 	}
 	
 </style>
@@ -53,15 +53,10 @@
             </div>
             <div class = "row my-2">
                 <div class = "col d-flex flex-column justify-content-center align-items-center">
-                    <span>비밀번호 확인</span>
-                </div>
-            </div>
-            <div class = "row my-2">
-                <div class = "col d-flex flex-column justify-content-center align-items-center">
 					<span>회원님의 정보를 보호하기 위해 비밀번호를 다시 확인합니다.</span>
                 </div>
             </div>
-			<div class = "row my-2 mb-2 div-edit-user-info-pwck-input">
+			<div class = "row mb-2 div-edit-user-info-pwck-input">
 				<form action = "edit_pwck" method = "post" class = "col-10 offset-1 div-edit-user-innfo-pwck">
 					<div class = "row my-4">
 						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인">

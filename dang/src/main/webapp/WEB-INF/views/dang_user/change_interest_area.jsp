@@ -6,6 +6,8 @@
 	<jsp:param value="관심지역 설정" name="title"/>
 </jsp:include>
 
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
 
 	* {
@@ -78,12 +80,6 @@
 	    cursor: pointer;
 	}
 	
-	
-</style>
-
-<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
-
-<style>
 	
 </style>
 

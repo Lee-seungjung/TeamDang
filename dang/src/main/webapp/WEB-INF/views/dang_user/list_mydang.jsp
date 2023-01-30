@@ -37,7 +37,7 @@
 	}
 	
 	.strong-mydang-dang-name {
-		font-size : 24px;
+		font-size : 20px;
 	}
 	
     .span-dang-private {
@@ -105,6 +105,10 @@
 		color : white;
 	}
 	
+	.span-mydang-dang-info {
+		font-size : 16px;
+	}
+	
 </style>
 
 <jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
@@ -117,69 +121,14 @@
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
-		<div class = "col-8 offset-2">
+		<div class = "col-4 offset-4">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">가입한 댕모임</strong>
                 </div>
             </div>
-			<div class = "row">
-				<div class = "offset-1 col-10">
-					<c:forEach var = "dangUserJoinList" items = "${dangUserJoinList}">
-					<div class = "row my-4 div-mydang-dang-list-unit">
-						<div class = "col-2 p-3">
-							<c:choose>
-							<c:when test = "${dangUserJoinList.attachmentNo != null}">
-								<img class = "w-100 img-mydang-dang-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangUserJoinList.attachmentNo}">
-							</c:when>
-							<c:otherwise>
-								<img class = "w-100 img-mydang-dang-profile" src = "${pageContext.request.contextPath}/images/img-dang-profile-default.png">
-							</c:otherwise>
-							</c:choose>
-						</div>
-						<div class = "col-10 p-3">
-							<div class = "row mb-2 div-row-mydang-dang-name">
-								<div class = "col-11 d-flex flex-row align-items-center">		
-									<span class = "span-mydang-dang-area px-1 me-2">${dangUserJoinList.dangArea}</span>						
-									<strong class = "strong-mydang-dang-name">${dangUserJoinList.dangName}</strong>
-									<c:if test = "${dangUserJoinList.dangPrivate == 'Y'}">
-									<span class = "span-dang-private px-2 mx-2">
-	            						<i class="fa-solid fa-lock"></i>
-	            					</span>
-									</c:if>
-								</div>
-							</div>
-							<div class = "row mb-2 div-row-mydang-dang-info">
-								<div class = "col d-flex align-items-center">								
-									<span class = "span-mydang-dang-info">${dangUserJoinList.dangInfo}</span>
-								</div>
-							</div>
-							<div class = "row div-row-dang-mydang-joindate">
-								<div class = "col-8 d-flex align-items-center">								
-									<span class = "span-mydang-member-joindate">가입일자 : ${dangUserJoinList.memberJoindate}</span>
-								</div>
-								<input type = "hidden" class = "input-dang-no" value = "${dangUserJoinList.dangNo}">
-								<div class = "col-2 d-flex align-items-center">
-									<button class = "w-100 btn-mydang-dang-enter">입장</button>
-								</div>
-								<div class = "col-2 d-flex align-items-center">
-									<c:choose>
-									<c:when test = "${dangUserJoinList.isOwner == 1}">
-									<button class = "w-100 btn-mydang-dang-delete">해체</button>
-									</c:when>
-									<c:otherwise>
-									<button class = "w-100 btn-mydang-dang-close">탈퇴</button>
-									</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
-						</div>
-					</div>
-					</c:forEach>
-				</div>
-			</div>
-			<div class = "row mt-5">
-				<div class = "offset-2 col-8 d-flex justify-content-center align-items-center">
+            <div class = "row">
+				<div class = "col d-flex justify-content-center align-items-center">
 					<ul class = "d-flex flex-row ul-dang-list-page-navigator">
 						<c:choose>
 						<c:when test = "${dangUserJoinRequestDto.isFirst()}">
@@ -207,11 +156,29 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<c:forEach var = "i" begin = "${dangUserJoinRequestDto.blockStart()}" end = "${dangUserJoinRequestDto.blockEnd()}" step = "1">
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
-							<span>${i}</span>
+						<c:choose> <%-- 조회 결과가 하나도 없을 때 --%>
+						<c:when test = "${dangUserJoinRequestDto.total == 0}">
+						<li class = "ul-dang-list-page-item ul-dang-list-page-item-selected d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=1'">
+							<span>1</span>
 						</li>
+						</c:when>
+						<c:otherwise> <%-- 조회 결과가 하나라도 있을 때 --%>
+						<c:forEach var = "i" begin = "${dangUserJoinRequestDto.blockStart()}" end = "${dangUserJoinRequestDto.blockEnd()}" step = "1">
+							<c:choose>
+							<c:when test = "${i == 1}">
+							<li class = "ul-dang-list-page-item ul-dang-list-page-item-selected d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
+								<span>${i}</span>
+							</li>
+							</c:when>
+							<c:otherwise>
+							<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
+								<span>${i}</span>
+							</li>
+							</c:otherwise>
+							</c:choose>
 						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 						
 						<c:choose>
 						<c:when test = "${dangUserJoinRequestDto.hasNext()}">
@@ -239,6 +206,61 @@
 						</c:otherwise>
 						</c:choose>
 					</ul>
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col">
+					<c:forEach var = "dangUserJoinList" items = "${dangUserJoinList}">
+					<div class = "row my-4 div-mydang-dang-list-unit">
+						<div class = "col-3 p-3 d-flex justify-content-center align-items-center">
+							<c:choose>
+							<c:when test = "${dangUserJoinList.attachmentNo != null}">
+								<img class = "w-100 img-mydang-dang-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangUserJoinList.attachmentNo}">
+							</c:when>
+							<c:otherwise>
+								<img class = "w-100 img-mydang-dang-profile" src = "${pageContext.request.contextPath}/images/img-dang-profile-default.png">
+							</c:otherwise>
+							</c:choose>
+						</div>
+						<div class = "col-9 p-3">
+							<div class = "row mb-2 div-row-mydang-dang-name">
+								<div class = "col d-flex flex-row align-items-center">		
+									<span class = "span-mydang-dang-area px-1 me-2">${dangUserJoinList.dangArea}</span>						
+									<strong class = "strong-mydang-dang-name">${dangUserJoinList.dangName}</strong>
+									<c:if test = "${dangUserJoinList.dangPrivate == 'Y'}">
+									<span class = "span-dang-private px-2 mx-2">
+	            						<i class="fa-solid fa-lock"></i>
+	            					</span>
+									</c:if>
+								</div>
+							</div>
+							<div class = "row mb-2 div-row-mydang-dang-info">
+								<div class = "col d-flex align-items-center">								
+									<span class = "span-mydang-dang-info">${dangUserJoinList.dangInfo}</span>
+								</div>
+							</div>
+							<div class = "row div-row-dang-mydang-joindate">
+								<div class = "col-6 d-flex align-items-center">								
+									<span class = "span-mydang-member-joindate">가입일자 : ${dangUserJoinList.memberJoindate}</span>
+								</div>
+								<input type = "hidden" class = "input-dang-no" value = "${dangUserJoinList.dangNo}">
+								<div class = "col-3 d-flex align-items-center">
+									<button class = "w-100 btn-mydang-dang-enter">입장</button>
+								</div>
+								<div class = "col-3 d-flex align-items-center">
+									<c:choose>
+									<c:when test = "${dangUserJoinList.isOwner == 1}">
+									<button class = "w-100 btn-mydang-dang-delete">해체</button>
+									</c:when>
+									<c:otherwise>
+									<button class = "w-100 btn-mydang-dang-close">탈퇴</button>
+									</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+						</div>
+					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -288,8 +310,12 @@
 		// - 페이지번호 추출
 		var urlParameters = url.searchParams;
 		var pageNo = urlParameters.get("p");
-		// - 페이지 네비게이터에 선택 여부를 나타내는 클레스 부여
-		var pageNavigatorNoTarget = $(".ul-dang-list-page-item").children(":contains("+pageNo+")")
-		pageNavigatorNoTarget.parent().addClass("ul-dang-list-page-item-selected");
+		if(pageNo != null) {			
+			// - 초기화
+			$(".ul-dang-list-page-item").removeClass("ul-dang-list-page-item-selected");
+			// - 페이지 네비게이터에 선택 여부를 나타내는 클레스 부여
+			var pageNavigatorNoTarget = $(".ul-dang-list-page-item").children(":contains("+pageNo+")")
+			pageNavigatorNoTarget.parent().addClass("ul-dang-list-page-item-selected");
+		}
 	});
 </script>

@@ -27,7 +27,7 @@
 	}
 	
 	.div-col-edit-user-info-success-content {
-		height : 17rem;
+		height : 19rem;
 	}
 </style>
 
