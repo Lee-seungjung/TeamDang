@@ -492,11 +492,11 @@
 								marker,
 								'click',
 								function() {
-
+									
 									for (var i = 0; i < cafePositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentCafe[i].placeX
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentCafe[i].placeX
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="edit" data-placeno=' + contentCafe[i].placeNo + ' target="_blank">'
@@ -564,10 +564,10 @@
 								function() {
 
 									for (var i = 0; i < foodPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentFood[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentFood[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="edit" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
@@ -631,10 +631,10 @@
 								function() {
 
 									for (var i = 0; i < fieldPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentField[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentField[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="edit" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
@@ -699,10 +699,10 @@
 								function() {
 
 									for (var i = 0; i < dogsalonPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentDogsalon[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentDogsalon[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="edit" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
@@ -767,10 +767,10 @@
 								function() {
 
 									for (var i = 0; i < parkPositions.length; i++) {
-										var a1 = this.getPosition().Ma
-										var a2 = contentPark[i].placeX
+										var thisPosition = this.getPosition().Ma
+										var thisPostionX = contentPark[i].placeX
 
-										if (a2.toFixed(7) === a1.toFixed(7)) {
+										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
 											placeOriginNo = contentCafe[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="edit" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
