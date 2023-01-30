@@ -56,6 +56,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	public boolean placeDelete(int placeNo) {
 		return sqlSession.delete("place.placeDelete", placeNo)>0;
 	}
+
+	@Override
+	public boolean placeEdit(DangPlaceDto dangPlaceDto) {
+		return sqlSession.update("place.placeEdit", dangPlaceDto)>0;
+	}
 	
 	
 }

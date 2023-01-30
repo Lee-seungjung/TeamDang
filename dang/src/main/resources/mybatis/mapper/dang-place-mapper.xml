@@ -52,4 +52,22 @@
 	<delete id="placeDelete" parameterType="int">
 		delete dang_place WHERE place_no =  #{placeNo}
 	</delete>
+	
+	<update id="placeEdit" parameterType="DangPlaceDto">
+		update dang_place 
+		    SET 
+			place_area = #{placeArea},
+			place_x = #{placeX},
+			place_y = #{placeY},
+			place_sort = #{placeSort},
+			place_name = #{placeName},
+			place_info = #{placeInfo},
+			place_address = #{placeAddress},
+			place_operation = #{placeOperation},
+			place_off = #{placeOff},
+			place_tel = #{placeTel},
+			place_url = #{placeUrl},
+			dang_size = #{dangSize}
+			where place_no = #{placeNo}
+	</update>
 </mapper>
