@@ -29,6 +29,68 @@
 
 </style>
 
+<script>
+	$(function(){
+		//카테고리 검색조회
+		$(document).on("click", ".cnt-num", function(){
+			$(".report-box").removeClass("select-color");
+			$(this).parent().addClass("select-color");
+			
+			var type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val();
+			var reportState = $(this).data("reportstate");
+
+			//if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
+			
+			reportStateData={
+					reportState:reportState,
+					type:type,
+					keyword:keyword
+			}
+			
+			$(".data-body").empty();//출력 div 비우기
+			//신고 카운트 클릭 조회
+			$.ajax({
+				url:"${pageContext.request.contextPath}/admin/report_list",
+				method:"get",
+				data:reportStateData,
+				success:function(resp){
+					console.log(resp);
+					if(resp.length==0){
+						var body = $(".data-body");
+						var tr = $("<tr>").attr("class","align-middle");
+						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+										.text("내역이 존재하지 않습니다.");
+						tr.append(td);
+					}else{
+						for(var i=0; i<resp.length; i++){
+							reportList(resp[i]);
+						}
+					}
+				}
+			});
+		});
+		
+		function reportList(resp){
+			var body = $(".data-body");
+			
+			var tr = $("<tr>").attr("class","align-middle");
+			var fir_td = $("<td>").text(resp.userNo);
+			var sec_td = $("<td>").text(resp.dangName);
+			var third_td = $("<td>").text(resp.memberNick);
+			var four_td = $("<td>").text(resp.reportDate);
+			var fifth_td = $("<td>");
+			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
+								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
+			fifth_td.append(a_btn);
+			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
+			body.append(tr);
+		}
+		
+		
+	});
+</script>
+
 <div class = "container-fluid mt-5">
 	<div class = "row">
 		<div class = "col-8 offset-2">
@@ -40,19 +102,19 @@
 				<div class = "col-4">
 					<div class = "col report-box select-color">
 						<p class="mb-1 cnt-title">신고 접수</p>
-						<p class="mt-1 cnt-num">${cnt.received}</p>
+						<p class="mt-1 cnt-num"  data-reportstate="접수">${cnt.received}</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col report-box">
 						<p class="mb-1 cnt-title">신고 승인</p>
-						<p class="mt-1 cnt-num">${cnt.approved}</p>
+						<p class="mt-1 cnt-num" data-reportstate="완료">${cnt.approved}</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col report-box">
-						<p class="mb-1 cnt-title">신고 반려</p>
-						<p class="mt-1 cnt-num">${cnt.rejected}</p>
+						<p class="mb-1 cnt-title" >신고 반려</p>
+						<p class="mt-1 cnt-num" data-reportstate="반려">${cnt.rejected}</p>
 					</div>
 				</div>
 			</div>
@@ -85,7 +147,7 @@
 							<th scope="col">상세</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="data-body">
 						<c:choose>
 							<c:when test="${list==null}">
 								<tr class="table align-middle">
