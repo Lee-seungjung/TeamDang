@@ -212,7 +212,13 @@ public class DangUserController {
 			// 새로운 회원 프로필 번호를 HttpSession에 저장
 			session.setAttribute("loginProfileImg", attachmentNo);
 		}
-		return "redirect:mypage";
+		return "redirect:edit_info_success";
+	}
+	
+	// 회원정보 변경 완료
+	@GetMapping("/edit_info_success")
+	public String editInfoSuccess() {
+		return "dang_user/edit_user_info_success";
 	}
 	
 	// 비밀번호 변경
