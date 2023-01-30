@@ -30,4 +30,11 @@ public interface DangPlaceDao {
 	
 	//장소 검색
 	List<DangPlaceDto> search(String placeName);
+	
+	/**
+	 * @author hyunjae
+	 * @param placeNo : 장소번호 pk
+	 * @return boolean
+	 */
+	boolean placeDelete(int placeNo);
 }
