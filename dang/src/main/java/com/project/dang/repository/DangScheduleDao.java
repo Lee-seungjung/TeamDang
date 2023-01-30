@@ -97,6 +97,13 @@ public interface DangScheduleDao {
 	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo);
 
 	/**
+	 * 댕모임 일정 수정에 필요한 정보 조회
+	 * @param scheduluNo  : 댕모임 일정 번호
+	 * @return ScheduleEditVO : 일정명, 일정내용, 일정 최대참여인원, 참여인원, 장소번호, 일정 날짜, 일정 시간, 참여 회비
+	 */
+	public ScheduleEditVO selectScheduleInfo(int scheduleNo, Integer dangNo);
+	
+	/**
 	 * 댕모임 일정 수정
 	 * @param scheduleEditVO  : 일정명, 일정내용, 일정 최대참여인원 ,장소번호, 일정 날짜, 일정 시간, 참여 회비
 	 * @return boolean: 수정 여부
