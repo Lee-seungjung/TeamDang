@@ -8,6 +8,10 @@
 
 <style>
 
+	.strong-mypage-title {
+		font-size : 30px;
+	}
+
 	.interest-OUTLINE {
 		stroke-linejoin: round;
 		stroke: #F5F2FF;
@@ -82,9 +86,9 @@
 <div class = "container-fluid my-3">	
 	<div class = "row">
 		<div class = "col-8 offset-2 my-3">
-			<div class = "row">
+			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
-                    <strong class = "strong-modal-interest-dang-area">관심지역 설정</strong>
+                    <strong class = "strong-mypage-title">관심지역 설정</strong>
                 </div>
             </div>
 			<div class = "row">
@@ -215,9 +219,6 @@
 		$(".img-change-interest-area").attr("src", "/images/mypage-interest_area_pink.png")
 		
 		if($("[name=interestArea]").length != 0) {
-			console.log($("[name=interestArea]").eq(0).val());
-			console.log($("[name=interestArea]").eq(1).val());
-			console.log($("[name=interestArea]").eq(2).val());
 			// 태그를 생성할 위치
 			var target = $(".div-dang-interest-list");
 			// 초기화
@@ -276,7 +277,7 @@
 			}
 		}
 		
-		// 관심지역 선택 - 관심지역 Modal의 지역명 클릭 이벤트
+		// 관심지역 선택 - 관심지역 지역명 클릭 이벤트
 		$(document).on("click", ".interest-TEXT", function(){
 			// 만약 관심지역 3개가 등록된 상태라면 return
 			if($(".div-dang-interest-active").length == 3) {
@@ -313,7 +314,7 @@
 				)
 		});
 		
-		// 관심지역 삭제 - 관심지역 Modal의 X버튼 클릭 이벤트
+		// 관심지역 삭제 - 관심지역 X버튼 클릭 이벤트
 		$(document).on("click", ".i-dang-interest-cancel", function(){
 			// 관심지역 취소할 지역명
 			var dangInterestCancelName = $(this).prev().text();
@@ -336,9 +337,8 @@
 			targetRemove.remove();
 		});
 		
-		// 관심지역 저장 - 관심지역 Modal의 관심지역 저장 버튼 클릭 이벤트
+		// 관심지역 저장 - 관심지역 관심지역 저장 버튼 클릭 이벤트
 		$(document).on("click", ".btn-dang-interest-submit", function(){
-			//console.log("관심지역 저장");
 			// 선택한 관심지역을 담기위한 배열
 			var dangInterestArray = [];
 			for(var i = 0 ; i < $(".span-dang-interest").length ; i ++) {
@@ -355,7 +355,6 @@
 					location.href = "${pageContext.request.contextPath}/user/change_interest_area"
 				}
 			});
-//			console.log(dangInterestArray);
 		});
 	});
 </script>

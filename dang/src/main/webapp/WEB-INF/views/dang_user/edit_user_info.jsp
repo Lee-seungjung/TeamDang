@@ -10,7 +10,11 @@
 <style>
 	
 	* {
-		border : 1px gray dotted;
+		
+	}
+	
+	.strong-mypage-title {
+		font-size : 30px;
 	}
 	
 	.label-user-profile {
@@ -29,100 +33,109 @@
 		aspect-ratio : 1/1;
 	}
 	
-	.input-edit-user-info {
-		border : 2px black solid;
+	.btn-edit-user-info-submit {
+		border : 1px solid #76BEFF;
+		border-radius : 5px;
+		background-color : #76BEFF;
+		color : white;
 	}
 	
-	.div-user-info {
-		background-color: #dfe6e9;
-		border-radius: 15px;
-		font-size : 18px;
+	input {
+		border : none;
+		border-radius : 5px;
 	}
+	
+	input:focus {
+		outline : 2px solid #76BEFF;
+	}
+	
+	input:disabled {
+		border : none;
+		color : #C8C8C9;
+	}
+	
+	.div-info-category {
+		background-color : #76BEFF;
+		color : white;
+		border-radius : 5px;
+	}
+	
+	.div-input-edit-user-info {
+		border-radius : 5px;
+		border : 1px solid #76BEFF;
+	}
+	
+	.span-close-user {
+		color : red;
+		cursor : pointer;
+	}
+	
 </style>
 
 <div class = "container-fluid my-3">	
 	<div class = "row">
-		<div class = "col-8 offset-2 my-3 py-5">
-			<div class = "row">
-				<div class = "col d-flex justify-content-center align-items-center">				
-					<a href = "mypage">마이페이지</a>
-				</div>
-			</div>
-			<div class = "row">		
-				<div class = "col">
-					<div class = "row px-3">
-						<div class = "col div-user-info p-5">
-							<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "form-edit-info"> <%-- form 시작 --%>
-							<div class = "row">
-								<div class = "col-4 d-flex justify-content-center align-items-center">
-									<label class = "label-user-profile" for = "userProfile">
-										<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
-										<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
-									</label>
-								</div>
-								<div class = "col-8 align-self-center">
-									<div class = "row my-2">
-										<div class = "col-3 offset-2">
-											<span class = "span-info-category">ID.</span>
-										</div>
-										<div class = "col-6">
-											<input value = "${userInfo.userId}" disabled>
-											<input type = "hidden" name = "userNo" value = "${userInfo.userNo}">
-										</div>
-									</div>
-									<div class = "row my-2">
-										<div class = "col-3 offset-2">
-											<span class = "span-info-category">Nick.</span>
-										</div>
-										<div class = "col-6">
-											<input name = "userNick" class = "input-edit-user-info w-100" value = "${userInfo.userNick}">
-										</div>
-									</div>
-									<div class = "row my-2">
-										<div class = "col-3 offset-2">
-											<span class = "span-info-category">E-Mail.</span>
-										</div>
-										<div class = "col-6">
-											<input name = "userEmail" class = "input-edit-user-info w-100" value = "${userInfo.userEmail}">
-										</div>
-									</div>
-									<div class = "row my-2">
-										<div class = "col-3 offset-2">
-											<span class = "span-info-category">TEL.</span>
-										</div>
-										<div class = "col-6">
-											<input name = "userTel" class = "input-edit-user-info w-100" value = "${userInfo.userTel}">
-										</div>
-									</div>
-									<div class = "row my-2">
-										<div class = "col-3 offset-2">
-											<span class = "span-info-category">Since.</span>
-										</div>
-										<div class = "col-6">
-											<span class = "span-info">${userInfo.userJoindate}</span>
-										</div>
-									</div>
-									<div class = "row my-2">
-										<div class = "col-3 offset-5 d-flex">
-											<button type = "submit" class = "flex-fill">변경</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							</form> <%-- form 끝 --%>
+		<div class = "col-4 offset-4 my-3 px-5">
+			<div class = "row my-4">
+                <div class = "col d-flex justify-content-center align-items-center">
+                    <strong class = "strong-mypage-title">회원정보 변경</strong>
+                </div>
+            </div>
+			<div class = "row my-4">
+				<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
+					<div class = "row my-4">
+						<div class = "col-4 offset-4">
+							<label class = "label-user-profile" for = "userProfile">
+								<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "img-fluid img-edit-profile">
+								<input name = "userProfile" type = "file" id = "userProfile" class = "input-user-profile" accept = ".png, .jpg">
+							</label>
 						</div>
 					</div>
-				</div>
+					<div class = "row mx-4">
+						<div class = "d-flex justify-content-end align-items-center">						
+							<span class = "span-close-user" onclick="location.href = '${pageContext.request.contextPath}/user/close_pwck'">회원탈퇴</span>
+						</div>
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+							<span class = "span-info-category">아이디</span>
+						</div>
+						<input value = "${userInfo.userId}" disabled class = "col-8 p-2">
+						<input type = "hidden" name = "userNo" value = "${userInfo.userNo}">
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+							<span>닉네임</span>
+						</div>
+						<input name = "userNick" class = "col-8 p-2" value = "${userInfo.userNick}">
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+							<span>이메일</span>
+						</div>
+						<input name = "userEmail" class = "col-8 p-2" value = "${userInfo.userEmail}">
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+							<span>전화번호</span>
+						</div>
+						<input name = "userTel" class = "col-8 p-2" value = "${userInfo.userTel}">
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+							<span>가입일</span>
+						</div>
+						<input value = "${userInfo.userJoindate}" class = "col-8 p-2" disabled>
+					</div>
+					<div class = "row my-4 mx-4">
+						<div class = "col-6 offset-3">
+							<button type = "submit" class = "btn-edit-user-info-submit w-100 p-2">변경</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
-<div class = "col-2 d-flex justify-content-center align-items-center">
-					<a href = "${pageContext.request.contextPath}/user/close_pwck">
-						회원탈퇴
-					</a>
-				</div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
