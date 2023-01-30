@@ -8,6 +8,10 @@
 
 <style>
 
+	* {
+		
+	}
+
 	.strong-mypage-title {
 		font-size : 30px;
 	}
@@ -84,14 +88,14 @@
 </style>
 
 <div class = "container-fluid my-3">	
-	<div class = "row">
-		<div class = "col-8 offset-2 my-3">
+	<div class = "row mb-5">
+		<div class = "col-6 offset-3">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">관심지역 설정</strong>
                 </div>
             </div>
-			<div class = "row">
+			<div class = "row my-4">
 				<div class = "offset-3 col-6">
 					<c:if test = "${interestAreaList != null}">
 					<c:forEach var = "interestAreaList" items = "${interestAreaList}">
@@ -200,7 +204,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class = "row">
+                    <div class = "row my-3">
                         <div class = "col d-flex">
                             <button class = "flex-fill btn-dang-interest-submit">관심지역 저장</button>
                         </div>

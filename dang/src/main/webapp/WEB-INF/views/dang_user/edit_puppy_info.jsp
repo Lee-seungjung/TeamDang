@@ -13,6 +13,10 @@
 	* {
 	    
 	}
+
+	.strong-mypage-title {
+		font-size : 30px;
+	}
 	
 	.div-puppy-insert,
 	.div-dropdown-change-puppy-info-menu {
@@ -167,12 +171,12 @@
 	}
 </style>
 
-<div class = "container-fluid">	
+<div class = "container-fluid  my-2">	
 	<div class = "row">
-		<div class = "col-8 offset-2 my-3">
-			<div class = "row">
-				<div class = "col d-flex justify-content-center align-items-center">				
-					<a href = "mypage">댕댕이 정보 변경</a>
+		<div class = "col-8 offset-2">
+			<div class = "row my-4">
+				<div class = "col d-flex justify-content-center align-items-center">	
+					<strong class = "strong-mypage-title">댕댕이 정보 변경</strong>
 				</div>
 			</div>
 			<div class = "row">
