@@ -15,7 +15,7 @@
 	margin: 0;
 	padding: 0;
 	color: #000;
-}
+} 
 
 .category {
 	position: absolute;
@@ -146,6 +146,120 @@
 	border-radius: 5px;
 	background: white;
 }
+
+.modal-place-body{
+	border-radius: 0.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 15px;
+    height: 150px;
+	}
+    .body1{
+        width: 33%;
+        position: relative;
+    }
+    .body2{
+        width: 67%;
+        padding: 10px;
+    }
+    .span-placeoperation{
+        font-size: 14px;
+    }
+    .span-placetel{
+        color: #76BEFF;
+        font-size: 15px;
+    }
+    .place-img{
+        width:150px;
+        height:150px;
+        border-radius: 0.3em;
+    }
+    .span-placearea{
+        border-radius: 0.4em;
+        background-color: #FF8888;
+        color: white;
+        position: absolute;
+        font-size: 13px;
+        top: 3px;
+        left: 4px;
+    }
+    .span-placesort{
+        font-size: 14px;
+        color: gray;
+    }
+    .span-placename{
+        font-weight: bolder;
+    }
+    .span-placeaddress{
+        font-size: 14px;
+        word-spacing: 1px;
+        letter-spacing: -1px;
+    }
+    .span-placeoff{
+	    border-radius: 3px;
+	    background-color: #F1F1F0;
+	    color: #5A5A5A;
+	    font-size: 13px;
+    }
+    
+    .btn-select-place{
+    background-color: #F94888;
+    color: white;
+    }
+    .fa-square-phone{
+    color: #C2C4C6;
+    font-size: 18px;
+    margin-right: 7px;
+    }
+    .span-placeurl{
+    display: none;
+    }
+    .btn-placeurl{
+    color: white;
+    background-clolr: #76BEFF;
+    }
+    .invalid-money{
+      font-size: 0.875em;
+	  color: red;
+    }
+    .modal-header .btn-close{
+    	margin:-0.5rem -0.5rem 4.5rem auto;
+    }
+    .nick-font{
+    	font-size:20px;
+    	font-weight:bolder;
+    	letter-spacing:0.7px;
+    }
+    .modal-profile-btn{
+    	font-size:16px;
+    	text-align:center;
+    }
+    .modal-profile-report-btn{
+    	text-align:center;
+    	padding:5px 10px;
+    }
+    .modal-profile-siren{
+    	width:22px;
+    	height:22px;
+    	margin-bottom:3px;
+    }
+    .fn:focus{
+    	box-shadow: none;
+    }
+    .profile-info-img{
+    	 width:130px;
+    	 height:130px;
+    	 margin-left:100%;
+    	 margin-top:50%;
+    }
+    .profile-info-owner{
+    	 width:30px;
+    	 height:30px;
+    	 margin-left:750%;
+    	 margin-top:215%;
+    	 display:none;
+    }
 </style>
 
 	<div class="container-fluid mb-5">
@@ -209,35 +323,32 @@
 
 
 
-	<div class="modal fade" id="edit" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<span class="span-placeaddress"></span><br> <span
-						class="span-placearea"></span><br> <span
-						class="span-placeinfo"></span><br> <span
-						class="span-placename"></span><br> <span
-						class="span-placeoff"></span><br> <span
-						class="span-placeoperation"></span><br> <span
-						class="span-placesort"></span><br> <span
-						class="span-placetel"></span><br> <span class="span-placeurl"></span><br>
-					<img src="" width="100" height="100" class="origin-img"><br>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary"
-						onclick="detailMove()">상세보기</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-place-body">
+                    <div class="body-flex body1">
+                        <span class="span-placearea px-2"></span>
+                    <img src=""  class="place-img">
+                </div>
+                <div class="body-flex body2">
+                    <span class="span-placename"></span>
+                     <span  class="span-placesort"></span><br>
+                    <span class="span-placeaddress"></span><br>
+                    <span class="span-placeoff px-2"></span>
+                    <span class="span-placeoperation"></span><br>
+                    <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                    <span  class="span-placeurl"></span>
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-primary btn-placeurl" >홈페이지</button>                
+                    <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
+                    <button type="button" class="btn btn-select-place">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
