@@ -203,7 +203,8 @@
 	    font-size: 13px;
     }
     
-    .btn-select-place{
+    
+    .btn-place-delete{
     background-color: #F94888;
     color: white;
     }
@@ -329,7 +330,7 @@
                 <div class="modal-place-body">
                     <div class="body-flex body1">
                         <span class="span-placearea px-2"></span>
-                    <img src=""  class="place-img">
+                    <img src=""  class="place-img origin-img">
                 </div>
                 <div class="body-flex body2">
                     <span class="span-placename"></span>
@@ -344,7 +345,7 @@
                 <div class="modal-footer pt-0">
                     <button type="button" class="btn btn-primary btn-placeurl" >홈페이지</button>                
                     <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
-                    <button type="button" class="btn btn-select-place">등록하기</button>
+                    <button type="button" class="btn btn-place-delete" onclick="deleteMarker()">장소삭제하기</button>
                 </div>
             </div>
         </div>
@@ -353,6 +354,19 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
+	
+	function deleteMarker(){
+			$.ajax({
+				url : "http://localhost:8888/rest_place/detail/"+placeNoInfo,
+				method : "delete",
+				async : false,
+				contentType : "application/json",
+				success : function(resp) {
+					location.href = "http://localhost:8888/admin/place_list";
+				}
+			})
+	};
+	
 	function getSearchList(){
 		var keyword = $("[name=placeName]").val();
 		$.ajax({

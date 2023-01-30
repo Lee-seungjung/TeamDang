@@ -48,4 +48,8 @@
 	<select id="searchPlace" resultType="DangPlaceDto" parameterType="String">
 		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no  where instr(place_name, #{placeName})>0
 	</select>
+	
+	<delete id="placeDelete" parameterType="int">
+		delete dang_place WHERE place_no =  #{placeNo}
+	</delete>
 </mapper>
