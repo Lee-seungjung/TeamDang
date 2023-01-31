@@ -15,7 +15,7 @@
 		border-radius : 10px;
 		border : 1px solid #76BEFF;
 	}
-	
+	 
 	input:focus {
 		outline : 2px solid #76BEFF;
 	}

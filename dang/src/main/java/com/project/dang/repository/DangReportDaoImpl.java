@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.ReportImgDto;
+import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.vo.ReportCntVO;
 import com.project.dang.vo.ReportListVO;
 import com.project.dang.vo.ReportOneListVO;
@@ -88,12 +89,16 @@ public class DangReportDaoImpl implements DangReportDao{
 	
 	//(관리자) 신고 목록 조회
 	@Override
-	public List<ReportListVO> reportList(String reportState, String type, String keyword) {
-		Map<String, String> param = new HashMap<>();
-		param.put("reportState", reportState);
-		param.put("type", type);
-		param.put("keyword", keyword);
-		return sqlSession.selectList("dangReport.selectList",param);
+	public List<ReportListVO> reportList(ReportListRequestDto reportListRequestDto) {
+		reportListRequestDto.setRownumStart(reportListRequestDto.rownumStart());
+		reportListRequestDto.setRownumEnd(reportListRequestDto.rownumEnd());
+		return sqlSession.selectList("dangReport.selectList",reportListRequestDto);
+	}
+	
+	// 조건에 맞는 신고 갯수 카운트
+	@Override
+	public int reportListCount(ReportListRequestDto reportListRequestDto) {
+		return sqlSession.selectOne("dangReport.countList", reportListRequestDto);
 	}
 	
 	//(관리자) 신고 단일조회
@@ -101,6 +106,5 @@ public class DangReportDaoImpl implements DangReportDao{
 	public ReportOneListVO selectOne(int reportNo) {
 		return sqlSession.selectOne("dangReport.selectOne",reportNo);
 	}
-	
 	
 }

@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangReportDto;
+import com.project.dang.dto.ReportListRequestDto;
+import com.project.dang.dto.ReportListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.vo.DangGroupRegionVO;
@@ -34,10 +37,28 @@ public class AdminRestController {
 	}
 	
 	//신고 조회
-	@GetMapping("/report_list")
-	public List<ReportListVO> reportList(@RequestParam String reportState,
-			@RequestParam String type, @RequestParam String keyword){
-		return dangReportDao.reportList(reportState, type, keyword);
+	@PostMapping("/report_list")
+	public ReportListResponseDto reportList(@ModelAttribute ReportListRequestDto reportListRequestDto){
+		// 조회에 맞는 신고 갯수 반환
+		int reportCount = dangReportDao.reportListCount(reportListRequestDto);
+		// 갯수 설정
+		reportListRequestDto.setTotal(reportCount);
+		//System.out.println(reportCount);
+		// 신고 목록 조회
+		List<ReportListVO> reportList = dangReportDao.reportList(reportListRequestDto);
+
+		System.out.println(reportListRequestDto.toString());
+		// 반환용 객체 생성
+		ReportListResponseDto reportListResponseDto = new ReportListResponseDto();
+		// 반환용 객체 설정
+		reportListResponseDto.setReportList(reportList);
+		reportListResponseDto.setBlockStart(reportListRequestDto.blockStart());
+		reportListResponseDto.setBlockEnd(reportListRequestDto.blockEnd());
+		reportListResponseDto.setBlockPrev(reportListRequestDto.blockPrev());
+		reportListResponseDto.setBlockNext(reportListRequestDto.blockNext());
+		reportListResponseDto.setBlockFirst(reportListRequestDto.blockFirst());
+		reportListResponseDto.setBlockLast(reportListRequestDto.blockLast());
+		return reportListResponseDto;
 	}
 	
 	//경고 확인 컬럼 변경

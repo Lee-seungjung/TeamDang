@@ -49,24 +49,44 @@
 	</update>
 	
 	<!-- 신고+댕모임명 검색조회 -->
-	<select id="selectList" resultType="ReportListVO" parameterType="Map">
-		select*from (select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no
-		order by r.report_date desc) 
-			<where>
-				report_state=#{reportState}
-				
-				<if test="keyword!=''">
-					and instr(${type},#{keyword})>0
-				</if>
-			</where>
+	<select id="selectList" resultType="ReportListVO" parameterType="reportListRequestDto">
+		select * from (
+		    select tmp.*, rownum rn from (	
+				select*from (select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no
+				order by r.report_date desc) 
+				<where>
+					report_state=#{reportState}
+					<if test="type != null and keyword != null">
+						and instr(${type},#{keyword})>0
+					</if>
+				</where>
+		    )tmp
+		) where rn between #{rownumStart} and #{rownumEnd}
+	</select>
+	
+	<!-- 조건에 따른 신고 검색조회 갯수 -->
+	<select id = "countList" resultType = "int" parameterType = "reportListRequestDto">
+		select count(report_no) from (select r.*, d.dang_name from dang_report r inner join dang d on r.dang_no=d.dang_no) 
+		<where>
+			report_state=#{reportState}
+			<if test="type != null and keyword != null">
+				and instr(${type},#{keyword})>0
+			</if>
+		</where>
 	</select>
 	
 	<!-- 신고 단일조회 -->
 	<select id="selectOne" resultType="ReportOneListVO" parameterType="int">
-		select r.*, d.dang_name, m.member_no, m.member_owner from dang_report r 
-		inner join dang d on r.dang_no=d.dang_no
-		inner join dang_member m on r.user_no=m.user_no and r.dang_no=m.dang_no
-		where r.report_no=#{reportNo}
+		select ddudm.*, dr.report_no, dr.report_content, dr.report_date, dr.report_state, dr.report_alert 
+		from dang_report dr 
+		inner join (select d.dang_no, d.dang_name, dudm.user_no, dudm.member_no, dudm.member_nick, dudm.member_owner  
+					from dang d inner join (
+											select du.user_no, dm.member_no, dm.member_nick, dm.member_owner, dm.dang_no from dang_user du 
+											inner join dang_member dm on du.user_no = dm.user_no
+											) dudm on d.dang_no = dudm.dang_no
+					) ddudm 
+		on dr.user_no = ddudm.user_no
+		where dr.report_no = #{reportNo}
 	</select>
 	
 	<!-- 신고현황 카운트 조회 -->
