@@ -240,7 +240,7 @@
                     placeTel, placeUrl, dangSize, attachmentNo
                 );
 
-
+				
             });
 
             //장소등록을 하기위한 함수
@@ -264,17 +264,21 @@
                     dangSize: dangSize,
                     attachmentNo: attachmentNo,
                 };
-
-                $.ajax({
-                    url: "http://localhost:8888/rest_place/place_insert",
-                    method: "post",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    success: function () {
-                        console.log("등록성공");
-
-                    }
-                });
+				if(confirm("정말 등록하시겠습니까?")==true){
+					$.ajax({
+	                    url: "http://localhost:8888/rest_place/place_insert",
+	                    method: "post",
+	                    contentType: "application/json",
+	                    data: JSON.stringify(data),
+	                    success: function () {
+	                        location.href="${pageContext.request.contextPath}/admin/place_insert"
+							
+	                    }
+	                });
+				}else{
+					 return;
+				}
+                
             }
 
 
