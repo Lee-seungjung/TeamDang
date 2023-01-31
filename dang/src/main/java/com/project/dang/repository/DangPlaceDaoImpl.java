@@ -62,5 +62,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 		return sqlSession.update("place.placeEdit", dangPlaceDto)>0;
 	}
 	
+	@Override
+	public List<DangPlaceDto> placeListArea(Double lat1,Double lng1,Double lat2,Double lng2) {
+		Map<String, String> param = new HashMap<>();
+		return sqlSession.selectList("place.placeListArea",param);
+	}
+
 	
 }
