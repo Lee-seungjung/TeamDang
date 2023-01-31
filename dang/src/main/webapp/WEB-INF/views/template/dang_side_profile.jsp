@@ -104,7 +104,7 @@
             overflow: hidden;
             top: 10px;
             left: 10px;
-            width: 250px;
+            width: 260px;
             height: 55px;
             z-index: 10;
             border: 1px solid black;
