@@ -195,7 +195,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -263,7 +263,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -298,7 +298,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		//신고 정보 확인
@@ -328,7 +328,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -362,7 +362,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 
@@ -391,7 +391,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -429,7 +429,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -458,7 +458,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		
@@ -493,7 +493,7 @@ public class DangController {
 		//댓글
 		model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		//우측 댕모임 심플스케줄
-		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList());
+		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
 		//프로필 파일번호
 		model.addAttribute("attachmentNo", dangMemberDao.findAttachmentNo(Integer.parseInt(userNo)));
 		//날짜별 일정 상세 출력

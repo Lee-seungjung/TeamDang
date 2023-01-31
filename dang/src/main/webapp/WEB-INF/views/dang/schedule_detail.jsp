@@ -300,7 +300,7 @@ border : 2px solid #76BEFF;
 
                     <div class = "info-commons dang-content">
                         <div class="block">모임 내용</div>
-                        <div class="block-white">${scheduleDetail.scheduleContent}</div>
+                        <div class="block-white detail-content">${scheduleDetail.scheduleContent}</div>
                     </div>    
 
                     <div class = "info-commons dang-leader">
@@ -310,22 +310,23 @@ border : 2px solid #76BEFF;
 
                     <div class = "info-commons dang-when">
                         <div class="block">모임 시간</div>
-                        <div class="block-white">
+                        <div class="block-white schedule-time">                        
                         	<fmt:parseDate value="${scheduleDetail.scheduleStart}" var="dateValue" pattern="yyyy-MM-dd"/>
-                        	<fmt:formatDate value="${dateValue}" pattern="yyyy-MM-dd"/>  ${scheduleDetail.scheduleHour}
+                        	<fmt:formatDate value="${dateValue}" pattern="yyyy-MM-dd"/> 
+                       		<span class="span-dang-hour"> ${scheduleDetail.scheduleHour}</span>
                         </div>
                     </div>   
                     
                     <div class = "info-commons dang-where">
                         <div class="block">모임 장소</div> 
-                        <div class="block-white">${scheduleDetail.placeName}</div>
+                        <div class="detail-place block-white ">${scheduleDetail.placeName}</div>
                     </div>
                
                         <div class = "dang-place-map"><div id="map" style="width:100%;height:100%;"></div></div>
                      
                     <div class = "info-commons dang-number">
-                        <div class="block">참여 인원</div>
-                        <div class="block-white">${countJoin}명 / ${scheduleDetail.scheduleHeadMax}명</div>
+                        <div class="block detail-maxhead">참여 인원</div>
+                        <div class="detail-head block-white ">${countJoin}명 / ${scheduleDetail.scheduleHeadMax}명</div>
                     </div>      
                     
                     <div class = "info-commons dang-who">
@@ -340,7 +341,7 @@ border : 2px solid #76BEFF;
                     
                     <div class = "info-commons dang-money">
                         <div class="block">참여 회비</div>
-                        <div class="block-white">${scheduleDetail.scheduleMoney}원</div>
+                        <div class="detail-money block-white ">${scheduleDetail.scheduleMoney}원</div>
                     </div>    
 					
 					<div class="btn-box btn-join">				
@@ -630,8 +631,14 @@ border : 2px solid #76BEFF;
 					console.log("수정버튼누름");
 					
 					 $("#editPlaceModal").modal("hide");//모달 숨기기
+					 
+						console.log(${profile.memberNo});
 
-					 placeNoInfo = $(this).data("placeno");
+						});
+					 
+
+	                     
+						 placeNoInfo = $(this).data("placeno");
 					 
 	                   //비동기통신 시작
 	                    $.ajax({
@@ -668,54 +675,46 @@ border : 2px solid #76BEFF;
 	                                abc = resp.placeNo;
 	                            }
 	                        })
-	                });
-				
-				//일정수정 모달에서 수정 버튼 클릭
-				$(".edit-btn").click(function(e){
-					console.log(${profile.memberNo});
-					//var memberNo = ${profile.memberNo};
-/* 					var scheduleTitle = $("[name=scheduleTitle]").val();
-						var scheduleContent =$("[name=scheduleContent]").val();
-						var scheduleStart = $("[name=scheduleStart]").val();
-						var scheduleHour = $("[name=scheduleHour]").val();
-						var placeNo = $(".where").attr('data-placeno');
-						var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
-						var scheduleMoney = $("[name=scheduleMoney]").val();
+	                        
+	    		            //일정수정 모달에서 수정 버튼 클릭
+	    		            $(".edit-btn").click(function(e){
+	    		               console.log(${profile.memberNo});
+	    		               
+	    		               console.log("내용수정하고 수정버튼 클릭");
+	    		               
+			    	
+			    					var scheduleTitle = $("[name=scheduleTitle]").val();
+			    					var scheduleContent =$("[name=scheduleContent]").val();
+			    					var scheduleStart = $("[name=scheduleStart]").val();
+			    					var scheduleHour = $("[name=scheduleHour]").val();
+			    					var placeNo = $(".where").attr('data-placeno');
+			    					var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
+			    					var scheduleMoney = $("[name=scheduleMoney]").val();
+			    					saveData(scheduleTitle, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
+			    					
+			    			        	$(window).on("beforeunload", function(){
+			    			        		removescheduleTitle();
+			    						});
+	    		               
 
-					saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
-					
-			        	$(window).on("beforeunload", function(){
-			        		removescheduleTitle();
-						}); */
-						//$(.schedule-name).text();
-						//모임 제목 ${scheduleDetail.scheduleTitle};
-						//모임 내용 ${scheduleDetail.scheduleContent};
-						//모임 시간 ${scheduleDetail.scheduleStart};
-						//모임 장소 ${scheduleDetail.scheduleHour}		;				
-						//참여 인원 ${scheduleDetail.scheduleHeadMax};
-						//참여 회비 
-						
-						// text()로 출해서 모달 띄우고 거기다 붙이면. 인풋창 있잖어
-						//$(인풋창).val(추출한 값) 이거 하면 인풋 값으로 입력되어져있게 되거든
-						
-					});
-				//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
-						$(document).on("click",".edit-cancel",function(){
-							console.log("(수정)취소버튼클릭");
-							$(".schedule-name").val(""); //일정 제목
-							$(".write-content").val(""); //일정 내용
-							$(".when-date ").val(""); //일정 날짜
-							$(".when-time").val(""); //일정 시간		
-							$(".where").val(""); //장소
-							$("#persons").prop("selected", true);//최대 참여인원							
-							$(".money").val(""); //회비 
+	    				//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
+	    						$(document).on("click",".edit-cancel",function(){
+	    							console.log("(수정)취소버튼클릭");
+	    							$(".schedule-name").val(""); //일정 제목
+	    							$(".write-content").val(""); //일정 내용
+	    							$(".when-date ").val(""); //일정 날짜
+	    							$(".when-time").val(""); //일정 시간		
+	    							$(".where").val(""); //장소
+	    							$("#persons").prop("selected", true);//최대 참여인원							
+	    							$(".money").val(""); //회비 
 
-				});
+	    				});
+
 				
 						//일정 수정 함수
-						function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
+						function saveData(scheduleTitle, scheduleContent, scheduleStart, 
 								scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
-							var scheduleEditdata = {
+							var data = {
 									scheduleTitle: scheduleTitle,
 									scheduleContent: scheduleContent,
 									scheduleStart: scheduleStart,
@@ -724,14 +723,15 @@ border : 2px solid #76BEFF;
 									scheduleHeadmax: scheduleHeadmax,
 									scheduleMoney: scheduleMoney
 							};
+
 							var result = confirm("일정을 수정하시겠습니까?");
 							
 							if(result ==true){
 								$.ajax({
 									url:"http://localhost:8888/rest/dangSchedule/schedule_edit",
-									method:"post",
+									method:"put",
 									contentType:"application/json",
-									data:JSON.stringify(scheduleEditdata),
+									data:JSON.stringify(data),
 									success:function(resp){
 										console.log("일정 수정 성공");	
 										
@@ -749,7 +749,7 @@ border : 2px solid #76BEFF;
 							}
 						}
 				
-
+	    		            });
 					
 				//상세일정에서 삭제버튼 클릭
 				$(".btn-delete").click(function(){
