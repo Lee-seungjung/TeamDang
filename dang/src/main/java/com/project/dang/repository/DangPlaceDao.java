@@ -47,4 +47,12 @@ public interface DangPlaceDao {
 	 * @return boolean
 	 */
 	boolean placeEdit(DangPlaceDto dangPlaceDto);
+	
+	/**
+	 * 영역내 지도마커 불러오기 메소드
+	 * @author hyunjae
+	 * @param Double : 카카오맵 api 해당영역 좌표값
+	 * @return List<DangPlaceDto>
+	 */
+	List<DangPlaceDto> placeListArea(Double lat1,Double lng1,Double lat2,Double lng2);
 }

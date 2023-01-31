@@ -70,4 +70,8 @@
 			dang_size = #{dangSize}
 			where place_no = #{placeNo}
 	</update>
+	<!-- 영역내 마커 -->
+	<select id="placeListArea" resultType="DangPlaceDto" parameterType="Map">
+		select * from dang_place where place_x >= #{lng1} and place_y >= #{lat1} <![CDATA[ and place_x <= #{lng2} and place_y <= #{lat2} ]]>
+	</select>
 </mapper>

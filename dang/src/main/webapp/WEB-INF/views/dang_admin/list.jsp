@@ -755,8 +755,31 @@
 		// 공원에 정보를 담을 배열
 		var contentPark = [];
 
+		kakao.maps.event.addListener(map1,'zoom_changed',function(){
+		    chkArea(); // 함수 호출
+		});
+
+		kakao.maps.event.addListener(map1,'dragend',function(){
+		    chkArea(); // 함수 호출
+		});
+
+		chkArea(); // 함수 실행
+
+		// 해당영역에 영역 범위 좌표값을 부를 계산 변수 저장과 ajax호출 함수
+		function chkArea(){
+
+		    var bounds = map1.getBounds(); //지도의 영역을 반환한다.
+		    var sw = bounds.getSouthWest(); //영역의 남서쪽 좌표를 반환한다.
+		    var ne = bounds.getNorthEast(); //영역의 북동쪽 좌표를 반환한다.
+
+		    lat1=sw.La;//영역의 남서쪽 좌표를 저장
+		    lng1=sw.Ma;//영역의 남서쪽 좌표를 저장
+		    lat2=ne.La;//영역의 북동쪽 좌표를 저장
+		    lng2=ne.Ma;//영역의 북동쪽 좌표를 저장
+
+		
 		$.ajax({
-			url : "http://localhost:8888/rest_place/place_list",
+			url: "http://localhost:8888/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
 			method : "get",
 			async : false,
 			contentType : "application/json",
@@ -786,7 +809,7 @@
 				}
 			}
 		})
-
+		};
 		var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png'; // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
 		var cafemarkerImageSrc = "${pageContext.request.contextPath}/images/cafe-icon.png"; // 카페의 마커이미지의 주소입니다.
 		var foodmarkerImageSrc = "${pageContext.request.contextPath}/images/food-icon.png"; // 카페의 마커이미지의 주소입니다.
