@@ -22,7 +22,7 @@
 				     select TMP.*, rownum rn from (
 				         select * from dang_scheduleList where time > TO_CHAR(SYSDATE, 'yyyymmdd' )           
 				        )TMP
-				 ) where rn between 1 and 5
+				 ) where rn between 1 and 5 and dang_no=#{dangNo}
         </select>
         
       <!-- 일정 목록 검색하여 달력에 출력-->
@@ -116,5 +116,10 @@
       <delete id="scheduleDelete" parameterType="Map">
 		delete dang_schedule where member_no=#{memberNo} and schedule_no=#{scheduleNo}	
       </delete> 
+      
+              					 <!--마이페이지 참여일정 조회 -->
+      	<select id = "joinScheduleList" parameterType = "int" resultType = "JoinScheduleListVO">
+			select * from history where user_no = #{userNo}
+  	</select>   
             
 </mapper>
