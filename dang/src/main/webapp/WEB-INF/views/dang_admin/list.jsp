@@ -33,8 +33,8 @@
 	overflow: hidden;
 	top: 10px;
 	left: 10px;
-	width: 251px;
-	height: 55px;
+	width: 300px;
+	height: 60px;
 	z-index: 10;
 	border-radius: 10px;
 	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
@@ -52,7 +52,7 @@
 .category li {
 	list-style: none;
 	float: left;
-	width: 50px;
+	width: 60px;
 	height: 60px;
 	padding-top: 5px;
 	cursor: pointer;
@@ -278,7 +278,7 @@
 			<div class="col-md-8 offset-md-2">
 				<div id="mapwrap">
 					<!-- 지도가 표시될 div -->
-					<div id="map1" style="width: 100%; height: 350px;"></div>
+					<div id="map1" style="width: 100%; height: 400px;"></div>
 					<!-- 지도 위에 표시될 마커 카테고리 -->
 					<div class="category">
 						<ul>
@@ -923,7 +923,7 @@
 										var thisPostionX = contentFood[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentFood[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >'
@@ -990,7 +990,7 @@
 										var thisPostionX = contentField[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentField[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >'
@@ -1058,7 +1058,7 @@
 										var thisPostionX = contentDogsalon[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentDogsalon[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >'
