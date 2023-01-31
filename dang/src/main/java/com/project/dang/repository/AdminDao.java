@@ -5,6 +5,14 @@ import java.util.List;
 import com.project.dang.vo.DangGroupRegionVO;
 
 public interface AdminDao {
+	
+	/**
+	 * 관리자 여부 조회
+	 * @param userNo : 회원 번호
+	 * @return
+	 */
+	public boolean isAdmin(int userNo);
+	
 	/**
 	 * 최근 일주일 로그인 수 조회
 	 * @return int

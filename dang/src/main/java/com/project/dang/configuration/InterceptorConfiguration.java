@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.project.dang.interceptor.DangAdminInterceptor;
 import com.project.dang.interceptor.DangMemberCheckInterceptor;
 import com.project.dang.interceptor.DangUserLoginInterceptor;
 
@@ -19,13 +20,18 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private DangMemberCheckInterceptor dangMemberCheckInterceptor;
 	
+	// 관리자 여부 검사 인터셉터
+	@Autowired
+	private DangAdminInterceptor dangAdminInterceptor;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 로그인 인터셉터 감시 경로
 		registry.addInterceptor(dangUserLoginInterceptor)
 			.addPathPatterns(
 					"/dang/**", 
-					"/user/*"
+					"/user/*",
+					"/admin/**"
 					) 
 			.excludePathPatterns(
 					"/dang/search",
@@ -50,5 +56,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 					"/dang/report/**",
 					"/dang/report_success"
 					);
+		
+		// 관리자 여부 검사 경로
+		registry.addInterceptor(dangAdminInterceptor)
+			.addPathPatterns("/admin/**")
+			.excludePathPatterns("");
 	}
 }

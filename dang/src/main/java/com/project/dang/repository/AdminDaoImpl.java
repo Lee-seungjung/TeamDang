@@ -15,6 +15,13 @@ public class AdminDaoImpl implements AdminDao{
 	SqlSession sqlSession;
 
 	@Override
+	public boolean isAdmin(int userNo) {
+		String userGrade = sqlSession.selectOne("admin.isAdmin", userNo);
+		boolean isAdmin = userGrade.equals("관리자");
+		return isAdmin;
+	}
+
+	@Override
 	public int recentLogin() {
 		return sqlSession.selectOne("admin.recentLogin");
 	}
@@ -38,5 +45,4 @@ public class AdminDaoImpl implements AdminDao{
 	public List<DangGroupRegionVO> dangGroupRegion() {
 		return sqlSession.selectList("admin.dangGroupRegion");
 	}
-	
 }

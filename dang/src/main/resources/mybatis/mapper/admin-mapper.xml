@@ -4,6 +4,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
+	
+	<!-- 관리자 여부 -->
+	<select id = "isAdmin" parameterType = "int" resultType = "String">
+		select user_grade from dang_user where user_no = #{userNo}
+	</select>
+
 	<select id="recentLogin" resultType="int">
 		SELECT count(*) FROM dang_user u WHERE u.user_logindate >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
 	</select>
