@@ -52,7 +52,6 @@ public class DangPlaceRestController {
 	
 	@GetMapping("/place_list_area")
 	public List<DangPlaceDto> placeListArea(@RequestParam Double lat1,@RequestParam Double lng1,@RequestParam Double lat2,@RequestParam Double lng2) {
-		
 		return dangPlaceDao.placeListArea(lat1,lng1,lat2,lng2);
 	}
 

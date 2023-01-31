@@ -90,112 +90,126 @@
 	}
 	
 	  #mapwrap {
-            position: relative;
-            overflow: hidden;
-        }
-        .category,
-        .category * {
-            margin: 0;
-            padding: 0;
-            color: #000;
-        }
-        .category {
-            position: absolute;
-            overflow: hidden;
-            top: 10px;
-            left: 10px;
-            width: 260px;
-            height: 55px;
-            z-index: 10;
-            border: 1px solid black;
-            border-radius: 10px;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-            font-size: 12px;
-            text-align: center;
-            background-color: #fff;
-        }
-        .category .menu_selected {
-            background: #f3d4d1;
-            color: #fff;
-            border-left: 1px solid #915B2F;
-            border-right: 1px solid #915B2F;
-            margin: 0 -1px;
-        }
-        .category li {
-            list-style: none;
-            float: left;
-            width: 50px;
-            height: 60px;
-            padding-top: 5px;
-            cursor: pointer;
-        }
-        .category .ico_comm {
-            display: block;
-            margin: 0 auto 2px;
-            width: 26px;
-            height: 26px;
-            background:
-                url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;
-        }
-        .category .ico_cafe {
-            background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
-        }
-        .category .ico_food {
-            background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
-        }
-        .category .ico_field {
-            background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
-        }
-        .category .ico_dogsalon {
-            background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
-        }
-        .category .ico_park {
-            background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
-        }
-        .customoverlay {
-            position: relative;
-            bottom: 40px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            border-bottom: 2px solid #ddd;
-            float: left;
-        }
-        .customoverlay:nth-of-type(n) {
-            border: 0;
-            box-shadow: 0px 1px 2px #888;
-        }
-        .customoverlay a {
-            display: block;
-            text-decoration: none;
-            color: #000;
-            text-align: center;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            overflow: hidden;
-            background: #d95050;
-            background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
-        }
-        .customoverlay .title {
-            display: block;
-            text-align: center;
-            background: #fff;
-            margin-right: 35px;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .customoverlay:after {
-            content: '';
-            position: absolute;
-            margin-left: -12px;
-            left: 50%;
-            bottom: -12px;
-            width: 22px;
-            height: 12px;
-            background:
-                url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
-        }
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.category, .category * {
+		margin: 0;
+		padding: 0;
+		color: #000;
+	} 
+	
+	.category {
+		position: absolute;
+		overflow: hidden;
+		top: 10px;
+		left: 10px;
+		width: 300px;
+		height: 60px;
+		z-index: 10;
+		border-radius: 10px;
+		font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+		font-size: 12px;
+		text-align: center;
+		background-color: #fff;
+	}
+	
+	.category .menu_selected {
+		background: #76BEFF;
+		color: #fff;
+		margin: 0 -1px;
+	}
+	
+	.category li {
+		list-style: none;
+		float: left;
+		width: 60px;
+		height: 60px;
+		padding-top: 5px;
+		cursor: pointer;
+	}
+	
+	.category .ico_comm {
+		display: block;
+		margin: 0 auto 2px;
+		width: 26px;
+		height: 26px;
+		background:
+			url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
+			no-repeat;
+	}
+	
+	.category .ico_cafe {
+		background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
+	}
+	
+	.category .ico_food {
+		background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
+	}
+	
+	.category .ico_field {
+		background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
+	}
+	
+	.category .ico_dogsalon {
+		background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
+	}
+	
+	.category .ico_park {
+		background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
+	}
+	
+	.customoverlay {
+		position: relative;
+		bottom: 40px;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		border-bottom: 2px solid #ddd;
+		float: left;
+	}
+	
+	.customoverlay:nth-of-type(n) {
+		border: 0;
+		box-shadow: 0px 1px 2px #888;
+	}
+	
+	.customoverlay a {
+		display: block;
+		text-decoration: none;
+		color: #000;
+		text-align: center;
+		border-radius: 6px;
+		font-size: 14px;
+		font-weight: bold;
+		overflow: hidden;
+		background: #d95050;
+		background: #d95050
+			url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+			no-repeat right 14px center;
+	}
+	
+	.customoverlay .title {
+		display: block;
+		text-align: center;
+		background: #fff;
+		margin-right: 35px;
+		padding: 10px 15px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+
+.customoverlay:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: -12px;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
         .border1 {
             border: 1px solid #F2F2F2;
         }
@@ -1403,16 +1417,12 @@
                 // 지도의 확대 레벨 
             };
         var map1 = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
-        setTimeout(function() {
-            map1.relayout();
-            map1.setCenter(new kakao.maps.LatLng(37.498004414546934,  127.02770621963765));
-            // map.setLevel(2); 필요하면 레벨조정
-        },100);
-        setTimeout(function(){ map1.relayout(); }, 0); 
+        
       
-       $('#staticBackdrop').on('shown.bs.modal', function (e) {
-        map1.relayout();
-    })
+  		$('#staticBackdrop').on('shown.bs.modal', function (e) {
+   			map1.relayout();
+   			changeMarker();
+ 		})
         var clickedOverlay = null;//클릭이벤트 오버레이 전역변수 초기값
         // 카페 마커가 표시될 좌표 배열입니다
         var cafePositions = [
@@ -1486,7 +1496,9 @@
         createFieldMarkers(); // 운동장 마커를 생성하고 운동장 마커 배열에 추가합니다
         createDogsalonMarkers(); // 미용 마커를 생성하고 운동장 마커 배열에 추가합니다
         createParkMarkers(); // 공원 마커를 생성하고 운동장 마커 배열에 추가합니다
-        changeMarker('cafe'); // 지도에 카페 마커가 보이도록 설정합니다    
+        changeMarker('cafe'); // 지도에 카페 마커가 보이도록 설정합니다
+        
+        
         // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
         function createMarkerImage(src, size, options) {
             var markerImage = new kakao.maps.MarkerImage(src, size, options);
@@ -1580,7 +1592,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentFood[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentFood[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="edit" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >'
@@ -1636,7 +1648,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentField[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentField[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="edit" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >'
@@ -1692,7 +1704,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentDogsalon[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentDogsalon[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="edit" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >'
@@ -1748,7 +1760,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentPark[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentPark[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="edit" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >'
@@ -1777,13 +1789,14 @@
             }
         }
         // 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
-        function setParkMarkers(map) {
+        function setParkMarkers(map1) {
             for (var i = 0; i < parkMarkers.length; i++) {
                 parkMarkers[i].setMap(map1);
             }
         }
         // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
         function changeMarker(type) {
+        	console.log('음식클릭');
             var cafeMenu = document.getElementById('cafeMenu');
             var foodMenu = document.getElementById('foodMenu');
             var fieldMenu = document.getElementById('fieldMenu');
@@ -1806,6 +1819,7 @@
                 setParkMarkers(null);
             } else if (type === 'food') { // 음식점 카테고리가 클릭됐을 때
                 // 음식점 카테고리를 선택된 스타일로 변경하고
+                console.log('음식클릭');
                 cafeMenu.className = '';
                 foodMenu.className = 'menu_selected';
                 fieldMenu.className = '';
