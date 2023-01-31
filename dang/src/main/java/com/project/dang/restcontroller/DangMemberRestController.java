@@ -111,6 +111,12 @@ public class DangMemberRestController {
 		return dangMemberDao.searchDangAlreadyJoin(userNo);
 	}
 	
+	// 회원 번호 조회
+	@GetMapping("/search_member_no")
+	public int searchMemberNo(@RequestParam int userNo, @RequestParam int dangNo) {
+		return dangMemberDao.findMemberNo(userNo, dangNo);
+	}
+	
 	// 특정 회원이 특정 댕모임의 회원인지 검사
 	@GetMapping("/is_dang_member")
 	public boolean isDangMember(@RequestParam int userNo, @RequestParam int dangNo) {

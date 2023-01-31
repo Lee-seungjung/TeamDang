@@ -98,6 +98,6 @@ public interface DangReportDao {
 	 * @param reportNo
 	 * @return ReportOneListVO
 	 */
-	ReportOneListVO selectOne(int reportNo);
+	ReportOneListVO selectOne(int reportNo, int memberNo);
 	
 }

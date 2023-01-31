@@ -102,9 +102,17 @@ public class DangReportDaoImpl implements DangReportDao{
 	}
 	
 	//(관리자) 신고 단일조회
+	/*
+	 * @Override public ReportOneListVO selectOne(int reportNo) { return
+	 * sqlSession.selectOne("dangReport.selectOne",reportNo); }
+	 */
+	
 	@Override
-	public ReportOneListVO selectOne(int reportNo) {
-		return sqlSession.selectOne("dangReport.selectOne",reportNo);
+	public ReportOneListVO selectOne(int reportNo, int memberNo) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("reportNo", reportNo);
+		param.put("memberNo", memberNo);
+		return sqlSession.selectOne("dangReport.selectOne",param);
 	}
 	
 }
