@@ -18,7 +18,7 @@ public interface DangScheduleDao {
 	 * 
 	 * @return List<SimpleScheduleVO>
 	 */
-	List<SimpleScheduleVO> simpleList();
+	List<SimpleScheduleVO> simpleList(int dangNo);
 
 	/**
 	 * 달력 내 일정 조회
@@ -122,11 +122,9 @@ public interface DangScheduleDao {
 	/**
 	 * 마이페이지내 참여일정 히스토리 리스트 조회
 	 * 
-	 * @param scheduleNo :댕모임 스케줄 번호
-	 * @param memberNo : 댕모임 멤버 번호
 	 * @param dangNo : 댕모임 번호	 
 	 */
-	 public List<JoinScheduleListVO> joinScheduleList(int scheduleNo, int memberNo, int dangNo);
+	 public List<JoinScheduleListVO> joinScheduleList(int userNo);
  
 	 
 

@@ -25,8 +25,8 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	
 	//우측 스케줄 심플일정 조회(다가오는 날짜 가까운순 5개)
 	@Override
-	public List<SimpleScheduleVO> simpleList() {
-		return sqlSession.selectList("schedule.simpleList");
+	public List<SimpleScheduleVO> simpleList(int dangNo) {
+		return sqlSession.selectList("schedule.simpleList", dangNo);
 	}
 	
 	//캘린더내 댕모임별 일정 조회
@@ -131,12 +131,8 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	
 	//참여일정 리스트 조회
 	@Override
-	public List<JoinScheduleListVO> joinScheduleList(int scheduleNo, int memberNo, int dangNo) {
-		Map<String, String> param = new HashMap<>();
-		param.put("scheduleNo", String.valueOf(scheduleNo));
-		param.put("dangNo", String.valueOf(memberNo));
-		param.put("dangNo", String.valueOf(dangNo));
-		return sqlSession.selectList("schedule.joinScheduleList", param);
+	public List<JoinScheduleListVO> joinScheduleList(int userNo) {
+		return sqlSession.selectList("schedule.joinScheduleList", userNo);
 	}
 
 

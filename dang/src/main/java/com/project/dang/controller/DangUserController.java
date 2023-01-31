@@ -443,9 +443,13 @@ public class DangUserController {
 	
 	//마이페이지 참여일정 조회
 	@GetMapping("/schedule_history")
-	public String scheduleHistory(Model model, @ModelAttribute JoinScheduleListVO joinScheduleListVO) {		
-		// 조회 정보를 Model에 추가
-		//model.addAttribute("joinScheduleList", joinScheduleList);
+	public String scheduleHistory(HttpSession httpSession,Model model) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
+		
+		//마이페이지 참여일정 조회
+		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(userNo);
+		model.addAttribute("scheduleHistory", scheduleHistory);
 		return "dang_user/schedule_history";	
 	}
 		
