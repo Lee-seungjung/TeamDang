@@ -168,13 +168,13 @@
 							<c:otherwise>
 								<c:forEach var="list" items="${list}">
 									<tr class="table align-middle">
-										<td>${list.userNo}</td>
+										<td class="findNo" data-dno="${list.dangNo}">${list.userNo}</td>
 										<td>${list.dangName}</td>
 										<td>${list.memberNick}</td>
 										<td>${list.reportDate}</td>
 										<td>
-											<a class="btn btn-primary" 
-												href="${pageContext.request.contextPath}/admin/report_detail?reportNo=${list.reportNo}">상세</a>
+											<a class="btn btn-primary detail-link" data-rno="${list.reportNo}"
+												href="">상세</a>
 										</td>
 									</tr>
 								</c:forEach>	
@@ -184,12 +184,35 @@
 					</tbody>
 				</table>
 			</div>
+
 		</div>
 	</div>
 </div>
 
 <script>
 	$(function(){
+		
+		//상세버튼
+		$(document).on("click",".detail-link",function(e){
+			//e.preventDefault();
+			var thistag = $(this);
+			var userNo = thistag.parent().siblings(".findNo").text();
+			var dangNo = thistag.parent().siblings(".findNo").data("dno");
+			var reportNo = thistag.data("rno");
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_member/search_member_no?userNo="+userNo+"&dangNo="+dangNo,
+				method:"get",
+				async:false,
+				success:function(resp){
+					thistag.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+reportNo+"&memberNo="+resp);
+				}
+			});
+			
+		});
+		
+		
+		
 		
 		var p = 1;
 		var reportState = "접수";
