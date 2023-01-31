@@ -36,7 +36,6 @@
 	width: 251px;
 	height: 55px;
 	z-index: 10;
-	border: 1px solid black;
 	border-radius: 10px;
 	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
 	font-size: 12px;
@@ -45,10 +44,8 @@
 }
 
 .category .menu_selected {
-	background: #f3d4d1;
+	background: #76BEFF;
 	color: #fff;
-	border-left: 1px solid #915B2F;
-	border-right: 1px solid #915B2F;
 	margin: 0 -1px;
 }
 
