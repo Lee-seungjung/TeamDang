@@ -7,6 +7,7 @@
 </jsp:include>
 
 <style>
+	
 	.report-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
@@ -26,70 +27,34 @@
 	.select-color{
 		background-color:#D6DEFF;
 	}
+	
+	/* 페이지네이션 */
+	ul {
+	    list-style: none;
+	    margin:0px; 
+	    padding:0px;
+	}
+	
+	.ul-report-list-page-item {
+		cursor : pointer;
+		width : 2.5rem;
+		height : 2rem;
+		border : 1px solid #CEE3F2;
+		color : #76BEFF;
+	}
+	
+	.ul-report-list-page-item:hover {
+		border : 2px solid #76BEFF;
+		background-color : #F0F9FF;
+	}
+	
+	.ul-report-list-page-item-selected {
+		border : 2px solid #76BEFF;
+		background-color : #76BEFF;
+		color : white;
+	}
 
 </style>
-
-<script>
-	$(function(){
-		//카테고리 검색조회
-		$(document).on("click", ".cnt-num", function(){
-			$(".report-box").removeClass("select-color");
-			$(this).parent().addClass("select-color");
-			
-			var type = $("[name=type]").val();
-			var keyword = $("[name=keyword]").val();
-			var reportState = $(this).data("reportstate");
-
-			//if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
-			
-			reportStateData={
-					reportState:reportState,
-					type:type,
-					keyword:keyword
-			}
-			
-			$(".data-body").empty();//출력 div 비우기
-			//신고 카운트 클릭 조회
-			$.ajax({
-				url:"${pageContext.request.contextPath}/admin/report_list",
-				method:"get",
-				data:reportStateData,
-				success:function(resp){
-					console.log(resp);
-					if(resp.length==0){
-						var body = $(".data-body");
-						var tr = $("<tr>").attr("class","align-middle");
-						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
-										.text("내역이 존재하지 않습니다.");
-						tr.append(td);
-					}else{
-						for(var i=0; i<resp.length; i++){
-							reportList(resp[i]);
-						}
-					}
-				}
-			});
-		});
-		
-		function reportList(resp){
-			var body = $(".data-body");
-			
-			var tr = $("<tr>").attr("class","align-middle");
-			var fir_td = $("<td>").text(resp.userNo);
-			var sec_td = $("<td>").text(resp.dangName);
-			var third_td = $("<td>").text(resp.memberNick);
-			var four_td = $("<td>").text(resp.reportDate);
-			var fifth_td = $("<td>");
-			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
-								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
-			fifth_td.append(a_btn);
-			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
-			body.append(tr);
-		}
-		
-		
-	});
-</script>
 
 <div class = "container-fluid mt-5">
 	<div class = "row">
@@ -136,6 +101,52 @@
 				</div>
 			</div>
 			
+			<div class="row mt-3">
+				<div class = "col d-flex justify-content-center align-items-center">
+					<ul class = "d-flex flex-row ul-report-list-page-navigator">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-first d-flex justify-content-center align-items-center" data-pagefirst = "1">
+							<span><i class="fa-solid fa-backward"></i></span>
+						</li>
+						
+						<c:choose>
+						<c:when test = "${reportListRequestDto.blockPrev() != 0}">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${reportListRequestDto.blockPrev()}">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-report-list-page-item ul-report-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "1">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>						
+
+						<c:forEach var = "i" begin = "${reportListRequestDto.blockStart()}" end = "${reportListRequestDto.blockEnd()}" step = "1">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-unit d-flex justify-content-center align-items-center">
+							<span>${i}</span>
+						</li>
+						</c:forEach>
+
+						<c:choose>
+						<c:when test = "${reportListRequestDto.blockNext() >= reportListRequestDto.blockLast()}">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${reportListRequestDto.blockLast()}">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-report-list-page-item ul-report-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${reportListRequestDto.blockNext()}">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+						
+						<li class = "ul-report-list-page-item ul-report-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${reportListRequestDto.blockLast()}">
+							<span><i class="fa-solid fa-forward"></i></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
 			<div class="row mt-5">
 				<table class="table text-center ">
 					<thead>
@@ -163,18 +174,411 @@
 										<td>${list.reportDate}</td>
 										<td>
 											<a class="btn btn-primary" 
-												href="${pageContext.request.contextPath}/admin/report_detail?
-															reportNo=${list.reportNo}">상세</a>
+												href="${pageContext.request.contextPath}/admin/report_detail?reportNo=${list.reportNo}">상세</a>
 										</td>
 									</tr>
 								</c:forEach>	
 							</c:otherwise>
 						</c:choose>
-						
+		
 					</tbody>
 				</table>
 			</div>
-			
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function(){
+		
+		var p = 1;
+		var reportState = "접수";
+		var queryString;
+		var type;
+		var keyword;
+		
+		// 다음 페이지 버튼
+		$(document).on("click", ".ul-report-list-page-item-next", function(){
+			p = $(this).attr("data-pagenext");
+			console.log(p);
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+			// 검색어랑 검색 타입이 있으면
+			if($(".form-select").val() != "" || $(".search-input").val() != "") {
+				formData.append("type", $(".form-select").val());
+				formData.append("keyword", $(".search-input").val());
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					console.log(resp);
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i = 0 ; i < resp.reportList.length ; i++){
+						reportList(resp.reportList[i]);
+					}
+					// 초기화
+					$(".ul-report-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						reportListPagination(i);
+					}
+				}
+			});
+		});
+		
+		// 이전 페이지 버튼
+		$(document).on("click", ".ul-report-list-page-item-prev", function(){
+			p = $(this).attr("data-pageprev");
+			console.log(p);
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+			// 검색어랑 검색 타입이 있으면
+			if($(".form-select").val() != "" || $(".search-input").val() != "") {
+				formData.append("type", $(".form-select").val());
+				formData.append("keyword", $(".search-input").val());
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					console.log(resp);
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i = 0 ; i < resp.reportList.length ; i++){
+						reportList(resp.reportList[i]);
+					}
+					// 초기화
+					$(".ul-report-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						reportListPagination(i);
+					}
+				}
+			});
+		});
+		
+		// 맨 뒤로 가기 버튼
+		$(document).on("click", ".ul-report-list-page-item-last", function(){
+			// 마지막 페이지 번호
+			p = $(this).attr("data-pagelast");
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+			// 검색어랑 검색 타입이 있으면
+			if($(".form-select").val() != "" || $(".search-input").val() != "") {
+				formData.append("type", $(".form-select").val());
+				formData.append("keyword", $(".search-input").val());
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					console.log(resp);
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i = 0 ; i < resp.reportList.length ; i++){
+						reportList(resp.reportList[i]);
+					}
+					// 초기화
+					$(".ul-report-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						reportListPagination(i);
+					}
+				}
+			});
+		});
+		
+		// 맨 앞으로 가기 버튼
+		$(document).on("click", ".ul-report-list-page-item-first", function(){
+			// 페이지를 1페이지로
+			p = 1;
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					console.log(resp);
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i = 0 ; i < resp.reportList.length ; i++){
+						reportList(resp.reportList[i]);
+					}
+					// 초기화
+					$(".ul-report-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						reportListPagination(i);
+					}
+				}
+			});
+		});
+		
+		// 검색 버튼 클릭 이벤트
+		$(document).on("click", ".search-btn", function(){
+			
+			var type = $(".form-select").val();
+			var keyword = $(".search-input").val();
+			
+			if(type == "" || keyword == "") {
+				return;
+			}
+			
+			var formData = new FormData();
+			formData.append("p", 1);
+			formData.append("reportState", reportState);
+			formData.append("type", type);
+			formData.append("keyword", keyword);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					console.log(resp);
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i=0; i<resp.reportList.length; i++){
+						reportList(resp.reportList[i]);
+					}
+					// 초기화
+					$(".ul-report-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						reportListPagination(i);
+					}
+				}
+			});
+		});
+		
+		$(document).on("click", ".ul-report-list-page-item-unit", function(){
+			p = $(this).children().text();
+			console.log(p);
+			/* 
+			type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val();
+			reportState = $(this).data("reportstate");
+			 */ 
+			/* reportStateData={
+				p : p,
+				reportState:reportState,
+				type:type,
+				keyword:keyword
+			} */
+			 
+			 var formData = new FormData();
+			 formData.append("p", p);
+			 formData.append("reportState", reportState);
+			 
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/report_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					// 초기화
+					$(".data-body").empty();
+					for(var i=0; i<resp.reportList.length; i++){
+						reportList(resp.reportList[i]);
+					}
+				}
+			});
+		});
+		
+		//카테고리 조회
+		$(document).on("click", ".cnt-num", function(){
+			$(".report-box").removeClass("select-color");
+			$(this).parent().addClass("select-color");
+			
+			var type = $(".form-select").val("").prop("selected", true);
+			var keyword = $(".search-input").val("");
+	/* 		
+			var type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val(); */
+			reportState = $(this).attr("data-reportstate");
+			p = 1;
+			console.log(reportState);
+			
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+
+			//if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
+/* 			
+			reportStateData={
+					reportState:reportState,
+					type:type,
+					keyword:keyword
+			} */
+			
+			$(".data-body").empty();//출력 div 비우기
+			//신고 카운트 클릭 조회
+			$.ajax({
+				url:"${pageContext.request.contextPath}/admin/report_list",
+				method:"post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success:function(resp){
+					console.log(resp);
+					
+					// 양 끝 페이지네이션 버튼 설정
+					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockPrev <= 1) {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
+					} else {
+						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					}
+					if(resp.blockNext > resp.blockLast) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					} else {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					}
+					
+					if(resp.reportList.length==0){
+						var body = $(".data-body");
+						var tr = $("<tr>").attr("class","align-middle");
+						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+										.text("내역이 존재하지 않습니다.");
+						tr.append(td);
+					}else{
+						for(var i=0; i<resp.reportList.length; i++){
+							reportList(resp.reportList[i]);
+						}
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+					}
+				}
+			});
+		});
+		
+		function reportList(resp){
+			var body = $(".data-body");
+			
+			var tr = $("<tr>").attr("class","align-middle");
+			var fir_td = $("<td>").text(resp.userNo);
+			var sec_td = $("<td>").text(resp.dangName);
+			var third_td = $("<td>").text(resp.memberNick);
+			var four_td = $("<td>").text(resp.reportDate);
+			var fifth_td = $("<td>");
+			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
+								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
+			fifth_td.append(a_btn);
+			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
+			body.append(tr);
+		}
+		
+		function reportListPagination(resp){
+			$(".ul-report-list-page-item-next")
+				.before(
+					$("<li>").attr("class", "ul-report-list-page-item ul-report-list-page-item-unit d-flex justify-content-center align-items-center")
+						.append(
+							$("<span>").text(resp)	
+						)
+				)
+		}
+		
+	});
+</script>

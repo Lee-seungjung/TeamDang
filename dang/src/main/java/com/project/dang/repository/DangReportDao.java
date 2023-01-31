@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.ReportImgDto;
+import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.vo.ReportCntVO;
 import com.project.dang.vo.ReportListVO;
 import com.project.dang.vo.ReportOneListVO;
@@ -80,9 +81,17 @@ public interface DangReportDao {
 	
 	/**
 	 * (관리자) 신고 목록 검색조회
+	 * @param reportListRequestDto
 	 * @return List<ReportListVO>
 	 */
-	List<ReportListVO> reportList(String reportState, String type, String keyword);
+	List<ReportListVO> reportList(ReportListRequestDto reportListRequestDto);
+	
+	/**
+	 * 조건에 맞는 신고 갯수 카운트
+	 * @param reportListRequestDto
+	 * @return
+	 */
+	int reportListCount(ReportListRequestDto reportListRequestDto);
 	
 	/**
 	 * (관리자) 신고 단일조회

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangMemberDao;
@@ -52,16 +54,19 @@ public class DangAdmin {
 	
 	//관리자페이지 신고
 	@GetMapping("/report")
-	public String report(Model model, @RequestParam(required = false) String reportState) {
+	public String report(Model model, @ModelAttribute ReportListRequestDto reportListRequestDto) {
 		//신고 현황 카운트
 		model.addAttribute("cnt", dangReportDao.cnt());
 		//신고 목록 조회(첫화면)
-		if(reportState==null) {
-			reportState="접수";
+		if(reportListRequestDto.getReportState()==null) {
+			reportListRequestDto.setReportState("접수");
 		}
-		String type="";
-		String keyword="";
-		model.addAttribute("list", dangReportDao.reportList(reportState, type, keyword));
+		// 조회에 맞는 신고 갯수 반환
+		int reportCount = dangReportDao.reportListCount(reportListRequestDto);
+		// 갯수 설정
+		reportListRequestDto.setTotal(reportCount);
+		model.addAttribute("list", dangReportDao.reportList(reportListRequestDto));
+		System.out.println(reportListRequestDto.getReportState());
 		return "dang_admin/report";
 	}
 	
@@ -83,4 +88,9 @@ public class DangAdmin {
 		return "dang_admin/report_detail";
 	}
 	
+	// 개설된 댕모임 조회
+	@GetMapping("/dang_list")
+	public String selectDangList() {
+		return "dang_admin/dang_list";
+	}
 }
