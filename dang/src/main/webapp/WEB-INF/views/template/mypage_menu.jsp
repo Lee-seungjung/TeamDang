@@ -83,7 +83,7 @@
 					<div class = "row">
 						<div class = "col-10 offset-1">			
 							<div class = "offset-2 col-8 d-flex justify-content-center align-items-center div-icon-mypage"  onClick = "location.href='${pageContext.request.contextPath}/user/schedule_history'">
-								<img class = "w-100 img-select-user-schedule" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png">
+								<img class = "w-100 img-select-user-schedule" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-gray.png">
 							</div>
 							<div class = "w-100 mt-3 d-flex justify-content-center align-items-center">						
 								<strong>참여일정 조회</strong>
