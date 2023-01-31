@@ -265,7 +265,7 @@
                             <span class="mypage-menu-common">댕 정보 변경</span>
                         </div>
                     </div> 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='#'">
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center" onClick = "location.href='${pageContext.request.contextPath}/user/list_mydang'">
                         <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
                             <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join_dang_pink.png" >
                         </div>
