@@ -33,10 +33,9 @@
 	overflow: hidden;
 	top: 10px;
 	left: 10px;
-	width: 251px;
-	height: 55px;
+	width: 300px;
+	height: 60px;
 	z-index: 10;
-	border: 1px solid black;
 	border-radius: 10px;
 	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
 	font-size: 12px;
@@ -45,17 +44,15 @@
 }
 
 .category .menu_selected {
-	background: #f3d4d1;
+	background: #76BEFF;
 	color: #fff;
-	border-left: 1px solid #915B2F;
-	border-right: 1px solid #915B2F;
 	margin: 0 -1px;
 }
 
 .category li {
 	list-style: none;
 	float: left;
-	width: 50px;
+	width: 60px;
 	height: 60px;
 	padding-top: 5px;
 	cursor: pointer;
@@ -281,7 +278,7 @@
 			<div class="col-md-8 offset-md-2">
 				<div id="mapwrap">
 					<!-- 지도가 표시될 div -->
-					<div id="map1" style="width: 100%; height: 350px;"></div>
+					<div id="map1" style="width: 100%; height: 400px;"></div>
 					<!-- 지도 위에 표시될 마커 카테고리 -->
 					<div class="category">
 						<ul>
@@ -758,8 +755,31 @@
 		// 공원에 정보를 담을 배열
 		var contentPark = [];
 
+		kakao.maps.event.addListener(map1,'zoom_changed',function(){
+		    chkArea(); // 함수 호출
+		});
+
+		kakao.maps.event.addListener(map1,'dragend',function(){
+		    chkArea(); // 함수 호출
+		});
+
+		chkArea(); // 함수 실행
+
+		// 해당영역에 영역 범위 좌표값을 부를 계산 변수 저장과 ajax호출 함수
+		function chkArea(){
+
+		    var bounds = map1.getBounds(); //지도의 영역을 반환한다.
+		    var sw = bounds.getSouthWest(); //영역의 남서쪽 좌표를 반환한다.
+		    var ne = bounds.getNorthEast(); //영역의 북동쪽 좌표를 반환한다.
+
+		    lat1=sw.La;//영역의 남서쪽 좌표를 저장
+		    lng1=sw.Ma;//영역의 남서쪽 좌표를 저장
+		    lat2=ne.La;//영역의 북동쪽 좌표를 저장
+		    lng2=ne.Ma;//영역의 북동쪽 좌표를 저장
+
+		
 		$.ajax({
-			url : "http://localhost:8888/rest_place/place_list",
+			url: "http://localhost:8888/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
 			method : "get",
 			async : false,
 			contentType : "application/json",
@@ -789,7 +809,7 @@
 				}
 			}
 		})
-
+		};
 		var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png'; // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
 		var cafemarkerImageSrc = "${pageContext.request.contextPath}/images/cafe-icon.png"; // 카페의 마커이미지의 주소입니다.
 		var foodmarkerImageSrc = "${pageContext.request.contextPath}/images/food-icon.png"; // 카페의 마커이미지의 주소입니다.
@@ -926,7 +946,7 @@
 										var thisPostionX = contentFood[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentFood[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >'
@@ -993,7 +1013,7 @@
 										var thisPostionX = contentField[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentField[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >'
@@ -1061,7 +1081,7 @@
 										var thisPostionX = contentDogsalon[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentDogsalon[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >'

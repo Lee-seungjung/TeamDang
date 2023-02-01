@@ -76,7 +76,7 @@
 	</select>
 	
 	<!-- 신고 단일조회 -->
-	<select id="selectOne" resultType="ReportOneListVO" parameterType="int">
+	<!-- <select id="selectOne" resultType="ReportOneListVO" parameterType="int">
 		select ddudm.*, dr.report_no, dr.report_content, dr.report_date, dr.report_state, dr.report_alert 
 		from dang_report dr 
 		inner join (select d.dang_no, d.dang_name, dudm.user_no, dudm.member_no, dudm.member_nick, dudm.member_owner  
@@ -87,6 +87,14 @@
 					) ddudm 
 		on dr.user_no = ddudm.user_no
 		where dr.report_no = #{reportNo}
+	</select> -->
+	<select id="selectOne" resultType="ReportOneListVO" parameterType="Map">
+		select list.*, m.member_no, m.member_owner from (
+		    select d.dang_name, r.* from dang d inner join dang_report r on d.dang_no=r.dang_no
+		) list left outer join (
+		    select member_no, member_owner from dang_member where member_no=${memberNo}
+		) m 
+		on 1=1 where list.report_no=#{reportNo}
 	</select>
 	
 	<!-- 신고현황 카운트 조회 -->
