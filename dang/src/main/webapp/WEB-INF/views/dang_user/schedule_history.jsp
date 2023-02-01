@@ -250,7 +250,7 @@
 <script type="text/javascript">
 	$(function(){
 		// 마이페이지 메뉴 색 변경
-		$(".img-select-user-schedule").attr("src", "images/mypage-join-meeting-pink.png");
+		$(".img-select-user-schedule").attr("src", "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png");
 	
 		
 	});
