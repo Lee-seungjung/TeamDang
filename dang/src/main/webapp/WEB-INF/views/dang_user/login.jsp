@@ -92,6 +92,18 @@
 			$("body").append(formLogin);
 			formLogin.submit();
 		});
+		
+		// esc를 누를 때 Modal 초기화
+		$(document).keydown(function(event){
+			if(event.keycode == 13 || event.which == 13) {
+				var formLogin = $("<form>").attr("type", "hidden").attr("action", "login").attr("method", "post");
+				var inputId = $("<input>").attr("type", "hidden").attr("name", "userId").attr("value", $(".input-user-id").val());
+				var inputPw = $("<input>").attr("type", "hidden").attr("name", "userPw").attr("value", $(".input-user-pw").val());
+				formLogin.append(inputId).append(inputPw);
+				$("body").append(formLogin);
+				formLogin.submit();
+			}
+		});
 	})
 
 </script>

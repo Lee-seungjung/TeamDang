@@ -216,7 +216,6 @@
 		
 		var p = 1;
 		var reportState = "접수";
-		var queryString;
 		var type;
 		var keyword;
 		

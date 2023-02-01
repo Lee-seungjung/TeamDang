@@ -86,7 +86,6 @@
     	background-color : #FFE34E;
     	border : none;
     	border-radius : 5px;
-    	
     }
     
     .span-dang-info {

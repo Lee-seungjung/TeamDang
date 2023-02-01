@@ -10,12 +10,19 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dang.dto.DangDetailAdminInfoDto;
+import com.project.dang.dto.DangDetailCreatorAdminDto;
+import com.project.dang.dto.DangListAdminDto;
+import com.project.dang.dto.DangListAdminRestRequestDto;
+import com.project.dang.dto.DangListAdminRestResponseDto;
 import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.dto.ReportListResponseDto;
 import com.project.dang.repository.AdminDao;
+import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.vo.DangGroupRegionVO;
 import com.project.dang.vo.ReportListVO;
@@ -29,6 +36,9 @@ public class AdminRestController {
 	private AdminDao adminDao;
 	@Autowired
 	private DangReportDao dangReportDao;
+	
+	@Autowired
+	private DangDao dangDao;
 	
 	//전체 조회(5개)
 	@GetMapping("/group_list")
@@ -73,4 +83,36 @@ public class AdminRestController {
 		return dangReportDao.stateRejUpdate(dto);
 	}
 		
+	// 
+	@PostMapping("/dang_list")
+	public DangListAdminRestResponseDto selectDangList(@ModelAttribute DangListAdminRestRequestDto dangListAdminRestRequestDto) {
+		// 조건에 따른 조회 총 갯수 반환
+		int countDangListAdmin = dangDao.countDangListAdmin(dangListAdminRestRequestDto);
+		// dto에 총 갯수 설정
+		dangListAdminRestRequestDto.setTotal(countDangListAdmin);
+		// 댕모임 목록 전체/검색 조회
+		List<DangListAdminDto> dangListAdmin = dangDao.searchDangListAdmin(dangListAdminRestRequestDto);
+		// 반환용 객체 생성
+		DangListAdminRestResponseDto dangListAdminRestResponseDto = new DangListAdminRestResponseDto();
+		dangListAdminRestResponseDto.setDangListAdmin(dangListAdmin);
+		dangListAdminRestResponseDto.setBlockStart(dangListAdminRestRequestDto.blockStart());
+		dangListAdminRestResponseDto.setBlockEnd(dangListAdminRestRequestDto.blockEnd());
+		dangListAdminRestResponseDto.setBlockPrev(dangListAdminRestRequestDto.blockPrev());
+		dangListAdminRestResponseDto.setBlockNext(dangListAdminRestRequestDto.blockNext());
+		dangListAdminRestResponseDto.setBlockFirst(dangListAdminRestRequestDto.blockFirst());
+		dangListAdminRestResponseDto.setBlockLast(dangListAdminRestRequestDto.blockLast());
+		System.out.println(dangListAdminRestRequestDto.toString());
+		return dangListAdminRestResponseDto;
+	}
+	
+	@GetMapping("/dang_detail")
+	public DangDetailAdminInfoDto selectDangDetail(@RequestParam int dangNo, @RequestParam int userNo) {
+		// 댕모임 상세 정보 조회
+		DangDetailAdminInfoDto dangDetailAdminInfoDto = dangDao.searchDangDetailAdmin(dangNo, userNo);
+		// 댕모임 개설자 상세정보 조회
+		DangDetailCreatorAdminDto dangDetailCreatorAdminDto = dangDao.searchDangCreatorDetailAdmin(dangNo, userNo);
+		// 반환 객체 설정
+		dangDetailAdminInfoDto.setDangDetailCreatorAdminDto(dangDetailCreatorAdminDto);
+		return dangDetailAdminInfoDto;
+	}
 }

@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
-public class ReportListRequestDto {
-
-	private String reportState = "접수"; 
-	private String type; 
-	private String keyword;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DangListAdminRestRequestDto {
+	private String dangName;
+	private String dangArea;
 	
 	// 페이징 관련
 	// 1. 현재 페이지의 열(row) 관련
@@ -33,7 +33,7 @@ public class ReportListRequestDto {
 	
 	// 2. 현재 페이지의 페이지 블럭 관련
 	// 필드
-	private int cntBlock = 5; // 한 페이지에 표시할 페이지 블럭 갯수
+	private int cntBlock = 2; // 한 페이지에 표시할 페이지 블럭 갯수
 	
 	// 메소드
 	// - 현재 페이지의 페이지 블럭 시작 번호 반환

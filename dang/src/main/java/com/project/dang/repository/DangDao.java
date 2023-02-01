@@ -2,8 +2,12 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangDetailAdminInfoDto;
+import com.project.dang.dto.DangDetailCreatorAdminDto;
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
+import com.project.dang.dto.DangListAdminDto;
+import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.dto.DangUserJoinRequestDto;
@@ -151,4 +155,34 @@ public interface DangDao {
 	 * @return true, false
 	 */
 	public boolean userNoUpdate(DangDto dto);
+	
+	/**
+	 * 관리자 페이지 댕모임 목록 전체/검색 조회
+	 * @param dangListAdminRestRequestDto : 활동지역, 댕모임명
+	 * @return List<DangListAdminDto> : 댕모임 번호, 댕모임명, 댕모임 현원, 댕모임 총원, 댕모임 좋아요, 댕모임 비공개 여부
+	 */
+	public List<DangListAdminDto> searchDangListAdmin(DangListAdminRestRequestDto dangListAdminRestRequestDto);
+	
+	/**
+	 * 관리자 페이지 조건에 맞는 댕모임 총 수
+	 * @param dangListAdminRestRequestDto : 활동지역, 댕모임명
+	 * @return int : 댕모임 갯수
+	 */
+	public int countDangListAdmin(DangListAdminRestRequestDto dangListAdminRestRequestDto);
+	
+	/**
+	 * 관리자 페이지 댕모임 상세
+	 * @param dangNo : 댕모임 번호
+	 * @param userNo : 댕모임 개설자 회원 번호
+	 * @return DangDetailAdminInfoDto : 댕모임 상세 정보, 댕모임 해시태그 정보, 댕모임 개설자 정보
+	 */
+	public DangDetailAdminInfoDto searchDangDetailAdmin(int dangNo, int userNo);
+	
+	/**
+	 * 관리자 페이지 댕모임 개설자 상세
+	 * @param dangNo : 댕모임 번호
+	 * @param userNo : 댕모임 개설자 회원 번호
+	 * @return DangDetailAdminDto : 댕모임 개설자 상세 정보
+	 */
+	public DangDetailCreatorAdminDto searchDangCreatorDetailAdmin(int dangNo, int userNo);
 }

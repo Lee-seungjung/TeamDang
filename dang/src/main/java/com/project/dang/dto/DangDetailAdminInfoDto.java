@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DangListResponseDto {
+public class DangDetailAdminInfoDto {
 
-	private DangInfoDto dangInfo;
-	private DangDetailCreatorAdminDto dangDetailCreatorAdminDto;
+	private DangDetailAdminDto dangDetailAdminDto;
 	private List<DangHashtagInfoDto> dangHashtag;
+	private DangDetailCreatorAdminDto dangDetailCreatorAdminDto;
 }
