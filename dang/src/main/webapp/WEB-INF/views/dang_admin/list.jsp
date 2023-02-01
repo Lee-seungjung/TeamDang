@@ -1184,7 +1184,7 @@
 		}
 
 		// 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setParkMarkers(map) {
+		function setParkMarkers(map1) {
 			for (var i = 0; i < parkMarkers.length; i++) {
 				parkMarkers[i].setMap(map1);
 			}
