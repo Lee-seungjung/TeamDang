@@ -13,9 +13,8 @@ public class Test11 {
 	@Autowired
 	private DangScheduleDao dao ;
 	
-	@Test
-	public void insert() {
-		dao.joinMemberList(113);
-		System.out.println(dao.joinMemberList(113));
-	}
+	/*
+	 * @Test public void insert() { dao.joinMemberList(113);
+	 * System.out.println(dao.joinMemberList(113)); }
+	 */
 }

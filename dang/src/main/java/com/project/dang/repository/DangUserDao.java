@@ -1,6 +1,10 @@
 package com.project.dang.repository;
 
+import java.util.List;
+
+import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
+import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
@@ -118,4 +122,21 @@ public interface DangUserDao {
 	 * @return int : 회원 번호
 	 */
 	public Integer findUserPw(String userId, String userEmail);
+	
+	/**
+	 * (관리자) 회원목록 조회
+	 * @param userNo:회원 번호
+	 * @return List<DangUserListDto>
+	 */
+	public List<DangUserListDto> UserList();
+	
+	/**
+	 * (관리자) 회원목록 상세
+	 * @param userNo:회원 번호
+	 * @return List<DangUserListDto>
+	 */
+	public DangUserDetailDto userDetail (int userNo);
+	
 }
+
+
