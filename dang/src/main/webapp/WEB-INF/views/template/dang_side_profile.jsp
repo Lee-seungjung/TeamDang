@@ -1455,76 +1455,76 @@
         })
         
        
-       if(thisDangArea==gangNam){
+       if(thisDangArea==gangNam){//강남구
    	  	centerPositionX=37.5174;
    		centerPositionY=127.0475;
-       }else if(thisDangArea==gangdong){
+       }else if(thisDangArea==gangdong){//강동구
     	centerPositionX=37.5327;
    		centerPositionY=127.1379;
-       }else if(thisDangArea==gangbuk){
+       }else if(thisDangArea==gangbuk){//강북구
     	centerPositionX=37.6399;
   		centerPositionY=127.0257;
-       }else if(thisDangArea==gangseo){
+       }else if(thisDangArea==gangseo){//강서구
    	   	centerPositionX=37.5512;
 		centerPositionY=126.8506;
-	   }else if(thisDangArea==gwanwk){
+	   }else if(thisDangArea==gwanwk){//관악구
 		centerPositionX=37.4783;
 		centerPositionY=126.9522;
-	  }else if(thisDangArea==gwangjin){
+	  }else if(thisDangArea==gwangjin){//광진구
 		centerPositionX=37.5383;
 		centerPositionY=127.0828;
-	  }else if(thisDangArea==guro){
+	  }else if(thisDangArea==guro){//구로구
 		centerPositionX=37.4954;
 		centerPositionY=126.8877;
-	  }else if(thisDangArea==geumcheon){
+	  }else if(thisDangArea==geumcheon){//금천구
 		centerPositionX=37.4568;
 		centerPositionY=126.8963;
-	  }else if(thisDangArea==nowon){
+	  }else if(thisDangArea==nowon){//노원구
 		centerPositionX=37.654;
 		centerPositionY=127.0566;
-	  }else if(thisDangArea==dobong){
+	  }else if(thisDangArea==dobong){//도봉구
 		centerPositionX=37.6691;
 		centerPositionY=127.0469;
-	  }else if(thisDangArea==dongdae){
+	  }else if(thisDangArea==dongdae){//동대문구
 		centerPositionX=37.574;
 		centerPositionY=127.0401;
-	  }else if(thisDangArea==dongjak){
+	  }else if(thisDangArea==dongjak){//동작구
 		centerPositionX=37.5123;
 		centerPositionY=126.9395;
-	  }else if(thisDangArea==mapo){
+	  }else if(thisDangArea==mapo){//마포구
 	   	centerPositionX=37.5662;
 		centerPositionY=126.9022;
-	  }else if(thisDangArea==sdm){
+	  }else if(thisDangArea==sdm){//서대문구
 	   	centerPositionX=37.5792;
 		centerPositionY=126.9365;
-	  }else if(thisDangArea==seocho){
+	  }else if(thisDangArea==seocho){//서초구
 	   	centerPositionX=37.4834;
 		centerPositionY=127.0322;
-	  }else if(thisDangArea==sd){
+	  }else if(thisDangArea==sd){//성동구
 	   	centerPositionX=37.5638;
 		centerPositionY=127.0372;
-	  }else if(thisDangArea==db){
+	  }else if(thisDangArea==db){//성북구
 	   	centerPositionX=37.589;
 		centerPositionY=127.0167;
-	  }else if(thisDangArea==songpa){
+	  }else if(thisDangArea==songpa){//송파구
 	   	centerPositionX=37.5148;
 		centerPositionY=127.1061;
-	  }else if(thisDangArea==yangcheon){
+	  }else if(thisDangArea==yangcheon){//양천구
 	   	centerPositionX=37.5168;
 		centerPositionY=126.8661;
-	  }else if(thisDangArea==ydp){
+	  }else if(thisDangArea==ydp){//영등포구
 	   	centerPositionX=37.5267;
 		centerPositionY=126.8954;
-	  }else if(thisDangArea==yongsan){
+	  }else if(thisDangArea==yongsan){//용산구
 	   	centerPositionX=37.5324;
 		centerPositionY=126.9909;
-	  }else if(thisDangArea==ep){
+	  }else if(thisDangArea==ep){//은평구
 	   	centerPositionX=37.6026;
 		centerPositionY=126.9291;
-	  }else if(thisDangArea==jongno){
+	  }else if(thisDangArea==jongno){//종로구
 	   	centerPositionX=37.5735;
 		centerPositionY=126.9793;
-	  }else if(thisDangArea==junggu){
+	  }else if(thisDangArea==junggu){//중구
 	   	centerPositionX=37.564;
 		centerPositionY=126.9974;
 	  }else{
