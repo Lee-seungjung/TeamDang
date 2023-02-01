@@ -8,8 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangDetailAdminInfoDto;
+import com.project.dang.dto.DangDetailCreatorAdminDto;
 import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
+import com.project.dang.dto.DangListAdminDto;
+import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
 import com.project.dang.dto.DangUserJoinRequestDto;
@@ -171,6 +175,38 @@ public class DangDaoImpl implements DangDao {
 	@Override
 	public boolean userNoUpdate(DangDto dto) {
 		return sqlSession.update("dang.userNoUpdate", dto)>0;
+	}
+
+	// 관리자 페이지 댕모임 목록 전체/검색 조회
+	@Override
+	public List<DangListAdminDto> searchDangListAdmin(DangListAdminRestRequestDto dangListAdminRestRequestDto) {
+		dangListAdminRestRequestDto.setRownumStart(dangListAdminRestRequestDto.rownumStart());
+		dangListAdminRestRequestDto.setRownumEnd(dangListAdminRestRequestDto.rownumEnd());
+		return sqlSession.selectList("dang.searchDangListAdmin", dangListAdminRestRequestDto);
+	}
+
+	// 관리자 페이지 조건에 맞는 댕모임 총 수
+	@Override
+	public int countDangListAdmin(DangListAdminRestRequestDto dangListAdminRestRequestDto) {
+		return sqlSession.selectOne("dang.countDangListAdmin", dangListAdminRestRequestDto);
+	}
+
+	// 관리자 페이지 댕모임 상세
+	@Override
+	public DangDetailAdminInfoDto searchDangDetailAdmin(int dangNo, int userNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("userNo", String.valueOf(userNo));
+		return sqlSession.selectOne("dang.searchDangDetailAdmin", param);
+	}
+
+	// 관리자 페이지 댕모임 개설자 상세
+	@Override
+	public DangDetailCreatorAdminDto searchDangCreatorDetailAdmin(int dangNo, int userNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("dangNo", String.valueOf(dangNo));
+		param.put("userNo", String.valueOf(userNo));
+		return sqlSession.selectOne("dang.searchDangCreatorDetailAdmin", param);
 	}
 }
 	

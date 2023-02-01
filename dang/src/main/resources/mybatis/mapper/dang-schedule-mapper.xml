@@ -64,8 +64,8 @@
         </select> 
         
                        <!-- 상세 일정에서 참여 회원 프로필 출력-->
-        <select id="joinMemberList" parameterType="int" resultType="JoinMemberVO">
-			select * from schedule_join_member where schedule_no=#{scheduleNo} 
+        <select id="joinMemberList" parameterType="map" resultType="JoinMemberVO">
+			select * from join_member_profile where schedule_no=#{scheduleNo} and dang_no=#{dangNo}
         </select> 
         
                       <!-- 상세 일정에서 참여 회원 확인-->

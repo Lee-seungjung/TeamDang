@@ -61,8 +61,11 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 	
 	//일정상세 내 참여인원 프로필 사진 출력
 	@Override
-	public List<JoinMemberVO> joinMemberList(int scheduleNo) {
-		return sqlSession.selectList("schedule.joinMemberList", scheduleNo);	
+	public List<JoinMemberVO> joinMemberList(int scheduleNo, int dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectList("schedule.joinMemberList", param);
 	}
 	
 	//일정 등록

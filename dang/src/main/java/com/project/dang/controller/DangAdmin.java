@@ -1,5 +1,7 @@
 package com.project.dang.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.dang.dto.DangListAdminDto;
+import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangChatDao;
+import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPlaceDao;
 import com.project.dang.repository.DangReportDao;
@@ -30,6 +35,9 @@ public class DangAdmin {
 	private DangMemberDao dangMemberDao;
 	@Autowired
 	private DangChatDao dangChatDao;
+	
+	@Autowired
+	private DangDao dangDao;
 	
 	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
 	@GetMapping("/dash_board")
@@ -90,7 +98,16 @@ public class DangAdmin {
 	
 	// 개설된 댕모임 조회
 	@GetMapping("/dang_list")
-	public String selectDangList() {
+	public String selectDangList(Model model, @ModelAttribute DangListAdminRestRequestDto dangListAdminRestRequestDto) {
+		// 조건에 따른 조회 총 갯수 반환
+		int countDangListAdmin = dangDao.countDangListAdmin(dangListAdminRestRequestDto);
+		// dto에 총 갯수 설정
+		dangListAdminRestRequestDto.setTotal(countDangListAdmin);
+		// 댕모임 목록 전체/검색 조회
+		List<DangListAdminDto> dangListAdmin = dangDao.searchDangListAdmin(dangListAdminRestRequestDto);
+		System.out.println(dangListAdminRestRequestDto.toString());
+		System.out.println(dangListAdmin.toString());
+		model.addAttribute("dangListAdmin", dangListAdmin);
 		return "dang_admin/dang_list";
 	}
 }

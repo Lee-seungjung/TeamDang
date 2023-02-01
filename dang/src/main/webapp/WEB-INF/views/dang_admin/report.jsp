@@ -173,8 +173,7 @@
 										<td>${list.memberNick}</td>
 										<td>${list.reportDate}</td>
 										<td>
-											<a class="btn btn-primary detail-link" data-rno="${list.reportNo}"
-												href="">상세</a>
+											<a class="btn btn-primary detail-link" data-rno="${list.reportNo}">상세</a>
 										</td>
 									</tr>
 								</c:forEach>	
@@ -216,7 +215,6 @@
 		
 		var p = 1;
 		var reportState = "접수";
-		var queryString;
 		var type;
 		var keyword;
 		
@@ -580,14 +578,13 @@
 		function reportList(resp){
 			var body = $(".data-body");
 			
-			var tr = $("<tr>").attr("class","align-middle");
-			var fir_td = $("<td>").text(resp.userNo);
+			var tr = $("<tr>").attr("class","table align-middle");
+			var fir_td = $("<td>").attr("class", "findNo").attr("data-dno", resp.dangNo).text(resp.userNo);
 			var sec_td = $("<td>").text(resp.dangName);
 			var third_td = $("<td>").text(resp.memberNick);
 			var four_td = $("<td>").text(resp.reportDate);
 			var fifth_td = $("<td>");
-			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
-								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
+			var a_btn = $("<a>").attr("class","btn btn-primary detail-link").attr("data-rno", resp.reportNo).text("상세");
 			fifth_td.append(a_btn);
 			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
 			body.append(tr);

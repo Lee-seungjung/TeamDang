@@ -242,5 +242,75 @@
 	<update id="userNoUpdate" parameterType="DangDto">
 		update dang set user_no=#{userNo} where dang_no=${dangNo}
 	</update>
+	
+	<!-- 관리자 페이지 댕모임 목록 전체/검색 조회 -->
+  	<select id = "searchDangListAdmin" parameterType = "DangListAdminRestRequestDto" resultType = "DangListAdminDto">
+  		select * from (
+			select tmp.*, rownum rn from (
+		  		select dang_no, user_no, dang_name, dang_head, dang_headmax, dang_like, dang_private from dang
+				<where>
+					<if test = "dangArea != null">
+						and dang_area = #{dangArea}
+					</if>
+					<if test = "dangName != null">
+						and instr(dang_name, #{dangName}) > 0
+					</if>
+				</where>
+				order by dang_no asc
+	  		)tmp
+		) where rn between #{rownumStart} and #{rownumEnd}
+  	</select>
+  	
+  	<!-- 관리자 페이지 조건에 따른 댕모임 갯수 -->
+  	<select id = "countDangListAdmin" parameterType = "DangListAdminRestRequestDto" resultType = "int">
+  		select count(dang_no) from dang
+  		<where>
+			<if test = "dangArea != null">
+				and dang_area = #{dangArea}
+			</if>
+			<if test = "dangName != null">
+				and instr(dang_name, #{dangName}) > 0
+			</if>
+		</where>
+  	</select>
+  	
+  	<!-- 관리자 페이지 댕모임 목록 상세 조회 -->
+  	<select id = "searchDangDetailAdmin" parameterType = "map" resultMap = "dangDetailInfoDto">
+  		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_area, d.dang_createtime, d.dang_like, d.dang_private, di.attachment_no from dang d 
+		left outer join dang_img di 
+		on d.dang_no = di.dang_no 
+		where d.dang_no = #{dangNo} and d.user_no = #{userNo}
+  	</select>
+  	<resultMap id = "dangDetailInfoDto" type = "DangDetailAdminInfoDto">
+ 		<association property = "dangDetailAdminDto">
+ 			<result column = "dang_no" property = "dangNo"/>
+ 			<result column = "dang_name" property = "dangName"/>
+ 			<result column = "dang_info" property = "dangInfo"/>
+ 			<result column = "dang_headmax" property = "dangHeadmax"/>
+ 			<result column = "dang_head" property = "dangHead"/>
+ 			<result column = "dang_area" property = "dangArea"/>
+ 			<result column = "dang_createtime" property = "dangCreatetime" javaType="java.sql.Date"/>
+ 			<result column = "dang_like" property = "dangLike"/>
+ 			<result column = "dang_private" property = "dangPrivate"/>
+ 			<result column = "attachment_no" property = "attachmentNo"/>
+ 		</association>
+ 		<collection column = "dang_no" property = "dangHashtag" javaType = "java.util.List" ofType = "DangHashtagVO" select = "selectHashtagList">
+ 			<result column = "hashtag_no" property = "hashtagNo"></result>
+ 			<result column = "hashtag_content" property = "hashtagContent"></result>
+ 		</collection>
+ 	</resultMap>
+ 	
+  	<!-- 관리자 페이지 댕모임 회원 상세 조회 -->
+  	<select id = "searchDangCreatorDetailAdmin" parameterType = "map" resultType = "DangDetailCreatorAdminDto">
+  		select dudm.*, ui.attachment_no from (
+		select  dm.member_no, dm.member_nick, dm.member_grade, dm.member_score, du.user_no, du.user_id, du.user_email, du.user_tel, du.user_gender, du.user_joindate, du.user_logindate from dang_user du 
+		inner join dang_member dm 
+		on du.user_no = dm.user_no 
+		where dm.dang_no = #{dangNo} and dm.user_no = #{userNo}
+		) dudm
+		left outer join user_img ui 
+		on dudm.user_no = ui.user_no
+  	</select>
+  	
   	
 </mapper>
