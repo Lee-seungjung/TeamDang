@@ -53,7 +53,7 @@ public interface DangScheduleDao {
 	 * 
 	 * @return <JoinMemberVO>
 	 */
-	List<JoinMemberVO> joinMemberList(int scheduleNo);
+	List<JoinMemberVO> joinMemberList(int scheduleNo, int dangNo);
 
 	/**
 	 * 댕모임 회원이 일정등록 *
