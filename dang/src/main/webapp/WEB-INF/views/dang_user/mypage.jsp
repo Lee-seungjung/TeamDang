@@ -8,15 +8,15 @@
 <style>
 	
     * {
-        border: 1px gray dotted;
+        /* border: 1px gray dotted; */
     }
 
-    .mypage-border{
-        border: solid 1px gray;
+    .under-menu{
+        border: solid 1px #76BEFF;
         border-radius: 1em;
     }
      .myprofile-border{
-        border: solid 1px gray;
+        border: solid 1px #76BEFF;
         border-radius: 1em;
     }
     
@@ -26,7 +26,7 @@
         color: A3A0A0;
     }
       .mydang-border{
-        border: solid 1px gray;
+        border: solid 1px #76BEFF;
         border-radius: 1em;
     }
 
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mb-3 ">
                     
                     <div class="col-7 myprofile-border">
                         <div class="row">
@@ -116,23 +116,18 @@
                             <div class="col-6 dang-owner-profile">
                                 <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">                                    
                                     <img class = "row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
-                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>
-                                    <a class="myprofile-edit row align-items-center justify-content-center">내정보 수정</a>
+                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>                                
                                 </div>
                             </div>
 
                             
                             <div class="col-6 dang-owner-info">
-                                <div class = "row px-3 py-3 align-items-center">
-                                    <div class = "col-6 offset-3">
-                                        <span class = "owner-profile span-info-category">댕주인 프로필</span>
-                                    </div>
-                                </div>
+
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">관심지역</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
+                                    <div class = "owner-common2 col-5 d-flex flex-column">
                                     
                                         <span class = "span-info">서울 강남구</span>
                                         <span class = "span-info">서울 강남구</span>
@@ -171,7 +166,47 @@
                     </div>
                     
                     <div class="col-5 mydang-border">
-                        <div class="row">
+				                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+									  <div class="carousel-indicators">
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+									  </div>
+									  <div class="carousel-inner">
+									    <div class="carousel-item active">
+									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
+									      <div class="carousel-caption d-none d-md-block">
+									        <h5>First slide label</h5>
+									        <p>Some representative placeholder content for the first slide.</p>
+									      </div>
+									    </div>
+									    <div class="carousel-item">
+									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
+									      <div class="carousel-caption d-none d-md-block">
+									        <h5>Second slide label</h5>
+									        <p>Some representative placeholder content for the second slide.</p>
+									      </div>
+									    </div>
+									    <div class="carousel-item">
+									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
+									      <div class="carousel-caption d-none d-md-block">
+									        <h5>Third slide label</h5>
+									        <p>Some representative placeholder content for the third slide.</p>
+									      </div>
+									    </div>
+									  </div>
+									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									    <span class="visually-hidden">Previous</span>
+									  </button>
+									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+									    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+									    <span class="visually-hidden">Next</span>
+									  </button>
+									</div>
+                    
+ <%--                        <div class="row">
+                        
                             <div class="col-6 dang-profile">
                                 <div class="dang-photo row px-3 py-4 d-flex flex-column align-items-center justify-content-center">
                                     <img class="row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" >
@@ -182,11 +217,7 @@
                                 </div>
                             </div>
                             <div class="col-6 dang-info">
-                                <div class = "row px-3 py-3 align-items-center">
-                                    <div class = "col-8 offset-2">
-                                        <span class = "dang-profile span-info-category">댕 프로필</span>
-                                    </div>
-                                </div>
+                            
                                 <div class = "row py-3">
                                     <div class = "col-5 offset-1">
                                         <span class = "dang-common span-info-category">이름</span>
@@ -220,73 +251,69 @@
                                 <span class="detail-2 px-2">#사람을좋아해요</span>
                                 <span class="detail-3 px-2">#입질이있어요</span>
                             </div>
-                        </div>    
+                        </div>     --%>
 
-                        </div>
+                        </div> <!-- col-5끝 -->
                     </div>
+            
+            <div class="col">
+                <div class="row mypage-1 mb-3">
 
-            <div class="mypage-border py-3 mt-3">
-
-                <div class="row mypage-1">
-
-                    <div class="mypage-one col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/change_interest_area'">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-interest_area_pink.png" >
+                    <div class="under-menu mypage-one col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/change_interest_area'">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-interest_area_pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-5 mt-4">
+                        <div class="row px-4 py-2  mb-3 mt-4">
                             <span class="mypage-menu-common">관심지역 설정</span>
                         </div>
                     </div>     
 
 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/edit_pwck'">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >                        
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png" >
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/edit_pwck'">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >                        
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png" >
                         </div>
-                        <div class="row px-4 py-2 mb-5 mt-4">
+                        <div class="row px-4 py-2 mb-3 mt-4">
                             <span class="mypage-menu-common">회원정보 변경</span>
                         </div>
                     </div> 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_pw'">
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-pw_change_pink.png" >
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_pw'">
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-pw_change_pink.png" >
                         </div>
-                        <div class="row px-4 py-2 mb-5 mt-4">
+                        <div class="row px-4 py-2 mb-3 mt-4">
                             <span class="mypage-menu-common">비밀번호 변경</span>
                         </div>
                     </div>    
-                </div>
-                <div class="row mypage-2">
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/edit_puppy_info'">
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_pink.png" >
+
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/edit_puppy_info'">
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-5 mt-4">
+                        <div class="row px-4 py-2  mb-3 mt-4">
                             <span class="mypage-menu-common">댕 정보 변경</span>
                         </div>
                     </div> 
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/list_mydang'">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join_dang_pink.png" >
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/list_mydang'">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-join_dang_pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-5 mt-4">
+                        <div class="row px-4 py-2  mb-3 mt-4">
                             <span class="mypage-menu-common">가입 댕모임</span>
                         </div>
                     </div>   
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/schedule_history'">
-                        <div class="row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
-                            <img class="row  mypage-common  img-fluid img-owner-profile w-50" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png" >
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/schedule_history'">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >
+                            <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png" >
                         </div>
-                        <div class="row px-4 py-2  mb-5 mt-4">
+                        <div class="row px-4 py-2  mb-3 mt-4">
                             <span class="mypage-menu-common">일정 히스토리</span>
                         </div>
                     </div> 
                 </div>
                 
                 </div>
-
-
-                
+                  
             </div>
         </div>	
     </div>

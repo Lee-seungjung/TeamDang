@@ -138,8 +138,12 @@ public class DangUserController {
 	public String mypage(HttpSession session, Model model) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 로그인 중인 회원의 댕댕이 목록 반환
+		List<DangPuppyListDto> dangPuppyList = dangPuppyDao.selectPuppyList(userNo);
 		// 반환한 회원 번호로 회원 정보 조회하여 model에 추가
 		model.addAttribute("userInfo", dangUserDao.selectUserInfo(userNo));
+		// 조회한 댕댕이 정보를 Model에 추가
+		model.addAttribute("dangPuppyList", dangPuppyList);
 		return "dang_user/mypage";
 	}
 	
