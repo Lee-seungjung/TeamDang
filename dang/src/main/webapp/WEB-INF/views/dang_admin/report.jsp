@@ -173,7 +173,8 @@
 										<td>${list.memberNick}</td>
 										<td>${list.reportDate}</td>
 										<td>
-											<a class="btn btn-primary detail-link" data-rno="${list.reportNo}">상세</a>
+											<a class="btn btn-primary detail-link"
+												href="${pageContext.request.contextPath}/admin/report_detail?reportNo=${list.reportNo}">상세</a>
 										</td>
 									</tr>
 								</c:forEach>	
@@ -191,27 +192,11 @@
 <script>
 	$(function(){
 		
-		//상세버튼
-		$(document).on("click",".detail-link",function(e){
-			//e.preventDefault();
-			var thistag = $(this);
-			var userNo = thistag.parent().siblings(".findNo").text();
-			var dangNo = thistag.parent().siblings(".findNo").data("dno");
-			var reportNo = thistag.data("rno");
-			
-			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_member/search_member_no?userNo="+userNo+"&dangNo="+dangNo,
-				method:"get",
-				async:false,
-				success:function(resp){
-					thistag.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+reportNo+"&memberNo="+resp);
-				}
-			});
-			
-		});
-		
-		
-		
+		//목록 조회 시 접수/승인/반려 색상 변경
+		var url = new URL(location.href);
+		var reportState = url.searchParams.get("reportState");
+		$(".report-box").removeClass("select-color");
+		$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
 		
 		var p = 1;
 		var reportState = "접수";
@@ -584,7 +569,8 @@
 			var third_td = $("<td>").text(resp.memberNick);
 			var four_td = $("<td>").text(resp.reportDate);
 			var fifth_td = $("<td>");
-			var a_btn = $("<a>").attr("class","btn btn-primary detail-link").attr("data-rno", resp.reportNo).text("상세");
+			var a_btn = $("<a>").attr("class","btn btn-primary detail-link").text("상세")
+								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
 			fifth_td.append(a_btn);
 			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
 			body.append(tr);

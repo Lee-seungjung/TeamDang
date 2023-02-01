@@ -86,10 +86,10 @@ public class DangAdmin {
 	
 	//관리자페이지 신고 상세
 	@GetMapping("/report_detail")
-	public String reportDetail(@RequestParam int reportNo, @RequestParam int memberNo,
+	public String reportDetail(@RequestParam int reportNo, 
 			Model model) {
 		//신고 단일조회
-		ReportOneListVO vo = dangReportDao.selectOne(reportNo, memberNo);
+		ReportOneListVO vo = dangReportDao.selectOne(reportNo);
 		model.addAttribute("detail", vo);
 		//파일 조회
 		model.addAttribute("img", dangReportDao.imgSelectList(reportNo));

@@ -39,6 +39,11 @@
 		where d.dang_no=#{dangNo}
 	</select>
 	
+	<!-- 댕모임 방장(개설자) userNo 조회 -->
+	<select id="findUserNo" parameterType = "int" resultType = "int">
+		select user_no from dang where dang_no=#{dangNo}
+	</select>
+	
   	<!-- 댕모임 정보 수정(공개 전환) -->
   	<update id = "editDangInfoPublic" parameterType = "DangEditInfoVO">
   		update dang set dang_name = #{dangName}, dang_info = #{dangInfo}, dang_headmax = #{dangHeadmax}, dang_private = #{dangPrivate}, dang_pw = null, dang_area = #{dangArea} where dang_no = #{dangNo}
