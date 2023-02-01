@@ -9,7 +9,7 @@
 <style>
 
 	* {
-		border : 1px gray dotted;
+		
 	}
 	
 	.strong-page-title {
@@ -29,15 +29,16 @@
 	.div-dang-detail-container {
 		border-radius : 10px;
 		border : 1px solid #D9D9D9;
+		background-color : #F1F4FF;
 	}
 	
 	.div-col-dang-detail-info-container {
 		position : relative;
 	}
 	
-	.img-dang-detail-profile {
+	.img-dang-detail-dang-profile {
 		aspect-ratio : 1/1;
-		border-radius : 10px;
+		border-radius : 20px;
 		width : 10rem;
 	}
 	
@@ -54,7 +55,7 @@
 
 	.img-dang-creator-detail-profile {
 		aspect-ratio : 1/1;
-		border-radius : 10px;
+		border-radius : 20px;
 		width : 10rem;
 	}
 
@@ -123,6 +124,20 @@
 		border-bottom : 1px solid black;
 	}
 	
+	/* 댕모임 상세 */
+	.div-row-dang-detail-dang-info {
+		height : 4rem;
+	}
+	
+	.div-row-dang-detail-dang-hashtag {
+		height : 12rem;
+	}
+	
+	.span-dang-detail,
+	.span-dang-creator-detail {
+		font-weight : bolder;
+	}
+	
 	/* 지도 영역 */
 	.text-dang-select-clear {
 		font-size : 24px;
@@ -186,56 +201,57 @@
 							<div class = "row mt-3">
 								<div class = "col div-col-dang-detail-info-container">
 									<div class = "div-dang-detail-img">
-										<img src = "/images/img-dang-profile.png" class = "img-dang-detail-profile">
+										<img src = "${pageContext.request.contextPath}/images/img-dang-profile.png" class = "img-dang-detail-dang-profile">
 									</div>
-									<div class = "row mt-2">
-										<div class = "col-3 p-1">
-										댕모임명
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>댕모임명</strong>
 										</div>
 										<div class = "col-9 p-1">
-										열글자열글자열글자열글자열
+											<span class = "span-dang-detail span-dang-detail-dang-name"></span>
 										</div>
 									</div>
-									<div class = "row mt-2">
-										<div class = "col-3 p-1">
-										개설일
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>개설일</strong>
 										</div>
 										<div class = "col-9 p-1">
-										gd
+											<span class = "span-dang-detail span-dang-detail-dang-createtime"></span>
 										</div>
 									</div>
-									<div class = "row mt-2">
-										<div class = "col-3 p-1">
-										인원수
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>인원수</strong>
 										</div>
 										<div class = "col-9 p-1">
-										gd
+											<span class = "span-dang-detail span-dang-detail-dang-head-count"></span>
 										</div>
 									</div>
-									<div class = "row my-2">
-										<div class = "col-3 p-1">
-										좋아요
+									<div class = "row my-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>좋아요</strong>
 										</div>
 										<div class = "col-9 p-1">
-										gd
+											<span class = "span-dang-detail span-dang-detail-dang-like"></span>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class = "row">	
-								<div class = "col-3 p-1">
-								댕모임 정보
+							<div class = "row mt-3 div-row-dang-detail-dang-info">	
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>댕모임 정보</strong>
 								</div>
 								<div class = "col-9 p-1">
-								gd
+									<span class = "span-dang-detail span-dang-detail-dang-info"></span>
 								</div>
 							</div>
-							<div class = "row mt-2 mb-3">
-								<div class = "col-3 p-1">
-								해시태그
+							<div class = "row mt-3 mb-3 div-row-dang-detail-dang-hashtag">
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>해시태그</strong>
 								</div>
 								<div class = "col-9 p-1">
-								gd
+									<span class = "d-flex flex-column span-dang-detail span-dang-detail-dang-hashtag">
+									</span>
 								</div>
 							</div>
 						</div>
@@ -253,57 +269,72 @@
 							<div class = "row mt-3">
 								<div class = "col div-col-dang-creator-detail-info-container">
 									<div class = "div-dang-creator-detail-img">
-										<img src = "/images/img-dang-profile.png" class = "img-dang-creator-detail-profile">
+										<img class = "img-dang-creator-detail-profile" src = "${pageContext.request.contextPath}/images/basic-profile.png">
 									</div>
 									<div class = "row mt-2">
-										<div class = "col-3 p-1 d-flex justify-content-center align-items-center">
-										아이디
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>아이디</strong>
 										</div>
-										<div class = "col-9 p-1 d-flex justify-content-center align-items-center">
-										gd
-										</div>
-									</div>
-									<div class = "row mt-2">
-										<div class = "col-3 p-1 d-flex justify-content-center align-items-center">
-										닉네임
-										</div>
-										<div class = "col-9 p-1 d-flex justify-content-center align-items-center">
-										gd
+										<div class = "col-9 p-1">
+											<span class = "span-dang-creator-detail span-dang-creator-detail-user-id"></span>
 										</div>
 									</div>
-									<div class = "row mt-2">
-										<div class = "col-3 p-1 d-flex justify-content-center align-items-center">
-										성별
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>성별</strong>
 										</div>
-										<div class = "col-9 p-1 d-flex justify-content-center align-items-center">
-										gd
+										<div class = "col-9 p-1">
+											<span class = "span-dang-creator-detail span-dang-creator-detail-user-gender"></span>
 										</div>
 									</div>
-									<div class = "row my-2">
-										<div class = "col-3 p-1 d-flex justify-content-center align-items-center">
-										전화번호
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>닉네임</strong>
 										</div>
-										<div class = "col-9 p-1 d-flex justify-content-center align-items-center">
-										gd
+										<div class = "col-9 p-1">
+											<span class = "span-dang-creator-detail span-dang-creator-detail-member-nick"></span>
+										</div>
+									</div>
+									<div class = "row mt-3">
+										<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+											<strong>등급</strong>
+										</div>
+										<div class = "col-9 p-1">
+											<span class = "span-dang-creator-detail span-dang-creator-detail-member-grade"></span>
 										</div>
 									</div>
 								</div>
 							</div>
-							
-							<div class = "row">
-								<div class = "col-3 p-1">
-								이메일
+							<div class = "row mt-3">
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>전화번호</strong>
 								</div>
 								<div class = "col-9 p-1">
-								gd
+									<span class = "span-dang-creator-detail span-dang-creator-detail-user-tel"></span>
 								</div>
 							</div>
-							<div class = "row mt-2 mb-3">
-								<div class = "col-3 p-1">
-								가입일
+							<div class = "row mt-3">
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>이메일</strong>
 								</div>
 								<div class = "col-9 p-1">
-								gd
+									<span class = "span-dang-creator-detail span-dang-creator-detail-user-email"></span>
+								</div>
+							</div>
+							<div class = "row mt-3">
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>가입일</strong>
+								</div>
+								<div class = "col-9 p-1">
+									<span class = "span-dang-creator-detail span-dang-creator-detail-user-joindate"></span>
+								</div>
+							</div>
+							<div class = "row mt-3 mb-3">
+								<div class = "col-3 p-1 d-flex justify-content-center align-items-start">
+									<strong>최종 로그인</strong>
+								</div>
+								<div class = "col-9 p-1">
+									<span class = "span-dang-creator-detail span-dang-creator-detail-user-logindate"></span>
 								</div>
 							</div>
 						</div>
@@ -410,16 +441,16 @@
 					</div>
 					<div class = "row mt-2 px-3 py-1 div-row-dang-list-border">
 						<div class = "col-6 d-flex justify-content-center align-items-center p-1">
-							댕모임명
+							<span>댕모임명</span>
 						</div>
 						<div class = "col-2 d-flex justify-content-center align-items-center p-1">
-							인원
+							<span>인원</span>
 						</div>
 						<div class = "col-2 d-flex justify-content-center align-items-center p-1">
-							좋아요
+							<span>좋아요</span>
 						</div>
 						<div class = "col-2 d-flex justify-content-center align-items-center p-1">
-							비공개
+							<span>비공개</span>
 						</div>
 					</div>
 					<div class = "row px-3">
@@ -525,6 +556,76 @@
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/dang_list",
 				method : "post",
+				success : function(resp) {
+					console.log(resp);
+					
+					if(resp.dangListAdmin.length == 0) {
+						// 목록 초기화
+						$(".div-admin-dang-list").empty();
+						// 댕모임 없음
+						$(".div-admin-dang-list")
+							.append(
+								$("<div>").attr("class", "col h-100 d-flex justify-content-center align-items-center")
+									.append(
+										$("<span>").attr("class", "span-dang-list-none").text("댕모임 목록이 존재하지 않습니다.")		
+									)		
+							)
+						// 페이지네이션 초기화
+						$(".ul-dang-list-page-item-unit").remove();
+						createPagination(1);
+					} else {
+						// 목록 초기화
+						$(".div-admin-dang-list").empty();
+						// 목록 생성
+						for(var i = 0 ; i < resp.dangListAdmin.length ; i ++) {						
+							createRowDangList(resp.dangListAdmin[i])
+						}
+						
+						// 페이지네이션 초기화
+						$(".ul-dang-list-page-item-unit").remove();
+						// 페이지네이션 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							createPagination(i);
+						}
+						
+						// 페이지네이션 양 끝 버튼 설정
+						$(".ul-dang-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+						$(".ul-dang-list-page-item-last").attr("data-pagelast", resp.blockLast);
+						if(resp.blockPrev <= 1) {
+							$(".ul-dang-list-page-item-prev").attr("data-pageprev", 1);
+						} else {
+							$(".ul-dang-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+						}
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-dang-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-dang-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}
+					}
+				}
+			});
+		});
+		
+		// 페이지 이동
+		$(document).on("click", ".ul-dang-list-page-item-unit", function(){
+			p = $(this).children().text();
+			console.log(p);
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("p", p);
+			// 전체 검색에 대한 경우
+			if(dangArea != null) {
+				formData.append("dangArea", dangArea);
+			}
+			if(keyword != null) {			
+				formData.append("dangName", keyword);
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/dang_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
 				success : function(resp) {
 					console.log(resp);
 					
@@ -1080,10 +1181,63 @@
 				success : function(resp) {
 					console.log(resp);
 					
+					// 초기화
+					$(".span-dang-detail").empty();
+					$(".span-dang-creator-detail").empty();
+					// 댕모임 정보
+					$(".span-dang-detail-dang-name").text(resp.dangDetailAdminDto.dangName);
+					$(".span-dang-detail-dang-createtime").text(resp.dangDetailAdminDto.dangCreatetime);
+					$(".span-dang-detail-dang-head-count").text(resp.dangDetailAdminDto.dangHead + "/" + resp.dangDetailAdminDto.dangHeadmax);
+					$(".span-dang-detail-dang-like").text(resp.dangDetailAdminDto.dangLike);
+					$(".span-dang-detail-dang-info").text(resp.dangDetailAdminDto.dangInfo);
 					
+					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
+						$(".span-dang-detail-dang-hashtag")
+							.append(
+								$("<span>").attr("class", "my-1").text("#"+resp.dangHashtag[i].hashtagContent)		
+							)
+					}
+					
+					if(resp.dangDetailAdminDto.attachmentNo != null) {
+						$(".img-dang-detail-dang-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/" + resp.dangDetailAdminDto.attachmentNo)	
+					} else {
+						$(".img-dang-detail-dang-profile").attr("src", "${pageContext.request.contextPath}/images/img-dang-profile.png")
+					}
+					
+					$(".span-dang-creator-detail-user-id").text(resp.dangDetailCreatorAdminDto.userId);
+					$(".span-dang-creator-detail-member-nick").text(resp.dangDetailCreatorAdminDto.memberNick);
+					
+					if(resp.dangDetailCreatorAdminDto.userGender == "M") {						
+						$(".span-dang-creator-detail-user-gender").text("남자");
+					} else {
+						$(".span-dang-creator-detail-user-gender").text("여자");
+					}
+					
+					$(".span-dang-creator-detail-member-grade").text(resp.dangDetailCreatorAdminDto.memberGrade + " / " + resp.dangDetailCreatorAdminDto.memberScore + "point")
+					
+					$(".span-dang-creator-detail-user-tel").text(resp.dangDetailCreatorAdminDto.userTel);
+					
+					$(".span-dang-creator-detail-user-email").text(resp.dangDetailCreatorAdminDto.userEmail);
+					
+					$(".span-dang-creator-detail-user-joindate").text(resp.dangDetailCreatorAdminDto.userJoindate);
+					$(".span-dang-creator-detail-user-logindate").text(resp.dangDetailCreatorAdminDto.userLogindate);
+					if(resp.dangDetailCreatorAdminDto.attachmentNo != null) {
+						$(".img-dang-creator-detail-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/" + resp.dangDetailCreatorAdminDto.attachmentNo);
+					} else {						
+						$(".img-dang-creator-detail-profile").attr("src", "${pageContext.request.contextPath}/images/basic-profile.png");
+					}
 				}
 			});
 		});
+		
+		function clearDangDetailInfo() {
+			// 정보 초기화
+			$(".span-dang-detail").empty();
+			$(".span-dang-creator-detail").empty();
+			// 프로필 초기화
+			$(".img-dang-creator-detail-profile").attr("src", "${pageContext.request.contextPath}/images/basic-profile.png");
+			$(".img-dang-creator-detail-profile").attr("src", "${pageContext.request.contextPath}/images/basic-profile.png");
+		}
 	});
 
 </script>
