@@ -1409,10 +1409,133 @@
                             }
                         })
                 });
+        
+        
+        
+        var gangNam="강남구";
+        var gangdong="강동구";
+        var gangbuk="강북구";
+        var gangseo="강서구";
+        var gwanwk="관악구";
+        var gwangjin="광진구";
+        var guro="구로구";
+        var geumcheon="금천구"
+        var nowon="노원구";
+        var dobong="도봉구";
+        var dongdae="동대문구";
+        var dongjak="동작구";
+        var mapo="마포구";
+        var sdm="서대문구";
+        var seocho="서초구";
+        var sd="성동구";
+        var db="성북구";
+        var songpa="송파구";
+        var yangcheon="양천구";
+        var ydp="영등포구";
+        var yongsan="용산구";
+        var ep="은평구";
+        var jongno="종로구";
+        var junggu="중구";
+        var jungnang="중랑구";
+        
+        var centerPositionX;
+        var centerPositionY;
+      
+       var thisDangArea;
+        
+        $.ajax({
+            url: "http://localhost:8888/rest_dang/detail?dangNo=1",
+            method: "get",
+            async: false,
+            contentType: "application/json",
+            success: function (resp) {
+            	//console.log(resp.dangInfo.dangArea);
+            	thisDangArea=resp.dangInfo.dangArea;
+            }
+        })
+        
+       
+       if(thisDangArea==gangNam){
+   	  	centerPositionX=37.5174;
+   		centerPositionY=127.0475;
+       }else if(thisDangArea==gangdong){
+    	centerPositionX=37.5327;
+   		centerPositionY=127.1379;
+       }else if(thisDangArea==gangbuk){
+    	centerPositionX=37.6399;
+  		centerPositionY=127.0257;
+       }else if(thisDangArea==gangseo){
+   	   	centerPositionX=37.5512;
+		centerPositionY=126.8506;
+	   }else if(thisDangArea==gwanwk){
+		centerPositionX=37.4783;
+		centerPositionY=126.9522;
+	  }else if(thisDangArea==gwangjin){
+		centerPositionX=37.5383;
+		centerPositionY=127.0828;
+	  }else if(thisDangArea==guro){
+		centerPositionX=37.4954;
+		centerPositionY=126.8877;
+	  }else if(thisDangArea==geumcheon){
+		centerPositionX=37.4568;
+		centerPositionY=126.8963;
+	  }else if(thisDangArea==nowon){
+		centerPositionX=37.654;
+		centerPositionY=127.0566;
+	  }else if(thisDangArea==dobong){
+		centerPositionX=37.6691;
+		centerPositionY=127.0469;
+	  }else if(thisDangArea==dongdae){
+		centerPositionX=37.574;
+		centerPositionY=127.0401;
+	  }else if(thisDangArea==dongjak){
+		centerPositionX=37.5123;
+		centerPositionY=126.9395;
+	  }else if(thisDangArea==mapo){
+	   	centerPositionX=37.5662;
+		centerPositionY=126.9022;
+	  }else if(thisDangArea==sdm){
+	   	centerPositionX=37.5792;
+		centerPositionY=126.9365;
+	  }else if(thisDangArea==seocho){
+	   	centerPositionX=37.4834;
+		centerPositionY=127.0322;
+	  }else if(thisDangArea==sd){
+	   	centerPositionX=37.5638;
+		centerPositionY=127.0372;
+	  }else if(thisDangArea==db){
+	   	centerPositionX=37.589;
+		centerPositionY=127.0167;
+	  }else if(thisDangArea==songpa){
+	   	centerPositionX=37.5148;
+		centerPositionY=127.1061;
+	  }else if(thisDangArea==yangcheon){
+	   	centerPositionX=37.5168;
+		centerPositionY=126.8661;
+	  }else if(thisDangArea==ydp){
+	   	centerPositionX=37.5267;
+		centerPositionY=126.8954;
+	  }else if(thisDangArea==yongsan){
+	   	centerPositionX=37.5324;
+		centerPositionY=126.9909;
+	  }else if(thisDangArea==ep){
+	   	centerPositionX=37.6026;
+		centerPositionY=126.9291;
+	  }else if(thisDangArea==jongno){
+	   	centerPositionX=37.5735;
+		centerPositionY=126.9793;
+	  }else if(thisDangArea==junggu){
+	   	centerPositionX=37.564;
+		centerPositionY=126.9974;
+	  }else{
+		centerPositionX=37.6061;
+		centerPositionY=127.0932;
+	  }
+        
         var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
             mapOption1 = {
-                center: new kakao.maps.LatLng(37.498004414546934,
-                    127.02770621963765), // 지도의 중심좌표 
+                center: new kakao.maps.LatLng(centerPositionX,
+                		centerPositionY), // 지도의 중심좌표 
                 
                 // 지도의 확대 레벨 
             };
@@ -1563,7 +1686,6 @@
                         });
             }
         }
-        console.log(placeOriginNo);
         // 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setCafeMarkers(map1) {
             for (var i = 0; i < cafeMarkers.length; i++) {
