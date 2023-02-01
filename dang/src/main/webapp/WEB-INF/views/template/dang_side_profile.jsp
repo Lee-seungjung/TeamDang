@@ -1473,7 +1473,7 @@
                             resp[i].placeX, resp[i].placeY))
                         contentDogsalon.push(resp[i]);
                     } else if (resp[i].placeSort === "공원") {
-                        dogsalonPositions.push(new kakao.maps.LatLng(
+                    	parkPositions.push(new kakao.maps.LatLng(
                             resp[i].placeX, resp[i].placeY))
                         contentPark.push(resp[i]);
                     }
