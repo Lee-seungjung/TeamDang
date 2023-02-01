@@ -107,10 +107,10 @@
 					 	<div class= "col-2">
 					 	 	<span class="schedule-dang-join-date">일정 날짜</span>
 					 	</div>
-					 	<div class= "col-3">
+					 	<div class= "col-2">
 					 	 	<span class="schedule-dang-schedule-name">일정 제목</span>
 					 	</div>
-					 	<div class= "col-2">
+					 	<div class= "col-3">
 					 		<span class="schedule-dang-place">장소명</span>
 					 	</div>
 					 	<div class= "col-2">
@@ -127,10 +127,10 @@
 					 	<div class= "col-2 search-result-dang-join">					 	
 					 	 <span>${joinHistory.scheduleStart}</span> 
 					 	</div>
-					 	<div class= "col-3 search-result-dang-title">
+					 	<div class= "col-2 search-result-dang-title">
 					 	 	<span>${joinHistory.scheduleTitle}</span>
 					 	</div>
-					 	<div class= "col-2 search-result-dang-place">
+					 	<div class= "col-3 search-result-dang-place">
 					 		<span>${joinHistory.placeName}</span>
 					 	</div>
 					 	<div class= "col-2 search-result-dang-money">
