@@ -298,7 +298,7 @@ border : 2px solid #76BEFF;
 
 				<!-- 일정 상세박스 시작-->
 			<div class = "col-6" style="background: white">				
-
+				${dangInfo}
                  <div id = "schedule-simple-modal" class = "schedule-info shadow1">  
 
                     <div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">${scheduleDetail.scheduleTitle}</div>
@@ -1031,7 +1031,6 @@ border : 2px solid #76BEFF;
                         });
             }
         }
-        console.log(placeOriginNo);
         // 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setCafeMarkers(map2) {
             for (var i = 0; i < cafeMarkers.length; i++) {
