@@ -277,7 +277,7 @@
   	<!-- 관리자 페이지 댕모임 목록 상세 조회 -->
   	<select id = "searchDangDetailAdmin" parameterType = "map" resultMap = "dangDetailInfoDto">
   		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_area, d.dang_createtime, d.dang_like, d.dang_private, di.attachment_no from dang d 
-		inner join dang_img di 
+		left outer join dang_img di 
 		on d.dang_no = di.dang_no 
 		where d.dang_no = #{dangNo} and d.user_no = #{userNo}
   	</select>
@@ -302,10 +302,14 @@
  	
   	<!-- 관리자 페이지 댕모임 회원 상세 조회 -->
   	<select id = "searchDangCreatorDetailAdmin" parameterType = "map" resultType = "DangDetailCreatorAdminDto">
-  		select dm.member_nick, du.user_no, du.user_id, du.user_email, du.user_tel, du.user_gender, du.user_joindate, du.user_logindate from dang_user du 
-  		inner join dang_member dm 
-  		on du.user_no = dm.user_no 
-  		where dm.dang_no = #{dangNo} and dm.user_no = #{userNo}
+  		select dudm.*, ui.attachment_no from (
+		select  dm.member_no, dm.member_nick, dm.member_grade, dm.member_score, du.user_no, du.user_id, du.user_email, du.user_tel, du.user_gender, du.user_joindate, du.user_logindate from dang_user du 
+		inner join dang_member dm 
+		on du.user_no = dm.user_no 
+		where dm.dang_no = #{dangNo} and dm.user_no = #{userNo}
+		) dudm
+		left outer join user_img ui 
+		on dudm.user_no = ui.user_no
   	</select>
   	
   	

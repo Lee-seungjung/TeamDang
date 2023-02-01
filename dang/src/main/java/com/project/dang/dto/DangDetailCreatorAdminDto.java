@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DangDetailCreatorAdminDto {
 
+	private Integer memberNo;
 	private String memberNick;
+	private String memberGrade;
+	private Integer memberScore;
 	private Integer userNo;
 	private String userId;
 	private	String userEmail;
@@ -21,4 +24,5 @@ public class DangDetailCreatorAdminDto {
 	private String userGender;
 	private Date userJoindate;
 	private Date userLogindate;
+	private Integer attachmentNo;
 }
