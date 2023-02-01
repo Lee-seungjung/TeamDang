@@ -158,7 +158,7 @@
 		        		}
 					});
 				}
-				//location.href="${pageContext.request.contextPath}/admin/report";
+				location.href="${pageContext.request.contextPath}/admin/report";
 			});
 		});
 		
