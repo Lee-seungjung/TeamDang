@@ -63,7 +63,7 @@
           width: 250px;
           height: 100%;
           margin-left: -250px;
-          background: #76BEFF;
+          background: #F1F4FF;
           overflow-x: hidden;
           overflow-y: auto;
         }
@@ -89,11 +89,11 @@
         .sidebar-nav li a {
           display: block;
           text-decoration: none;
-          color: #fff;
+          color: #404040;
         }
         
         .sidebar-nav li a:hover {
-          color: #fff;
+          color: #76BEFF;
           background: rgba(255, 255, 255, 0.2);
         }
         
@@ -124,7 +124,20 @@
 	   * {
 	   	font-size : 18px;
 	   }
+	   
+	   .btn-outline-success{
+	   border: 1px solid white;
+	   background-color: #76BEFF;
+	   color: white;	   
+      }
+      
+      .navbar-light{
+       background-color: #F1F4FF;
+      }
+      
       </style>
+      
+
 
 
 </head>
@@ -142,7 +155,7 @@
             <li><a href="${pageContext.request.contextPath}/admin/dash_board" class="mb-2"><i class="fa-solid fa-border-all"></i> 대쉬 보드</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/place_insert" class="mb-2"><i class="fa-solid fa-location-dot"></i> 장소 등록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/place_list" class="mb-2"><i class="fa-solid fa-map-location"></i> 장소 조회</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/user_list"" class="mb-2"><i class="fa-solid fa-user"></i> 회원 관리</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/user_list"" class="mb-2"><i class="fa-solid fa-user"></i> 회원 목록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/report" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 접수</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/dang_list" class="mb-2"><i class="fa-solid fa-paw"></i> 댕모임 조회</a></li>
           </ul>
