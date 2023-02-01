@@ -1,6 +1,7 @@
 package com.project.dang.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
+import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
@@ -139,5 +142,15 @@ public class DangUserDaoImpl implements DangUserDao {
 		param.put("userEmail", userEmail);
 		Integer userNo = sqlSession.selectOne("dangUser.selectPw", param);
 		return userNo;
+	}
+
+	@Override
+	public List<DangUserListDto> UserList() {
+		return sqlSession.selectList("dangUser.userList");
+	}
+
+	@Override
+	public DangUserDetailDto  userDetail(int userNo) {
+		return sqlSession.selectOne("userDetail", userNo);
 	}
 }

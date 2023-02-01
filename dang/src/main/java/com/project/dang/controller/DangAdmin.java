@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
+import com.project.dang.dto.DangUserDetailDto;
+import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangChatDao;
@@ -19,6 +21,7 @@ import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPlaceDao;
 import com.project.dang.repository.DangReportDao;
+import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.ReportOneListVO;
 
 @Controller
@@ -38,6 +41,9 @@ public class DangAdmin {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangUserDao dangUserDao;
 	
 	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
 	@GetMapping("/dash_board")
@@ -109,5 +115,25 @@ public class DangAdmin {
 		System.out.println(dangListAdmin.toString());
 		model.addAttribute("dangListAdmin", dangListAdmin);
 		return "dang_admin/dang_list";
+	}
+	
+	//회원목록 조회(회원관리 현황)
+	@GetMapping("/user_list")
+	public String UserList(Model model) {
+		// 회원 목록 전체 조회
+		List<DangUserListDto> userListAdmin = dangUserDao.UserList();
+		System.out.println(userListAdmin.toString());
+		model.addAttribute("userListAdmin", userListAdmin);
+		return "dang_admin/user_list";
+	}
+	
+	//회원목록 조회 상세(회원관리 현황)
+	@GetMapping("/user_detail")
+	public String userDetail(Model model, @RequestParam int userNo) {
+		System.out.println(userNo); 
+		DangUserDetailDto userDetail = dangUserDao.userDetail(userNo);
+		// 회원 목록 상세 조회		
+		model.addAttribute("userDetail", userDetail);
+		return "dang_admin/user_detail";
 	}
 }
