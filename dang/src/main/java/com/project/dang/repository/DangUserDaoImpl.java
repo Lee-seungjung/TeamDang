@@ -156,8 +156,8 @@ public class DangUserDaoImpl implements DangUserDao {
 	}
 
 	@Override
-	public int userCount() {
-		return sqlSession.selectOne("dangUser.userCount");
+	public int userCount(UserListRequestDto userListRequestDto) {
+		return sqlSession.selectOne("dangUser.userCount", userListRequestDto);
 	}
 
 	@Override

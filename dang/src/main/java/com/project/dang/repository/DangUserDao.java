@@ -142,7 +142,7 @@ public interface DangUserDao {
 	 * (관리자) 회원목록 내 총 회원 수
 	 * @return userCount
 	 */
-	public int userCount ();
+	public int userCount (UserListRequestDto userListRequestDto);
 	
 	/**
 	 * (관리자) 회원목록 전체/ 검색 조회
