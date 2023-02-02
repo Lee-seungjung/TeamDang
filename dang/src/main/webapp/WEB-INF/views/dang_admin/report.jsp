@@ -195,9 +195,11 @@
 		//목록 조회 시 접수/승인/반려 색상 변경
 		var url = new URL(location.href);
 		var reportState = url.searchParams.get("reportState");
-		$(".report-box").removeClass("select-color");
-		$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
-		
+		if(reportState!=null){
+			$(".report-box").removeClass("select-color");
+			$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
+		}
+
 		var p = 1;
 		var reportState = "접수";
 		var type;

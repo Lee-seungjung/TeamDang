@@ -231,7 +231,7 @@
 									</div>
 									<div class="col-4 justify-content-end middle-items">
 										<span class="date-font me-4">
-											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd a h:mm"/>
+											<fmt:formatDate value="${vo.boardWriteDate}" pattern="yyyy.MM.dd"/>
 										</span>
 										<c:if test="${vo.memberNo==profile.memberNo}">
 											<div class="dropdown inbl w-auto">
