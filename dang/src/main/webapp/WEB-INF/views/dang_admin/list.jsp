@@ -754,6 +754,7 @@
 
 		// 공원에 정보를 담을 배열
 		var contentPark = [];
+		
 
 		kakao.maps.event.addListener(map1,'zoom_changed',function(){
 		    chkArea(); // 함수 호출
@@ -784,6 +785,7 @@
 			async : false,
 			contentType : "application/json",
 			success : function(resp) {
+				
 				for (var i = 0; i < resp.length; i++) {
 					if (resp[i].placeSort === "카페") {//DB에서 불러온 값이 카페이면 카페정보배열에 밀어넣기
 						cafePositions.push(new kakao.maps.LatLng(
@@ -802,7 +804,7 @@
 								resp[i].placeX, resp[i].placeY))
 						contentDogsalon.push(resp[i]);
 					} else if (resp[i].placeSort === "공원") {
-						dogsalonPositions.push(new kakao.maps.LatLng(
+						parkPositions.push(new kakao.maps.LatLng(
 								resp[i].placeX, resp[i].placeY))
 						contentPark.push(resp[i]);
 					}
@@ -910,7 +912,6 @@
 			}
 		}
 		
-		console.log(placeOriginNo);
 
 		// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
 		function setCafeMarkers(map1) {
@@ -1120,7 +1121,7 @@
 				dogsalonMarkers[i].setMap(map1);
 			}
 		}
-
+		console.log(dogsalonPositions);
 		// 공원 마커를 생성하고 공원 마커 배열에 추가하는 함수입니다
 		function createParkMarkers() {
 			for (var i = 0; i < parkPositions.length; i++) {
@@ -1129,7 +1130,7 @@
 					spriteOrigin : new kakao.maps.Point(0, 0),
 					spriteSize : new kakao.maps.Size(20, 20)
 				};
-
+				
 				// 마커이미지와 마커를 생성합니다
 				var markerImage = createMarkerImage(parkmarkerImageSrc, imageSize,
 						imageOptions), marker = createMarker(parkPositions[i],
@@ -1149,7 +1150,7 @@
 										var thisPostionX = contentPark[i].placeX
 
 										if (thisPostionX.toFixed(7) === thisPosition.toFixed(7)) {
-											placeOriginNo = contentCafe[i].placeNo;
+											placeOriginNo = contentPark[i].placeNo;
 											content = '<div class="customoverlay">'
 													+ '  <a class="infoModal" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
 													+ '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >'
@@ -1183,7 +1184,7 @@
 		}
 
 		// 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setParkMarkers(map) {
+		function setParkMarkers(map1) {
 			for (var i = 0; i < parkMarkers.length; i++) {
 				parkMarkers[i].setMap(map1);
 			}

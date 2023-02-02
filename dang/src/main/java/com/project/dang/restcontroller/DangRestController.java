@@ -87,4 +87,11 @@ public class DangRestController {
 	public boolean userNoUpdate(@RequestBody DangDto dto) {
 		return dangDao.userNoUpdate(dto);
 	}
+	
+	//댕모임 개설자 번호 반환
+	@GetMapping("/find_user_no")
+	public int findUserNo(@RequestParam int dangNo) {
+		return dangDao.findUserNo(dangNo);
+	}
+	
 }

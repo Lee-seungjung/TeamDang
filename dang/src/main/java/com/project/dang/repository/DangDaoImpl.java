@@ -89,6 +89,11 @@ public class DangDaoImpl implements DangDao {
 	public Integer selectDangImg(int dangNo) {
 		return sqlSession.selectOne("dang.selectDangImg", dangNo);
 	}
+	
+	//댕모임 방장(개설자) userNo 조회
+	public int findUserNo(int dangNo) {
+		return sqlSession.selectOne("dang.findUserNo", dangNo);
+	}
 
 	// 지역별 댕모임 상위 5개 조회(좋아요순 + 인원수순)
 	@Override

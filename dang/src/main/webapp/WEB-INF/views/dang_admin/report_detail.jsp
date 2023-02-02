@@ -73,7 +73,6 @@
 			//승인확인 버튼 클릭 시 신고테이블 상태 변경
 			$(".app-confirm-btn").click(function(){
 				var reportAppCnt = $("[name=reportAppCnt]").val();
-				var memberOwner = $("[name=memberOwner]").val();
 				var dangNo = $("[name=dangNo]").val();
 				var userNo = $(".userNo").text();
 				var roomNo = $("[name=roomNo]").val();
@@ -82,7 +81,6 @@
 				
 				if(reportAppCnt==1){
 					//강퇴예정인 사람 나머지 신고내역 있을 경우 신고상태 반려로 이동,, 
-					//이제와서 컬럼 추가하기 어려워서 ㅠ 일단 반려로 돌림
 					rejectData = {
 							userNo:userNo,
 							dangNo:dangNo
@@ -117,38 +115,48 @@
 					});
 
 					//개설자일 경우 가입 오래된 멤버를 방장으로 변경
-					//1. 댕모임 테이블 - 개설자 회원번호 컬럼 변경
-					//2. 댕모임 회원 테이블 - 새로운 방장의 방장여부 컬럼 변경
-					if(memberOwner=="Y"){
-						var oldMemberNo = $("[name=oldMemberNo]").val();
-						var oldUserNo = $("[name=oldUserNo]").val();
-						
-						updateData = {
-								userNo:oldUserNo,
-								dangNo:dangNo
-						}
-						
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_dang/userno_update",
-							method:"patch",
-							data:JSON.stringify(updateData),
-			        		contentType: 'application/json',
-			        		async:false,
-			        		success:function(resp){
-			        			console.log("댕모임 개설자 회원번호 변경 성공!");
-			        		}
-						});
-						
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_member/owner_update/"+oldMemberNo,
-							method:"patch",
-			        		contentType: 'application/json',
-			        		async:false,
-			        		success:function(resp){
-			        			console.log("방장여부 변경 성공!");
-			        		}
-						});
-					}
+					//방장여부 확인
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_dang/find_user_no?dangNo="+dangNo,
+						method:"get",
+		        		async:false,
+		        		success:function(resp){
+		        			console.log("개설자 번호 = "+resp);
+		        			var ownerUserNo = resp;
+		        			if(userNo==ownerUserNo){
+		        				//1. 댕모임 테이블 - 개설자 회원번호 컬럼 변경
+		    					//2. 댕모임 회원 테이블 - 새로운 방장의 방장여부 컬럼 변경
+		        				var oldMemberNo = $("[name=oldMemberNo]").val();
+								var oldUserNo = $("[name=oldUserNo]").val();
+								
+								updateData = {
+										userNo:oldUserNo,
+										dangNo:dangNo
+								}
+								
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_dang/userno_update",
+									method:"patch",
+									data:JSON.stringify(updateData),
+					        		contentType: 'application/json',
+					        		async:false,
+					        		success:function(resp){
+					        			console.log("댕모임 개설자 회원번호 변경 성공!");
+					        		}
+								});
+								
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_member/owner_update/"+oldMemberNo,
+									method:"patch",
+					        		contentType: 'application/json',
+					        		async:false,
+					        		success:function(resp){
+					        			console.log("방장여부 변경 성공!");
+					        		}
+								});
+		        			}
+		        		}
+					});
 				}
 				location.href="${pageContext.request.contextPath}/admin/report";
 			});
@@ -262,8 +270,10 @@
 					</c:if>
 					
 					<div class="btn-div text-center mt-4 mb-4">
-						<button class="btn btn-primary report-app-btn">승인</button>
-						<button class="btn btn-secondary report-rej-btn">반려</button>
+						<c:if test="${detail.reportState=='접수'}">
+							<button class="btn btn-primary report-app-btn">승인</button>
+							<button class="btn btn-secondary report-rej-btn">반려</button>
+						</c:if>
 						<a class="btn btn-outline-secondary" 
 							href="${pageContext.request.contextPath}/admin/report?reportState=${detail.reportState}">목록</a>
 					</div>
@@ -324,7 +334,6 @@
 			
 			<input type="hidden" name="dangNo" value="${detail.dangNo}">
 			<input type="hidden" name="reportAppCnt" value="${reportAppCnt}">
-			<input type="hidden" name="memberOwner" value="${detail.memberOwner}">
 			<input type="hidden" name="oldUserNo" value="${oldMember.userNo}">
 			<input type="hidden" name="oldMemberNo" value="${oldMember.memberNo}">
 			<input type="hidden" name="roomNo" value="${roomNo}">

@@ -10,19 +10,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class ReportOneListVO {
-	/*private int dangNo;
-	private String dangName;
-	private int userNo;
-	private int memberNo;
-	private String memberNick;
-	private String memberOwner;
-	private int reportNo;
-	private String reportContent;
-	private Date reportDate;
-	private String reportState;
-	private int reportAlert;*/
-	
-	private String dangName;
+	/*private String dangName;
 	private int reportNo;
 	private int userNo;
 	private int dangNo;
@@ -32,7 +20,17 @@ public class ReportOneListVO {
 	private String reportState;
 	private int reportAlert;	
 	private int memberNo;
-	private String memberOwner;
+	private String memberOwner;*/
+	
+	private String dangName;
+	private int reportNo;
+	private int userNo;
+	private int dangNo;
+	private String memberNick;
+	private String reportContent;
+	private Date reportDate;
+	private String reportState;
+	private int reportAlert;
 	
 	
 }

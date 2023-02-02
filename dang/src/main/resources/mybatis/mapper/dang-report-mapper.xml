@@ -89,12 +89,8 @@
 		where dr.report_no = #{reportNo}
 	</select> -->
 	<select id="selectOne" resultType="ReportOneListVO" parameterType="Map">
-		select list.*, m.member_no, m.member_owner from (
-		    select d.dang_name, r.* from dang d inner join dang_report r on d.dang_no=r.dang_no
-		) list left outer join (
-		    select member_no, member_owner from dang_member where member_no=${memberNo}
-		) m 
-		on 1=1 where list.report_no=#{reportNo}
+		select d.dang_name, r.* from dang d inner join dang_report r on d.dang_no=r.dang_no
+		where r.report_no=#{reportNo}
 	</select>
 	
 	<!-- 신고현황 카운트 조회 -->

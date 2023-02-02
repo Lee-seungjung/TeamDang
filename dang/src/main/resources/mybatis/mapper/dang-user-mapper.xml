@@ -85,4 +85,15 @@
 		select user_no from dang_user where user_id = #{userId} and user_email = #{userEmail}
 	</select>
 	
+		<!-- (관리자)회원목록 불러오기(심플) -->
+	<select id = "userList"  resultType = "DangUserListDto">
+		select user_no, user_id, user_nick, user_joindate from dang_user
+	</select>
+	
+			<!-- (관리자)회원 상세 불러오기(디테일) -->
+	<select id = "userDetail"  parameterType = "int" resultType = "DangUserDetailDto">
+		select user_no, user_id, user_nick, user_email, user_tel, user_gender, user_joindate, user_logindate from dang_user
+		 where user_no=#{userNo}
+	</select>
+	
 </mapper>
