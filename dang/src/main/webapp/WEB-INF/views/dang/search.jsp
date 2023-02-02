@@ -454,7 +454,7 @@
 <div class="modal fade" id="modalEnterPirvate" data-bs-backdrop="static" tabindex="-1" aria-hidden="true"> 
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-dang-enter-content py-3">
-            <div class = "container-fluid">
+            <form class = "container-fluid">
                 <div class = "row">
                     <div class = "col div-modal-enter-dang-content">
                     	<div class = "row">
@@ -471,18 +471,18 @@
                             <div class = "col-10 offset-1 d-flex flex-column">
                                 <span class = "span-modal-enter-dang-helper">비공개 댕모임입니다.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-enter input-modal-enter-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)">
+                                    <input class = "flex-fill p-2 input-modal-enter input-modal-enter-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)" autocomplete = "false">
                                 </div>
                             </div>
                         </div>
                         <div class = "row my-3">
                             <div class = "col-10 offset-1 d-flex justify-content-center align-items-center">
-                                <button class = "py-2 px-3 btn-modal-enter-submit">입장하기</button>
+                                <button type = 'button' class = "py-2 px-3 btn-modal-enter-submit">입장하기</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -526,16 +526,6 @@
                                 </div>
                             </div>
                         </div>
-                        <%--
-                        <div class = "row my-3">
-                            <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw">
-                                <span class = "span-modal-join-dang-helper">비공개 댕모임입니다.</span>
-                                <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)">
-                                </div>
-                            </div>
-                        </div>
-                         --%>
                         <div class = "row my-3 row-modal-join-submit">
                             <div class = "col-10 offset-1 d-flex justify-content-center align-items-center">
                                 <button class = "py-2 px-3 btn-modal-join-submit">가입하기</button>
@@ -1020,7 +1010,7 @@
 				success : function(resp) {
 					console.log(resp);
 					if(resp == true) {
-						alert("승인된 신고 2회 누적으로 해당 댕모임에 가입하실 수 없습니다.");
+						alert("신고 승인 2회 누적으로 해당 댕모임에 가입하실 수 없습니다.");
 					} else {
 						// 가입 Modal 표시 전 작업
 						// - 댕모임명 초기화
