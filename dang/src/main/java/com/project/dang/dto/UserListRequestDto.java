@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class UserListRequestDto {
 
-	private String userState = "가입자수"; 
 	private String type; 
 	private String keyword;
 	
@@ -15,7 +14,7 @@ public class UserListRequestDto {
 	// 1. 현재 페이지의 열(row) 관련
 	// 필드
 	private int p = 1; // 현재 페이지 번호 (기본값 1)
-	private int cntRow = 5; // 한 페이지에 표시할 열 갯수
+	private int cntRow = 2; // 한 페이지에 표시할 열 갯수
 	
 	private int rownumStart;
 	private int rownumEnd;
@@ -33,7 +32,7 @@ public class UserListRequestDto {
 	
 	// 2. 현재 페이지의 페이지 블럭 관련
 	// 필드
-	private int cntBlock = 5; // 한 페이지에 표시할 페이지 블럭 갯수
+	private int cntBlock = 2; // 한 페이지에 표시할 페이지 블럭 갯수
 	
 	// 메소드
 	// - 현재 페이지의 페이지 블럭 시작 번호 반환

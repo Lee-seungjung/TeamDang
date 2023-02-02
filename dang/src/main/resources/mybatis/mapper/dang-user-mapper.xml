@@ -97,8 +97,13 @@
 	</select>
 	
 		<!-- (관리자)총 회원수-->
-	<select id = "userCount"   resultType = "int">
+	<select id = "userCount"  parameterType = "UserListRequestDto" resultType = "int">
 		select COUNT(*) from dang_user
+				<where>
+					<if test = "type != null and keyword != null">
+						and instr(${type}, #{keyword}) > 0
+					</if>
+				</where>
 	</select>
 	
 		<!-- (관리자) 회원 목록 전체/검색 조회-->
@@ -108,7 +113,7 @@
 		  		select user_no, user_id, user_nick, user_joindate from dang_user
 				<where>
 					<if test = "type != null and keyword != null">
-						and instr(#{type}, ${keyword}) > 0
+						and instr(${type}, #{keyword}) > 0
 					</if>
 				</where>
 				order by user_no asc
@@ -116,6 +121,5 @@
 		) where rn between #{rownumStart} and #{rownumEnd}
 	</select>
 	
-	
-	
+		
 </mapper>
