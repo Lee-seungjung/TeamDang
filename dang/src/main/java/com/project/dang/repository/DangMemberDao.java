@@ -184,4 +184,12 @@ public interface DangMemberDao {
 	 * @return boolean : 댕모임 탈퇴 성공 여부
 	 */
 	public boolean closeDangMember(int dangNo, int userNo);
+	
+	/**
+	 * (관리자) 회원목록 내  댕모임 가입자 수
+	 * @return dangJoinCount
+	 */
+	public int dangJoinCount ();
+	
+	
 }

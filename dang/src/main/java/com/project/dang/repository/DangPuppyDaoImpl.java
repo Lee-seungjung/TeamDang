@@ -77,4 +77,9 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 	public boolean deletePuppy(int puppyNo) {
 		return sqlSession.delete("dangPuppy.deletePuppy", puppyNo) > 0;
 	}
+
+	@Override
+	public int dangCount() {
+		return sqlSession.selectOne("dangPuppy.dangCount");
+	}
 }

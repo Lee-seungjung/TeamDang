@@ -6,6 +6,7 @@ import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.UserImgDto;
+import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -136,6 +137,19 @@ public interface DangUserDao {
 	 * @return List<DangUserListDto>
 	 */
 	public DangUserDetailDto userDetail (int userNo);
+	
+	/**
+	 * (관리자) 회원목록 내 총 회원 수
+	 * @return userCount
+	 */
+	public int userCount ();
+	
+	/**
+	 * (관리자) 회원목록 전체/ 검색 조회
+	 * @param userListRequestDto : 
+	 * @return List<DangUserListDto>
+	 */
+	public List<DangUserListDto> searchUserListAdmin(UserListRequestDto userListRequestDto);
 	
 }
 
