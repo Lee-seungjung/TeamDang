@@ -19,11 +19,15 @@ import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangListAdminRestResponseDto;
 import com.project.dang.dto.DangReportDto;
+import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.dto.ReportListResponseDto;
+import com.project.dang.dto.UserListRequestDto;
+import com.project.dang.dto.UsertListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangReportDao;
+import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangGroupRegionVO;
 import com.project.dang.vo.ReportListVO;
 
@@ -39,6 +43,9 @@ public class AdminRestController {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangUserDao dangUserDao;
 	
 	//전체 조회(5개)
 	@GetMapping("/group_list")
@@ -95,11 +102,11 @@ public class AdminRestController {
 		// 반환용 객체 생성
 		DangListAdminRestResponseDto dangListAdminRestResponseDto = new DangListAdminRestResponseDto();
 		dangListAdminRestResponseDto.setDangListAdmin(dangListAdmin);
-		dangListAdminRestResponseDto.setBlockStart(dangListAdminRestRequestDto.blockStart());
 		dangListAdminRestResponseDto.setBlockEnd(dangListAdminRestRequestDto.blockEnd());
 		dangListAdminRestResponseDto.setBlockPrev(dangListAdminRestRequestDto.blockPrev());
 		dangListAdminRestResponseDto.setBlockNext(dangListAdminRestRequestDto.blockNext());
 		dangListAdminRestResponseDto.setBlockFirst(dangListAdminRestRequestDto.blockFirst());
+		dangListAdminRestResponseDto.setBlockStart(dangListAdminRestRequestDto.blockStart());
 		dangListAdminRestResponseDto.setBlockLast(dangListAdminRestRequestDto.blockLast());
 		System.out.println(dangListAdminRestRequestDto.toString());
 		return dangListAdminRestResponseDto;
@@ -115,4 +122,31 @@ public class AdminRestController {
 		dangDetailAdminInfoDto.setDangDetailCreatorAdminDto(dangDetailCreatorAdminDto);
 		return dangDetailAdminInfoDto;
 	}
+	
+	@PostMapping("/user_list")
+	public UsertListResponseDto selectUserList(@ModelAttribute UserListRequestDto userListRequestDto) {
+		
+		System.out.println(userListRequestDto.getType());
+		System.out.println(userListRequestDto.getKeyword());
+		System.out.println(userListRequestDto.getP());
+		
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount(userListRequestDto);
+		// dto에 총 갯수 설정
+		userListRequestDto.setTotal(userTotal);
+		// 회원 목록 전체/ 검색 조회
+		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
+		// 반환용 객체 생성
+		UsertListResponseDto userListResponseDto = new UsertListResponseDto();
+		userListResponseDto.setUserList(userListAdminB);
+		userListResponseDto.setBlockStart(userListRequestDto.blockStart());
+		userListResponseDto.setBlockEnd(userListRequestDto.blockEnd());
+		userListResponseDto.setBlockPrev(userListRequestDto.blockPrev());
+		userListResponseDto.setBlockNext(userListRequestDto.blockNext());
+		userListResponseDto.setBlockFirst(userListRequestDto.blockFirst());
+		userListResponseDto.setBlockLast(userListRequestDto.blockLast());
+		System.out.println(userListRequestDto.toString());
+		return userListResponseDto;
+	}
+	
 }

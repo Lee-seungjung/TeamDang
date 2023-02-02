@@ -132,7 +132,7 @@ public class DangAdmin {
 		//System.out.println(userListAdmin.toString());
 		model.addAttribute("userListAdmin", userListAdmin);
 		// 총 회원수 조회
-		int userTotal = dangUserDao.userCount();
+		int userTotal = dangUserDao.userCount(userListRequestDto);
 		// dto에 총 갯수 설정
 		userListRequestDto.setTotal(userTotal);
 		//System.out.println(userTotal);
@@ -147,27 +147,6 @@ public class DangAdmin {
 		int dangMemberTotal = dangMemberDao.dangJoinCount();
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/user_list";
-	}
-	
-	@PostMapping("/user_list")
-	public UsertListResponseDto selectUserList(@ModelAttribute UserListRequestDto userListRequestDto) {
-		// 총 회원수 조회
-		int userTotal = dangUserDao.userCount();
-		// dto에 총 갯수 설정
-		userListRequestDto.setTotal(userTotal);
-		// 회원 목록 전체/ 검색 조회
-		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
-		// 반환용 객체 생성
-		UsertListResponseDto userListResponseDto = new UsertListResponseDto();
-		userListResponseDto.setUserList(userListAdminB);
-		userListResponseDto.setBlockStart(userListRequestDto.blockStart());
-		userListResponseDto.setBlockEnd(userListRequestDto.blockEnd());
-		userListResponseDto.setBlockPrev(userListRequestDto.blockPrev());
-		userListResponseDto.setBlockNext(userListRequestDto.blockNext());
-		userListResponseDto.setBlockFirst(userListRequestDto.blockFirst());
-		userListResponseDto.setBlockLast(userListRequestDto.blockLast());
-		System.out.println(userListRequestDto.toString());
-		return userListResponseDto;
 	}
 	
 	//회원목록 조회 상세(회원관리 현황)

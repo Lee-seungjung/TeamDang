@@ -87,13 +87,13 @@
 			
 			<div class="row mt-5">
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
-					<select class="form-select flex-fill me-1" style="width:20%;" name="type">
+					<select class="user-form-select flex-fill me-1" style="width:20%;" name="type">
 						<option value="">선택</option>
-						<option value="user_no">회원아이디</option>
-						<option value="dang_name">회원닉네임</option>
+						<option value="user_id">회원아이디</option>
+						<option value="user_nick">회원닉네임</option>
 					</select>
 					<div class="d-flex" style="width:70%;">
-						<input type="text" class="input form-control search-input ms-1 flex-fill" name="keyword">
+						<input type="text" class="input form-control user-search-input ms-1 flex-fill" name="keyword">
 						<button class="btn btn-primary user-search-btn ms-1">
 							<i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
 						</button>
@@ -189,238 +189,58 @@
 </div>
 
 <script>
-	$(function(){
+$(function(){
+	//검색 버튼 클릭 이벤트
+	$(document).on("click",".user-search-btn", function(){
 		
-		var p = 1;
-		var userState = "가입자수";
-		var type;
-		var keyword;
+		var userSelectBox = $(".user-form-select").val();
+		console.log(userSelectBox);
 		
-		// 다음 페이지 버튼
-		$(document).on("click", ".ul-user-list-page-item-next", function(){
-			p = $(this).attr("data-pagenext");
-			console.log(p);
-			// 데이터 전송 객체
-			var formData = new FormData();
-			formData.append("p", p);
-			formData.append("userState", userState);
-			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
-			}
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					console.log(resp);
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
-					$(".data-body").empty();
-					for(var i = 0 ; i < resp.userList.length ; i++){
-						userList(resp.userList[i]);
-					}
-					// 초기화
-					$(".ul-user-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
-					}
+		var userSearchInput = $(".user-search-input").val();
+		console.log(userSearchInput);	
+		
+		if(userSelectBox == "" || userSearchInput == "") {
+			console.log("안돼");
+			return;
+		}
+		
+		console.log("돼");
+		
+		var formData = new FormData();
+		formData.append("p", 1);
+		formData.append("type", userSelectBox);
+		formData.append("keyword", userSearchInput);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
-			});
-		});
-		
-		// 이전 페이지 버튼
-		$(document).on("click", ".ul-user-list-page-item-prev", function(){
-			p = $(this).attr("data-pageprev");
-			console.log(p);
-			// 데이터 전송 객체
-			var formData = new FormData();
-			formData.append("p", p);
-			formData.append("userState", userState);
-			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
-			}
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					console.log(resp);
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
-					$(".data-body").empty();
-					for(var i = 0 ; i < resp.userList.length ; i++){
-						userList(resp.userList[i]);
-					}
-					// 초기화
-					$(".ul-user-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
-					}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
-			});
-		});
-		
-		// 맨 뒤로 가기 버튼
-		$(document).on("click", ".ul-user-list-page-item-last", function(){
-			// 마지막 페이지 번호
-			p = $(this).attr("data-pagelast");
-			// 데이터 전송 객체
-			var formData = new FormData();
-			formData.append("p", p);
-			formData.append("userState", userState);
-			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
-			}
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					console.log(resp);
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
-					$(".data-body").empty();
-					for(var i = 0 ; i < resp.userList.length ; i++){
-						userList(resp.userList[i]);
-					}
-					// 초기화
-					$(".ul-user-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
-					}
-				}
-			});
-		});
-		
-		// 맨 앞으로 가기 버튼
-		$(document).on("click", ".ul-user-list-page-item-first", function(){
-			// 페이지를 1페이지로
-			p = 1;
-			// 데이터 전송 객체
-			var formData = new FormData();
-			formData.append("p", p);
-			formData.append("userState", userState);
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					console.log(resp);
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
-					$(".data-body").empty();
-					for(var i = 0 ; i < resp.userList.length ; i++){
-						userList(resp.userList[i]);
-					}
-					// 초기화
-					$(".ul-user-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
-					}
-				}
-			});
-		});
-		
-		// 검색 버튼 클릭 이벤트
-		$(document).on("click", ".user-search-btn", function(){
-			
-			var type = $(".form-select").val();
-			var keyword = $(".search-input").val();
-			
-			if(type == "" || keyword == "") {
-				return;
-			}
-			
-			var formData = new FormData();
-			formData.append("p", 1);
-			formData.append("userState", userState);
-			formData.append("type", type);
-			formData.append("keyword", keyword);
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					console.log(resp);
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
+				
+				if(resp.userList.length==0){
+					var body = $(".data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+				}else{
 					$(".data-body").empty();
 					for(var i=0; i<resp.userList.length; i++){
 						userList(resp.userList[i]);
@@ -431,142 +251,235 @@
 						userListPagination(i);
 					}
 				}
-			});
+			}
+	
 		});
 		
-		$(document).on("click", ".ul-user-list-page-item-unit", function(){
-			p = $(this).children().text();
-			console.log(p);
-			 
-			 var formData = new FormData();
-			 formData.append("p", p);
-			 formData.append("userState", userState);
-			 
-			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/user_list",
-				method : "post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success : function(resp) {
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					// 초기화
-					$(".data-body").empty();
-					for(var i=0; i<resp.userList.length; i++){
-						userList(resp.userList[i]);
-					}
-				}
-			});
-		});
+	})
+	
+	//다음 페이지 버튼
+	$(document).on("click", ".ul-user-list-page-item-next",function(){
+		p = $(this).attr("data-pagenext");
+		console.log(p);
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("p", p);
 		
-		//카테고리 조회
-		$(document).on("click", ".cnt-num", function(){
-			$(".user-list-box").removeClass("select-color");
-			$(this).parent().addClass("select-color");
-			
-			var type = $(".form-select").val("").prop("selected", true);
-			var keyword = $(".search-input").val("");
-	/* 		
-			var type = $("[name=type]").val();
-			var keyword = $("[name=keyword]").val(); */
-			userState = $(this).attr("data-userState");
-			p = 1;
-			console.log(userState);
-			
-			var formData = new FormData();
-			formData.append("p", p);
-			formData.append("userState", userState);
-
-			//if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
-/* 			
-			userStateData={
-					userState:userState,
-					type:type,
-					keyword:keyword
-			} */
-			
-			$(".data-body").empty();//출력 div 비우기
-			
-			$.ajax({
-				url:"${pageContext.request.contextPath}/admin/user_list",
-				method:"post",
-				data : formData,
-				contentType: false,
-		        processData: false,
-				success:function(resp){
-					console.log(resp);
-					
-					// 양 끝 페이지네이션 버튼 설정
-					$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
-					if(resp.blockPrev <= 1) {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
-					} else {
-						$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
-					} else {
-						$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
-					}
-					
-					if(resp.userList.length==0){
-						var body = $(".data-body");
-						var tr = $("<tr>").attr("class","align-middle");
-						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
-										.text("내역이 존재하지 않습니다.");
-						tr.append(td);
-					}else{
-						for(var i=0; i<resp.userList.length; i++){
-							userList(resp.userList[i]);
-						}
-						// 초기화
-						$(".ul-user-list-page-item-unit").remove();
-						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-							userListPagination(i);
-						}
-					}
-				}
-			});
-		});
-		
-		function userList(resp){
-			var body = $(".data-body");
-			
-			var tr = $("<tr>").attr("class","align-middle");
-			var td_userNo = $("<td>").text(resp.userNo);
-			var td_userId = $("<td>").text(resp.userId);
-			var td_userNick = $("<td>").text(resp.userNick);
-			var td_userJoindate = $("<td>").text(resp.userJoindate);
-			var td_detail = $("<td>");
-			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
-								.attr("href","${pageContext.request.contextPath}/admin/user_detail?userNo="+resp.userNo);
-			td_detail.append(a_btn);
-			tr.append(td_userNo).append(td_userId).append(td_userNick).append(td_userJoindate).append(td_detail);
-			body.append(tr);
+		//검색어랑 검색 타입이 있으면
+		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
+			formData.append("type", $(".user-form-select").val());
+			formData.append("keyword", $(".user-search-input").val());
 		}
-		
-		function userListPagination(resp){
-			$(".ul-user-list-page-item-next")
-				.before(
-					$("<li>").attr("class", "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center")
-						.append(
-							$("<span>").text(resp)	
-						)
-				)
-		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				$(".data-body").empty();
+				for(var i=0; i<resp.userList.length; i++){
+					userList(resp.userList[i]);
+				}
+				// 초기화
+				$(".ul-user-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					userListPagination(i);
+				}
+				
+			}
+	
+		});	
 		
 	});
+	
+	
+	// 이전 페이지 버튼
+	$(document).on("click",".ul-user-list-page-item-prev", function(){
+		p = $(this).attr("data-pageprev");
+		console.log(p);
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("p", p);
+		//검색어랑 검색 타입이 있으면
+		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
+			formData.append("type", $(".user-form-select").val());
+			formData.append("keyword", $(".user-search-input").val());
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".data-body").empty();
+				for(var i = 0 ; i < resp.userList.length ; i++){
+					userList(resp.userList[i]);
+				}
+				// 초기화
+				$(".ul-user-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					userListPagination(i);
+				}						
+			}
+		})
+	});
+	
+	//맨 뒤로 가기 버튼
+	$(document).on("click", ".ul-user-list-page-item-last", function(){
+		// 마지막 페이지 번호
+		p = $(this).attr("data-pagelast");
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("p", p);	
+		//검색어랑 검색 타입이 있으면
+		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
+			formData.append("type", $(".user-form-select").val());
+			formData.append("keyword", $(".user-search-input").val());
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".data-body").empty();
+				for(var i = 0 ; i < resp.userList.length ; i++){
+					userList(resp.userList[i]);
+				}
+				// 초기화
+				$(".ul-user-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					userListPagination(i);
+				}						
+			}
+		})			
+	});
+	
+	
+	// 맨 앞으로 가기 버튼
+	$(document).on("click", ".ul-user-list-page-item-first", function(){
+		// 페이지를 1페이지로
+		p = 1;
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("p", p);	
+		//검색어랑 검색 타입이 있으면
+		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
+			formData.append("type", $(".user-form-select").val());
+			formData.append("keyword", $(".user-search-input").val());
+		}
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".data-body").empty();
+				for(var i = 0 ; i < resp.userList.length ; i++){
+					userList(resp.userList[i]);
+				}
+				// 초기화
+				$(".ul-user-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					userListPagination(i);
+				}						
+			}
+		})					
+	});
+	
+	
+	function userList(resp){
+		var body = $(".data-body");
+		
+		var tr = $("<tr>").attr("class","align-middle");
+		var td_userNo = $("<td>").text(resp.userNo);
+		var td_userId = $("<td>").text(resp.userId);
+		var td_userNick = $("<td>").text(resp.userNick);
+		var td_userJoindate = $("<td>").text(resp.userJoindate);
+		var td_detail = $("<td>");
+		var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
+							.attr("href","${pageContext.request.contextPath}/admin/user_detail?userNo="+resp.userNo);
+		td_detail.append(a_btn);
+		tr.append(td_userNo).append(td_userId).append(td_userNick).append(td_userJoindate).append(td_detail);
+		body.append(tr);
+	}
+	
+	function userListPagination(resp){
+		$(".ul-user-list-page-item-next")
+			.before(
+				$("<li>").attr("class", "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center")
+					.append(
+						$("<span>").text(resp)	
+					)
+			)
+	}
+	
+});
+
 </script>
