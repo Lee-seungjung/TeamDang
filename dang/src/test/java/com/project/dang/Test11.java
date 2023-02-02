@@ -12,5 +12,9 @@ public class Test11 {
 	
 	@Autowired
 	private DangScheduleDao dao ;
-
+  
+	@Test
+	public void insert() {
+		
+	}
 }

@@ -198,7 +198,6 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
-
 .customoverlay:after {
 	content: '';
 	position: absolute;
