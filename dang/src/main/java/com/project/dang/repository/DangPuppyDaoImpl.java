@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.project.dang.dto.DangPuppyDto;
 import com.project.dang.dto.DangPuppyInfoDto;
 import com.project.dang.dto.DangPuppyListDto;
+import com.project.dang.dto.PuppyListDto;
+import com.project.dang.dto.PuppyListRequestDto;
 
 @Repository
 public class DangPuppyDaoImpl implements DangPuppyDao {
@@ -77,9 +79,23 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 	public boolean deletePuppy(int puppyNo) {
 		return sqlSession.delete("dangPuppy.deletePuppy", puppyNo) > 0;
 	}
-
+	
+	// 총 댕댕이 수 조회
 	@Override
-	public int dangCount() {
+	public int dangCount(PuppyListRequestDto puppyListRequestDto) {
 		return sqlSession.selectOne("dangPuppy.dangCount");
+	}
+	// 댕댕이 목록 조회
+	@Override
+	public List<PuppyListDto> puppyList() {
+		return sqlSession.selectList("dangPuppy.puppyList");
+	}
+	
+	//(관리자) 댕댕이 목록 전체/ 검색 조회
+	@Override
+	public List<PuppyListDto> searchPuppyListAdmin(PuppyListRequestDto puppyListRequestDto) {
+		puppyListRequestDto.setRownumStart(puppyListRequestDto.rownumStart());
+		puppyListRequestDto.setRownumEnd(puppyListRequestDto.rownumEnd());		
+		return sqlSession.selectList("dangUser.searchUserListAdmin", puppyListRequestDto);
 	}
 }

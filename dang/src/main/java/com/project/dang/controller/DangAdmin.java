@@ -15,6 +15,7 @@ import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.dto.UsertListResponseDto;
@@ -126,7 +127,8 @@ public class DangAdmin {
 	
 	//회원목록 조회(회원관리 현황)
 	@GetMapping("/user_list")
-	public String UserList(Model model, @ModelAttribute UserListRequestDto userListRequestDto) {
+	public String UserList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
+			, @ModelAttribute PuppyListRequestDto puppyListRequestDto) {
 		// 회원 목록 전체 조회
 		List<DangUserListDto> userListAdmin = dangUserDao.UserList();
 		//System.out.println(userListAdmin.toString());
@@ -141,7 +143,7 @@ public class DangAdmin {
 		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
 		model.addAttribute("userListAdminB", userListAdminB);
 		//총 댕댕이 등록 수 조회
-		int dangTotal = dangPuppyDao.dangCount();
+		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		model.addAttribute("dangTotal", dangTotal);
 		// 총 댕모임 가입자수 조회
 		int dangMemberTotal = dangMemberDao.dangJoinCount();

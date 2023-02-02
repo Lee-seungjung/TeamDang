@@ -8,7 +8,7 @@
 
 <style>
 	
-	.user-list-box{
+	.member-list-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
 		text-align:center;
@@ -35,7 +35,7 @@
 	    padding:0px;
 	}
 	
-	.ul-user-list-page-item {
+	.ul-member-list-page-item {
 		cursor : pointer;
 		width : 2.5rem;
 		height : 2rem;
@@ -43,12 +43,12 @@
 		color : #76BEFF;
 	}
 	
-	.ul-user-list-page-item:hover {
+	.ul-member-list-page-item:hover {
 		border : 2px solid #76BEFF;
 		background-color : #F0F9FF;
 	}
 	
-	.ul-user-list-page-item-selected {
+	.ul-member-list-page-item-selected {
 		border : 2px solid #76BEFF;
 		background-color : #76BEFF;
 		color : white;
@@ -65,19 +65,19 @@
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
-					<div class = "col user-list-box select-color">
+					<div class = "col member-list-box select-color">
 						<p class="mb-1 cnt-title">총 가입자 수</p>
 						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col user-list-box">
+					<div class = "col member-list-box">
 						<p class="mb-1 cnt-title">총 댕 등록 수</p>
 						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col user-list-box">
+					<div class = "col member-list-box">
 						<p class="mb-1 cnt-title" >총 댕모임 가입자수</p>
 						<p class="mt-1 cnt-num" data-userstate="댕모임가입자수">${dangMemberTotal}명</p>
 					</div>
@@ -87,13 +87,13 @@
 			
 			<div class="row mt-5">
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
-					<select class="user-form-select flex-fill me-1" style="width:20%;" name="type">
+					<select class="member-form-select flex-fill me-1" style="width:20%;" name="type">
 						<option value="">선택</option>
 						<option value="user_id">회원아이디</option>
 						<option value="user_nick">회원닉네임</option>
 					</select>
 					<div class="d-flex" style="width:70%;">
-						<input type="text" class="input form-control user-search-input ms-1 flex-fill" name="keyword">
+						<input type="text" class="input form-control member-search-input ms-1 flex-fill" name="keyword">
 						<button class="btn btn-primary user-search-btn ms-1">
 							<i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
 						</button>
@@ -104,43 +104,43 @@
   			<div class="row mt-3">
 				<div class = "col d-flex justify-content-center align-items-center">
 					<ul class = "d-flex flex-row ul-user-list-page-navigator">
-						<li class = "ul-user-list-page-item ul-user-list-page-item-first d-flex justify-content-center align-items-center">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-first d-flex justify-content-center align-items-center">
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
 						
 						<c:choose>
 						<c:when test = "${userListRequestDto.blockPrev() != 0}">
-						<li class = "ul-user-list-page-item ul-user-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${userListRequestDto.blockPrev()}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${userListRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-user-list-page-item ul-user-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "1">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "1">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:otherwise>
 						</c:choose>						
 
 						<c:forEach var = "i" begin = "${userListRequestDto.blockStart()}" end = "${userListRequestDto.blockEnd()}" step = "1">
-						<li class = "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
 
 						<c:choose>
 						<c:when test = "${userListRequestDto.blockNext() >= userListRequestDto.blockLast()}">
-						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockNext()}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockNext()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" >
+						<li class = "ul-member-list-page-item ul-member-list-page-item-last d-flex justify-content-center align-items-center" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -193,10 +193,10 @@ $(function(){
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".user-search-btn", function(){
 		
-		var userSelectBox = $(".user-form-select").val();
+		var userSelectBox = $(".member-form-select").val();
 		console.log(userSelectBox);
 		
-		var userSearchInput = $(".user-search-input").val();
+		var userSearchInput = $(".member-search-input").val();
 		console.log(userSearchInput);	
 		
 		if(userSelectBox == "" || userSearchInput == "") {
@@ -212,7 +212,7 @@ $(function(){
 		formData.append("keyword", userSearchInput);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -221,17 +221,17 @@ $(function(){
 				console.log(resp);
 				
 				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
 				if(resp.blockPrev <= 1) {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
 				} else {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
 				if(resp.blockNext > resp.blockLast) {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
 				} else {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
 				if(resp.userList.length==0){
@@ -246,9 +246,9 @@ $(function(){
 						userList(resp.userList[i]);
 					}
 					// 초기화
-					$(".ul-user-list-page-item-unit").remove();
+					$(".ul-member-list-page-item-unit").remove();
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
+						memberListPagination(i);
 					}
 				}
 			}
@@ -258,7 +258,7 @@ $(function(){
 	})
 	
 	//다음 페이지 버튼
-	$(document).on("click", ".ul-user-list-page-item-next",function(){
+	$(document).on("click", ".ul-member-list-page-item-next",function(){
 		p = $(this).attr("data-pagenext");
 		console.log(p);
 		// 데이터 전송 객체
@@ -266,12 +266,12 @@ $(function(){
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
+			formData.append("type", $(".member-form-select").val());
+			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -280,17 +280,17 @@ $(function(){
 				console.log(resp);
 				
 				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
 				if(resp.blockPrev <= 1) {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
 				} else {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
 				if(resp.blockNext > resp.blockLast) {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
 				} else {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
 				$(".data-body").empty();
@@ -298,9 +298,9 @@ $(function(){
 					userList(resp.userList[i]);
 				}
 				// 초기화
-				$(".ul-user-list-page-item-unit").remove();
+				$(".ul-member-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					memberListPagination(i);
 				}
 				
 			}
@@ -311,19 +311,19 @@ $(function(){
 	
 	
 	// 이전 페이지 버튼
-	$(document).on("click",".ul-user-list-page-item-prev", function(){
+	$(document).on("click",".ul-member-list-page-item-prev", function(){
 		p = $(this).attr("data-pageprev");
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
+			formData.append("type", $(".member-form-select").val());
+			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -331,17 +331,17 @@ $(function(){
 			success : function(resp) {
 				
 				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
 				if(resp.blockPrev <= 1) {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
 				} else {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
 				if(resp.blockNext > resp.blockLast) {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
 				} else {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
 				$(".data-body").empty();
@@ -349,28 +349,28 @@ $(function(){
 					userList(resp.userList[i]);
 				}
 				// 초기화
-				$(".ul-user-list-page-item-unit").remove();
+				$(".ul-member-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					memberListPagination(i);
 				}						
 			}
 		})
 	});
 	
 	//맨 뒤로 가기 버튼
-	$(document).on("click", ".ul-user-list-page-item-last", function(){
+	$(document).on("click", ".ul-member-list-page-item-last", function(){
 		// 마지막 페이지 번호
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
+			formData.append("type", $(".member-form-select").val());
+			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -378,17 +378,17 @@ $(function(){
 			success : function(resp) {
 				
 				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
 				if(resp.blockPrev <= 1) {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
 				} else {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
 				if(resp.blockNext > resp.blockLast) {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
 				} else {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
 				$(".data-body").empty();
@@ -396,9 +396,9 @@ $(function(){
 					userList(resp.userList[i]);
 				}
 				// 초기화
-				$(".ul-user-list-page-item-unit").remove();
+				$(".ul-member-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					memberListPagination(i);
 				}						
 			}
 		})			
@@ -406,20 +406,20 @@ $(function(){
 	
 	
 	// 맨 앞으로 가기 버튼
-	$(document).on("click", ".ul-user-list-page-item-first", function(){
+	$(document).on("click", ".ul-member-list-page-item-first", function(){
 		// 페이지를 1페이지로
 		p = 1;
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
+			formData.append("type", $(".member-form-select").val());
+			formData.append("keyword", $(".member-search-input").val());
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -427,17 +427,17 @@ $(function(){
 			success : function(resp) {
 				
 				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
 				if(resp.blockPrev <= 1) {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
 				} else {
-					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 				}
 				if(resp.blockNext > resp.blockLast) {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
 				} else {
-					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
 				$(".data-body").empty();
@@ -445,42 +445,41 @@ $(function(){
 					userList(resp.userList[i]);
 				}
 				// 초기화
-				$(".ul-user-list-page-item-unit").remove();
+				$(".ul-member-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					memberListPagination(i);
 				}						
 			}
 		})					
 	});
 	
-	//회원 목록 비동기 불러오기
-	function userList(resp){
-		var body = $(".data-body");
+	//댕모임 멤버 목록 비동기 불러오기(한번 더 체크하기)
+	function memberList(resp){
+		var body = $(".member-data-body");
 		
 		var tr = $("<tr>").attr("class","align-middle");
-		var td_userNo = $("<td>").text(resp.userNo);
-		var td_userId = $("<td>").text(resp.userId);
-		var td_userNick = $("<td>").text(resp.userNick);
-		var td_userJoindate = $("<td>").text(resp.userJoindate);
-		var td_detail = $("<td>");
-		var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
-							.attr("href","${pageContext.request.contextPath}/admin/user_detail?userNo="+resp.userNo);
-		td_detail.append(a_btn);
-		tr.append(td_userNo).append(td_userId).append(td_userNick).append(td_userJoindate).append(td_detail);
+		var td_dangNo = $("<td>").text(resp.dangNo);
+		var td_dangName = $("<td>").text(resp.dangName);
+		var td_memberInfo = $("<td>").text(resp.memberNick).text(resp.userId);
+		var td_memberGrade = $("<td>").text(resp.memberGrade).text(resp.memberScore);
+		//var td_memberScore = $("<td>").text(resp.memberScore);
+		var td_memberJoindate = $("<td>").text(resp.memberJoindate);
+
+		tr.append(td_puppyNo).append(td_puppyName).append(td_puppyAge).append(td_puppyGender).append(td_userId);
 		body.append(tr);
 	}
 	
-	//회원 목록 페이징
-	function userListPagination(resp){
-		$(".ul-user-list-page-item-next")
+	
+	//댕모임 멤버 목록 페이징
+	function memberListPagination(resp){
+		$(".-next")
 			.before(
-				$("<li>").attr("class", "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center")
+				$("<li>").attr("class", " -unit d-flex justify-content-center align-items-center")
 					.append(
 						$("<span>").text(resp)	
 					)
 			)
 	}
-	
 	
 });
 
