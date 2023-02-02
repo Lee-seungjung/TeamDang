@@ -96,4 +96,9 @@
 		 where user_no=#{userNo}
 	</select>
 	
+				<!-- (관리자)총 회원수-->
+	<select id = "userCount"   resultType = "int">
+		select COUNT(*) from dang_user
+	</select>
+	
 </mapper>

@@ -8,7 +8,7 @@
 
 <style>
 	
-	.report-box{
+	.user-list-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
 		text-align:center;
@@ -63,6 +63,27 @@
 				<p style="font-size:25px; font-weight:bolder;">회원관리 현황</p>
 			</div>
 			
+			<div class = "row mt-4">
+				<div class = "col-4">
+					<div class = "col user-list-box select-color">
+						<p class="mb-1 cnt-title">총 가입자 수</p>
+						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
+					</div>
+				</div>
+				<div class = "col-4">
+					<div class = "col user-list-box">
+						<p class="mb-1 cnt-title">총 댕 등록 수</p>
+						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
+					</div>
+				</div>
+				<div class = "col-4">
+					<div class = "col user-list-box">
+						<p class="mb-1 cnt-title" >총 댕모임 가입자수</p>
+						<p class="mt-1 cnt-num" data-userstate="댕모임가입자수">${dangMemberTotal}명</p>
+					</div>
+				</div>
+			</div>
+			
 			
 			<div class="row mt-5">
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
@@ -87,19 +108,37 @@
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
 						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-prev d-flex justify-content-center align-items-center">
+						<c:choose>
+						<c:when test = "${userListRequestDto.blockPrev() != 0}">
+						<li class = "ul-user-list-page-item ul-user-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${userListRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
-						
-						<c:forEach var = "i" begin = "" end = "" step = "1">
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-user-list-page-item ul-user-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "1">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>						
+
+						<c:forEach var = "i" begin = "${userListRequestDto.blockStart()}" end = "${userListRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
-						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" >
+
+						<c:choose>
+						<c:when test = "${userListRequestDto.blockNext() >= userListRequestDto.blockLast()}">
+						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockNext()}">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
 						
 						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" >
 							<span><i class="fa-solid fa-forward"></i></span>
@@ -153,7 +192,7 @@
 	$(function(){
 		
 		var p = 1;
-		var userState = "접수";
+		var userState = "가입자수";
 		var type;
 		var keyword;
 		
@@ -434,7 +473,7 @@
 		
 		//카테고리 조회
 		$(document).on("click", ".cnt-num", function(){
-			$(".report-box").removeClass("select-color");
+			$(".user-list-box").removeClass("select-color");
 			$(this).parent().addClass("select-color");
 			
 			var type = $(".form-select").val("").prop("selected", true);
@@ -507,15 +546,15 @@
 			var body = $(".data-body");
 			
 			var tr = $("<tr>").attr("class","align-middle");
-			var fir_td = $("<td>").text(resp.userNo);
-			var sec_td = $("<td>").text(resp.dangName);
-			var third_td = $("<td>").text(resp.memberNick);
-			var four_td = $("<td>").text(resp.reportDate);
-			var fifth_td = $("<td>");
+			var td_userNo = $("<td>").text(resp.userNo);
+			var td_userId = $("<td>").text(resp.userId);
+			var td_userNick = $("<td>").text(resp.userNick);
+			var td_userJoindate = $("<td>").text(resp.userJoindate);
+			var td_detail = $("<td>");
 			var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
-								.attr("href","${pageContext.request.contextPath}/admin/report_detail?reportNo="+resp.reportNo);
-			fifth_td.append(a_btn);
-			tr.append(fir_td).append(sec_td).append(third_td).append(four_td).append(fifth_td);
+								.attr("href","${pageContext.request.contextPath}/admin/user_detail?userNo="+resp.userNo);
+			td_detail.append(a_btn);
+			tr.append(td_userNo).append(td_userId).append(td_userNick).append(td_userJoindate).append(td_detail);
 			body.append(tr);
 		}
 		

@@ -20,6 +20,7 @@ import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPlaceDao;
+import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.ReportOneListVO;
@@ -44,6 +45,9 @@ public class DangAdmin {
 	
 	@Autowired
 	private DangUserDao dangUserDao;
+	
+	@Autowired
+	private DangPuppyDao dangPuppyDao;
 	
 	//관리자 페이지 대쉬보드(홈)으로 이동 맵핑
 	@GetMapping("/dash_board")
@@ -119,11 +123,21 @@ public class DangAdmin {
 	
 	//회원목록 조회(회원관리 현황)
 	@GetMapping("/user_list")
-	public String UserList(Model model) {
+	public String UserList(Model model ) {
 		// 회원 목록 전체 조회
 		List<DangUserListDto> userListAdmin = dangUserDao.UserList();
 		System.out.println(userListAdmin.toString());
 		model.addAttribute("userListAdmin", userListAdmin);
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount();
+		System.out.println(userTotal);
+		model.addAttribute("userTotal",userTotal);
+		//총 댕댕이 등록 수 조회
+		int dangTotal = dangPuppyDao.dangCount();
+		model.addAttribute("dangTotal", dangTotal);
+		// 총 댕모임 가입자수 조회
+		int dangMemberTotal = dangMemberDao.dangJoinCount();
+		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/user_list";
 	}
 	

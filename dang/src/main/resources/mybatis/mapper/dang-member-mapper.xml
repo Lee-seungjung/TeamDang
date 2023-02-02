@@ -141,4 +141,9 @@
 		delete dang_member where dang_no = #{dangNo} and user_no = #{userNo}
 	</delete>
 	
+	 <!-- (관리자) 총 댕모임 가입자 수 -->
+	<select id = "dangJoinCount" resultType = "int">
+		select COUNT(*) from dang_member
+	</select>
+	
 </mapper>

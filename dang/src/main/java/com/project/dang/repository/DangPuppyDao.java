@@ -68,4 +68,10 @@ public interface DangPuppyDao {
 	 * @return boolean : 댕댕이 삭제 여부
 	 */
 	public boolean deletePuppy(int puppyNo);
+	
+	/**
+	 * (관리자) 회원목록 내 총 댕댕이 등록 수
+	 * @return dangCount
+	 */
+	public int dangCount ();
 }

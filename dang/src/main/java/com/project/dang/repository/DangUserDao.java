@@ -137,6 +137,12 @@ public interface DangUserDao {
 	 */
 	public DangUserDetailDto userDetail (int userNo);
 	
+	/**
+	 * (관리자) 회원목록 내 총 회원 수
+	 * @return userCount
+	 */
+	public int userCount ();
+	
 }
 
 

@@ -71,4 +71,9 @@
 	<delete id = "deletePuppy" parameterType = "int">
 		delete dang_puppy where puppy_no = #{puppyNo}
 	</delete>
+	
+		<!-- (관리자) 총 댕댕이 등록 수 -->
+	<select id = "dangCount" resultType = "int">
+		select COUNT(*) from dang_puppy
+	</select>
 </mapper>
