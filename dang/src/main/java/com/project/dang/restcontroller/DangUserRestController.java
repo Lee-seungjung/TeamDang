@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.DangInterestDao;
+import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.service.DangCertEmailService;
 import com.project.dang.vo.DangUserVO;
@@ -36,6 +37,9 @@ public class DangUserRestController {
 	
 	@Autowired
 	private DangInterestDao dangInterestDao;
+	
+	@Autowired
+	private DangReportDao dangReportDao;
 
 	// 아이디 중복 검사
 	@GetMapping("/check_id")
@@ -99,6 +103,18 @@ public class DangUserRestController {
 			for(int i = 0 ; i < dangInterestArray.size() ; i ++) {
 				dangInterestDao.insertInterest(DangInterestDto.builder().userNo(userNo).interestArea(dangInterestArray.get(i)).build());
 			}
+		}
+	}
+	
+	// 댕모임 입장 전 신고 조회
+	@GetMapping("/check_report")
+	public boolean isBanned(@RequestParam int dangNo, @RequestParam int userNo) {
+		// 신고를 2번 이상 당했으면 true를 반환
+		int countReportApproved = dangReportDao.countReportApproved(dangNo, userNo);
+		if(countReportApproved >= 2) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

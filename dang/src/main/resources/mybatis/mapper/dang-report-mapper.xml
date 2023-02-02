@@ -105,6 +105,11 @@
 		select*from report_img where report_no=#{reportNo}
 	</select>
 	
+	<!-- 특정 댕모임에서 특정 회원이 받은 신고 중 승인된 신고 갯수 -->
+	<select id = "countReportApproved" parameterType = "map" resultType = "int">
+		select count(report_no) from dang_report where report_state = '완료' and dang_no = #{dangNo} and user_no = #{userNo}
+	</select>
+	
 </mapper>
   
   
