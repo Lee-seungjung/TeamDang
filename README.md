@@ -19,6 +19,9 @@
 * HTML5 / CSS3 / JavaScript ES5 / jQuery 3 / Bootstrap 5
 * STS 4.15.3 / VS Code 1.68
 
+#### : ERD / DB Table
+![erd](https://user-images.githubusercontent.com/109942536/216378588-432d355f-caa4-4fbf-b812-005fb7f8cba5.jpg)
+
 :clap: Contributor
 ---------------
 #### 엄현용 https://github.com/Luverduck
