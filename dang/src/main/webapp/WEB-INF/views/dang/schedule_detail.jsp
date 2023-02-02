@@ -11,270 +11,297 @@
 
 <style>
 
-
-
-.layout {
-	max-width: 1100px;
-	margin: 30px auto;
-	padding: 50px;
-	display: flex;
-	flex-wrap: wrap;
-	flex-wrap: wrap gap: 1em;
-}
-.monthly-calendar{
-	height : 1500px;
-} 
-.calendar{
-	width: 100%;
-	height : 500px;
-    margin: 0 0 30px auto;
-}
-.calendar-info{
-	width: 350px;
-	height : 450px;
-	background-color: #FAFAFA;
-	text-align: center;
-}
-.more-info{
-	width : 1100px;
-	height : 400px;
-	background-color: white;
-	display: flex;
-	flex-direction: row;
-	gap: 1em;
-	justify-content: center;
-}
-.upcoming{
- font-size: 24px;
- font-weight: bold;
- color: #454545;
-}
-.schedule-info{
-    width: 95%;
-    background-color: #E2EFFF;
-    height: 780px;
-    border-radius: 10px;
-    margin: auto;
-}
-.dang-place-map{
-    display: block;
-    margin: auto;
-    width: 85%;
-    height: 200px;
-    border-radius: 10px;
-    background-color: white;
-}
-.dang-title{
-    display: block;
-    position: relative;
-    text-align: center;
-    color: #515151;
-    font-size: 30px;
-    font-weight: bold;
-    padding: 30px 0px 20px;
-}
-.info-commons {
-    margin: 10px auto;
-    width: 85%;
-    height: 40px;
-    background-color: white;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-}
-.block {
-    display: block;
-    line-height: 40px;
-    border: none;
-    background-color: #76BEFF;
-    text-align: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 40px;
-    width: 120px;
-}
-.block-white{
-    display: block;
-    line-height: 40px;
-    border: none;
-    border-radius: 10px;
-    color: #515151;
-    font-size: 18px;
-    font-weight: 600;
-    height: 40px;
-    width: 350px;
-    margin-left: 20px;
-}
-.simple-schedule-box{
-    width: 100%;
-    height: 90px;
-    border-radius: 15px 15px 15px 15px;
-    border-style: solid;
-    border-width: 2px 2px 2px 2px;
-    border-color: #EFEFEF;
-    margin: 15px 0 15px;
-    
-}
-.simple-date-box{
-    width: 100%;
-    display: flex;
-    padding: 10px;
-}
-.simple-friday{
-    width: 70px;
-    height: 70px;
-    border-radius: 30%;
-    border-style: solid;
-    border-width: 6px 6px 6px 6px;
-    border-color: #89E3E3;
-}
-.simple-monday{
-    width: 70px;
-    height: 70px;
-    border-radius: 30%;
-    border-style: solid;
-    border-width: 6px 6px 6px 6px;
-    border-color: #FFCF97;
-}
-.simple-sunday{
-    width: 70px;
-    height: 70px;
-    border-radius: 30%;
-    border-style: solid;
-    border-width: 6px 6px 6px 6px;
-    border-color: #D4BAFF;
-}
-.simple-thursday{
-    width: 70px;
-    height: 70px;
-    border-radius: 30%;
-    border-style: solid;
-    border-width: 6px 6px 6px 6px;
-    border-color: #FFA6E1;
-}
-.simple-day{
-    height: 20px;
-    font-size: 13px;
-    font-weight: 400;
-    text-align: center;
-    color: #3D3D3D;
-    position: relative;
-    top: 5px;
-}
-.simple-number-day {
-    height: 50px;
-    font-size: 28px;
-    font-weight: 500;
-    text-align: center;
-    color: #3D3D3D;
-    margin-top: -5;
-}
-.simple-when, .simple-where{
-    width: 200px;
-    height: 35px;
-    font-size: 16px;
-    margin: 0px 15px;
-    color: #3D3D3D;
-    line-height: 35px;
- 
-}
-.detail-modal{
-    background-color: #F0F9FF;
-}
-.btn-plus{
-    display: block;
-    line-height: 50px;
-    border: none;
-    background-color: #76BEFF;
-    text-align: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 50px;
-    width: 120px;
-     margin: 25px auto;
-}
-.btn-minus{
-    display: block;
-    line-height: 50px;
-    border: none;
-    background-color: #E0E0E0;
-    text-align: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 50px;
-    width: 120px;
-	margin: 25px auto;
-}
-.btn-edit{
-    display: block;
-    line-height: 50px;
-    border: none;
-    background-color: #E0E0E0;
-    text-align: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 50px;
-    width: 120px;
-	margin: 25px auto;
-}
-.btn-delete, .btn-end{
-    display: block;
-    line-height: 50px;
-    border: none;
-    background-color: #E0E0E0;
-    text-align: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 50px;
-    width: 120px;
-	margin: 25px auto;
-}
-.red-pin{
-    height: 100px;
-    width: 120px;
-    position: absolute;
-    left: 5px;
-    top: 10px;
-}
-.btn-back{
-    border: lightgray;
-    background-color: #DBDBDB;
-}
-.btn-common{
-    display:block;
-    text-align: center;
-    padding: 0.5em 0.7em 0.5em 0.7em;
-    border-radius: 10px;
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    height: 50px;
-    width: 180px;
-    text-align: center;
-    margin: 20px 10px;
-}
-.btn-box{
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-.member-profile-hover:hover{
-border : 2px solid #76BEFF;
-}
-
-.strong-modal-schedule-edit {
-	font-size : 24px;
-}
+	.layout {
+		max-width: 1100px;
+		margin: 30px auto;
+		padding: 50px;
+		display: flex;
+		flex-wrap: wrap;
+		flex-wrap: wrap gap: 1em;
+	}
+	
+	.monthly-calendar {
+		height : 1500px;
+	} 
+	
+	.calendar {
+		width: 100%;
+		height : 500px;
+	    margin: 0 0 30px auto;
+	}
+	
+	.calendar-info {
+		width: 350px;
+		height : 450px;
+		background-color: #FAFAFA;
+		text-align: center;
+	}
+	
+	.more-info {
+		width : 1100px;
+		height : 400px;
+		background-color: white;
+		display: flex;
+		flex-direction: row;
+		gap: 1em;
+		justify-content: center;
+	}
+	
+	.upcoming {
+	 font-size: 24px;
+	 font-weight: bold;
+	 color: #454545;
+	}
+	
+	.schedule-info {
+	    width: 95%;
+	    background-color: #E2EFFF;
+	    height: 780px;
+	    border-radius: 10px;
+	    margin: auto;
+	}
+	
+	.dang-place-map {
+	    display: block;
+	    margin: auto;
+	    width: 85%;
+	    height: 200px;
+	    border-radius: 10px;
+	    background-color: white;
+	}
+	
+	.dang-title {
+	    display: block;
+	    position: relative;
+	    text-align: center;
+	    color: #515151;
+	    font-size: 30px;
+	    font-weight: bold;
+	    padding: 30px 0px 20px;
+	}
+	
+	.info-commons {
+	    margin: 10px auto;
+	    width: 85%;
+	    height: 40px;
+	    background-color: white;
+	    border-radius: 10px;
+	    display: flex;
+	    flex-direction: row;
+	}
+	
+	.block {
+	    display: block;
+	    line-height: 40px;
+	    border: none;
+	    background-color: #76BEFF;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 40px;
+	    width: 120px;
+	}
+	
+	.block-white {
+	    display: block;
+	    line-height: 40px;
+	    border: none;
+	    border-radius: 10px;
+	    color: #515151;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 40px;
+	    width: 350px;
+	    margin-left: 20px;
+	}
+	
+	.simple-schedule-box {
+	    width: 100%;
+	    height: 90px;
+	    border-radius: 15px 15px 15px 15px;
+	    border-style: solid;
+	    border-width: 2px 2px 2px 2px;
+	    border-color: #EFEFEF;
+	    margin: 15px 0 15px;
+	    
+	}
+	
+	.simple-date-box {
+	    width: 100%;
+	    display: flex;
+	    padding: 10px;
+	}
+	
+	.simple-friday {
+	    width: 70px;
+	    height: 70px;
+	    border-radius: 30%;
+	    border-style: solid;
+	    border-width: 6px 6px 6px 6px;
+	    border-color: #89E3E3;
+	}
+	
+	.simple-monday {
+	    width: 70px;
+	    height: 70px;
+	    border-radius: 30%;
+	    border-style: solid;
+	    border-width: 6px 6px 6px 6px;
+	    border-color: #FFCF97;
+	}
+	
+	.simple-sunday {
+	    width: 70px;
+	    height: 70px;
+	    border-radius: 30%;
+	    border-style: solid;
+	    border-width: 6px 6px 6px 6px;
+	    border-color: #D4BAFF;
+	}
+	
+	.simple-thursday {
+	    width: 70px;
+	    height: 70px;
+	    border-radius: 30%;
+	    border-style: solid;
+	    border-width: 6px 6px 6px 6px;
+	    border-color: #FFA6E1;
+	}
+	
+	.simple-day {
+	    height: 20px;
+	    font-size: 13px;
+	    font-weight: 400;
+	    text-align: center;
+	    color: #3D3D3D;
+	    position: relative;
+	    top: 5px;
+	}
+	
+	.simple-number-day {
+	    height: 50px;
+	    font-size: 28px;
+	    font-weight: 500;
+	    text-align: center;
+	    color: #3D3D3D;
+	    margin-top: -5;
+	}
+	
+	.simple-when, .simple-where {
+	    width: 200px;
+	    height: 35px;
+	    font-size: 16px;
+	    margin: 0px 15px;
+	    color: #3D3D3D;
+	    line-height: 35px;
+	}
+	
+	.detail-modal {
+	    background-color: #F0F9FF;
+	}
+	
+	.btn-plus {
+	    display: block;
+	    line-height: 50px;
+	    border: none;
+	    background-color: #76BEFF;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 50px;
+	    width: 120px;
+		margin: 25px auto;
+	}
+	
+	.btn-minus {
+	    display: block;
+	    line-height: 50px;
+	    border: none;
+	    background-color: #E0E0E0;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 50px;
+	    width: 120px;
+		margin: 25px auto;
+	}
+	
+	.btn-edit {
+	    display: block;
+	    line-height: 50px;
+	    border: none;
+	    background-color: #E0E0E0;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 50px;
+	    width: 120px;
+		margin: 25px auto;
+	}
+	
+	.btn-delete, 
+	.btn-end {
+	    display: block;
+	    line-height: 50px;
+	    border: none;
+	    background-color: #E0E0E0;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 50px;
+	    width: 120px;
+		margin: 25px auto;
+	}
+	.red-pin {
+	    height: 100px;
+	    width: 120px;
+	    position: absolute;
+	    left: 5px;
+	    top: 10px;
+	}
+	.btn-back {
+	    border: lightgray;
+	    background-color: #DBDBDB;
+	}
+	.btn-common {
+	    display:block;
+	    text-align: center;
+	    padding: 0.5em 0.7em 0.5em 0.7em;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 20px;
+	    font-weight: 600;
+	    height: 50px;
+	    width: 180px;
+	    text-align: center;
+	    margin: 20px 10px;
+	}
+	.btn-box {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+	.member-profile-hover:hover {
+		border : 2px solid #76BEFF;
+	}
+	
+	.strong-modal-schedule-edit {
+		font-size : 24px;
+	}
+	
+	.schedule-name {
+		font-size : 24px;
+	}
 
 </style>
 
@@ -293,7 +320,7 @@ border : 2px solid #76BEFF;
 					<input type = "hidden" class = "input-schedule-no" value = "${scheduleDetail.scheduleNo}">
 					<input type = "hidden" class = "input-dang-no" value = "${dangNo}">
 					<div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">
-						<span class = "schedule-name">${scheduleDetail.scheduleTitle}</span>
+						<strong class = "schedule-name">${scheduleDetail.scheduleTitle}</strong>
 					</div>
 			
 					<div class = "info-commons dang-content">
