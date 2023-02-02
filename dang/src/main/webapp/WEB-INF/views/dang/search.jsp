@@ -454,7 +454,7 @@
 <div class="modal fade" id="modalEnterPirvate" data-bs-backdrop="static" tabindex="-1" aria-hidden="true"> 
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-dang-enter-content py-3">
-            <div class = "container-fluid">
+            <form class = "container-fluid">
                 <div class = "row">
                     <div class = "col div-modal-enter-dang-content">
                     	<div class = "row">
@@ -471,18 +471,18 @@
                             <div class = "col-10 offset-1 d-flex flex-column">
                                 <span class = "span-modal-enter-dang-helper">비공개 댕모임입니다.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-enter input-modal-enter-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)">
+                                    <input class = "flex-fill p-2 input-modal-enter input-modal-enter-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)" autocomplete = "false">
                                 </div>
                             </div>
                         </div>
                         <div class = "row my-3">
                             <div class = "col-10 offset-1 d-flex justify-content-center align-items-center">
-                                <button class = "py-2 px-3 btn-modal-enter-submit">입장하기</button>
+                                <button type = 'button' class = "py-2 px-3 btn-modal-enter-submit">입장하기</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -526,16 +526,6 @@
                                 </div>
                             </div>
                         </div>
-                        <%--
-                        <div class = "row my-3">
-                            <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw">
-                                <span class = "span-modal-join-dang-helper">비공개 댕모임입니다.</span>
-                                <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)">
-                                </div>
-                            </div>
-                        </div>
-                         --%>
                         <div class = "row my-3 row-modal-join-submit">
                             <div class = "col-10 offset-1 d-flex justify-content-center align-items-center">
                                 <button class = "py-2 px-3 btn-modal-join-submit">가입하기</button>
@@ -937,18 +927,6 @@
 		$(document).on("click", ".btn-dang-enter", function(){
 			// 댕모임 번호
 			dangNo = $(this).parent().prevAll("[name=dangNo]").val();
-			// 댕모임명
-			dangName = $(this).parent().prevAll("[name=dangName]").val();
-			// 댕모임 총원
-			dangHeadmax = $(this).parent().prevAll("[name=dangHeadmax]").val();
-			// 댕모임 현원
-			dangHead = $(this).parent().prevAll("[name=dangHead]").val();
-			// 댕모임 비공개 여부
-			dangPrivate = $(this).parent().prevAll("[name=dangPrivate]").val();
-			// 댕모임 비밀번호
-			dangPw = $(this).parent().prevAll("[name=dangPw]").val();
-			// 댕모임 번호
-			var dangNo = $(this).parent().prevAll("[name=dangNo]").val();
 			// 입장
 			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
 			/*
@@ -1025,35 +1003,47 @@
 				alert("댕모임 정원이 초과되어 가입할 수 없습니다.");
 				return;
 			}
-			// 가입 Modal 표시 전 작업
-			// - 댕모임명 초기화
-			$(".div-modal-join-dang-name").empty();
-			// - 가입할 댕모임명 태그 추가
-			$(".div-modal-join-dang-name")
-				.append(
-					$("<strong>").attr("class", "strong-modal-join-dang-name").text(dangName)
-				);
-			// (그렇지 않다면) 가입 Modal 표시
-			$("#modalJoin").modal("show");
-			// 비공개 댕모임이라면
-			if(dangPrivate == "Y") {
-				$(".row-modal-join-submit")
-					.before(
-						$("<div>").attr("class", "row my-3 div-modal-join-dang-private")
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_user/check_report?userNo=" + userNo + "&dangNo=" + dangNo,
+				method : "get",
+				success : function(resp) {
+					console.log(resp);
+					if(resp == true) {
+						alert("신고 승인 2회 누적으로 해당 댕모임에 가입하실 수 없습니다.");
+					} else {
+						// 가입 Modal 표시 전 작업
+						// - 댕모임명 초기화
+						$(".div-modal-join-dang-name").empty();
+						// - 가입할 댕모임명 태그 추가
+						$(".div-modal-join-dang-name")
 							.append(
-								$("<div>").attr("class", "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw")
-									.append(
-										$("<span>").attr("class", "span-modal-join-dang-helper").text("비공개 댕모임입니다.")
-									)
-									.append(
-										$("<div>").attr("class", "d-flex")
-											.append(
-												$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)")
-											)
-									)
-							)
-					)
-			}
+								$("<strong>").attr("class", "strong-modal-join-dang-name").text(dangName)
+							);
+						// (그렇지 않다면) 가입 Modal 표시
+						$("#modalJoin").modal("show");
+						// 비공개 댕모임이라면
+						if(dangPrivate == "Y") {
+							$(".row-modal-join-submit")
+								.before(
+									$("<div>").attr("class", "row my-3 div-modal-join-dang-private")
+										.append(
+											$("<div>").attr("class", "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw")
+												.append(
+													$("<span>").attr("class", "span-modal-join-dang-helper").text("비공개 댕모임입니다.")
+												)
+												.append(
+													$("<div>").attr("class", "d-flex")
+														.append(
+															$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)")
+														)
+												)
+										)
+								)
+						}
+					}
+				}
+			});
 		});
 		
 		// 모달 내 닉네임 중복 검사 버튼

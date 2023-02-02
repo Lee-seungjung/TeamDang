@@ -100,4 +100,11 @@ public interface DangReportDao {
 	 */
 	ReportOneListVO selectOne(int reportNo);
 	
+	/**
+	 * 특정 댕모임에서 특정 회원이 받은 신고 중 승인된 신고 갯수
+	 * @param dangNo : 댕모임 번호
+	 * @param userNo : 회원 번호
+	 * @return int : 승인된 신고 갯수
+	 */
+	public int countReportApproved(int dangNo, int userNo);
 }
