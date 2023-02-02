@@ -135,13 +135,13 @@
 								}
 								
 								$.ajax({
-									url:"${pageContext.request.contextPath}/rest_dang/userno_update",
+									url:"${pageContext.request.contextPath}/rest_dang/uno_head_update",
 									method:"patch",
 									data:JSON.stringify(updateData),
 					        		contentType: 'application/json',
 					        		async:false,
 					        		success:function(resp){
-					        			console.log("댕모임 개설자 회원번호 변경 성공!");
+					        			console.log("댕모임 개설자 회원번호, 댕모임 회원수-1 변경 성공!");
 					        		}
 								});
 								

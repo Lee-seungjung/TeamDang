@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -507,8 +508,11 @@ public class DangController {
 	
 	@GetMapping("/report/{memberNo}")
 	public String report(@PathVariable int memberNo,
-			HttpSession session, Model model) {
+			HttpSession session, Model model,  HttpServletRequest request) {
 		model.addAttribute("memberInfo", dangMemberDao.restSelectOne(memberNo));
+		String url = request.getHeader("Referer");
+		//이전페이지에서 오는것만 세션값에 저장하도록 코드 추가해야함!(비정상적인 접근 처리필요)
+		session.setAttribute("prevPage", url);
 		return "dang/report";
 	}
 	
@@ -539,7 +543,10 @@ public class DangController {
 	}
 	
 	@GetMapping("/report_success")
-	public String reportSuccess() {
+	public String reportSuccess(HttpSession session, Model model) {
+		String url = (String)session.getAttribute("prevPage");
+		model.addAttribute("prevUrl", url);
+		session.removeAttribute("prevUrl");
 		return "dang/report_success";
 	}
 	

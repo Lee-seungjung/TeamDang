@@ -19,7 +19,6 @@
 		<div class = "col-8 offset-2 my-3 py-5">
 			<div class = "row">
 				<div class = "col-6 offset-3 text-center">
-				
 					<div>
 						<img src="${pageContext.request.contextPath}/images/logo2.png" width="130" height="130">
 					</div>
@@ -29,8 +28,8 @@
 					</div>
 					<div class="mt-4 mb-5">
 						<a href="${pageContext.request.contextPath}/" class="btn btn-primary">홈으로 이동</a>
+						<a href="${prevUrl}" class="btn btn-pink">댕모임 돌아가기</a>
 					</div>
-					
 				</div>
 			</div>
 		</div>
