@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class UserListRequestDto {
 
-	private String reportState = "가입자수"; 
+	private String userState = "가입자수"; 
 	private String type; 
 	private String keyword;
 	

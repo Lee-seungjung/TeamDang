@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,6 +16,8 @@ import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.ReportListRequestDto;
+import com.project.dang.dto.UserListRequestDto;
+import com.project.dang.dto.UsertListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangDao;
@@ -123,15 +126,20 @@ public class DangAdmin {
 	
 	//회원목록 조회(회원관리 현황)
 	@GetMapping("/user_list")
-	public String UserList(Model model ) {
+	public String UserList(Model model, @ModelAttribute UserListRequestDto userListRequestDto) {
 		// 회원 목록 전체 조회
 		List<DangUserListDto> userListAdmin = dangUserDao.UserList();
-		System.out.println(userListAdmin.toString());
+		//System.out.println(userListAdmin.toString());
 		model.addAttribute("userListAdmin", userListAdmin);
 		// 총 회원수 조회
 		int userTotal = dangUserDao.userCount();
-		System.out.println(userTotal);
+		// dto에 총 갯수 설정
+		userListRequestDto.setTotal(userTotal);
+		//System.out.println(userTotal);
 		model.addAttribute("userTotal",userTotal);
+		// 회원 목록 전체/ 검색 조회
+		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
+		model.addAttribute("userListAdminB", userListAdminB);
 		//총 댕댕이 등록 수 조회
 		int dangTotal = dangPuppyDao.dangCount();
 		model.addAttribute("dangTotal", dangTotal);
@@ -139,6 +147,27 @@ public class DangAdmin {
 		int dangMemberTotal = dangMemberDao.dangJoinCount();
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/user_list";
+	}
+	
+	@PostMapping("/user_list")
+	public UsertListResponseDto selectUserList(@ModelAttribute UserListRequestDto userListRequestDto) {
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount();
+		// dto에 총 갯수 설정
+		userListRequestDto.setTotal(userTotal);
+		// 회원 목록 전체/ 검색 조회
+		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
+		// 반환용 객체 생성
+		UsertListResponseDto userListResponseDto = new UsertListResponseDto();
+		userListResponseDto.setUserList(userListAdminB);
+		userListResponseDto.setBlockStart(userListRequestDto.blockStart());
+		userListResponseDto.setBlockEnd(userListRequestDto.blockEnd());
+		userListResponseDto.setBlockPrev(userListRequestDto.blockPrev());
+		userListResponseDto.setBlockNext(userListRequestDto.blockNext());
+		userListResponseDto.setBlockFirst(userListRequestDto.blockFirst());
+		userListResponseDto.setBlockLast(userListRequestDto.blockLast());
+		System.out.println(userListRequestDto.toString());
+		return userListResponseDto;
 	}
 	
 	//회원목록 조회 상세(회원관리 현황)

@@ -13,6 +13,7 @@ import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.UserImgDto;
+import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.vo.DangUserMypageVO;
 import com.project.dang.vo.DangUserVO;
 
@@ -157,5 +158,12 @@ public class DangUserDaoImpl implements DangUserDao {
 	@Override
 	public int userCount() {
 		return sqlSession.selectOne("dangUser.userCount");
+	}
+
+	@Override
+	public List<DangUserListDto> searchUserListAdmin(UserListRequestDto userListRequestDto) {
+		userListRequestDto.setRownumStart(userListRequestDto.rownumStart());
+		userListRequestDto.setRownumEnd(userListRequestDto.rownumEnd());		
+		return sqlSession.selectList("dangUser.searchUserListAdmin", userListRequestDto);
 	}
 }

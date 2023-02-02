@@ -160,20 +160,20 @@
 					</thead>
 					<tbody class="data-body">
 						<c:choose>
-							<c:when test="${userListAdmin==null}">
+							<c:when test="${userListAdminB==null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="userListAdmin" items="${userListAdmin}">
+								<c:forEach var="userListAdminB" items="${userListAdminB}">
 									<tr class="table align-middle">
-										<td class="list-userNo" data-dno="">${userListAdmin.userNo}</td>
-										<td class="list-userId" data-dno="">${userListAdmin.userId}</td>
-										<td class="list-userNick" data-dno="">${userListAdmin.userNick}</td>
-										<td class="list-userJoindate" data-dno="">${userListAdmin.userJoindate}</td>
+										<td class="list-userNo" data-dno="">${userListAdminB.userNo}</td>
+										<td class="list-userId" data-dno="">${userListAdminB.userId}</td>
+										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
+										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
 										<td>
-											<a class="btn btn-primary user-detail" data-rno="" href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdmin.userNo}">상세</a>
+											<a class="btn btn-primary user-detail" data-rno="" href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
 										</td>
 									</tr> 
 								</c:forEach>	       
@@ -498,7 +498,7 @@
 			} */
 			
 			$(".data-body").empty();//출력 div 비우기
-			//신고 카운트 클릭 조회
+			
 			$.ajax({
 				url:"${pageContext.request.contextPath}/admin/user_list",
 				method:"post",
