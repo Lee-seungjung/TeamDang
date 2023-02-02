@@ -360,8 +360,6 @@
  			
 			var moneyLength = $(this).val().length;
 			
-			console.log(moneyLength);
-			
 			if(moneyLength >= 7) {
 				$(".invalid-money").show();
 			}
@@ -1563,7 +1561,7 @@
                         });
             }
         }
-        console.log(placeOriginNo);
+        
         // 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
         function setCafeMarkers(map1) {
             for (var i = 0; i < cafeMarkers.length; i++) {

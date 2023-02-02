@@ -1,5 +1,7 @@
 package com.project.dang.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,7 @@ public class ScheduleVO {
 	private String scheduleTitle;
 	private String scheduleContent;
 	private String memberNick;
-	private String scheduleStart;
+	private Date scheduleStart;
 	private String scheduleHour;
 	private String placeName;
 	private int scheduleHeadMax;
