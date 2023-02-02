@@ -83,9 +83,10 @@ public class DangRestController {
 		return dangList;
 	}
 	
-	@PatchMapping("/userno_update")
-	public boolean userNoUpdate(@RequestBody DangDto dto) {
-		return dangDao.userNoUpdate(dto);
+	//댕모임 userNo, dangHead-1 변경
+	@PatchMapping("/uno_head_update")
+	public boolean userNoHeadUpdate(@RequestBody DangDto dto) {
+		return dangDao.userNoHeadUpdate(dto);
 	}
 	
 	//댕모임 개설자 번호 반환

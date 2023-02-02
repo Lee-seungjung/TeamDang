@@ -511,8 +511,7 @@ public class DangController {
 			HttpSession session, Model model,  HttpServletRequest request) {
 		model.addAttribute("memberInfo", dangMemberDao.restSelectOne(memberNo));
 		String url = request.getHeader("Referer");
-		//이전페이지에서 오는것만 세션값에 저장하도록 코드 추가해야함!(비정상적인 접근 처리필요)
-		session.setAttribute("prevPage", url);
+		if(url!=null) session.setAttribute("prevPage", url); //이전페이지가 있으면 세션에 url 저장
 		return "dang/report";
 	}
 	

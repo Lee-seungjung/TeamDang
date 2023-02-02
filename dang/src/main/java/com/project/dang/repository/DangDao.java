@@ -161,7 +161,7 @@ public interface DangDao {
 	 * @param DangDto
 	 * @return true, false
 	 */
-	public boolean userNoUpdate(DangDto dto);
+	public boolean userNoHeadUpdate(DangDto dto);
 	
 	/**
 	 * 관리자 페이지 댕모임 목록 전체/검색 조회

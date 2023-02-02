@@ -176,10 +176,10 @@ public class DangDaoImpl implements DangDao {
 		return sqlSession.selectList("dang.selectMydangOwner", userNo);
 	}
 	
-	//댕모임 개설자 userNo 변경
+	//댕모임 개설자 userNo, dangHead-1 변경
 	@Override
-	public boolean userNoUpdate(DangDto dto) {
-		return sqlSession.update("dang.userNoUpdate", dto)>0;
+	public boolean userNoHeadUpdate(DangDto dto) {
+		return sqlSession.update("dang.userNoHeadUpdate", dto)>0;
 	}
 
 	// 관리자 페이지 댕모임 목록 전체/검색 조회

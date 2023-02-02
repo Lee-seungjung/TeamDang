@@ -244,8 +244,8 @@
 		select dang_no from dang_member where user_no = #{userNo} and member_owner = 'Y'
 	</select>
 	
-	<update id="userNoUpdate" parameterType="DangDto">
-		update dang set user_no=#{userNo} where dang_no=${dangNo}
+	<update id="userNoHeadUpdate" parameterType="DangDto">
+		update dang set user_no=#{userNo}, dang_head=dang_head-1 where dang_no=${dangNo}
 	</update>
 	
 	<!-- 관리자 페이지 댕모임 목록 전체/검색 조회 -->
