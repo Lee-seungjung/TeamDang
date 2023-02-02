@@ -1164,7 +1164,7 @@
 	
 	<!-- 댕모임 일정 등록 -->
 	 <div class="p-3 border rounded-3 text-center day-check shadow gray mt-3">
-		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">댕모임 등록</span>
+		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">일정 등록</span>
 	</div>
 
     <!-- 댕모임 일정 등록 모달 -->
@@ -1173,7 +1173,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">댕모임 등록</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">일정 등록</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                     <div class="modal-body">

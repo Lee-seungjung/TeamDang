@@ -62,32 +62,32 @@ public class DangScheduleRestController {
 
 	}
 
-	@GetMapping("schedule_memberCheck")
+	@GetMapping("/schedule_memberCheck")
 	public List<JoinMemberVO> checkMemberList(int scheduleNo, int memberNo) {		
 		return dangScheduleDao.checkMemberList(scheduleNo, memberNo);
 	}
 	
-	@PostMapping("schedule_join")
+	@PostMapping("/schedule_join")
 	public void  scheduleJoin(DangJoinDto dangJoinDto) {		
 		 dangScheduleDao.memberJoin(dangJoinDto);
 	}
 	
-	@DeleteMapping("schedule_cancel")
+	@DeleteMapping("/schedule_cancel")
 	public void  scheduleCancel(int scheduleNo, int memberNo) {		
 		 dangScheduleDao.memberJoinCancel(scheduleNo, memberNo);
 	}
 	
-	@GetMapping("schdule_editInfo")
+	@GetMapping("/schdule_editInfo")
 	public ScheduleEditVO selectScheduleInfo(@RequestParam int scheduleNo, @RequestParam Integer dangNo) {
 		return dangScheduleDao.selectScheduleInfo(scheduleNo, dangNo);
 	}
 	
-	 @PutMapping("schedule_edit") 
+	 @PutMapping("/schedule_edit") 
 	 public boolean scheduleEdit(ScheduleEditVO scheduleEditVO) { 
 		 return	 dangScheduleDao.scheduleEdit(scheduleEditVO);
 	 }
 	 
-	 @DeleteMapping("schedule_delete") 
+	 @DeleteMapping("/schedule_delete") 
 	 public boolean scheduleJoinCancel(int scheduleNo, int memberNo) { 
 		 return	 dangScheduleDao.scheduleDelete(scheduleNo, memberNo);
 	 }
