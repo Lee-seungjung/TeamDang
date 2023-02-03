@@ -8,26 +8,13 @@
 
 <style>
 	
-	.user-list-box{
-		background-color:#F1F4FF;
-		padding:30px 40px;
-		text-align:center;
-		border-radius: 0.3rem;
-	}
-	
-	.puppy-list-box{
-		background-color:#F1F4FF;
-		padding:30px 40px;
-		text-align:center;
-		border-radius: 0.3rem;
-	}
-	
-	.member-list-box{
+	.number-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
 		text-align:center;
 		border-radius: 0.3rem;
 	}		
+	
 	.cnt-title{
 		font-size:20px;
 		font-weight:600;
