@@ -480,15 +480,59 @@ $(function(){
 		var type = $(".user-form-select").val("").prop("selected", true);
 		var keyword = $(".user-search-input").val("");
 
-		numberState = $(this).attr("data-numberState");
+		numberState = $(this).attr("data-numberstate");
 		p = 1;
 		console.log(numberState);
 		
 		var formData = new FormData();
 		formData.append("p", p);
 		formData.append("numberState", numberState);
+
 		
+		$(".data-body").empty();//출력 div 비우기
+		//회원 카운트 클릭 조회
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/user_list",
+			method:"post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success:function(resp){
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				if(resp.userList.length==0){
+					var body = $(".data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+				}else{
+					for(var i=0; i<resp.userList.length; i++){
+						userList(resp.userList[i]);
+					}
+					// 초기화
+					$(".ul-user-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						userListPagination(i);
+					}
+				}
+			}
 		});
+	});
 	
 	//회원 목록 비동기 불러오기
 	function userList(resp){

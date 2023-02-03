@@ -475,17 +475,61 @@ $(function(){
 		$(this).parent().addClass("select-color");
 		
 		var type = $(".member-form-select").val("").prop("selected", true);
-		var keyword = $(".member-input").val("");
+		var keyword = $(".member-search-input").val("");
 
-		numberState = $(this).attr("data-numberState");
+		numberState = $(this).attr("data-numberstate");
 		p = 1;
 		console.log(numberState);
 		
 		var formData = new FormData();
 		formData.append("p", p);
 		formData.append("numberState", numberState);
+
 		
+		$(".member-data-body").empty();//출력 div 비우기
+		//회원 카운트 클릭 조회
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/member_list",
+			method:"post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success:function(resp){
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				if(resp.memberList.length==0){
+					var body = $(".member-data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+				}else{
+					for(var i=0; i<resp.memberList.length; i++){
+						userList(resp.memberList[i]);
+					}
+					// 초기화
+					$(".ul-member-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						memberListPagination(i);
+					}
+				}
+			}
 		});
+	});
 	
 	//댕모임 멤버 목록 비동기 불러오기(한번 더 체크하기)
 	function memberList(resp){
