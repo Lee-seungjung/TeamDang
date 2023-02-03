@@ -6,14 +6,14 @@ create sequence dang_seq;
 -- 테이블 생성
 create table dang(
 dang_no number primary key,
-user_no references dang_user(user_no) on delete set null,
+user_no references dang_user(user_no) on delete cascade,
 dang_area varchar2(30) not null,
 dang_name varchar2(30) not null,
 dang_info varchar2(90) not null,
-dang_headmax number not null,
-dang_head number default 1 not null,
+dang_headmax number check(dang_headmax >= 0) not null,
+dang_head number default 1 check(dang_head >= 0) not null,
 dang_createtime date default sysdate not null,
-dang_like number default 0 not null,
+dang_like number default 0 check(dang_like >= 0) not null,
 dang_private char(1) default 'N' check(dang_private in('Y', 'N')) not null,
 dang_pw char(4)
 );
