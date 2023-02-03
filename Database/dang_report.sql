@@ -12,5 +12,5 @@ member_nick varchar2(30) not null,
 report_content varchar2(300) not null,
 report_date date default sysdate not null,
 report_state char(6) default '접수' check(report_state in('접수','반려','완료')) not null,
-report_alert number default 1 not null
+report_alert number default 1 check(report_alert in (0 ,1)) not null
 );
