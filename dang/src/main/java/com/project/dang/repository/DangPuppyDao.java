@@ -76,6 +76,7 @@ public interface DangPuppyDao {
 	/**
 	 * (관리자) 회원목록 내 총 댕댕이 등록 수
 	 * @return dangCount
+	 * 	@param puppyListRequestDto 
 	 */
 	public int dangCount (PuppyListRequestDto puppyListRequestDto);
 	

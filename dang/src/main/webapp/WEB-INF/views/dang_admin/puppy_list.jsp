@@ -103,7 +103,7 @@
 			
   			<div class="row mt-3">
 				<div class = "col d-flex justify-content-center align-items-center">
-					<ul class = "d-flex flex-row ul-puppy-list-page-navigator">
+					<ul class = "d-flex flex-row ul-user-list-page-navigator">
 						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-first d-flex justify-content-center align-items-center">
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
@@ -232,7 +232,7 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.puppyList.length==0){
+				if(resp.userList.length==0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -240,13 +240,13 @@ $(function(){
 					tr.append(td);
 				}else{
 					$(".data-body").empty();
-					for(var i=0; i<resp.puppyList.length; i++){
-						puppyList(resp.puppyList[i]);
+					for(var i=0; i<resp.userList.length; i++){
+						userList(resp.userList[i]);
 					}
 					// 초기화
 					$(".ul-puppy-list-page-item-unit").remove();
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						puppyListPagination(i);
+						userListPagination(i);
 					}
 				}
 			}
@@ -293,7 +293,7 @@ $(function(){
 				
 				$(".puppy-data-body").empty();
 				for(var i=0; i<resp.puppyList.length; i++){
-					puppyList(resp.puppyList[i]);
+					userList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
@@ -344,7 +344,7 @@ $(function(){
 				// 초기화
 				$(".puppy-data-body").empty();
 				for(var i = 0 ; i < resp.puppyList.length ; i++){
-					puppyList(resp.puppyList[i]);
+					userList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
@@ -390,13 +390,13 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.puppyList.length ; i++){
-					puppyList(resp.puppyList[i]);
+				for(var i = 0 ; i < resp.userList.length ; i++){
+					userList(resp.userList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					puppyListPagination(i);
+					userListPagination(i);
 				}						
 			}
 		})			
@@ -439,13 +439,13 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.puppyList.length ; i++){
-					puppyList(resp.puppyList[i]);
+				for(var i = 0 ; i < resp.userList.length ; i++){
+					userList(resp.userList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					puppyListPagination(i);
+					userListPagination(i);
 				}						
 			}
 		})					

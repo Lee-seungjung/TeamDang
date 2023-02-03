@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="회원관리 현황" name="title"/>
+   <jsp:param value="댕모임 멤버수 현황" name="title"/>
 </jsp:include>
 
 <style>
@@ -89,12 +89,13 @@
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
 					<select class="member-form-select flex-fill me-1" style="width:20%;" name="type">
 						<option value="">선택</option>
+						<option value="dang_name">댕모임이름</option>
+						<option value="member_nick">댕모임닉네임</option>
 						<option value="user_id">회원아이디</option>
-						<option value="user_nick">회원닉네임</option>
 					</select>
 					<div class="d-flex" style="width:70%;">
 						<input type="text" class="input form-control member-search-input ms-1 flex-fill" name="keyword">
-						<button class="btn btn-primary user-search-btn ms-1">
+						<button class="btn btn-primary member-search-btn ms-1">
 							<i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
 						</button>
 			    	</div>
@@ -103,14 +104,14 @@
 			
   			<div class="row mt-3">
 				<div class = "col d-flex justify-content-center align-items-center">
-					<ul class = "d-flex flex-row ul-user-list-page-navigator">
+					<ul class = "d-flex flex-row ul-member-list-page-navigator">
 						<li class = "ul-member-list-page-item ul-member-list-page-item-first d-flex justify-content-center align-items-center">
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
 						
 						<c:choose>
-						<c:when test = "${userListRequestDto.blockPrev() != 0}">
-						<li class = "ul-member-list-page-item ul-member-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${userListRequestDto.blockPrev()}">
+						<c:when test = "${memberListRequestDto.blockPrev() != 0}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${memberListRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:when>
@@ -121,20 +122,20 @@
 						</c:otherwise>
 						</c:choose>						
 
-						<c:forEach var = "i" begin = "${userListRequestDto.blockStart()}" end = "${userListRequestDto.blockEnd()}" step = "1">
+						<c:forEach var = "i" begin = "${memberListRequestDto.blockStart()}" end = "${memberListRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-member-list-page-item ul-member-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
 
 						<c:choose>
-						<c:when test = "${userListRequestDto.blockNext() >= userListRequestDto.blockLast()}">
-						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
+						<c:when test = "${memberListRequestDto.blockNext() >= memberListRequestDto.blockLast()}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${memberListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockNext()}">
+						<li class = "ul-member-list-page-item ul-member-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${memberListRequestDto.blockNext()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:otherwise>
@@ -151,30 +152,28 @@
 				<table class="table text-center ">
 					<thead>
 						<tr class="table">
-							<th scope="col" style="width:15%;">회원 번호</th>
-							<th scope="col" style="width:25%;">회원 아이디</th>
-							<th scope="col" style="width:25%;">회원 닉네임</th>
+							<th scope="col" style="width:10%;">모임 번호</th>
+							<th scope="col" style="width:25%;">댕모임명</th>
+							<th scope="col" style="width:25%;">댕모임닉네임(회원아이디)</th>
+							<th scope="col" style="width:25%;">활동점수</th>
 							<th scope="col" style="width:20%;">가입일자</th>
-							<th scope="col">상세</th>
 						</tr>
 					</thead>
-					<tbody class="data-body">
+					<tbody class="member-data-body">
 						<c:choose>
-							<c:when test="${userListAdminB==null}">
+							<c:when test="${memberListAdmin==null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="userListAdminB" items="${userListAdminB}">
+								<c:forEach var="memberListAdmin" items="${memberListAdmin}">
 									<tr class="table align-middle">
-										<td class="list-userNo" data-dno="">${userListAdminB.userNo}</td>
-										<td class="list-userId" data-dno="">${userListAdminB.userId}</td>
-										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
-										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
-										<td>
-											<a class="btn btn-primary user-detail" data-rno="" href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
-										</td>
+										<td class="list-dangNo" data-dno="">${memberListAdmin.dangNo}</td>
+										<td class="list-dangName" data-dno="">${memberListAdmin.dangName}</td>
+										<td class="list-memberNick-userId" data-dno="">${memberListAdmin.memberNick}(${memberListAdmin.userId})</td>
+										<td class="list-memberGrade-memberScore" data-dno="">${memberListAdmin.memberGrade}(${memberListAdmin.memberScore})</td>
+										<td class="list-memberJoindate" data-dno="">${memberListAdmin.memberJoindate}</td>
 									</tr> 
 								</c:forEach>	       
 							</c:otherwise>
@@ -191,15 +190,15 @@
 <script>
 $(function(){
 	//검색 버튼 클릭 이벤트
-	$(document).on("click",".user-search-btn", function(){
+	$(document).on("click",".member-search-btn", function(){
 		
-		var userSelectBox = $(".member-form-select").val();
-		console.log(userSelectBox);
+		var memberSelectBox = $(".member-form-select").val();
+		console.log(memberSelectBox);
 		
-		var userSearchInput = $(".member-search-input").val();
-		console.log(userSearchInput);	
+		var memberSearchInput = $(".member-search-input").val();
+		console.log(memberSearchInput);	
 		
-		if(userSelectBox == "" || userSearchInput == "") {
+		if(memberSelectBox == "" || memberSearchInput == "") {
 			console.log("안돼");
 			return;
 		}
@@ -208,8 +207,8 @@ $(function(){
 		
 		var formData = new FormData();
 		formData.append("p", 1);
-		formData.append("type", userSelectBox);
-		formData.append("keyword", userSearchInput);
+		formData.append("type", memberSelectBox);
+		formData.append("keyword", memberSearchInput);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/member_list",
@@ -234,16 +233,16 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.userList.length==0){
-					var body = $(".data-body");
+				if(resp.memberList.length==0){
+					var body = $(".member-data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 									.text("내역이 존재하지 않습니다.");
 					tr.append(td);
 				}else{
-					$(".data-body").empty();
-					for(var i=0; i<resp.userList.length; i++){
-						userList(resp.userList[i]);
+					$(".member-data-body").empty();
+					for(var i=0; i<resp.memberList.length; i++){
+						memberList(resp.memberList[i]);
 					}
 					// 초기화
 					$(".ul-member-list-page-item-unit").remove();
@@ -294,8 +293,8 @@ $(function(){
 				}
 				
 				$(".data-body").empty();
-				for(var i=0; i<resp.userList.length; i++){
-					userList(resp.userList[i]);
+				for(var i=0; i<resp.memberList.length; i++){
+					memberList(resp.memberList[i]);
 				}
 				// 초기화
 				$(".ul-member-list-page-item-unit").remove();
@@ -345,8 +344,8 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.memberList.length ; i++){
+					memberList(resp.memberList[i]);
 				}
 				// 초기화
 				$(".ul-member-list-page-item-unit").remove();
@@ -392,8 +391,8 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.memberList.length ; i++){
+					memberList(resp.memberList[i]);
 				}
 				// 초기화
 				$(".ul-member-list-page-item-unit").remove();
@@ -441,8 +440,8 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.memberList.length ; i++){
+					memberList(resp.memberList[i]);
 				}
 				// 초기화
 				$(".ul-member-list-page-item-unit").remove();
@@ -472,9 +471,9 @@ $(function(){
 	
 	//댕모임 멤버 목록 페이징
 	function memberListPagination(resp){
-		$(".-next")
+		$(".ul-member-list-page-item-next")
 			.before(
-				$("<li>").attr("class", " -unit d-flex justify-content-center align-items-center")
+				$("<li>").attr("class", "ul-member-list-page-item ul-member-list-page-item-unit d-flex justify-content-center align-items-center")
 					.append(
 						$("<span>").text(resp)	
 					)

@@ -20,6 +20,9 @@ import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangListAdminRestResponseDto;
 import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.MemberListDto;
+import com.project.dang.dto.MemberListRequestDto;
+import com.project.dang.dto.MemberListResponseDto;
 import com.project.dang.dto.PuppyListDto;
 import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.dto.PuppyListResponseDto;
@@ -29,6 +32,7 @@ import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.dto.UsertListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangDao;
+import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangUserDao;
@@ -42,6 +46,7 @@ public class AdminRestController {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
 	@Autowired
 	private DangReportDao dangReportDao;
 	
@@ -53,6 +58,9 @@ public class AdminRestController {
 	
 	@Autowired
 	private DangPuppyDao dangPuppyDao;
+	
+	@Autowired
+	private DangMemberDao dangMemberDao;
 	
 	//전체 조회(5개)
 	@GetMapping("/group_list")
@@ -164,9 +172,9 @@ public class AdminRestController {
 		System.out.println(puppyListRequestDto.getP());
 		
 		// 총 댕댕이수 조회
-		int userTotal = dangPuppyDao.dangCount(puppyListRequestDto);
+		int puppyTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		// dto에 총 갯수 설정
-		puppyListRequestDto.setTotal(userTotal);
+		puppyListRequestDto.setTotal(puppyTotal);
 		// 회원 목록 전체/ 검색 조회
 		List<PuppyListDto> puppyListAdmin = dangPuppyDao.searchPuppyListAdmin(puppyListRequestDto);
 		// 반환용 객체 생성
@@ -180,6 +188,32 @@ public class AdminRestController {
 		puppyListResponseDto.setBlockLast(puppyListRequestDto.blockLast());
 		System.out.println(puppyListRequestDto.toString());
 		return puppyListResponseDto;
+	}
+	
+	@PostMapping("/member_list")
+	public 	MemberListResponseDto selectMemberList(@ModelAttribute MemberListRequestDto memberListRequestDto) {
+		
+		System.out.println(memberListRequestDto.getType());
+		System.out.println(memberListRequestDto.getKeyword());
+		System.out.println(memberListRequestDto.getP());
+		
+		// 총 댕모임 멤버수 조회
+		int memberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
+		// dto에 총 갯수 설정
+		memberListRequestDto.setTotal(memberTotal);
+		// 댕모임 멤버 목록 전체/ 검색 조회
+		List<MemberListDto> memberListAdmin = dangMemberDao.searchMemberListAdmin(memberListRequestDto);
+		// 반환용 객체 생성
+		MemberListResponseDto memberListResponseDto = new MemberListResponseDto();
+		memberListResponseDto.setMemberList(memberListAdmin);
+		memberListResponseDto.setBlockStart(memberListRequestDto.blockStart());
+		memberListResponseDto.setBlockEnd(memberListRequestDto.blockEnd());
+		memberListResponseDto.setBlockPrev(memberListRequestDto.blockPrev());
+		memberListResponseDto.setBlockNext(memberListRequestDto.blockNext());
+		memberListResponseDto.setBlockFirst(memberListRequestDto.blockFirst());
+		memberListResponseDto.setBlockLast(memberListRequestDto.blockLast());
+		System.out.println(memberListRequestDto.toString());
+		return memberListResponseDto;
 	}
 	
 }

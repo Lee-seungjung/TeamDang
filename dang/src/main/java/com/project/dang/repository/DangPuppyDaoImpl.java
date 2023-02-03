@@ -96,6 +96,6 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 	public List<PuppyListDto> searchPuppyListAdmin(PuppyListRequestDto puppyListRequestDto) {
 		puppyListRequestDto.setRownumStart(puppyListRequestDto.rownumStart());
 		puppyListRequestDto.setRownumEnd(puppyListRequestDto.rownumEnd());		
-		return sqlSession.selectList("dangUser.searchUserListAdmin", puppyListRequestDto);
+		return sqlSession.selectList("dangPuppy.searchPuppyListAdmin", puppyListRequestDto);
 	}
 }
