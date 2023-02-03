@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.DangMemberJoinDto;
+import com.project.dang.dto.MemberListDto;
+import com.project.dang.dto.MemberListRequestDto;
 import com.project.dang.vo.MemberEditVO;
 import com.project.dang.vo.MemberListVO;
 
@@ -188,7 +190,19 @@ public class DangMemberDaoImpl implements DangMemberDao{
 	}
 
 	@Override
-	public int dangJoinCount() {
+	public int dangJoinCount(MemberListRequestDto memberListRequestDto) {
 		return sqlSession.selectOne("dangMember.dangJoinCount");
+	}
+
+	@Override
+	public List<MemberListDto> memberList() {
+		return sqlSession.selectList("dangMember.memberList");
+	}
+
+	@Override
+	public List<MemberListDto> searchMemberListAdmin(MemberListRequestDto memberListRequestDto) {
+		memberListRequestDto.setRownumStart(memberListRequestDto.rownumStart());
+		memberListRequestDto.setRownumEnd(memberListRequestDto.rownumEnd());		
+		return sqlSession.selectList("dangMember.searchMemberListAdmin", memberListRequestDto);
 	}
 }

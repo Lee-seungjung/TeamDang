@@ -5,6 +5,10 @@ import java.util.List;
 import com.project.dang.dto.DangAttendanceDto;
 import com.project.dang.dto.DangMemberDto;
 import com.project.dang.dto.DangMemberJoinDto;
+import com.project.dang.dto.MemberListDto;
+import com.project.dang.dto.MemberListRequestDto;
+import com.project.dang.dto.PuppyListDto;
+import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.vo.MemberEditVO;
 import com.project.dang.vo.MemberListVO;
 
@@ -187,9 +191,23 @@ public interface DangMemberDao {
 	
 	/**
 	 * (관리자) 회원목록 내  댕모임 가입자 수
+	 * 	@param memberListRequestDto 
 	 * @return dangJoinCount
 	 */
-	public int dangJoinCount ();
+	public int dangJoinCount (MemberListRequestDto memberListRequestDto);
+	
+	/**
+	 * (관리자) 댕모임 멤버 목록 조회
+	 * @return List<MemberListDto>
+	 */
+	public List<MemberListDto> memberList();
+	
+	/**
+	 * (관리자) 댕댕이 목록 전체/ 검색 조회
+	 * @param memberListRequestDto 
+	 * @return List<MemberListDto>
+	 */
+	public List<MemberListDto> searchMemberListAdmin(MemberListRequestDto memberListRequestDto);
 	
 	
 }

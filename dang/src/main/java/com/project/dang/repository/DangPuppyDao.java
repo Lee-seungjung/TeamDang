@@ -5,6 +5,10 @@ import java.util.List;
 import com.project.dang.dto.DangPuppyDto;
 import com.project.dang.dto.DangPuppyInfoDto;
 import com.project.dang.dto.DangPuppyListDto;
+import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.PuppyListDto;
+import com.project.dang.dto.PuppyListRequestDto;
+import com.project.dang.dto.UserListRequestDto;
 
 public interface DangPuppyDao {
 
@@ -72,6 +76,22 @@ public interface DangPuppyDao {
 	/**
 	 * (관리자) 회원목록 내 총 댕댕이 등록 수
 	 * @return dangCount
+	 * 	@param puppyListRequestDto 
 	 */
-	public int dangCount ();
+	public int dangCount (PuppyListRequestDto puppyListRequestDto);
+	
+	/**
+	 * (관리자) 댕댕이 목록 조회
+	 * @param userNo:회원 번호
+	 * @return List<PuppyListDto>
+	 */
+	public List<PuppyListDto> puppyList();
+	
+	/**
+	 * (관리자) 댕댕이 목록 전체/ 검색 조회
+	 * @param puppyListRequestDto : 
+	 * @return List<PuppyListDto>
+	 */
+	public List<PuppyListDto> searchPuppyListAdmin(PuppyListRequestDto puppyListRequestDto);
+	
 }

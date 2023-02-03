@@ -20,12 +20,20 @@ import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangListAdminRestResponseDto;
 import com.project.dang.dto.DangReportDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.MemberListDto;
+import com.project.dang.dto.MemberListRequestDto;
+import com.project.dang.dto.MemberListResponseDto;
+import com.project.dang.dto.PuppyListDto;
+import com.project.dang.dto.PuppyListRequestDto;
+import com.project.dang.dto.PuppyListResponseDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.dto.ReportListResponseDto;
 import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.dto.UsertListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangDao;
+import com.project.dang.repository.DangMemberDao;
+import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangGroupRegionVO;
@@ -38,6 +46,7 @@ public class AdminRestController {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
 	@Autowired
 	private DangReportDao dangReportDao;
 	
@@ -46,6 +55,12 @@ public class AdminRestController {
 	
 	@Autowired
 	private DangUserDao dangUserDao;
+	
+	@Autowired
+	private DangPuppyDao dangPuppyDao;
+	
+	@Autowired
+	private DangMemberDao dangMemberDao;
 	
 	//전체 조회(5개)
 	@GetMapping("/group_list")
@@ -126,9 +141,9 @@ public class AdminRestController {
 	@PostMapping("/user_list")
 	public UsertListResponseDto selectUserList(@ModelAttribute UserListRequestDto userListRequestDto) {
 		
-		System.out.println(userListRequestDto.getType());
-		System.out.println(userListRequestDto.getKeyword());
-		System.out.println(userListRequestDto.getP());
+		//System.out.println(userListRequestDto.getType());
+		//System.out.println(userListRequestDto.getKeyword());
+		//System.out.println(userListRequestDto.getP());
 		
 		// 총 회원수 조회
 		int userTotal = dangUserDao.userCount(userListRequestDto);
@@ -147,6 +162,58 @@ public class AdminRestController {
 		userListResponseDto.setBlockLast(userListRequestDto.blockLast());
 		System.out.println(userListRequestDto.toString());
 		return userListResponseDto;
+	}
+	
+	@PostMapping("/puppy_list")
+	public PuppyListResponseDto selectPuppyList(@ModelAttribute PuppyListRequestDto puppyListRequestDto) {
+		
+		System.out.println(puppyListRequestDto.getType());
+		System.out.println(puppyListRequestDto.getKeyword());
+		System.out.println(puppyListRequestDto.getP());
+		
+		// 총 댕댕이수 조회
+		int puppyTotal = dangPuppyDao.dangCount(puppyListRequestDto);
+		// dto에 총 갯수 설정
+		puppyListRequestDto.setTotal(puppyTotal);
+		// 회원 목록 전체/ 검색 조회
+		List<PuppyListDto> puppyListAdmin = dangPuppyDao.searchPuppyListAdmin(puppyListRequestDto);
+		// 반환용 객체 생성
+		PuppyListResponseDto puppyListResponseDto = new PuppyListResponseDto();
+		puppyListResponseDto.setPuppyList(puppyListAdmin);
+		puppyListResponseDto.setBlockStart(puppyListRequestDto.blockStart());
+		puppyListResponseDto.setBlockEnd(puppyListRequestDto.blockEnd());
+		puppyListResponseDto.setBlockPrev(puppyListRequestDto.blockPrev());
+		puppyListResponseDto.setBlockNext(puppyListRequestDto.blockNext());
+		puppyListResponseDto.setBlockFirst(puppyListRequestDto.blockFirst());
+		puppyListResponseDto.setBlockLast(puppyListRequestDto.blockLast());
+		System.out.println(puppyListRequestDto.toString());
+		return puppyListResponseDto;
+	}
+	
+	@PostMapping("/member_list")
+	public 	MemberListResponseDto selectMemberList(@ModelAttribute MemberListRequestDto memberListRequestDto) {
+		
+		System.out.println(memberListRequestDto.getType());
+		System.out.println(memberListRequestDto.getKeyword());
+		System.out.println(memberListRequestDto.getP());
+		
+		// 총 댕모임 멤버수 조회
+		int memberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
+		// dto에 총 갯수 설정
+		memberListRequestDto.setTotal(memberTotal);
+		// 댕모임 멤버 목록 전체/ 검색 조회
+		List<MemberListDto> memberListAdmin = dangMemberDao.searchMemberListAdmin(memberListRequestDto);
+		// 반환용 객체 생성
+		MemberListResponseDto memberListResponseDto = new MemberListResponseDto();
+		memberListResponseDto.setMemberList(memberListAdmin);
+		memberListResponseDto.setBlockStart(memberListRequestDto.blockStart());
+		memberListResponseDto.setBlockEnd(memberListRequestDto.blockEnd());
+		memberListResponseDto.setBlockPrev(memberListRequestDto.blockPrev());
+		memberListResponseDto.setBlockNext(memberListRequestDto.blockNext());
+		memberListResponseDto.setBlockFirst(memberListRequestDto.blockFirst());
+		memberListResponseDto.setBlockLast(memberListRequestDto.blockLast());
+		System.out.println(memberListRequestDto.toString());
+		return memberListResponseDto;
 	}
 	
 }

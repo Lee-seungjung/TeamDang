@@ -141,9 +141,24 @@
 		delete dang_member where dang_no = #{dangNo} and user_no = #{userNo}
 	</delete>
 	
-	 <!-- (관리자) 총 댕모임 가입자 수 -->
-	<select id = "dangJoinCount" resultType = "int">
+	 <!-- (관리자) 총 댕모임 멤버 수 -->
+	<select id = "dangJoinCount" parameterType = "MemberListRequestDto" resultType = "int">
 		select COUNT(*) from dang_member
 	</select>
+	
+	<!-- (관리자) 댕모임 멤버 목록 전체/검색 조회-->
+	<select id = "searchMemberListAdmin"   parameterType = "MemberListRequestDto" resultType = "MemberListDto">
+  		select * from (
+			select tmp.*, rownum rn from (
+		  		select * from dang_member_info
+				<where>
+					<if test = "type != null and keyword != null">
+						and instr(${type}, #{keyword}) > 0
+					</if>
+				</where>
+				order by dang_no asc
+	  		)tmp
+		) where rn between #{rownumStart} and #{rownumEnd}
+	</select>	
 	
 </mapper>

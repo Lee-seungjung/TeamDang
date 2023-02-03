@@ -453,7 +453,7 @@ $(function(){
 		})					
 	});
 	
-	
+	//회원 목록 비동기 불러오기
 	function userList(resp){
 		var body = $(".data-body");
 		
@@ -470,6 +470,7 @@ $(function(){
 		body.append(tr);
 	}
 	
+	//회원 목록 페이징
 	function userListPagination(resp){
 		$(".ul-user-list-page-item-next")
 			.before(
@@ -479,6 +480,7 @@ $(function(){
 					)
 			)
 	}
+	
 	
 });
 
