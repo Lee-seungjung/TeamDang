@@ -2,7 +2,7 @@
 create table dang_hashtag (
 hashtag_no number primary key,
 dang_no references dang(dang_no) on delete cascade,
-hashtag_content varchar2(30)
+hashtag_content varchar2(30) not null
 );
 
 -- 시퀀스 생성
