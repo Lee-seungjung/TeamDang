@@ -12,7 +12,7 @@ place_operation varchar2(30),
 place_off varchar2(30),
 place_tel varchar2(13),
 place_url varchar2(4000),
-size varchar2(9),
+dang_size varchar2(9) check(dang_size in('소형견', '중형견', '대형견'))
 );
 
 --모임장소 PK 시퀀스 번호 생성 구문
