@@ -1,7 +1,9 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.List;
 
+import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
@@ -150,6 +152,31 @@ public interface DangUserDao {
 	 * @return List<DangUserListDto>
 	 */
 	public List<DangUserListDto> searchUserListAdmin(UserListRequestDto userListRequestDto);
+	
+	/**
+	 * (마이페이지 메인) 활동지역 리스트 조회
+	 * @param userListRequestDto : 
+	 * @return List<DangUserListDto>
+	 */
+	public List<DangInterestDto> mypageInterestArea(int userNo);
+		
+	/**
+	 * (마이페이지 메인) 등록 댕댕이수 조회
+	 * @param int userNo :
+	 */
+	public int mypageDangNum(int userNo);
+	
+	/**
+	 * (마이페이지 메인) 활동 댕모임 수 조회
+	 * @param int userNo, int dangNo :
+	 */
+	public int mypagePartyNum(int userNo);
+	
+	/**
+	 * (마이페이지 메인) 최근 로그인 조회
+	 * @param int userNo :
+	 */
+	public Date mypageLogin(int userNo);
 	
 }
 

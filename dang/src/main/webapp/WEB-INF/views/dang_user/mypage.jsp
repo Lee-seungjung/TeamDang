@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp">
 	<jsp:param value="마이페이지" name="title"/>
 </jsp:include>
@@ -103,8 +103,9 @@
 
                 <div class="row">
                     <div class="col d-flex flex-column justify-content-center align-items-center py-3">				
-                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님,</span>
-                        <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>
+                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님</span>
+                        <span class="hello-common">댕댕이와 함께하는 모임, 댕모임입니다.</span>
+                        <!--  <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>-->
                     </div>
                 </div>
 
@@ -122,79 +123,92 @@
 
                             
                             <div class="col-6 dang-owner-info">
-
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">관심지역</span>
-                                    </div>
+                                    </div>                                                       
                                     <div class = "owner-common2 col-5 d-flex flex-column">
-                                    
-                                        <span class = "span-info">서울 강남구</span>
-                                        <span class = "span-info">서울 강남구</span>
-                                        <span class = "span-info">서울 강남구</span>
+                                    <c:choose> 
+                                    <c:when test="${mypageInterestArea!= null}">  
+	                                   	 <c:forEach var="InterestArea" items="${mypageInterestArea}">      
+	                                        <span class = "span-info">${InterestArea.mypageInterestArea}</span>
+	                                      </c:forEach>  
+                                       </c:when>   
+                                       <c:otherwise>
+                                       <span class = "span-info">-</span>
+                                       </c:otherwise>
+                            		 </c:choose> 
                                     </div>
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-5 offset-1">
+                                
+                                    <div class = "owner-common col-5 offset-1">                                   
                                         <span class = "span-info-category">키우는 댕</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
-                                        <span class = "span-info">2마리</span>
-                                    </div>
+									<div class = "owner-common2 col-5">
+									<c:choose>
+									 <c:when test="${mypageDangNum!= null}">   
+									       <span class = "span-info">${mypageDangNum}마리</span>
+									</c:when>
+                                       <c:otherwise>									
+											<span class = "span-info">댕댕이 정보를 등록해주세요.</span>
+                                       </c:otherwise>	
+                                       </c:choose>										
+								  </div>
+
                                 </div>
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">활동 댕모임</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
-                                        <span class = "span-info">3개</span>
+                                    <div class = "owner-common2 col-5">       
+                                    <c:choose>                             
+                                    <c:when test="${mypagePartyNum!= null}">
+                                        <span class = "span-info">${mypagePartyNum}개</span>
+									</c:when>
+									<c:otherwise>
+									    <span class = "span-info">활동 댕모임이 없습니다.</span>
+									</c:otherwise>
+									</c:choose>
                                     </div>
+
                                 </div>
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">최근 로그인</span>
                                     </div>
                                     <div class = "owner-common2 col-5">
-                                        <span class = "span-info">2023.02.01</span>
+                                        <span class = "span-info">${mypageLogin}</span>
                                     </div>
-                                </div>                                
+                                </div>                       
                             </div>
 
 
                         </div>
-
                     </div>
                     
                     <div class="col-5 mydang-border">
 				                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-									  <div class="carousel-indicators">
-									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-									  </div>
+				                    <c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
 									  <div class="carousel-inner">
 									    <div class="carousel-item active">
-									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
-									      <div class="carousel-caption d-none d-md-block">
-									        <h5>First slide label</h5>
-									        <p>Some representative placeholder content for the first slide.</p>
-									      </div>
-									    </div>
-									    <div class="carousel-item">
-									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
-									      <div class="carousel-caption d-none d-md-block">
-									        <h5>Second slide label</h5>
-									        <p>Some representative placeholder content for the second slide.</p>
-									      </div>
-									    </div>
-									    <div class="carousel-item">
-									      <img src="https://placeimg.com/600/300/any" class="d-block w-100" alt="...">
-									      <div class="carousel-caption d-none d-md-block">
-									        <h5>Third slide label</h5>
-									        <p>Some representative placeholder content for the third slide.</p>
-									      </div>
-									    </div>
+									    <div class="container-fluid">
+									    	<div class="row">
+									    	 	<div class="py-3 col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
+											    <img class = "w-75 img-puppy-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+											      </div>											      
+									       </div>
+									    	 	<div class="col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
+											       	<div class="">
+												        <h5>${dangPuppyList.dangPuppyInfoDto.puppyName}</h5>
+												        <p>${dangPuppyList.dangPuppyInfoDto.puppyAge}, ${dangPuppyList.dangPuppyInfoDto.puppyGender}</p>
+											      </div>
+											     </div>									       
+									    </div>								    
+									   </div>
+
 									  </div>
+									  </c:forEach>
 									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
 									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 									    <span class="visually-hidden">Previous</span>
@@ -205,54 +219,6 @@
 									  </button>
 									</div>
                     
- <%--                        <div class="row">
-                        
-                            <div class="col-6 dang-profile">
-                                <div class="dang-photo row px-3 py-4 d-flex flex-column align-items-center justify-content-center">
-                                    <img class="row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" >
-                                    <div class="dang-gender">
-                                     <img class="row img-fluid img-dang" src ="">
-                                    </div>
-                                    <span class="row d-flex align-items-center justify-content-center py-1 ">초코</span>
-                                </div>
-                            </div>
-                            <div class="col-6 dang-info">
-                            
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">이름</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">초코</span>
-                                    </div>
-                                </div>
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">나이</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">3살</span>
-                                    </div>
-                                </div>
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">성별</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">여아</span>
-                                    </div>
-                                </div>                     
-                            </div>
-
-                        </div>  
-                        <div class="row dang-detail">
-                            <div class="col-12 dang-detail py-3 d-flex justify-content-center align-items-center">
-                                <span class="detail-1 px-2">#낮을가려요</span>
-                                <span class="detail-2 px-2">#사람을좋아해요</span>
-                                <span class="detail-3 px-2">#입질이있어요</span>
-                            </div>
-                        </div>     --%>
-
                         </div> <!-- col-5끝 -->
                     </div>
             

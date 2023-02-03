@@ -8,12 +8,13 @@
 
 <style>
 	
-	.puppy-list-box{
+	.number-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
 		text-align:center;
 		border-radius: 0.3rem;
-	}
+	}	
+	
 	.cnt-title{
 		font-size:20px;
 		font-weight:600;
@@ -65,21 +66,21 @@
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
-					<div class = "col puppy-list-box select-color">
-						<p class="mb-1 cnt-title">총 가입자 수</p>
-						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
+					<div class = "col number-box select-color user-number" onclick="location.href='${pageContext.request.contextPath}/admin/user_list'">
+						<p class="mb-1 cnt-title">가입자 수</p>
+						<p class="mt-1 cnt-num"  data-numberstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col puppy-list-box">
-						<p class="mb-1 cnt-title">총 댕 등록 수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
+					<div class = "col number-box puppy-number" onclick="location.href='${pageContext.request.contextPath}/admin/puppy_list'">
+						<p class="mb-1 cnt-title">댕 등록 수</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col puppy-list-box">
-						<p class="mb-1 cnt-title" >총 댕모임 가입자수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕모임가입자수">${dangMemberTotal}명</p>
+					<div class = "col number-box member-number" onclick="location.href='${pageContext.request.contextPath}/admin/member_list'">
+						<p class="mb-1 cnt-title" >댕모임 멤버 수</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕모임멤버수">${dangMemberTotal}명</p>
 					</div>
 				</div>
 			</div>
@@ -188,6 +189,20 @@
 
 <script>
 $(function(){
+	
+	// 카테고리 색 변경
+	$(".puppy-number").css("background-color", "#D6DEFF");
+	
+	//목록 조회 시 가입자수,댕등록수,댕모임멤버수 색상 변경
+	var url = new URL(location.href);
+	var numberState = url.searchParams.get("numberState");
+	$(".number-box").removeClass("select-color");
+	$(".cnt-num[data-numberState="+numberState+"]").parent().addClass("select-color");
+	
+	var p = 1;
+	var numberState = "댕모임멤버수";
+	var type;
+	var keyword;
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".puppy-search-btn", function(){
 		
@@ -203,10 +218,11 @@ $(function(){
 		}
 		
 		console.log("돼");
-		
+		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
-		formData.append("type", puppySelectBox);
+		formData.append("numberState", numberState);
+		formData.append("type", userSelectBox);
 		formData.append("keyword", puppySearchInput);
 		
 		$.ajax({
@@ -261,6 +277,7 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
@@ -314,6 +331,7 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
@@ -360,7 +378,8 @@ $(function(){
 		// 마지막 페이지 번호
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
-		var formData = new FormData();
+		var formData = new FormData()
+		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
@@ -409,6 +428,7 @@ $(function(){
 		p = 1;
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
@@ -449,6 +469,68 @@ $(function(){
 				}						
 			}
 		})					
+	});
+	
+	//카테고리 조회
+	$(document).on("click", ".cnt-num", function(){
+		$(".number-box").removeClass("select-color");
+		$(this).parent().addClass("select-color");
+		
+		var type = $(".member-form-select").val("").prop("selected", true);
+		var keyword = $(".member-search-input").val("");
+
+		numberState = $(this).attr("data-numberstate");
+		p = 1;
+		console.log(numberState);
+		
+		var formData = new FormData();
+		formData.append("p", p);
+		formData.append("numberState", numberState);
+
+		
+		$(".puppy-data-body").empty();//출력 div 비우기
+		//댕댕이 카운트 클릭 조회
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/puppy_list",
+			method:"post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success:function(resp){
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-puppy-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-puppy-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-puppy-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-puppy-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				if(resp.puppyList.length==0){
+					var body = $(".puppy-data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+				}else{
+					for(var i=0; i<resp.puppyList.length; i++){
+						userList(resp.puppyList[i]);
+					}
+					// 초기화
+					$(".ul-puppy-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						puppyListPagination(i);
+					}
+				}
+			}
+		});
 	});
 	
 	//댕댕이 목록 비동기 불러오기

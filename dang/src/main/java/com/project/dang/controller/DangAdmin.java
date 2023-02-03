@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,10 +14,12 @@ import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.MemberListDto;
+import com.project.dang.dto.MemberListRequestDto;
+import com.project.dang.dto.PuppyListDto;
 import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.dto.ReportListRequestDto;
 import com.project.dang.dto.UserListRequestDto;
-import com.project.dang.dto.UsertListResponseDto;
 import com.project.dang.repository.AdminDao;
 import com.project.dang.repository.DangChatDao;
 import com.project.dang.repository.DangDao;
@@ -128,7 +129,7 @@ public class DangAdmin {
 	//회원목록 조회(회원관리 현황)
 	@GetMapping("/user_list")
 	public String UserList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
-			, @ModelAttribute PuppyListRequestDto puppyListRequestDto) {
+			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
 		// 회원 목록 전체 조회
 		List<DangUserListDto> userListAdmin = dangUserDao.UserList();
 		//System.out.println(userListAdmin.toString());
@@ -146,7 +147,7 @@ public class DangAdmin {
 		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		model.addAttribute("dangTotal", dangTotal);
 		// 총 댕모임 가입자수 조회
-		int dangMemberTotal = dangMemberDao.dangJoinCount();
+		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/user_list";
 	}
@@ -159,5 +160,49 @@ public class DangAdmin {
 		// 회원 목록 상세 조회		
 		model.addAttribute("userDetail", userDetail);
 		return "dang_admin/user_detail";
+	}
+	
+	//댕댕이 목록 조회(회원관리 현황)
+	@GetMapping("/puppy_list")
+	public String PuppyList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
+			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount(userListRequestDto);
+		// dto에 총 갯수 설정
+		userListRequestDto.setTotal(userTotal);
+		//System.out.println(userTotal);
+		model.addAttribute("userTotal",userTotal);
+		// 댕댕이 목록 전체/ 검색 조회
+		List<PuppyListDto> puppyListAdmin = dangPuppyDao.searchPuppyListAdmin(puppyListRequestDto);
+		model.addAttribute("puppyListAdmin", puppyListAdmin);
+		//총 댕댕이 등록 수 조회
+		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
+		model.addAttribute("dangTotal", dangTotal);
+		// 총 댕모임 가입자수 조회
+		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
+		model.addAttribute("dangMemberTotal", dangMemberTotal);
+		return "dang_admin/puppy_list";
+	}
+	
+	//댕모임 멤버 목록 조회(회원관리 현황)
+	@GetMapping("/member_list")
+	public String MemberList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
+			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount(userListRequestDto);
+		// dto에 총 갯수 설정
+		userListRequestDto.setTotal(userTotal);
+		//System.out.println(userTotal);
+		model.addAttribute("userTotal",userTotal);
+		// 댕모임 멤버 목록 전체/ 검색 조회
+		List<MemberListDto> memberListAdmin = dangMemberDao.searchMemberListAdmin(memberListRequestDto);
+		model.addAttribute("memberListAdmin", memberListAdmin);
+		//총 댕댕이 등록 수 조회
+		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
+		model.addAttribute("dangTotal", dangTotal);
+		// 총 댕모임 가입자수 조회
+		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
+		model.addAttribute("dangMemberTotal", dangMemberTotal);
+		return "dang_admin/member_list";
 	}
 }

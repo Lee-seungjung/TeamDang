@@ -2,6 +2,7 @@ package com.project.dang.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.dang.dto.AttachmentDto;
+import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserJoinRequestDto;
@@ -135,7 +137,7 @@ public class DangUserController {
 	
 	// 마이페이지
 	@GetMapping("/mypage")
-	public String mypage(HttpSession session, Model model) {
+	public String mypage(HttpSession session, Model model, DangUserDto dangUserDto) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
 		// 로그인 중인 회원의 댕댕이 목록 반환
@@ -144,6 +146,23 @@ public class DangUserController {
 		model.addAttribute("userInfo", dangUserDao.selectUserInfo(userNo));
 		// 조회한 댕댕이 정보를 Model에 추가
 		model.addAttribute("dangPuppyList", dangPuppyList);
+		
+		//마이페이지 등록한 관심지역 반환
+		List<DangInterestDto> interestArea = dangUserDao.mypageInterestArea(userNo);
+		//마이페이지 등록한 댕댕이 수 반환
+		int mypageDangNum = dangUserDao.mypageDangNum(userNo);
+		//마이페이지 등록한 댕모임 수 반환
+		int mypagePartyNum = dangUserDao.mypagePartyNum(userNo);
+		//마이페이지 등록한 로그인 일자 반환
+		Date mypageLogin = dangUserDao.mypageLogin(userNo);
+		//조회한 관심지역 리스트  Model에 추가
+		model.addAttribute("interestArea", interestArea);
+		//조회한 댕댕이 수 Model에 추가
+		model.addAttribute("mypageDangNum", mypageDangNum);
+		//조회한 활동 댕모임 수 Model에 추가
+		model.addAttribute("mypagePartyNum", mypagePartyNum);
+		//조회한 최근 로그인 일자 Model에 추가	
+		model.addAttribute("mypageLogin", mypageLogin);
 		return "dang_user/mypage";
 	}
 	
