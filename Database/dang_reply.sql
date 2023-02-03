@@ -7,7 +7,7 @@ member_nick varchar2(30) not null,
 reply_content varchar2(300) not null,
 reply_writedate date default sysdate not null,
 reply_updatedate date,
-reply_state char(1) default 'N' check(reply_state in('Y', 'N'))
+reply_state char(1) default 'N' check(reply_state in('Y', 'N')) not null
 );
 
 -- 시퀀스 생성
