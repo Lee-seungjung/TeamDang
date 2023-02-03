@@ -121,5 +121,24 @@
 		) where rn between #{rownumStart} and #{rownumEnd}
 	</select>
 	
-		
+			<!-- (마이페이지) 관심지역 조회-->
+	<select id = "mypageInterestArea"   parameterType = "int" resultType = "String">
+		select interest_area from dang_interest where user_no = #{userNo}
+	</select>
+	
+			<!-- (마이페이지) 등록 댕댕이수 조회-->
+	<select id = "mypageDangNum"   parameterType = "int" resultType = "int">
+		select count(*) from dang_puppy where user_no = #{userNo}
+	</select>
+	
+			<!-- (마이페이지) 활동 댕모임 수 조회-->
+	<select id = "mypagePartyNum"   parameterType = "int" resultType = "int">
+		select count(*) from party_number where user_no = #{userNo}
+	</select>
+	
+			<!-- (마이페이지) 최근로그인 조회-->
+	<select id = "mypageLogin"   parameterType = "int" resultType = "java.sql.Date">
+		select user_logindate from dang_user where user_no = #{userNo}
+	</select>
+	
 </mapper>

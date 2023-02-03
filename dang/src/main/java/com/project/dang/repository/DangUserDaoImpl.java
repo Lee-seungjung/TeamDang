@@ -1,5 +1,6 @@
 package com.project.dang.repository;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
@@ -165,5 +167,25 @@ public class DangUserDaoImpl implements DangUserDao {
 		userListRequestDto.setRownumStart(userListRequestDto.rownumStart());
 		userListRequestDto.setRownumEnd(userListRequestDto.rownumEnd());		
 		return sqlSession.selectList("dangUser.searchUserListAdmin", userListRequestDto);
+	}
+
+	@Override
+	public List<DangInterestDto> mypageInterestArea(int userNo) {
+		return sqlSession.selectList("dangUser.mypageInterestArea", userNo);
+	}
+
+	@Override
+	public int mypageDangNum(int userNo) {
+		return sqlSession.selectOne("dangUser.mypageDangNum", userNo);
+	}
+
+	@Override
+	public int mypagePartyNum(int userNo) {
+		return sqlSession.selectOne("dangUser.mypagePartyNum", userNo);
+	}
+
+	@Override
+	public Date mypageLogin(int userNo) {
+		return sqlSession.selectOne("dangUser.mypageLogin", userNo);
 	}
 }

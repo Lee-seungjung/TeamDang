@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp">
 	<jsp:param value="마이페이지" name="title"/>
 </jsp:include>
@@ -103,8 +103,9 @@
 
                 <div class="row">
                     <div class="col d-flex flex-column justify-content-center align-items-center py-3">				
-                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님,</span>
-                        <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>
+                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님</span>
+                        <span class="hello-common">댕댕이와 함께하는 모임, 댕모임입니다.</span>
+                        <!--  <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>-->
                     </div>
                 </div>
 
@@ -122,47 +123,68 @@
 
                             
                             <div class="col-6 dang-owner-info">
-
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">관심지역</span>
-                                    </div>
+                                    </div>                                                       
                                     <div class = "owner-common2 col-5 d-flex flex-column">
-                                    
-                                        <span class = "span-info">서울 강남구</span>
-                                        <span class = "span-info">서울 강남구</span>
-                                        <span class = "span-info">서울 강남구</span>
+                                    <c:choose> 
+                                    <c:when test="${mypageInterestArea!= null}">  
+	                                   	 <c:forEach var="InterestArea" items="${mypageInterestArea}">      
+	                                        <span class = "span-info">${InterestArea.mypageInterestArea}</span>
+	                                      </c:forEach>  
+                                       </c:when>   
+                                       <c:otherwise>
+                                       <span class = "span-info">관심지역 등록을 해주세요.</span>
+                                       </c:otherwise>
+                            		 </c:choose> 
                                     </div>
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-5 offset-1">
+                                
+                                    <div class = "owner-common col-5 offset-1">                                   
                                         <span class = "span-info-category">키우는 댕</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
-                                        <span class = "span-info">2마리</span>
-                                    </div>
+									<div class = "owner-common2 col-5">
+									<c:choose>
+									 <c:when test="${mypageDangNum!= null}">   
+									       <span class = "span-info">${mypageDangNum}마리</span>
+									</c:when>
+                                       <c:otherwise>									
+											<span class = "span-info">댕댕이 정보를 등록해주세요.</span>
+                                       </c:otherwise>	
+                                       </c:choose>										
+								  </div>
+
                                 </div>
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">활동 댕모임</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
-                                        <span class = "span-info">3개</span>
+                                    <div class = "owner-common2 col-5">       
+                                    <c:choose>                             
+                                    <c:when test="${mypagePartyNum!= null}">
+                                        <span class = "span-info">${mypagePartyNum}개</span>
+									</c:when>
+									<c:otherwise>
+									    <span class = "span-info">활동 댕모임이 없습니다.</span>
+									</c:otherwise>
+									</c:choose>
                                     </div>
+
                                 </div>
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">최근 로그인</span>
                                     </div>
                                     <div class = "owner-common2 col-5">
-                                        <span class = "span-info">2023.02.01</span>
+                                        <span class = "span-info">${mypageLogin}</span>
                                     </div>
-                                </div>                                
+                                </div>                       
                             </div>
 
 
                         </div>
-
                     </div>
                     
                     <div class="col-5 mydang-border">
@@ -205,54 +227,6 @@
 									  </button>
 									</div>
                     
- <%--                        <div class="row">
-                        
-                            <div class="col-6 dang-profile">
-                                <div class="dang-photo row px-3 py-4 d-flex flex-column align-items-center justify-content-center">
-                                    <img class="row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" >
-                                    <div class="dang-gender">
-                                     <img class="row img-fluid img-dang" src ="">
-                                    </div>
-                                    <span class="row d-flex align-items-center justify-content-center py-1 ">초코</span>
-                                </div>
-                            </div>
-                            <div class="col-6 dang-info">
-                            
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">이름</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">초코</span>
-                                    </div>
-                                </div>
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">나이</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">3살</span>
-                                    </div>
-                                </div>
-                                <div class = "row py-3">
-                                    <div class = "col-5 offset-1">
-                                        <span class = "dang-common span-info-category">성별</span>
-                                    </div>
-                                    <div class = "col-5">
-                                        <span class = "dang-common2 span-info">여아</span>
-                                    </div>
-                                </div>                     
-                            </div>
-
-                        </div>  
-                        <div class="row dang-detail">
-                            <div class="col-12 dang-detail py-3 d-flex justify-content-center align-items-center">
-                                <span class="detail-1 px-2">#낮을가려요</span>
-                                <span class="detail-2 px-2">#사람을좋아해요</span>
-                                <span class="detail-3 px-2">#입질이있어요</span>
-                            </div>
-                        </div>     --%>
-
                         </div> <!-- col-5끝 -->
                     </div>
             

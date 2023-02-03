@@ -162,7 +162,7 @@ public class DangAdmin {
 		return "dang_admin/user_detail";
 	}
 	
-	//회원목록 조회(회원관리 현황)
+	//댕댕이 목록 조회(회원관리 현황)
 	@GetMapping("/puppy_list")
 	public String PuppyList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
 			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
@@ -181,10 +181,10 @@ public class DangAdmin {
 		// 총 댕모임 가입자수 조회
 		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
-		return "dang_admin/user_list";
+		return "dang_admin/puppy_list";
 	}
 	
-	//회원목록 조회(회원관리 현황)
+	//댕모임 멤버 목록 조회(회원관리 현황)
 	@GetMapping("/member_list")
 	public String MemberList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
 			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
@@ -203,6 +203,6 @@ public class DangAdmin {
 		// 총 댕모임 가입자수 조회
 		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
-		return "dang_admin/user_list";
+		return "dang_admin/member_list";
 	}
 }

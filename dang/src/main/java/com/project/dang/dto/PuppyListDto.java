@@ -11,7 +11,7 @@ public class PuppyListDto {
 	private int puppyNo;
 	private String puppyName;
 	private int puppyAge;
-	private int puppyGender;
+	private String puppyGender;
 	private String userId;
 
 }

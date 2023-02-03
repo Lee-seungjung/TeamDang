@@ -1,5 +1,7 @@
 package com.project.dang.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,5 @@ public class DangUserDto {
 	private String userNick;
 	private String userTel;
 	private String userGender;
+	private Date userLogindate;
 }

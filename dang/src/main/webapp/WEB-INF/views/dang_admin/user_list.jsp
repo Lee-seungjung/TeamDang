@@ -66,19 +66,19 @@
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
-					<div class = "col number-box select-color">
+					<div class = "col number-box select-color user-number" onclick="location.href='${pageContext.request.contextPath}/admin/user_list'">
 						<p class="mb-1 cnt-title">가입자 수</p>
 						<p class="mt-1 cnt-num"  data-numberstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col number-box">
+					<div class = "col number-box puppy-number" onclick="location.href='${pageContext.request.contextPath}/admin/puppy_list'">
 						<p class="mb-1 cnt-title">댕 등록 수</p>
 						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col number-box">
+					<div class = "col number-box member-number" onclick="location.href='${pageContext.request.contextPath}/admin/member_list'">
 						<p class="mb-1 cnt-title" >댕모임 멤버 수</p>
 						<p class="mt-1 cnt-num" data-numberstate="댕모임멤버수">${dangMemberTotal}명</p>
 					</div>
@@ -191,6 +191,9 @@
 
 <script>
 $(function(){
+	
+	// 카테고리 색 변경
+	$(".user-number").css("background-color", "#D6DEFF");
 	
 	//목록 조회 시 가입자수,댕등록수,댕모임멤버수 색상 변경
 	var url = new URL(location.href);
@@ -472,7 +475,7 @@ $(function(){
 		})					
 	});
 	
-	//카테고리 조회
+/* 	//카테고리 조회
 	$(document).on("click", ".cnt-num", function(){
 		$(".number-box").removeClass("select-color");
 		$(this).parent().addClass("select-color");
@@ -532,7 +535,7 @@ $(function(){
 				}
 			}
 		});
-	});
+	}); */
 	
 	//회원 목록 비동기 불러오기
 	function userList(resp){
