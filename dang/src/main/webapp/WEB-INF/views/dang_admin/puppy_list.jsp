@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="회원관리 현황" name="title"/>
+   <jsp:param value="댕 등록수 현황" name="title"/>
 </jsp:include>
 
 <style>
@@ -87,14 +87,14 @@
 			
 			<div class="row mt-5">
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
-					<select class="user-form-select flex-fill me-1" style="width:20%;" name="type">
+					<select class="puppy-form-select flex-fill me-1" style="width:20%;" name="type">
 						<option value="">선택</option>
 						<option value="user_id">댕주인아이디</option>
 						<option value="puppy_name">댕댕이이름</option>
 					</select>
 					<div class="d-flex" style="width:70%;">
-						<input type="text" class="input form-control user-search-input ms-1 flex-fill" name="keyword">
-						<button class="btn btn-primary user-search-btn ms-1">
+						<input type="text" class="input form-control puppy-search-input ms-1 flex-fill" name="keyword">
+						<button class="btn btn-primary puppy-search-btn ms-1">
 							<i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
 						</button>
 			    	</div>
@@ -103,14 +103,14 @@
 			
   			<div class="row mt-3">
 				<div class = "col d-flex justify-content-center align-items-center">
-					<ul class = "d-flex flex-row ul-user-list-page-navigator">
+					<ul class = "d-flex flex-row ul-puppy-list-page-navigator">
 						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-first d-flex justify-content-center align-items-center">
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
 						
 						<c:choose>
-						<c:when test = "${userListRequestDto.blockPrev() != 0}">
-						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${userListRequestDto.blockPrev()}">
+						<c:when test = "${puppyListRequestDto.blockPrev() != 0}">
+						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${puppyListRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:when>
@@ -121,20 +121,20 @@
 						</c:otherwise>
 						</c:choose>						
 
-						<c:forEach var = "i" begin = "${userListRequestDto.blockStart()}" end = "${userListRequestDto.blockEnd()}" step = "1">
+						<c:forEach var = "i" begin = "${puppyListRequestDto.blockStart()}" end = "${puppyListRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
 
 						<c:choose>
-						<c:when test = "${userListRequestDto.blockNext() >= userListRequestDto.blockLast()}">
-						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
+						<c:when test = "${puppyListRequestDto.blockNext() >= puppyListRequestDto.blockLast()}">
+						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${puppyListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockNext()}">
+						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${puppyListRequestDto.blockNext()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:otherwise>
@@ -151,30 +151,28 @@
 				<table class="table text-center ">
 					<thead>
 						<tr class="table">
-							<th scope="col" style="width:15%;">회원 번호</th>
-							<th scope="col" style="width:25%;">회원 아이디</th>
-							<th scope="col" style="width:25%;">회원 닉네임</th>
-							<th scope="col" style="width:20%;">가입일자</th>
-							<th scope="col">상세</th>
+							<th scope="col" style="width:15%;">댕댕이 번호</th>
+							<th scope="col" style="width:20%;">댕댕이 이름</th>
+							<th scope="col" style="width:25%;">나이</th>
+							<th scope="col" style="width:15%;">성별</th>
+							<th scope="col" style="width:25%;">댕주인 아이디</th>
 						</tr>
 					</thead>
-					<tbody class="data-body">
+					<tbody class="puppy-data-body">
 						<c:choose>
-							<c:when test="${userListAdminB==null}">
+							<c:when test="${puppyListAdmin==null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="userListAdminB" items="${userListAdminB}">
+								<c:forEach var="puppyListAdmin" items="${puppyListAdmin}">
 									<tr class="table align-middle">
-										<td class="list-userNo" data-dno="">${userListAdminB.userNo}</td>
-										<td class="list-userId" data-dno="">${userListAdminB.userId}</td>
-										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
-										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
-										<td>
-											<a class="btn btn-primary user-detail" data-rno="" href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
-										</td>
+										<td class="list-puppyNo" data-dno="">${puppyListAdmin.puppyNo}</td>
+										<td class="list-puppyName" data-dno="">${puppyListAdmin.puppyName}</td>
+										<td class="list-puppyAge" data-dno="">${puppyListAdmin.puppyAge}</td>
+										<td class="list-puppyGender" data-dno="">${puppyListAdmin.puppyGender}</td>
+										<td class="list-userId" data-dno="">${puppyListAdmin.userId}</td>
 									</tr> 
 								</c:forEach>	       
 							</c:otherwise>
@@ -191,15 +189,15 @@
 <script>
 $(function(){
 	//검색 버튼 클릭 이벤트
-	$(document).on("click",".user-search-btn", function(){
+	$(document).on("click",".puppy-search-btn", function(){
 		
-		var userSelectBox = $(".user-form-select").val();
-		console.log(userSelectBox);
+		var puppySelectBox = $(".puppy-form-select").val();
+		console.log(puppySelectBox);
 		
-		var userSearchInput = $(".user-search-input").val();
-		console.log(userSearchInput);	
+		var puppySearchInput = $(".puppy-search-input").val();
+		console.log(puppySearchInput);	
 		
-		if(userSelectBox == "" || userSearchInput == "") {
+		if(puppySelectBox == "" || puppySearchInput == "") {
 			console.log("안돼");
 			return;
 		}
@@ -208,11 +206,11 @@ $(function(){
 		
 		var formData = new FormData();
 		formData.append("p", 1);
-		formData.append("type", userSelectBox);
-		formData.append("keyword", userSearchInput);
+		formData.append("type", puppySelectBox);
+		formData.append("keyword", puppySearchInput);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -234,7 +232,7 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.userList.length==0){
+				if(resp.puppyList.length==0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -242,13 +240,13 @@ $(function(){
 					tr.append(td);
 				}else{
 					$(".data-body").empty();
-					for(var i=0; i<resp.userList.length; i++){
-						userList(resp.userList[i]);
+					for(var i=0; i<resp.puppyList.length; i++){
+						puppyList(resp.puppyList[i]);
 					}
 					// 초기화
 					$(".ul-puppy-list-page-item-unit").remove();
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
+						puppyListPagination(i);
 					}
 				}
 			}
@@ -266,12 +264,12 @@ $(function(){
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
+			formData.append("type", $(".puppy-form-select").val());
+			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -293,14 +291,14 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				$(".data-body").empty();
-				for(var i=0; i<resp.userList.length; i++){
-					userList(resp.userList[i]);
+				$(".puppy-data-body").empty();
+				for(var i=0; i<resp.puppyList.length; i++){
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}
 				
 			}
@@ -318,12 +316,12 @@ $(function(){
 		var formData = new FormData();
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
+			formData.append("type", $(".puppy-form-select").val());
+			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -344,14 +342,14 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				$(".puppy-data-body").empty();
+				for(var i = 0 ; i < resp.puppyList.length ; i++){
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}						
 			}
 		})
@@ -365,12 +363,12 @@ $(function(){
 		var formData = new FormData();
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
+			formData.append("type", $(".puppy-form-select").val());
+			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -392,13 +390,13 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.puppyList.length ; i++){
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}						
 			}
 		})			
@@ -413,13 +411,13 @@ $(function(){
 		var formData = new FormData();
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
-		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
-			formData.append("type", $(".user-form-select").val());
-			formData.append("keyword", $(".user-search-input").val());
+		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
+			formData.append("type", $(".puppy-form-select").val());
+			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -441,13 +439,13 @@ $(function(){
 				}
 				// 초기화
 				$(".data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.puppyList.length ; i++){
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}						
 			}
 		})					
