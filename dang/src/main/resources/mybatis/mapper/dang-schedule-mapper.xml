@@ -96,9 +96,15 @@
         
        					 <!-- 일정 수정 -->
       <update id="scheduleEdit" parameterType="ScheduleEditVO" >
-         update dang_schedule set schedule_title=#{scheduleTitle}, schedule_content=#{scheduleContent}, place_no=#{placeNo}, 
-         schedule_headmax=#{scheduleHeadmax}, schedule_start=#{scheduleStart}, schedule_hour=#{scheduleHour}, schedule_money=#{scheduleMoney}
-         where  schedule_no=#{scheduleNo} and dang_no= #{dangNo}
+         update dang_schedule 
+	         set schedule_title=#{scheduleTitle}, 
+	         schedule_content=#{scheduleContent}, 
+	         place_no=#{placeNo}, 
+	         schedule_headmax=#{scheduleHeadmax}, 
+	         schedule_start=#{scheduleStart}, 
+	         schedule_hour=#{scheduleHour}, 
+	         schedule_money=#{scheduleMoney}
+         where  schedule_no=#{scheduleNo}
       </update> 
       
         					 <!-- (수정위한)일정 정보 조회 -->

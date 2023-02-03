@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class ScheduleEditVO {
+	
 	private int scheduleNo;
-	private int dangNo;
+	
 	private int placeNo;
 	private String scheduleTitle;
 	private String scheduleContent;
@@ -19,6 +20,4 @@ public class ScheduleEditVO {
 	private Date scheduleStart;
 	private String scheduleHour;
 	private int scheduleMoney;
-	
-
 }
