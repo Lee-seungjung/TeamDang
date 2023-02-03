@@ -135,7 +135,7 @@
 	                                      </c:forEach>  
                                        </c:when>   
                                        <c:otherwise>
-                                       <span class = "span-info">관심지역 등록을 해주세요.</span>
+                                       <span class = "span-info">-</span>
                                        </c:otherwise>
                             		 </c:choose> 
                                     </div>
