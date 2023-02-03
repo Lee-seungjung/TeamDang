@@ -8,12 +8,26 @@
 
 <style>
 	
-	.member-list-box{
+	.user-list-box{
 		background-color:#F1F4FF;
 		padding:30px 40px;
 		text-align:center;
 		border-radius: 0.3rem;
 	}
+	
+	.puppy-list-box{
+		background-color:#F1F4FF;
+		padding:30px 40px;
+		text-align:center;
+		border-radius: 0.3rem;
+	}
+	
+	.member-list-box{
+		background-color:#F1F4FF;
+		padding:30px 40px;
+		text-align:center;
+		border-radius: 0.3rem;
+	}		
 	.cnt-title{
 		font-size:20px;
 		font-weight:600;
@@ -65,21 +79,21 @@
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
-					<div class = "col member-list-box select-color">
-						<p class="mb-1 cnt-title">총 가입자 수</p>
+					<div class = "col user-list-box select-color">
+						<p class="mb-1 cnt-title">가입자 수</p>
 						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col member-list-box">
-						<p class="mb-1 cnt-title">총 댕 등록 수</p>
+					<div class = "col puppy-list-box">
+						<p class="mb-1 cnt-title">댕 등록 수</p>
 						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col member-list-box">
-						<p class="mb-1 cnt-title" >총 댕모임 가입자수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕모임가입자수">${dangMemberTotal}명</p>
+						<p class="mb-1 cnt-title" >댕모임 멤버 수</p>
+						<p class="mt-1 cnt-num" data-userstate="댕모임멤버수">${dangMemberTotal}명</p>
 					</div>
 				</div>
 			</div>
