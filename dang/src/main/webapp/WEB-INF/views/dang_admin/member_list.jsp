@@ -81,19 +81,19 @@
 				<div class = "col-4">
 					<div class = "col user-list-box select-color">
 						<p class="mb-1 cnt-title">가입자 수</p>
-						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
+						<p class="mt-1 cnt-num"  data-numberstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col puppy-list-box">
 						<p class="mb-1 cnt-title">댕 등록 수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
 					<div class = "col member-list-box">
 						<p class="mb-1 cnt-title" >댕모임 멤버 수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕모임멤버수">${dangMemberTotal}명</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕모임멤버수">${dangMemberTotal}명</p>
 					</div>
 				</div>
 			</div>
@@ -203,6 +203,17 @@
 
 <script>
 $(function(){
+	
+	//목록 조회 시 가입자수,댕등록수,댕모임멤버수 색상 변경
+	var url = new URL(location.href);
+	var numberState = url.searchParams.get("numberState");
+	$(".number-box").removeClass("select-color");
+	$(".cnt-num[data-numberState="+numberState+"]").parent().addClass("select-color");
+	
+	var p = 1;
+	var numberState = "댕등록수";
+	var type;
+	var keyword;
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".member-search-btn", function(){
 		
@@ -218,10 +229,11 @@ $(function(){
 		}
 		
 		console.log("돼");
-		
+		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
-		formData.append("type", memberSelectBox);
+		formData.append("numberState", numberState);
+		formData.append("type", userSelectBox);
 		formData.append("keyword", memberSearchInput);
 		
 		$.ajax({
@@ -276,6 +288,7 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("numberState", numberState);
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
@@ -329,6 +342,7 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("numberState", numberState);
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
@@ -376,6 +390,7 @@ $(function(){
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData();
+		formData.append("numberState", numberState);
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
@@ -425,6 +440,7 @@ $(function(){
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);	
+		formData.append("numberState", numberState);
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
 			formData.append("type", $(".member-form-select").val());
@@ -465,6 +481,24 @@ $(function(){
 			}
 		})					
 	});
+	
+	//카테고리 조회
+	$(document).on("click", ".cnt-num", function(){
+		$(".number-box").removeClass("select-color");
+		$(this).parent().addClass("select-color");
+		
+		var type = $(".member-form-select").val("").prop("selected", true);
+		var keyword = $(".member-input").val("");
+
+		numberState = $(this).attr("data-numberState");
+		p = 1;
+		console.log(numberState);
+		
+		var formData = new FormData();
+		formData.append("p", p);
+		formData.append("numberState", numberState);
+		
+		});
 	
 	//댕모임 멤버 목록 비동기 불러오기(한번 더 체크하기)
 	function memberList(resp){

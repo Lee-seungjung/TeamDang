@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="회원관리 현황" name="title"/>
+   <jsp:param value="회원관리 / 회원수 현황" name="title"/>
 </jsp:include>
 
 <style>
@@ -79,21 +79,21 @@
 			
 			<div class = "row mt-4">
 				<div class = "col-4">
-					<div class = "col user-list-box select-color">
+					<div class = "col number-box select-color">
 						<p class="mb-1 cnt-title">가입자 수</p>
-						<p class="mt-1 cnt-num"  data-userstate="가입자수">${userTotal}명</p>
+						<p class="mt-1 cnt-num"  data-numberstate="가입자수">${userTotal}명</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col puppy-list-box">
+					<div class = "col number-box">
 						<p class="mb-1 cnt-title">댕 등록 수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕등록수">${dangTotal}마리</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col member-list-box">
+					<div class = "col number-box">
 						<p class="mb-1 cnt-title" >댕모임 멤버 수</p>
-						<p class="mt-1 cnt-num" data-userstate="댕모임멤버수">${dangMemberTotal}명</p>
+						<p class="mt-1 cnt-num" data-numberstate="댕모임멤버수">${dangMemberTotal}명</p>
 					</div>
 				</div>
 			</div>
@@ -204,6 +204,19 @@
 
 <script>
 $(function(){
+	
+	//목록 조회 시 가입자수,댕등록수,댕모임멤버수 색상 변경
+	var url = new URL(location.href);
+	var numberState = url.searchParams.get("numberState");
+	$(".number-box").removeClass("select-color");
+	$(".cnt-num[data-numberState="+numberState+"]").parent().addClass("select-color");
+	
+	var p = 1;
+	var numberState = "가입자수";
+	var type;
+	var keyword;
+	
+	
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".user-search-btn", function(){
 		
@@ -219,9 +232,10 @@ $(function(){
 		}
 		
 		console.log("돼");
-		
+		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
+		formData.append("numberState", numberState);
 		formData.append("type", userSelectBox);
 		formData.append("keyword", userSearchInput);
 		
@@ -278,6 +292,7 @@ $(function(){
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);
+		formData.append("numberState", numberState);
 		
 		//검색어랑 검색 타입이 있으면
 		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
@@ -331,6 +346,7 @@ $(function(){
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);
+		formData.append("numberState", numberState);
 		//검색어랑 검색 타입이 있으면
 		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
 			formData.append("type", $(".user-form-select").val());
@@ -378,6 +394,7 @@ $(function(){
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);	
+		formData.append("numberState", numberState);
 		//검색어랑 검색 타입이 있으면
 		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
 			formData.append("type", $(".user-form-select").val());
@@ -426,6 +443,7 @@ $(function(){
 		// 데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", p);	
+		formData.append("numberState", numberState);
 		//검색어랑 검색 타입이 있으면
 		if($(".user-form-select").val() != "" || $(".user-search-input").val() != "" ){
 			formData.append("type", $(".user-form-select").val());
@@ -466,6 +484,24 @@ $(function(){
 			}
 		})					
 	});
+	
+	//카테고리 조회
+	$(document).on("click", ".cnt-num", function(){
+		$(".number-box").removeClass("select-color");
+		$(this).parent().addClass("select-color");
+		
+		var type = $(".user-form-select").val("").prop("selected", true);
+		var keyword = $(".user-search-input").val("");
+
+		numberState = $(this).attr("data-numberState");
+		p = 1;
+		console.log(numberState);
+		
+		var formData = new FormData();
+		formData.append("p", p);
+		formData.append("numberState", numberState);
+		
+		});
 	
 	//회원 목록 비동기 불러오기
 	function userList(resp){
