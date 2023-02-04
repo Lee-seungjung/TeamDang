@@ -379,7 +379,7 @@
     <div class="modal-content">
         <h3 class="modal-title text-center mt-2">장소 수정하기</h3>
       <div class="modal-body">
-                
+        <form>
         <div class="row mt-2">
             <div class="col-md-10 offset-md-1">
                 <p>수정할 장소의 행정구역을 적어주세요:) <i class="accent">(필수)</i></p>
@@ -545,12 +545,13 @@
                 </div>
             </div>
         </div>
-
+		</form>
       </div>
       
       
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="editMarker()">수정하기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeEdit()">닫기</button>
       </div>
     </div>
   </div>
@@ -560,7 +561,7 @@
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+		        <h3 class="modal-title text-center mt-2">장소 등록하기</h3>
 		      <div class="modal-body">
 		         
 		        <div class="row mt-4">
@@ -763,51 +764,66 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
 	
+	 function closeEdit() {
+		$('#editPlace').modal('hide')
+	} 
+	 
+ 	$('#editPlace').on('hidden.bs.modal', function (e) {
+ 		 $(this).find('form')[0].reset()
+	});
+	
 	//닫기 모달 클릭시 초기화
 	$('.modal').on('hidden.bs.modal', function (e) {
-		console.log('닫기');
+		  $("[name=placeArea1]").val("");
+	      $("[name=placeX1]").val("");
+	      $("[name=placeY1]").val("");
+	      $("[name=placeSort1]").val("");
+	      $("[name=placeName1]").val("");
+	      $("[name=placeInfo1]").val("");
+	      $("[name=placeAddress1]").val("");
+	      $("[name=placeOperation1]").val("");
+	      $("[name=placeOff1]").val("");
+	      $("[name=placeTel1]").val("");
+	      $("[name=placeUrl1]").val("");
+	      $("[name=dangSize1]").val("");
+	      $("[name=attachmentNo1]").val("");
 	})
 
-	//상태메세지 글자 수 검사
+
 	$("[name=placeInfo1]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
 		$(".length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
-		if(textLength==30){
+		if(textLength==500){
 			$(".length").css("color","red").text(500);
 			$(this).addClass("is-valid");
-			check.placeInfo1=true;
-		}else if(textLength>30){
-			$(this).val(value.substring(0,30));	
+		}else if(textLength>500){
+			$(this).val(value.substring(0,500));	
 			$(".length").css("color","red").text(500);
 			$(this).addClass("is-invalid");
-			check.placeInfo1=false;
 		}else if(textLength>0){
 			$(".length").css("color","#495057");
 			$(this).addClass("is-valid");
-			check.placeInfo1=true;
 		}
-	});$("[name=placeInfo]").on("input",function(){
+	});
+	$("[name=placeInfo]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
 		$(".length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
-		if(textLength==30){
+		if(textLength==500){
 			$(".length").css("color","red").text(500);
 			$(this).addClass("is-valid");
-			check.placeInfo1=true;
-		}else if(textLength>30){
-			$(this).val(value.substring(0,30));	
+		}else if(textLength>500){
+			$(this).val(value.substring(0,500));	
 			$(".length").css("color","red").text(500);
 			$(this).addClass("is-invalid");
-			check.placeInfo1=false;
 		}else if(textLength>0){
 			$(".length").css("color","#495057");
 			$(this).addClass("is-valid");
-			check.placeInfo1=true;
 		}
 	});
 
@@ -826,7 +842,7 @@
         var placeUrl = $("[name=placeUrl1]").val();
         var dangSize = $("[name=dangSize1]").val();
         var attachmentNo = $("[name=attachmentNo1]").val();
-		console.log(attachmentNo);
+		console.log(placeX=="");
         //검사
         placeInsert(placeArea, placeX, placeY, placeSort, placeName,
             placeInfo, placeAddress, placeOperation, placeOff,
@@ -939,7 +955,7 @@
 				dangSize : dangSize
 			};
 			console.log(placeSort);
-			/*  $.ajax({
+			 $.ajax({
 				url:"${pageContext.request.contextPath}/rest_place/update",
 				method:"put",
 				contentType:"application/json",
@@ -947,7 +963,7 @@
 				success:function(){
 					location.href = "http://localhost:8888/admin/place_list";
 				}
-			});  */
+			});  
 	}
 	
 	//장소 마커를 삭제하는 함수
@@ -1030,6 +1046,8 @@
 
 			placeNoInfo = $(this).data("placeno");
 
+			
+			
 			//비동기통신 시작
 			$.ajax({
 				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
@@ -1066,6 +1084,45 @@
 		});
 		
 
+		/* function restPlaceList() {
+			//비동기통신 시작
+			$.ajax({
+				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
+				method : "get",
+				async : false,
+				contentType : "application/json",
+				success : function(resp) {
+					  $("[name=placeArea]").val("");
+				      $("[name=placeX]").val("");
+				      $("[name=placeY]").val("");
+				      $("[name=placeSort]").val("");
+				      $("[name=placeName]").val("");
+				      $("[name=placeInfo]").val("");
+				      $("[name=placeAddress]").val("");
+				      $("[name=placeOperation]").val("");
+				      $("[name=placeOff]").val("");
+				      $("[name=placeTel]").val("");
+				      $("[name=placeUrl]").val("");
+				      $("[name=dangSize]").val("");
+				      $("[name=attachmentNo]").val("");
+					//수정 input태그에 값 밀어넣기
+					$('input[name=placeArea]').attr('value',resp.placeArea);
+					$('input[name=placeX]').attr('value',resp.placeX);
+					$('input[name=placeY]').attr('value',resp.placeY);
+					$('input[name=placeSort]').attr('value',resp.placeSort);
+					$('input[name=placeName]').attr('value',resp.placeName);
+					$('textarea[name=placeInfo]').text(resp.placeInfo);
+					$('input[name=placeAddress]').attr('value',resp.placeAddress);
+					$('input[name=placeOperation]').attr('value',resp.placeOperation);
+					$('input[name=placeOff]').attr('value',resp.placeOff);
+					$('input[name=placeTel]').attr('value',resp.placeTel);
+					$('input[name=placeUrl]').attr('value',resp.placeUrl);
+					$('input[name=dangSize]').attr('value',resp.dangSize);
+					console.log(resp.placeArea)
+				}
+			})
+		}; */
+		
 		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
 		mapOption1 = {
 			center : new kakao.maps.LatLng(37.498004414546934,
