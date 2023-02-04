@@ -153,8 +153,7 @@
             <p class="text-center"><img src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}" class="me-2">${loginNick}</p>
             <hr class="ms-2 me-2">
             <li><a href="${pageContext.request.contextPath}/admin/dash_board" class="mb-2"><i class="fa-solid fa-border-all"></i> 대쉬 보드</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/place_insert" class="mb-2"><i class="fa-solid fa-location-dot"></i> 장소 등록</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/place_list" class="mb-2"><i class="fa-solid fa-map-location"></i> 장소 조회</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/place_list" class="mb-2"><i class="fa-solid fa-map-location"></i> 장소 관리</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/user_list"" class="mb-2"><i class="fa-solid fa-user"></i> 회원 목록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/report" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 접수</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/dang_list" class="mb-2"><i class="fa-solid fa-paw"></i> 댕모임 조회</a></li>
