@@ -287,9 +287,6 @@
 
 	$(function(){
 		
-		// 초기 생성 버튼 비활성화
-		$(".btn-submit-create").attr("disabled", true);
-		
 		// 초기 비밀번호 입력창 숨김
 		$(".div-dang-password").hide();
 		
@@ -333,10 +330,8 @@
 		$("[name=dangName]").blur(function(){
 			if($(this).val() != "") {
 				formValidCheck.checkDangName = true;
-				formValid();
 			} else {
 				formValidCheck.checkDangName = false;
-				formValid();
 			}
 		});
 		
@@ -362,10 +357,8 @@
 		$("[name=dangHeadmax]").change(function(){
 			if($(this).val() != "") {
 				formValidCheck.checkDangHeadmax = true;
-				formValid();
 			} else {
 				formValidCheck.checkDangHeadmax = false;
-				formValid();
 			}
 		});
 		
@@ -379,10 +372,8 @@
 			
 			if($(this).is(":checked")){
 				formValidCheck.checkDangPrivate = true;
-				formValid();
 			} else {
 				formValidCheck.checkDangPrivate = false;
-				formValid();
 			}
 		});
 		
@@ -391,11 +382,9 @@
 			if($("#dangPrivate").is(":checked")) {
 				$(".div-dang-password").show();
 				formValidCheck.checkDangPw = false;
-				formValid();
 			} else {
 				$(".div-dang-password").hide();
 				formValidCheck.checkDangPw = true;
-				formValid();
 			}
 		});
 		
@@ -419,16 +408,13 @@
 			var inputDangPassword = $(this).val();
 			if(inputDangPassword == "") {
 				formValidCheck.checkDangPw = false;
-				formValid();
 				return;
 			} 
 			var regexp = /^[0-9]{4}$/;
 			if(regexp.test(inputDangPassword)) {
 				formValidCheck.checkDangPw = true;
-				formValid();
 			} else {
 				formValidCheck.checkDangPw = false;
-				formValid();
 			}
 		});
 		
@@ -446,17 +432,14 @@
 			// 지역 선택
             dangArea = $(this).text();
             formValidCheck.checkDangArea = true;
-			formValid();
         });
 		
 		// 댕모임 닉네임
 		$("[name=memberNick]").blur(function(){
 			if($(this).val() != "") {
 				formValidCheck.checkMemberNick = true;
-				formValid();
 			} else {
 				formValidCheck.checkMemberNick = false;
-				formValid();
 			}
 		});
 		
@@ -464,6 +447,9 @@
 		$(".btn-submit-create").click(function(e){
 			// 기본 이벤트 차단(form 전송)
 			e.preventDefault();
+			if(formValidCheck.isAllValid() == false) {
+				return;
+			}
 			var form = $(".form-create-dang");
 			form.append($("<input>").attr("type", "hidden").attr("name", "dangArea").attr("value",dangArea));
 			// 비공개 댕모임일 경우에만
@@ -488,15 +474,6 @@
 				return this.checkDangName && this.checkDangHeadmax && this.checkDangArea && this.checkMemberNick && this.checkDangPrivate && this.checkDangPw;
 			}
 		};
-		
-		function formValid() {
-			// 유효성 판정을 위해 강제 이벤트 발생
-			if(formValidCheck.isAllValid()) {
-				$(".btn-submit-create").attr("disabled", false);
-			} else {
-				$(".btn-submit-create").attr("disabled", true);
-			}
-		}
 	});
 	
 </script>

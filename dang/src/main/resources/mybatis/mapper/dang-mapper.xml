@@ -61,7 +61,7 @@
   	
   	<!-- 지역구별 댕모임 5개 조회(좋아요 순/회원수 순) -->
   	<select id = "searchDangTop" parameterType = "String" resultType = "DangTopVO">
-  		select * from (select tmp.*, rownum rn from(select dang_no, dang_name, dang_area from dang where dang_area = #{dangArea} order by dang_like, dang_head)tmp) where rn between 1 and 5
+  		select * from (select tmp.*, rownum rn from(select dang_no, dang_name, dang_area from dang where dang_area = #{dangArea} order by dang_like desc, dang_head desc)tmp) where rn between 1 and 5
   	</select>
   	
   	<!-- 댕모임 번호로 등록된 해시태그 전체 조회 -->
@@ -69,8 +69,6 @@
  		select hashtag_no, hashtag_content from dang_hashtag where dang_no = #{dangNo}
  	</select>
  	
- 	<!-- 댕모임 번호로 첨부파일 조회 -->
-  		
   	<!-- 댕모임 상세 정보 -->
  	<select id = "selectDangDetail" parameterType = "int" resultMap = "dangDetailDto">
  		select * from dang d left outer join dang_img di on d.dang_no = di.dang_no where d.dang_no = #{dangNo}
