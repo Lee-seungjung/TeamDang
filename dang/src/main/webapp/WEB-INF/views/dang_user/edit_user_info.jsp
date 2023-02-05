@@ -11,7 +11,7 @@
 <style>
 	
 	* {
-		
+		border : 1px gray dotted;
 	}
 	
 	.strong-mypage-title {
@@ -19,7 +19,7 @@
 	}
 	
 	.label-user-profile {
-		border : 2px black solid;
+		border : 2px solid #76BEFF;
 		border-radius : 50%;
 		aspect-ratio : 1/1;
 	}
@@ -32,6 +32,19 @@
 		border-radius : 50%;
 		object-fit : fill;
 		aspect-ratio : 1/1;
+	}
+	
+	.btn-edit-user-info-cert-send,
+	.btn-edit-user-info-cert-submit {
+		border-radius : 10px;
+		background-color : #787878;
+		color : white;
+		border : none;
+	}
+	
+	.btn-edit-user-info-cert-send:disabled,
+	.btn-edit-user-info-cert-submit:disabled {
+		opacity : 0.5;
 	}
 	
 	.btn-edit-user-info-submit {
@@ -67,7 +80,7 @@
 	}
 	
 	.span-close-user {
-		color : red;
+		color : #C7C7C7;
 		cursor : pointer;
 	}
 	
@@ -104,35 +117,49 @@
 						</div>
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
-						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span class = "span-info-category">아이디</span>
 						</div>
-						<input value = "${userInfo.userId}" disabled class = "col-8 p-2">
+						<input value = "${userInfo.userId}" disabled class = "col-9 p-2">
 						<input type = "hidden" name = "userNo" value = "${userInfo.userNo}">
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
-						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>닉네임</span>
 						</div>
-						<input name = "userNick" class = "col-8 p-2" value = "${userInfo.userNick}">
+						<input name = "userNick" class = "col-9 p-2" value = "${userInfo.userNick}">
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
-						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
-							<span>이메일</span>
-						</div>
-						<input name = "userEmail" class = "col-8 p-2" value = "${userInfo.userEmail}">
-					</div>
-					<div class = "row my-4 mx-4 div-input-edit-user-info">
-						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
+						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>전화번호</span>
 						</div>
-						<input name = "userTel" class = "col-8 p-2" value = "${userInfo.userTel}">
+						<input name = "userTel" class = "col-9 p-2" value = "${userInfo.userTel}">
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
-						<div class = "col-4 d-flex justify-content-center align-items-center div-info-category">
-							<span>가입일</span>
+						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
+							<span>이메일</span>
+							<input type = "checkbox" class = "ms-2 input-edit-user-info-change-email">
 						</div>
-						<input value = "${userInfo.userJoindate}" class = "col-8 p-2" disabled>
+						<input name = "userEmail" class = "col-7 p-2 input-change-email" value = "${userInfo.userEmail}">
+						<button type = "button" class = "col-2 p-2 btn-change-email btn-edit-user-info-cert-send">인증</button>
+					</div>
+					<div class = "row my-4 mx-4 div-input-edit-user-info">
+						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
+							<span>이메일 인증</span>
+						</div>
+						<input class = "col-7 p-2 input-change-email input-edit-user-info-cert">
+						<button type = "button" class = "col-2 p-2 btn-change-email btn-edit-user-info-cert-submit">확인</button>
+					</div>
+					<div class = "row my-4 mx-4">
+						<div class = "col d-flex flex-column justify-content-center align-items-center div-change-email-helper-text">
+							<!-- <span class = "span-check span-check-invalid check-cert check-cert-email-empty">이메일을 입력해 주세요.</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-email-invalid">올바른 이메일 형식이 아닙니다.</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-email-same">기존 이메일과 동일한 이메일입니다.</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-already">이미 사용 중인 이메일입니다.</span> -->
+							<!-- <span class = "span-check span-check-valid check-cert check-cert-send">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.</span> -->
+						<!-- 	<span class = "span-check span-check-valid check-cert check-cert-valid">인증 완료!</span>
+							<span class = "span-check span-check-invalid check-cert check-cert-invalid">인증번호를 다시 확인해주세요.</span> -->
+						</div>
 					</div>
 					<div class = "row my-4 mx-4">
 						<div class = "col-6 offset-3">
@@ -154,6 +181,10 @@
 		// 마이페이지 메뉴 색 변경
 		$(".img-change-user-info").attr("src", "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png");
 		
+		// 초기 이메일 변경 관련 비활성화
+		$(".input-change-email").prop("disabled", true);
+		$(".btn-change-email").prop("disabled", true);
+		
 		// 수정 전 프로필 다운로드 링크
 		var originalProfile = $(".img-user-profile").attr("src");
 		
@@ -173,8 +204,164 @@
                     	$(".img-edit-profile").prop("src", resp);
                     }
 				});
+			} else {
+				$(".img-edit-profile").prop("src", originalProfile);
 			}
 		});
+		
+		// 닉네임 체크
+		$("[name=userNick]").blur(function(){
+			if($(this).val() == "") {
+				formValidCheck.checkNick == false;
+				return;
+			}
+			formValidCheck.checkNick == true;
+		});
+		
+		// 변경 전 이메일
+		var userEmailOrigin = $("[name=userEmail]").val();
+		
+		// 이메일 변경 체크
+		$(".input-edit-user-info-change-email").change(function(){
+			if($(".input-edit-user-info-change-email").is(":checked") == true) { // 체크되어있다면
+				$(".input-change-email").prop("disabled", false);
+				$(".btn-change-email").prop("disabled", false);
+				formValidCheck.checkEmail = false;
+			} else { // 그렇지 않다면 (이메일을 변경하지 않음)
+				$("[name=userEmail]").val(userEmailOrigin);
+				$(".input-edit-user-info-cert").val("");
+				$(".div-change-email-helper-text").empty();
+				$(".input-change-email").prop("disabled", true);
+				$(".btn-change-email").prop("disabled", true);
+				formValidCheck.checkEmail = true;
+			}
+		});
+		
+		// 이메일 보내기 체크
+		$(".btn-edit-user-info-cert-send").click(function(){
+			// helper text 초기화
+			$(".div-change-email-helper-text").empty();
+			// 이메일 입력창의 값
+			var inputEmail = $("[name=userEmail]").val();
+			console.log(inputEmail)
+			// 이메일을 입력하지 않았다면 return
+			if(inputEmail == "") {
+				$(".div-change-email-helper-text")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-email-empty").text("이메일을 입력해 주세요.")
+					)
+				formValidCheck.checkEmail = false;
+				return;
+			}
+			// 이메일 형식 검사
+			var regexp = /^[A-Za-z0-9]{6,30}@[0-9a-z]{4,252}.[a-z]{2,3}$/
+			if(regexp.test(inputEmail) == false) {
+				$(".div-change-email-helper-text")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-email-invalid").text("올바른 이메일 형식이 아닙니다.")
+					)
+				formValidCheck.checkEmail = false;
+				return;
+			}
+			// 해당 회원의 기존 이메일과의 검사
+			if(userEmailOrigin == inputEmail) {
+				$(".div-change-email-helper-text")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-email-same").text("기존 이메일과 동일한 이메일입니다.")
+					)
+				formValidCheck.checkEmail = false;
+				return;
+			}
+			// 비동기 중복 검사가 완료될 때까지 인증메일 전송 버튼 비활성화
+			$(".btn-edit-user-info-cert-send").prop("disabled", true);
+			// 이메일 중복 검사
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_user/check_email?userEmail=" + inputEmail,
+				method : "get",
+				success : function(resp){
+					console.log(resp);
+					if(resp == true) { // 이미 사용 중인 이메일이면 resp는 true이므로
+						// 
+						$(".div-change-email-helper-text")
+							.append(
+								$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-already").text("이미 사용 중인 이메일입니다.")
+							)
+						formValidCheck.checkEmail = false;
+						// 인증메일 전송 버튼 비활성화 해제
+						$(".btn-edit-user-info-cert-send").prop("disabled", false);
+						return;
+					} else {
+						// 해당 이메일로 인증번호 발송
+						$.ajax({
+							url : "${pageContext.request.contextPath}/rest_user/send_email?userEmail=" + inputEmail,
+							method : "get",
+							success : function(resp){
+								// 
+								$(".div-change-email-helper-text")
+									.append(
+										$("<span>").attr("class", "span-check span-check-valid check-cert check-cert-send").html("인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.")
+									)
+								// 인증메일 전송 버튼 비활성화 해제
+								$(".btn-edit-user-info-cert-send").prop("disabled", false);
+								// 반환한 인증번호
+								certSerial = resp;
+							}
+						}); 
+					}
+				}
+			}); 
+		});
+		
+		// 반환된 인증 번호
+		var certSerial;
+		
+		$(".btn-edit-user-info-cert-submit").click(function(){
+			// helper text 초기화
+			$(".div-change-email-helper-text").empty();
+			// 인증번호 입력창의 값
+			var inputCertSerial = $(".input-edit-user-info-cert").val();
+			console.log(inputCertSerial);
+			console.log(certSerial);
+			if(certSerial != inputCertSerial) {
+				$(".div-change-email-helper-text")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-invalid").text("인증번호를 다시 확인해주세요.")
+					)
+				formValidCheck.checkEmail = false;
+				return;
+			}
+			alert("이메일 인증 완료!");
+			formValidCheck.checkEmail = true;
+		});
+		
+		// 정보 수정 버튼
+		$(".btn-edit-user-info-submit").click(function(e){
+			// 기본 이벤트(폼 전송) 차단
+			e.preventDefault();
+			// 회원정보 변경 유효성 판정
+			if(formValidCheck.isAllValid() == false) {
+				return;
+			}
+			if($(".input-edit-user-info-change-email").is(":checked") == false) {
+				$(".form-edit-info")
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "userEmail").attr("value", userEmailOrigin)
+				)
+			}
+			// 유효성 검사를 통과했을 때 폼 전송
+			$(".form-edit-info").submit();
+		});
+		
+		// 회원정보 변경 유효성 판정
+		var formValidCheck = {
+			// 회원가입 단계별 판정
+			checkNick : true,
+			checkEmail : true,
+			// 판정 결과 반환
+			isAllValid : function() {
+				return this.checkNick && this.checkEmail;
+			}
+		};
 	});
 	
 </script>
