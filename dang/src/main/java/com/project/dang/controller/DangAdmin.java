@@ -70,7 +70,6 @@ public class DangAdmin {
 	@GetMapping("/place_list")
 	public String placeList(Model model, @ModelAttribute PlaceListRequestDto placeListRequestDto) {
 		int count = dangPlaceDao.countPlace(placeListRequestDto);
-		System.out.println("ssssssss"+placeListRequestDto.startBlock());
 		placeListRequestDto.setCount(count);
 		List<DangPlaceDto> placeList = dangPlaceDao.selectList(placeListRequestDto);
 		model.addAttribute("placeList", placeList);
