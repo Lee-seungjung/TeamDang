@@ -315,5 +315,9 @@
 		on dudm.user_no = ui.user_no
   	</select>
   	
+  	<!-- 댕모임 해체 -->
+  	<delete id = "closeDang" parameterType = "int">
+  		delete dang where dang_no = #{dangNo}
+  	</delete>
   	
 </mapper>

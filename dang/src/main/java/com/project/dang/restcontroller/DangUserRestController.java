@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.UserImgDto;
+import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangUserDao;
@@ -40,6 +41,9 @@ public class DangUserRestController {
 	
 	@Autowired
 	private DangReportDao dangReportDao;
+	
+	@Autowired
+	private DangDao dangDao;
 
 	// 아이디 중복 검사
 	@GetMapping("/check_id")
@@ -116,5 +120,11 @@ public class DangUserRestController {
 		} else {
 			return false;
 		}
+	}
+	
+	// 댕모임 해체
+	@DeleteMapping("/close_dang")
+	public boolean closeDang(@RequestParam int dangNo) {
+		return dangDao.closeDang(dangNo);
 	}
 }
