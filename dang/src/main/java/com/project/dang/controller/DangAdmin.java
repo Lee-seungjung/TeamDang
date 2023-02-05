@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
+import com.project.dang.dto.DangPlaceDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.MemberListDto;
 import com.project.dang.dto.MemberListRequestDto;
+import com.project.dang.dto.PlaceListRequestDto;
 import com.project.dang.dto.PuppyListDto;
 import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.dto.ReportListRequestDto;
@@ -66,7 +68,12 @@ public class DangAdmin {
 	}
 	//관리자 페이지 장소목록 이동 맵핑
 	@GetMapping("/place_list")
-	public String placeList() {
+	public String placeList(Model model, @ModelAttribute PlaceListRequestDto placeListRequestDto) {
+		int count = dangPlaceDao.countPlace(placeListRequestDto);
+		System.out.println("ssssssss"+placeListRequestDto.startBlock());
+		placeListRequestDto.setCount(count);
+		List<DangPlaceDto> placeList = dangPlaceDao.selectList(placeListRequestDto);
+		model.addAttribute("placeList", placeList);
 		return "dang_admin/list";
 	}
 	//관리자 페이지 장소목록 이동 맵핑

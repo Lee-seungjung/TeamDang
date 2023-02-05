@@ -3,6 +3,7 @@ package com.project.dang.repository;
 import java.util.List;
 
 import com.project.dang.dto.PlaceImg;
+import com.project.dang.dto.PlaceListRequestDto;
 import com.project.dang.dto.DangPlaceDto;
 
 public interface DangPlaceDao {
@@ -55,4 +56,17 @@ public interface DangPlaceDao {
 	 * @return List<DangPlaceDto>
 	 */
 	List<DangPlaceDto> placeListArea(Double lat1,Double lng1,Double lat2,Double lng2);
+	
+	
+	public List<DangPlaceDto> selectList(PlaceListRequestDto PlaceListRequestDto); // 문의 조회
+	
+	public List<DangPlaceDto> selectSearch(PlaceListRequestDto PlaceListRequestDto); // 문의 글 검색 목록
+		
+	public List<DangPlaceDto> selectAll(PlaceListRequestDto PlaceListRequestDto); // 문의 전체 목록
+		
+	public int countPlace(PlaceListRequestDto PlaceListRequestDto); //  게시글 총 갯수 반환
+		
+	public int searchCountPlace(PlaceListRequestDto PlaceListRequestDto); //  검색 조회시 게시글 총 갯수 반환
+		
+	public int listCountPlace(PlaceListRequestDto PlaceListRequestDto); //  전체 조회시 게시글 총 갯수 반환
 }

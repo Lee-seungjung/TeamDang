@@ -1,11 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="DangHome" name="title"/>
 </jsp:include>
 
 <style>
+	
+	/* 페이지네이션 */
+	ul {
+	    list-style: none;
+	    margin:0px; 
+	    padding:0px;
+	}
+	
+	.ul-report-list-page-item {
+		cursor : pointer;
+		width : 2.5rem;
+		height : 2rem;
+		border : 1px solid #CEE3F2;
+		color : #76BEFF;
+	}
+	
+	.ul-report-list-page-item:hover {
+		border : 2px solid #76BEFF;
+		background-color : #F0F9FF;
+	}
+	
+	.ul-report-list-page-item-selected {
+		border : 2px solid #76BEFF;
+		background-color : #76BEFF;
+		color : white;
+	}
+	
 	
 	.overText {
             color: red;
@@ -275,6 +303,13 @@
     	 margin-top:215%;
     	 display:none;
     }
+    
+    table {
+	  background-color: skyblue;
+	  border-collapse: collapse;
+	  border-radius: 10px;
+	  border-style: hidden;
+	}
 </style>
 
 	<div class="container-fluid mb-5">
@@ -315,8 +350,135 @@
 				</div>
 			</div>
 		</div>
-
+		
 		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2">
+			<c:forEach var="placeList" items="${placeList}">
+				<table class="table">
+				  <tbody class="mt-3">
+				  	
+				    <tr class="mt-3">
+				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/1000"></th>
+				      <td>
+				      	<div class="row mt-3">
+				      		<div class="col fw-bold">${placeList.placeName}</div>
+				      	</div>
+				      	<div class="row mt-1">
+				      		<div class="col" style="font-size: 11px">${placeList.placeAddress}</div>
+				      	</div>
+				      	<div class="row mt-4">
+				      		<div class="col" style="font-size: 11px">${placeList.placeTel}</div>
+				      	</div>
+				      	<div class="row mt-1">
+				      		<div class="col" style="font-size: 11px">${placeList.dangSize}까지 가능</div>
+				      	</div>
+				      </td>
+				      <td class="text-end mt-2 fw-bold">
+					      <div class="row mt-3  me-1">
+					      		<div class="col fw-bold">${placeList.placeSort}</div>
+					      </div>
+				      </td>
+				    </tr>
+				 
+				  </tbody>
+				 
+				</table>
+				    </c:forEach>
+			</div>
+		</div>
+		
+		
+		
+		<%-- 검색창 --%>
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+			</div>
+		</div>
+		
+		<form action = "place_list" method = "get">
+		<div class="row mt-3">
+			<div class="col-3">
+				<!-- <select class="form-select" name = "type" required>
+					<option value = "place_name">제목</option>
+					<option value = "place_info">내용</option>
+				</select> -->
+			</div>
+			<div class="col-6">
+				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}" required>
+			</div>
+			<div class="col-3">
+				<button  class="w-100 box1" type = "submit">검색</button
+			></div>
+		</div>
+		</form>
+		
+		
+	<div class="row mt-3 text-center">
+			<%-- 페이지 네비게이터 --%>
+			<ul class="pagination text-center">
+				<c:choose>
+					<c:when test = "${placeListRequestDto.isFirst()}">
+						<li class="page-item">
+							<a class="page-link" href = "">&laquo;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.firstBlock()}&${placeListRequestDto.parameter()}">&laquo;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.hasPrev()}">
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.prevBlock()}&${placeListRequestDto.parameter()}">&lt;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "">&lt;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:forEach var = "i" begin = "${placeListRequestDto.startBlock()}" end = "${placeListRequestDto.endBlock()}" step = "1">
+					<li class="page-item">
+						<a class="page-link" href = "place_list?p=${i}&${placeListRequestDto.parameter()}">${i}</a>
+					</li>
+				</c:forEach>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.hasNext()}">
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.nextBlock()}&${placeListRequestDto.parameter()}">&gt;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "">&gt;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.isLast()}">
+						<li class="page-item">
+							<a class="page-link" href = "">&raquo;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.lastBlock()}&${placeListRequestDto.parameter()}">&raquo;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			</div>
+		</div>
+		
+		<!-- <div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
 			</div>
@@ -332,17 +494,16 @@
 				
 				
 			</div>
-		</div>
+		</div> -->
 		
-		<div class="row mt-3 ">
+		<!-- <div class="row mt-3 ">
 			<div class="col-md-8 offset-md-2" >
 				<div class="row  firstLine" >
 					
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-	</div>
 
 
 
@@ -759,6 +920,8 @@
 		    </div>
 		  </div>
 		</div>
+		
+		
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
