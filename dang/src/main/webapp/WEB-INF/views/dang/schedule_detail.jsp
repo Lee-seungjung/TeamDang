@@ -10,7 +10,126 @@
 
 
 <style>
-
+	  #mapwrap {
+		position: relative;
+		overflow: hidden;
+		}
+		
+		.category1, .category1 * {
+			margin: 0;
+			padding: 0;
+			color: #000;
+		} 
+		
+		.category1 {
+			position: absolute;
+			overflow: hidden;
+			top: 10px;
+			left: 10px;
+			width: 300px;
+			height: 60px;
+			z-index: 10;
+			border-radius: 10px;
+			font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+			font-size: 12px;
+			text-align: center;
+			background-color: #fff;
+		}
+		
+		.category1 .menu_selected {
+			background: #76BEFF;
+			color: #fff;
+			margin: 0 -1px;
+		}
+		
+		.category1 li {
+			list-style: none;
+			float: left;
+			width: 60px;
+			height: 60px;
+			padding-top: 5px;
+			cursor: pointer;
+		}
+		
+		.category1 .ico_comm {
+			display: block;
+			margin: 0 auto 2px;
+			width: 26px;
+			height: 26px;
+			background:
+				url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
+				no-repeat;
+		}
+		
+		.category1 .ico_cafe {
+			background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
+		}
+		
+		.category1 .ico_food {
+			background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
+		}
+		
+		.category1 .ico_field {
+			background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
+		}
+		
+		.category1 .ico_dogsalon {
+			background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
+		}
+		
+		.category1 .ico_park {
+			background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
+		}
+		
+		.customoverlay {
+			position: relative;
+			bottom: 40px;
+			border-radius: 6px;
+			border: 1px solid #ccc;
+			border-bottom: 2px solid #ddd;
+			float: left;
+		}
+		
+		.customoverlay:nth-of-type(n) {
+			border: 0;
+			box-shadow: 0px 1px 2px #888;
+		}
+		
+		.customoverlay a {
+			display: block;
+			text-decoration: none;
+			color: #000;
+			text-align: center;
+			border-radius: 6px;
+			font-size: 14px;
+			font-weight: bold;
+			overflow: hidden;
+			background: #d95050;
+			background: #d95050
+				url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+				no-repeat right 14px center;
+		}
+		
+		.customoverlay .title {
+			display: block;
+			text-align: center;
+			background: #fff;
+			margin-right: 35px;
+			padding: 10px 15px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+	.customoverlay:after {
+		content: '';
+		position: absolute;
+		margin-left: -12px;
+		left: 50%;
+		bottom: -12px;
+		width: 22px;
+		height: 12px;
+		background:
+			url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+	}
 	.layout {
 		max-width: 1100px;
 		margin: 30px auto;
@@ -476,18 +595,18 @@
 									<!-- 지도가 표시될 div -->
 									<div id="map2" class = "w-100" style="width: 100%; height: 500px;"></div>
 		                            <!-- 지도 위에 표시될 마커 카테고리 -->
-		 							<div class="category">
+		 							<div class="category1">
 										<ul>
-										    <li id="cafeMenu" onclick="changeMarker('cafe')">
+										    <li id="cafeMenu1" onclick="changeMarker('cafe1')">
 										    	<span class="ico_comm ico_cafe"></span> 카페</li>
-										    <li id="foodMenu" onclick="changeMarker('food')">
+										    <li id="foodMenu1" onclick="changeMarker('food1')">
 										    	<span class="ico_comm ico_food"></span> 음식점</li>
-										    <li id="fieldMenu" onclick="changeMarker('field')">
+										    <li id="fieldMenu1" onclick="changeMarker('field1')">
 										    	<span class="ico_comm ico_field"></span> 운동장</li>
-										    <li id="dogsalonMenu" onclick="changeMarker('dogsalon')">
+										    <li id="dogsalonMenu1" onclick="changeMarker('dogsalon1')">
 										    	<span class="ico_comm ico_dogsalon"></span> 미용
 										    </li>
-										    <li id="parkMenu" onclick="changeMarker('park')">
+										    <li id="parkMenu1" onclick="changeMarker('park1')">
 										    	<span class="ico_comm ico_park"></span> 공원
 									    	</li>
 										</ul>
@@ -501,7 +620,7 @@
 						<div class = "col">
 							<div class = "row">
 								<div class = "col">								
-									<label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label>
+									<label for="write-category1" class="col-form-label ms-2 me-1">최대 참여인원 </label>
 									<i class="fa-solid fa-asterisk text-danger"></i>
 								</div>
 							</div>
@@ -558,7 +677,7 @@
                 <img src=""  class="place-img">
             </div>
             <div class="body-flex body2">
-                <span class="span-placename"></span>
+                <span class="span-placename1"></span>
                  <span  class="span-placesort"></span><br>
                 <span class="span-placeaddress"></span><br>
                 <span class="span-placeoff px-2"></span>
@@ -852,7 +971,7 @@
 					$(".span-placeaddress").text(resp.placeAddress);
 					$(".span-placearea").text(resp.placeArea);
 					$(".span-placeinfo").html(resp.placeInfo);
-					$(".span-placename").text(resp.placeName);
+					$(".span-placename1").text(resp.placeName);
 					$(".span-placeoff").text(resp.placeOff);
 					$(".span-placeoperation").text(resp.placeOperation);
 					$(".span-placesort").text(resp.placeSort);
@@ -871,7 +990,8 @@
         
         // 장소 선택 Modal에서 선택 시 일정 수정 Modal의 모임 장소에 입력되도록
 		$(".btn-edit-place").click(function(){			
-			var placeWhere = $(".span-placename").text();	
+			var placeWhere = $(".span-placename1").text();
+			console.log('dddd'+placeWhere);
 			//장소번호로 장소데이터 불러오기(테스트)
 			$(".div-modal-schedule-place").attr("data-placeno", placeNoSelected);
 			$(".where").text(placeWhere);
@@ -951,7 +1071,7 @@
         createFieldMarkers(); // 운동장 마커를 생성하고 운동장 마커 배열에 추가합니다
         createDogsalonMarkers(); // 미용 마커를 생성하고 운동장 마커 배열에 추가합니다
         createParkMarkers(); // 공원 마커를 생성하고 운동장 마커 배열에 추가합니다
-        changeMarker('cafe'); // 지도에 카페 마커가 보이도록 설정합니다    
+        changeMarker('cafe1'); // 지도에 카페 마커가 보이도록 설정합니다    
         // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
         function createMarkerImage(src, size, options) {
             var markerImage = new kakao.maps.MarkerImage(src, size, options);
@@ -1036,7 +1156,7 @@
 						var a1 = this.getPosition().Ma
 						var a2 = contentFood[i].placeX
 						if (a2.toFixed(7) === a1.toFixed(7)) {
-							placeOriginNo = contentCafe[i].placeNo;
+							placeOriginNo = contentFood[i].placeNo;
 							content = '<div class="customoverlay">'
 							+ '  <a class="editPlace" data-placeno=' + contentFood[i].placeNo + ' target="_blank">'
 							+ '    <span class="title " data-placeno=' + contentFood[i].placeNo + ' >'
@@ -1093,7 +1213,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentField[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentField[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="editPlace" data-placeno=' + contentField[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentField[i].placeNo + ' >'
@@ -1149,7 +1269,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentDogsalon[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentDogsalon[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="editPlace" data-placeno=' + contentDogsalon[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentDogsalon[i].placeNo + ' >'
@@ -1205,7 +1325,7 @@
                                 var a1 = this.getPosition().Ma
                                 var a2 = contentPark[i].placeX
                                 if (a2.toFixed(7) === a1.toFixed(7)) {
-                                    placeOriginNo = contentCafe[i].placeNo;
+                                    placeOriginNo = contentPark[i].placeNo;
                                     content = '<div class="customoverlay">'
                                         + '  <a class="editPlace" data-placeno=' + contentPark[i].placeNo + ' target="_blank">'
                                         + '    <span class="title " data-placeno=' + contentPark[i].placeNo + ' >'
@@ -1234,79 +1354,79 @@
             }
         }
         // 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
-        function setParkMarkers(map) {
+        function setParkMarkers(map2) {
             for (var i = 0; i < parkMarkers.length; i++) {
                 parkMarkers[i].setMap(map2);
             }
         }
         // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
         function changeMarker(type) {
-            var cafeMenu = document.getElementById('cafeMenu');
-            var foodMenu = document.getElementById('foodMenu');
-            var fieldMenu = document.getElementById('fieldMenu');
-            var dogsalonMenu = document.getElementById('dogsalonMenu');
-            var parkMenu = document.getElementById('parkMenu');
+            var cafeMenu1 = document.getElementById('cafeMenu1');
+            var foodMenu1 = document.getElementById('foodMenu1');
+            var fieldMenu1 = document.getElementById('fieldMenu1');
+            var dogsalonMenu1 = document.getElementById('dogsalonMenu1');
+            var parkMenu1 = document.getElementById('parkMenu1');
             // 카페 카테고리가 클릭됐을 때
-            if (type === 'cafe') {
+            if (type === 'cafe1') {
                 // 카페 카테고리를 선택된 스타일로 변경하고
-                cafeMenu.className = 'menu_selected';
+                cafeMenu1.className = 'menu_selected';
                 // 음식점과 운동장과 미용 카테고리는 선택되지 않은 스타일로 바꿉니다
-                foodMenu.className = '';
-                fieldMenu.className = '';
-                dogsalonMenu.className = '';
-                parkMenu.className = '';
+                foodMenu1.className = '';
+                fieldMenu1.className = '';
+                dogsalonMenu1.className = '';
+                parkMenu1.className = '';
                 // 카페 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(map2);
                 setFoodMarkers(null);
                 setFieldMarkers(null);
                 setDogsalonMarkers(null);
                 setParkMarkers(null);
-            } else if (type === 'food') { // 음식점 카테고리가 클릭됐을 때
+            } else if (type === 'food1') { // 음식점 카테고리가 클릭됐을 때
                 // 음식점 카테고리를 선택된 스타일로 변경하고
-                cafeMenu.className = '';
-                foodMenu.className = 'menu_selected';
-                fieldMenu.className = '';
-                dogsalonMenu.className = '';
-                parkMenu.className = '';
+                cafeMenu1.className = '';
+                foodMenu1.className = 'menu_selected';
+                fieldMenu1.className = '';
+                dogsalonMenu1.className = '';
+                parkMenu1.className = '';
                 // 음식점 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(map2);
                 setFieldMarkers(null);
                 setDogsalonMarkers(null);
                 setParkMarkers(null);
-            } else if (type === 'field') { // 운동장 카테고리가 클릭됐을 때
+            } else if (type === 'field1') { // 운동장 카테고리가 클릭됐을 때
                 // 운동장 카테고리를 선택된 스타일로 변경하고
-                cafeMenu.className = '';
-                foodMenu.className = '';
-                fieldMenu.className = 'menu_selected';
-                dogsalonMenu.className = '';
-                parkMenu.className = '';
+                cafeMenu1.className = '';
+                foodMenu1.className = '';
+                fieldMenu1.className = 'menu_selected';
+                dogsalonMenu1.className = '';
+                parkMenu1.className = '';
                 // 운동장 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
                 setFieldMarkers(map2);
                 setDogsalonMarkers(null);
                 setParkMarkers(null);
-            } else if (type === 'dogsalon') {
+            } else if (type === 'dogsalon1') {
                 // 미용 카테고리를 선택된 스타일로 변경하고
-                cafeMenu.className = '';
-                foodMenu.className = '';
-                fieldMenu.className = '';
-                dogsalonMenu.className = 'menu_selected';
-                parkMenu.className = '';
+                cafeMenu1.className = '';
+                foodMenu1.className = '';
+                fieldMenu1.className = '';
+                dogsalonMenu1.className = 'menu_selected';
+                parkMenu1.className = '';
                 // 미용 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
                 setFieldMarkers(null);
                 setDogsalonMarkers(map2);
                 setParkMarkers(null);
-            } else if (type === 'park') {
+            } else if (type === 'park1') {
                 // 공원 카테고리를 선택된 스타일로 변경하고
-                cafeMenu.className = '';
-                foodMenu.className = '';
-                fieldMenu.className = '';
-                dogsalonMenu.className = '';
-                parkMenu.className = 'menu_selected';
+                cafeMenu1.className = '';
+                foodMenu1.className = '';
+                fieldMenu1.className = '';
+                dogsalonMenu1.className = '';
+                parkMenu1.className = 'menu_selected';
                 // 공원 마커들만 지도에 표시하도록 설정합니다
                 setCafeMarkers(null);
                 setFoodMarkers(null);
