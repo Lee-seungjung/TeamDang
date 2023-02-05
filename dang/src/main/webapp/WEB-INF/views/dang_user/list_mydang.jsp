@@ -75,7 +75,7 @@
 	.btn-mydang-dang-delete {
 		border : none;
 		border-radius : 10px;
-		background-color : red;
+		background-color : #787878;
 		color : white;
 	}
 	
