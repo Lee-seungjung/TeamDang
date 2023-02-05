@@ -19,7 +19,7 @@
 	}
 	
 	.label-user-profile {
-		border : 2px black solid;
+		border : none;
 		border-radius : 50%;
 		aspect-ratio : 1/1;
 	}

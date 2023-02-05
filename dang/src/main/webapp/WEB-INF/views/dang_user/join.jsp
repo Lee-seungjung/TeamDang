@@ -11,6 +11,15 @@
 		
 	}
 	
+	input {
+		border-radius : 10px;
+		border : 1px solid #76BEFF;
+	}
+	
+	input:focus {
+		outline : 2px solid #76BEFF;
+	}
+	
 	.img-dang-join-logo {
 		width : 3rem;
 	}
@@ -64,6 +73,7 @@
 	
 	.btn-dang-send-email {
 		border-radius : 5px;
+		border : none;
 		background-color : #787878;
 		color : white;
 	}
@@ -74,17 +84,35 @@
 	
 	.btn-submit-join {
 		border-radius : 5px;
+		border : none;
 		background-color : #76BEFF;
 		color : white;
 	}
 	
-	.btn-submit-join:disabled {
-		opacity : 0.5;
+	.btn-modal-close {
+		border : none;
+		background-color : white;
+	}
+	
+	.btn-agree-condition,
+	.btn-agree-privacy {
+		border : none;
+		border-radius : 10px;
+		background-color : #76BEFF;
+		color : white;
+	}
+	
+	.btn-cancel-condition,
+	.btn-cancel-privacy {
+		border : none;
+		border-radius : 10px;
+		background-color : #787878;
+		color : white;
 	}
 	
 </style>
 
-<div class = "container-fluid my-3">
+<form class = "container-fluid my-3">
 	<div class = "row">
 		<div class = "col-6 offset-3">
 			<div class = "row">
@@ -286,7 +314,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 
 <!-- 이용약관 모달 -->
 <div class="modal fade" id="modalCondition" tabindex="-1">
@@ -294,7 +322,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">이용약관</h5>
-                <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-modal-close fa-solid fa-xmark" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="overflow-y: scroll;">
                 <div style="line-height: 18px;">제1조(목적)</div>
@@ -474,10 +502,14 @@
                 <div style="line-height: 18px;"><br></div>
                 <div style="line-height: 18px;">제 1 조 (시행일) 이 약관은 2023년 1월 1일부터 시행한다. &nbsp; &nbsp; &nbsp;</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-agree-condition">동의</button>
-                <button type="button" class="btn-disagree-condition" data-bs-dismiss="modal" aria-label="Close">취소</button>
-            </div>
+           <div class = "row my-3 px-4">
+           		<div class = "offset-8 col-2">
+					<button type="button" class="btn-agree-condition py-1 w-100">동의</button>
+           		</div>
+           		<div class = "col-2">
+					<button type="button" class="btn-cancel-condition py-1 w-100" data-bs-dismiss="modal" aria-label="Close">취소</button>
+           		</div>
+           	</div>
         </div>
     </div>
 </div>
@@ -488,7 +520,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">개인정보수집 및 이용동의</h5>
-                <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-modal-close fa-solid fa-xmark" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="overflow-y: scroll;">
                 <div style="line-height: 18px;">제1조(목적)</div>
@@ -668,10 +700,14 @@
                 <div style="line-height: 18px;"><br></div>
                 <div style="line-height: 18px;">제 1 조 (시행일) 이 약관은 2023년 1월 1일부터 시행한다. &nbsp; &nbsp; &nbsp;</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-agree-privacy">동의</button>
-                <button type="button" class="btn-disagree-privacy" data-bs-dismiss="modal" aria-label="Close">취소</button>
-            </div>
+            <div class = "row my-3 px-4">
+           		<div class = "offset-8 col-2">
+					<button type="button" class="btn-agree-privacy py-1 w-100">동의</button>
+           		</div>
+           		<div class = "col-2">
+					<button type="button" class="btn-cancel-privacy py-1 w-100" data-bs-dismiss="modal" aria-label="Close">취소</button>
+           		</div>
+           	</div>
         </div>
     </div>
 </div>
@@ -681,9 +717,6 @@
 <script type="text/javascript">
 
 	$(function(){
-		
-		// 기본적으로 가입 버튼은 비활성화
-		$(".btn-submit-join").attr("disabled", true);
 		
 		// 초기 인증메일 전송 버튼 비활성화
 		$("#sendEmail").attr("disabled", true);
@@ -700,7 +733,6 @@
 			// 아무 값도 입력되지 않았을 때
 			if(inputId == "") {
 				formValidCheck.checkId = false;
-				formValid();
 				$(".check-id-empty").show();
 				return;
 			}
@@ -709,7 +741,6 @@
 			// 정규표현식 만족 여부에 따라 다른 처리
 			if(!regexp.test(inputId)) { // 정규표현식을 만족하지 않을 경우
 				formValidCheck.checkId = false;
-				formValid();
 				$(".check-id-invalid").show();
 				return;
 			}
@@ -721,7 +752,6 @@
 					// checkId의 값의 변화가 console에 바로 반영되지 않는 이유가 뭐지?
 					formValidCheck.checkId = resp;
 					console.log("resp = " + resp);
-					formValid();
 					console.log(formValidCheck.checkId);
 					console.log("isAllValid() = " + formValidCheck.isAllValid());
 					if(resp) {
@@ -750,7 +780,6 @@
 			// 정규표현식 여부에 따라 서로 다른 처리
 			if(regexp.test(inputPw)) { // 정규표현식을 만족한다면
 				formValidCheck.checkPw = true;
-				formValid();
 				console.log(formValidCheck.checkPw);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-pw-valid").show();
@@ -794,7 +823,6 @@
 				return;
 			} else {
 				formValidCheck.checkPwck = true;
-				formValid();
 				console.log(formValidCheck.checkPwck);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-pwck-valid").show();
@@ -811,7 +839,6 @@
 			// 닉네임 입력창의 값이 비어있을 떼
 			if(inputNick == "") {
 				formValidCheck.checkNick = false;
-				formValid();
 				$(".check-nick-empty").show();
 				return;
 			} 
@@ -819,13 +846,11 @@
 			var regexp = /^[가-힣A-Za-z0-9]{2,10}$/;
 			if(regexp.test(inputNick)) { // 정규 표현식을 만족하면
 				formValidCheck.checkNick = true;
-				formValid();
 				console.log(formValidCheck.checkNick);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-nick-valid").show();	
 			} else { // 정규 표현식을 만족하지 않으면
 				formValidCheck.checkNick = false;
-				formValid();
 				$(".check-nick-invalid").show();	
 			}
 		});
@@ -846,13 +871,11 @@
 			// 선택한 성별의 테두리 변경
 			if($(this).is(":checked")) {
 				formValidCheck.checkGender = true;
-				formValid();
 				console.log(formValidCheck.checkGender);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				target.addClass("gender-selected");
 			} else {
 				formValidCheck.checkGender = false;
-				formValid();
 				target.removeClass("gender-selected");
 			}
 		});
@@ -870,7 +893,6 @@
 					if(resp) {
 						$("#sendEmail").prop("disabled", true);
 						formValidCheck.checkEmail = false;
-						formValid();
 						console.log(formValidCheck.checkEmail);
 						console.log("isAllValid() = " + formValidCheck.isAllValid());
 						// 인증메일 발송 메시지
@@ -917,14 +939,12 @@
 			$(".check-cert").hide();
 			if($("#userCert").val() == certSerial) {
 				formValidCheck.checkEmail = true;
-				formValid();
 				console.log(formValidCheck.checkEmail);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-cert-valid").show();
 			} else {
 				formValidCheck.checkEmail = false;
 				$(".check-cert-invalid").show();
-				formValid();
 				console.log(formValidCheck.checkEmail);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 			}
@@ -973,20 +993,22 @@
         	if(checkTermCount >= 2) {
         		$("#checkAll").prop("checked", true);
         		formValidCheck.checkTerm = true;
-        		formValid();
 				console.log(formValidCheck.checkTerm);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
         	} else {
         		$("#checkAll").prop("checked", false);
         		formValidCheck.checkTerm = false;
-        		formValid();
 				console.log(formValidCheck.checkTerm);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
         	}
         }
 		
 		// form 전송
-		$(".btn-submit-join").click(function(){
+		$(".btn-submit-join").click(function(e){
+			e.preventDefault();
+			if(formValidCheck.isAllValid() == false) {
+				return;
+			}
 			var form = $("<form>").attr("action", "join").attr("method", "post");
 			form
 			.append($("<input>").attr("name", "userId").attr("value", $("#userId").val()))
@@ -1016,13 +1038,5 @@
 			}
 		};
 		
-		function formValid() {
-			// 유효성 판정을 위해 강제 이벤트 발생
-			if(formValidCheck.isAllValid()) {
-				$(".btn-submit-join").attr("disabled", false);
-			} else {
-				$(".btn-submit-join").attr("disabled", true);
-			}
-		}
 	});
 </script>
