@@ -140,7 +140,7 @@
 		 			<if test = "searchName != null">
 		 				and instr(dudldid.dang_name, #{searchName}) > 0
 		 			</if>
-		 			<if test = "searchArea != null">
+		 			<if test = "searchName != null and searchArea != null">
 			 			and (
 			 		</if>
 			 		<if test = "searchArea != null">
