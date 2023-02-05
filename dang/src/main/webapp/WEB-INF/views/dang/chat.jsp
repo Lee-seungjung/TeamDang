@@ -203,9 +203,9 @@
 		});
 		
 		//4 엔터키 이벤트
-		$("#chat-input").on("keyup",function(key){
-			var inputText = $(".chat-input").val();
-	        if(inputText!=undefined && key.keyCode==13) {            
+		$("#chat-input").on("keyup",function(e){
+			var inputText = $("#chat-input").val();
+	        if(inputText!="" && e.keyCode==13) {            
 		        $("#send-btn").click();
 	        }
 	    });
