@@ -15,18 +15,23 @@
 	    font-size: 12px;
 	    font-weight: bold;
 	}
+	
+	.img-dang-admin-main {
+		aspect-ratio : 11/3;
+		border-radius : 10px;
+	}
 </style>
 
 <!--대시 보드 시작-->
 <div class="container-fluid">
 
-    <div class="row mt-4 offset-md-1">
+    <div class="row mt-4 offset-1">
         <div class="col-10 ms-2 me-2">
-            <img src="${pageContext.request.contextPath}/images/puppys2.jpg" width="100%;" height="70%;">
+            <img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class = "img-dang-admin-main">
         </div>
     </div>
 
-    <div class="row mt-4 offset-md-2">
+    <div class="row mt-4 offset-2">
         <div class="col-2 shadow  ms-3 me-3">
             <div class="row">
                 <div class="col-7 mt-3">
@@ -39,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 shadow  ms-3 me-3">
+        <div class="col-2 shadow ms-3 me-3">
             <div class="row">
                 <div class="col-7 mt-3">
                     <p class="statistics-font">주간 댕모임 개설 수</p>
@@ -50,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 shadow  ms-3 me-3">
+        <div class="col-2 shadow ms-3 me-3">
             <div class="row">
                 <div class="col-7 mt-3">
                     <p class="statistics-font">주간 일정 개설 수</p>
@@ -61,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 shadow  ms-3 me-3">
+        <div class="col-2 shadow ms-3 me-3">
             <div class="row">
                 <div class="col-7 mt-3">
                     <p class="statistics-font">7일간 가입자 수</p>
@@ -74,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-4 offset-md-1 mb-5">
+    <div class="row mt-4 offset-1 mb-5">
         <div class="col-md-5 shadow ms-3 me-3">
         	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
             <canvas id="regionChart" width="300" height="186"></canvas>
