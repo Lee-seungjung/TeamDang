@@ -707,7 +707,6 @@
 		//참여 회비는 1백만원미만으로 제한(6자)
 		$(document).on("input", ".money", function(){
 			var moneyLength = $(this).val().length;
-			console.log(moneyLength);
 			if(moneyLength >= 7) {
 				$(".invalid-money").show();
 			}
@@ -739,7 +738,6 @@
 				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					//console.log(resp.length);
 					//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
 					//일정상세에서 참여인원인 마감되었는지?
 					if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
@@ -749,12 +747,9 @@
 							$(".btn-minus").show();                        			
                        	}
 					} else{ //일정상세에서 참여인원이 남아있는지?
-						console.log("마감안했음");
                      	if(resp.length == 0){ //참여된 멤버가 아니라면
-                     		console.log("마감안했는데 참여안했음");
                      		$(".btn-plus").show();	 
                      	} else {//참여된 멤버라면
-                       		console.log("마감안했는데 참여했음");
                        		$(".btn-minus").show();
                        	}
 					}
@@ -764,21 +759,18 @@
 			
 		//상세일정에서 참여하기 클릭
 		$(".btn-plus").click(function(){
-			console.log("참여버튼누름");
 			$.ajax({
 				url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
 				method : "post",
  				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					console.log("참여하기 성공");
 					$(".btn-plus").hide();
                           	
 					window.confirm("일정 참여가 완료되었습니다");
                           	
 					location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
 					$(".btn-minus").show(); 
-					console.log("참여취소 보여야함");
 				}
 			});
 		});
@@ -786,17 +778,14 @@
 		//상세일정에서 참여취소 클릭
 		$(".btn-minus").click(function(){
                   	
-			console.log("취소버튼누름");
 			$.ajax({
 				url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
  				method : "delete",
 				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					console.log("참여취소 성공");
 					$(".btn-minus").hide();
 					window.confirm("일정이 취소되었습니다");
-					console.log("참여버튼 보여야함");
                           	 
 					$(".btn-plus").show();
 					location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
@@ -805,11 +794,9 @@
 		}); 
 		
 		//상세일정에서 수정버튼 클릭
+		
 		$(".btn-edit").click(function(e){
-			console.log("수정버튼누름");
-			
 			$("#scheduleEditModal").modal("show");//모달 표시
-			
 			$(".input-modal-schedule-name").val($(".schedule-name").text());
 			$(".textarea-modal-schedule-content").val($(".schedule-content").text());
 			$(".input-modal-schedule-when").val($(".schedule-start").text());
@@ -830,10 +817,10 @@
 		
 		//일정수정 모달에서 수정 버튼 클릭
         $(".edit-btn").click(function(){
+        	if(confirm("수정하시겠습니까?")==true){
         	// 설정한 총원
         	var scheduleHeadmax = $(".select-modal-schedule-head").val();
         	
-        	console.log("내용수정하고 수정버튼 클릭");
         	
         	if(scheduleHeadmax < scheduleHeadNow) {
         		alert("현재 인원보다 적은 총원을 선택할 수 없습니다.")
@@ -868,16 +855,18 @@
 				contentType: false,
 		        processData: false,
 		        success : function(resp) {
-		        	console.log(resp);	
 		        	var dangNo = $(".input-dang-no").val();
 		        	location.href = "${pageContext.request.contextPath}/dang/"+dangNo+"/schedule_detail?scheduleNo=" + scheduleNo;
 		        }
 			});
+			
+        	}else{
+        		return;
+        	}
 		});
 		
 		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
 		$(document).on("click",".edit-cancel",function(){
-			console.log("(수정)취소버튼클릭");
 			$(".schedule-name").val(""); //일정 제목
 			$(".write-content").val(""); //일정 내용
 			$(".when-date ").val(""); //일정 날짜
@@ -889,7 +878,6 @@
 		
 		//상세일정에서 삭제버튼 클릭
 		$(".btn-delete").click(function(){
-			console.log("삭제버튼누름");
 			
 			var result = confirm("일정을 삭제하시겠습니까?")
 			if(result==true){
@@ -919,10 +907,8 @@
         
         $(document).on("input", ".schedule-name", function(){
         	
-        	console.log("확인");
         	
         	var nameLength = $(this).val().length;
-        	console.log(nameLength);
         	$(".title-length").text(nameLength);
         	
          	if(nameLength >= 20) {
@@ -937,7 +923,6 @@
         $(document).on("input", ".write-content", function(){
         	     	
         	var contentLength = $(this).val().length;
-        	console.log(contentLength);
         	$(".content-length").text(contentLength);
         	
          	if(contentLength >= 100) {
@@ -967,7 +952,6 @@
 				async: false,
 				contentType: "application/json",
 				success: function (resp) {
-					console.log(resp)
 					$(".span-placeaddress").text(resp.placeAddress);
 					$(".span-placearea").text(resp.placeArea);
 					$(".span-placeinfo").html(resp.placeInfo);
@@ -981,9 +965,6 @@
 					placeNoSelected = resp.placeNo;
 					placeXSelected = resp.placeX;
 					placeYSelected = resp.placeY;
-					console.log(placeXSelected)
-					console.log(placeYSelected)
-					console.log(placeNoSelected);
 				}
 			})
 		});
@@ -991,7 +972,6 @@
         // 장소 선택 Modal에서 선택 시 일정 수정 Modal의 모임 장소에 입력되도록
 		$(".btn-edit-place").click(function(){			
 			var placeWhere = $(".span-placename1").text();
-			console.log('dddd'+placeWhere);
 			//장소번호로 장소데이터 불러오기(테스트)
 			$(".div-modal-schedule-place").attr("data-placeno", placeNoSelected);
 			$(".where").text(placeWhere);
@@ -1438,7 +1418,6 @@
 		
 	//스케줄 상세관련 카카오맵 출력
 	var placeNo1 = ${scheduleDetail.placeNo};
-	console.log(${countJoin});
 
 	var placeX;
 	var placeY; 
@@ -1449,13 +1428,10 @@
 	   async : false,
 	   contentType : "application/json",
 	   success : function(resp) {
-	      console.log(resp)   
 	      
 	      placeX = resp.placeX 
 	      placeY = resp.placeY
 	      
-	      console.log(placeX);
-	      console.log(placeY);
 	   }
 	})
                          				
