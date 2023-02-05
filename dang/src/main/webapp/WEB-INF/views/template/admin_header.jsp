@@ -167,7 +167,7 @@
         <a class="navbar-brand ms-3">관리자 페이지</a>
         <form class="d-flex">
           <button onClick = "location.href = '${pageContext.request.contextPath}/'"  class="btn btn-outline-success" type="button">댕모임 홈으로</button>
-          <button  class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
+          <button onclick = "location.href = '${pageContext.request.contextPath}/user/logout'" class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
         </form>
       </div>
     </nav>
