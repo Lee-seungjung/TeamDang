@@ -89,7 +89,7 @@
 	<select id = "searchList" parameterType = "map" resultType = "DangPlaceDto">
 		select * from (
     		select tmp.*, rownum rn from (
-        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(place_name,#{keyword})>0
+        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0
     		)tmp
 		) where rn between #{startRow} and #{endRow}
 	</select>

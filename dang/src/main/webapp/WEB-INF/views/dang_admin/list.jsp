@@ -305,10 +305,14 @@
     }
     
     table {
-	  background-color: skyblue;
+	  background-color: #D8D8D8;
 	  border-collapse: collapse;
 	  border-radius: 10px;
 	  border-style: hidden;
+	}
+	
+	.pagination {
+   			justify-content: center;
 	}
 </style>
 
@@ -351,6 +355,38 @@
 			</div>
 		</div>
 		
+		<%-- 검색창 --%>
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+			</div>
+		</div>
+		
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+					<form action = "place_list" method = "get">
+		<div class="row mt-3">
+			<div class="col-3">
+				<select class="form-select" name = "type" required>
+					<option value = "place_name">장소명</option>
+					<option value = "place_area">지역명</option>
+					<option value = "place_sort">카페고리</option>
+					<option value = "place_info">내용</option>
+				</select>
+			</div>
+			<div class="col-6">
+				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
+			</div>
+			<div class="col-3">
+				<button  class="w-100 box1" type = "submit">검색</button
+			></div>
+		</div>
+		</form>
+			</div>
+		</div>
+		
+	
+		
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2">
 			<c:forEach var="placeList" items="${placeList}">
@@ -358,7 +394,7 @@
 				  <tbody class="mt-3">
 				  	
 				    <tr class="mt-3">
-				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/1000"></th>
+				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
 				      <td>
 				      	<div class="row mt-3">
 				      		<div class="col fw-bold">${placeList.placeName}</div>
@@ -373,9 +409,17 @@
 				      		<div class="col" style="font-size: 11px">${placeList.dangSize}까지 가능</div>
 				      	</div>
 				      </td>
+				      
 				      <td class="text-end mt-2 fw-bold">
 					      <div class="row mt-3  me-1">
-					      		<div class="col fw-bold">${placeList.placeSort}</div>
+					      		<div class="col fw-bold">
+					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		${placeList.placeSort}
+					      		</div>
 					      </div>
 				      </td>
 				    </tr>
@@ -387,35 +431,11 @@
 			</div>
 		</div>
 		
-		
-		
-		<%-- 검색창 --%>
-		<div class="row mt-3">
-			<div class="col-md-8 offset-md-2 text-center">
-				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
-			</div>
-		</div>
-		
-		<form action = "place_list" method = "get">
-		<div class="row mt-3">
-			<div class="col-3">
-				<!-- <select class="form-select" name = "type" required>
-					<option value = "place_name">제목</option>
-					<option value = "place_info">내용</option>
-				</select> -->
-			</div>
-			<div class="col-6">
-				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}" required>
-			</div>
-			<div class="col-3">
-				<button  class="w-100 box1" type = "submit">검색</button
-			></div>
-		</div>
-		</form>
-		
-		
-	<div class="row mt-3 text-center">
+		<div class="row mt-1">
+			<div class="col-md-8 offset-md-2">
+			<div class="row mt-1 text-center">
 			<%-- 페이지 네비게이터 --%>
+			<nav aria-label="Page navigation example">
 			<ul class="pagination text-center">
 				<c:choose>
 					<c:when test = "${placeListRequestDto.isFirst()}">
@@ -475,8 +495,13 @@
 					</c:otherwise>
 				</c:choose>
 			</ul>
+			</nav>
 			</div>
 		</div>
+			</div>
+		</div>
+		
+	
 		
 		<!-- <div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
