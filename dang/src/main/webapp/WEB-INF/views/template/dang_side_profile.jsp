@@ -838,7 +838,7 @@
 		function deleteAttachmentNo(){
 			var newAttachmentNo = $("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
+			if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
 					method:"delete",
