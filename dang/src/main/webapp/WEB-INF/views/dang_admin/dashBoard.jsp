@@ -86,7 +86,7 @@
         	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
             <canvas id="regionChart" width="300" height="186"></canvas>
         </div>
-        <div class="col-md-5 shadow ms-3 me-3 mt-3">
+        <div class="col-md-5 shadow ms-1 me-1 mt-3">
         	<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
         </div>
     </div>
