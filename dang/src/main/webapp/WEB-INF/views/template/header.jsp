@@ -134,7 +134,7 @@
 	
 	.img-user-profile {
 		border-radius : 50%;
-		border : 4px solid #373A3C;
+		border : none;
 		width : 2em;
 		aspect-ratio: 1/1;
 	}

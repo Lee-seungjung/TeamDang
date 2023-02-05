@@ -157,6 +157,7 @@
             <li><a href="${pageContext.request.contextPath}/admin/user_list"" class="mb-2"><i class="fa-solid fa-user"></i> 회원 목록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/report" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 접수</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/dang_list" class="mb-2"><i class="fa-solid fa-paw"></i> 댕모임 조회</a></li>
+
           </ul>
         </div>
     
