@@ -873,7 +873,12 @@
 				
 			// 댕댕이 프로필 첨부파일 설정
 			var puppyAttachmentNo = norm.nextAll(".input-puppy-attachment-no").val();
-			$(".img-modal-edit-puppy-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/" + puppyAttachmentNo);
+			if(puppyAttachmentNo != "") {
+				$(".img-modal-edit-puppy-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/" + puppyAttachmentNo);	
+			} else {
+				$(".img-modal-edit-puppy-profile").attr("src", "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png");	
+			}
+			
 			// 댕댕이 특이사항 설정
 			if(norm.nextAll(".input-puppy-character").length != 0) {
 				for(var i = 0 ; i < norm.nextAll(".input-puppy-character").length ; i ++) {

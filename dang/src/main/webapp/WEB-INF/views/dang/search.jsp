@@ -1140,7 +1140,7 @@
 			// 상태 메시지
 			var memberMessage = $(".input-modal-join-dang-message").val();
 			// 가입 완료 메시지
-			alert("댕모임 가입이 완로되었습니다!");
+			alert("댕모임 가입이 완료되었습니다!");
 			// 댕모임 가입
 			var form = $("<form>").attr("action", "${pageContext.request.contextPath}/member/join").attr("method", "post")
 							.append(

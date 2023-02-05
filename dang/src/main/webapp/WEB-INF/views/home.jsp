@@ -24,7 +24,7 @@
 	
 	.div-home-submenu {
 		border-radius : 10px;
-		background-color : EEEEEE;
+		background-color : #EEEEEE;
 	}
 	
 	.OUTLINE {
@@ -55,7 +55,6 @@
     
     .img-dang-profile {
     	height : 300px;
-    	object-fit : contain;
     	border-radius : 15px 15px 0 0 !important;
     }
     
@@ -117,7 +116,10 @@
     	height : 3rem;
     }
 	
-	
+	.div-dang-search-initial-text,
+	.div-dang-search-none {
+		height : 16rem;
+	}
 </style>
 
 <div class = "container-fluid my-5"> <%-- container 시작 --%>
@@ -240,7 +242,11 @@
 								</svg>
 							</div>
 							<div class = "col-6 px-4 py-2 div-dang-search">
-								<p>지역에서 가장 핫한 댕모임을 확인해 보세요!</p>
+								<div class = "col d-flex flex-column justify-content-center align-items-center div-dang-search-initial-text">								
+									<strong class = "mt-1">우리 지역에서</strong>
+									<strong class = "mt-1">가장 핫한 댕모임을</strong>
+									<strong class = "my-1">확인해 보세요!</strong>
+								</div>
 							</div> <%-- 비동기 조회 후 상위 5개 댕모임 태그 붙일 영역 --%>
 						</div>
 					</div>
@@ -341,37 +347,41 @@
 				method : "get",
 				success : function(resp){
 					$(".div-dang-search").empty();
-					for(var i = 0 ; i < resp.length ; i ++) {
-						var row = $("<div>").attr("class", "row p-2 my-2 div-home-submenu div-select-dang").attr("data-dangno", resp[i].dangNo)
-										.append($("<div>").attr("class", "col-4").text(resp[i].dangArea))
-										.append($("<div>").attr("class", "col-8").text(resp[i].dangName));
+					if(resp.length == 0) {
+						var row = $("<div>").attr("class", "row p-1")
+											.append(
+												$("<div>").attr("class", "col d-flex flex-column justify-content-center align-items-center div-dang-search-none")
+													.append(
+														$("<div>").attr("class", "row mt-2")
+															.append(
+																$("<div>").attr("class", "offset-3 col-6")
+																	.append(
+																		$("<img>").attr("src", "${pageContext.request.contextPath}/images/img-dog-play.png").attr("class", "w-100")			
+																	)
+															)
+													)
+													.append(
+														$("<div>").attr("class", "row my-2")
+															.append(
+																$("<div>").attr("class", "col d-flex flex-column")
+																	.append(
+																		$("<strong>").text("아직 해당 지역의 댕모임이 없습니다.")		
+																	)
+															)
+													)
+											)
 						$(".div-dang-search").append(row);
+					} else {						
+						for(var i = 0 ; i < resp.length ; i ++) {
+							var row = $("<div>").attr("class", "row p-2 my-2 div-home-submenu div-select-dang").attr("data-dangno", resp[i].dangNo)
+											.append($("<div>").attr("class", "col-4").text(resp[i].dangArea))
+											.append($("<div>").attr("class", "col-8").text(resp[i].dangName));
+							$(".div-dang-search").append(row);
+						}
 					}
 				}
 			})
         });
-		
-		// 무한 스크롤
-		$(window).scroll(_.debounce(function(){
-			// 화면의 위치[%]
-			
-			var percent = $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
-            console.log("scrollTop = " + $(window).scrollTop());
-            console.log("document.height = " + $(document).height());
-            console.log("window.height = " + $(window).height());
-            
-            console.log("document.height - window.height = " + ($(document).height() - $(window).height()));
-            
-			//var percentage = $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
-			//console.log("퍼센트 = " + percentage);
-			
-			return;
-			
-			if(p == pLast) return; // 페이지 끝 번호에 도달하면 비동기 조회 요청을 보내지 않도록 설정
-			
-			if(percentage > 80) {
-			}
-		}, 300));
 		
 		// 상위 5개 댕모임 클릭시
 		$(document).on("click", ".div-select-dang", function(){
@@ -391,7 +401,7 @@
 					if(resp.dangInfo.attachmentNo != null) {						
 						dangProfileImg = $("<img>").attr("class", "card-img-top img-dang-profile").attr("src" , "${pageContext.request.contextPath}/rest_attachment/download/"+resp.dangInfo.attachmentNo)
 					} else {
-						dangProfileImg = $("<img>").attr("class", "card-img-top img-dang-profile img-fluid").attr("src" , "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
+						dangProfileImg = $("<img>").attr("class", "card-img-top img-dang-profile w-100").attr("src" , "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
 					}
 					var dangInfoDetail = $("<div>").attr("class", "modal-body card-body").append(
 						$("<div>").attr("class", "container-fluid")
@@ -437,7 +447,7 @@
 							.append(
 								$("<div>").attr("class", "row")
 									.append(
-										$("<div>").attr("class", "col-8 d-flex justify-content-start align-items-center")
+										$("<div>").attr("class", "col-4 d-flex justify-content-start align-items-center")
 											.append(
 												$("<div>").attr("class", "div-dang-head px-1")
 													.append(
@@ -457,7 +467,13 @@
 									.append(
 										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center")
 											.append(
-												$("<button>").attr("class", "flex-fill btn-dang btn-dang-join").attr("type", "button").text("댕모임 가입")
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-join").attr("type", "button").text("가입하기")
+											)
+									)
+									.append(
+										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center")
+											.append(
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-return").attr("type", "button").text("돌아가기")
 											)
 									)
 							)
@@ -465,11 +481,21 @@
 					target.append(dangProfileImg).append(dangInfoDetail);
 					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
 						$(".div-hashtag-list").append(
-							$("<span>").attr("class", "span-dang-hashtag mx-1 px-1").attr("data-hashtagno", resp.dangHashtag[i].hashtagNo).text(resp.dangHashtag[i].hashtagContent)
+							$("<span>").attr("class", "span-dang-hashtag mx-1 px-1 my-1").attr("data-hashtagno", resp.dangHashtag[i].hashtagNo).text(resp.dangHashtag[i].hashtagContent)
 						)
 					}
 				}
 			});
+		});
+		
+		// 가입하기 버튼
+		$(document).on("click", ".btn-dang-join", function(){
+			location.href = "${pageContext.request.contextPath}/dang/search";
+		});
+		
+		// 돌아가기 버튼
+		$(document).on("click", ".btn-dang-return", function(){
+			$("#modalDangDetail").modal("hide");
 		});
 	});
 

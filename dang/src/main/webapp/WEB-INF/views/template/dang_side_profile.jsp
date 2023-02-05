@@ -507,14 +507,22 @@
 		
 		
 		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
-		$(".cancel-btn").click(function(){
+		$(".p-cancel-btn").click(function(){
 			deleteAttachmentNo();
 		});
 		
+		//프로필 수정 전 준비
+		$(document).on("click",".profile-edit",function(){
+			var originMemberNick = $(".originNickName").text(); //기존 닉네임
+			var originMessage = $(".originMessage").text(); //기존 상태메세지
+			
+			$("[name=memberNick]").val(originMemberNick);
+			$("[name=memberMessage]").val(originMessage);
+		});		
 		
 		//입력 항목 상태 판정
 		check={
-				memberNick : false, memberNickRegex : /^[a-zA-Z0-9가-힣]{1,10}$/,
+				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,10}$/,
 				memberMessage : true, 
 				allValid:function(){
 					return this.memberNick && this.memberMessage;
@@ -592,7 +600,7 @@
 				check.memberMessage=true;
 			}
 		});
-		
+
 		//폼전송 이벤트
 		$(".edit-form").submit(function(e){
 			//기본이벤트 차단
@@ -633,7 +641,7 @@
 						}
 					});
 				}else{
-					if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 기존파일 삭제처리
+					if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 insert 후 기존파일 삭제처리
 						$.ajax({ //1
 							url:"${pageContext.request.contextPath}/rest_user/img_insert",
 							method:"post",
@@ -641,7 +649,15 @@
 							contentType:"application/json",
 							data:JSON.stringify(imgInsertData),
 							success:function(){
-								deleteOriginAttachmentNo();
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
+									method:"delete",
+									data:originAttachmentNo,
+									success:function(resp){
+										$("[name=originAttachmentNo]").val(attachmentNo);
+										
+									}
+								});
 							}
 						});
 					}
@@ -667,8 +683,6 @@
 							}
 							$(".originNickName").text(memberNick);
 							$(".originMessage").text(memberMessage);
-							$("[name=originAttachmentNo]").val(attachmentNo);
-							
 							
 							//기존 게시글 닉네임 변경
 							updateNickData={
@@ -824,7 +838,7 @@
 		function deleteAttachmentNo(){
 			var newAttachmentNo = $("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
+			if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
 					method:"delete",
@@ -1063,8 +1077,8 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-primary confirm-btn" data-bs-dismiss="modal">확인</button>
+									<button type="button" class="btn btn-secondary p-cancel-btn" data-bs-dismiss="modal">취소</button>
+									<button type="submit" class="btn btn-primary p-confirm-btn" data-bs-dismiss="modal">확인</button>
 								</div>
 							</div>
 							</form>

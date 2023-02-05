@@ -170,7 +170,7 @@
 			$(".rej-confirm-btn").click(function(){
 				var reportState = "반려";
 				updateState(reportNo, reportState); //신고 상태 반려로 변경
-				
+				location.href="${pageContext.request.contextPath}/admin/report?reportState="+reportState;
 			});
 		});
 		
@@ -215,7 +215,7 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:25px; font-weight:bolder;">신고 상세</p>
+				<p style="font-size:30px; font-weight:bolder;">신고 상세</p>
 			</div>
 			
 			<div class="row mt-4">
