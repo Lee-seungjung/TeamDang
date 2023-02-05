@@ -32,7 +32,10 @@
   	</div>
 
     <div class="row mt-4 offset-md-1">
-        <div class="col-2 shadow  ms-4 me-4">
+       
+    </div>
+    <div class="row mt-4 offset-1 mb-5">
+    	 <div class="col-2 shadow  ms-3 me-4">
             <div class="row">
                 <div class="col-7 mt-3">
                     <p class="statistics-font">주간 사용자 수</p>
@@ -66,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-2 shadow ms-5 me-5">
+        <div class="col-2 shadow ms-4 me-5">
             <div class="row">
                 <div class="col-7 mt-3">
                     <p class="statistics-font">7일간 가입자 수</p>
@@ -78,13 +81,12 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-4 offset-1 mb-5">
-        <div class="col-md-5 shadow ms-3 me-3">
+    	
+        <div class="col-md-5 shadow ms-3 me-3 mt-3">
         	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
             <canvas id="regionChart" width="300" height="186"></canvas>
         </div>
-        <div class="col-md-5 shadow ms-3 me-3">
+        <div class="col-md-5 shadow ms-3 me-3 mt-3">
         	<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
         </div>
     </div>
