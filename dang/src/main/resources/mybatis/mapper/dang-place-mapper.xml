@@ -70,8 +70,37 @@
 			dang_size = #{dangSize}
 			where place_no = #{placeNo}
 	</update>
+	
 	<!-- 영역내 마커 -->
 	<select id="placeListArea" resultType="DangPlaceDto" parameterType="Map">
 		select * from dang_place where place_x >= #{lng1} and place_y >= #{lat1} <![CDATA[ and place_x <= #{lng2} and place_y <= #{lat2} ]]>
+	</select>
+	
+	<!-- 장소 페이징 목록 -->
+	<select id = "allList" parameterType = "map" resultType = "DangPlaceDto">
+		select * from (
+    		select tmp.*, rownum rn from (
+        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no
+    		)TMP
+		) where rn between #{startRow} and #{endRow}
+	</select>	
+	
+	<!-- 장소 페이징 검색 -->
+	<select id = "searchList" parameterType = "map" resultType = "DangPlaceDto">
+		select * from (
+    		select tmp.*, rownum rn from (
+        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0
+    		)tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<!--검색 조회시 게시글 총 갯수 반환 -->
+	<select id = "searchCount" parameterType = "map" resultType = "int">
+		select count(*) from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0
+	</select>
+	
+	<!--전체 조회시 게시글 총 갯수 반환 -->
+	<select id = "allCount" parameterType = "String" resultType = "int">
+		select count(*) from dang_place p INNER JOIN place_img i on p.place_no = i.place_no
 	</select>
 </mapper>

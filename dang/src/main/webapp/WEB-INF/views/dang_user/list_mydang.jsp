@@ -75,7 +75,7 @@
 	.btn-mydang-dang-delete {
 		border : none;
 		border-radius : 10px;
-		background-color : #E8E8E8;
+		background-color : red;
 		color : white;
 	}
 	
@@ -301,6 +301,27 @@
 				)
 			$("body").append(form);
 			form.submit();
+		});
+		
+		// 해체 버튼
+		$(document).on("click", ".btn-mydang-dang-delete", function(){
+			// 해체 전 확인 메시지
+			var choice = window.confirm("정말로 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
+			// 취소를 누르면 return
+			if(choice == false) {
+				return;
+			}
+			// 댕모임 번호
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			// 댕모임 해체
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_user/close_dang?dangNo=" + dangNo,
+				method : "delete",
+				success : function(resp){
+					console.log(resp);
+					location.href = "${pageContext.request.contextPath}/user/list_mydang";
+				}
+			});
 		});
 		
 		// 페이지 네비게이터

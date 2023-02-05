@@ -15,7 +15,7 @@
 	</c:choose>
 	</title>
 
-   	<!-- 글꼴 CDN -->
+	<!-- 글꼴 CDN -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -51,10 +51,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/locale/ko.js"></script>
 	<!--chartJS CDN-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <style>
+   
+	<style>
         /* 사이드바 래퍼 스타일 */
         
-        #page-wrapper {
+		#page-wrapper {
           padding-left: 250px;
         }
         
@@ -107,38 +108,59 @@
 		    color:#fff;
 		    border-color: #76BEFF;
 		}
+		
 		p{
 			margin:0;
 		}
+		
 		.cursor-pointer{
 			cursor: pointer;
 		}
+		
 		.middle-items{
 		    display:flex;
 		    align-items:center;
 		}
-	   .pink{
-	   		color:#F94888;
-	   }     
+		
+		.pink{
+			color:#F94888;
+		}     
 	   
-	   * {
-	   	font-size : 18px;
-	   }
+		* {
+			font-size : 18px;
+		}
 	   
-	   .btn-outline-success{
-	   border: 1px solid white;
-	   background-color: #76BEFF;
-	   color: white;	   
-      }
+		.btn-outline-success{
+			border: 1px solid white;
+			background-color: #76BEFF;
+			color: white;	   
+		}
       
-      .navbar-light{
-       background-color: #F1F4FF;
-      }
+		.navbar-light{
+			background-color: #F1F4FF;
+		}
+		
+		.li-admin-info {
+			text-indent : 0 !important;
+			border-top: 1px solid #C8C8C9;
+			border-bottom : 1px solid #C8C8C9;
+		}
+		
+		.li-admin-menu {
+			text-indent : 0 !important;
+		}
+		
+		.strong-admin-nick {
+			font-size : 24px;
+		}
+		
+		.img-admin-info-profile-img {
+			border-radius : 50%;
+			width : 2.5rem;
+			aspect-ratio : 1/1;
+		}
       
-      </style>
-      
-
-
+	</style>
 
 </head>
 <body>
@@ -147,17 +169,57 @@
         <div id="sidebar-wrapper">
           <ul class="sidebar-nav">
             <li class="sidebar-brand">
-              <img src="${pageContext.request.contextPath}/images/logo.png" width="200px" height="100px" class="mt-3 mb-3">
+              <img src="${pageContext.request.contextPath}/images/logo.png" width="200px" height="100px" class="mt-3 mb-3 cursor-pointer" onClick = "location.href = '${pageContext.request.contextPath}/admin/dash_board'">
             </li>
-            <hr class="ms-2 me-2">
-            <p class="text-center"><img src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}" class="me-2">${loginNick}</p>
-            <hr class="ms-2 me-2">
-            <li><a href="${pageContext.request.contextPath}/admin/dash_board" class="mb-2"><i class="fa-solid fa-border-all"></i> 대쉬 보드</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/place_insert" class="mb-2"><i class="fa-solid fa-location-dot"></i> 장소 등록</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/place_list" class="mb-2"><i class="fa-solid fa-map-location"></i> 장소 조회</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/user_list"" class="mb-2"><i class="fa-solid fa-user"></i> 회원 관리</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/report" class="mb-2"><i class="fa-solid fa-bell"></i> 신고 관리</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/dang_list" class="mb-2"><i class="fa-solid fa-paw"></i> 댕모임 관리</a></li>
+            <li class = "li-admin-info py-2 my-2">
+            	<span class="d-flex justify-content-center align-items-center">
+            		<c:choose>
+            		<c:when test = "${loginProfileImg != null}">
+            			<img class = "img-admin-info-profile-img" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+            		</c:when>
+            		<c:otherwise>
+            			<img class = "img-admin-info-profile-img" src="${pageContext.request.contextPath}/images/basic-profile.png">
+            		</c:otherwise>
+            		</c:choose>
+            		<strong class = "ms-3 strong-admin-nick">${loginNick}</strong>
+            	</span>
+            </li>
+            <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/dash_board'">
+            		<i class="fa-solid fa-border-all col-4 text-end"></i>
+            		<span class = "col-8 ps-2">대쉬 보드</span>
+            	</span>
+            </li>
+            <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/place_insert'">
+            		<i class="fa-solid fa-location-dot col-4 text-end"></i>
+            		<span class = "col-8 ps-2">장소 등록</span>
+            	</span>
+            </li>
+            <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/place_list'">
+            		<i class="fa-solid fa-map-location col-4 text-end"></i>
+            		<span class = "col-8 ps-2">장소 조회</span>
+            	</span>
+            </li>
+            <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/user_list'">
+            		<i class="fa-solid fa-user col-4 text-end"></i>
+            		<span class = "col-8 ps-2">회원 관리</span>
+            	</span>
+            </li>
+            <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/report'">
+            		<i class="fa-solid fa-bell col-4 text-end"></i>
+            		<span class = "col-8 ps-2">신고 관리</span>
+            	</span>
+            </li>
+             <li class = "li-admin-menu my-3">
+            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/dang_list'">
+            		<i class="fa-solid fa-paw col-4 text-end"></i>
+            		<span class = "col-8 ps-2">댕모임 관리</span>
+            	</span>
+            </li>
           </ul>
         </div>
     
@@ -166,8 +228,8 @@
       <div class="container-fluid">
         <a class="navbar-brand ms-3">관리자 페이지</a>
         <form class="d-flex">
-          <button onClick = "location.href = '${pageContext.request.contextPath}/'"  class="btn btn-outline-success" type="button">댕모임 홈으로</button>
-          <button  class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
+          <button onClick = "location.href = '${pageContext.request.contextPath}/'"  class="btn btn-outline-success" type="button">댕모임 홈</button>
+          <button onclick = "location.href = '${pageContext.request.contextPath}/user/logout'" class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
         </form>
       </div>
     </nav>

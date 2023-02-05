@@ -264,6 +264,8 @@
 							</div>
 							<div class = "row">
 								<div class = "col">
+									<span class = "span-check span-check-invalid check-cert check-cert-email-empty">이메일을 입력해 주세요.</span>
+									<span class = "span-check span-check-invalid check-cert check-cert-email-invalid">올바른 이메일 형식이 아닙니다.</span>
 									<span class = "span-check span-check-invalid check-cert check-cert-already">이미 가입한 이메일입니다.</span>
 									<span class = "span-check span-check-valid check-cert check-cert-send">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력한 정보가 정확한지 확인하여 주세요.</span>
 									<span class = "span-check span-check-valid check-cert check-cert-valid">인증 완료!</span>
@@ -719,7 +721,6 @@
 	$(function(){
 		
 		// 초기 인증메일 전송 버튼 비활성화
-		$("#sendEmail").attr("disabled", true);
 		
 		// 기본적으로 Helper Text는 숨김 처리
 		$(".span-check").hide();
@@ -880,11 +881,22 @@
 			}
 		});
 		
+		// 이메일 입력창
 		$("#userEmail").blur(function(){
+			// 초기화
+			$(".check-cert").hide();
 			// 이메일 입력창의 값
 			var inputEmail = $("#userEmail").val();
 			// 이메일을 입력하지 않았다면 return
-			if(inputEmail == "") return;
+			if(inputEmail == "") {
+				$(".check-cert-email-empty").show();
+				return;
+			}
+			var regexp = /^[A-Za-z0-9]{6,30}@[0-9a-z]{4,252}.[a-z]{2,3}$/
+			if(regexp.test(inputEmail) == false) {
+				$(".check-cert-email-invalid").show();
+				return;
+			}
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_user/check_email?userEmail=" + inputEmail,
 				method : "get",
@@ -908,10 +920,20 @@
 		
 		// Email 인증
 		$("#sendEmail").click(function(){
+			// 초기화
+			$(".check-cert").hide();
 			// 이메일 입력창의 값
 			var inputEmail = $("#userEmail").val();
 			// 이메일을 입력하지 않았다면 return
-			if(inputEmail == "") return;
+			if(inputEmail == "") {
+				$(".check-cert-email-empty").show();
+				return;
+			}
+			var regexp = /^[A-Za-z0-9]{6,30}@[0-9a-z]{4,252}.[a-z]{2,3}$/
+			if(regexp.test(inputEmail) == false) {
+				$(".check-cert-email-invalid").show();
+				return;
+			}
 			// 전송 버튼
 			var btn = $(this);
 			// 이메일 발송 처리 중 중복 발송을 방지하기 위해 비활성화
