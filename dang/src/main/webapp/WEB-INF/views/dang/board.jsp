@@ -215,11 +215,11 @@
 										<c:choose>
 											<c:when test="${vo.attachmentNo==null}">
 												<img src="${pageContext.request.contextPath}/images/basic-profile.png" 
-														class="img-fluid img-circle">
+														class="img-fluid img-circle" style="width:50px; height:50px;">
 											</c:when>
 											<c:otherwise>
 												<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
-														 class="img-fluid img-circle">
+														 class="img-fluid img-circle" style="width:50px; height:50px;">
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -430,7 +430,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary b-write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-secondary b-edit-cancel" data-bs-dismiss="modal">취소</button>
 							<button type="submit" class="btn btn-primary b-edit-btn">수정</button>
 						</div>
 						</form>
@@ -496,7 +496,7 @@
 		originLike() //내가 누른 좋아요 출력
 
 		//boardEditReady(); //게시글 수정 첫 화면 기본셋팅
-		editSubmitCheck(); //수정폼 전송 전 항목 체크
+		//editSubmitCheck(); //수정폼 전송 전 항목 체크
 		boardDelete(); //게시글 삭제
 
 		replyToggle(); //댓글 토글
@@ -638,6 +638,11 @@
 		
 		$(document).on("click",".board-write",function(){
 			$("#write-file-wrap").empty();
+			$("#write-category").val("");
+			$(".b-length").text(0);
+			$("#write-content").val("");
+			$("#write-select-file").val("");
+			
 			//게시글 하루 작성(최대 5개) 확인
 			var memberNo = $("[name=memberNo]").val();
 			var dangNo = $("[name=dangNo]").val();
@@ -661,9 +666,6 @@
 						$("#dayWriteCnt").modal("show");
 					}else{ //게시글 작성 가능
 						$(".board-write").attr("data-bs-target","#boardModal");
-						$("#write-category").val("");
-						$("#write-content").val("");
-						$("#write-select-file").val("");
 						$("#boardModal").modal("show");
 					}
 				}
@@ -717,7 +719,7 @@
 			var value = $(this).val(); //파일위치+파일명
 			console.log(value);
 			console.log(this.files); //파일 배열
-			
+
 			if(this.files.length>5){
 				alert('파일은 5개까지 업로드 가능합니다!');
 				$(this).val("");
@@ -758,15 +760,21 @@
 
             			$(".x-btn").click(function(){
             				var attachmentNo = $(this).prev().data("no");
+
             				var div = $(this).parent().remove();
             				console.log(attachmentNo);
-            				
+
             				$.ajax({
             					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
             					method:"delete",
             					data:attachmentNo,
             					async:false,
             					success:function(resp){
+            						var cnt = $("#write-file-wrap").children();
+                    				console.log(cnt.length);
+                    				if(cnt.length==0){
+                    					$("#write-select-file").val("");
+                    				}
             					}
             				});
             			});
@@ -899,23 +907,6 @@
 			}
 		});
 		
-		//취소, 돌아가기 시 첨부파일 삭제
-		function boardDeleteAttachmentNo(){
-			var findtag = $(".files");
-        	var attachmentNo;
-        	for(var i=0; i<findtag.length; i++){
-        		attachmentNo = findtag.eq(i).attr("data-no");
-        		
-        		$.ajax({
-    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
-    				method:"delete",
-    				data:attachmentNo,
-    				async:false,
-    				success:function(resp){
-    				}
-    			});
-        	}
-		}
 		
 		//게시글 수정 첫 화면 기본셋팅
 		$(document).on("click", ".edit-drop", function(){
@@ -925,9 +916,7 @@
 			var boardContent = $(this).parents(".first-line").next().children().find(".content-font").text();
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 			var boardNo = $(this).parent().data("bno");
-			console.log("내용 = "+boardContent);
-			console.log("카테고리 = "+boardCategory);
-			console.log("글번호 = "+boardNo);
+
 			//원본데이터 출력
 			$("#edit-category").val(boardCategory).prop("selected", true);
 			$("#edit-content").val(boardContent);
@@ -954,199 +943,259 @@
 	               	}
 	               	//수정 전 첨부파일 삭제
 	               	$(".x-btn").click(function(){
-                		var thistag = $(this);
-                		xBtn(thistag);
+                		$(this).parent().hide();
         			});
 				}
 			});
 			
-			boardEditFormSubmit(); //게시글 수정폼 전송
+			//boardEditFormSubmit(); //게시글 수정폼 전송
 		});
 		
-		//수정폼 전송 전 항목 체크
-		function editSubmitCheck(){
-			//입력 항목 상태 판정
-			eCheck={
-					boardContent : true, 
-					boardCategory : false,
-					allValid:function(){
-						return this.boardContent && this.boardCategory;
-					}
-			};
-			
-			//카테고리 선택 검사
-			$("#edit-category").on("change",function(){
-				var value = $(this).val();
-				if(value==""){
-					eCheck.boardCategory=false;
-				}else{
-					eCheck.boardCategory=true;
+		
+		//수정 입력 항목 상태 판정
+		eCheck={
+				boardContent : true, 
+				boardCategory : false,
+				allValid:function(){
+					return this.boardContent && this.boardCategory;
 				}
-			});
+		};
+		
+		//수정 카테고리 선택 검사
+		$("#edit-category").on("change",function(){
+			var value = $(this).val();
+			if(value==""){
+				eCheck.boardCategory=false;
+			}else{
+				eCheck.boardCategory=true;
+			}
+		});
+		
+		//수정 입력창 글자수 확인(최대 1000자)
+		$("#edit-content").on("input",function(){
+			var length = $(this).val().length; //글자수
+			var value = $(this).val(); //입력내용
+			//글자수 표시
+			$(".be-length").text(length);
+			console.log(value);
+			$(this).removeClass("is-invalid");
+			if(length==0){
+				$(".be-length").css("color","#495057");
+				eCheck.boardContent=true;
+			}else if(length>1000){
+				$(this).val(value.substring(0,1001));	
+				$(".be-length").css("color","red").text(1000);
+				eCheck.boardContent=false;
+				$(this).addClass("is-invalid");
+			}else if(length>0){
+				$(".be-length").css("color","#495057");
+				eCheck.boardContent=true;
+			}
+		});
+		
+		//수정 파일 선택
+		$("#edit-select-file").on("change",function(e){
+			var value = $(this).val(); //파일위치+파일명
+			console.log(this.files); //파일 배열
 			
-			//입력창 글자수 확인(최대 1000자)
-			$("#edit-content").on("input",function(){
-				var length = $(this).val().length; //글자수
-				var value = $(this).val(); //입력내용
-				//글자수 표시
-				$(".be-length").text(length);
-				console.log(value);
-				$(this).removeClass("is-invalid");
-				if(length==0){
-					$(".be-length").css("color","#495057");
-					eCheck.boardContent=true;
-				}else if(length>1000){
-					$(this).val(value.substring(0,1001));	
-					$(".be-length").css("color","red").text(1000);
-					eCheck.boardContent=false;
-					$(this).addClass("is-invalid");
-				}else if(length>0){
-					$(".be-length").css("color","#495057");
-					eCheck.boardContent=true;
-				}
-			});
+			//기존파일 검사
+			var e_originFiles = $(".file1");
+			console.log(e_originFiles);
+			console.log(e_originFiles.length);
+			var e_filesLenght = e_originFiles.length + this.files.length;
 			
-			//파일 선택
-			$("#edit-select-file").on("change",function(e){
-				var value = $(this).val(); //파일위치+파일명
-				console.log(this.files); //파일 배열
-				if(this.files.length>0){ //파일 있음
-					var formData = new FormData();
-				
-					for(var i=0; i<this.files.length; i++){
-						formData.append("attachment", this.files[i]);
-					}
-					
-					$.ajax({
-						url:"${pageContext.request.contextPath}/rest_attachment/upload2",
-						method:"post",
-						data:formData,
-						processData:false, 
-	                    contentType:false,
-	                    async:false,
-	                    success:function(resp){
-	                    	console.log("등록성공!");
-	                    	//console.log(resp); //url반환
-	                    	
-	                    	var fileDiv = $("#edit-file-wrap");
-	                    	for(var i=0; i<resp.url.length; i++){
-	                    		//console.log(resp.url[i]);
-	                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
-	                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
-	                        	
-	                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
-	                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
-	                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
-	                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
-	    						div.append(img).append(x);
-								fileDiv.append(div);
-	                    	}
-	                    	
-	                    	$(".x-btn").click(function(){
-	                    		var thistag = $(this);
-	                    		xBtn(thistag);
-	            			});
 
-				        }
-					});
+			if(e_filesLenght>5){
+				alert('파일은 5개까지 업로드 가능합니다!');
+				$(this).val("");
+				return;
+			}
+			
+			if(this.files.length>0){ //파일 있음
+				var formData = new FormData();
+			
+				for(var i=0; i<this.files.length; i++){
+					formData.append("attachment", this.files[i]);
 				}
-			});
-		}
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					method:"post",
+					data:formData,
+					processData:false, 
+                    contentType:false,
+                    async:false,
+                    success:function(resp){
+                    	console.log("등록성공!");
+                    	//console.log(resp); //url반환
+                    	
+                    	var fileDiv = $("#edit-file-wrap");
+                    	for(var i=0; i<resp.url.length; i++){
+                    		//console.log(resp.url[i]);
+                    		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
+                        	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
+                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
+    						div.append(img).append(x);
+							fileDiv.append(div);
+                    	}
+                    	
+                    	$(".x-btn").click(function(){
+                    		var thistag = $(this);
+                    		xBtn(thistag);
+            			});
 
-		//수정폼 전송 이벤트
-		function boardEditFormSubmit(){
-			$(".board-edit-form").submit(function(e){
-				e.preventDefault();
-				
-				//강제실행
-				$("#edit-category").change();
-				
-				if(eCheck.allValid()){
-					//수정 데이터 준비
-					var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
-					var boardContent = $("#edit-content").val();
-					var boardCategory = $("#edit-category option:selected").val();
-					console.log("수정할 게시글번호 = "+boardNo);
-							
-					editBoardData = {
-						boardNo:boardNo,
-						boardContent:boardContent,
-						boardCategory:boardCategory
-					}
-							
-					//게시글 DB등록
-					$.ajax({
-						url:"${pageContext.request.contextPath}/rest_board/edit_board",
-						method:"patch",
-						data:JSON.stringify(editBoardData),
-						contentType:"application/json",
-						success:function(resp){
-							//게시글 이미지 DB 등록
-							var findtag = $(".files");
-				        	var attachmentNo;
-				        	if(findtag.length!=0){
-				        		for(var i=0; i<findtag.length; i++){
-					        		attachmentNo = findtag.eq(i).attr("data-no");
-					        		
-					        		data = {
-					        				boardNo:boardNo,
-					        				attachmentNo:attachmentNo
-					        		}
-					        		
-					        		$.ajax({
-					    				url:"${pageContext.request.contextPath}/rest_board/img_insert/",
-					    				method:"post",
-					    				data:JSON.stringify(data),
-					    				async:false,
-										contentType:"application/json",
-					    				success:function(resp){
-					    					console.log("이미지 저장성공!");
-					    				}
-					    			});
-					        	}
+			        }
+				});
+			}
+		});
+		
+		//수정 폼 전송
+		$(".board-edit-form").submit(function(e){
+			e.preventDefault();
+			
+			//강제실행
+			$("#edit-category").change();
+			
+			if(eCheck.allValid()){
+				//수정 데이터 준비
+				var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
+				var boardContent = $("#edit-content").val();
+				var boardCategory = $("#edit-category option:selected").val();
+				console.log("수정할 게시글번호 = "+boardNo);
+						
+				editBoardData = {
+					boardNo:boardNo,
+					boardContent:boardContent,
+					boardCategory:boardCategory
+				}
+						
+				//게시글 DB등록
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/edit_board",
+					method:"patch",
+					async:false,
+					data:JSON.stringify(editBoardData),
+					contentType:"application/json",
+					success:function(resp){
+						//게시글 이미지 DB 등록
+						var findtag = $(".files");
+						console.log(findtag);
+						console.log(findtag.length);
+			        	if(findtag.length!=0){
+			        		for(var i=0; i<findtag.length; i++){
+			        			var attachmentNo = findtag.eq(i).attr("data-no");
+				        		console.log(attachmentNo);
+				        		data = {
+				        				boardNo:boardNo,
+				        				attachmentNo:attachmentNo
+				        		}
+				        		
+				        		$.ajax({
+				    				url:"${pageContext.request.contextPath}/rest_board/img_insert",
+				    				method:"post",
+				    				data:JSON.stringify(data),
+				    				async:false,
+									contentType:"application/json",
+				    				success:function(resp){
+				    					console.log("이미지 저장성공!");
+				    				}
+				    			});
 				        	}
-				        	
-				        	//원본게시글에 수정내용 찍어주기
-	    					var selectTag = $(".bimg-find[data-no="+boardNo+"]");
-	    					var contentTag = selectTag.prev().children();
-	    					var categoryTag = selectTag.parent().next().next().children('.col-6').children();
-	    					contentTag.text(boardContent);
-	    					categoryTag.text(boardCategory);
-	    					
-	    					selectTag.children("img").remove(); //img태그 지움
+			        	}
+			        	
+			        	//숨겼던 원본파일 삭제
+			        	var originFiles = $('.file-div:hidden');
+			        	console.log(originFiles);
+			        	if(originFiles.length!=0){
+			        		for(var i=0 ;i<originFiles.length; i++){
+				        		var fileAttachmentNo = originFiles.eq(i).children().data("no");
+				        		$.ajax({
+				    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+fileAttachmentNo,
+				    				method:"delete",
+				    				data:fileAttachmentNo,
+				    				async:false,
+				    				success:function(resp){
+				    					console.log("숨긴파일 삭제 성공!");
+				    				}
+				    			});
+				        	}
+			        	}
+			        	
+			        	//원본게시글에 수정내용 찍어주기
+    					var selectTag = $(".bimg-find[data-no="+boardNo+"]");
+    					var contentTag = selectTag.prev().children();
+    					var categoryTag = selectTag.parent().next().next().children('.col-6').children();
+    					contentTag.text(boardContent);
+    					categoryTag.text(boardCategory);
+    					
+    					selectTag.empty(); //비동기 태그 비움
 
-							$.ajax({
-								url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
-								method:"get",
-								async:false,
-								success:function(resp){
-									if(resp.length>0){
-										var img = $("<img>")
-		   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
-		   								.attr("class","img-fluid img-check cursor-pointer").attr("style","filter: brightness(50%);");
-										selectTag.prepend(img);
-										
-										if(resp.length>1){
-											var spanNum = selectTag.children("span").text();
-											var calcul = resp.length-1;
-											if(calcul==0 || calcul<0){
-												selectTag.children("span").text("");
-											}else if(calcul>0){
-												var text = "+"+calcul;
-												console.log(text);
-												selectTag.children("span").text(text).attr("class","blue attach-cnt cursor-pointer");
-											}
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_board/find_img/"+boardNo,
+							method:"get",
+							async:false,
+							success:function(resp){
+								if(resp.length>0){
+									var img = $("<img>")
+	   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
+	   								.attr("class","img-fluid img-check cursor-pointer");
+									var span = $("<span>").attr("class","blue attach-cnt cursor-pointer");
+									selectTag.prepend(img).append(span);
+									
+									if(resp.length>1){
+										img.attr("style","filter: brightness(50%);");
+										var calcul = resp.length-1;
+										if(calcul==0 || calcul<0){
+											span.text("");
+										}else if(calcul>0){
+											var text = "+"+calcul;
+											console.log(text);
+											span.text(text);
 										}
 									}
 								}
-							});
-				        	
-							$("#boardEditModal").modal('hide');
-						}
-					});
-				}
-			});
+							}
+						});
+			        	
+						$("#boardEditModal").modal('hide');
+					}
+				});
+			}
+		});
+		
+		
+		//취소, 돌아가기 시 첨부파일 삭제
+		function boardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
 		}
+		
+
+		//수정폼 전송 전 항목 체크
+		//function editSubmitCheck(){
+			
+		//}
+
+		//수정폼 전송 이벤트
+		//function boardEditFormSubmit(){
+			
+		//}
 		
 		//게시글 목록 없을 경우 출력
 		function zeroBoardList(){
@@ -1369,6 +1418,11 @@
 				data:attachmentNo,
 				async:false,
 				success:function(resp){
+					var cnt = $("#edit-file-wrap").children();
+    				console.log(cnt.length);
+    				if(cnt.length==0){
+    					$("#edit-select-file").val("");
+    				}
 				}
 			});
 		}

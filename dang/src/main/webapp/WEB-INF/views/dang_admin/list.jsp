@@ -1,26 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="DangHome" name="title"/>
 </jsp:include>
 
 <style>
+	
+	/* 페이지네이션 */
+	ul {
+	    list-style: none;
+	    margin:0px; 
+	    padding:0px;
+	}
+	
+	.ul-report-list-page-item {
+		cursor : pointer;
+		width : 2.5rem;
+		height : 2rem;
+		border : 1px solid #CEE3F2;
+		color : #76BEFF;
+	}
+	
+	.ul-report-list-page-item:hover {
+		border : 2px solid #76BEFF;
+		background-color : #F0F9FF;
+	}
+	
+	.ul-report-list-page-item-selected {
+		border : 2px solid #76BEFF;
+		background-color : #76BEFF;
+		color : white;
+	}
+	
+	
+	.overText {
+            color: red;
+    }
+    
+ 	.strong-page-title {
+		font-size : 30px;
+	}
 
- .editor {
+ 	.editor {
             min-height: 250px;
             border: 1px solid black;
             padding: 1em;
             font-size: 16px;
-        }
- .accent{
+    }
+    
+ 	.accent{
      color : red;
      font-size: 13px;
- }
-#mapwrap {
-	position: relative;
-	overflow: hidden;
-}
+ 	}
+ 	
+	#mapwrap {
+		position: relative;
+		overflow: hidden;
+	}
 
 .category, .category * {
 	margin: 0;
@@ -265,15 +303,34 @@
     	 margin-top:215%;
     	 display:none;
     }
+    
+    table {
+	  background-color: #D8D8D8;
+	  border-collapse: collapse;
+	  border-radius: 10px;
+	  border-style: hidden;
+	}
+	
+	.pagination {
+   			justify-content: center;
+	}
 </style>
 
 	<div class="container-fluid mb-5">
-		<div class="row mt-2">
-			<div class="col-md-8 offset-md-2">
-				<h3>장소 검색</h3>
+		
+		<div class="row mt-3 mb-3">
+			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
+			</div>
+			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
+				<strong class = "strong-page-title">댕모임 조회</strong>
+			</div>
+			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
+				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				  장소 등록
+				</button>
 			</div>
 		</div>
-
+		
 		<div class="row mt-2">
 			<div class="col-md-8 offset-md-2">
 				<div id="mapwrap">
@@ -297,8 +354,156 @@
 				</div>
 			</div>
 		</div>
-
+		
+		<%-- 검색창 --%>
 		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+			</div>
+		</div>
+		
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+					<form action = "place_list" method = "get">
+		<div class="row mt-3">
+			<div class="col-3">
+				<select class="form-select" name = "type" required>
+					<option value = "place_name">장소명</option>
+					<option value = "place_area">지역명</option>
+					<option value = "place_sort">카페고리</option>
+					<option value = "place_info">내용</option>
+				</select>
+			</div>
+			<div class="col-6">
+				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
+			</div>
+			<div class="col-3">
+				<button  class="w-100 box1" type = "submit">검색</button
+			></div>
+		</div>
+		</form>
+			</div>
+		</div>
+		
+	
+		
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2">
+			<c:forEach var="placeList" items="${placeList}">
+				<table class="table">
+				  <tbody class="mt-3">
+				  	
+				    <tr class="mt-3">
+				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
+				      <td>
+				      	<div class="row mt-3">
+				      		<div class="col fw-bold">${placeList.placeName}</div>
+				      	</div>
+				      	<div class="row mt-1">
+				      		<div class="col" style="font-size: 11px">${placeList.placeAddress}</div>
+				      	</div>
+				      	<div class="row mt-4">
+				      		<div class="col" style="font-size: 11px">${placeList.placeTel}</div>
+				      	</div>
+				      	<div class="row mt-1">
+				      		<div class="col" style="font-size: 11px">${placeList.dangSize}까지 가능</div>
+				      	</div>
+				      </td>
+				      
+				      <td class="text-end mt-2 fw-bold">
+					      <div class="row mt-3  me-1">
+					      		<div class="col fw-bold">
+					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		${placeList.placeSort}
+					      		</div>
+					      </div>
+				      </td>
+				    </tr>
+				 
+				  </tbody>
+				 
+				</table>
+				    </c:forEach>
+			</div>
+		</div>
+		
+		<div class="row mt-1">
+			<div class="col-md-8 offset-md-2">
+			<div class="row mt-1 text-center">
+			<%-- 페이지 네비게이터 --%>
+			<nav aria-label="Page navigation example">
+			<ul class="pagination text-center">
+				<c:choose>
+					<c:when test = "${placeListRequestDto.isFirst()}">
+						<li class="page-item">
+							<a class="page-link" href = "">&laquo;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.firstBlock()}&${placeListRequestDto.parameter()}">&laquo;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.hasPrev()}">
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.prevBlock()}&${placeListRequestDto.parameter()}">&lt;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "">&lt;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:forEach var = "i" begin = "${placeListRequestDto.startBlock()}" end = "${placeListRequestDto.endBlock()}" step = "1">
+					<li class="page-item">
+						<a class="page-link" href = "place_list?p=${i}&${placeListRequestDto.parameter()}">${i}</a>
+					</li>
+				</c:forEach>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.hasNext()}">
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.nextBlock()}&${placeListRequestDto.parameter()}">&gt;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "">&gt;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test = "${placeListRequestDto.isLast()}">
+						<li class="page-item">
+							<a class="page-link" href = "">&raquo;</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href = "place_list?p=${placeListRequestDto.lastBlock()}&${placeListRequestDto.parameter()}">&raquo;</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			</nav>
+			</div>
+		</div>
+			</div>
+		</div>
+		
+	
+		
+		<!-- <div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
 			</div>
@@ -314,17 +519,16 @@
 				
 				
 			</div>
-		</div>
+		</div> -->
 		
-		<div class="row mt-3 ">
+		<!-- <div class="row mt-3 ">
 			<div class="col-md-8 offset-md-2" >
 				<div class="row  firstLine" >
 					
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-	</div>
 
 
 
@@ -349,22 +553,19 @@
                 <div class="modal-footer pt-0">
                     <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
                     <button type="button" class="btn btn-place-delete" onclick="deleteMarker()">장소삭제하기</button>
-                    <button type="button" class="btn btn-warning btn-placeinfoModal" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" >장소수정하기</button>                
+                    <button type="button" class="btn btn-warning btn-placeinfoModal" data-bs-target="#editPlace" data-bs-toggle="modal" >장소수정하기</button>                
                 </div>
             </div>
         </div>
     </div>
     
     <!-- 장소마커 수정을 위한 모달 -->
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade" id="editPlace" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-center">
-        <h3 class="modal-title">장소 수정하기</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+        <h3 class="modal-title text-center mt-2">장소 수정하기</h3>
       <div class="modal-body">
-                
+        <form>
         <div class="row mt-2">
             <div class="col-md-10 offset-md-1">
                 <p>수정할 장소의 행정구역을 적어주세요:) <i class="accent">(필수)</i></p>
@@ -409,7 +610,13 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeSort" class="form-control rounded" placeholder="카테고리">
+                    <select class="form-select" name="placeSort">
+                    	<option value="카페">카페
+                    	<option value="음식점">음식점
+                    	<option value="놀이터">놀이터
+                    	<option value="미용">미용
+                    	<option value="공원">공원
+		            </select>
                     <label>카테고리</label>
                 </div>
             </div>
@@ -515,35 +722,395 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="dangSize" class="form-control rounded" placeholder="댕댕이 크기">
+                    <select class="form-select" name="dangSize">
+                    	<option value="소형견">소형견
+                    	<option value="중형견">중형견
+                    	<option value="대형견">대형견
+		            </select>
                     <label>댕댕이 크기</label>
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
-                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
-                <input class="form-control form-control-sm file-input" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
-                <div>미리보기</div>
-                <img src="" class="change-img" width="100" height="100">
-            </div>
-        </div>
+		</form>
       </div>
+      
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="editMarker()">수정하기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeEdit()">닫기</button>
       </div>
     </div>
   </div>
 </div>
 
+	<!-- 등록하기 모달 -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		        <h3 class="modal-title text-center mt-2">장소 등록하기</h3>
+		      <div class="modal-body">
+		         
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 행정구역을 적어주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeArea1" class="form-control rounded" placeholder="행정구역(구)">
+		                    <label>행정구역(구)</label>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될  장소의 좌표를 지정해 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        
+		        <div class="row mt-1">
+		            <div class="col-md-5 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeX1" class="form-control rounded" placeholder="위도">
+		                    <label>위도</label>
+		                </div>
+		            </div>
+		            <div class="col-md-5 offset">
+		                <div class="form-floating">
+		                    <input type="text" name="placeY1" class="form-control rounded" placeholder="경도">
+		                    <label>경도</label>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 카테고리를 선택해 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <select class="form-select" name="placeSort1">
+		                    	<option value="카페">카페
+		                    	<option value="음식점">음식점
+		                    	<option value="놀이터">놀이터
+		                    	<option value="미용">미용
+		                    	<option value="공원">공원
+		                    </select>
+		                    <label>카테고리</label>
+		                </div>
+		            </div>
+		        </div>
+		        
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 이름을 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeName1" class="form-control rounded" placeholder="장소이름">
+		                    <label>장소이름</label>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 정보를 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <textarea name="placeInfo1" class="form-control col-sm-5" rows="50"></textarea>
+		                    <label>(최대 500자 까지 가능합니다.)</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 현주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeAddress1" class="form-control rounded" placeholder="현주소">
+		                    <label>현주소</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 운영시간을 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeOperation1" class="form-control rounded" placeholder="운영시간">
+		                    <label>운영시간</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 휴무일을 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeOff1" class="form-control rounded" placeholder="휴무일">
+		                    <label>휴무일</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 전화번호를 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeTel1" class="form-control rounded" placeholder="전화번호">
+		                    <label>전화번호</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 홈페이지 주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <input type="text" name="placeUrl1" class="form-control rounded" placeholder="정보URL">
+		                    <label>홈페이지 주소</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <select class="form-select" name="dangSize1">
+		                    	<option value="소형견">소형견
+		                    	<option value="중형견">중형견
+		                    	<option value="대형견">대형견
+		                    </select>
+		                    <label>댕댕이 크기</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
+		                <input class="form-control form-control-sm file-input" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
+		            </div>
+		        </div>
+		
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <div>미리보기</div>
+		                <img src="" class="change-img" width="100" height="100">
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                
+		            </div>
+		        </div>
+		        <input type="hidden" name="dangNo1">
+		        <!--댕모임 첨부파일 댕모임 번호-->
+		        <input type="hidden" name="attachmentNo1">
+		        <!--댕모임 첨부파일 첨부파일 번호-->
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary insertClose" data-bs-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-primary insert-btn">등록</button><br>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
 	<script>
+	
+	 function closeEdit() {
+		$('#editPlace').modal('hide')
+	} 
+	 
+ 	$('#editPlace').on('hidden.bs.modal', function (e) {
+ 		 $(this).find('form')[0].reset()
+	});
+	
+	//닫기 모달 클릭시 초기화
+	$('.modal').on('hidden.bs.modal', function (e) {
+		  $("[name=placeArea1]").val("");
+	      $("[name=placeX1]").val("");
+	      $("[name=placeY1]").val("");
+	      $("[name=placeSort1]").val("");
+	      $("[name=placeName1]").val("");
+	      $("[name=placeInfo1]").val("");
+	      $("[name=placeAddress1]").val("");
+	      $("[name=placeOperation1]").val("");
+	      $("[name=placeOff1]").val("");
+	      $("[name=placeTel1]").val("");
+	      $("[name=placeUrl1]").val("");
+	      $("[name=dangSize1]").val("");
+	      $("[name=attachmentNo1]").val("");
+	})
+
+
+	$("[name=placeInfo1]").on("input",function(){
+		var textLength = $(this).val().length;
+		var value = $(this).val();
+		//상태메시지 글자수 표시
+		$(".length").text(textLength);
+		$(this).removeClass("is-valid is-invalid");
+		if(textLength==500){
+			$(".length").css("color","red").text(500);
+			$(this).addClass("is-valid");
+		}else if(textLength>500){
+			$(this).val(value.substring(0,500));	
+			$(".length").css("color","red").text(500);
+			$(this).addClass("is-invalid");
+		}else if(textLength>0){
+			$(".length").css("color","#495057");
+			$(this).addClass("is-valid");
+		}
+	});
+	$("[name=placeInfo]").on("input",function(){
+		var textLength = $(this).val().length;
+		var value = $(this).val();
+		//상태메시지 글자수 표시
+		$(".length").text(textLength);
+		$(this).removeClass("is-valid is-invalid");
+		if(textLength==500){
+			$(".length").css("color","red").text(500);
+			$(this).addClass("is-valid");
+		}else if(textLength>500){
+			$(this).val(value.substring(0,500));	
+			$(".length").css("color","red").text(500);
+			$(this).addClass("is-invalid");
+		}else if(textLength>0){
+			$(".length").css("color","#495057");
+			$(this).addClass("is-valid");
+		}
+	});
+
+    //버튼클릭시 실행
+    $(".insert-btn").click(function () {
+        var placeArea = $("[name=placeArea1]").val();
+        var placeX = $("[name=placeX1]").val();
+        var placeY = $("[name=placeY1]").val();
+        var placeSort = $("[name=placeSort1]").val();
+        var placeName = $("[name=placeName1]").val();
+        var placeInfo = $("[name=placeInfo1]").val().replace(/\n/g, "<br />");
+        var placeAddress = $("[name=placeAddress1]").val();
+        var placeOperation = $("[name=placeOperation1]").val();
+        var placeOff = $("[name=placeOff1]").val();
+        var placeTel = $("[name=placeTel1]").val();
+        var placeUrl = $("[name=placeUrl1]").val();
+        var dangSize = $("[name=dangSize1]").val();
+        var attachmentNo = $("[name=attachmentNo1]").val();
+		console.log(placeX=="");
+        //검사
+        placeInsert(placeArea, placeX, placeY, placeSort, placeName,
+            placeInfo, placeAddress, placeOperation, placeOff,
+            placeTel, placeUrl, dangSize, attachmentNo
+        );
+
+		
+    });
+
+    //장소등록을 하기위한 함수
+    function placeInsert(
+        placeArea, placeX, placeY, placeSort, placeName,
+        placeInfo, placeAddress, placeOperation, placeOff,
+        placeTel, placeUrl, dangSize, attachmentNo
+    ) {
+        var data = {
+            placeArea: placeArea,
+            placeX: placeX,
+            placeY: placeY,
+            placeSort: placeSort,
+            placeName: placeName,
+            placeInfo: placeInfo,
+            placeAddress: placeAddress,
+            placeOperation: placeOperation,
+            placeOff: placeOff,
+            placeTel: placeTel,
+            placeUrl: placeUrl,
+            dangSize: dangSize,
+            attachmentNo: attachmentNo,
+        };
+		if(confirm("정말 등록하시겠습니까?")==true){
+			$.ajax({
+                url: "http://localhost:8888/rest_place/place_insert",
+                method: "post",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function () {
+                    location.href="${pageContext.request.contextPath}/admin/place_list"
+					
+                }
+            });
+		}else{
+			 return;
+		}
+        
+    }
+
+
+    $(".file-input").change(function () {
+        var value = $(this).val();
+
+        if (this.files.length > 0) {
+
+            var formData = new FormData();
+            formData.append("attachment", this.files[0]);
+
+
+            $.ajax({
+                url: "http://localhost:8888/rest_attachment/upload",
+                method: "post",
+                data: formData,
+                //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    console.log(resp);
+                    $(".change-img").attr("src", resp); //프로필 미리보기
+                    //원래 페이지 프로필 정보 변경
+                    var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+                    var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
+                    console.log(newAttachmentNo);
+                    $("[name=attachmentNo1]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+
+                }
+            });
+        }
+    });
+
+	
+	
 	function editMarker() {
 		var placeNo = placeNoInfo;
 		var placeArea = $("[name=placeArea]").val();
@@ -575,7 +1142,7 @@
 				placeUrl : placeUrl,
 				dangSize : dangSize
 			};
-			
+			console.log(placeSort);
 			 $.ajax({
 				url:"${pageContext.request.contextPath}/rest_place/update",
 				method:"put",
@@ -584,7 +1151,7 @@
 				success:function(){
 					location.href = "http://localhost:8888/admin/place_list";
 				}
-			}); 
+			});  
 	}
 	
 	//장소 마커를 삭제하는 함수
@@ -667,6 +1234,8 @@
 
 			placeNoInfo = $(this).data("placeno");
 
+			
+			
 			//비동기통신 시작
 			$.ajax({
 				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
@@ -703,6 +1272,45 @@
 		});
 		
 
+		/* function restPlaceList() {
+			//비동기통신 시작
+			$.ajax({
+				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
+				method : "get",
+				async : false,
+				contentType : "application/json",
+				success : function(resp) {
+					  $("[name=placeArea]").val("");
+				      $("[name=placeX]").val("");
+				      $("[name=placeY]").val("");
+				      $("[name=placeSort]").val("");
+				      $("[name=placeName]").val("");
+				      $("[name=placeInfo]").val("");
+				      $("[name=placeAddress]").val("");
+				      $("[name=placeOperation]").val("");
+				      $("[name=placeOff]").val("");
+				      $("[name=placeTel]").val("");
+				      $("[name=placeUrl]").val("");
+				      $("[name=dangSize]").val("");
+				      $("[name=attachmentNo]").val("");
+					//수정 input태그에 값 밀어넣기
+					$('input[name=placeArea]').attr('value',resp.placeArea);
+					$('input[name=placeX]').attr('value',resp.placeX);
+					$('input[name=placeY]').attr('value',resp.placeY);
+					$('input[name=placeSort]').attr('value',resp.placeSort);
+					$('input[name=placeName]').attr('value',resp.placeName);
+					$('textarea[name=placeInfo]').text(resp.placeInfo);
+					$('input[name=placeAddress]').attr('value',resp.placeAddress);
+					$('input[name=placeOperation]').attr('value',resp.placeOperation);
+					$('input[name=placeOff]').attr('value',resp.placeOff);
+					$('input[name=placeTel]').attr('value',resp.placeTel);
+					$('input[name=placeUrl]').attr('value',resp.placeUrl);
+					$('input[name=dangSize]').attr('value',resp.dangSize);
+					console.log(resp.placeArea)
+				}
+			})
+		}; */
+		
 		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
 		mapOption1 = {
 			center : new kakao.maps.LatLng(37.498004414546934,
