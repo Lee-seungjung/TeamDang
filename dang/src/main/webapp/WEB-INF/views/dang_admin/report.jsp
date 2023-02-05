@@ -199,6 +199,9 @@
 			$(".report-box").removeClass("select-color");
 			$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
 		}
+		
+		// 초기 페이지네이션 1페이지를 선택
+		$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 
 		var p = 1;
 		var reportState = "접수";
@@ -214,9 +217,9 @@
 			formData.append("p", p);
 			formData.append("reportState", reportState);
 			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
+			if(type != null && keyword != null) {
+				formData.append("type", type);
+				formData.append("keyword", keyword);
 			}
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/report_list",
@@ -249,6 +252,10 @@
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 						reportListPagination(i);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -262,9 +269,9 @@
 			formData.append("p", p);
 			formData.append("reportState", reportState);
 			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
+			if(type != null && keyword != null) {
+				formData.append("type", type);
+				formData.append("keyword", keyword);
 			}
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/report_list",
@@ -297,6 +304,10 @@
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 						reportListPagination(i);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -309,11 +320,13 @@
 			var formData = new FormData();
 			formData.append("p", p);
 			formData.append("reportState", reportState);
-			// 검색어랑 검색 타입이 있으면
-			if($(".form-select").val() != "" || $(".search-input").val() != "") {
-				formData.append("type", $(".form-select").val());
-				formData.append("keyword", $(".search-input").val());
+			
+			// 검색어랑 검색 타입이 있으면			
+			if(type != null && keyword != null) {
+				formData.append("type", type);
+				formData.append("keyword", keyword);
 			}
+			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/report_list",
 				method : "post",
@@ -345,6 +358,10 @@
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 						reportListPagination(i);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -357,6 +374,12 @@
 			var formData = new FormData();
 			formData.append("p", p);
 			formData.append("reportState", reportState);
+			
+			if(type != null && keyword != null) {
+				formData.append("type", type);
+				formData.append("keyword", keyword);
+			}
+			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/report_list",
 				method : "post",
@@ -388,6 +411,10 @@
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 						reportListPagination(i);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -395,8 +422,8 @@
 		// 검색 버튼 클릭 이벤트
 		$(document).on("click", ".search-btn", function(){
 			
-			var type = $(".form-select").val();
-			var keyword = $(".search-input").val();
+			type = $(".form-select").val();
+			keyword = $(".search-input").val();
 			
 			if(type == "" || keyword == "") {
 				return;
@@ -439,10 +466,15 @@
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 						reportListPagination(i);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
 		
+		// 페이지 이동
 		$(document).on("click", ".ul-report-list-page-item-unit", function(){
 			p = $(this).children().text();
 			console.log(p);
@@ -458,9 +490,14 @@
 				keyword:keyword
 			} */
 			 
-			 var formData = new FormData();
-			 formData.append("p", p);
-			 formData.append("reportState", reportState);
+			var formData = new FormData();
+			formData.append("p", p);
+			formData.append("reportState", reportState);
+			 
+			if(type != null && keyword != null) {
+				formData.append("type", type);
+				formData.append("keyword", keyword);
+			}
 			 
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/report_list",
@@ -487,6 +524,10 @@
 					for(var i=0; i<resp.reportList.length; i++){
 						reportList(resp.reportList[i]);
 					}
+					// 페이지네이션 선택 초기화
+					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+					// 페이지 선택
+					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -557,6 +598,10 @@
 						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 							reportListPagination(i);
 						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 					}
 				}
 			});
