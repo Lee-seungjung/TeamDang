@@ -469,7 +469,7 @@
                         </div>
                         <div class = "row my-3">
                             <div class = "col-10 offset-1 d-flex flex-column">
-                                <span class = "span-modal-enter-dang-helper">비공개 댕모임입니다.</span>
+                                <span class = "span-modal-enter-dang-helper">비밀번호를 입력해 주세요.</span>
                                 <div class = "d-flex">
                                     <input class = "flex-fill p-2 input-modal-enter input-modal-enter-dang-pw" type = "password" maxlength="4" placeholder = "비밀번호(숫자 4자리)" autocomplete = "false">
                                 </div>
@@ -1030,7 +1030,7 @@
 										.append(
 											$("<div>").attr("class", "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw")
 												.append(
-													$("<span>").attr("class", "span-modal-join-dang-helper").text("비공개 댕모임입니다.")
+													$("<span>").attr("class", "span-modal-join-dang-helper").text("비밀번호를 입력해 주세요.")
 												)
 												.append(
 													$("<div>").attr("class", "d-flex")

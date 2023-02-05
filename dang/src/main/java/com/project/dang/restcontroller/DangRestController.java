@@ -44,9 +44,22 @@ public class DangRestController {
 	
 	// 댕모임 상세정보 반환
 	@GetMapping("/detail")
-	public DangDetailDto selectDangDetail(@RequestParam int dangNo) {
+	public DangDetailDto selectDangDetail(@RequestParam int dangNo, HttpSession session) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		DangDetailDto dangDetailInfo = dangDao.selectDangDetail(dangNo);
+		if(userNo != null) {
+			// 회원이 가입한 댕모임 번호 조회
+			List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
+			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+			for(int i = 0 ; i < searchDangListAlreadyJoin.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+				if(searchDangListAlreadyJoin.get(i).equals(dangNo)) {
+					dangDetailInfo.setIsMember(1);
+				}
+			}
+		}
 		// 댕모임 상세 정보 반환
-		return dangDao.selectDangDetail(dangNo);
+		return dangDetailInfo;
 	}
 	
 	// 댕모임 목록 반환 - 댕모임 찾기 페이지
