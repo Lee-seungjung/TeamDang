@@ -137,6 +137,14 @@
 		border-top-right-radius:0.25rem;
 		border-bottom-right-radius:0.25rem;
 	}
+	.form-control:focus{
+		border-color: #ced4da;
+		box-shadow: none;
+	}
+	.form-select:focus {
+		border-color: #ced4da;
+		box-shadow: none;
+	}
 	.attach-cnt{
 		font-size:18px;
 		font-weight:bolder;
@@ -149,6 +157,7 @@
 		width:50px;
 		height:50px;
 	}
+
 </style>
 
 <div class = "container-fluid mt-3 body-wrapper">
@@ -251,18 +260,18 @@
 									<div class="col-9 text-start me-1 truncate-check">
 										<span class="content-font">${vo.boardContent}</span>
 									</div>
-									<div class="col-3 middle-items bimg-find" data-no="${vo.boardNo}" style="position:relative;">
+									<div class="col-3 middle-items bimg-find justify-content-center" data-no="${vo.boardNo}" style="position:relative;">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
 											<!-- 비동기로 사진 불러오기-->
-											<img src="#" class="img-fluid img-check cursor-pointer">
+											<img src="#" class="img-fluid img-check cursor-pointer" style="width:100px; height:100px;">
 											<c:choose>
-											<c:when test="${vo.boardAttachmentCnt-1==0}">
-												<span></span>
-											</c:when>
-											<c:otherwise>
-												<span class="blue attach-cnt cursor-pointer">+ ${vo.boardAttachmentCnt-1}</span>
-											</c:otherwise>
-										</c:choose>
+												<c:when test="${vo.boardAttachmentCnt-1==0}">
+													<span></span>
+												</c:when>
+												<c:otherwise>
+													<span class="blue attach-cnt cursor-pointer">+ ${vo.boardAttachmentCnt-1}</span>
+												</c:otherwise>
+											</c:choose>
 										</c:if>
 									</div>
 								</div>
@@ -512,8 +521,9 @@
 		//엔터키 이벤트
 		$("[name=keyword]").on("keyup",function(key){
 			var inputText = $("[name=keyword]").val();
-	        if(inputText!=undefined && key.keyCode==13) {            
-		        //검색조회 비동기 필요
+			var selectType = $("[name=type]").val();
+	        if(inputText!="" && selectType!="" && key.keyCode==13) {
+	        	$(".search-btn").click();
 	        }
 	    });
 		
@@ -589,9 +599,6 @@
 					truncate(); //말줌일표
 					printImg(); //게시글 사진 출력
 					originLike() //내가 누른 좋아요 출력
-					
-					$("[name=type]").val("");
-					$("[name=keyword]").val("");
 					
 				}
 			});
@@ -916,11 +923,13 @@
 			var boardContent = $(this).parents(".first-line").next().children().find(".content-font").text();
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 			var boardNo = $(this).parent().data("bno");
+			var contentLength = boardContent.length;
 
 			//원본데이터 출력
 			$("#edit-category").val(boardCategory).prop("selected", true);
 			$("#edit-content").val(boardContent);
 			$(".b-edit-btn").attr("data-no",boardNo);
+			$(".be-length").text(contentLength);
 			$("#edit-select-file").val("");
 			$("#edit-file-wrap").empty();
 	
@@ -947,8 +956,6 @@
         			});
 				}
 			});
-			
-			//boardEditFormSubmit(); //게시글 수정폼 전송
 		});
 		
 		
@@ -1142,12 +1149,12 @@
 								if(resp.length>0){
 									var img = $("<img>")
 	   								.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo)
-	   								.attr("class","img-fluid img-check cursor-pointer");
+	   								.attr("class","img-fluid img-check cursor-pointer").attr("style","width:100px; height:100px;");
 									var span = $("<span>").attr("class","blue attach-cnt cursor-pointer");
 									selectTag.prepend(img).append(span);
 									
 									if(resp.length>1){
-										img.attr("style","filter: brightness(50%);");
+										img.attr("style","filter: brightness(50%); width:100px; height:100px;");
 										var calcul = resp.length-1;
 										if(calcul==0 || calcul<0){
 											span.text("");
@@ -1264,10 +1271,11 @@
 			var se_span = $("<span>").attr("class","content-font")
 										.text(resp.boardContent);
 			se_col9.append(se_span);
-			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find")
+			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find justify-content-center")
 									.attr("data-no",resp.boardNo).attr("style","position:relative;");
 			if(resp.boardAttachmentCnt!=null){
-				var se_img = $("<img>").attr("src","#").attr("class","img-fluid img-check cursor-pointer");
+				var se_img = $("<img>").attr("src","#").attr("class","img-fluid img-check cursor-pointer")
+										.attr("style","width:100px; height:100px;");
 				var text = resp.boardAttachmentCnt-1;
 				if(text==0){
 					text="";
@@ -1917,7 +1925,7 @@
 							
 							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
 							if(resp.length>1){
-								thistag.attr("style","filter: brightness(50%);");				
+								thistag.attr("style","filter: brightness(50%); width:100px; height:100px;");				
 								for(var i=0; i<resp.length; i++){
 									thistag.attr("data-attach"+i,resp[i].attachmentNo);
 								}
