@@ -838,7 +838,7 @@
 		function deleteAttachmentNo(){
 			var newAttachmentNo = $("[name=attachmentNo]").val();
 			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			if(newAttachmentNo!=originAttachmentNo){ //새로 사진등록한 상태
+			if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
 					method:"delete",
@@ -1457,12 +1457,12 @@
        var thisDangArea;
         
         $.ajax({
-            url: "http://localhost:8888/rest_dang/detail?dangNo=1",
+            url: "http://localhost:8888/rest_dang/detail?dangNo="+${dangNo},
             method: "get",
             async: false,
             contentType: "application/json",
             success: function (resp) {
-            	//console.log(resp.dangInfo.dangArea);
+            	console.log("ssssss"+resp.dangInfo.dangArea);
             	thisDangArea=resp.dangInfo.dangArea;
             }
         })
