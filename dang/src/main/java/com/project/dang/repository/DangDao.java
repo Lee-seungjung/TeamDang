@@ -192,4 +192,11 @@ public interface DangDao {
 	 * @return DangDetailAdminDto : 댕모임 개설자 상세 정보
 	 */
 	public DangDetailCreatorAdminDto searchDangCreatorDetailAdmin(int dangNo, int userNo);
+	
+	/**
+	 * 댕모임 삭제(해체)
+	 * @param dangNo : 댕모임 번호
+	 * @return boolean : 댕모임 삭제 여부
+	 */
+	public boolean closeDang(int dangNo);
 }

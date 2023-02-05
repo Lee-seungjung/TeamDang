@@ -213,5 +213,11 @@ public class DangDaoImpl implements DangDao {
 		param.put("userNo", String.valueOf(userNo));
 		return sqlSession.selectOne("dang.searchDangCreatorDetailAdmin", param);
 	}
+
+	// 댕모임 삭제(해체)
+	@Override
+	public boolean closeDang(int dangNo) {
+		return sqlSession.delete("dang.closeDang" ,dangNo) > 0;
+	}
 }
 	
