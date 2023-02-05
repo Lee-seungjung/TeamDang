@@ -3,17 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp">
-   <jsp:param value="DangHome" name="title"/>
+   <jsp:param value="댕모임 메인" name="title"/>
 </jsp:include>
 
 <style>
 
 	* {
-		
+		border : 1px gray dotted;
 	}
 
 	.img-carousel {
-		aspect-ratio : 7/3;
+		aspect-ratio : 11/3;
 	}
 
 	.div-home-menu {
@@ -118,7 +118,7 @@
 	
 	.div-dang-search-initial-text,
 	.div-dang-search-none {
-		height : 16rem;
+		height : 15rem;
 	}
 </style>
 
@@ -158,7 +158,7 @@
 							</div>
 						</div>
 						<div class = "row px-4 py-2">
-							<div class = "col-6 p-2">
+							<div class = "col-6 px-2 py-3">
 								<svg class = "w-100 h-100" style='background:white;overflow:visible' width="800" height="656" xmlns="http://www.w3.org/2000/svg" viewbox = "50 50 700 550">">
 								    <g>
 								        <path id="CD11110" class="OUTLINE"
@@ -241,7 +241,7 @@
 								    </g>
 								</svg>
 							</div>
-							<div class = "col-6 px-4 py-2 div-dang-search">
+							<div class = "col-6 px-4 py-1 div-dang-search">
 								<div class = "col d-flex flex-column justify-content-center align-items-center div-dang-search-initial-text">								
 									<strong class = "mt-1">우리 지역에서</strong>
 									<strong class = "mt-1">가장 핫한 댕모임을</strong>
