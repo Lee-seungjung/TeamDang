@@ -76,7 +76,7 @@
 	<div class = "row">
 		<div class = "col-6 offset-3 my-3 py-2">
 			<div class = "row">
-				<div class = "col-8 offset-2 p-5">
+				<form class = "col-8 offset-2 p-5">
 					<div class = "row div-dang-find-pw-top">
 						<div class = "col px-2 py-2 d-flex justify-content-center align-items-center div-dang-find-menu">
 							<span class = "span-find-id" onClick = "location.href = 'find_id'">아이디찾기</span>
@@ -89,17 +89,17 @@
 						<div class = "col py-2 div-find-pw-input">
 							<div class = "row pt-4 px-4">
 								<div class = "col">								
-									<input class = "input-user-pw w-100 p-2" type = "password" placeholder = "새 비밀번호" maxlength = "16">
+									<input class = "input-user-pw w-100 p-2" type = "password" placeholder = "새 비밀번호" maxlength = "16" autocomplete = "false">
 								</div>
 							</div>
 							<div class = "row pt-4 px-4">
 								<div class = "col">								
-									<input class = "input-user-pwck w-100 p-2" type = "password" placeholder = "비밀번호 확인" maxlength = "16">
+									<input class = "input-user-pwck w-100 p-2" type = "password" placeholder = "비밀번호 확인" maxlength = "16" autocomplete = "false">
 								</div>
 							</div>
 							<div class = "row py-4 px-4">
 								<div class = "col d-flex justify-content-center align-items-center">								
-									<button class = "btn-change-complete w-100 p-2">확인</button>
+									<button type = "button" class = "btn-change-complete w-100 p-2">확인</button>
 								</div>
 							</div>
 						</div>
@@ -117,7 +117,7 @@
 					<div class = "row py-4">
 						<div class = "col div-cert-check"></div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
