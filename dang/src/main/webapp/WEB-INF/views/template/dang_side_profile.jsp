@@ -1381,7 +1381,8 @@
         });
         
         function detailMove() {
-            location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
+            //location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
+            window.open('http://localhost:8888/place/detail/'+ placeNoInfo, '_blank'); 
         }
         $(document).on("click",".edit",function (e) {
                     $("#edit").modal("show");//모달 실행
