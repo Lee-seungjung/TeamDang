@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
+import com.project.dang.dto.HistoryListRequestDto;
+import com.project.dang.dto.PuppyListDto;
+import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.JoinScheduleListVO;
 import com.project.dang.vo.ScheduleEditVO;
@@ -120,13 +123,17 @@ public interface DangScheduleDao {
 	 public boolean scheduleDelete(int scheduleNo, int memberNo);
 	 
 	/**
+	 * (마이페이지) 참여일정 목록 조회
+	 * @param userNo:회원 번호
+	 * @return List<JoinScheduleListVO>
+	 */
+	public List<JoinScheduleListVO> historyList();
+	 
+	/**
 	 * 마이페이지내 참여일정 히스토리 리스트 조회
 	 * 
 	 * @param dangNo : 댕모임 번호	 
 	 */
-	 public List<JoinScheduleListVO> joinScheduleList(int userNo);
- 
+	 public List<JoinScheduleListVO> joinScheduleList(HistoryListRequestDto historyListRequestDto);
 	 
-
-
 }

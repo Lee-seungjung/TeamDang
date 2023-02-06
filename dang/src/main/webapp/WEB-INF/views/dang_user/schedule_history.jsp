@@ -25,6 +25,20 @@
 	  font-size: 18px;
 	}
 	
+	.cnt-title{
+		font-size:20px;
+		font-weight:600;
+		color:#404040;
+	}
+	.cnt-num{
+		font-size:22px;
+		font-weight:900;
+		cursor: pointer;
+	}
+	.select-color{
+		background-color:#D6DEFF;
+	}
+	
 	.select-search-subject, .select-dang-name, .select-dang-search-period{
 	  border: 1px #76BEFF solid;
 	  color: 454545;
@@ -54,7 +68,7 @@
 	    padding:0px;
 	}
 	
-	.ul-dang-list-page-item {
+	.ul-history-list-page-item {
 		cursor : pointer;
 		width : 2.5rem;
 		height : 2rem;
@@ -62,12 +76,12 @@
 		color : #76BEFF;
 	}
 	
-	.ul-dang-list-page-item:hover {
+	.ul-history-list-page-item:hover {
 		border : 2px solid #76BEFF;
 		background-color : #F0F9FF;
 	}
 	
-	.ul-dang-list-page-item-selected {
+	.ul-history-list-page-item-selected {
 		border : 2px solid #76BEFF;
 		background-color : #76BEFF;
 		color : white;
@@ -85,154 +99,109 @@
 			<div class = "row">
                 <div class = "col-10 offset-1 py-3 d-flex justify-content-center align-items-center">
                     <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">참여일정 조회</strong> 
-                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center  select-dang-name">
+                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center  history-form-select">
                                 <option value = "" class = "select-dang-name-option">선택</option>
-                                <option value = "" class = "">목욕댕모임</option>
-                                <option value = "" class = "">산책댕모임</option>
+                                <option value = "" class = "">목욕댕모임</option>                           
                             </select>
                 </div>
             </div>
+            
 			<div class = "row">
-				<div class = "offset-1 col-10">
-					<div class = "row list-search-title-menu">			
-
-					 	<div class= "col-3">
-					 	 	<span class="schedule-dang-name">댕모임명</span>
-					 	</div>					
-					 	<div class= "col-2">
-					 	 	<span class="schedule-dang-join-date">일정 날짜</span>
-					 	</div>
-					 	<div class= "col-2">
-					 	 	<span class="schedule-dang-schedule-name">일정 제목</span>
-					 	</div>
-					 	<div class= "col-3">
-					 		<span class="schedule-dang-place">장소명</span>
-					 	</div>
-					 	<div class= "col-2">
-					 		<span class="schedule-dang-money">참여 회비</span>
-					 	</div>		 				 						 						 	
-					</div>
-					
-					<div class="row list-content">
-					<hr><br>
-					 	<c:forEach var="joinHistory" items="${scheduleHistory}">
-					 	<div class= "col-3 search-result-dang-name">
-					 	 	<span>${joinHistory.dangName}</span>
-					 	</div>
-					 	<div class= "col-2 search-result-dang-join">					 	
-					 	 <span>${joinHistory.scheduleStart}</span> 
-					 	</div>
-					 	<div class= "col-2 search-result-dang-title">
-					 	 	<span>${joinHistory.scheduleTitle}</span>
-					 	</div>
-					 	<div class= "col-3 search-result-dang-place">
-					 		<span>${joinHistory.placeName}</span>
-					 	</div>
-					 	<div class= "col-2 search-result-dang-money">
-					 		<span>${joinHistory.scheduleMoney}</span>
-					 	</div>
-				 </c:forEach>
-
-					
-					</div>
-					
-					<hr><br>
-					
-				</div>
-			</div>
-			<div class = "row mt-5">
-				<div class = "col-8 offset-2 mt-3 mb-3 d-flex justify-content-center align-items-center">
-						      <select class = "col-2 py-1 mx-2 align-items-center select-search-subject">
-                                <option value = "" class = "">선택</option>
-                                <option value = "" class = "">모임명</option>
-                                <option value = "" class = "">일정명</option>
-                            </select>                       
-                            <input class="col-8 py-1 mx-2 schedule-search" placeholder="검색어를 입력하세요" >
-                            <button class="col-2 py-1 mx-2 btn btn-schedule-search">검색</button>
-				</div>
-			</div>
-		
-		            <div class = "row">
-				<div class = "col d-flex justify-content-center align-items-center">
-					<ul class = "d-flex flex-row ul-dang-list-page-navigator">
+			
+				<table class="table text-center ">
+					<thead>
+						<tr class="table">
+							<th scope="col" style="width:15%;">댕모임명</th>
+							<th scope="col" style="width:20%;">일정 날짜</th>
+							<th scope="col" style="width:25%;">일정 제목</th>
+							<th scope="col" style="width:25%;">장소명</th>
+							<th scope="col" style="width:10%;">참여 회비</th>
+						</tr>
+					</thead>
+					<tbody class="history-data-body">
 						<c:choose>
-						<c:when test = "${dangUserJoinRequestDto.isFirst()}">
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
-							<span><i class="fa-solid fa-backward"></i></span>
-						</li>
-						</c:when>
-						<c:otherwise>
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockFirst()}'">
-							<span><i class="fa-solid fa-backward"></i></span>
-						</li>
-						</c:otherwise>
-						</c:choose>
-						
-						<c:choose>
-						<c:when test = "${dangUserJoinRequestDto.hasPrev()}">
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockPrev()}'">
-							<span><i class="fa-solid fa-backward-step"></i></span>
-						</li>
-						</c:when>
-						<c:otherwise>
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
-							<span><i class="fa-solid fa-backward-step"></i></span>
-						</li>
-						</c:otherwise>
-						</c:choose>
-						
-						<c:choose> <%-- 조회 결과가 하나도 없을 때 --%>
-						<c:when test = "${dangUserJoinRequestDto.total == 0}">
-						<li class = "ul-dang-list-page-item ul-dang-list-page-item-selected d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=1'">
-							<span>1</span>
-						</li>
-						</c:when>
-						<c:otherwise> <%-- 조회 결과가 하나라도 있을 때 --%>
-						<c:forEach var = "i" begin = "${dangUserJoinRequestDto.blockStart()}" end = "${dangUserJoinRequestDto.blockEnd()}" step = "1">
-							<c:choose>
-							<c:when test = "${i == 1}">
-							<li class = "ul-dang-list-page-item ul-dang-list-page-item-selected d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
-								<span>${i}</span>
-							</li>
+							<c:when test="${scheduleHistory==null}">
+								<tr class="table align-middle">
+									<td colspan="5" style="height:200px; border-bottom:none;">참여일정이 존재하지 않습니다.</td>
+								</tr>						
 							</c:when>
 							<c:otherwise>
-							<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${i}'">
-								<span>${i}</span>
-							</li>
+								<c:forEach var="joinHistory" items="${scheduleHistory}">
+									<tr class="table align-middle">
+										<td class="list-dangName" >${joinHistory.dangName}</td>
+										<td class="list-scheduleStart" >${joinHistory.scheduleStart}</td>
+										<td class="list-scheduleTitle" >${joinHistory.scheduleTitle}</td>
+										<td class="list-placeName" >${joinHistory.placeName}</td>
+										<td class="list-scheduleMoney" >${joinHistory.scheduleMoney}</td>
+									</tr> 
+								</c:forEach>	       
 							</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						</c:otherwise>
 						</c:choose>
-						
-						<c:choose>
-						<c:when test = "${dangUserJoinRequestDto.hasNext()}">
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockNext()}'">
-							<span><i class="fa-solid fa-forward-step"></i></span>
-						</li>
-						</c:when>
-						<c:otherwise>
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
-							<span><i class="fa-solid fa-forward-step"></i></span>
-						</li>
-						</c:otherwise>
-						</c:choose>
-						
-						<c:choose>
-						<c:when test = "${dangUserJoinRequestDto.isLast()}">
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center">
-							<span><i class="fa-solid fa-forward"></i></span>
-						</li>
-						</c:when>
-						<c:otherwise>
-						<li class = "ul-dang-list-page-item d-flex justify-content-center align-items-center" onClick = "location.href='list_mydang?p=${dangUserJoinRequestDto.blockLast()}'">
-							<span><i class="fa-solid fa-forward"></i></span>
-						</li>
-						</c:otherwise>
-						</c:choose>
-					</ul>
+		
+					</tbody>
+				</table>
+				
+			</div>
+			
+			
+			<div class = "row mt-5">
+				<div class = "col-8 offset-2 mt-3 mb-3 d-flex justify-content-center align-items-center">
+						      <select class = "history-form-select col-2 py-1 mx-2 align-items-center" name="type">
+                                <option value = "" class = "">선택</option>
+                                <option value = "dang_name">모임명</option>
+                                <option value = "schedule_title">일정명</option>
+                            </select>                       
+                            <input class="col-8 py-1 mx-2 history-search-input" placeholder="검색어를 입력하세요" name="keyword">
+                            <button class="col-2 py-1 mx-2 btn history-search-btn ">검색</button>
 				</div>
 			</div>
+			
+			<!-- pagination 시작 -->
+			<div class="row mt-3">
+				<div class = "col d-flex justify-content-center align-items-center">
+					<ul class = "d-flex flex-row ul-history-list-page-navigator">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-first d-flex justify-content-center align-items-center">
+							<span><i class="fa-solid fa-backward"></i></span>
+						</li>
+						
+						<c:choose>
+						<c:when test = "${historyListRequestDto.blockPrev() != 0}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${historyListRequestDto.blockPrev()}">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "1">
+							<span><i class="fa-solid fa-backward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>						
+
+						<c:forEach var = "i" begin = "${historyListRequestDto.blockStart()}" end = "${historyListRequestDto.blockEnd()}" step = "1">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-unit d-flex justify-content-center align-items-center">
+							<span>${i}</span>
+						</li>
+						</c:forEach>
+
+						<c:choose>
+						<c:when test = "${historyListRequestDto.blockNext() >= historyListRequestDto.blockLast()}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockLast()}">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockNext()}">
+							<span><i class="fa-solid fa-forward-step"></i></span>
+						</li>
+						</c:otherwise>
+						</c:choose>
+						
+						<li class = "ul-history-list-page-item ul-history-list-page-item-last d-flex justify-content-center align-items-center" >
+							<span><i class="fa-solid fa-forward"></i></span>
+						</li>
+					</ul>
+				</div>
+			</div>  
 
 		</div>
 	</div>
@@ -246,8 +215,305 @@
 	$(function(){
 		// 마이페이지 메뉴 색 변경
 		$(".img-select-user-schedule").attr("src", "${pageContext.request.contextPath}/images/mypage-join-meeting-pink.png");
+		
+	var p = 1;
+	var type;
+	var keyword;
+		
+	//검색 버튼 클릭 이벤트
+	$(document).on("click",".history-search-btn", function(){
+		
+		var historySelectBox = $(".history-form-select").val();
+		console.log("셀렉트 박스 :" +historySelectBox);
+		
+		var historySearchInput = $(".history-search-input").val();
+		console.log("인풋박스 :" + historySearchInput);	
+
+		if(historySelectBox == "" || historySearchInput == "") {
+			console.log("안돼");
+			return;
+		}
+		
+		console.log("돼");
+		//데이터 전송 객체
+		var formData = new FormData();
+		formData.append("p", 1);
+		formData.append("type", historySelectBox);
+		formData.append("keyword", historySearchInput);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/user/schedule_history",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-history-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-history-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				if(resp.historyList.length==0){
+					var body = $(".history-data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("참여일정이 존재하지 않습니다.");
+					tr.append(td);
+				}else{
+					$(".history-data-body").empty();
+					for(var i=0; i<resp.historyList.length; i++){
+						historyList(resp.historyList[i]);
+					}
+					// 초기화
+					$(".ul-history-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						historyListPagination(i);
+					}
+				}
+			}
 	
+		});
+		
+		})
+	
+	//다음 페이지 버튼
+	$(document).on("click", ".ul-history-list-page-item-next",function(){
+		p = $(this).attr("data-pagenext");
+		console.log(p);
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("keyword", historySearchInput);
+		formData.append("p", p);
+		
+		//검색어랑 검색 타입이 있으면
+		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
+			formData.append("type", $(".history-form-select").val());
+			formData.append("keyword", $(".history-search-input").val());
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/user/schedule_history",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				console.log(resp);
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-history-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-history-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				
+				$(".history-data-body").empty();
+				for(var i=0; i<resp.historyList.length; i++){
+					historyList(resp.historyList[i]);
+				}
+				// 초기화
+				$(".ul-history-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					historyListPagination(i);
+				}
+				
+			}
+	
+		});	
 		
 	});
+	
+	
+	// 이전 페이지 버튼
+	$(document).on("click",".ul-history-list-page-item-prev", function(){
+		p = $(this).attr("data-pageprev");
+		console.log(p);
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("keyword", historySearchInput);
+		formData.append("p", p);
+		//검색어랑 검색 타입이 있으면
+		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
+			formData.append("type", $(".history-form-select").val());
+			formData.append("keyword", $(".history-search-input").val());
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/user/schedule_history",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-history-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-history-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".history-data-body").empty();
+				for(var i = 0 ; i < resp.historyList.length ; i++){
+					historyList(resp.historyList[i]);
+				}
+				// 초기화
+				$(".ul-history-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					historyListPagination(i);
+				}						
+			}
+		})
+	});
+	
+	//맨 뒤로 가기 버튼
+	$(document).on("click", ".ul-history-list-page-item-last", function(){
+		// 마지막 페이지 번호
+		p = $(this).attr("data-pagelast");
+		// 데이터 전송 객체
+		var formData = new FormData()
+		formData.append("keyword", historySearchInput);
+		formData.append("p", p);	
+		//검색어랑 검색 타입이 있으면
+		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
+			formData.append("type", $(".history-form-select").val());
+			formData.append("keyword", $(".history-search-input").val());
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/user/schedule_history",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-history-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-history-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".history-data-body").empty();
+				for(var i = 0 ; i < resp.historyList.length ; i++){
+					historyList(resp.historyList[i]);
+				}
+				// 초기화
+				$(".ul-history-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					historyListPagination(i);
+				}						
+			}
+		})			
+	});
+	
+	
+	// 맨 앞으로 가기 버튼
+	$(document).on("click", ".ul-history-list-page-item-first", function(){
+		// 페이지를 1페이지로
+		p = 1;
+		// 데이터 전송 객체
+		var formData = new FormData();
+		formData.append("keyword", historySearchInput);
+		formData.append("p", p);	
+		//검색어랑 검색 타입이 있으면
+		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
+			formData.append("type", $(".history-form-select").val());
+			formData.append("keyword", $(".history-search-input").val());
+		}
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/user/schedule_history",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-history-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-history-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-history-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				// 초기화
+				$(".history-data-body").empty();
+				for(var i = 0 ; i < resp.historyList.length ; i++){
+					historyList(resp.historyList[i]);
+				}
+				// 초기화
+				$(".ul-history-list-page-item-unit").remove();
+				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+					historyListPagination(i);
+				}						
+			}
+		})					
+	});
+		
+	//참여일정 목록 비동기 불러오기
+	function historyList(resp){
+		var body = $(".history-data-body");
+		
+		var tr = $("<tr>").attr("class","align-middle");
+		var td_dangName = $("<td>").text(resp.dangName);
+		var td_scheduleTitle = $("<td>").text(resp.scheduleTitle);
+		var td_placeName = $("<td>").text(resp.placeName);
+		var td_scheduleStart = $("<td>").text(resp.scheduleStart);
+		var td_scheduleMoney = $("<td>").text(resp.scheduleMoney);
+
+		tr.append(td_dangName).append(td_scheduleTitle).append(td_placeName).append(td_scheduleStart).append(td_scheduleMoney);
+		body.append(tr);
+	}
+		
+	//참여일정 목록 페이징
+	function historyListPagination(resp){
+		$(".ul-history-list-page-item-next")
+			.before(
+				$("<li>").attr("class", "ul-history-list-page-item ul-history-list-page-item-unit d-flex justify-content-center align-items-center")
+					.append(
+						$("<span>").text(resp)	
+					)
+			)
+	}
+	
+		
+});
 
 </script>

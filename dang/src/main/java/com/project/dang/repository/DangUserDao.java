@@ -7,6 +7,7 @@ import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.HistoryListRequestDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.vo.DangUserMypageVO;
@@ -177,6 +178,13 @@ public interface DangUserDao {
 	 * @param int userNo :
 	 */
 	public Date mypageLogin(int userNo);
+	
+	/**
+	 *  마이페이지 내 총 참여일정 수 조회
+	 * @return hisotyCount
+	 * 	@param historyListRequestDto 
+	 */
+	public int historyCount (HistoryListRequestDto historyListRequestDto);
 	
 }
 

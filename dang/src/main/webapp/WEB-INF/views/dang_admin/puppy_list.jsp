@@ -222,7 +222,7 @@ $(function(){
 		var formData = new FormData();
 		formData.append("p", 1);
 		formData.append("numberState", numberState);
-		formData.append("type", userSelectBox);
+		formData.append("type", puppySelectBox);
 		formData.append("keyword", puppySearchInput);
 		
 		$.ajax({
@@ -248,21 +248,21 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.userList.length==0){
-					var body = $(".data-body");
+				if(resp.puppyList.length==0){
+					var body = $(".puppy-data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 									.text("내역이 존재하지 않습니다.");
 					tr.append(td);
 				}else{
-					$(".data-body").empty();
+					$(".puppy-data-body").empty();
 					for(var i=0; i<resp.userList.length; i++){
-						userList(resp.userList[i]);
+						puppyList(resp.userList[i]);
 					}
 					// 초기화
 					$(".ul-puppy-list-page-item-unit").remove();
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						userListPagination(i);
+						puppyListPagination(i);
 					}
 				}
 			}
@@ -310,7 +310,7 @@ $(function(){
 				
 				$(".puppy-data-body").empty();
 				for(var i=0; i<resp.puppyList.length; i++){
-					userList(resp.puppyList[i]);
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
@@ -362,7 +362,7 @@ $(function(){
 				// 초기화
 				$(".puppy-data-body").empty();
 				for(var i = 0 ; i < resp.puppyList.length ; i++){
-					userList(resp.puppyList[i]);
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
@@ -408,14 +408,14 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
+				$(".puppy-data-body").empty();
 				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}						
 			}
 		})			
@@ -458,7 +458,7 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
+				$(".puppy-data-body").empty();
 				for(var i = 0 ; i < resp.userList.length ; i++){
 					userList(resp.userList[i]);
 				}
