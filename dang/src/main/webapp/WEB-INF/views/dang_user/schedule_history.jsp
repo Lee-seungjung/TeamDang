@@ -99,7 +99,7 @@
 			<div class = "row">
                 <div class = "col-10 offset-1 py-3 d-flex justify-content-center align-items-center">
                     <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">참여일정 조회</strong> 
-                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center  history-form-select">
+                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
                                 <option value = "" class = "select-dang-name-option">선택</option>
                                 <option value = "" class = "">목욕댕모임</option>                           
                             </select>
@@ -147,8 +147,8 @@
 			<div class = "row mt-5">
 				<div class = "col-8 offset-2 mt-3 mb-3 d-flex justify-content-center align-items-center">
 						      <select class = "history-form-select col-2 py-1 mx-2 align-items-center" name="type">
-                                <option value = "" class = "">선택</option>
-                                <option value = "dang_name">모임명</option>
+                                <option value = "" >선택</option>
+                                <option value = "dang_name">댕모임명</option>
                                 <option value = "schedule_title">일정명</option>
                             </select>                       
                             <input class="col-8 py-1 mx-2 history-search-input" placeholder="검색어를 입력하세요" name="keyword">
@@ -242,7 +242,7 @@
 		formData.append("keyword", historySearchInput);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/user/schedule_history",
+			url : "${pageContext.request.contextPath}/rest_user/schedule_history",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -302,7 +302,7 @@
 			formData.append("keyword", $(".history-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/user/schedule_history",
+			url : "${pageContext.request.contextPath}/rest_user/schedule_history",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -355,7 +355,7 @@
 			formData.append("keyword", $(".history-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/user/schedule_history",
+			url : "${pageContext.request.contextPath}/rest_user/schedule_history",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -403,7 +403,7 @@
 			formData.append("keyword", $(".history-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/user/schedule_history",
+			url : "${pageContext.request.contextPath}/rest_user/schedule_history",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -453,7 +453,7 @@
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/user/schedule_history",
+			url : "${pageContext.request.contextPath}/rest_user/schedule_history",
 			method : "post",
 			data : formData,
 			contentType: false,

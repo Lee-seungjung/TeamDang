@@ -472,7 +472,7 @@ public class DangUserController {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
 		// 총 참여일정 수 조회
-		int historyTotal = dangUserDao.historyCount(historyListRequestDto);
+		int historyTotal = dangUserDao.historyCount(userNo);
 		model.addAttribute("historyTotal", historyTotal);
 
 		//  입력받은 DTO에 회원 번호, 일정 총 갯수 설정

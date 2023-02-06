@@ -143,7 +143,7 @@
 						and instr(${type}, #{keyword}) > 0 
 					</if>
 				</where>
-				order by dang_name asc
+				order by schedule_start desc
 	  		)tmp
 		) where rn between #{rownumStart} and #{rownumEnd}
 	</select>	

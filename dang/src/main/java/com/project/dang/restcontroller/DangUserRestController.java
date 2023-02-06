@@ -148,7 +148,7 @@ public class DangUserRestController {
 		System.out.println(historyListRequestDto.getP());
 
 		// 총 참여일정 수 조회
-		int historyTotal = dangUserDao.historyCount(historyListRequestDto);
+		int historyTotal = dangUserDao.historyCount(userNo);
 		// dto에 총 갯수 설정
 		historyListRequestDto.setTotal(historyTotal);
 		historyListRequestDto.setUserNo(userNo);

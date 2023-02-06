@@ -15,7 +15,7 @@ public class HistoryListRequestDto {
 	// 1. 현재 페이지의 열(row) 관련
 	// 필드
 	private int p = 1; // 현재 페이지 번호 (기본값 1)
-	private int cntRow = 2; // 한 페이지에 표시할 열 갯수
+	private int cntRow = 3; // 한 페이지에 표시할 열 갯수
 	
 	private int rownumStart;
 	private int rownumEnd;

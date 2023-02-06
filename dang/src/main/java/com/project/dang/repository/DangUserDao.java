@@ -180,11 +180,11 @@ public interface DangUserDao {
 	public Date mypageLogin(int userNo);
 	
 	/**
-	 *  마이페이지 내 총 참여일정 수 조회
-	 * @return hisotyCount
+	 *  (마이페이지) 참여일정 수 조회
+	 * @return historyCount
 	 * 	@param historyListRequestDto 
 	 */
-	public int historyCount (HistoryListRequestDto historyListRequestDto);
+	public int historyCount (int userNo);
 	
 }
 

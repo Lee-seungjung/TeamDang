@@ -308,7 +308,7 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				$(".data-body").empty();
+				$(".member-data-body").empty();
 				for(var i=0; i<resp.memberList.length; i++){
 					memberList(resp.memberList[i]);
 				}
@@ -360,7 +360,7 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
+				$(".member-data-body").empty();
 				for(var i = 0 ; i < resp.memberList.length ; i++){
 					memberList(resp.memberList[i]);
 				}
@@ -408,7 +408,7 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
+				$(".member-data-body").empty();
 				for(var i = 0 ; i < resp.memberList.length ; i++){
 					memberList(resp.memberList[i]);
 				}
@@ -458,7 +458,7 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				// 초기화
-				$(".data-body").empty();
+				$(".member-data-body").empty();
 				for(var i = 0 ; i < resp.memberList.length ; i++){
 					memberList(resp.memberList[i]);
 				}
