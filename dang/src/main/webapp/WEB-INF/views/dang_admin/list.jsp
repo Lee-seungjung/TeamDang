@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+ 
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
+
+
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="DangHome" name="title"/>
@@ -322,7 +327,7 @@
 			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
-				<strong class = "strong-page-title">댕모임 조회</strong>
+				<strong class = "strong-page-title">댕모임 조회 </strong>
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
 				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -918,9 +923,8 @@
 		</div>
 		
 		
-
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
 	
 	 function closeEdit() {

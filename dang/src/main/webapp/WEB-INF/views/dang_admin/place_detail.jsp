@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
+
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="DangHome" name="title"/>
 </jsp:include>    
@@ -150,7 +153,7 @@
 
 
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
