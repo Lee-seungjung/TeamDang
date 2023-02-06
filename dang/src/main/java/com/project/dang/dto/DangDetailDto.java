@@ -13,4 +13,5 @@ public class DangDetailDto {
 
 	private DangInfoDto dangInfo;
 	private List<DangHashtagInfoDto> dangHashtag;
+	private Integer isMember;
 }
