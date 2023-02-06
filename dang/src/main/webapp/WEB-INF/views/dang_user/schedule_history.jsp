@@ -493,12 +493,12 @@
 		
 		var tr = $("<tr>").attr("class","align-middle");
 		var td_dangName = $("<td>").text(resp.dangName);
+		var td_scheduleStart = $("<td>").text(resp.scheduleStart);
 		var td_scheduleTitle = $("<td>").text(resp.scheduleTitle);
 		var td_placeName = $("<td>").text(resp.placeName);
-		var td_scheduleStart = $("<td>").text(resp.scheduleStart);
 		var td_scheduleMoney = $("<td>").text(resp.scheduleMoney);
 
-		tr.append(td_dangName).append(td_scheduleTitle).append(td_placeName).append(td_scheduleStart).append(td_scheduleMoney);
+		tr.append(td_dangName).append(td_scheduleStart).append(td_scheduleTitle).append(td_placeName).append(td_scheduleMoney);
 		body.append(tr);
 	}
 		
