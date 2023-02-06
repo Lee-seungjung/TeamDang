@@ -103,4 +103,11 @@
 	<select id = "allCount" parameterType = "String" resultType = "int">
 		select count(*) from dang_place p INNER JOIN place_img i on p.place_no = i.place_no
 	</select>
+	
+	<!-- 홈화면 댕장소 추천 -->
+	<select id="recommendPlace" resultType="DangPlaceDto">
+		SELECT * FROM (
+			SELECT * FROM recommend_place ORDER BY DBMS_RANDOM.VALUE
+		)WHERE ROWNUM  <![CDATA[ < 4 ]]>
+	</select>
 </mapper>

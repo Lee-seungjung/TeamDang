@@ -6,9 +6,8 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-<%-- dang_header --%>
-<jsp:include page="/WEB-INF/views/template/dang_header.jsp">
-	<jsp:param value="장소 상세" name="title" />
+<jsp:include page="/WEB-INF/views/template/header.jsp">
+	<jsp:param value="장소 상세" name="title"/>
 </jsp:include>
 
 

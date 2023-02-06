@@ -121,7 +121,6 @@
 		height : 15rem;
 	}
 </style>
-
 <div class = "container-fluid my-5"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
@@ -261,9 +260,54 @@
 						</div>
 						<div class = "row px-4 py-2">
 							<div class = "col p-2">
-								장소 추천
+								<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+								  <div class="carousel-indicators">
+								    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+								    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+								    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+								  </div>
+								  <div class="carousel-inner">
+								    <div class="carousel-item active">
+								    	<a href="http://localhost:8888/place/detail/${recommendPlace[0].placeNo}">
+								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[0].attachmentNo}" height="329px" class="d-block w-100" alt="...">
+								      	</a>
+								      <div class="carousel-caption d-none d-md-block">
+								         <h5>${recommendPlace[0].placeName}</h5>
+								        <p>${recommendPlace[0].placeArea}</p>
+								      </div>
+								    </div>
+								    <div class="carousel-item">
+								    	<a href="http://localhost:8888/place/detail/${recommendPlace[1].placeNo}">
+								      	<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[1].attachmentNo}" height="329px" class="d-block w-100" alt="...">
+										</a>								      	
+								      <div class="carousel-caption d-none d-md-block">
+								         <h5>${recommendPlace[1].placeName}</h5>
+								        <p>${recommendPlace[1].placeArea}</p>
+								      </div>
+								    </div>
+								    <div class="carousel-item">
+								    	<a href="http://localhost:8888/place/detail/${recommendPlace[2].placeNo}">
+								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[2].attachmentNo}" height="329px" class="d-block w-100" alt="...">
+										</a>								      		
+								      <div class="carousel-caption d-none d-md-block">
+								         <h5>${recommendPlace[2].placeName}</h5>
+								        <p>${recommendPlace[2].placeArea}</p>
+								      </div>
+								    </div>
+								  </div>
+								  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+								    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								    <span class="visually-hidden">Previous</span>
+								  </button>
+								  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+								    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+								    <span class="visually-hidden">Next</span>
+								  </button>
+								</div>
 							</div>
 						</div>
+						
+						
 					</div>
 				</div>
 			</div>
