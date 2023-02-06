@@ -293,7 +293,7 @@
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
@@ -347,7 +347,7 @@
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
@@ -395,7 +395,7 @@
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData()
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
@@ -444,7 +444,7 @@
 		p = 1;
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
