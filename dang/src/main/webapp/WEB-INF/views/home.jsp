@@ -97,9 +97,22 @@
     	color : white;
     }
     
-    .btn-dang-join {
+    .btn-dang-join,
+    .btn-dang-join-private {
+    	background-color: #FFE34E;
+    	color : white;
+    }
+    
+    .btn-dang-enter {
     	background-color: #76BEFF;
     	color : white;
+    }
+    
+    .btn-dang-return {
+    	border-radius : 5px;
+		background-color : #787878;
+		color : white;
+		border : none;
     }
     
     .div-dang-head {
@@ -120,7 +133,38 @@
 	.div-dang-search-none {
 		height : 15rem;
 	}
+	
+	.strong-dang-search-main {
+		font-size : 20px;
+	}
+	
+	.span-modal-join-dang-helper{
+	    font-weight: bold;
+	}
+	
+	.btn-modal-join-dang-nick-search {
+	    background-color: #6A6A6A;
+	    color: white;
+	    border: none;
+	    border-radius: 10px;
+	}
+	
+	.btn-modal-join-submit {
+	    background-color: #76BEFF;
+	    color: white;
+	    border: none;
+	    border-radius: 10px;
+	}
+	
+	.input-modal-join  {
+	    background-color: #EAEAEA;
+	    border: none;
+	    border-radius: 10px;
+	}
 </style>
+
+<%-- 로그인 중인 회원의 회원 번호 --%>
+<input type = "hidden" id = "loginNo" value = "${loginNo}"> 
 
 <div class = "container-fluid my-5"> <%-- container 시작 --%>
 	<div class = "row">
@@ -243,9 +287,9 @@
 							</div>
 							<div class = "col-6 px-4 py-1 div-dang-search">
 								<div class = "col d-flex flex-column justify-content-center align-items-center div-dang-search-initial-text">								
-									<strong class = "mt-1">우리 지역에서</strong>
-									<strong class = "mt-1">가장 핫한 댕모임을</strong>
-									<strong class = "my-1">확인해 보세요!</strong>
+									<strong class = "mt-1 strong-dang-search-main">우리 지역에서</strong>
+									<strong class = "mt-1 strong-dang-search-main">가장 핫한 댕모임을</strong>
+									<strong class = "my-1 strong-dang-search-main">확인해 보세요!</strong>
 								</div>
 							</div> <%-- 비동기 조회 후 상위 5개 댕모임 태그 붙일 영역 --%>
 						</div>
@@ -272,8 +316,8 @@
 </div> <%-- container 끝 --%>
 
 <%-- 댕모임 상세 Modal --%>
-<div class="modal fade" id="modalDangDetail" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+<div class="modal fade" id="modalDangDetail" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex flex-column justify-content-center algin-items-center">
         <div class="modal-content card div-outer-dang-info">
             <%-- 
             <img src="/images/icon-man.png" class="card-img-top img-dang-profile" style = "background-color: black"> 태그 생성 영역
@@ -383,9 +427,16 @@
 			})
         });
 		
+		// 댕모임 번호
+		var dangNo;
+		// 댕모임 비공개 여부
+		var dangPrivate;
+		// 댕모임 비밀번호
+		var dangPw;
+		
 		// 상위 5개 댕모임 클릭시
 		$(document).on("click", ".div-select-dang", function(){
-			var dangNo = $(this).attr("data-dangno");
+			dangNo = $(this).attr("data-dangno");
 			$("#modalDangDetail").modal("show");
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_dang/detail?dangNo="+dangNo,
@@ -393,6 +444,8 @@
 				success : function(resp){
 					
 					console.log(resp);
+					dangPrivate = resp.dangInfo.dangPrivate;
+					dangPw = resp.dangInfo.dangPw;
 					
 					var target = $(".div-outer-dang-info");
 					target.empty();
@@ -422,7 +475,7 @@
 									.append(
 										$("<div>").attr("class", "col-3 d-flex justify-content-end align-items-center")
 											.append(
-												$("<button>").attr("class", "flex-fill btn-dang btn-dang-like").attr("type", "button")
+												$("<button>").attr("class", "flex-fill btn-dang btn-dang-like py-1").attr("type", "button")
 												.append(
 													$("<i>").attr("class", "fa-regular fa-heart me-1")
 												)
@@ -447,9 +500,9 @@
 							.append(
 								$("<div>").attr("class", "row")
 									.append(
-										$("<div>").attr("class", "col-4 d-flex justify-content-start align-items-center")
+										$("<div>").attr("class", "col-4")
 											.append(
-												$("<div>").attr("class", "div-dang-head px-1")
+												$("<div>").attr("class", "div-dang-head px-1 py-1 d-flex justify-content-center align-items-center w-100")
 													.append(
 														$("<i>").attr("class", "fa-solid fa-paw me-1")		
 													)
@@ -465,37 +518,270 @@
 											)
 									)
 									.append(
-										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center")
-											.append(
-												$("<button>").attr("class", "flex-fill btn-dang btn-dang-join").attr("type", "button").text("가입하기")
-											)
+										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center div-dang-member-state")
 									)
 									.append(
 										$("<div>").attr("class", "col-4 d-flex justify-content-end align-items-center")
 											.append(
-												$("<button>").attr("class", "flex-fill btn-dang btn-dang-return").attr("type", "button").text("돌아가기")
+												$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-return").attr("type", "button").text("돌아가기")
 											)
 									)
 							)
 						);
+					
+					
 					target.append(dangProfileImg).append(dangInfoDetail);
+					
+					if(resp.isMember == 1) {
+						$(".div-dang-member-state")
+							.append(
+								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-enter").attr("type", "button").text("입장하기")
+							)	
+					} else {
+						if(resp.dangInfo.dangPrivate == "Y") {
+							$(".div-dang-member-state")
+							.append(
+								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")		
+									.append(
+										$("<i>").attr("class", "fa-solid fa-lock ms-2")		
+									)
+							)
+						} else {
+							$(".div-dang-member-state")
+							.append(
+								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")	
+							)	
+						}
+					}
+					
 					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
 						$(".div-hashtag-list").append(
-							$("<span>").attr("class", "span-dang-hashtag mx-1 px-1 my-1").attr("data-hashtagno", resp.dangHashtag[i].hashtagNo).text(resp.dangHashtag[i].hashtagContent)
+							$("<span>").attr("class", "span-dang-hashtag mx-1 px-1 my-1").attr("data-hashtagno", resp.dangHashtag[i].hashtagNo).text("#" + resp.dangHashtag[i].hashtagContent)
 						)
 					}
 				}
 			});
 		});
 		
+		// 입장하기 버튼
+		$(document).on("click", ".btn-dang-enter", function(){
+			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
+		});
+		
 		// 가입하기 버튼
 		$(document).on("click", ".btn-dang-join", function(){
-			location.href = "${pageContext.request.contextPath}/dang/search";
+			console.log("가입하기 버튼");
+			///location.href = "${pageContext.request.contextPath}/dang/search";
+			var target = $(".div-outer-dang-info");
+			
+			var inputDangJoinContainer = $("<div>").attr("class", "container-fluid div-input-dang-join");
+			
+			var rowInputDangJoinNick = $("<div>").attr("class", "row mb-3")
+				.append(
+					$("<div>").attr("class", "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-nick")
+						.append(
+							$("<span>").attr("class", "span-modal-join-dang-helper").text("닉네임을 입력해 주세요.")		
+						)
+						.append(
+							$("<div>").attr("class", "d-flex")
+								.append(
+									$("<input>").attr("class", "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick").attr("type", "text").attr("maxlength", 10).attr("placeholder", "닉네임(1~10자)")	
+								)
+								.append(
+									$("<button>").attr("class", "px-3 btn-modal-join-dang-nick-search").attr("type", "button").text("확인")	
+								)
+						)
+				)
+				
+			var rowInputDangJoinMessage = $("<div>").attr("class", "row mb-3")
+				.append(
+					$("<div>").attr("class", "col-10 offset-1 d-flex flex-column")
+						.append(
+							$("<span>").attr("class", "span-modal-join-dang-helper").text("가입 인사를 작성해 주세요.")
+						)
+						.append(
+							$("<div>").attr("class", "d-flex")
+								.append(
+									$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-message").attr("type", "text").attr("maxlength", 30).attr("placeholder", "가입 인사(최대 30자)")
+								)
+						)
+				)
+			
+			inputDangJoinContainer.append(rowInputDangJoinNick).append(rowInputDangJoinMessage)
+				
+			if(dangPrivate == "Y") {
+				var rowInputDangJoinPrivate = $("<div>").attr("class", "row mb-3")
+					.append(
+						$("<div>").attr("class", "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-pw")
+							.append(
+								$("<span>").attr("class", "span-modal-join-dang-helper").text("비밀번호를 입력해 주세요.")
+							)
+							.append(
+								$("<div>").attr("class", "d-flex")
+									.append(
+										$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "text").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)")
+									)
+							)
+					)
+				inputDangJoinContainer.append(rowInputDangJoinPrivate)
+			}
+			
+			var rowInputDangJoinButton = $("<div>").attr("class", "row mb-3 row-modal-join-submit")
+				.append(
+					$("<div>").attr("class", "col-10 offset-1 d-flex justify-content-center align-items-center")
+						.append(
+							$("<button>").attr("class", "py-2 px-3 btn-modal-join-submit").text("가입하기")
+						)
+				)
+				
+			inputDangJoinContainer.append(rowInputDangJoinButton);
+			
+			$(".modal-body").after(inputDangJoinContainer);
+			
+			/* $(".div-outer-dang-info").after(
+				$("<div>").attr("class", "container-fluid mt-3 div-input-dang-join").attr("style", "background-color:red;").text("ㅎㅇ")	
+			) */
 		});
+		
+		// 모달 내 닉네임 중복 검사 버튼
+		$(document).on("click", ".btn-modal-join-dang-nick-search", function(e){
+			// 이벤트 전파 방지
+			e.stopPropagation();
+			// 초기화
+			$(".span-check").remove();
+			// 닉네임 입력창의 입력값
+			var inputNick = $(".input-modal-join-dang-nick").val();
+			// 입력창의 값이 비어있다면
+			if(inputNick == "") {
+				$(".div-modal-dang-join-check-nick")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-empty").text("닉네임을 입력해 주세요.")
+					)
+				formJoinValid.checkNick = false;
+				return;
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+inputNick,
+				method : "get",
+				success : function(resp){
+					console.log(resp);
+					if(resp == false ) {
+						console.log("이미 존재하는 닉네임");
+						$(".div-modal-dang-join-check-nick")
+							.append(
+								$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-already").text("이미 사용 중인 닉네임입니다.")
+							)
+						formJoinValid.checkNick = false;
+						return;
+					} else {
+						console.log("사용할 수 있는 닉네임");
+							$(".div-modal-dang-join-check-nick")
+							.append(
+								$("<span>").attr("class", "span-check span-check-valid check-nick check-nick-valid").text("멋진 닉네임이네요!")
+							)
+						formJoinValid.checkNick = true;
+						return;
+					}
+				}
+			});
+		});
+		
+		$(document).on("blur", ".input-modal-join-dang-pw", function(){
+			console.log(dangPrivate);
+			// 비밀번호 helper text 초기화
+			$(".check-pw").remove();
+			// Modal 내 비밀번호 입력창의 값
+			var inputPw = $(".input-modal-join-dang-pw").val();
+			// 비밀번호 미입력시
+			if(inputPw == "") {
+				$(".div-modal-dang-join-check-pw")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-empty").text("비밀번호를 입력해 주세요.")	
+					)
+				formJoinValid.checkPw = false;
+				return;
+			}
+			// 비밀번호 입력시
+			if(dangPw != inputPw) { // 비밀번호가 옳지 않다면
+				$(".div-modal-dang-join-check-pw")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-pw check-pw-invalid").text("비밀번호가 일치하지 않습니다.")	
+					)
+				formJoinValid.checkPw = false;
+				return;
+			}
+			formJoinValid.checkPw = true;
+		});
+		
+		// 모달 내 가입하기 버튼
+		$(document).on("click", ".btn-modal-join-submit", function(){
+			// 공개 댕모임이라면
+			if(dangPrivate == "N") {
+				formJoinValid.checkPw = true;
+			}
+			console.log("isAllValid = " + formJoinValid.isAllValid());
+			// 유효성 검사를 통과하지 못하면 return
+			if(formJoinValid.isAllValid() == false) {
+				return;
+			}
+			
+			// 회원 번호
+			var userNo = $("#loginNo").val();
+			// 닉네임
+			var memberNick = $(".input-modal-join-dang-nick").val();
+			// 상태 메시지
+			var memberMessage = $(".input-modal-join-dang-message").val();
+			// 댕모임 가입
+			var form = $("<form>").attr("action", "${pageContext.request.contextPath}/member/join").attr("method", "post")
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", dangNo)
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "userNo").attr("value", userNo)
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "memberNick").attr("value", memberNick)	
+							)
+							.append(
+								$("<input>").attr("type", "hidden").attr("name", "memberMessage").attr("value", memberMessage)
+							);
+			$("body").append(form);
+			form.submit();
+			// 가입 완료 메시지
+			alert("댕모임 가입이 완료되었습니다!");
+		});
+		
+		// 가입 유효성 검사
+		var formJoinValid = {
+			checkNick : false,
+			checkPw : false,
+			isAllValid : function() {
+				return this.checkNick && this.checkPw;
+			}
+		}
 		
 		// 돌아가기 버튼
 		$(document).on("click", ".btn-dang-return", function(){
+			// 가입 입력창 삭제
+			$(".div-input-dang-join").remove();
 			$("#modalDangDetail").modal("hide");
+			// 변수 초기화
+			dangNo = null;
+			dangPrivate = null;
+			dangPw = null;
+		});
+		
+		// ESC키 입력시
+		$(document).keydown(function(event) {
+			// 가입 입력창 삭제
+		    if (event.keyCode == 27 || event.which == 27) {
+		    	$(".div-input-dang-join").remove();
+		    	$("#modalDangDetail").modal("hide");
+		    	// 변수 초기화
+				dangNo = null;
+				dangPrivate = null;
+				dangPw = null;
+		    }
 		});
 	});
 
