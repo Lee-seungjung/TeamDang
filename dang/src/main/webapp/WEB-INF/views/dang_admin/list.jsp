@@ -500,37 +500,9 @@
 		</div>
 			</div>
 		</div>
-		
-	
-		
-		<!-- <div class="row mt-3">
-			<div class="col-md-8 offset-md-2 text-center">
-				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
-			</div>
-			<div class="col-md-6 offset-md-3 text-center">
-				<div class="row">
-					<div class="col-10">
-						<input class="w-100 input1 form-control rounded" type="text" name="placeName" value="" placeholder="장소명을 검색해주세요 :)">	
-					</div>
-					<div class="col-2 m-0">
-						<button type="button" class="w-100 box1" onclick="getSearchList()">검색</button>
-					</div>
-				</div>
-				
-				
-			</div>
-		</div> -->
-		
-		<!-- <div class="row mt-3 ">
-			<div class="col-md-8 offset-md-2" >
-				<div class="row  firstLine" >
-					
-				</div>
-			</div>
-		</div> -->
 
 
-
+<!-- ================================장소마커 클릭시 보여주는 모달======================================== -->
 
 	<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -559,7 +531,7 @@
         </div>
     </div>
     
-    <!-- 장소마커 수정을 위한 모달 -->
+    <!-- ================================장소마커를 수정하기 위한 모달======================================== -->
 <div class="modal fade" id="editPlace" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -613,7 +585,7 @@
                     <select class="form-select" name="placeSort">
                     	<option value="카페">카페
                     	<option value="음식점">음식점
-                    	<option value="놀이터">놀이터
+                    	<option value="운동장">운동장
                     	<option value="미용">미용
                     	<option value="공원">공원
 		            </select>
@@ -742,8 +714,7 @@
     </div>
   </div>
 </div>
-
-	<!-- 등록하기 모달 -->
+<!-- ================================장소마커를 등록하기 위한 모달======================================== --><!-- 등록하기 모달 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -797,7 +768,7 @@
 		                    <select class="form-select" name="placeSort1">
 		                    	<option value="카페">카페
 		                    	<option value="음식점">음식점
-		                    	<option value="놀이터">놀이터
+		                    	<option value="운동장">운동장
 		                    	<option value="미용">미용
 		                    	<option value="공원">공원
 		                    </select>
@@ -1030,7 +1001,11 @@
         var placeUrl = $("[name=placeUrl1]").val();
         var dangSize = $("[name=dangSize1]").val();
         var attachmentNo = $("[name=attachmentNo1]").val();
-		console.log(placeX=="");
+        
+        console.log(placeX.length==0);
+        
+       
+        
         //검사
         placeInsert(placeArea, placeX, placeY, placeSort, placeName,
             placeInfo, placeAddress, placeOperation, placeOff,
@@ -1061,7 +1036,14 @@
             dangSize: dangSize,
             attachmentNo: attachmentNo,
         };
-		if(confirm("정말 등록하시겠습니까?")==true){
+        
+        if (placeX.length === 0 || placeX.length === 0) {
+            alert('위도와 경도를 입력해 주세요!');
+            return;
+        }else if(attachmentNo.length==0){
+			alert('사진을 등록해 주세요!');
+			return;
+		}else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
                 url: "http://localhost:8888/rest_place/place_insert",
                 method: "post",
@@ -1272,44 +1254,6 @@
 		});
 		
 
-		/* function restPlaceList() {
-			//비동기통신 시작
-			$.ajax({
-				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
-				method : "get",
-				async : false,
-				contentType : "application/json",
-				success : function(resp) {
-					  $("[name=placeArea]").val("");
-				      $("[name=placeX]").val("");
-				      $("[name=placeY]").val("");
-				      $("[name=placeSort]").val("");
-				      $("[name=placeName]").val("");
-				      $("[name=placeInfo]").val("");
-				      $("[name=placeAddress]").val("");
-				      $("[name=placeOperation]").val("");
-				      $("[name=placeOff]").val("");
-				      $("[name=placeTel]").val("");
-				      $("[name=placeUrl]").val("");
-				      $("[name=dangSize]").val("");
-				      $("[name=attachmentNo]").val("");
-					//수정 input태그에 값 밀어넣기
-					$('input[name=placeArea]').attr('value',resp.placeArea);
-					$('input[name=placeX]').attr('value',resp.placeX);
-					$('input[name=placeY]').attr('value',resp.placeY);
-					$('input[name=placeSort]').attr('value',resp.placeSort);
-					$('input[name=placeName]').attr('value',resp.placeName);
-					$('textarea[name=placeInfo]').text(resp.placeInfo);
-					$('input[name=placeAddress]').attr('value',resp.placeAddress);
-					$('input[name=placeOperation]').attr('value',resp.placeOperation);
-					$('input[name=placeOff]').attr('value',resp.placeOff);
-					$('input[name=placeTel]').attr('value',resp.placeTel);
-					$('input[name=placeUrl]').attr('value',resp.placeUrl);
-					$('input[name=dangSize]').attr('value',resp.dangSize);
-					console.log(resp.placeArea)
-				}
-			})
-		}; */
 		
 		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
 		mapOption1 = {
