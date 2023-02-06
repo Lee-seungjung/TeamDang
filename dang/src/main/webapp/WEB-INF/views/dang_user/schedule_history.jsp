@@ -97,12 +97,12 @@
 	<div class = "row">
 		<div class = "col-8 offset-2 my-3">
 			<div class = "row">
-                <div class = "col-10 offset-1 py-3 d-flex justify-content-center align-items-center">
-                    <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">참여일정 조회</strong> 
-                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
+                <div class = "col d-flex justify-content-center align-items-center">
+                    <strong class = "select-schedule-history-title ">참여일정 조회</strong> 
+<!--                               <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
                                 <option value = "" class = "select-dang-name-option">선택</option>
                                 <option value = "" class = "">목욕댕모임</option>                           
-                            </select>
+                            </select> -->
                 </div>
             </div>
             
@@ -165,8 +165,8 @@
 						</li>
 						
 						<c:choose>
-						<c:when test = "${historyListRequestDto.blockPrev() != 0}">
-						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${historyListRequestDto.blockPrev()}">
+						<c:when test = "${scheduleHistoryRequestDto.blockPrev() != 0}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${scheduleHistoryRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:when>
@@ -177,20 +177,20 @@
 						</c:otherwise>
 						</c:choose>						
 
-						<c:forEach var = "i" begin = "${historyListRequestDto.blockStart()}" end = "${historyListRequestDto.blockEnd()}" step = "1">
+						<c:forEach var = "i" begin = "${scheduleHistoryRequestDto.blockStart()}" end = "${scheduleHistoryRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-history-list-page-item ul-history-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
 
 						<c:choose>
-						<c:when test = "${historyListRequestDto.blockNext() >= historyListRequestDto.blockLast()}">
-						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockLast()}">
+						<c:when test = "${scheduleHistoryRequestDto.blockNext() >= scheduleHistoryRequestDto.blockLast()}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${scheduleHistoryRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockNext()}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${scheduleHistoryRequestDto.blockNext()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:otherwise>
@@ -264,7 +264,7 @@
 					$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.historyList.length==0){
+				if(resp.scheduleHistory.length==0){
 					var body = $(".history-data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -272,13 +272,13 @@
 					tr.append(td);
 				}else{
 					$(".history-data-body").empty();
-					for(var i=0; i<resp.historyList.length; i++){
-						historyList(resp.historyList[i]);
+					for(var i=0; i<resp.scheduleHistory.length; i++){
+						scheduleHistory(resp.scheduleHistory[i]);
 					}
 					// 초기화
 					$(".ul-history-list-page-item-unit").remove();
 					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						historyListPagination(i);
+						scheduleHistoryPagination(i);
 					}
 				}
 			}
@@ -293,7 +293,7 @@
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
@@ -325,13 +325,13 @@
 				}
 				
 				$(".history-data-body").empty();
-				for(var i=0; i<resp.historyList.length; i++){
-					historyList(resp.historyList[i]);
+				for(var i=0; i<resp.scheduleHistory.length; i++){
+					scheduleHistory(resp.scheduleHistory[i]);
 				}
 				// 초기화
 				$(".ul-history-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					historyListPagination(i);
+					scheduleHistoryPagination(i);
 				}
 				
 			}
@@ -347,7 +347,7 @@
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
@@ -377,13 +377,13 @@
 				}
 				// 초기화
 				$(".history-data-body").empty();
-				for(var i = 0 ; i < resp.historyList.length ; i++){
-					historyList(resp.historyList[i]);
+				for(var i = 0 ; i < resp.scheduleHistory.length ; i++){
+					scheduleHistory(resp.scheduleHistory[i]);
 				}
 				// 초기화
 				$(".ul-history-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					historyListPagination(i);
+					scheduleHistoryPagination(i);
 				}						
 			}
 		})
@@ -395,7 +395,7 @@
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData()
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
@@ -425,13 +425,13 @@
 				}
 				// 초기화
 				$(".history-data-body").empty();
-				for(var i = 0 ; i < resp.historyList.length ; i++){
-					historyList(resp.historyList[i]);
+				for(var i = 0 ; i < resp.scheduleHistory.length ; i++){
+					scheduleHistory(resp.scheduleHistory[i]);
 				}
 				// 초기화
 				$(".ul-history-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					historyListPagination(i);
+					scheduleHistoryPagination(i);
 				}						
 			}
 		})			
@@ -444,7 +444,7 @@
 		p = 1;
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", historySearchInput);
+		/* formData.append("keyword", historySearchInput); */
 		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".history-form-select").val() != "" || $(".history-search-input").val() != "" ){
@@ -475,35 +475,35 @@
 				}
 				// 초기화
 				$(".history-data-body").empty();
-				for(var i = 0 ; i < resp.historyList.length ; i++){
-					historyList(resp.historyList[i]);
+				for(var i = 0 ; i < resp.scheduleHistory.length ; i++){
+					scheduleHistory(resp.scheduleHistory[i]);
 				}
 				// 초기화
 				$(".ul-history-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					historyListPagination(i);
+					scheduleHistoryPagination(i);
 				}						
 			}
 		})					
 	});
 		
 	//참여일정 목록 비동기 불러오기
-	function historyList(resp){
+	function scheduleHistory(resp){
 		var body = $(".history-data-body");
 		
 		var tr = $("<tr>").attr("class","align-middle");
 		var td_dangName = $("<td>").text(resp.dangName);
+		var td_scheduleStart = $("<td>").text(resp.scheduleStart);
 		var td_scheduleTitle = $("<td>").text(resp.scheduleTitle);
 		var td_placeName = $("<td>").text(resp.placeName);
-		var td_scheduleStart = $("<td>").text(resp.scheduleStart);
 		var td_scheduleMoney = $("<td>").text(resp.scheduleMoney);
 
-		tr.append(td_dangName).append(td_scheduleTitle).append(td_placeName).append(td_scheduleStart).append(td_scheduleMoney);
+		tr.append(td_dangName).append(td_scheduleStart).append(td_scheduleTitle).append(td_placeName).append(td_scheduleMoney);
 		body.append(tr);
 	}
 		
 	//참여일정 목록 페이징
-	function historyListPagination(resp){
+	function scheduleHistoryPagination(resp){
 		$(".ul-history-list-page-item-next")
 			.before(
 				$("<li>").attr("class", "ul-history-list-page-item ul-history-list-page-item-unit d-flex justify-content-center align-items-center")
