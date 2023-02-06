@@ -14,6 +14,7 @@ import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
+import com.project.dang.dto.HistoryListRequestDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.dto.UserListRequestDto;
 import com.project.dang.vo.DangUserMypageVO;
@@ -187,5 +188,10 @@ public class DangUserDaoImpl implements DangUserDao {
 	@Override
 	public Date mypageLogin(int userNo) {
 		return sqlSession.selectOne("dangUser.mypageLogin", userNo);
+	}
+	
+	@Override
+	public int historyCount(int userNo) {
+		return sqlSession.selectOne("schedule.historyCount", userNo);
 	}
 }

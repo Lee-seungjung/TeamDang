@@ -123,9 +123,29 @@
 		delete dang_schedule where member_no=#{memberNo} and schedule_no=#{scheduleNo}	
       </delete> 
       
-              					 <!--마이페이지 참여일정 조회 -->
+<!--               			  마이페이지 참여일정 조회   
       	<select id = "joinScheduleList" parameterType = "int" resultType = "JoinScheduleListVO">
 			select * from history where user_no = #{userNo}
-  	</select>   
+  	</select>     -->
+  	
+  			<!-- (마이페이지) 총 참여일정 수 -->
+	<select id = "historyCount" parameterType = "HistoryListRequestDto" resultType = "int">
+		select count(*) from joinScheduleCount where user_no=#{userNo}
+	</select>
+  	
+  			<!-- (마이페이지) 참여일정 전체/검색 조회-->
+	<select id = "joinScheduleList"   parameterType = "HistoryListRequestDto" resultType = "JoinScheduleListVO">
+  		select * from (
+			select tmp.*, rownum rn from (
+		  		select * from history 
+				<where> user_no = #{userNo}
+					<if test = "type != null and keyword != null">
+						and instr(${type}, #{keyword}) > 0 
+					</if>
+				</where>
+				order by schedule_start desc
+	  		)tmp
+		) where rn between #{rownumStart} and #{rownumEnd}
+	</select>	
             
 </mapper>

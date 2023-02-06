@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangInterestDto;
+import com.project.dang.dto.HistoryListRequestDto;
+import com.project.dang.dto.HistoryListResponseDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangReportDao;
+import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.repository.DangUserDao;
 import com.project.dang.service.DangCertEmailService;
 import com.project.dang.vo.DangUserVO;
+import com.project.dang.vo.JoinScheduleListVO;
 
 @RestController
 @RequestMapping("/rest_user")
@@ -44,6 +49,9 @@ public class DangUserRestController {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangScheduleDao dangScheduleDao;
 
 	// 아이디 중복 검사
 	@GetMapping("/check_id")
@@ -126,5 +134,36 @@ public class DangUserRestController {
 	@DeleteMapping("/close_dang")
 	public boolean closeDang(@RequestParam int dangNo) {
 		return dangDao.closeDang(dangNo);
+	}
+	
+	//마이페이지 참여일정 전체/검색 조회
+	@PostMapping("/schedule_history")
+	public HistoryListResponseDto scheduleHistory(@ModelAttribute HistoryListRequestDto historyListRequestDto,
+			HttpSession httpSession) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
+		
+		System.out.println(historyListRequestDto.getType());
+		System.out.println(historyListRequestDto.getKeyword());
+		System.out.println(historyListRequestDto.getP());
+
+		// 총 참여일정 수 조회
+		int historyTotal = dangUserDao.historyCount(userNo);
+		// dto에 총 갯수 설정
+		historyListRequestDto.setTotal(historyTotal);
+		historyListRequestDto.setUserNo(userNo);
+		//마이페이지 참여일정 조회
+		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(historyListRequestDto);
+		// 반환용 객체 생성
+		HistoryListResponseDto historyListResponseDto = new HistoryListResponseDto();
+		historyListResponseDto.setScheduleHistory(scheduleHistory);
+		historyListResponseDto.setBlockStart(historyListRequestDto.blockStart());
+		historyListResponseDto.setBlockEnd(historyListRequestDto.blockEnd());
+		historyListResponseDto.setBlockPrev(historyListRequestDto.blockPrev());
+		historyListResponseDto.setBlockNext(historyListRequestDto.blockNext());
+		historyListResponseDto.setBlockFirst(historyListRequestDto.blockFirst());
+		historyListResponseDto.setBlockLast(historyListRequestDto.blockLast());
+		System.out.println(historyListRequestDto.toString());
+		return historyListResponseDto;
 	}
 }

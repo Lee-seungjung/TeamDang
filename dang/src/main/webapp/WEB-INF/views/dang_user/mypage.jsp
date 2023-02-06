@@ -115,12 +115,20 @@
                         <div class="row">
 
                             <div class="col-6 dang-owner-profile">
-                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">                                    
-                                    <img class = "row img-fluid img-owner-profile w-100" src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
-                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>                                
+                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">
+                                	<c:choose>             
+                                	<c:when test="${attachmentNo==null}" >                     
+	                                    <img class = "row img-fluid img-owner-profile img-circle origin-img w-75" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
+	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>
+                                    </c:when>
+                                    <c:otherwise>   
+	                                     <img class = "row img-fluid img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
+	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>    
+	                                    ${userInfo.attachmentNo}                             
+                                    </c:otherwise>    
+                                    </c:choose>                            
                                 </div>
                             </div>
-
                             
                             <div class="col-6 dang-owner-info">
                                 <div class = "row px-3 py-3">
@@ -195,7 +203,7 @@
 									    <div class="container-fluid">
 									    	<div class="row">
 									    	 	<div class="py-3 col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
-											    <img class = "w-75 img-puppy-profile" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+											    <img class = "w-75 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
 											      </div>											      
 									       </div>
 									    	 	<div class="col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
@@ -208,7 +216,7 @@
 									   </div>
 
 									  </div>
-									  </c:forEach>
+
 									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
 									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 									    <span class="visually-hidden">Previous</span>
@@ -216,7 +224,9 @@
 									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
 									    <span class="carousel-control-next-icon" aria-hidden="true"></span>
 									    <span class="visually-hidden">Next</span>
+									 
 									  </button>
+									  									  </c:forEach>
 									</div>
                     
                         </div> <!-- col-5끝 -->

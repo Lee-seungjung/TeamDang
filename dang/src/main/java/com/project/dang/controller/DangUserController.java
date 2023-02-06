@@ -26,6 +26,7 @@ import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserJoinRequestDto;
 import com.project.dang.dto.DangUserJoinResponseDto;
+import com.project.dang.dto.HistoryListRequestDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangDao;
@@ -466,13 +467,21 @@ public class DangUserController {
 	
 	//마이페이지 참여일정 조회
 	@GetMapping("/schedule_history")
-	public String scheduleHistory(HttpSession httpSession,Model model) {
+	public String scheduleHistory(HttpSession httpSession,Model model,
+			HistoryListRequestDto historyListRequestDto) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
-		
-		//마이페이지 참여일정 조회
-		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(userNo);
+		// 총 참여일정 수 조회
+		int historyTotal = dangUserDao.historyCount(userNo);
+		model.addAttribute("historyTotal", historyTotal);
+
+		//  입력받은 DTO에 회원 번호, 일정 총 갯수 설정
+		historyListRequestDto.setTotal(historyTotal);
+		historyListRequestDto.setUserNo(userNo);
+		//마이페이지 참여일정 목록 전체/검색 조회
+		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(historyListRequestDto);
 		model.addAttribute("scheduleHistory", scheduleHistory);
+
 		return "dang_user/schedule_history";	
 	}
 		

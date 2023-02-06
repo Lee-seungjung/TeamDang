@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
+import com.project.dang.dto.HistoryListRequestDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.JoinScheduleListVO;
 import com.project.dang.vo.ScheduleEditVO;
@@ -131,11 +132,19 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		param.put("memberNo", String.valueOf(memberNo));		
 		return sqlSession.delete("schedule.scheduleDelete", param)>0;
 	}
+		
+	//(마이페이지) 참여일정 목록 조회
+		@Override
+		public List<JoinScheduleListVO> historyList() {
+			return sqlSession.selectList("schedule.scheduleDelete");
+		}
 	
-	//참여일정 리스트 조회
+	//(마이페이지) 참여일정 목록 전체/ 검색 조회
 	@Override
-	public List<JoinScheduleListVO> joinScheduleList(int userNo) {
-		return sqlSession.selectList("schedule.joinScheduleList", userNo);
+	public List<JoinScheduleListVO> joinScheduleList(HistoryListRequestDto historyListRequestDto) {
+		historyListRequestDto.setRownumStart(historyListRequestDto.rownumStart());
+		historyListRequestDto.setRownumEnd(historyListRequestDto.rownumEnd());		
+		return sqlSession.selectList("schedule.joinScheduleList", historyListRequestDto);
 	}
 
 
