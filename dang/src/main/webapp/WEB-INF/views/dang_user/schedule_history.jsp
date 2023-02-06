@@ -97,12 +97,12 @@
 	<div class = "row">
 		<div class = "col-8 offset-2 my-3">
 			<div class = "row">
-                <div class = "col-10 offset-1 py-3 d-flex justify-content-center align-items-center">
-                    <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">참여일정 조회</strong> 
-                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
+                <div class = "col d-flex justify-content-center align-items-center">
+                    <strong class = "select-schedule-history-title ">참여일정 조회</strong> 
+<!--                               <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
                                 <option value = "" class = "select-dang-name-option">선택</option>
                                 <option value = "" class = "">목욕댕모임</option>                           
-                            </select>
+                            </select> -->
                 </div>
             </div>
             
