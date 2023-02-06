@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
 <style>
 	.modal-header{
@@ -1329,7 +1331,7 @@
 </div>
 
   <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey }"></script>
     <script>
         var placeNoInfo; //장소번호를 가져오는 변수
         var placeContents = []; // 장소번호를 가져와 내용을 담는 변수

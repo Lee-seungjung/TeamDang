@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 <%-- dang_header --%>
 <jsp:include page="/WEB-INF/views/template/dang_header.jsp">
 	<jsp:param value="댕모임 일정" name="title" />
@@ -696,7 +697,7 @@
 </div> <!-- 댕모임 일정 장소 모달 끝-->
 
 <!-- 카카오 맵 API -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9a95746698992180eedc27d9eef265"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 
 <script type="text/javascript">
 		
