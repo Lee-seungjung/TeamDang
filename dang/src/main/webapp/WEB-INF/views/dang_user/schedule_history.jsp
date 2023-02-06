@@ -84,16 +84,11 @@
 		<div class = "col-8 offset-2 my-3">
 			<div class = "row">
                 <div class = "col-10 offset-1 py-3 d-flex justify-content-center align-items-center">
-                    <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">최근1개월 참여일정 조회</strong> 
-                              <select class = "col-1 py-1 mx-2 d-flex justify-content-center align-items-center  select-dang-name">
+                    <strong class = "Title col-8 offset-2 d-flex justify-content-center align-items-center select-schedule-history-title ">참여일정 조회</strong> 
+                              <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center  select-dang-name">
                                 <option value = "" class = "select-dang-name-option">선택</option>
                                 <option value = "" class = "">목욕댕모임</option>
                                 <option value = "" class = "">산책댕모임</option>
-                            </select>
-                                <select class = "col-1 py-1 mx-2 d-flex justify-content-center align-items-center select-dang-search-period">
-                                <option value = "" class = "search-month-1">1개월</option>
-                                <option value = "" class = "search-month-3">3개월</option>
-                                <option value = "" class = "search-all-period">전체</option>
                             </select>
                 </div>
             </div>
