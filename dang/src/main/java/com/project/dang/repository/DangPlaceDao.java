@@ -57,16 +57,52 @@ public interface DangPlaceDao {
 	 */
 	List<DangPlaceDto> placeListArea(Double lat1,Double lng1,Double lat2,Double lng2);
 	
-	
-	public List<DangPlaceDto> selectList(PlaceListRequestDto PlaceListRequestDto); // 문의 조회
-	
-	public List<DangPlaceDto> selectSearch(PlaceListRequestDto PlaceListRequestDto); // 문의 글 검색 목록
-		
-	public List<DangPlaceDto> selectAll(PlaceListRequestDto PlaceListRequestDto); // 문의 전체 목록
-		
-	public int countPlace(PlaceListRequestDto PlaceListRequestDto); //  게시글 총 갯수 반환
-		
-	public int searchCountPlace(PlaceListRequestDto PlaceListRequestDto); //  검색 조회시 게시글 총 갯수 반환
-		
-	public int listCountPlace(PlaceListRequestDto PlaceListRequestDto); //  전체 조회시 게시글 총 갯수 반환
+	/**
+	 * 장소 조회
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return List<DangPlaceDto>
+	 */
+	public List<DangPlaceDto> selectList(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 장소 검색 목록
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return List<DangPlaceDto>
+	 */
+	public List<DangPlaceDto> selectSearch(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 장소 전체 목록
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return List<DangPlaceDto>
+	 */
+	public List<DangPlaceDto> selectAll(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 장소 마커 총 갯수 반환
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return int
+	 */
+	public int countPlace(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 검색 조회시 장소마커 총 갯수 반환
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return int
+	 */
+	public int searchCountPlace(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 전체 조회시 장소마커 총 갯수 반환
+	 * @author hyunjae
+	 * @param PlaceListRequestDto : 페이징을 위한 장소 DTO
+	 * @return int
+	 */	
+	public int listCountPlace(PlaceListRequestDto PlaceListRequestDto);
+	/**
+	 * 홈화면 슬라이드 장소추천을 위한 메서드
+	 * @author hyunjae
+	 * @return List<DangPlaceDto>
+	 */	
+	public List<DangPlaceDto> homeRecommend();
 }

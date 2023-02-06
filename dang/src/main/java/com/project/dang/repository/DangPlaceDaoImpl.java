@@ -126,6 +126,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	@Override
 	public int listCountPlace(PlaceListRequestDto PlaceListRequestDto) {
 		return sqlSession.selectOne("place.allCount", PlaceListRequestDto);
+	}
+
+	@Override
+	public List<DangPlaceDto> homeRecommend() {
+		return sqlSession.selectList("place.recommendPlace");
 	} 
 	
 	
