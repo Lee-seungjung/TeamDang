@@ -1226,7 +1226,7 @@
 		
 		
 		function detailMove() {
-			location.href = "http://localhost:8888/place/detail/"+placeNoInfo;
+			location.href = "http://localhost:8888/admin/detail/"+placeNoInfo;
 		}
 		$(document).on("click",".infoModal",function(e) {
 			

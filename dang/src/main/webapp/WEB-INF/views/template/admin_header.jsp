@@ -191,15 +191,9 @@
             	</span>
             </li>
             <li class = "li-admin-menu my-3">
-            	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/place_insert'">
-            		<i class="fa-solid fa-location-dot col-4 text-end"></i>
-            		<span class = "col-8 ps-2">장소 등록</span>
-            	</span>
-            </li>
-            <li class = "li-admin-menu my-3">
             	<span class = "d-flex justify-content-center align-items-center cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/place_list'">
             		<i class="fa-solid fa-map-location col-4 text-end"></i>
-            		<span class = "col-8 ps-2">장소 조회</span>
+            		<span class = "col-8 ps-2">장소 관리</span>
             	</span>
             </li>
             <li class = "li-admin-menu my-3">
