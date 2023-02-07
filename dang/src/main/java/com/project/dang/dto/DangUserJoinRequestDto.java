@@ -15,7 +15,7 @@ public class DangUserJoinRequestDto {
 	// 1. 현재 페이지의 열(row) 관련
 	// 필드
 	private Integer p = 1; // 현재 페이지 번호 (기본값 1)
-	private int cnt = 5; // 한 페이지에 표시할 열 갯수
+	private int cnt = 4; // 한 페이지에 표시할 열 갯수
 	
 	// 메소드
 	// - 현재 페이지 열 시작 번호 반환

@@ -7,6 +7,10 @@
 </jsp:include>
 
 <style>
+
+	* {
+		border : 1px gray dotted;
+	}
 	
 	.select-dang-search-area,
 	.select-dang-search-sort {
@@ -303,8 +307,8 @@
 			<form class = "row my-3 form-search-submit"> <%-- 검색 영역 시작 --%>
 				<div class = "col-10 offset-1">
 					<div class = "row">
-						<div class = "col-3 d-flex">
-							<select class = "flex-fill p-1 select-dang-search-area" name = "searchArea">
+						<div class = "col-3 d-flex justify-content-center align-items-center">
+							<select class = "w-100 p-1 select-dang-search-area" name = "searchArea">
 								<option value = "">관심지역 선택</option>
 								<c:choose>
 								<c:when test = "${login}"> <%-- 로그인 상태일 경우 --%>
@@ -328,10 +332,10 @@
 							</select>
 						</div>
 						<div class= "col-6 d-flex justify-content-center align-items-center">
-							<div class = "d-flex flex-fill">							
-								<input class = "flex-fill p-1 input-dang-search-keyword" placeholder = "검색어" name = "searchName">
-								<button class = "btn-dang-search-submit" type = "submit">
-									<i class="fa-solid fa-magnifying-glass"></i>
+							<div class = "w-100 d-flex justify-content-center align-items-center">							
+								<input class = "p-1 flex-fill input-dang-search-keyword" placeholder = "검색어" name = "searchName">
+								<button class = "btn-dang-search-submit p-1" type = "submit">
+									<i class="fa-solid fa-magnifying-glass pe-1"></i>
 								</button>
 							</div>
 						</div>
