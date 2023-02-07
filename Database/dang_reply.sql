@@ -3,7 +3,7 @@ create table dang_reply(
 reply_no number primary key,
 board_no references dang_board(board_no) on delete cascade,
 member_no references dang_member(member_no) on delete cascade,
-member_nick varchar2(30) not null, 
+member_nick varchar2(18) not null, 
 reply_content varchar2(300) not null,
 reply_writedate date default sysdate not null,
 reply_updatedate date,
