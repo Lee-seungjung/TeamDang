@@ -404,6 +404,7 @@
 			$.ajax({
               		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
    					method:"get",
+   					async:false,
    					success:function(resp){
    						if(resp.length!=0){ //출석기록 있음
    							console.log("출석기록 있음!");
@@ -417,7 +418,15 @@
    							return;
    						}else{ //출석기록 없음
    							console.log("출석기록 없음!");
+
+   							var isDoubleClick = false;
    							$(".attendance-btn").click(function(){
+   								
+   								if(isDoubleClick == true){ //더블클릭 막기위함
+   									return;
+   								}
+   								
+   								isDoubleClick = true;
    								AttendanceValid = true;
    								//1. 오늘날짜 배경에 로고 이미지 넣기
    								var today = $('#calendar').children().find(".fc-day-today");
@@ -434,6 +443,7 @@
    									data:JSON.stringify(attendanceData),
    									contentType: 'application/json',
    				                    success:function(){
+   				                    	isDoubleClick = false;
    				                  		 //버튼 막기
    				                    	$(".close-btn").show();
    				    					$(".attendance-btn").hide();
