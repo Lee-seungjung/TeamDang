@@ -772,6 +772,9 @@
 				return;
 			}
 			
+			// 중복 가입 방지를 위한 가입 버튼 비활성화
+			$(this).attr("disabled", true);
+			
 			// 회원 번호
 			var userNo = $("#loginNo").val();
 			// 닉네임
