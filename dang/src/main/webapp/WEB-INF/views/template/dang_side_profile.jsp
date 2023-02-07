@@ -354,6 +354,11 @@
 <script>
 	$(function(){
 		
+		var now_utc = Date.now()
+		var timeOff = new Date().getTimezoneOffset()*60000;
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.getElementById("Date").setAttribute("min", today);
+		
 		$(".invalid-money").hide();
 		
  		//참여 회비는 1백만원미만으로 제한(6자)
@@ -1228,7 +1233,7 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
+                                <p><input type="date" value="${sysdate}" id="Date" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
                                         max="24:00"  name="scheduleHour"></p>
                         </div>
 
