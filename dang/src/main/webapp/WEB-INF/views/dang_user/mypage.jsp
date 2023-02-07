@@ -5,13 +5,10 @@
 	<jsp:param value="마이페이지" name="title"/>
 </jsp:include>
 
-    <!-- swiper 의존성 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <style>
 	
     * {
-        /* border: 1px gray dotted; */
+		border : 1px gray dotted;   
     }
 
     .under-menu{
@@ -31,7 +28,7 @@
       .mydang-border{
         border: solid 1px #76BEFF;
         border-radius: 1em;
-        background-color:#76BEFF;
+        background-color:white;
     }
 
     .hello-common{
@@ -97,6 +94,22 @@
 	    top: 60%;
 	    left: 60%;
     }
+    
+    .strong-puppy-info-puppy-name {
+    	font-size : 24px;
+    }
+    
+	.i-puppy-gender-male {
+	    color: #76BEFF;
+	}
+	
+	.i-puppy-gender-female {
+	    color: #F94888;
+	}
+	
+	.span-puppy-character {
+	    color: #76BEFF;
+	}
 </style>
 
 <body>
@@ -114,26 +127,26 @@
                 </div>
 
                 <div class="row mb-3 ">
-                    
                     <div class="col-7 myprofile-border">
                         <div class="row">
-
-                            <div class="col-6 dang-owner-profile">
-                                <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">
-                                	<c:choose>             
-                                	<c:when test = "${loginProfileImg == null}" >                     
-	                                    <img class = "row img-fluid img-owner-profile img-circle origin-img w-100" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
-	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>
-                                    </c:when>
-                                    <c:otherwise>   
-	                                     <img class = "row img-fluid img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
-	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>                        
-                                    </c:otherwise>    
-                                    </c:choose>                            
+                            <div class="col-5 dang-owner-profile">
+                                <div class="row py-3 px-4">
+                                	<div class = "col py-3 d-flex flex-column align-items-center justify-content-center">
+	                                	<c:choose>             
+	                                	<c:when test = "${loginProfileImg == null}" >                     
+		                                    <img class = "img-owner-profile img-circle origin-img w-100" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
+		                                    <span class="dang-nick2 row align-items-center justify-content-center my-3">${userInfo.userNick}</span>
+	                                    </c:when>
+	                                    <c:otherwise>   
+											<img class = "img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+		                                    <span class="dang-nick2 row align-items-center justify-content-center my-3">${userInfo.userNick}</span>                        
+	                                    </c:otherwise>    
+	                                    </c:choose>     
+                                	</div>
                                 </div>
                             </div>
                             
-                            <div class="col-6 dang-owner-info">
+                            <div class="col-7 dang-owner-info py-3">
                                 <div class = "row px-3 py-3">
                                     <div class = "owner-common col-5 offset-1">
                                         <span class = "span-info-category">관심지역</span>
@@ -159,7 +172,8 @@
 									<div class = "owner-common2 col-5">
 									<c:choose>
 									 <c:when test="${mypageDangNum!= null}">   
-									       <span class = "span-info">${mypageDangNum}마리</span>
+									       <span class = "span-info">${mypageDangNum}</span>
+									       <span>마리</span>
 									</c:when>
                                        <c:otherwise>									
 											<span class = "span-info">댕댕이 정보를 등록해주세요.</span>
@@ -175,7 +189,8 @@
                                     <div class = "owner-common2 col-5">       
                                     <c:choose>                             
                                     <c:when test="${mypagePartyNum!= null}">
-                                        <span class = "span-info">${mypagePartyNum}개</span>
+                                        <span class = "span-info">${mypagePartyNum}</span>
+                                        <span>개</span>
 									</c:when>
 									<c:otherwise>
 									    <span class = "span-info">활동 댕모임이 없습니다.</span>
@@ -193,54 +208,74 @@
                                     </div>
                                 </div>                       
                             </div>
-
-
                         </div>
                     </div>
                     
                     <div class="col-5 mydang-border">
-                    
-            <!-- Slider main container -->
-            <div class="swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper container-fluid">
-                    <!-- Slides -->
-                    <c:choose>
-                    <c:when test ="${dangPuppyList} != null">
-                    <c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
-	                    <div class="row swiper-slide ">
-                 				<div class="py-3 col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
-							    	<img class = "w-75 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
-							    </div>	
-				    				<div class="row">
-				    						<div class="col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
-									        <h5>${dangPuppyList.dangPuppyInfoDto.puppyName}</h5>
-									        <p>${dangPuppyList.dangPuppyInfoDto.puppyAge}, ${dangPuppyList.dangPuppyInfoDto.puppyGender}</p>
-											</div>
-								      </div>
-	                    </div>
-               	</c:forEach>
-               	</c:when>
-               	<c:otherwise>
-               			<span>댕댕이를 등록해주세요</span>              		
-               	</c:otherwise>
-               	</c:choose>
-                </div>
-                
-                <!-- If we need pagination -->
-                <div class="swiper-pagination"></div>
-            
-                <!-- If we need navigation buttons -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            
-                <!-- If we need scrollbar -->
-                <div class="swiper-scrollbar"></div>
-            </div>
-
-                    
-                        </div> <!-- col-5끝 -->
-                    </div>
+                    	<div id="carouselPuppyInfo" class="carousel slide" data-bs-ride="carousel">
+						  	<div class="carousel-inner">
+						  		<c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
+						    	<div class="carousel-item">
+						      		<div class = "container-fluid">
+						      			<div class = "row px-4 my-3">
+						      				<div class = "col-6 d-flex justify-content-center align-items-center">
+						      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+						      				</div>
+						      				<div class = "col-6">
+						      					<div class = "row my-4">
+						      						<div class = "col d-flex justify-content-center align-items-center">
+							      						<strong class = "strong-puppy-info-puppy-name">${dangPuppyList.dangPuppyInfoDto.puppyName}</strong>
+						      						</div>
+						      					</div>
+						      					<div class = "row my-4">
+						      						<div class = "col-6 d-flex justify-content-center align-items-center">
+						      							<span>나이</span>
+						      						</div>
+						      						<div class = "col-6">
+						      							<span>${dangPuppyList.dangPuppyInfoDto.puppyAge}살</span>
+						      						</div>
+						      					</div>
+						      					<div class = "row my-4">
+						      						<div class = "col-6 d-flex justify-content-center align-items-center">
+						      							<span>성별</span>
+						      						</div>
+						      						<div class = "col-6">
+						      							<c:choose>
+						                                <c:when test = "${dangPuppyList.dangPuppyInfoDto.puppyGender == 'M'}">
+						                                <span>남아</span>
+					                                    <i class="fa-solid fa-mars ms-1 i-puppy-gender-male"></i>
+						                                </c:when>
+						                               	<c:otherwise>
+						                           		<span>여아</span>
+					                                    <i class="fa-solid fa-venus ms-1 i-puppy-gender-female"></i>
+						                               	</c:otherwise>
+						                                </c:choose>
+						      						</div>
+						      					</div>
+						      				</div>
+						      			</div>
+						      			<div class = "row mt-4">
+						      				<div class = "col d-flex flex-row justify-content-center align-items-center">
+						      					<c:forEach var = "dangPuppyCharacter" items = "${dangPuppyList.dangPuppyCharacter}">
+						      						<span class = "mx-2 span-puppy-character">#${dangPuppyCharacter}</span>
+						      					</c:forEach>
+						      				</div>
+						      			</div>
+						      		</div>
+						    	</div>
+						    	</c:forEach>
+					  		</div>
+					  		<button class="carousel-control-prev" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="prev">
+					    		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					    		<span class="visually-hidden">Previous</span>
+					  		</button>
+					  		<button class="carousel-control-next" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="next">
+					    		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					    		<span class="visually-hidden">Next</span>
+					  		</button>
+						</div>
+					</div> <!-- col-5끝 -->
+				</div>
             
             <div class="col">
                 <div class="row mypage-1 mb-3">
@@ -312,32 +347,8 @@
 
     <script type="text/javascript">
         $(function(){
-            var swiper = new Swiper('.swiper', {
-                direction: 'horizontal',//슬라이드 방향
-                loop: true,//반복여부
-    
-                //페이징 옵션
-                pagination: {
-                    el: '.swiper-pagination',//페이징 적용 대상
-                    type: "bullets",//페이징 도구 모양
-                    clickable:true,//클릭 가능 여부
-                },
-    
-                // 좌우 이동 버튼
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                
-                // 자동재생 옵션
-                autoplay : {
-                    delay:1000,//자동재생 간격(ms)
-                },
-    
-                // 페이지 전환 효과
-                effect:"slide",//슬라이드 방식(기본)
-
-            });
+            
+            $(".carousel-item").eq(0).addClass("active");
         });
 
     </script>
