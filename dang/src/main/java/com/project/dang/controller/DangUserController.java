@@ -146,7 +146,6 @@ public class DangUserController {
 		model.addAttribute("userInfo", dangUserDao.selectUserInfo(userNo));
 		// 조회한 댕댕이 정보를 Model에 추가
 		model.addAttribute("dangPuppyList", dangPuppyList);
-		
 		//마이페이지 등록한 관심지역 반환
 		List<String> interestArea = dangUserDao.mypageInterestArea(userNo);
 		//마이페이지 등록한 댕댕이 수 반환

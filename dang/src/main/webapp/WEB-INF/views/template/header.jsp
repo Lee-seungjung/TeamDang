@@ -82,6 +82,7 @@
 		border:none;
 		background-color:#fff;
 		overflow: hidden;
+		aspect-ratio : 1/1;
 	}
 	
 	.font-gray {
