@@ -9,45 +9,60 @@
 <jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
 
 <style>
+	* {
+		
+	}
 	
+	.strong-mypage-title {
+		font-size : 30px;
+	}
+	
+	input {
+		border-radius : 5px;
+		border : 1px solid #76BEFF;
+	}
+	
+	input:focus {
+		outline : 2px solid #76BEFF;
+	}
+	
+	.btn-close-ck-submit {
+		border : 1px solid #787878;
+		border-radius : 5px;
+		background-color : #787878;
+		color : white; 
+	}
 </style>
 
-<div class = "container-fluid my-3">	
+<div class = "container-fluid my-2">	
 	<div class = "row">
-		<div class = "col-8 offset-2 my-3 py-5">
-			<div class = "row">
-				<div class = "col d-flex justify-content-center align-items-center">				
-					<a href = "mypage">마이페이지</a>
-				</div>
-			</div>
-			<div class = "row">
-				<div class = "col">
-					<div class = "row px-3">
-						<div class = "col div-user-info p-5">
-							<div class = "row">
-								<div class = "col-8 offset-2">
-									<div class = "d-flex flex-column justify-content-center align-items-center">									
-										<span>회원 탈퇴</span>
-										<span>회원 탈퇴를 원하면 <strong>"즉시 탈퇴"</strong>를 입력해 주세요.</span>
-									</div>
-									<form action = "close_user_ck" method = "get">
-									<div class = "d-flex flex-column justify-content-center align-items-center">
-										<input name = "closeCheck" type = "text" class = "flex-fill" placeholder = "즉시 탈퇴">
-									</div>
-									<div class = "d-flex flex-column justify-content-center align-items-center">
-										<button type = "submit">확인</button>
-									</div>
-									</form>
-									<c:if test = "${param.error != null}">
-										<div class = "d-flex flex-column justify-content-center align-items-center">
-											<span>올바른 문구를 입력해 주세요.</span>
-										</div>
-									</c:if>
-								</div>
-							</div>
+		<div class = "col-4 offset-4 px-5">
+			<div class = "row my-4">
+                <div class = "col d-flex justify-content-center align-items-center">
+                    <strong class = "strong-mypage-title">회원 탈퇴</strong>
+                </div>
+            </div>
+            <div class = "row my-2">
+                <div class = "col d-flex flex-column justify-content-center align-items-center">
+					<span>회원 탈퇴를 원하면 <strong>"즉시 탈퇴"</strong>를 입력해 주세요.</span>
+                </div>
+            </div>
+			<div class = "row mb-2 div-edit-user-info-pwck-input">
+				<form action = "close_user_ck" method = "get" class = "col-10 offset-1">
+					<div class = "row my-4">
+						<input name = "closeCheck" type = "text" class = "p-2 w-100" placeholder = "즉시 탈퇴">
+					</div>
+					<div class = "row my-4">
+						<button type = "submit" class = "p-2 btn-close-ck-submit">확인</button>
+					</div>
+					<c:if test = "${param.error != null}">
+					<div class = "row my-2">
+						<div class = "col d-flex justify-content-center align-items-center">				
+							<span class = "span-check-invalid">올바른 문구를 입력해 주세요.</span>
 						</div>
 					</div>
-				</div>
+					</c:if>
+				</form>
 			</div>
 		</div>
 	</div>

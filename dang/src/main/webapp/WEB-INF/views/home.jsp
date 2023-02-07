@@ -315,7 +315,7 @@
 								  </div>
 								  <div class="carousel-inner">
 								    <div class="carousel-item active">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[0].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[0].placeNo}">
 								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[0].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 								      	</a>
 								      <div class="carousel-caption d-none d-md-block">
@@ -324,7 +324,7 @@
 								      </div>
 								    </div>
 								    <div class="carousel-item">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[1].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[1].placeNo}">
 								      	<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[1].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 										</a>								      	
 								      <div class="carousel-caption d-none d-md-block">
@@ -333,7 +333,7 @@
 								      </div>
 								    </div>
 								    <div class="carousel-item">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[2].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[2].placeNo}">
 								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[2].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 										</a>								      		
 								      <div class="carousel-caption d-none d-md-block">

@@ -347,10 +347,15 @@ public class DangUserController {
 		if(findUserId != null) {
 			// 조회 정보를 Model에 추가
 			model.addAttribute("findUserId", findUserId);
-			return "dang_user/find_id_result";
+			return "redirect:find_id_result";
 		} else {
 			return "redirect:find_id?fail";
 		}
+	}
+	
+	@GetMapping("/find_id_result")
+	public String findIdResult() {
+		return "dang_user/find_id_result";
 	}
 	
 	// 비밀번호 찾기
@@ -470,17 +475,19 @@ public class DangUserController {
 			HistoryListRequestDto historyListRequestDto) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
+		historyListRequestDto.setUserNo(userNo);
+		
 		// 총 참여일정 수 조회
-		int historyTotal = dangUserDao.historyCount(userNo);
-		model.addAttribute("historyTotal", historyTotal);
+		int historyTotal = dangUserDao.historyCount(historyListRequestDto);
 
 		//  입력받은 DTO에 회원 번호, 일정 총 갯수 설정
 		historyListRequestDto.setTotal(historyTotal);
-		historyListRequestDto.setUserNo(userNo);
 		//마이페이지 참여일정 목록 전체/검색 조회
 		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(historyListRequestDto);
 		model.addAttribute("scheduleHistory", scheduleHistory);
 
+		System.out.println(scheduleHistory.toString());
+		
 		return "dang_user/schedule_history";	
 	}
 		
