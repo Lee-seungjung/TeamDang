@@ -1543,7 +1543,7 @@
 						});
 					});
 					inputReply(thisTag); //입력태그 생성
-					deleteReply(); //댓글삭제
+					//deleteReply(); //댓글삭제
 					editSubmitReply(); //댓글수정
 				}
 			});
@@ -1865,7 +1865,7 @@
 		}
 
 		//댓글 삭제
-		function deleteReply(){
+		//function deleteReply(){
 			$(document).on("click", ".reply-delete", function(){
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var thisTag = $(this).parents(".reply-box");
@@ -1885,25 +1885,28 @@
 							method:"delete",
 							async:false,
 							success:function(resp){
-								$(".modal-delete-btn").removeClass("reply-delete-now");
-								$("#deleteModal").modal("hide");
-								
-								replyContent.remove();
 
-								//댓글 숫자 감소
-								var findnum = thisTag.prev().children().children('.replycnt');
-								var num = findnum.text();
-								if(num==""){
-									findnum.text(0);
-								}else{
-									num = parseInt(num);
-									findnum.text(num-1);
+								if(resp==true){
+									$(".modal-delete-btn").removeClass("reply-delete-now");
+									$("#deleteModal").modal("hide");
+									
+									replyContent.remove();
+									
+									//댓글 숫자 감소
+									var findnum = thisTag.prev().children().find('.replycnt');
+									var num = findnum.text();
+									if(num==""){
+										findnum.text("");
+									}else{
+										num = parseInt(num);
+										findnum.text(num-1);
+									}
+									
+									//사이드 프로필 메뉴 댓글 수량 감소
+									var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+									var replyCnt = parseInt(replyCntTag.text());
+									replyCntTag.text(replyCnt-1);
 								}
-								
-								//사이드 프로필 메뉴 댓글 수량 감소
-								var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
-								var replyCnt = parseInt(replyCntTag.text());
-								replyCntTag.text(replyCnt-1);
 							}
 						});
 					});
@@ -1915,7 +1918,7 @@
 				}
 
 			});
-		}
+		//}
 		
 		//파일번호 있는 게시글 확인 후 출력
 		function printImg(){
