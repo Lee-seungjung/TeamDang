@@ -171,8 +171,8 @@
 						</li>
 						
 						<c:choose>
-						<c:when test = "${scheduleHistoryRequestDto.blockPrev() != 0}">
-						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${scheduleHistoryRequestDto.blockPrev()}">
+						<c:when test = "${historyListRequestDto.blockPrev() != 0}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-prev d-flex justify-content-center align-items-center" data-pageprev = "${historyListRequestDto.blockPrev()}">
 							<span><i class="fa-solid fa-backward-step"></i></span>
 						</li>
 						</c:when>
@@ -183,20 +183,20 @@
 						</c:otherwise>
 						</c:choose>						
 
-						<c:forEach var = "i" begin = "${scheduleHistoryRequestDto.blockStart()}" end = "${scheduleHistoryRequestDto.blockEnd()}" step = "1">
+						<c:forEach var = "i" begin = "${historyListRequestDto.blockStart()}" end = "${historyListRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-history-list-page-item ul-history-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
 
 						<c:choose>
-						<c:when test = "${scheduleHistoryRequestDto.blockNext() >= scheduleHistoryRequestDto.blockLast()}">
-						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${scheduleHistoryRequestDto.blockLast()}">
+						<c:when test = "${historyListRequestDto.blockNext() >= historyListRequestDto.blockLast()}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:when>
 						<c:otherwise>
-						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${scheduleHistoryRequestDto.blockNext()}">
+						<li class = "ul-history-list-page-item ul-history-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${historyListRequestDto.blockNext()}">
 							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
 						</c:otherwise>
@@ -208,6 +208,7 @@
 					</ul>
 				</div>
 			</div>  
+			<!-- pagination 끝 -->			
 
 		</div>
 	</div>
