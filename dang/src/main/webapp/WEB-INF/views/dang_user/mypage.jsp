@@ -5,6 +5,9 @@
 	<jsp:param value="마이페이지" name="title"/>
 </jsp:include>
 
+    <!-- swiper 의존성 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <style>
 	
     * {
@@ -28,6 +31,7 @@
       .mydang-border{
         border: solid 1px #76BEFF;
         border-radius: 1em;
+        background-color:#76BEFF;
     }
 
     .hello-common{
@@ -195,38 +199,45 @@
                     </div>
                     
                     <div class="col-5 mydang-border">
-				                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-				                    <c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
-									  <div class="carousel-inner">
-									    <div class="carousel-item active">
-									    <div class="container-fluid">
-									    	<div class="row">
-									    	 	<div class="py-3 col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
-											    <img class = "w-75 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
-											      </div>											      
-									       </div>
-									    	 	<div class="col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
-											       	<div class="">
-												        <h5>${dangPuppyList.dangPuppyInfoDto.puppyName}</h5>
-												        <p>${dangPuppyList.dangPuppyInfoDto.puppyAge}, ${dangPuppyList.dangPuppyInfoDto.puppyGender}</p>
-											      </div>
-											     </div>									       
-									    </div>								    
-									   </div>
+                    
+            <!-- Slider main container -->
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper container-fluid">
+                    <!-- Slides -->
+                    <c:choose>
+                    <c:when test ="${dangPuppyList} != null">
+                    <c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
+	                    <div class="row swiper-slide ">
+                 				<div class="py-3 col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
+							    	<img class = "w-75 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+							    </div>	
+				    				<div class="row">
+				    						<div class="col-8 offset-2 d-flex flex-column justify-content-center align-items-center">
+									        <h5>${dangPuppyList.dangPuppyInfoDto.puppyName}</h5>
+									        <p>${dangPuppyList.dangPuppyInfoDto.puppyAge}, ${dangPuppyList.dangPuppyInfoDto.puppyGender}</p>
+											</div>
+								      </div>
+	                    </div>
+               	</c:forEach>
+               	</c:when>
+               	<c:otherwise>
+               			<span>댕댕이를 등록해주세요</span>              		
+               	</c:otherwise>
+               	</c:choose>
+                </div>
+                
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+            
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
 
-									  </div>
-
-									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-									    <span class="visually-hidden">Previous</span>
-									  </button>
-									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-									    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-									    <span class="visually-hidden">Next</span>
-									 
-									  </button>
-									  									  </c:forEach>
-									</div>
                     
                         </div> <!-- col-5끝 -->
                     </div>
@@ -298,3 +309,35 @@
 </body>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
+    <script type="text/javascript">
+        $(function(){
+            var swiper = new Swiper('.swiper', {
+                direction: 'horizontal',//슬라이드 방향
+                loop: true,//반복여부
+    
+                //페이징 옵션
+                pagination: {
+                    el: '.swiper-pagination',//페이징 적용 대상
+                    type: "bullets",//페이징 도구 모양
+                    clickable:true,//클릭 가능 여부
+                },
+    
+                // 좌우 이동 버튼
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                
+                // 자동재생 옵션
+                autoplay : {
+                    delay:1000,//자동재생 간격(ms)
+                },
+    
+                // 페이지 전환 효과
+                effect:"slide",//슬라이드 방식(기본)
+
+            });
+        });
+
+    </script>

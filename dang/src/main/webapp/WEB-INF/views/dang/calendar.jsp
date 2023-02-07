@@ -242,6 +242,7 @@
             //navLinks: true, // 날짜 선택하면 해당 날짜 화면
             editable : false, // 수정 가능 여부
             nowIndicator: true, //현재 시간 마크
+            minDate: moment().add(1, 'd').format("YYYY-MM-DD"), //과거 날짜는 예약 못하게
             
             events: [
                      $.ajax({
