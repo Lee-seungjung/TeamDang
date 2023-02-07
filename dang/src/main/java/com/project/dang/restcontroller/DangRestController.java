@@ -92,6 +92,11 @@ public class DangRestController {
 					}
 				}
 			}
+		} else {
+			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+				dangList.get(i).getDangInfo().setIsMember(null); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+			}
 		}
 		return dangList;
 	}

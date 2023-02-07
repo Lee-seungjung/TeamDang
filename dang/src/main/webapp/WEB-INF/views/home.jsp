@@ -579,26 +579,28 @@
 					
 					target.append(dangProfileImg).append(dangInfoDetail);
 					
-					if(resp.isMember == 1) {
-						$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-enter").attr("type", "button").text("입장하기")
-							)	
-					} else {
-						if(resp.dangInfo.dangPrivate == "Y") {
+					if(resp.isMember != null) {
+						if(resp.isMember == 1) {
 							$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")		
-									.append(
-										$("<i>").attr("class", "fa-solid fa-lock ms-2")		
-									)
-							)
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-enter").attr("type", "button").text("입장하기")
+								)	
 						} else {
-							$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")	
-							)	
-						}
+							if(resp.dangInfo.dangPrivate == "Y") {
+								$(".div-dang-member-state")
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")		
+										.append(
+											$("<i>").attr("class", "fa-solid fa-lock ms-2")		
+										)
+								)
+							} else {
+								$(".div-dang-member-state")
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")	
+								)	
+							}
+						}	
 					}
 					
 					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
@@ -707,6 +709,11 @@
 				formJoinValid.checkNick = false;
 				return;
 			}
+			
+			// 버튼 비활성화
+			var button = $(this);
+			button.attr("disabled", true);
+			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+inputNick,
 				method : "get",
@@ -719,7 +726,6 @@
 								$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-already").text("이미 사용 중인 닉네임입니다.")
 							)
 						formJoinValid.checkNick = false;
-						return;
 					} else {
 						console.log("사용할 수 있는 닉네임");
 							$(".div-modal-dang-join-check-nick")
@@ -727,12 +733,14 @@
 								$("<span>").attr("class", "span-check span-check-valid check-nick check-nick-valid").text("멋진 닉네임이네요!")
 							)
 						formJoinValid.checkNick = true;
-						return;
 					}
+					// 버튼 비활성화 해제
+					button.attr("disabled", false);
 				}
 			});
 		});
 		
+		// 모달 내 비밀번호 입력창
 		$(document).on("blur", ".input-modal-join-dang-pw", function(){
 			console.log(dangPrivate);
 			// 비밀번호 helper text 초기화
@@ -773,7 +781,8 @@
 			}
 			
 			// 중복 가입 방지를 위한 가입 버튼 비활성화
-			$(this).attr("disabled", true);
+			var button = $(this);
+			button.attr("disabled", true);
 			
 			// 회원 번호
 			var userNo = $("#loginNo").val();

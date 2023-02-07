@@ -584,6 +584,10 @@
 				return;
 			}
 			
+			// 중복 등록 방지를 위한 가입 버튼 비활성화
+			var button = $(this);
+			button.attr("disabled", true);
+			
 			// 전송할 데이터 객체
 			var formData = new FormData();
 			
@@ -802,12 +806,15 @@
 					
 					target.after(insertPuppyInfoContainer);
 					
-							
 					// 등록 확인 메시지
 					alert("댕댕이가 등록되었습니다!");
+					
 					// 등록 Modal 초기화 및 Modal 숨김
 					clearInsertPuppyModal();
 					$("#modalInsertPuppy").modal("hide");
+					
+					// 버튼 비활성화 해제
+					button.attr("disabled", false);
 				}
 			});
 		});
@@ -1080,6 +1087,11 @@
 			if(puppyEditValid.isAllValid() == false) {
 				return;
 			}
+			
+			// 중복 방지를 위한 가입 버튼 비활성화
+			var button = $(this);
+			button.attr("disabled", true);
+			
 			// 전송할 데이터 객체
 			var formData = new FormData();
 			// - 필수 입력 정보
@@ -1179,6 +1191,9 @@
 					clearEditPuppyModal();
 					alert("댕댕이 정보 수정이 완료되었습니다!");
 					$("#modalEditPuppy").modal("hide");
+					
+					// 버튼 비활성화 해제
+					button.attr("disabled", false);
 				}
 			});
 		});
@@ -1220,6 +1235,11 @@
 			if(choice == false){
 				return;
 			}
+			
+			// 버튼 비활성화
+			var button = $(this);
+			button.attr("disabled", true);
+			
 			// 기준점
 			var norm = $(this).parents(".dropdown");
 			// 댕댕이 번호 설정
@@ -1233,6 +1253,9 @@
 					// 수정할 댕댕이 기준 row
 					var norm = $(".input-puppy-no[value="+resp+"]").parent();
 					norm.parents(".div-count-puppy").remove();
+					
+					// 버튼 비활성화 해제
+					button.attr("disabled", false);
 				}
 			});
 		});

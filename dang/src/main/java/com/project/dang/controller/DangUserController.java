@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.dang.dto.AttachmentDto;
-import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangPuppyListDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserJoinRequestDto;
