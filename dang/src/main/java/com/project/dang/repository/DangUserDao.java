@@ -159,7 +159,7 @@ public interface DangUserDao {
 	 * @param userListRequestDto : 
 	 * @return List<DangUserListDto>
 	 */
-	public List<DangInterestDto> mypageInterestArea(int userNo);
+	public List<String> mypageInterestArea(int userNo);
 		
 	/**
 	 * (마이페이지 메인) 등록 댕댕이수 조회

@@ -171,7 +171,7 @@ public class DangUserDaoImpl implements DangUserDao {
 	}
 
 	@Override
-	public List<DangInterestDto> mypageInterestArea(int userNo) {
+	public List<String> mypageInterestArea(int userNo) {
 		return sqlSession.selectList("dangUser.mypageInterestArea", userNo);
 	}
 
