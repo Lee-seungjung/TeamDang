@@ -123,7 +123,7 @@
 	
 			<!-- (마이페이지) 관심지역 조회-->
 	<select id = "mypageInterestArea"   parameterType = "int" resultType = "String">
-		select interest_area from dang_interest where user_no = #{userNo}
+		select interest_area  from dang_interest where user_no = #{userNo}
 	</select>
 	
 			<!-- (마이페이지) 등록 댕댕이수 조회-->

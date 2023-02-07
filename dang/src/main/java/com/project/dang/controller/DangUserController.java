@@ -149,7 +149,7 @@ public class DangUserController {
 		model.addAttribute("dangPuppyList", dangPuppyList);
 		
 		//마이페이지 등록한 관심지역 반환
-		List<DangInterestDto> interestArea = dangUserDao.mypageInterestArea(userNo);
+		List<String> interestArea = dangUserDao.mypageInterestArea(userNo);
 		//마이페이지 등록한 댕댕이 수 반환
 		int mypageDangNum = dangUserDao.mypageDangNum(userNo);
 		//마이페이지 등록한 댕모임 수 반환
@@ -157,7 +157,8 @@ public class DangUserController {
 		//마이페이지 등록한 로그인 일자 반환
 		Date mypageLogin = dangUserDao.mypageLogin(userNo);
 		//조회한 관심지역 리스트  Model에 추가
-		model.addAttribute("interestArea", interestArea);
+		model.addAttribute("interestArea" ,interestArea);
+		System.out.println("관심지역 : " + interestArea);
 		//조회한 댕댕이 수 Model에 추가
 		model.addAttribute("mypageDangNum", mypageDangNum);
 		//조회한 활동 댕모임 수 Model에 추가

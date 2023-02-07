@@ -117,14 +117,13 @@
                             <div class="col-6 dang-owner-profile">
                                 <div class="row d-flex flex-column align-items-center justify-content-center px-5 py-3">
                                 	<c:choose>             
-                                	<c:when test="${attachmentNo==null}" >                     
-	                                    <img class = "row img-fluid img-owner-profile img-circle origin-img w-75" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
+                                	<c:when test = "${loginProfileImg == null}" >                     
+	                                    <img class = "row img-fluid img-owner-profile img-circle origin-img w-100" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>
                                     </c:when>
                                     <c:otherwise>   
-	                                     <img class = "row img-fluid img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}">
-	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>    
-	                                    ${userInfo.attachmentNo}                             
+	                                     <img class = "row img-fluid img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+	                                    <span class="dang-nick2 row align-items-center justify-content-center py-2 ">${userInfo.userNick}</span>                        
                                     </c:otherwise>    
                                     </c:choose>                            
                                 </div>
@@ -137,9 +136,9 @@
                                     </div>                                                       
                                     <div class = "owner-common2 col-5 d-flex flex-column">
                                     <c:choose> 
-                                    <c:when test="${mypageInterestArea!= null}">  
-	                                   	 <c:forEach var="InterestArea" items="${mypageInterestArea}">      
-	                                        <span class = "span-info">${InterestArea.mypageInterestArea}</span>
+                                    <c:when test="${interestArea != null}">  
+	                                   	 <c:forEach var="mypageInterestArea" items="${interestArea}">      
+	                                        <span class = "span-info">서울 ${mypageInterestArea}</span>
 	                                      </c:forEach>  
                                        </c:when>   
                                        <c:otherwise>
