@@ -518,13 +518,13 @@
 			var originMemberNick = $(".originNickName").text(); //기존 닉네임
 			var originMessage = $(".originMessage").text(); //기존 상태메세지
 			
-			$("[name=memberNick]").val(originMemberNick);
-			$("[name=memberMessage]").val(originMessage);
+			$("[name=memberNick]").val(originMemberNick).removeClass("is-valid is-invalid invalid");
+			$("[name=memberMessage]").val(originMessage).removeClass("is-valid is-invalid invalid");
 		});		
 		
 		//입력 항목 상태 판정
 		check={
-				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,10}$/,
+				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,6}$/,
 				memberMessage : true, 
 				allValid:function(){
 					return this.memberNick && this.memberMessage;
@@ -1066,7 +1066,7 @@
 									<div class="mb-3 text-start">
 										<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
 										<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
-										<span class="invalid-feedback">1~10자 내로 입력해주세요!</span>
+										<span class="invalid-feedback">1~6자 내로 입력해주세요!</span>
 										<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
 									</div>
 									<div class="mb-3 text-start">
