@@ -107,9 +107,21 @@
 					order by total1.board_no desc
 		        )
 		        <where>
-					<if test="category!=''">
-						board_category like '%'||#{category}||'%'
-					</if>						
+					<choose>
+						<when test="category!=''">
+				        	board_category like '%'||#{category}||'%'		        	
+
+							<if test="keyword!=''">
+								and instr(${type},#{keyword})>0
+							</if>
+
+						</when>
+						<otherwise>
+							<if test="keyword!=''">
+								instr(${type},#{keyword})>0
+							</if>						
+						</otherwise>
+					</choose>						
 		        </where>
 		    )TMP
 		) where rn between 1 and 5

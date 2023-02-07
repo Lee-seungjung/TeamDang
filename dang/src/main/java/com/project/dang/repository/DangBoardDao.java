@@ -66,8 +66,7 @@ public interface DangBoardDao {
 	 * @param boardNo
 	 * @return BoardHistoryVO
 	 */
-	List<BoardHistoryVO> moreView(int dangNo, String category, int boardNo);
-	
+	List<BoardHistoryVO> moreView(String type, String keyword, int dangNo, String category, int boardNo);
 	/**
 	 * 내가 쓴 게시글 수
 	 * @param memberNo

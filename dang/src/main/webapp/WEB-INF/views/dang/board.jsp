@@ -565,7 +565,8 @@
 		});
 		
 		//검색조회
-		$(document).on("click", ".search-btn", function(e){	
+		$(document).on("click", ".search-btn", function(e){
+			$(".board-group").attr("data-scrollcheck","");
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
 			var keyword = $("[name=keyword]").val();
@@ -588,6 +589,10 @@
 					console.log(resp);
 					$(".board-group").empty();//출력 div 비우기
 					
+					if(resp.length<5){
+						$(".board-group").attr("data-scrollcheck",1);
+					}
+					
 					if(resp.length==0){
 						zeroBoardList();
 						$(".not-result").text("일치하는 검색 결과가 없습니다");
@@ -606,6 +611,7 @@
 		
 		//카테고리 검색조회
 		$(document).on("click", ".b-category", function(){
+			$(".board-group").attr("data-scrollcheck","");
 			var dangNo = $("[name=dangNo]").val();
 			var type = $("[name=type]").val();
 			var keyword = $("[name=keyword]").val();
@@ -625,6 +631,10 @@
 					method:"get",
 					data:SearchData,
 					success:function(resp){
+						
+						if(resp.length<5){
+							$(".board-group").attr("data-scrollcheck",1);
+						}
 						
 						if(resp.length==0){
 							zeroBoardList();
@@ -2067,16 +2077,20 @@
 			
 			var calcul = (totalHeight - scrollHeight)-clientHeight;
 
+			var type = $("[name=type]").val();
+			var keyword = $("[name=keyword]").val();
 			var dangNo = $("[name=dangNo]").val();
 			var category = $("a.btn-blue").data("value");
 			var boardNo = $(".board-box").last().data("scrollbno"); //마지막 게시글 번호
 			var checkno = $(".board-group").attr("data-scrollcheck"); //비동기 제어 번호
-
+			
 			if(checkno==1) return; //데이터 없을경우 비동기화 실행 중지
 			
 			if(calcul<=10){
 
 				moreData={
+						type:type,
+						keyword:keyword,
 						dangNo:dangNo,
 						category:category,
 						boardNo:boardNo
@@ -2088,7 +2102,6 @@
 					data:moreData,
 					async:false,
 					success:function(resp){
-						
 						for(var i=0; i<resp.length; i++){
 							boardList(resp[i]); //게시글 출력
 						}
