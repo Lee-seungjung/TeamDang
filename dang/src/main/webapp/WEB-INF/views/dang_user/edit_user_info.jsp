@@ -11,7 +11,7 @@
 <style>
 	
 	* {
-		border : 1px gray dotted;
+		
 	}
 	
 	.strong-mypage-title {
@@ -98,7 +98,7 @@
 				<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
 					<div class = "row my-4">
 						<div class = "col-4 offset-4">
-							<label class = "label-user-profile" for = "userProfile">
+							<label class = "label-user-profile w-100" for = "userProfile">
 								<c:choose>
 								<c:when test = "${userInfo.attachmentNo != null}">
 									<img src = "${pageContext.request.contextPath}/rest_attachment/download/${userInfo.attachmentNo}" class = "w-100 img-edit-profile">

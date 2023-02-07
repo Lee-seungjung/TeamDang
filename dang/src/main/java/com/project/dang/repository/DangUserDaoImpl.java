@@ -191,7 +191,7 @@ public class DangUserDaoImpl implements DangUserDao {
 	}
 	
 	@Override
-	public int historyCount(int userNo) {
-		return sqlSession.selectOne("schedule.historyCount", userNo);
+	public int historyCount(HistoryListRequestDto historyListRequestDto) {
+		return sqlSession.selectOne("schedule.historyCount", historyListRequestDto);
 	}
 }

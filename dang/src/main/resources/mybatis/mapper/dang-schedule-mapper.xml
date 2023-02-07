@@ -130,7 +130,28 @@
   	
   			<!-- (마이페이지) 총 참여일정 수 -->
 	<select id = "historyCount" parameterType = "HistoryListRequestDto" resultType = "int">
-		select count(*) from joinScheduleCount where user_no=#{userNo}
+		select count(dsdjddudm.schedule_no) 
+		from (
+		    select ds.schedule_no, ds.schedule_title, djddudm.dang_name from dang_schedule ds
+		    inner join 
+		    (
+		        select dj.schedule_no, ddudm.* from dang_join dj
+		        inner join 
+		        (
+		            select dudm.member_no, d.dang_name from dang d
+		            inner join 
+		            (select dm.member_no, dm.dang_no from dang_user du inner join dang_member dm on du.user_no = dm.user_no where du.user_no = #{userNo}) dudm
+		            on d.dang_no = dudm.dang_no
+		        ) ddudm
+		        on dj.member_no = ddudm.member_no
+		    ) djddudm
+		    on ds.schedule_no = djddudm.schedule_no
+		) dsdjddudm 
+		<where>
+			<if test = "type != null and keyword != null">
+				instr(${type}, #{keyword}) > 0 
+			</if>
+		</where>
 	</select>
   	
   			<!-- (마이페이지) 참여일정 전체/검색 조회-->

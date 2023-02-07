@@ -12,7 +12,7 @@ import com.project.dang.repository.DangPlaceDao;
 
 @Controller
 @RequestMapping("/place")
-public class DangPlace {
+public class DangPlaceController {
 	
 	@Autowired
 	DangPlaceDao dangPlaceDao;

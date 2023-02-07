@@ -142,16 +142,14 @@ public class DangUserRestController {
 			HttpSession httpSession) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)httpSession.getAttribute("loginNo");
+		historyListRequestDto.setUserNo(userNo);
 		
-		System.out.println(historyListRequestDto.getType());
-		System.out.println(historyListRequestDto.getKeyword());
-		System.out.println(historyListRequestDto.getP());
-
 		// 총 참여일정 수 조회
-		int historyTotal = dangUserDao.historyCount(userNo);
+		int historyTotal = dangUserDao.historyCount(historyListRequestDto);
+		
 		// dto에 총 갯수 설정
 		historyListRequestDto.setTotal(historyTotal);
-		historyListRequestDto.setUserNo(userNo);
+		
 		//마이페이지 참여일정 조회
 		List<JoinScheduleListVO> scheduleHistory = dangScheduleDao.joinScheduleList(historyListRequestDto);
 		// 반환용 객체 생성
