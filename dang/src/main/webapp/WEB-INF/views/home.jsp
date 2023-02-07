@@ -196,7 +196,7 @@
 			</div>
 			<div class = "row my-5">
 				<div class = "col-8">
-					<div class = "col div-home-menu shadow">
+					<div class = "col div-home-menu shadow" style="height: 450px;">
 						<div class = "row px-4 py-2">
 							<div class = "col p-2 d-flex align-items-center">						
 								<img src = "${pageContext.request.contextPath}/images/img-home-dang-recommendation.png" class= "me-2 img-dang-home-category">
@@ -298,7 +298,7 @@
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col div-home-menu shadow">
+					<div class = "col div-home-menu shadow" style="height: 450px;">
 						<div class = "row px-4 py-2">
 							<div class = "col p-2 d-flex align-items-center">
 								<img src = "${pageContext.request.contextPath}/images/img-home-place-recommendation.png" class= "me-2 img-dang-home-category">		
