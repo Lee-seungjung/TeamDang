@@ -19,6 +19,12 @@
 	  width: 100%;
 	}
 	
+	.history-search-btn{
+	 background-color:#76BEFF;
+	  color:white;
+	  font-size: 18px;
+	}
+	
 	.btn-schedule-search {
 	  background-color:#76BEFF;
 	  color:white;
@@ -45,7 +51,7 @@
 	  font-size: 18px;
 	}
 	
-	.schedule-search{
+	.history-search{
 	  border: 1px #76BEFF solid;
 	  color: 454545;
 	  font-size: 18px;
