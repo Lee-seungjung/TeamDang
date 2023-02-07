@@ -168,7 +168,7 @@
 <input type = "hidden" id = "loginNo" value = "${loginNo}"> 
 
 
-<div class = "container-fluid my-5"> <%-- container 시작 --%>
+<div class = "container-fluid"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row my-3"> <%-- 스와이퍼 영역 --%>
@@ -194,7 +194,7 @@
 				  	</button>
 				</div>
 			</div>
-			<div class = "row my-5">
+			<div class = "row my-4">
 				<div class = "col-8">
 					<div class = "col div-home-menu shadow" style="height: 450px;">
 						<div class = "row px-4 py-2">
