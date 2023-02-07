@@ -1092,6 +1092,7 @@
 			});
 		});
 		
+		// 가입 모달 내 비밀번호 입력창
 		$(document).on("blur", ".input-modal-join-dang-pw", function(){
 			console.log(dangPrivate);
 			// 비밀번호 helper text 초기화
@@ -1122,7 +1123,7 @@
 			formJoinCheck();
 		});
 		
-		// 모달 내 가입하기 버튼
+		// 가입 모달 내 가입하기 버튼
 		$(".btn-modal-join-submit").click(function(){
 			// 공개 댕모임이라면
 			if(dangPrivate == "N") {
@@ -1135,12 +1136,13 @@
 				return;
 			}
 			
+			// 중복 가입 방지를 위한 가입 버튼 비활성화
+			$(this).attr("disabled", true);
+			
 			// 닉네임
 			var memberNick = $(".input-modal-join-dang-nick").val();
 			// 상태 메시지
 			var memberMessage = $(".input-modal-join-dang-message").val();
-			// 가입 완료 메시지
-			alert("댕모임 가입이 완료되었습니다!");
 			// 댕모임 가입
 			var form = $("<form>").attr("action", "${pageContext.request.contextPath}/member/join").attr("method", "post")
 							.append(
@@ -1157,6 +1159,8 @@
 							);
 			$("body").append(form);
 			form.submit();
+			// 가입 완료 메시지
+			alert("댕모임 가입이 완료되었습니다!");
 		});
 		
 		// 가입 유효성 검사
