@@ -95,12 +95,13 @@
 				<div class="row justify-content-center mb-3">
 					<span class="text-center upcoming"> 다가오는 댕모임<i class="fa-solid fa-paw"></i></span>
 				</div>
-
+			<c:choose>
+			 <c:when test="${simpleSchedule} != 00">
 			<c:forEach var="DangScheduleVO" items="${simpleSchedule}">
 				<div class="simple-schedule-box">
 					<div class="simple-date-box">
 						
-						<div class="day-commons" style="
+						<div class="day-commons" style="">
 						<c:if test = "${DangScheduleVO.day == '월요일'}">border-color:#FF8399;</c:if>
 						<c:if test = "${DangScheduleVO.day == '화요일'}">border-color:#FFC28B;</c:if>
 						<c:if test = "${DangScheduleVO.day == '수요일'}">border-color:#FFA6E1;</c:if>
@@ -108,7 +109,7 @@
 						<c:if test = "${DangScheduleVO.day == '금요일'}">border-color:#89E3E3;</c:if>
 						<c:if test = "${DangScheduleVO.day == '토요일'}">border-color:#94D2FF;</c:if>
 						<c:if test = "${DangScheduleVO.day == '일요일'}">border-color:#BE9FFF;</c:if>
-						">			
+									
 							<div class="simple-day">${DangScheduleVO.day}</div>
 							<div class="simple-number-day">${DangScheduleVO.dayNo}</div>
 						</div>
@@ -123,6 +124,16 @@
 					</div>
 				</div>
 				</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<div class="simple-schedule-box">
+					<div class="simple-date-box">
+					</div>				
+						<span>등록된 일정이 없습니다.</span>	
+				</div>
+									
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
