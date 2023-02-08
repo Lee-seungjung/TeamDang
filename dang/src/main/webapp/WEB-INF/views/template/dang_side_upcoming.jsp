@@ -96,7 +96,7 @@
 					<span class="text-center upcoming"> 다가오는 댕모임<i class="fa-solid fa-paw"></i></span>
 				</div>
 			<c:choose>
-			 <c:when test="${simpleSchedule} != 00">
+			 <c:when test="${simpleSchedule} != null">
 			<c:forEach var="DangScheduleVO" items="${simpleSchedule}">
 				<div class="simple-schedule-box">
 					<div class="simple-date-box">
