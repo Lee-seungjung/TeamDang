@@ -19,6 +19,12 @@
 	  width: 100%;
 	}
 	
+	.history-search-btn{
+	 background-color:#76BEFF;
+	  color:white;
+	  font-size: 18px;
+	}
+	
 	.btn-schedule-search {
 	  background-color:#76BEFF;
 	  color:white;
@@ -45,7 +51,7 @@
 	  font-size: 18px;
 	}
 	
-	.schedule-search{
+	.history-search{
 	  border: 1px #76BEFF solid;
 	  color: 454545;
 	  font-size: 18px;
@@ -98,7 +104,7 @@
 		<div class = "col-8 offset-2 my-3">
 			<div class = "row">
                 <div class = "col d-flex justify-content-center align-items-center">
-                    <strong class = "select-schedule-history-title ">참여일정 조회</strong> 
+                    <strong class = "select-schedule-history-title mb-3">참여일정 조회</strong> 
 <!--                               <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
                                 <option value = "" class = "select-dang-name-option">선택</option>
                                 <option value = "" class = "">목욕댕모임</option>                           
@@ -144,7 +150,7 @@
 			</div>
 			
 			
-			<div class = "row mt-5">
+			<div class = "row mt-2">
 				<div class = "col-8 offset-2 mt-3 mb-3 d-flex justify-content-center align-items-center">
 					<select class = "history-form-select col-2 py-1 mx-2 align-items-center" name="type">
 					    <option value = "" >선택</option>
@@ -202,6 +208,7 @@
 					</ul>
 				</div>
 			</div>  
+			<!-- pagination 끝 -->			
 
 		</div>
 	</div>
