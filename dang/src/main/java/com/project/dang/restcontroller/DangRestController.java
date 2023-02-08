@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -99,6 +100,12 @@ public class DangRestController {
 			}
 		}
 		return dangList;
+	}
+	
+	// 댕모임 해체
+	@DeleteMapping("/close_dang")
+	public boolean closeDang(@RequestParam int dangNo) {
+		return dangDao.closeDang(dangNo);
 	}
 	
 	//댕모임 userNo, dangHead-1 변경

@@ -885,24 +885,20 @@
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
-			
-	        	$(window).on("beforeunload", function(){
-	        		removescheduleTitle();
-				});
-			});
+		});
+
 		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
-				$(document).on("click",".write-cancel",function(){
-					console.log("취소버튼클릭");
-					$(".schedule-name").val(""); //일정 제목
-					$(".write-content").val(""); //일정 내용
-					$(".when-date ").val(""); //일정 날짜
-					$(".when-time").val(""); //일정 시간		
-					$(".where").val(""); //장소
-					$("#persons").prop("selected", true);//최대 참여인원							
-					$(".money").val(""); //회비 
+		$(document).on("click",".write-cancel",function(){
+			console.log("취소버튼클릭");
+			$(".schedule-name").val(""); //일정 제목
+			$(".write-content").val(""); //일정 내용
+			$(".when-date ").val(""); //일정 날짜
+			$(".when-time").val(""); //일정 시간		
+			$(".where").val(""); //장소
+			$("#persons").prop("selected", true);//최대 참여인원							
+			$(".money").val(""); //회비 
 		});
 		
-			
 		//일정 등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
@@ -1205,7 +1201,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">일정 등록</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close write-cancel" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                     <div class="modal-body">
 
