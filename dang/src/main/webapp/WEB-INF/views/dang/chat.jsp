@@ -475,7 +475,7 @@
 	});
 </script>
 
-<div class = "container-fluid mt-3">
+<div class = "container-fluid mt-3 mb-5">
 	<div class = "col-8 offset-2">
 
 		<div class = "row">
