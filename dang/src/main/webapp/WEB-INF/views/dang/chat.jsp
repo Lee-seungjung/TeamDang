@@ -387,7 +387,7 @@
 				var tr_two = $("<tr>");
 				var td_four = $("<td>");
 				var text;
-				if(data.imgAttachmentNo==null){
+				if(data.imgAttachmentNo==0){
 					text = $("<span>").attr("class","message").text(data.chatContent);
 				}else{
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
