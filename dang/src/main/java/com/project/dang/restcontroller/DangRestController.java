@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -92,8 +93,19 @@ public class DangRestController {
 					}
 				}
 			}
+		} else {
+			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+				dangList.get(i).getDangInfo().setIsMember(null); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+			}
 		}
 		return dangList;
+	}
+	
+	// 댕모임 해체
+	@DeleteMapping("/close_dang")
+	public boolean closeDang(@RequestParam int dangNo) {
+		return dangDao.closeDang(dangNo);
 	}
 	
 	//댕모임 userNo, dangHead-1 변경

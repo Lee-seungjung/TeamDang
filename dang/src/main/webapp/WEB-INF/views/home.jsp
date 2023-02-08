@@ -168,7 +168,7 @@
 <input type = "hidden" id = "loginNo" value = "${loginNo}"> 
 
 
-<div class = "container-fluid my-5"> <%-- container 시작 --%>
+<div class = "container-fluid"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class = "row my-3"> <%-- 스와이퍼 영역 --%>
@@ -194,9 +194,9 @@
 				  	</button>
 				</div>
 			</div>
-			<div class = "row my-5">
+			<div class = "row my-4">
 				<div class = "col-8">
-					<div class = "col div-home-menu shadow">
+					<div class = "col div-home-menu shadow" style="height: 450px;">
 						<div class = "row px-4 py-2">
 							<div class = "col p-2 d-flex align-items-center">						
 								<img src = "${pageContext.request.contextPath}/images/img-home-dang-recommendation.png" class= "me-2 img-dang-home-category">
@@ -298,7 +298,7 @@
 					</div>
 				</div>
 				<div class = "col-4">
-					<div class = "col div-home-menu shadow">
+					<div class = "col div-home-menu shadow" style="height: 450px;">
 						<div class = "row px-4 py-2">
 							<div class = "col p-2 d-flex align-items-center">
 								<img src = "${pageContext.request.contextPath}/images/img-home-place-recommendation.png" class= "me-2 img-dang-home-category">		
@@ -315,7 +315,7 @@
 								  </div>
 								  <div class="carousel-inner">
 								    <div class="carousel-item active">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[0].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[0].placeNo}">
 								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[0].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 								      	</a>
 								      <div class="carousel-caption d-none d-md-block">
@@ -324,7 +324,7 @@
 								      </div>
 								    </div>
 								    <div class="carousel-item">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[1].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[1].placeNo}">
 								      	<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[1].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 										</a>								      	
 								      <div class="carousel-caption d-none d-md-block">
@@ -333,7 +333,7 @@
 								      </div>
 								    </div>
 								    <div class="carousel-item">
-								    	<a href="http://localhost:8888/place/detail/${recommendPlace[2].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[2].placeNo}">
 								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[2].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 										</a>								      		
 								      <div class="carousel-caption d-none d-md-block">
@@ -579,26 +579,28 @@
 					
 					target.append(dangProfileImg).append(dangInfoDetail);
 					
-					if(resp.isMember == 1) {
-						$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-enter").attr("type", "button").text("입장하기")
-							)	
-					} else {
-						if(resp.dangInfo.dangPrivate == "Y") {
+					if(resp.isMember != null) {
+						if(resp.isMember == 1) {
 							$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")		
-									.append(
-										$("<i>").attr("class", "fa-solid fa-lock ms-2")		
-									)
-							)
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-enter").attr("type", "button").text("입장하기")
+								)	
 						} else {
-							$(".div-dang-member-state")
-							.append(
-								$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")	
-							)	
-						}
+							if(resp.dangInfo.dangPrivate == "Y") {
+								$(".div-dang-member-state")
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")		
+										.append(
+											$("<i>").attr("class", "fa-solid fa-lock ms-2")		
+										)
+								)
+							} else {
+								$(".div-dang-member-state")
+								.append(
+									$("<button>").attr("class", "flex-fill py-1 btn-dang btn-dang-join").attr("type", "button").text("가입하기")	
+								)	
+							}
+						}	
 					}
 					
 					for(var i = 0 ; i < resp.dangHashtag.length ; i ++) {
@@ -707,6 +709,11 @@
 				formJoinValid.checkNick = false;
 				return;
 			}
+			
+			// 버튼 비활성화
+			var button = $(this);
+			button.attr("disabled", true);
+			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+inputNick,
 				method : "get",
@@ -719,7 +726,6 @@
 								$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-already").text("이미 사용 중인 닉네임입니다.")
 							)
 						formJoinValid.checkNick = false;
-						return;
 					} else {
 						console.log("사용할 수 있는 닉네임");
 							$(".div-modal-dang-join-check-nick")
@@ -727,12 +733,14 @@
 								$("<span>").attr("class", "span-check span-check-valid check-nick check-nick-valid").text("멋진 닉네임이네요!")
 							)
 						formJoinValid.checkNick = true;
-						return;
 					}
+					// 버튼 비활성화 해제
+					button.attr("disabled", false);
 				}
 			});
 		});
 		
+		// 모달 내 비밀번호 입력창
 		$(document).on("blur", ".input-modal-join-dang-pw", function(){
 			console.log(dangPrivate);
 			// 비밀번호 helper text 초기화
@@ -773,7 +781,8 @@
 			}
 			
 			// 중복 가입 방지를 위한 가입 버튼 비활성화
-			$(this).attr("disabled", true);
+			var button = $(this);
+			button.attr("disabled", true);
 			
 			// 회원 번호
 			var userNo = $("#loginNo").val();

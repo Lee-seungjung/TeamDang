@@ -93,8 +93,10 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	
 	//무한스크롤 더보기 게시글 조회
 	@Override
-	public List<BoardHistoryVO> moreView(int dangNo, String category, int boardNo) {
+	public List<BoardHistoryVO> moreView(String type, String keyword, int dangNo, String category, int boardNo) {
 		Map<String, String> param = new HashMap<>();
+		param.put("type", type);
+		param.put("keyword", keyword);
 		param.put("dangNo", String.valueOf(dangNo));
 		param.put("category", category);
 		param.put("boardNo", String.valueOf(boardNo));

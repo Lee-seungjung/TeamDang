@@ -354,6 +354,11 @@
 <script>
 	$(function(){
 		
+		var now_utc = Date.now()
+		var timeOff = new Date().getTimezoneOffset()*60000;
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.getElementById("Date").setAttribute("min", today);
+		
 		$(".invalid-money").hide();
 		
  		//참여 회비는 1백만원미만으로 제한(6자)
@@ -404,6 +409,7 @@
 			$.ajax({
               		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
    					method:"get",
+   					async:false,
    					success:function(resp){
    						if(resp.length!=0){ //출석기록 있음
    							console.log("출석기록 있음!");
@@ -417,7 +423,15 @@
    							return;
    						}else{ //출석기록 없음
    							console.log("출석기록 없음!");
+
+   							var isDoubleClick = false;
    							$(".attendance-btn").click(function(){
+   								
+   								if(isDoubleClick == true){ //더블클릭 막기위함
+   									return;
+   								}
+   								
+   								isDoubleClick = true;
    								AttendanceValid = true;
    								//1. 오늘날짜 배경에 로고 이미지 넣기
    								var today = $('#calendar').children().find(".fc-day-today");
@@ -434,6 +448,7 @@
    									data:JSON.stringify(attendanceData),
    									contentType: 'application/json',
    				                    success:function(){
+   				                    	isDoubleClick = false;
    				                  		 //버튼 막기
    				                    	$(".close-btn").show();
    				    					$(".attendance-btn").hide();
@@ -518,13 +533,13 @@
 			var originMemberNick = $(".originNickName").text(); //기존 닉네임
 			var originMessage = $(".originMessage").text(); //기존 상태메세지
 			
-			$("[name=memberNick]").val(originMemberNick);
-			$("[name=memberMessage]").val(originMessage);
+			$("[name=memberNick]").val(originMemberNick).removeClass("is-valid is-invalid invalid");
+			$("[name=memberMessage]").val(originMessage).removeClass("is-valid is-invalid invalid");
 		});		
 		
 		//입력 항목 상태 판정
 		check={
-				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,10}$/,
+				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,6}$/,
 				memberMessage : true, 
 				allValid:function(){
 					return this.memberNick && this.memberMessage;
@@ -870,24 +885,20 @@
 			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 			var scheduleMoney = $("[name=scheduleMoney]").val();
 			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
-			
-	        	$(window).on("beforeunload", function(){
-	        		removescheduleTitle();
-				});
-			});
+		});
+
 		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
-				$(document).on("click",".write-cancel",function(){
-					console.log("취소버튼클릭");
-					$(".schedule-name").val(""); //일정 제목
-					$(".write-content").val(""); //일정 내용
-					$(".when-date ").val(""); //일정 날짜
-					$(".when-time").val(""); //일정 시간		
-					$(".where").val(""); //장소
-					$("#persons").prop("selected", true);//최대 참여인원							
-					$(".money").val(""); //회비 
+		$(document).on("click",".write-cancel",function(){
+			console.log("취소버튼클릭");
+			$(".schedule-name").val(""); //일정 제목
+			$(".write-content").val(""); //일정 내용
+			$(".when-date ").val(""); //일정 날짜
+			$(".when-time").val(""); //일정 시간		
+			$(".where").val(""); //장소
+			$("#persons").prop("selected", true);//최대 참여인원							
+			$(".money").val(""); //회비 
 		});
 		
-			
 		//일정 등록 함수
 		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
 				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
@@ -1066,7 +1077,7 @@
 									<div class="mb-3 text-start">
 										<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
 										<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
-										<span class="invalid-feedback">1~10자 내로 입력해주세요!</span>
+										<span class="invalid-feedback">1~6자 내로 입력해주세요!</span>
 										<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
 									</div>
 									<div class="mb-3 text-start">
@@ -1190,7 +1201,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">일정 등록</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close write-cancel" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                     <div class="modal-body">
 
@@ -1218,7 +1229,7 @@
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1">댕모임 시간</label>
                             <i class="fa-solid fa-asterisk text-danger"></i>
-                                <p><input type="date" value="${sysdate}" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
+                                <p><input type="date" value="${sysdate}" id="Date" class="when-date inbl w-50 b-contentbox form-control" name="scheduleStart"><input type="time" class="when-time inbl w-50 b-contentbox form-control" value="10:00" min="00:00"
                                         max="24:00"  name="scheduleHour"></p>
                         </div>
 

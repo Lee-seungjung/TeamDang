@@ -78,6 +78,7 @@
 	    left: 85%;
 	    transform: translate(-50%, -50%);
 	    cursor: pointer;
+	    font-size : 10px;
 	}
 	
 	

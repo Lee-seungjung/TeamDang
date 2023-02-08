@@ -184,7 +184,7 @@ public interface DangUserDao {
 	 * @return historyCount
 	 * 	@param historyListRequestDto 
 	 */
-	public int historyCount (int userNo);
+	public int historyCount (HistoryListRequestDto historyListRequestDto);
 	
 }
 

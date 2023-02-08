@@ -82,6 +82,7 @@
 		border:none;
 		background-color:#fff;
 		overflow: hidden;
+		aspect-ratio : 1/1;
 	}
 	
 	.font-gray {
@@ -243,7 +244,7 @@
 <div class = "container-fluid">
 	<div class = "row">
 		<div class = "col-8 offset-2">
-			<div class = "row mt-2">
+			<div class = "row mt-3">
 				<div class = "col-2 d-flex justify-content-center align-items-center px-4 div-dang-logo" onclick = "location.href = '${pageContext.request.contextPath}/'">
 					<img src = "${pageContext.request.contextPath}/images/logo.png" class = "w-100 main-img">
 				</div>

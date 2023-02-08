@@ -242,7 +242,7 @@
 						</div>
 						<div class = "row my-3">
 							<div class = "d-flex flex-row justify-content-center align-items-center">
-								<button type = "button" class = "btn-submit-edit">수정</button>
+								<button type = "button" class = "btn btn-primary btn-submit-edit">수정</button>
 							</div>
 						</div>
 					</div>
