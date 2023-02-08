@@ -1228,13 +1228,25 @@
 							var divDangInfoOuter = $("<div>").attr("class", "card col w-100 div-outer-dang-info shadow");
 							
 							var divDangProfile = $("<div>").attr("class", "div-dang-profile")
-													.append(
-															$("<img>").attr("class", "card-img-top img-dang-profile").attr("src", "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
-														)
-														.append(
-															$("<span>").attr("class", "px-2 span-dang-area").text(resp[i].dangInfo.dangArea)
-														)
 							
+							if(resp[i].dangInfo.attachmentNo != null) {
+								divDangProfile
+									.append(
+											$("<img>").attr("class", "card-img-top img-dang-profile").attr("src", "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].dangInfo.attachmentNo)
+										)
+										.append(
+											$("<span>").attr("class", "px-2 span-dang-area").text(resp[i].dangInfo.dangArea)
+										)
+							} else {
+								divDangProfile
+									.append(
+											$("<img>").attr("class", "card-img-top img-dang-profile").attr("src", "${pageContext.request.contextPath}/images/img-dang-profile-default.png")
+										)
+										.append(
+											$("<span>").attr("class", "px-2 span-dang-area").text(resp[i].dangInfo.dangArea)
+										)
+							}
+
 							var divDangCardBody = $("<div>").attr("class", "card-body");
 							
 							var rowDangCreatetime = $("<div>").attr("class", "row")
