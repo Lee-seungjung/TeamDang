@@ -20,9 +20,9 @@
         <select id="simpleList" parameterType="int" resultType="SimpleScheduleVO">
 				select * from (
 				     select TMP.*, rownum rn from (
-				         select * from dang_scheduleList where time > TO_CHAR(SYSDATE, 'yyyymmdd' )           
+				         select * from dang_scheduleList where time > TO_CHAR(SYSDATE, 'yyyymmdd' ) and dang_no=#{dangNo}          
 				        )TMP
-				 ) where rn between 1 and 5 and dang_no=#{dangNo}
+				 ) where rn between 1 and 5 
         </select>
         
       <!-- 일정 목록 검색하여 달력에 출력-->
