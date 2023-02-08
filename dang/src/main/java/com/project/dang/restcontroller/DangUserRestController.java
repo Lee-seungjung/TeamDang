@@ -130,12 +130,6 @@ public class DangUserRestController {
 		}
 	}
 	
-	// 댕모임 해체
-	@DeleteMapping("/close_dang")
-	public boolean closeDang(@RequestParam int dangNo) {
-		return dangDao.closeDang(dangNo);
-	}
-	
 	//마이페이지 참여일정 전체/검색 조회
 	@PostMapping("/schedule_history")
 	public HistoryListResponseDto scheduleHistory(@ModelAttribute HistoryListRequestDto historyListRequestDto,
