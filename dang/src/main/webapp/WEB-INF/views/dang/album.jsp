@@ -130,7 +130,7 @@
 	});
 </script>
 
-<div class = "container-fluid mt-3 body-wrapper">
+<div class = "container-fluid mt-3 mb-5 body-wrapper">
 
 	<div class = "col-10 offset-1 body-content">
 		<div class="image-group mb-5" >

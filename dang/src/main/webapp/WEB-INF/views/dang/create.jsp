@@ -73,7 +73,7 @@
 	
 </style>
 
-<form action = "create" method = "post" enctype="multipart/form-data" class = "form-create-dang container-fluid my-3">
+<form action = "create" method = "post" enctype="multipart/form-data" class = "form-create-dang container-fluid my-3 mb-5">
 	<div class = "row">
 		<div class = "col-6 offset-3">
 			<div class = "row my-3">	

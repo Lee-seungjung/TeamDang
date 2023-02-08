@@ -12,6 +12,11 @@
 <head>
 
 <style>
+
+* {
+	border : 1px gray dotted;
+}
+
 .layout {
    max-width: 1100px;
    margin: 30px auto;
@@ -20,9 +25,7 @@
    flex-wrap: wrap;
    flex-wrap: wrap gap: 1em;
 }
-.monthly-calendar {
-   height: 1500px;
-}
+
 .calendar {
    width: 100%;
    height: 500px;
@@ -310,7 +313,7 @@
 
 </script>
 <body>
-   <div class="container-fluid  mt-3">
+   <div class="container-fluid mt-3 mb-5">
 
       <div class="col-8 offset-2">
          <div class="row">

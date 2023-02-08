@@ -301,7 +301,7 @@
 <%-- 댕모임 전체/검색 조회시 마지막 페이지 번호 --%>
 <input type = "hidden" id = "pLast" value = "${pLast}">
 
-<div class = "container-fluid my-3 div-container-dang-search"> <%-- container 시작 --%>
+<div class = "container-fluid my-3 mb-5 div-container-dang-search"> <%-- container 시작 --%>
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<form class = "row my-3 form-search-submit"> <%-- 검색 영역 시작 --%>
