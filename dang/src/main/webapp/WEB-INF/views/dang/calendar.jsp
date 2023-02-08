@@ -14,7 +14,7 @@
 <style>
 
 * {
-	border : 1px gray dotted;
+	
 }
 
 .layout {
