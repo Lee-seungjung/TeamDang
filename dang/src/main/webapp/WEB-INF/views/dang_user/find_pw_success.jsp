@@ -128,9 +128,6 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row py-4">
-						<div class = "col"></div>
-					</div>
 				</div>
 			</div>
 		</div>
