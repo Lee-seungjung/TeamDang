@@ -11,26 +11,53 @@ public interface DangPlaceDao {
 	/**
 	 * 장소 마커 등록 메소드
 	 * @author hyunjae
-	 * @param DangPlaceDto : 모임장소 테이블 클래스
+	 * @param DangPlaceDto : 장소 테이블 클래스
 	 */
 	void placeInsert(DangPlaceDto dangPlaceDto);
 	
-	//장소 리스트 추출
+	/**
+	 * 장소 리스트
+	 * @author hyunjae
+	 * @return List<DangPlaceDto> : 장소 테이블 클래스
+	 */
 	List<DangPlaceDto> placeList();
 	
-	//장소 한개 셀렉트
+	/**
+	 * 하나의 장소 추출 메소드
+	 * @author hyunjae
+	 * @param int : 장소 번호 pk
+	 * @return DangPlaceDto : 장소 테이블 클래스
+	 */
 	DangPlaceDto placeOne(int placeNo);
 	
-	//시퀀스 번호 추출
+	/**
+	 * 시퀀스 발급
+	 * @author hyunjae
+	 * @return int : 시퀀스 발급
+	 */
 	int sequence();
 	
-	//장소 이미지 삽입
+	/**
+	 * 장소 이미지 삽입
+	 * @author hyunjae
+	 * @param int : 장소 첨부파일 테이블
+	 * @return void
+	 */
 	void placeImgInsert(PlaceImg placeImg);
 	
-	//모든 장소의 갯수
+	/**
+	 * 모든 장소의 갯수
+	 * @author hyunjae
+	 * @return int : count(*)
+	 */
 	int countPlace();
 	
-	//장소 검색
+	/**
+	 * 장소 검색
+	 * @author hyunjae
+	 * @param String : keyword값
+	 * @return List<DangPlaceDto> : 장소 클래스 리스트 객체 반환
+	 */
 	List<DangPlaceDto> search(String placeName);
 	
 	/**
