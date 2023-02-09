@@ -723,15 +723,15 @@
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
                         	
-                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
-                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    		var div = $("<div>").attr("class","form-control col-1 inbl w-auto write-file-div me-1");
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid write-files")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
-                    		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
+                    		var x = $("<p>").text("x").attr("class","text-center write-x-btn cursor-pointer").attr("style","margin-top:-5px;");
     						div.append(img).append(x);
 							fileDiv.append(div);
                     	}
 
-            			$(".x-btn").click(function(){
+            			$(".write-x-btn").click(function(){
             				var attachmentNo = $(this).prev().data("no");
 
             				var div = $(this).parent().remove();
@@ -743,7 +743,7 @@
             					data:attachmentNo,
             					async:false,
             					success:function(resp){
-            						var cnt = $("#write-file-wrap").children();
+            						var cnt = $(".write-file-div");
                     				console.log(cnt.length);
                     				if(cnt.length==0){
                     					$("#write-select-file").val("");
@@ -755,12 +755,10 @@
 				});
 			}
 		});
-		
-		
-		
-		//모달 취소버튼 누를 경우 첨부파일 삭제
+
+		//등록모달 취소버튼 누를 경우 첨부파일 삭제
 		$(".b-write-cancel").click(function(){
-			boardDeleteAttachmentNo();
+			writeBoardDeleteAttachmentNo();
 		});
 
 		//폼 전송 이벤트
@@ -807,7 +805,7 @@
 							contentType:"application/json",
 							success:function(resp){
 								//게시글 이미지 DB 등록
-								var findtag = $(".files");
+								var findtag = $(".write-files");
 					        	var attachmentNo;
 					        	if(findtag.length!=0){
 					        		for(var i=0; i<findtag.length; i++){
@@ -826,6 +824,7 @@
 											contentType:"application/json",
 						    				success:function(resp){
 						    					console.log("저장성공!");
+						    					$("#write-file-wrap").empty();
 						    				}
 						    			});
 						        	}
@@ -898,6 +897,10 @@
 			}
 		});
 		
+		//수정모달 취소버튼 누를 경우 첨부파일 삭제
+		$(".b-edit-cancel").click(function(){
+			editBoardDeleteAttachmentNo();
+		});
 		
 		//게시글 수정 첫 화면 기본셋팅
 		$(document).on("click", ".edit-drop", function(){
@@ -928,7 +931,7 @@
 	               	for(var i=0; i<resp.length; i++){
 	                   	var url = "${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo;
 	               		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
-	               		var img = $("<img>").attr("src",url).attr("class","img-fluid file1")
+	               		var img = $("<img>").attr("src",url).attr("class","img-fluid write-files")
 	               						.attr("style","width:70px; height:70px;").attr("data-no",resp[i].attachmentNo);
 	               		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
 						div.append(img).append(x);
@@ -990,7 +993,7 @@
 			console.log(this.files); //파일 배열
 			
 			//기존파일 검사
-			var e_originFiles = $(".file1");
+			var e_originFiles = $(".write-files");
 			console.log(e_originFiles);
 			console.log(e_originFiles.length);
 			var e_filesLenght = e_originFiles.length + this.files.length;
@@ -1027,7 +1030,7 @@
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
                         	
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
-                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files file1")
+                    		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files")
                     						.attr("style","width:70px; height:70px;").attr("data-no",attachmentNo);
                     		var x = $("<p>").text("x").attr("class","text-center x-btn cursor-pointer").attr("style","margin-top:-5px;");
     						div.append(img).append(x);
@@ -1035,8 +1038,7 @@
                     	}
                     	
                     	$(".x-btn").click(function(){
-                    		var thistag = $(this);
-                    		xBtn(thistag);
+                    		$(this).parent().hide();
             			});
 
 			        }
@@ -1056,7 +1058,6 @@
 				var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
 				var boardContent = $("#edit-content").val();
 				var boardCategory = $("#edit-category option:selected").val();
-				console.log("수정할 게시글번호 = "+boardNo);
 						
 				editBoardData = {
 					boardNo:boardNo,
@@ -1152,6 +1153,7 @@
 							}
 						});
 			        	
+    					$("#edit-file-wrap").empty();
 						$("#boardEditModal").modal('hide');
 					}
 				});
@@ -1159,9 +1161,9 @@
 		});
 		
 		
-		//취소, 돌아가기 시 첨부파일 삭제
-		function boardDeleteAttachmentNo(){
-			var findtag = $(".files");
+		//게시글 등록 모달 작성중 취소, 돌아가기 시 첨부파일 삭제
+		function writeBoardDeleteAttachmentNo(){
+			var findtag = $(".write-files");
         	var attachmentNo;
         	for(var i=0; i<findtag.length; i++){
         		attachmentNo = findtag.eq(i).attr("data-no");
@@ -1177,16 +1179,23 @@
         	}
 		}
 		
-
-		//수정폼 전송 전 항목 체크
-		//function editSubmitCheck(){
-			
-		//}
-
-		//수정폼 전송 이벤트
-		//function boardEditFormSubmit(){
-			
-		//}
+		//게시글 수정 모달 작성중 취소, 돌아가기 시 첨부파일 삭제
+		function editBoardDeleteAttachmentNo(){
+			var findtag = $(".files");
+        	var attachmentNo;
+        	for(var i=0; i<findtag.length; i++){
+        		attachmentNo = findtag.eq(i).attr("data-no");
+        		
+        		$.ajax({
+    				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+    				method:"delete",
+    				data:attachmentNo,
+    				async:false,
+    				success:function(resp){
+    				}
+    			});
+        	}
+		}
 		
 		//게시글 목록 없을 경우 출력
 		function zeroBoardList(){
@@ -1392,7 +1401,7 @@
 				data:attachmentNo,
 				async:false,
 				success:function(resp){
-					var cnt = $("#edit-file-wrap").children();
+					var cnt = $(".file-div");
     				console.log(cnt.length);
     				if(cnt.length==0){
     					$("#edit-select-file").val("");
