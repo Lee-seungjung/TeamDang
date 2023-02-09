@@ -67,12 +67,13 @@
 	 	color:white;
 	 	padding:5px;
 	 }
-	 .message2{
+	 .my-message{
 	 	border:1px solid #fff;
 	 	border-radius: 0.7rem;
 	 	background-color:#fff;
 	 	color:#495057;
 	 	padding:5px;
+	 	word-wrap: break-word;
 	 }
 	 table>tbody>tr>td{
 	 	padding:5px;
@@ -101,15 +102,6 @@
 		font-size:14px;
 		color:#878787;
 			
-	}
-	.down-btn{
-		position: fixed;
-		cursor: pointer;
-		top:85%;
-		left:62%;
-		color:#B0CBFF;
-		opacity:0.7;
-		display:none;
 	}
 	.zoomin-img>img{
 		max-width:800px;
@@ -205,7 +197,7 @@
 		//4 엔터키 이벤트
 		$("#chat-input").on("keyup",function(e){
 			var inputText = $("#chat-input").val();
-	        if(inputText!="" && e.keyCode==13) {            
+	        if(inputText!="" && e.keyCode==13 && inputText<=1000) {            
 		        $("#send-btn").click();
 	        }
 	    });
@@ -213,8 +205,12 @@
 		//전송버튼 비활성화
 		$("#chat-input").on("input",function(){
 			var value = $(this).val();
+			console.log(value.length);
 			if(value.length==0){
 				$("#send-btn").attr("disabled",true);
+			}else if(value.length>1000){
+				alert('채팅 입력은 최대 1000자까지 전송 가능합니다.');
+				$(this).val(value.substring(0,1000));
 			}else{
 				$("#send-btn").attr("disabled",false);
 			}
@@ -274,15 +270,6 @@
 			
 			var scrollBottomCheck = parseInt($("[name=originHeight]").val());
 			var judge = scrollBottomCheck-boxHeight;
-			//console.log(boxHeight);
-			//console.log(scrollBottomCheck);
-			//console.log(judge);
-			if(judge>300){
-				$(".down-btn").show();
-				downBtn();
-			}else{
-				$(".down-btn").hide();
-			}
 			
 			scrollData = {
 					roomNo:roomNo,
@@ -326,15 +313,7 @@
 				success:function(resp){}
 			});
 		});
-		
-		
-		//하단이동 버튼 클릭 이벤트
-		function downBtn(){
-			$(".down-btn").click(function(){
-				$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
-			});
-		}
-		
+
 		//채팅 이미지 확대
 		function zoomin(){
 			$(".cursor-zoomin").click(function(){
@@ -357,7 +336,7 @@
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 				var text;
 				if(data.imgAttachmentNo==0){
-					text = $("<span>").attr("class","message2").text(data.chatContent);
+					text = $("<span>").attr("class","my-message").text(data.chatContent);
 				}else{
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
 					.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
@@ -420,7 +399,7 @@
 					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
 					var text;
 					if(data[i].imgAttachmentNo==0){
-						text = $("<span>").attr("class","message2").text(data[i].chatContent);
+						text = $("<span>").attr("class","my-message").text(data[i].chatContent);
 					}else{
 						text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].imgAttachmentNo)
 						.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
@@ -504,7 +483,7 @@
 								<span style="font-size:15px; border-bottom:1px solid gray;">아직 채팅내역이 없습니다 :)</span>
 							</div>
 						</c:if>
-						<div class="past-chat" data-no="${history[0].chatNo}" style="position:relative;"></div>
+						<div class="past-chat" data-no="${history[0].chatNo}"></div>
 							<!-- 기존 메세지 생성 -->
 							<c:forEach var="vo" items="${history}">
 								<c:choose>
@@ -515,7 +494,7 @@
 											</span>
 											<c:choose>
 												<c:when test="${vo.imgAttachmentNo==0}">
-													<span class="message2">${vo.chatContent}</span>
+													<span class="my-message">${vo.chatContent}</span>
 												</c:when>
 												<c:otherwise>
 													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" 
@@ -567,12 +546,7 @@
 								</c:choose>
 							</c:forEach>
 						<!-- 새 메세지 생성 -->
-						<div class="new-chat" style="margin-right:10px;" style="position:relative;"></div>
-						
-						<!-- 하단으로 이동 버튼 생성 -->
-						<div  style="position:absolute;">
-							<i class="fa-solid fa-circle-chevron-down fa-3x down-btn text-end"></i>
-						</div>
+						<div class="new-chat" style="margin-right:10px;"></div>
 
 					</div>
 					

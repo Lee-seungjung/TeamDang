@@ -201,7 +201,7 @@
 				    
 				    <!-- 게시글 작성버튼 시작 -->
 				  	<div class="border rounded-3 mt-4 text-center shadow gray">
-						<button class="board-write cursor-pointer w-100 p-2 btn btn-primary"  data-bs-toggle="modal" data-bs-target="" 
+						<button class="board-write cursor-pointer w-100 p-2 btn btn-primary"  data-bs-toggle="modal" data-bs-target="#boardModal" 
 										data-bs-whatever="@mdo">게시글 작성</button>
 					</div>
 				    <!-- 게시글 작성버튼 끝 -->
@@ -376,25 +376,6 @@
 				</div>
 			</div>
 			<!-- 게시판 글작성 모달 끝-->
-			<!-- 글 작성제한 모달 시작 -->
-			<div class="modal" id="dayWriteCnt">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header" style="height:20px;">
-							<h5 class="modal-title"></h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true"></span>
-							</button>
-						</div>
-						<div class="modal-body middle-items">
-							<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
-							<span>게시글은 하루에 최대 5개까지 작성 가능합니다.</span>
-						</div>
-						<div class="modal-footer"></div>
-					</div>
-				</div>
-			</div>
-			<!-- 글 작성제한 모달 끝 -->
 
 			<!-- 게시판 글수정 모달 시작-->					
 			<div class="modal fade" id="boardEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -660,33 +641,7 @@
 			$("#write-content").val("");
 			$("#write-select-file").val("");
 			
-			//게시글 하루 작성(최대 5개) 확인
-			var memberNo = $("[name=memberNo]").val();
-			var dangNo = $("[name=dangNo]").val();
-			var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
-
-			cntCheckData = {
-				dangNo:dangNo,
-				memberNo:memberNo,
-				boardWriteDate:boardWriteDate
-			}
-			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_board/day_write",
-				method:"get",
-				data:cntCheckData,
-				contentType:"application/json",
-				success:function(resp){
-					console.log(resp);
-					
-					if(resp>=5){ //게시글 작성 수 5개 이상일 경우 작성 차단
-						//alert('게시글은 하루 최대 5개 작성 가능합니다');
-						$("#dayWriteCnt").modal("show");
-					}else{ //게시글 작성 가능
-						$(".board-write").attr("data-bs-target","#boardModal");
-						$("#boardModal").modal("show");
-					}
-				}
-			});
+			
 		});
 		
 		//입력 항목 상태 판정
@@ -805,7 +760,6 @@
 		//모달 취소버튼 누를 경우 첨부파일 삭제
 		$(".b-write-cancel").click(function(){
 			boardDeleteAttachmentNo();
-			$(".board-write").attr("data-bs-target","");
 		});
 
 		//폼 전송 이벤트
@@ -892,31 +846,50 @@
 									}
 								});
 								
-					        	//회원 활동점수 +1 증가
-		                    	scorePlusData={
-		                    			memberScore:1,
-		                    			memberNo:memberNo
-		                    	}
-		                    	$.ajax({
-		                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
-		                    		method:"patch",
-		                    		data:JSON.stringify(scorePlusData),
-		                    		contentType: 'application/json',
-		                    		async:false,
-		                    		success:function(resp){
-		                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
-		                    			var writeCntTag = $("#boardModal").parent().children().children()
-    																	.find(".fa-pen-to-square").next().next();
-		                    			var writeCnt = parseInt(writeCntTag.text());
-										writeCntTag.text(writeCnt+1);
+					        	//하루 게시글 수 확인 후 회원 활동점수 +1 증가(하루 최대 5점까지 가능)
+								var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
+					
+								cntCheckData = {
+									dangNo:dangNo,
+									memberNo:memberNo,
+									boardWriteDate:boardWriteDate
+								}
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_board/day_write",
+									method:"get",
+									data:cntCheckData,
+									async:false,
+									contentType:"application/json",
+									success:function(resp){
+										console.log("하루 작성 게시글 수 = "+resp);
 										
-										var scoreTag = $(".profile-box").children().find(".memberScore")
-		                    			var scoreValue = parseInt(scoreTag.text());
-		                    			scoreTag.text(scoreValue+1);
-		                    		}
-		                    	});
+										if(resp<=5){ //게시글 작성 수 5개 이하일 경우에만 점수 증가 가능!
+											scorePlusData={
+					                    			memberScore:1,
+					                    			memberNo:memberNo
+					                    	}
+					                    	$.ajax({
+					                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+					                    		method:"patch",
+					                    		data:JSON.stringify(scorePlusData),
+					                    		contentType: 'application/json',
+					                    		async:false,
+					                    		success:function(resp){
+					                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
+					                    			var writeCntTag = $("#boardModal").parent().children().children()
+			    																	.find(".fa-pen-to-square").next().next();
+					                    			var writeCnt = parseInt(writeCntTag.text());
+													writeCntTag.text(writeCnt+1);
+													
+													var scoreTag = $(".profile-box").children().find(".memberScore")
+					                    			var scoreValue = parseInt(scoreTag.text());
+					                    			scoreTag.text(scoreValue+1);
+					                    		}
+					                    	});
+										}
+									}
+								});
 								$("#boardModal").modal('hide');
-								$(".board-write").attr("data-bs-target","");
 							}
 						});
 					}
@@ -1392,24 +1365,6 @@
 								var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
 								var writeCnt = parseInt(writeCntTag.text());
 								writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
-
-								if(writeDate==now){ //작성날짜와 현재날짜가 같다면 활동점수 -1점
-									var scoreTag = $(".profile-box").children().find(".memberScore")
-	                    			var scoreValue = parseInt(scoreTag.text());
-	                    			var calcul = scoreValue-1;
-	                    			if(calcul>0){
-	                    				$.ajax({
-				                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberScore+"/"+memberNo,
-				                    		method:"patch",
-				                    		contentType: 'application/json',
-				                    		async:false,
-				                    		success:function(resp){
-				                    			//사이드 프로필 활동점수-1
-				                    			scoreTag.text(calcul);
-				                    		}
-				                    	});
-	                    			}
-								}
 							}
 						});
 					});
