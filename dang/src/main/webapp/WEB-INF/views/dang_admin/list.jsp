@@ -327,7 +327,7 @@
 			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
-				<strong class = "strong-page-title">댕모임 조회 </strong>
+				<strong class = "strong-page-title">장소 마커 관리</strong>
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
 				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -363,7 +363,7 @@
 		<%-- 검색창 --%>
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
-				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
 			</div>
 		</div>
 		
