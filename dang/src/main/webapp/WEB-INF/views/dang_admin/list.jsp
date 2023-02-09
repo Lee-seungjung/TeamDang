@@ -398,7 +398,7 @@
 				<table class="table" >
 				  <tbody class="mt-3" >
 				  	
-				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY})">
+				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY},'${placeList.placeSort}')">
 				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
 				      <td>
 				      	<div class="row mt-3">
@@ -927,7 +927,7 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
-	 function moveMarker(placeX,placeY){
+	 function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
 		// 이동할 위도 경도 위치를 생성합니다 
 		    var moveLatLon = new kakao.maps.LatLng(placeX, placeY);
@@ -936,11 +936,17 @@
 		    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
 		    map.panTo(moveLatLon);  
 		    
-		    
-		    
-		   /*  if(placeSort=='카페'){
+		    if(placeSort=='카페'){
 		    	changeMarker('cafe');
-		    } */
+		    }else if(placeSort=='음식점'){
+		    	changeMarker('food');
+		    }else if(placeSort=='운동장'){
+		    	changeMarker('field');
+		    }else if(placeSort=='미용'){
+		    	changeMarker('dogsalon');
+		    }else{
+		    	changeMarker('park')
+		    }
 		    
 	}
 	
