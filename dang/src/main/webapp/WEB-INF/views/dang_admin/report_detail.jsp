@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="신고 상세" name="title"/>
+   <jsp:param value="신고 관리" name="title"/>
 </jsp:include>
 
 <style>

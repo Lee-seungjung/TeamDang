@@ -6,6 +6,11 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
+
+	* {
+		
+	}
+	
 	.dang-nav{
 		background-color:#76BEFF;
 		height:50px;
@@ -26,7 +31,7 @@
 
 </style>
 <%-- 댕모임 header --%>
-<div class = "container-flud">
+<div class = "container-fluid">
 	<div class = "row dang-nav ">
 		<div class = "col-8 offset-2">
 			<div class = "row">
