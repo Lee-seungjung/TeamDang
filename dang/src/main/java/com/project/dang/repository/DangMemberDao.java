@@ -85,6 +85,13 @@ public interface DangMemberDao {
 	boolean ownerUpdate(int memberNo);
 	
 	/**
+	 * 댕회원 활동점수 충족 시 레벨 증가(한 달에 한 번)
+	 * @param memberNo
+	 * @return
+	 */
+	boolean upgrade();
+	
+	/**
 	 * 댕모임 회원 포인트 조회
 	 * @param memberNo
 	 * @return 포인트 점수(int)

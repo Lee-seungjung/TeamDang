@@ -707,7 +707,7 @@
 				}
 				
 				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					url:"${pageContext.request.contextPath}/rest_attachment/upload_multiple",
 					method:"post",
 					data:formData,
 					processData:false, 
@@ -1010,7 +1010,7 @@
 				}
 				
 				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_attachment/upload2",
+					url:"${pageContext.request.contextPath}/rest_attachment/upload_multiple",
 					method:"post",
 					data:formData,
 					processData:false, 

@@ -111,6 +111,12 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		return sqlSession.update("dangMember.ownerUpdate",memberNo)>0;
 	}
 	
+	//댕회원 활동점수 충족 시 레벨 증가(한 달에 한 번)
+	@Override
+	public boolean upgrade() {
+		return sqlSession.update("dangMember.upgrade")>0;
+	}
+	
 	//댕모임 회원 등급포인트 확인
 	@Override
 	public int findScore(int memberNo) {

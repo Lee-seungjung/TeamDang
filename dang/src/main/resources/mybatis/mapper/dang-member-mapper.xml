@@ -84,6 +84,18 @@
 		update dang_member set member_owner='Y' where member_no=#{memberNo}
 	</update>
 	
+	<!-- 댕회원 활동점수별 레벨 증가 -->
+	<update id="upgrade">
+		update dang_member set member_grade = case 
+			when member_score>400 then 'LV.5'
+			when member_score>300 then 'LV.4'
+			when member_score>200 then 'LV.3'
+			when member_score>100 then 'LV.2'
+			else 'LV.1'
+			end
+		where NOT member_grade  in ('LV.5')
+	</update>
+	
 	<!-- 댕모임 회원 포인트 조회 -->
 	<select id="findScore" resultType="int" parameterType="int">
 		select member_score from dang_member where member_no=#{memberNo}
@@ -110,7 +122,7 @@
 		member_message=#{memberMessage}
 		where member_no=#{memberNo}
 	</update>
-	
+
 	<!-- 특정 회원이 가입한 댕모임 목록을 번호로 조회 -->
 	<select id = "searchDangAlreadyJoin" parameterType = "int" resultType = "int">
 		select dang_no from dang_member where user_no = #{userNo}
