@@ -3,6 +3,7 @@ package com.project.dang.repository;
 import java.util.List;
 
 import com.project.dang.vo.DangGroupRegionVO;
+import com.project.dang.vo.DashBoardReportVO;
 
 public interface AdminDao {
 	
@@ -42,4 +43,16 @@ public interface AdminDao {
 	 * @return List<DangGroupRegionVO>
 	 */
 	List<DangGroupRegionVO> dangGroupRegion();
+	
+	/**
+	 * 최근 일주일 신고 수
+	 * @return int
+	 */
+	int recentReport();
+	
+	/**
+	 * 최근 신고 게시글 5개
+	 * @return List<DashBoardReportVO : 닉네임 날짜 상태 댕모임명
+	 */
+	List<DashBoardReportVO> dashBoardReport();
 }

@@ -3,6 +3,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
+
+	* {
+		
+	}
+	
+	.strong-dang-edit-info-title {
+		font-size : 24px;
+	}
+
+	.strong-dang-edit-info-text {
+		font-size : 20px;
+	}
+	
+	.content-full {
+		color : red;
+	}
+
+	.form-edit-dang {
+		border : 1px solid #E8E8E8;
+		border-radius : 15px;
+	}
+	
+	input, textarea, select {
+		border-radius : 10px;
+		border : 1px solid #76BEFF;
+	}
+	
+	input:focus, textarea:focus, select:focus {
+		outline : 2px solid #76BEFF;
+	}
+	
 	
 	.img-edit-dang-profile {
 		border-radius : 20px;
@@ -57,12 +88,17 @@
 				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
 			</div>
 			<!-- 프로필 박스 끝-->
-			<form class = "col-6 form-edit-dang" action = "edit" method = "post" enctype = "multipart/form-data">
+			<form class = "col-6 form-edit-dang shadow" action = "edit" method = "post" enctype = "multipart/form-data">
 				<div class = "row my-3">	
-					<div class = "col-10 offset-1">
+					<div class = "col mx-4">
+						<div class = "row my-3">
+							<div class = "col d-flex justify-content-center align-items-center">
+								<strong class = "strong-dang-edit-info-title">댕모임 정보 변경</strong>
+							</div>
+						</div>
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>댕모임 프로필 사진</span>
+								<strong class = "strong-dang-edit-info-text my-3">댕모임 프로필 사진</strong>
 								<div class = "row">
 									<div class = "col-5 d-flex justify-content-center align-items-center">
 										<c:choose>
@@ -88,39 +124,54 @@
 						</div>
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>댕모임명</span>
+								<div class = "my-3 d-flex">
+									<strong class = "strong-dang-edit-info-text me-1">댕모임명</strong>
+									<span class = "span-dang-edit-info-dang-name">
+										[
+										<span class = "span-dang-name">0</span>
+										<span class = "span-dang-name-max"> / 10</span>
+										]
+									</span>
+								</div>
 								<input type = "hidden" name = "dangNo" value = "${dangEditInfo.dangNo}">
-								<input name = "dangName" type = "text" placeholder = "댕모임명(10글자)" maxlength = "10" value = "${dangEditInfo.dangName}">
-								<div class = "d-flex justify-content-end align-items-center">
-									<span class = "span-dang-name">0</span>
-									<span class = "span-dang-name-max"> / 10</span>
-								</div>
+								<input name = "dangName" class = "p-2" type = "text" placeholder = "댕모임명(10글자)" maxlength = "10" value = "${dangEditInfo.dangName}">
 							</div>
 						</div>
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>댕모임 정보</span>
-								<textarea name = "dangInfo" style="resize: none;" cols = "2" class = "textarea-dang-info" placeholder = "댕모임 정보" maxlength = "30">${dangEditInfo.dangInfo}</textarea>
-								<div class = "d-flex justify-content-end align-items-center">
-									<span class = "span-dang-info">0</span>
-									<span class = "span-dang-info-max"> / 30</span>
+								<div class = "my-3 d-flex">
+									<strong class = "strong-dang-edit-info-text me-1">댕모임 정보</strong>
+									<span class = "span-dang-edit-info-dang-info">
+										[
+										<span class = "span-dang-info">0</span>
+										<span class = "span-dang-info-max"> / 30</span>
+										]
+									</span>
 								</div>
+								<textarea name = "dangInfo" style="resize: none;" cols = "2" class = "textarea-dang-info p-2" placeholder = "댕모임 정보" maxlength = "30">${dangEditInfo.dangInfo}</textarea>
 							</div>
 						</div>
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>댕모임 인원수</span>
-								<select name = "dangHeadmax">
-									<option value = "">인원수</option>
-									<c:forEach var = "i" begin = "5" end = "20" step = "5">
-									<option value = "${i}" <c:if test = "${dangEditInfo.dangHeadmax == i}">selected</c:if>>${i}</option>
-									</c:forEach>
-								</select>
+								<strong class = "strong-dang-edit-info-text my-4">댕모임 인원수</strong>
+								<div class = "row">
+									<div class = "col-6">
+										<select name = "dangHeadmax" class = "p-2 w-100">
+											<option value = "">인원수</option>
+											<c:forEach var = "i" begin = "5" end = "20" step = "5">
+											<option value = "${i}" <c:if test = "${dangEditInfo.dangHeadmax == i}">selected</c:if>>${i}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class = "col-6">
+										<input value = "현재원 : ${dangEditInfo.dangHead} / ${dangEditInfo.dangHeadmax}" disabled class = "p-2 w-100 input-dang-head-now" data-danghead = "${dangEditInfo.dangHead}" data-dangheadmax = "${dangEditInfo.dangHeadmax}">
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class = "row my-3"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span class = "col">댕모임 공개 여부</span>
+								<strong class = "col strong-dang-edit-info-text my-4">댕모임 공개 여부</strong>
 								<div class = "col d-flex flex-row">							
 									<div class = "col-6">
 										<c:choose>
@@ -149,13 +200,13 @@
 						</div>
 						<div class = "row my-3 div-dang-password">
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>비밀번호</span>
-								<input class = "input-dang-password" type = "text" placeholder = "비밀번호(숫자 4자리)" value = "${dangEditInfo.dangPw}">
+								<strong class = "strong-dang-edit-info-text my-4">비밀번호</strong>
+								<input class = "input-dang-password p-2" type = "text" placeholder = "비밀번호(숫자 4자리)" value = "${dangEditInfo.dangPw}" maxlength = "4">
 							</div>
 						</div> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
 						<div class = "row my-3"> <%-- 지역은 차후 수정 --%>
 							<div class = "col-10 offset-1 d-flex flex-column">
-								<span>활동 지역</span>
+								<strong class = "strong-dang-edit-info-text my-4">활동 지역</strong>
 								<input type = "hidden" id = "dangArea" value = "${dangEditInfo.dangArea}">
 								<svg class = "w-100 h-100" style='background:white;overflow:visible' width="800" height="656" xmlns="http://www.w3.org/2000/svg" viewbox = "50 50 700 550">">
 								    <g>
@@ -288,10 +339,16 @@
 		// 댕모임명
 		var dangNameNowLength = $("[name=dangName]").val().length;
 		$(".span-dang-name").text(dangNameNowLength);
+		if(dangNameNowLength >= 10) {
+			$(".span-dang-edit-info-dang-name").addClass("content-full")
+		}
 		
 		// 댕모임 정보
 		var dagnInfoNowLength = $("[name=dangInfo]").val().length;
 		$(".span-dang-info").text(dagnInfoNowLength);
+		if(dagnInfoNowLength >= 30) {
+			$(".span-dang-edit-info-dang-info").addClass("content-full")
+		}
 		
 		// 선택했던 활동 지역 표시
 		var dangAreaNameNowSelected = $("#dangArea").val();
@@ -341,9 +398,14 @@
 			
 			var size = textDangName.length;
 			
-			while(size > 10) {
-				inputDangName.value = inputDangName.value.substring(0, size - 1);
-				size --;
+			if(size >= 10) {
+				while(size > 10) {
+					inputDangName.value = inputDangName.value.substring(0, size - 1);
+					size --;
+				}	
+				$(".span-dang-edit-info-dang-name").addClass("content-full");
+			} else {
+				$(".span-dang-edit-info-dang-name").removeClass("content-full");
 			}
 			spanDangName.textContent = size;
 		});
@@ -370,21 +432,36 @@
 			
 			var size = textDangInfo.length;
 			
-			while(size > 30) {
-				textareaDangInfo.value = textareaDangInfo.value.substring(0, size - 1);
-				size --;
+			if(size >= 30) {
+				while(size > 30) {
+					textareaDangInfo.value = textareaDangInfo.value.substring(0, size - 1);
+					size --;
+				}
+				$(".span-dang-edit-info-dang-info").addClass("content-full");
+			} else {
+				$(".span-dang-edit-info-dang-info").removeClass("content-full");
 			}
 			spanDangInfo.textContent = size;
 		});
 		
 		// 댕모임 회원 총원
 		$("[name=dangHeadmax]").change(function(){
-			if($(this).val() != "") {
+			var dangHeadmaxSelected = $(this).val();
+			var headNow = $(".input-dang-head-now").data("danghead");
+			var headmaxNow = $(".input-dang-head-now").data("dangheadmax");
+			if(dangHeadmaxSelected != "") {
+				console.log(headNow)
+				console.log(dangHeadmaxSelected)
+				console.log(dangHeadmaxSelected < headNow)
+				if(dangHeadmaxSelected < headNow) {
+					formValidCheck.checkDangHeadmax = false;
+					alert("현재 인원보다 적은 총원은 선택할 수 없습니다.");
+					$(this).val(headmaxNow).prop("selected", true);
+					return;
+				}
 				formValidCheck.checkDangHeadmax = true;
-				formValid();
 			} else {
 				formValidCheck.checkDangHeadmax = false;
-				formValid();
 			}
 		});
 		

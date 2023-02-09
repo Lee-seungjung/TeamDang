@@ -588,7 +588,7 @@
 						.append(
 							$("<div>").attr("class", "d-flex")
 								.append(
-									$("<input>").attr("class", "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick").attr("type", "text").attr("maxlength", 10).attr("placeholder", "닉네임(1~10자)")	
+									$("<input>").attr("class", "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick").attr("type", "text").attr("maxlength", 5).attr("placeholder", "닉네임(1~5자)")	
 								)
 								.append(
 									$("<button>").attr("class", "px-3 btn-modal-join-dang-nick-search").attr("type", "button").text("확인")	

@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="°ü¸®ÀÚ ¸ŞÀÎ" name="title"/>
+   <jsp:param value="ê´€ë¦¬ì ë©”ì¸" name="title"/>
 </jsp:include>
 
 <style>
@@ -20,9 +20,18 @@
 		aspect-ratio : 11/3;
 		border-radius : 10px;
 	}
+	
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	
+	th, td {
+  		text-align: center;
+	}
 </style>
 
-<!--´ë½Ã º¸µå ½ÃÀÛ-->
+<!--ëŒ€ì‹œ ë³´ë“œ ì‹œì‘-->
 <div class="container-fluid">
 
    	 <div class="row mt-2">
@@ -36,58 +45,87 @@
     </div>
     <div class="row mt-4 offset-1 mb-5">
     	 <div class="col-2 shadow  ms-3 me-4">
-            <div class="row">
-                <div class="col-7 mt-3">
-                    <p class="statistics-font">ÁÖ°£ »ç¿ëÀÚ ¼ö</p>
-                    <p class="statistics-number ms-2">${recentLogin}</p>
-                </div>
-                <div class="col">
-                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png" width="100%;"
-                        height="70%;">
-                </div>
-            </div>
+    		<a href="${pageContext.request.contextPath}/admin/user_list">
+	            <div class="row">
+	                <div class="col-7 mt-3">
+	                    <p class="statistics-font">ì£¼ê°„ ì‚¬ìš©ì ìˆ˜</p>
+	                    <p class="statistics-number ms-2">${recentLogin}</p>
+	                </div>
+	                <div class="col">
+	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png" width="100%;"
+	                        height="70%;">
+	                </div>
+	            </div>
+        	</a>
         </div>
         <div class="col-2 shadow ms-5 me-5">
-            <div class="row">
-                <div class="col-7 mt-3">
-                    <p class="statistics-font">ÁÖ°£ ´ó¸ğÀÓ °³¼³ ¼ö</p>
-                    <p class="statistics-number ms-2">${recentDang}</p>
-                </div>
-                <div class="col">
-                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png" width="100%;" height="70%;">
-                </div>
-            </div>
+        	<a href="${pageContext.request.contextPath}/admin/dang_list">
+	            <div class="row">
+	                <div class="col-7 mt-3">
+	                    <p class="statistics-font">ì£¼ê°„ ëŒ•ëª¨ì„ ê°œì„¤ ìˆ˜</p>
+	                    <p class="statistics-number ms-2">${recentDang}</p>
+	                </div>
+	                <div class="col">
+	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png" width="100%;" height="70%;">
+	                </div>
+	            </div>
+            </a>
         </div>
         <div class="col-2 shadow ms-5 me-5">
-            <div class="row">
-                <div class="col-7 mt-3">
-                    <p class="statistics-font">ÁÖ°£ ÀÏÁ¤ °³¼³ ¼ö</p>
-                    <p class="statistics-number ms-2">${recentSchdule}</p>
-                </div>
-                <div class="col">
-                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim_icon-schedule.png" width="100%;" height="70%;">
-                </div>
-            </div>
+        	<a href="${pageContext.request.contextPath}/admin/report">
+	            <div class="row">
+	                <div class="col-7 mt-3">
+	                    <p class="statistics-font">ì£¼ê°„ ì‹ ê³  ìˆ˜</p>
+	                    <p class="statistics-number ms-2">${recentReport}</p>
+	                </div>
+	                <div class="col">
+	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admin-icon-alarm.png" width="100%;" height="70%;">
+	                </div>
+	            </div>
+            </a>
         </div>
         <div class="col-2 shadow ms-4 me-5">
-            <div class="row">
-                <div class="col-7 mt-3">
-                    <p class="statistics-font">7ÀÏ°£ °¡ÀÔÀÚ ¼ö</p>
-                    <p class="statistics-number ms-2">${recentJoin}</p>
-                </div>
-                <div class="col">
-                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png" width="100%;"
-                        height="70%;">
-                </div>
-            </div>
+        	<a href="${pageContext.request.contextPath}/admin/user_list">
+	            <div class="row">
+	                <div class="col-7 mt-3">
+	                    <p class="statistics-font">7ì¼ê°„ ê°€ì…ì ìˆ˜</p>
+	                    <p class="statistics-number ms-2">${recentJoin}</p>
+	                </div>
+	                <div class="col">
+	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png" width="100%;"
+	                        height="70%;">
+	                </div>
+	            </div>
+	         </a>
         </div>
     	
         <div class="col-md-5 shadow ms-3 me-3 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">Áö¿ªº° ÀÌ¿ëÇöÈ²</h5>
+        	<h5 class="mt-3 mb-3 text-center">ì§€ì—­ë³„ ì´ìš©í˜„í™©</h5>
             <canvas id="regionChart" width="300" height="186"></canvas>
         </div>
         <div class="col-md-5 shadow ms-1 me-1 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">½Å°í ¸ñ·Ï</h5>
+        	<h5 class="mt-3 mb-3 text-center">ì‹ ê³  ëª©ë¡</h5>
+        	
+	        	<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th>ëŒ•ëª¨ì„ëª…</th>
+				      <th>ë‹‰ë„¤ì„</th>
+				      <th>ì‹ ê³ ì¼ì§œ</th>
+				      <th>ì‹ ê³ í˜„í™©</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  <c:forEach var="reportList" items="${reportList}">
+				    <tr>
+				      <td >${reportList.dangName}</td>
+				      <td>${reportList.memberNick}</td>
+				      <td>${reportList.reportDate}</td>
+				      <td>${reportList.reportState}</td>
+				    </tr>
+				  </c:forEach>
+				  </tbody>
+				</table>
         </div>
     </div>
 </div>
@@ -96,24 +134,24 @@
 	
 	$(function(){
 		
-		var labelList = new Array();//»ó´Ü¿¡ ¶óº§À» ´ã´Â ¹è¿­
-		var valueList = new Array();//Áö¿ªº° °¹¼ö¸¦ ´ã´Â ¹è¿­
-		var colorList = new Array();//»ö±òÀ» ÁöÁ¤ÇØÁÖ±âÀ§ÇÑ ¹è¿­
+		var labelList = new Array();//ìƒë‹¨ì— ë¼ë²¨ì„ ë‹´ëŠ” ë°°ì—´
+		var valueList = new Array();//ì§€ì—­ë³„ ê°¯ìˆ˜ë¥¼ ë‹´ëŠ” ë°°ì—´
+		var colorList = new Array();//ìƒ‰ê¹”ì„ ì§€ì •í•´ì£¼ê¸°ìœ„í•œ ë°°ì—´
 		    
-	    $.ajax({//Áö¿ªº° ÀÌ¿ëÇöÈ² Á¶È¸ ºñµ¿±âÅë½Å
+	    $.ajax({//ì§€ì—­ë³„ ì´ìš©í˜„í™© ì¡°íšŒ ë¹„ë™ê¸°í†µì‹ 
 	        url: "${pageContext.request.contextPath}/admin/group_list",
 	        method: "get",
 	        contentType: "application/json",
 	        success: function (resp) {
-	        	//List ¹İº¹¹®
+	        	//List ë°˜ë³µë¬¸
 	        	for(var i = 0; i<resp.length; i++) {
-	        		labelList.push(resp[i].dangArea);//¶óº§¹è¿­¿¡ ¹Ğ¾î³Ö±â
-	        		valueList.push(resp[i].cnt);//¹ë·ù¹è¿­¿¡ ¹Ğ¾î³Ö±â
-	        		colorList.push(colorize());//»ö»ó¹è¿­¿¡ ¹Ğ¾î³Ö±â
+	        		labelList.push(resp[i].dangArea);//ë¼ë²¨ë°°ì—´ì— ë°€ì–´ë„£ê¸°
+	        		valueList.push(resp[i].cnt);//ë°¸ë¥˜ë°°ì—´ì— ë°€ì–´ë„£ê¸°
+	        		colorList.push(colorize());//ìƒ‰ìƒë°°ì—´ì— ë°€ì–´ë„£ê¸°
 	        	}
 
 	        	var data = {
-	    				labels: labelList,//¶óº§
+	    				labels: labelList,//ë¼ë²¨
 	    				datasets: [{
 	    						backgroundColor: colorList,
 	    						data : valueList
@@ -127,7 +165,7 @@
 	   				 };
 
 	        	var ctx = document.getElementById('regionChart').getContext('2d');
-	        	new Chart(ctx, {//Â÷Æ® °´Ã¼ »ı¼º
+	        	new Chart(ctx, {//ì°¨íŠ¸ ê°ì²´ ìƒì„±
 	        		      type: 'pie',
 	        			  data: data
 	        	});
@@ -135,7 +173,7 @@
 	        
 	        }
 	    });
-	    //»ö»ó rgb¸¦ ·£´ıÀ¸·Î »ı¼ºÇÏ´Â ÇÔ¼ö
+	    //ìƒ‰ìƒ rgbë¥¼ ëœë¤ìœ¼ë¡œ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
 	    function colorize() {
 	    	var r = Math.floor(Math.random()*200);
 	    	var g = Math.floor(Math.random()*200);
