@@ -35,7 +35,7 @@ import com.project.dang.vo.ReportOneListVO;
 
 @Controller
 @RequestMapping("/admin")
-public class DangAdmin {
+public class DangAdminController {
 
 	@Autowired
 	DangPlaceDao dangPlaceDao;
