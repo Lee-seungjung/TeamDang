@@ -45,12 +45,12 @@
 					</div>
 					<div class = "row my-4 px-2">
 						<div class = "col">
-							<input class = "input-user-id w-100 p-2" type = "text" placeholder = "아이디">
+							<input class = "input-user-id w-100 p-2" type = "text" placeholder = "아이디" maxlength = "20">
 						</div>
 					</div>
 					<div class = "row my-4 px-2">
 						<div class = "col">
-							<input class = "input-user-pw w-100 p-2" type = "password" placeholder = "비밀번호">
+							<input class = "input-user-pw w-100 p-2" type = "password" placeholder = "비밀번호" maxlength = "16">
 						</div>
 					</div>
 					<div class = "row my-4 px-2">

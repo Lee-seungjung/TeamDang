@@ -65,152 +65,152 @@
 		overflow: hidden;
 	}
 
-.category, .category * {
-	margin: 0;
-	padding: 0;
-	color: #000;
-} 
-
-.category {
-	position: absolute;
-	overflow: hidden;
-	top: 10px;
-	left: 10px;
-	width: 300px;
-	height: 60px;
-	z-index: 10;
-	border-radius: 10px;
-	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-	font-size: 12px;
-	text-align: center;
-	background-color: #fff;
-}
-
-.category .menu_selected {
-	background: #76BEFF;
-	color: #fff;
-	margin: 0 -1px;
-}
-
-.category li {
-	list-style: none;
-	float: left;
-	width: 60px;
-	height: 60px;
-	padding-top: 5px;
-	cursor: pointer;
-}
-
-.category .ico_comm {
-	display: block;
-	margin: 0 auto 2px;
-	width: 26px;
-	height: 26px;
-	background:
-		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
-		no-repeat;
-}
-
-.category .ico_cafe {
-	background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
-}
-
-.category .ico_food {
-	background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
-}
-
-.category .ico_field {
-	background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
-}
-
-.category .ico_dogsalon {
-	background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
-}
-
-.category .ico_park {
-	background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
-}
-
-.customoverlay {
-	position: relative;
-	bottom: 40px;
-	border-radius: 6px;
-	border: 1px solid #ccc;
-	border-bottom: 2px solid #ddd;
-	float: left;
-}
-
-.customoverlay:nth-of-type(n) {
-	border: 0;
-	box-shadow: 0px 1px 2px #888;
-}
-
-.customoverlay a {
-	display: block;
-	text-decoration: none;
-	color: #000;
-	text-align: center;
-	border-radius: 6px;
-	font-size: 14px;
-	font-weight: bold;
-	overflow: hidden;
-	background: #d95050;
-	background: #d95050
-		url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
-		no-repeat right 14px center;
-}
-
-.customoverlay .title {
-	display: block;
-	text-align: center;
-	background: #fff;
-	margin-right: 35px;
-	padding: 10px 15px;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-.customoverlay:after {
-	content: '';
-	position: absolute;
-	margin-left: -12px;
-	left: 50%;
-	bottom: -12px;
-	width: 22px;
-	height: 12px;
-	background:
-		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
-}
-
-.border1 {
-	border: 1px solid #F2F2F2;
-}
-
-.input1{
-	border : 2px solid #F781D8;
-	height: 50px;
-}
-
-.box1{
-	border : 2px solid #F781D8;
-	height: 50px;
-	border-radius: 5px;
-	background: white;
-}
-
-.modal-place-body{
-	border-radius: 0.3rem;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    margin: 15px;
-    height: 150px;
+	.category, .category * {
+		margin: 0;
+		padding: 0;
+		color: #000;
+	} 
+	
+	.category {
+		position: absolute;
+		overflow: hidden;
+		top: 10px;
+		left: 10px;
+		width: 300px;
+		height: 60px;
+		z-index: 10;
+		border-radius: 10px;
+		font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+		font-size: 12px;
+		text-align: center;
+		background-color: #fff;
 	}
-    .body1{
+	
+	.category .menu_selected {
+		background: #76BEFF;
+		color: #fff;
+		margin: 0 -1px;
+	}
+	
+	.category li {
+		list-style: none;
+		float: left;
+		width: 60px;
+		height: 60px;
+		padding-top: 5px;
+		cursor: pointer;
+	}
+	
+	.category .ico_comm {
+		display: block;
+		margin: 0 auto 2px;
+		width: 26px;
+		height: 26px;
+		background:
+			url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
+			no-repeat;
+	}
+	
+	.category .ico_cafe {
+		background-image: url("${pageContext.request.contextPath}/images/cafe-icon.png");
+	}
+	
+	.category .ico_food {
+		background-image: url("${pageContext.request.contextPath}/images/food-icon.png");
+	}
+	
+	.category .ico_field {
+		background-image: url("${pageContext.request.contextPath}/images/field-icon.png");
+	}
+	
+	.category .ico_dogsalon {
+		background-image: url("${pageContext.request.contextPath}/images/salon-icon.png");
+	}
+	
+	.category .ico_park {
+		background-image: url("${pageContext.request.contextPath}/images/park-icon.png");
+	}
+	
+	.customoverlay {
+		position: relative;
+		bottom: 40px;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		border-bottom: 2px solid #ddd;
+		float: left;
+	}
+	
+	.customoverlay:nth-of-type(n) {
+		border: 0;
+		box-shadow: 0px 1px 2px #888;
+	}
+	
+	.customoverlay a {
+		display: block;
+		text-decoration: none;
+		color: #000;
+		text-align: center;
+		border-radius: 6px;
+		font-size: 14px;
+		font-weight: bold;
+		overflow: hidden;
+		background: #d95050;
+		background: #d95050
+			url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+			no-repeat right 14px center;
+	}
+	
+	.customoverlay .title {
+		display: block;
+		text-align: center;
+		background: #fff;
+		margin-right: 35px;
+		padding: 10px 15px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	
+	.customoverlay:after {
+		content: '';
+		position: absolute;
+		margin-left: -12px;
+		left: 50%;
+		bottom: -12px;
+		width: 22px;
+		height: 12px;
+		background:
+			url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+	}
+	
+	.border1 {
+		border: 1px solid #F2F2F2;
+	}
+	
+	.input1{
+		border : 2px solid #F781D8;
+		height: 50px;
+	}
+	
+	.box1{
+		border : 2px solid #F781D8;
+		height: 50px;
+		border-radius: 5px;
+		background: white;
+	}
+	
+	.modal-place-body{
+		border-radius: 0.3rem;
+	    display: flex;
+	    flex-wrap: wrap;
+	    flex-direction: row;
+	    margin: 15px;
+	    height: 150px;
+	}
+    .bodyMarker{
         width: 33%;
         position: relative;
     }
-    .body2{
+    .bodyModalFlex{
         width: 67%;
         padding: 10px;
     }
@@ -327,7 +327,7 @@
 			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
-				<strong class = "strong-page-title">댕모임 조회 </strong>
+				<strong class = "strong-page-title">장소 마커 관리</strong>
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
 				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -340,7 +340,7 @@
 			<div class="col-md-8 offset-md-2">
 				<div id="mapwrap">
 					<!-- 지도가 표시될 div -->
-					<div id="map1" style="width: 100%; height: 400px;"></div>
+					<div id="map" style="width: 100%; height: 400px;"></div>
 					<!-- 지도 위에 표시될 마커 카테고리 -->
 					<div class="category">
 						<ul>
@@ -363,7 +363,7 @@
 		<%-- 검색창 --%>
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
-				<p style="font-weight: bold">서울시 곳곳의 댕댕이 동반장소를 검색해주세요 :)</p>
+				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
 			</div>
 		</div>
 		
@@ -513,11 +513,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-place-body">
-                    <div class="body-flex body1">
+                    <div class="body-flex bodyMarker">
                         <span class="span-placearea px-2"></span>
                     <img src=""  class="place-img origin-img">
                 </div>
-                <div class="body-flex body2">
+                <div class="body-flex bodyModalFlex">
                     <span class="span-placename"></span>
                      <span  class="span-placesort"></span><br>
                     <span class="span-placeaddress"></span><br>
@@ -990,7 +990,7 @@
 		}
 	});
 
-    //버튼클릭시 실행
+    //등록 버튼클릭시 실행
     $(".insert-btn").click(function () {
         var placeArea = $("[name=placeArea1]").val();
         var placeX = $("[name=placeX1]").val();
@@ -1010,7 +1010,7 @@
         
        
         
-        //검사
+        //등록 함수 검사
         placeInsert(placeArea, placeX, placeY, placeSort, placeName,
             placeInfo, placeAddress, placeOperation, placeOff,
             placeTel, placeUrl, dangSize, attachmentNo
@@ -1064,7 +1064,7 @@
         
     }
 
-
+	//첨부파일 변경 함수
     $(".file-input").change(function () {
         var value = $(this).val();
 
@@ -1082,12 +1082,12 @@
                 processData: false,
                 contentType: false,
                 success: function (resp) {
-                    console.log(resp);
-                    $(".change-img").attr("src", resp); //프로필 미리보기
+                    //console.log(resp);
+                    $(".change-img").attr("src", resp); //장소 이미지 미리보기
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
-                    console.log(newAttachmentNo);
+                    //console.log(newAttachmentNo);
                     $("[name=attachmentNo1]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
 
                 }
@@ -1096,7 +1096,7 @@
     });
 
 	
-	
+	// 장소 수정 함수
 	function editMarker() {
 		var placeNo = placeNoInfo;
 		var placeArea = $("[name=placeArea]").val();
@@ -1259,7 +1259,7 @@
 		
 
 		
-		var mapContainer1 = document.getElementById('map1'), // 지도를 표시할 div  
+		var mapContainer1 = document.getElementById('map'), // 지도를 표시할 div  
 		mapOption1 = {
 			center : new kakao.maps.LatLng(37.498004414546934,
 					127.02770621963765), // 지도의 중심좌표 
@@ -1267,7 +1267,7 @@
 		// 지도의 확대 레벨 
 		};
 
-		var map1 = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
 
 		var clickedOverlay = null;//클릭이벤트 오버레이 전역변수 초기값
 
@@ -1312,11 +1312,11 @@
 		var contentPark = [];
 		
 
-		kakao.maps.event.addListener(map1,'zoom_changed',function(){
+		kakao.maps.event.addListener(map,'zoom_changed',function(){
 		    chkArea(); // 함수 호출
 		});
 
-		kakao.maps.event.addListener(map1,'dragend',function(){
+		kakao.maps.event.addListener(map,'dragend',function(){
 		    chkArea(); // 함수 호출
 		});
 
@@ -1325,7 +1325,7 @@
 		// 해당영역에 영역 범위 좌표값을 부를 계산 변수 저장과 ajax호출 함수
 		function chkArea(){
 
-		    var bounds = map1.getBounds(); //지도의 영역을 반환한다.
+		    var bounds = map.getBounds(); //지도의 영역을 반환한다.
 		    var sw = bounds.getSouthWest(); //영역의 남서쪽 좌표를 반환한다.
 		    var ne = bounds.getNorthEast(); //영역의 북동쪽 좌표를 반환한다.
 
@@ -1449,7 +1449,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map1,
+												map : map,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -1459,7 +1459,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map1);
+									customOverlay.setMap(map);
 									clickedOverlay = customOverlay;
 									
 									
@@ -1470,9 +1470,9 @@
 		
 
 		// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setCafeMarkers(map1) {
+		function setCafeMarkers(map) {
 			for (var i = 0; i < cafeMarkers.length; i++) {
-				cafeMarkers[i].setMap(map1);
+				cafeMarkers[i].setMap(map);
 			}
 		}
 
@@ -1519,7 +1519,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map1,
+												map : map,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -1529,7 +1529,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map1);
+									customOverlay.setMap(map);
 									clickedOverlay = customOverlay;
 
 								});
@@ -1537,9 +1537,9 @@
 		}
 
 		// 음식점 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setFoodMarkers(map1) {
+		function setFoodMarkers(map) {
 			for (var i = 0; i < foodMarkers.length; i++) {
-				foodMarkers[i].setMap(map1);
+				foodMarkers[i].setMap(map);
 			}
 		}
 
@@ -1586,7 +1586,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map1,
+												map : map,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -1596,7 +1596,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map1);
+									customOverlay.setMap(map);
 									clickedOverlay = customOverlay;
 
 								});
@@ -1604,9 +1604,9 @@
 		}
 
 		// 운동장 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setFieldMarkers(map1) {
+		function setFieldMarkers(map) {
 			for (var i = 0; i < fieldMarkers.length; i++) {
-				fieldMarkers[i].setMap(map1);
+				fieldMarkers[i].setMap(map);
 			}
 		}
 
@@ -1654,7 +1654,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map1,
+												map : map,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -1664,7 +1664,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map1);
+									customOverlay.setMap(map);
 									clickedOverlay = customOverlay;
 
 								});
@@ -1672,9 +1672,9 @@
 		}
 
 		// 미용 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setDogsalonMarkers(map1) {
+		function setDogsalonMarkers(map) {
 			for (var i = 0; i < dogsalonMarkers.length; i++) {
-				dogsalonMarkers[i].setMap(map1);
+				dogsalonMarkers[i].setMap(map);
 			}
 		}
 		console.log(dogsalonPositions);
@@ -1722,7 +1722,7 @@
 									// 커스텀 오버레이를 생성합니다
 									var customOverlay = new kakao.maps.CustomOverlay(
 											{
-												map : map1,
+												map : map,
 												position : position,
 												content : content,
 												yAnchor : 1
@@ -1732,7 +1732,7 @@
 									if (clickedOverlay) {
 										clickedOverlay.setMap(null);
 									}
-									customOverlay.setMap(map1);
+									customOverlay.setMap(map);
 									clickedOverlay = customOverlay;
 
 								});
@@ -1740,9 +1740,9 @@
 		}
 
 		// 공원 마커들의 지도 표시 여부를 설정하는 함수입니다
-		function setParkMarkers(map1) {
+		function setParkMarkers(map) {
 			for (var i = 0; i < parkMarkers.length; i++) {
-				parkMarkers[i].setMap(map1);
+				parkMarkers[i].setMap(map);
 			}
 		}
 
@@ -1768,7 +1768,7 @@
 				parkMenu.className = '';
 
 				// 카페 마커들만 지도에 표시하도록 설정합니다
-				setCafeMarkers(map1);
+				setCafeMarkers(map);
 				setFoodMarkers(null);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
@@ -1785,7 +1785,7 @@
 
 				// 음식점 마커들만 지도에 표시하도록 설정합니다
 				setCafeMarkers(null);
-				setFoodMarkers(map1);
+				setFoodMarkers(map);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
 				setParkMarkers(null);
@@ -1802,7 +1802,7 @@
 				// 운동장 마커들만 지도에 표시하도록 설정합니다
 				setCafeMarkers(null);
 				setFoodMarkers(null);
-				setFieldMarkers(map1);
+				setFieldMarkers(map);
 				setDogsalonMarkers(null);
 				setParkMarkers(null);
 
@@ -1819,7 +1819,7 @@
 				setCafeMarkers(null);
 				setFoodMarkers(null);
 				setFieldMarkers(null);
-				setDogsalonMarkers(map1);
+				setDogsalonMarkers(map);
 				setParkMarkers(null);
 			} else if (type === 'park') {
 
@@ -1835,7 +1835,7 @@
 				setFoodMarkers(null);
 				setFieldMarkers(null);
 				setDogsalonMarkers(null);
-				setParkMarkers(map1);
+				setParkMarkers(map);
 			}
 			
 			

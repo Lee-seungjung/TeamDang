@@ -4,94 +4,94 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
-<style>
-	.modal-header{
-		border-bottom: none;
-		padding-bottom:0;
-	}
-	.fc-scrollgrid{
-		border-radius:0.5rem;
-	}
-	.fc .fc-scrollgrid{
-		border:1px solid #ddd;
-	}
- 	.fc .fc-scrollgrid-section > * {
-	    border-width: 0;
-  	}
-  	.modal-body{
-  		padding-top:0;
-  		padding-bottom:0;
-  	}
-  	.modal-footer{
-  		border-top: none;
-  		background-color: #fff;
-  	}
-  	
-  	.addImg{
-  		background-image: url("${pageContext.request.contextPath}/images/logo2.png");
-  		background-position: center center;
-  		background-size: 45px 45px;
-  		background-repeat: no-repeat;
-  	}
-  	.fc .fc-daygrid-day.fc-day-today{
-  		background-color:#fff;
-  	}
-  	.camera-icon{
-  		width: 35px;
-	    height: 35px;
-	    position: relative;
-	    top: 60px;
-	    left: -45px;
-  	}
-  	.profile-css{
-  		width:150px;
-  		height:150px;
-  		margin-left:20px;
-  	}
-  	.origin-css{
-  		width:180px;
-  		height:180px;
-  	}
-  	.invalid-feedback2 {
-	  display: none;
-	  width: 100%;
-	  margin-top: 0.25rem;
-	  font-size: 0.875em;
-	  color: #d9534f;
-	}
-  	.invalid-feedback, .invalid-feedback2{
-  		display:none;
-  	}
-  	.is-invalid ~ .invalid-feedback{
-  		display:block;
-  	}
-  	.invalid ~ .invalid-feedback2{
-  		display:block;
-  	}
-  	.length-font{
-  		font-size:12px;
-  	}
-  	.b-contentbox::-webkit-scrollbar {
-	    width: 5px;
-	 }
-	  .b-contentbox::-webkit-scrollbar-thumb {
-	  	height:30%;
-	    background-color: #B0CBFF;
-	    border-radius: 0.3rem;
-	 }
-	  .b-contentbox::-webkit-scrollbar-track {
-	    background-color: #F1F4FF;
-	    border-radius: 0.3rem;
-	 }
-	 .file-div{
-	 	width:100px;
-	 	height:100px;
-	 }
-	 .progress-bar {
-		background-color: #76BEFF;
-	}
+	<style>
+		.modal-header{
+			border-bottom: none;
+			padding-bottom:0;
+		}
+		.fc-scrollgrid{
+			border-radius:0.5rem;
+		}
+		.fc .fc-scrollgrid{
+			border:1px solid #ddd;
+		}
+	 	.fc .fc-scrollgrid-section > * {
+		    border-width: 0;
+	  	}
+	  	.modal-body{
+	  		padding-top:0;
+	  		padding-bottom:0;
+	  	}
+	  	.modal-footer{
+	  		border-top: none;
+	  		background-color: #fff;
+	  	}
+	  	
+	  	.addImg{
+	  		background-image: url("${pageContext.request.contextPath}/images/logo2.png");
+	  		background-position: center center;
+	  		background-size: 45px 45px;
+	  		background-repeat: no-repeat;
+	  	}
+	  	.fc .fc-daygrid-day.fc-day-today{
+	  		background-color:#fff;
+	  	}
+	  	.camera-icon{
+	  		width: 35px;
+		    height: 35px;
+		    position: relative;
+		    top: 60px;
+		    left: -45px;
+	  	}
+	  	.profile-css{
+	  		width:150px;
+	  		height:150px;
+	  		margin-left:20px;
+	  	}
+	  	.origin-css{
+	  		width:180px;
+	  		height:180px;
+	  	}
+	  	.invalid-feedback2 {
+		  display: none;
+		  width: 100%;
+		  margin-top: 0.25rem;
+		  font-size: 0.875em;
+		  color: #d9534f;
+		}
+	  	.invalid-feedback, .invalid-feedback2{
+	  		display:none;
+	  	}
+	  	.is-invalid ~ .invalid-feedback{
+	  		display:block;
+	  	}
+	  	.invalid ~ .invalid-feedback2{
+	  		display:block;
+	  	}
+	  	.length-font{
+	  		font-size:12px;
+	  	}
+	  	.b-contentbox::-webkit-scrollbar {
+		    width: 5px;
+		}
+	  	.b-contentbox::-webkit-scrollbar-thumb {
+		  	height:30%;
+		    background-color: #B0CBFF;
+		    border-radius: 0.3rem;
+	 	}
+	  	.b-contentbox::-webkit-scrollbar-track {
+		    background-color: #F1F4FF;
+		    border-radius: 0.3rem;
+	 	}
+	 	.file-div{
+	 		width:100px;
+	 		height:100px;
+	 	}
+	 	.progress-bar {
+			background-color: #76BEFF;
+		}
 	
-	  #mapwrap {
+	#mapwrap {
 		position: relative;
 		overflow: hidden;
 	}
@@ -200,18 +200,18 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
-.customoverlay:after {
-	content: '';
-	position: absolute;
-	margin-left: -12px;
-	left: 50%;
-	bottom: -12px;
-	width: 22px;
-	height: 12px;
-	background:
-		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
-}
-        .border1 {
+	.customoverlay:after {
+		content: '';
+		position: absolute;
+		margin-left: -12px;
+		left: 50%;
+		bottom: -12px;
+		width: 22px;
+		height: 12px;
+		background:
+			url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+	}
+ /*        .border1 {
             border: 1px solid #F2F2F2;
         }
         .input1 {
@@ -223,14 +223,15 @@
             height: 50px;
             border-radius: 5px;
             background: white;
-        }
+        } */
         
-      .form-content:focus {
+    .form-content:focus {
 	  background-color: #fff;
 	  border-color: #contentPositionsc1f6;
 	  outline: 0;
 	  box-shadow: 0 0 0 0.25rem rgba(69, 130, 236, 0.25);
 	}
+	
 	.where{
     border: 1px solid gray;
     margin: 0px 0px 10px;
@@ -245,17 +246,20 @@
     margin: 15px;
     height: 150px;
 	}
-    .body1{
+	
+ /*    .body1{
         width: 33%;
         position: relative;
     }
     .body2{
         width: 67%;
         padding: 10px;
-    }
+    } */
+    
     .span-placeoperation{
         font-size: 14px;
     }
+    
     .span-placetel{
         color: #76BEFF;
         font-size: 15px;
@@ -373,12 +377,6 @@
 			}
 		});
        
- 		//장소 등록버튼 클릭시 모달 장소에 장소명 삽입
-		$(".btn-placeurl").click(function(){
-			$(".span-placeurl").text();			
-			var placeUrl = $(".span-placeurl").text();			
-			window.location.href=placeUrl;			
-		});
 		
 		
 		//모달 띄워지기 직전 캘린더 미리 생성
@@ -1313,7 +1311,7 @@
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
-                    <button type="button" class="btn btn-primary btn-placeurl" >홈페이지</button>                
+                    <button type="button" class="btn btn-primary btn-placeurl" onclick="pageUrlMove()" >홈페이지</button>                
                     <button type="button" class="btn btn-secondary " onclick="detailMove()">상세보기</button>
                     <button type="button" class="btn btn-select-place">등록하기</button>
                 </div>
@@ -1393,10 +1391,19 @@
          	}
         });
         
+        //장소 가게 홈페이지 이동 함수
+        function pageUrlMove() {
+   			var url = $(".span-placeurl").text();
+   		 //console.log(url);
+   			window.open(url); 
+   		}
+        
+        //장소 상세보기 이동 함수
         function detailMove() {
             //location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
             window.open('http://localhost:8888/place/detail/'+ placeNoInfo, '_blank'); 
         }
+        
         $(document).on("click",".edit",function (e) {
                     $("#edit").modal("show");//모달 실행
                     placeNoInfo = $(this).data("placeno");
@@ -1438,7 +1445,7 @@
                 });
         
         
-        
+        //초기 지도 중심좌표를 설정하기 위한 변수
         var gangNam="강남구";
         var gangdong="강동구";
         var gangbuk="강북구";
@@ -1467,8 +1474,9 @@
         
         var centerPositionX;
         var centerPositionY;
-      
-       var thisDangArea;
+        
+      	// 현재 댕모임의 관심지역
+       	var thisDangArea;
         
         $.ajax({
             url: "http://localhost:8888/rest_dang/detail?dangNo="+${dangNo},
@@ -1476,7 +1484,6 @@
             async: false,
             contentType: "application/json",
             success: function (resp) {
-            	console.log("ssssss"+resp.dangInfo.dangArea);
             	thisDangArea=resp.dangInfo.dangArea;
             }
         })
@@ -1559,14 +1566,14 @@
 		centerPositionY=127.0932;
 	  }
         
-        var mapContainer1 = document.getElementById('insertMap'), // 지도를 표시할 div  
-            mapOption1 = {
+        var mapContainerInsert = document.getElementById('insertMap'), // 지도를 표시할 div  
+            mapOptionInsert = {
                 center: new kakao.maps.LatLng(centerPositionX,
                 		centerPositionY), // 지도의 중심좌표 
                 
                 // 지도의 확대 레벨 
             };
-        var insertMap = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
+        var insertMap = new kakao.maps.Map(mapContainerInsert, mapOptionInsert); // 지도를 생성합니다
         
       
   		$('#staticBackdrop').on('shown.bs.modal', function (e) {

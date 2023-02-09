@@ -126,8 +126,8 @@
 	    				}
 	   				 };
 
-	        	var ctx1 = document.getElementById('regionChart').getContext('2d');
-	        	new Chart(ctx1, {
+	        	var ctx = document.getElementById('regionChart').getContext('2d');
+	        	new Chart(ctx, {//차트 객체 생성
 	        		      type: 'pie',
 	        			  data: data
 	        	});
