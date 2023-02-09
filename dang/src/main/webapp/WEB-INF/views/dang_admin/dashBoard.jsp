@@ -160,14 +160,34 @@
 	    						title : {
 	    						display : true,
 	    						text: 'regionChart'
-	    						}
+	    						},
+	    						scales: {
+	    				            yAxes: [{
+	    				                ticks: {
+	    				                    beginAtZero: true
+	    				                }
+	    				            }]
+	    				        },
+	    				        events: ['click']
 	    				}
 	   				 };
 
 	        	var ctx = document.getElementById('regionChart').getContext('2d');
-	        	new Chart(ctx, {//차트 객체 생성
+	        	var myChart= new Chart(ctx, {//차트 객체 생성
 	        		      type: 'pie',
 	        			  data: data
+	        	});
+	        	
+	        	// 클릭 이벤트 리스너
+	        	myChart.canvas.addEventListener('click', function(event) {
+	        	    var activePoints = myChart.getElementsAtEvent(event);
+	        	    if (activePoints[0]) {
+	        	        var chartData = activePoints[0]['_chart'].config.data;
+	        	        var idx = activePoints[0]['_index'];
+	        	        var label = chartData.labels[idx];
+	        	        var value = chartData.datasets[0].data[idx];
+	        	        console.log("Label: " + label + " Value: " + value);
+	        	    }
 	        	});
 	        	
 	        
