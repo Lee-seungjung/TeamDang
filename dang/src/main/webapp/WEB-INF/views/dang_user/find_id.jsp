@@ -112,7 +112,7 @@
 							</div>
 							<div class = "row pt-4 px-4">
 								<div class = "col-9">
-									<input class = "input-user-cert w-100 p-2" type = "text" placeholder = "인증번호">
+									<input class = "input-user-cert w-100 p-2" type = "text" placeholder = "인증번호" maxlength = "6">
 								</div>
 								<div class = "col-3">
 									<button type = "button" class = "btn-cert-submit w-100 p-2">인증</button>

@@ -512,7 +512,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-nick">
                                 <span class = "span-modal-join-dang-helper">닉네임을 입력해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="10" placeholder = "닉네임(1~10자)">
+                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~10자)">
                                     <button type = "button" class = "px-3 btn-modal-join-dang-nick-search">확인</button>
                                 </div>
                                 <%--
@@ -1048,6 +1048,18 @@
 					}
 				}
 			});
+		});
+		
+		// 모달 내 닉네임 
+		$(document).on("input", ".input-modal-join-dang-nick", function(){
+			console.log("입력");
+			var inputModalDangNick = document.querySelector(".input-modal-join-dang-nick");
+			var textModalDangNick = inputModalDangNick.value;
+			var size = textModalDangNick.length;
+			while(size > 6) {
+				inputModalDangNick.value = inputModalDangNick.value.substring(0, size - 1);
+				size --;
+			}
 		});
 		
 		// 모달 내 닉네임 중복 검사 버튼

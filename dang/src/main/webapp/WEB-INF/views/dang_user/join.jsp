@@ -132,7 +132,7 @@
 							</div>
 							<div class = "row my-3">
 								<div class = "col">								
-									<input class = "w-100 p-2" id = "userId" type = "text" autocomplete = "false" placeholder = "아이디(영문 소문자, 숫자를 포함한 8~20자)">
+									<input class = "w-100 p-2" id = "userId" type = "text" autocomplete = "false" placeholder = "아이디(영문 소문자, 숫자를 포함한 8~20자)" maxlength = "20">
 								</div>
 							</div>
 							<div class = "row">
@@ -154,7 +154,7 @@
 							</div>
 							<div class = "row my-3">
 								<div class = "col">								
-									<input class = "w-100 p-2" id = "userPw" type = "password" autocomplete = "false">
+									<input class = "w-100 p-2" id = "userPw" type = "password" autocomplete = "false" placeholder = "영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자"  maxlength = "16">
 								</div>
 							</div>
 							<div class = "row">
@@ -175,7 +175,7 @@
 							</div>
 							<div class = "row my-3">	
 								<div class = "col">								
-									<input class = "w-100 p-2" id = "userPwck" type = "password" autocomplete = "false">
+									<input class = "w-100 p-2" id = "userPwck" type = "password" autocomplete = "false" placeholder = "입력한 비밀번호와 같은 비밀번호"  maxlength = "16">
 								</div>						
 							</div>
 							<div class = "row">
@@ -197,13 +197,13 @@
 							</div>
 							<div class = "row my-3">
 								<div class = "col">								
-									<input class = "w-100 p-2" id = "userNick" type = "text" autocomplete = "false">
+									<input class = "w-100 p-2" id = "userNick" type = "text" autocomplete = "false" placeholder = "한글, 영문 대/소문자, 숫자를 포함한 2~6자" maxlength = "6">
 								</div>
 							</div>
 							<div class = "row">	
 								<div class = "col">								
 									<span class = "span-check span-check-invalid check-nick check-nick-empty">닉네임을 입력해주세요.</span>
-									<span class = "span-check span-check-invalid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 반드시 포함한 2~10자리가 되어야 합니다.</span>
+									<span class = "span-check span-check-invalid check-nick check-nick-invalid">한글, 영문 대/소문자, 숫자를 포함한 2~6자리가 되어야 합니다.</span>
 									<span class = "span-check span-check-valid check-nick check-nick-valid">멋진 닉네임이네요!</span>
 								</div>						
 							</div>
@@ -218,7 +218,7 @@
 							</div>
 							<div class = "row my-3">
 								<div class = "col">								
-									<input class = "w-100 p-2" id = "userTel" type = "text" autocomplete = "false">
+									<input class = "w-100 p-2" id = "userTel" type = "text" autocomplete = "false" placeholder = "(예시) 010-1234-5678" maxlength = "13">
 								</div>
 							</div>
 						</div>
@@ -259,7 +259,7 @@
 							</div>
 							<div class = "row mb-3">
 								<div class = "col">
-									<input class = "w-100 p-2" id = "userCert" type = "text" placeholder = "인증번호(6자리)">
+									<input class = "w-100 p-2" id = "userCert" type = "text" placeholder = "인증번호(6자리)" maxlength = "6">
 								</div>
 							</div>
 							<div class = "row">
@@ -844,7 +844,7 @@
 				return;
 			} 
 			// 정규 표현식
-			var regexp = /^[가-힣A-Za-z0-9]{2,10}$/;
+			var regexp = /^[가-힣A-Za-z0-9]{2,6}$/;
 			if(regexp.test(inputNick)) { // 정규 표현식을 만족하면
 				formValidCheck.checkNick = true;
 				console.log(formValidCheck.checkNick);
