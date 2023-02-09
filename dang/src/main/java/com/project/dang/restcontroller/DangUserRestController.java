@@ -24,6 +24,7 @@ import com.project.dang.dto.HistoryListResponseDto;
 import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
+import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.repository.DangUserDao;
@@ -49,6 +50,9 @@ public class DangUserRestController {
 	
 	@Autowired
 	private DangDao dangDao;
+	
+	@Autowired
+	private DangMemberDao dangMemberDao;
 	
 	@Autowired
 	private DangScheduleDao dangScheduleDao;
@@ -128,6 +132,18 @@ public class DangUserRestController {
 		} else {
 			return false;
 		}
+	}
+	
+	// 마이페이지 내 내가 가입한 댕모임 페이지에서 댕모임 탈퇴
+	@DeleteMapping("/leave_dang")
+	public boolean deleteMember(@RequestParam int dangNo, @RequestParam int userNo) {
+		// 댕모임 회원 탈퇴
+		boolean result = dangMemberDao.closeDangMember(dangNo, userNo);
+		// 댕모임 회원 수 갱신
+		int dangHead = dangMemberDao.countMember(dangNo);
+		dangDao.updateDangHead(dangNo, dangHead);
+		// 회원 탈퇴 결과 반환
+		return result;
 	}
 	
 	//마이페이지 참여일정 전체/검색 조회

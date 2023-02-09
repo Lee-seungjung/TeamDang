@@ -60,9 +60,6 @@ public class DangUserController {
 	private DangDao dangDao;
 	
 	@Autowired
-	private DangMemberDao dangMemberDao;
-	
-	@Autowired
 	private DangScheduleDao dangScheduleDao;
 	
 	// 기준 경로 설정
@@ -455,18 +452,6 @@ public class DangUserController {
 		}
 		model.addAttribute("dangUserJoinList", dangUserJoinList);
 		return "dang_user/list_mydang";
-	}
-	
-	// 마이페이지 내 내가 가입한 댕모임 페이지에서 댕모임 탈퇴
-	@PostMapping("/delete_member")
-	public String deleteMember(@RequestParam int dangNo, @RequestParam int userNo) {
-		// 댕모임 회원 탈퇴
-		dangMemberDao.closeDangMember(dangNo, userNo);
-		// 댕모임 회원 수 갱신
-		int dangHead = dangMemberDao.countMember(dangNo);
-		dangDao.updateDangHead(dangNo, dangHead);
-		// 내가 가입한 댕모임 페이지로 redirect
-		return "redirect:list_mydang";
 	}
 	
 	//마이페이지 참여일정 조회

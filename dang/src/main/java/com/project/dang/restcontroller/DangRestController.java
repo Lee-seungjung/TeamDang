@@ -46,17 +46,24 @@ public class DangRestController {
 	// 댕모임 상세정보 반환
 	@GetMapping("/detail")
 	public DangDetailDto selectDangDetail(@RequestParam int dangNo, HttpSession session) {
-		// 로그인 중인 회원번호 반환
-		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 댕모임 상세정보 조회
 		DangDetailDto dangDetailInfo = dangDao.selectDangDetail(dangNo);
+		// 로그인 중인 회원번호 반환 (로그인 여부, 해당 댕모임의 회원 여부에 따라 모달에서 서로 다른 버튼을 표시하기 위함)
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 로그인 중이라면 (userNo가 null이 아니라면)
 		if(userNo != null) {
 			// 회원이 가입한 댕모임 번호 조회
 			List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
 			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
 			for(int i = 0 ; i < searchDangListAlreadyJoin.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+				// 로그인 중인 회원의 가입한 댕모임 번호 리스트에 상세정보 보기를 선택한 댕모임의 번호가 존재한다면 
 				if(searchDangListAlreadyJoin.get(i).equals(dangNo)) {
-					dangDetailInfo.setIsMember(1);
+					dangDetailInfo.setIsMember(1); // isMember 필드의 값을 1로 설정 (로그인 중이면서 가입한 상태, 입정 버튼이 표시되도록 하기 위함)
 				}
+			}
+			// 로그인 중이지만 해당 댕모임의 회원이 아닐 경우
+			if(dangDetailInfo.getIsMember() == null) {
+				dangDetailInfo.setIsMember(0); // isMember 필드의 값이 null이 아닌 0이 되도록 설정 (로그인 중이면서 미가입 상태, 가입 버튼이 표시되도록 하기 위함)
 			}
 		}
 		// 댕모임 상세 정보 반환

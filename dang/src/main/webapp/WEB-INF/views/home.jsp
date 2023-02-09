@@ -365,53 +365,7 @@
 <%-- 댕모임 상세 Modal --%>
 <div class="modal fade" id="modalDangDetail" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered d-flex flex-column justify-content-center algin-items-center">
-        <div class="modal-content card div-outer-dang-info">
-            <%-- 
-            <img src="/images/icon-man.png" class="card-img-top img-dang-profile" style = "background-color: black"> 태그 생성 영역
-            <div class="modal-body card-body"> 
-            	<div class = "container-fluid"> 
-            		<div class = "row my-3">
-            			<span class = "span-dang-createdate">댕모임 개설일 : 2022년 12월 30일</span>
-            		</div>
-            		<div class = "row my-3">
-            			<div class = "col-9 ">            			
-	            			<strong class = "card-title strong-dang-name">마포 목욕댕댕팸</strong>
-            			</div>
-            			<div class = "col-3 d-flex justify-content-end align-items-center">
-            				<button class = "flex-fill btn-dang btn-dang-like" type = "button">
-            					<i class="fa-regular fa-heart"></i>
-            					<span>1223</span>
-            				</button>
-            			</div>
-            		</div>
-            		<div class = "row my-3">
-            			<span class = "card-text span-dang-info">목욕하자 하면 도망가는 댕을 위한... 목욕모임</span>
-            		</div>
-            		<div class = "row my-3">
-            			<div class = "d-flex flex-row flex-wrap div-hashtag-list">          			
-	            			<span class = "span-dang-hashtag mx-1 px-1">#서울</span>
-	            			<span class = "span-dang-hashtag mx-1 px-1">#마포구</span>
-	            			<span class = "span-dang-hashtag mx-1 px-1">#목욕댕당</span>
-	            			<span class = "span-dang-hashtag mx-1 px-1">#댕댕아목욕가자</span>
-            			</div>
-            		</div>
-            		<div class = "row my-3">
-            			<div class = "col-8 d-flex justify-content-start align-items-center">
-            				<div class = "div-dang-head px-1">
-            					<i class="fa-solid fa-paw"></i>
-	            				<span class = "span-dang-head">10</span>
-	            				 / 
-	            				<span class = "span-dang-headmax">20</span>
-            				</div>
-            			</div>
-            			<div class = "col-4 d-flex justify-content-end align-items-center">
-            				<button class = "flex-fill btn-dang btn-dang-join" type = "button">댕모임 가입</button>
-            			</div>
-            		</div>
-            	</div>  
-            </div>
-             --%>
-        </div>
+        <div class="modal-content card div-outer-dang-info"></div>
     </div>
 </div>
 
@@ -576,9 +530,9 @@
 							)
 						);
 					
-					
 					target.append(dangProfileImg).append(dangInfoDetail);
 					
+					// 가입하기, 입장하기 버튼
 					if(resp.isMember != null) {
 						if(resp.isMember == 1) {
 							$(".div-dang-member-state")

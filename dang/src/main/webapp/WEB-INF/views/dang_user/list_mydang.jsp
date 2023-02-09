@@ -6,6 +6,8 @@
 	<jsp:param value="내가 가입한 댕모임" name="title"/>
 </jsp:include>
 
+<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
+
 <style>
 	
 	* {
@@ -77,6 +79,11 @@
 		border-radius : 10px;
 		background-color : #787878;
 		color : white;
+		opacity : 0.5;
+	}
+	
+	.btn-mydang-dang-delete:hover {
+		opacity : 1;
 	}
 	
 	/* ul 태그 CSS 초기화 */
@@ -108,12 +115,6 @@
 	.span-mydang-dang-info {
 		font-size : 16px;
 	}
-	
-</style>
-
-<jsp:include page="/WEB-INF/views/template/mypage_menu.jsp"></jsp:include>
-
-<style>
 	
 </style>
 
@@ -270,10 +271,20 @@
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
+	
 	$(function(){
 		
 		// 마이페이지 메뉴 색 변경
 		$(".img-select-user-dang").attr("src", "/images/mypage-join_dang_pink.png");
+		
+		// Query String	
+		// - 현재 주소
+		var urlHref = window.location.href;
+		var url = new URL(urlHref);
+		// - Query String
+		var queryString = url.searchParams.toString();
+		console.log(queryString);
+		console.log(queryString == "");
 		
 		// 입장 버튼 클릭
 		$(document).on("click", ".btn-mydang-dang-enter", function(){
@@ -291,22 +302,26 @@
 			}
 			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
 			var userNo = $(".input-user-no").val();
-			var form = $("<form>").attr("method", "post").attr("action", "delete_member");
-			form
-				.append(
-					$("<input>").attr("type", "hidden").attr("name", "dangNo").attr("value", dangNo)		
-				)
-				.append(
-					$("<input>").attr("type", "hidden").attr("name", "userNo").attr("value", userNo)		
-				)
-			$("body").append(form);
-			form.submit();
+			
+			// 댕모임 탈퇴
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_user/leave_dang?dangNo=" + dangNo + "&userNo=" + userNo,
+				method : "delete",
+				success : function(resp){
+					console.log(resp);
+					if(queryString == "") {						
+						location.href = "${pageContext.request.contextPath}/user/list_mydang";
+					} else {
+						location.href = "${pageContext.request.contextPath}/user/list_mydang?" + queryString;
+					}
+				}
+			});
 		});
 		
 		// 해체 버튼
 		$(document).on("click", ".btn-mydang-dang-delete", function(){
 			// 해체 전 확인 메시지
-			var choice = window.confirm("정말로 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
+			var choice = window.confirm("정말 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
 			// 취소를 누르면 return
 			if(choice == false) {
 				return;
@@ -315,11 +330,15 @@
 			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
 			// 댕모임 해체
 			$.ajax({
-				url : "${pageContext.request.contextPath}/rest_user/close_dang?dangNo=" + dangNo,
+				url : "${pageContext.request.contextPath}/rest_dang/close_dang?dangNo=" + dangNo,
 				method : "delete",
 				success : function(resp){
 					console.log(resp);
-					location.href = "${pageContext.request.contextPath}/user/list_mydang";
+					if(queryString == "") {						
+						location.href = "${pageContext.request.contextPath}/user/list_mydang";
+					} else {
+						location.href = "${pageContext.request.contextPath}/user/list_mydang?" + queryString;
+					}
 				}
 			});
 		});
