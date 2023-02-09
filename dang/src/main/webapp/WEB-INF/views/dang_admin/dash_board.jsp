@@ -132,56 +132,76 @@
 </div>
 
 <script>
+
+$(function(){
 	
-	$(function(){
-		
-		var labelList = new Array();//상단에 라벨을 담는 배열
-		var valueList = new Array();//지역별 갯수를 담는 배열
-		var colorList = new Array();//색깔을 지정해주기위한 배열
-		    
-	    $.ajax({//지역별 이용현황 조회 비동기통신
-	        url: "${pageContext.request.contextPath}/admin/group_list",
-	        method: "get",
-	        contentType: "application/json",
-	        success: function (resp) {
-	        	//List 반복문
-	        	for(var i = 0; i<resp.length; i++) {
-	        		labelList.push(resp[i].dangArea);//라벨배열에 밀어넣기
-	        		valueList.push(resp[i].cnt);//밸류배열에 밀어넣기
-	        		colorList.push(colorize());//색상배열에 밀어넣기
-	        	}
+	var labelList = new Array();//상단에 라벨을 담는 배열
+	var valueList = new Array();//지역별 갯수를 담는 배열
+	var colorList = new Array();//색깔을 지정해주기위한 배열
+	    
+    $.ajax({//지역별 이용현황 조회 비동기통신
+        url: "${pageContext.request.contextPath}/admin/group_list",
+        method: "get",
+        contentType: "application/json",
+        success: function (resp) {
+        	//List 반복문
+        	for(var i = 0; i<resp.length; i++) {
+        		labelList.push(resp[i].dangArea);//라벨배열에 밀어넣기
+        		valueList.push(resp[i].cnt);//밸류배열에 밀어넣기
+        		colorList.push(colorize());//색상배열에 밀어넣기
+        	}
 
-	        	var data = {
-	    				labels: labelList,//라벨
-	    				datasets: [{
-	    						backgroundColor: colorList,
-	    						data : valueList
-	    				}],
-	    				options : {
-	    						title : {
-	    						display : true,
-	    						text: 'regionChart'
-	    						}
-	    				}
-	   				 };
+        	var data = {
+    				labels: labelList,//라벨
+    				datasets: [{
+    						backgroundColor: colorList,
+    						data : valueList
+    				}],
+    				options : {
+    						title : {
+    						display : true,
+    						text: 'regionChart'
+    						},
+    						scales: {
+    				            yAxes: [{
+    				                ticks: {
+    				                    beginAtZero: true
+    				                }
+    				            }]
+    				        },
+    				        events: ['click']
+    				}
+   				 };
 
-	        	var ctx = document.getElementById('regionChart').getContext('2d');
-	        	new Chart(ctx, {//차트 객체 생성
-	        		      type: 'pie',
-	        			  data: data
-	        	});
-	        	
-	        
-	        }
-	    });
-	    //색상 rgb를 랜덤으로 생성하는 함수
-	    function colorize() {
-	    	var r = Math.floor(Math.random()*200);
-	    	var g = Math.floor(Math.random()*200);
-	    	var b = Math.floor(Math.random()*200);
-	    	var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
-	    	return color;
-	    }
-	});
-    
+        	var ctx = document.getElementById('regionChart').getContext('2d');
+        	var myChart= new Chart(ctx, {//차트 객체 생성
+        		      type: 'pie',
+        			  data: data
+        	});
+        	
+        	// 클릭 이벤트 리스너
+        	myChart.canvas.addEventListener('click', function(event) {
+        	    var activePoints = myChart.getElementsAtEvent(event);
+        	    if (activePoints[0]) {
+        	        var chartData = activePoints[0]['_chart'].config.data;
+        	        var idx = activePoints[0]['_index'];
+        	        var label = chartData.labels[idx];
+        	        var value = chartData.datasets[0].data[idx];
+        	        console.log("Label: " + label + " Value: " + value);
+        	    }
+        	});
+        	
+        
+        }
+    });
+    //색상 rgb를 랜덤으로 생성하는 함수
+    function colorize() {
+    	var r = Math.floor(Math.random()*200);
+    	var g = Math.floor(Math.random()*200);
+    	var b = Math.floor(Math.random()*200);
+    	var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
+    	return color;
+    }
+});
+
 </script>
