@@ -45,32 +45,37 @@ public class DangPlaceRestController {
 		dangPlaceDao.placeImgInsert(placeImg);
 	}
 	
+	//장소 전체 조회
 	@GetMapping("/place_list")
 	public List<DangPlaceDto> placeList() {
 		return dangPlaceDao.placeList();
 	}
 	
+	//카카오맵 해당 영역안 좌표값(파라미터) 후 조회
 	@GetMapping("/place_list_area")
 	public List<DangPlaceDto> placeListArea(@RequestParam Double lat1,@RequestParam Double lng1,@RequestParam Double lat2,@RequestParam Double lng2) {
 		return dangPlaceDao.placeListArea(lat1,lng1,lat2,lng2);
 	}
 
-	
+	//장소 하나 조회
 	@GetMapping("/place_one/{placeNo}")
 	public DangPlaceDto placeOne(@PathVariable int placeNo) {
 		return dangPlaceDao.placeOne(placeNo);
 	}
 	
+	// 검색조회
 	@GetMapping("/place_search")
 	public List<DangPlaceDto> placeSearch(@RequestParam String placeName){
 		return dangPlaceDao.search(placeName);
 	}
 	
+	//삭제
 	@DeleteMapping("/detail/{placeNo}")
 	public boolean placeDelete(@PathVariable int placeNo) {
 		return dangPlaceDao.placeDelete(placeNo);
 	}
 	
+	//수정
 	@PutMapping("/update")
 	public boolean placeUpdate(@RequestBody DangPlaceDto dangPlaceDto) {
 		return dangPlaceDao.placeEdit(dangPlaceDto);
