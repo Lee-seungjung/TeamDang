@@ -1064,6 +1064,9 @@
         
     }
 
+ 	// 미리보기용 첨부파일 번호 리스트
+	var attachmentPreviewNoList = [];
+    
 	//첨부파일 변경 함수
     $(".file-input").change(function () {
         var value = $(this).val();
@@ -1074,7 +1077,7 @@
 
 
             $.ajax({
-                url: "http://localhost:8888/rest_attachment/upload",
+                url: "${pageContext.request.contextPath}/rest_attachment/upload",
                 method: "post",
                 data: formData,
                 //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
@@ -1089,18 +1092,28 @@
                     //console.log(newAttachmentNo);
                     $("[name=attachmentNoInsert]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
                     
-                    if(newAttachmentNo==""){
-                    	console.log("ss")
-						//$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
-					}else{
-						console.log("dd")
-						//$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
-					}
-
+                    attachmentPreviewNoList.push(newAttachmentNo);
+                    console.log(attachmentPreviewNoList);
                 }
             });
         }
     });
+	
+	 // 미리보기용 첨부파일 삭제
+		$(window).bind("beforeunload", function(){
+			// 미리보기용 첨부파일 리스트의 길이가 0이면(지울 첨부파일이 없다면)
+			if(attachmentPreviewNoList.length == 0) {
+				return;
+			}
+			// 그렇지 않다면 첨부파일 삭제 실행
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+				method : "delete",
+				data : {
+					attachmentPreviewNoList : attachmentPreviewNoList
+				}
+			})
+		});
 
 	
 	// 장소 수정 함수
@@ -1266,15 +1279,15 @@
 		
 
 		
-		var mapContainer1 = document.getElementById('map'), // 지도를 표시할 div  
-		mapOption1 = {
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+		mapOption = {
 			center : new kakao.maps.LatLng(37.498004414546934,
 					127.02770621963765), // 지도의 중심좌표 
 			level : 9
 		// 지도의 확대 레벨 
 		};
 
-		var map = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 		var clickedOverlay = null;//클릭이벤트 오버레이 전역변수 초기값
 
