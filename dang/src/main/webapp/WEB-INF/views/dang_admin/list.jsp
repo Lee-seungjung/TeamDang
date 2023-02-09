@@ -395,10 +395,10 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2">
 			<c:forEach var="placeList" items="${placeList}">
-				<table class="table">
-				  <tbody class="mt-3">
+				<table class="table" >
+				  <tbody class="mt-3" >
 				  	
-				    <tr class="mt-3">
+				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY})">
 				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
 				      <td>
 				      	<div class="row mt-3">
@@ -414,7 +414,8 @@
 				      		<div class="col" style="font-size: 11px">${placeList.dangSize}까지 가능</div>
 				      	</div>
 				      </td>
-				      
+				      <td class="d-none table-x">${placeList.placeX}</td>
+				      <td class="d-none table-y">${placeList.placeY}</td>
 				      <td class="text-end mt-2 fw-bold">
 					      <div class="row mt-3  me-1">
 					      		<div class="col fw-bold">
@@ -432,7 +433,7 @@
 				  </tbody>
 				 
 				</table>
-				    </c:forEach>
+		    </c:forEach>
 			</div>
 		</div>
 		
@@ -926,6 +927,16 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
+	 function moveMarker(placeX,placeY){
+		// 이동할 위도 경도 위치를 생성합니다 
+		    var moveLatLon = new kakao.maps.LatLng(placeX, placeY);
+		    
+		    // 지도 중심을 부드럽게 이동시킵니다
+		    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+		    map.panTo(moveLatLon);   
+		    
+		    map.setLevel(1);
+	}
 	
 	 function closeEdit() {
 		$('#editPlace').modal('hide')
