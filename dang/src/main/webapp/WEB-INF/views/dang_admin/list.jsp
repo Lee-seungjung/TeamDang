@@ -723,7 +723,7 @@
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		        <h3 class="modal-title text-center mt-2">장소 등록하기</h3>
+		        <h3 class="modal-title text-center mt-2">지도 마커 등록</h3>
 		      <div class="modal-body">
 		         
 		        <div class="row mt-4">
@@ -901,7 +901,7 @@
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <div>미리보기</div>
-		                <img src="" class="change-img" width="100" height="100">
+		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="insert-img" width="100" height="100">
 		            </div>
 		        </div>
 		        <div class="row mt-4">
@@ -1083,7 +1083,7 @@
                 contentType: false,
                 success: function (resp) {
                     //console.log(resp);
-                    $(".change-img").attr("src", resp); //장소 이미지 미리보기
+                    $(".insert-img").attr("src", resp); //장소 이미지 미리보기
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
