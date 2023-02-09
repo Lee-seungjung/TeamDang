@@ -1901,12 +1901,8 @@
 						success:function(resp){
 							thistag.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[0].attachmentNo);
 							
-							//나중에 혹시 모르지만 스와이퍼를 위해 data-attach로 첨부파일 번호 넣어둠!
 							if(resp.length>1){
 								thistag.attr("style","filter: brightness(50%); width:100px; height:100px;");				
-								for(var i=0; i<resp.length; i++){
-									thistag.attr("data-attach"+i,resp[i].attachmentNo);
-								}
 							}
 						}
 					});
