@@ -95,7 +95,7 @@
                 </div>
             </div>
 			<div class = "row my-4">
-				<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
+				<form action = "edit_user_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
 					<div class = "row my-4">
 						<div class = "col-4 offset-4">
 							<label class = "label-user-profile w-100" for = "userProfile">
@@ -127,13 +127,13 @@
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>닉네임</span>
 						</div>
-						<input name = "userNick" class = "col-9 p-2" value = "${userInfo.userNick}">
+						<input name = "userNick" class = "col-9 p-2" value = "${userInfo.userNick}" maxlength = "6">
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>전화번호</span>
 						</div>
-						<input name = "userTel" class = "col-9 p-2" value = "${userInfo.userTel}">
+						<input name = "userTel" class = "col-9 p-2" value = "${userInfo.userTel}" maxlength = "13">
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
@@ -147,7 +147,7 @@
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>이메일 인증</span>
 						</div>
-						<input class = "col-7 p-2 input-change-email input-edit-user-info-cert">
+						<input class = "col-7 p-2 input-change-email input-edit-user-info-cert" maxlength = "6">
 						<button type = "button" class = "col-2 p-2 btn-change-email btn-edit-user-info-cert-submit">확인</button>
 					</div>
 					<div class = "row my-4 mx-4">
