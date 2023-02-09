@@ -28,15 +28,15 @@
 		height:200px;
 		overflow:hidden;
 	}
-	.btn.report-btn{
+	.btn.out-btn{
 		border:1px solid #939aa1;
 		font-size:0.7rem;
 	}
-	.btn.report-btn:hover{
+	.btn.out-btn:hover{
 		background-color:#e6e6e6;
 		border-color:#e6e6e6;
 	}
-	.btn.report-btn:focus{
+	.btn.out-btn:focus{
 		box-shadow: 0 0 0 0.25rem rgba(220, 224, 227, 0.5);
 	}
 </style>
@@ -116,7 +116,7 @@
 				
 				<div class="report-div mt-4">
 					<div class="col-10 offset-1 text-center mt-1 mb-5">
-						<button type="button" class="btn report-btn w-25">탈퇴</button>
+						<button type="button" class="btn out-btn w-25">탈퇴</button>
 					</div>
 				</div>
 				
@@ -141,7 +141,12 @@
 					</div>
 					<div class="modal-body middle-items">
 						<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
-						<span>탈퇴 시 모든 정보가 삭제됩니다.</span>
+						<span>정말 탈퇴하시겠습니까?</span>
+					</div>
+					<div>
+						<span style="font-size:13px; margin-left:35px;">
+							탈퇴 시 회원 정보가 즉시 <strong class="pink">파기</strong>되며 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
+						</span>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
@@ -157,7 +162,7 @@
 <script>
 	$(function(){
 		//탈퇴 여부 재확인 모달창 띄우기
-		$(".report-btn").click(function(){
+		$(".out-btn").click(function(){
 			$("#m-deleteModal").modal("show");
 		});
 		

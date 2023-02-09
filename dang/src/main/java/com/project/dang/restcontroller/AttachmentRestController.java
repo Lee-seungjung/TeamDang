@@ -118,35 +118,33 @@ public class AttachmentRestController {
 		return attachmentDao.delete(attachmentNo);
 	}
 	
-	
-	//승정테스트
 	//업로드
-		@PostMapping("/upload2")
-		public Map<String,List<String>> upload2(@RequestParam(required = false) List<MultipartFile> attachment) throws IllegalStateException, IOException {
+	@PostMapping("/upload_multiple")
+	public Map<String,List<String>> upload_multiple(@RequestParam(required = false) List<MultipartFile> attachment) throws IllegalStateException, IOException {
+		
+		Map<String, List<String>> param = new HashMap<>();
+		List<String> list = new ArrayList<>();
+		for(int i=0; i<attachment.size(); i++) {
+			//DB저장
+			int attachmentNo = attachmentDao.sequence();
+			attachmentDao.insert(AttachmentDto.builder()
+					.attachmentNo(attachmentNo)
+					.attachmentName(attachment.get(i).getOriginalFilename())
+					.attachmentType(attachment.get(i).getContentType())
+					.attachmentSize(attachment.get(i).getSize())
+					.build());
 			
-			Map<String, List<String>> param = new HashMap<>();
-			List<String> list = new ArrayList<>();
-			for(int i=0; i<attachment.size(); i++) {
-				//DB저장
-				int attachmentNo = attachmentDao.sequence();
-				attachmentDao.insert(AttachmentDto.builder()
-						.attachmentNo(attachmentNo)
-						.attachmentName(attachment.get(i).getOriginalFilename())
-						.attachmentType(attachment.get(i).getContentType())
-						.attachmentSize(attachment.get(i).getSize())
-						.build());
-				
-				//파일저장
-				File target = new File(dir, String.valueOf(attachmentNo));
-				attachment.get(i).transferTo(target);
+			//파일저장
+			File target = new File(dir, String.valueOf(attachmentNo));
+			attachment.get(i).transferTo(target);
 
-				String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-						.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
-						.toUriString();
-				list.add(url);
+			String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+					.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
+					.toUriString();
+			list.add(url);
 
-			}
-			param.put("url", list);
-			return param;
 		}
+		param.put("url", list);
+		return param;
+	}
 }
