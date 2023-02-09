@@ -61,14 +61,19 @@
 	 	height:auto;
 	 }
 	 .message{
-	 	border:1px solid #B0CBFF;
+	 	max-width:75%;
+		float:left;
+		border:1px solid #B0CBFF;
 	 	border-radius: 0.7rem;
 	 	background-color:#B0CBFF;
-	 	color:white;
+	 	color:#fff;
 	 	padding:5px;
+	 	word-wrap: break-word;
 	 }
 	 .my-message{
-	 	border:1px solid #fff;
+	 	max-width:75%;
+		float:right;
+		border:1px solid #fff;
 	 	border-radius: 0.7rem;
 	 	background-color:#fff;
 	 	color:#495057;
@@ -143,70 +148,62 @@
 							</div>
 						</c:if>
 						<div class="past-chat" data-no="${history[0].chatNo}"></div>
+						
 							<!-- 기존 메세지 생성 -->
 							<c:forEach var="vo" items="${history}">
 								<c:choose>
 									<c:when test="${profile.userNo==vo.userNo}">
-										<div class="text-end me-2 mb-3">
-											<span style="font-size:10px;" class="align-bottom me-1">
-												<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-											</span>
+										<div class="d-flex flex-row-reverse align-items-end my-3">
 											<c:choose>
 												<c:when test="${vo.imgAttachmentNo==0}">
-													<span class="my-message">${vo.chatContent}</span>
+													<span class="my-message  ms-1">${vo.chatContent}</span>
 												</c:when>
 												<c:otherwise>
 													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" 
 															width="100" height="100" class="cursor-zoomin">
 												</c:otherwise>
 											</c:choose>
+											<span style="font-size:10px;" class="text-end me-1">
+												<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+											</span>
 										</div>
 									</c:when>
 									<c:otherwise>
-										<div class="text-start ms-2">
-											<table class="mb-2">
-												<tbody>
-													<tr>
-														<td rowspan="2" class="align-top">
-															<c:choose>
-																<c:when test="${vo.attachmentNo==0}">
-																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
-																			class="img-fluid c-profile-info img-circle  cursor-pointer" width="45" height="45">
-																</c:when>
-																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
-																		class="img-circle c-profile-info cursor-pointer" width="45" height="45" data-uno="${vo.userNo}">
-																</c:otherwise>
-															</c:choose>
-														</td>
-														<td><span class="chat-nick" style="font-size:14px;">${vo.memberNick}</span></td>
-														<td rowspan="2"></td>
-													</tr>
-													<tr>
-														<td>
-															<c:choose>
-																<c:when test="${vo.imgAttachmentNo==0}">
-																	<span class="message">${vo.chatContent}</span>
-																</c:when>
-																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
-																			class="img-css cursor-zoomin">
-																</c:otherwise>
-															</c:choose>
-															<span style="font-size:10px;" class="align-bottom ms-1">
-																<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-															</span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+										<div class="d-flex" style="margin-bottom:18px;">
+											<div class="flex-shrink-0">
+												<c:choose>
+													<c:when test="${vo.attachmentNo==0}">
+														<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
+																class="img-fluid c-profile-info img-circle  cursor-pointer" width="45" height="45">
+													</c:when>
+													<c:otherwise>
+														<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
+															class="img-circle c-profile-info cursor-pointer" width="45" height="45" data-uno="${vo.userNo}">
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="flex-grow-1 ms-2 ">
+												<p class="chat-nick" style="font-size:14px;">${vo.memberNick}</p>
+												<c:choose>
+													<c:when test="${vo.imgAttachmentNo==0}">
+														<span class="message mt-1">${vo.chatContent}</span>
+													</c:when>
+													<c:otherwise>
+														<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
+																class="img-css cursor-zoomin mt-1">
+													</c:otherwise>
+												</c:choose>
+												<span style="font-size:10px;" class="ms-1">
+													<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+												</span>
+											</div>
 										</div>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 						<!-- 새 메세지 생성 -->
 						<div class="new-chat" style="margin-right:10px;"></div>
-
+						
 					</div>
 					
 					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
@@ -336,7 +333,8 @@
 		//4 엔터키 이벤트
 		$("#chat-input").on("keyup",function(e){
 			var inputText = $("#chat-input").val();
-	        if(inputText!="" && e.keyCode==13 && inputText<=1000) {            
+			console.log(inputText);
+	        if(inputText!="" && e.keyCode==13 && inputText.length<=1000) {            
 		        $("#send-btn").click();
 	        }
 	    });
@@ -470,40 +468,33 @@
 			var chatDiv = $(".new-chat");
 			
 			if(userNo==chatUserNo){
-				var div = $("<div>").attr("class","text-end me-2 mb-3");
-				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
+				var div = $("<div>").attr("class","d-flex flex-row-reverse align-items-end my-3");
 				var text;
 				if(data.imgAttachmentNo==0){
-					text = $("<span>").attr("class","my-message").text(data.chatContent);
+					text = $("<span>").attr("class","my-message ms-1").text(data.chatContent);
 				}else{
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
 					.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 				}
-				div.append(time).append(text);
+				var formatTime = moment(data.chatDate).format('a h:mm'); //예)오후 2:24
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","text-end me-1");
+				
+				div.append(text).append(time);
 				chatDiv.append(div);
 			}else{
-				var div = $("<div>").attr("class","text-start ms-2");
-				var table = $("<table>").attr("class","mb-2");
-				var tbody = $("<tbody>");
-				var tr_one = $("<tr>");
-				var td_one = $("<td>").attr("rowspan","2");
+				var out_div = $("<div>").attr("class","d-flex").attr("style","margin-bottom:18px;");
+				var shrink_div = $("<div>").attr("class","flex-shrink-0"); 
 				var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
-								.attr("width","45").attr("height","45").attr("data-uno",data.userNo);
-				if(data.attachment==null){
+										.attr("width","45").attr("height","45").attr("data-uno",data.userNo);
+				if(data.attachmentNo==0){
 					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 				}else{
 					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo);
 				}
-				td_one.append(img);
-				var td_two = $("<td>");
-				var nick = $("<span>").text(data.memberNick).attr("style","font-size:14px;");
-				td_two.append(nick);
-				var td_three = $("<td>").attr("rowspan","2");
-				tr_one.append(td_one).append(td_two).append(td_three);
+				shrink_div.append(img);
 				
-				var tr_two = $("<tr>");
-				var td_four = $("<td>");
+				var grow_div = $("<div>").attr("class","flex-grow-1 ms-2"); 
+				var nick = $("<p>").text(data.memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 				var text;
 				if(data.imgAttachmentNo==0){
 					text = $("<span>").attr("class","message").text(data.chatContent);
@@ -512,14 +503,11 @@
 							.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
-				td_four.append(text).append(time);
-				tr_two.append(td_four);
-				
-				tbody.append(tr_one).append(tr_two);
-				table.append(tbody);
-				div.append(table);
-				chatDiv.append(div);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
+				grow_div.append(nick).append(text).append(time);
+				out_div.append(shrink_div).append(grow_div);
+
+				chatDiv.append(out_div);
 			}
 			//이미지 확대
 			zoomin();
@@ -533,24 +521,21 @@
 			for(var i=0; i<data.length; i++){
 				var chatUserNo = data[i].userNo;
 				if(userNo==chatUserNo){
-					var div = $("<div>").attr("class","text-end me-2 mb-3");
-					var formatTime = moment(data[i].chatDate).format('a h:mm'); //예)오후 2:24
-					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
+					var div = $("<div>").attr("class","d-flex flex-row-reverse align-items-end my-3");
 					var text;
 					if(data[i].imgAttachmentNo==0){
-						text = $("<span>").attr("class","my-message").text(data[i].chatContent);
+						text = $("<span>").attr("class","my-message ms-1").text(data[i].chatContent);
 					}else{
 						text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].imgAttachmentNo)
 						.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 					}
-					div.append(time).append(text);
+					var formatTime = moment(data[i].chatDate).format('a h:mm'); //예)오후 2:24
+					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","text-end me-1");
+					div.append(text).append(time);
 					chatDiv.prepend(div);
 				}else{
-					var div = $("<div>").attr("class","text-start ms-2");
-					var table = $("<table>").attr("class","mb-2");
-					var tbody = $("<tbody>");
-					var tr_one = $("<tr>");
-					var td_one = $("<td>").attr("rowspan","2");
+					var out_div = $("<div>").attr("class","d-flex").attr("style","margin-bottom:18px;");
+					var shrink_div = $("<div>").attr("class","flex-shrink-0"); 
 					var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 										.attr("width","45").attr("height","45").attr("data-uno",data[i].userNo);
 					if(data[i].attachmentNo==0){
@@ -558,15 +543,10 @@
 					}else{
 						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo);
 					}
-					td_one.append(img);
-					var td_two = $("<td>");
-					var nick = $("<span>").text(data[i].memberNick).attr("style","font-size:14px;");
-					td_two.append(nick);
-					var td_three = $("<td>").attr("rowspan","2");
-					tr_one.append(td_one).append(td_two).append(td_three);
+					shrink_div.append(img);
 					
-					var tr_two = $("<tr>");
-					var td_four = $("<td>");
+					var grow_div = $("<div>").attr("class","flex-grow-1 ms-2"); 
+					var nick = $("<p>").text(data[i].memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 					var text;
 					if(data[i].imgAttachmentNo==0){
 						text = $("<span>").attr("class","message").text(data[i].chatContent);
@@ -575,14 +555,11 @@
 								.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
 					}
 					var formatTime = moment(data[i].chatDate).format('a h:mm');
-					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","align-bottom me-1");
-					td_four.append(text).append(time);
-					tr_two.append(td_four);
-					
-					tbody.append(tr_one).append(tr_two);
-					table.append(tbody);
-					div.append(table);
-					chatDiv.prepend(div);
+					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
+					grow_div.append(nick).append(text).append(time);
+					out_div.append(shrink_div).append(grow_div);
+
+					chatDiv.append(out_div);
 				}
 			}
 			//이미지 확대
