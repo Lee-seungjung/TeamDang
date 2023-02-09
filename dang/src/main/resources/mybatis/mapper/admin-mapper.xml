@@ -13,16 +13,34 @@
 	<select id="recentLogin" resultType="int">
 		SELECT count(*) FROM dang_user u WHERE u.user_logindate >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
 	</select>
+	
 	<select id="recentJoin" resultType="int">
 		SELECT count(*) FROM dang_user u WHERE u.user_joindate >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
 	</select>
+	
 	<select id="recentDang" resultType="int">
 		SELECT count(*) FROM dang d WHERE d.dang_createtime >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
 	</select>
+	
 	<select id="recentSchdule" resultType="int">
 		SELECT count(*) FROM dang_schedule s WHERE s.schedule_start >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
 	</select>
+	
+	<select id="recentReport" resultType="int">
+		SELECT count(*) FROM dang_report r WHERE r.report_date >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
+	</select>
+	
 	<select id="dangGroupRegion" resultType="DangGroupRegionVO">
 		select d.dang_area, count(d.dang_area) cnt from dang d GROUP by dang_area
 	</select>
+	
+	<select id="dashBoardReport" resultType="DashBoardReportVO">
+		select * from (
+		    select TMP.*, rownum rn from (
+		       select r.member_nick, r.report_date, r.report_state , d.dang_name 
+		        from dang_report r inner JOIN dang d on r.dang_no = d.dang_no order by r.report_date desc
+		    )TMP
+		) where rn between 1 and 5
+	</select>
+	
 </mapper>

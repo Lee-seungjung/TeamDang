@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.dang.vo.DangGroupRegionVO;
+import com.project.dang.vo.DashBoardReportVO;
 
 @Repository
 public class AdminDaoImpl implements AdminDao{
@@ -44,5 +45,15 @@ public class AdminDaoImpl implements AdminDao{
 	@Override
 	public List<DangGroupRegionVO> dangGroupRegion() {
 		return sqlSession.selectList("admin.dangGroupRegion");
+	}
+
+	@Override
+	public int recentReport() {
+		return sqlSession.selectOne("admin.recentReport");
+	}
+
+	@Override
+	public List<DashBoardReportVO> dashBoardReport() {
+		return sqlSession.selectList("admin.dashBoardReport");
 	}
 }
