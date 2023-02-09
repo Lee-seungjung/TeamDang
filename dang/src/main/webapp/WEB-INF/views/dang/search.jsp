@@ -292,6 +292,12 @@
 		height : 110px;
 	}
 	
+	.btn-modal-dang-join-close,
+	.btn-modal-interest-area-close {
+		border : none;
+		background-color : white;
+	}
+	
 </style>
 
 <%-- 로그인 상태 판정 --%>
@@ -512,7 +518,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-nick">
                                 <span class = "span-modal-join-dang-helper">닉네임을 입력해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~10자)">
+                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~6자)">
                                     <button type = "button" class = "px-3 btn-modal-join-dang-nick-search">확인</button>
                                 </div>
                                 <%--
@@ -551,7 +557,7 @@
                     <div class = "col">
                         <div class = "row">
                             <div class = "col d-flex justify-content-end align-items-center">
-                                <button type="button" class="fa-solid fa-xmark btn-modal-dang-join-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="fa-solid fa-xmark btn-modal-interest-area-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                         </div>
                         <div class = "row">
