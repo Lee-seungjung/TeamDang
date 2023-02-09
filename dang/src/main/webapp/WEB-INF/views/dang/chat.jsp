@@ -497,10 +497,10 @@
 				var nick = $("<p>").text(data.memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 				var text;
 				if(data.imgAttachmentNo==0){
-					text = $("<span>").attr("class","message").text(data.chatContent);
+					text = $("<span>").attr("class","message mt-1").text(data.chatContent);
 				}else{
 					text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.imgAttachmentNo)
-							.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+							.attr("width","100").attr("height","100").attr("class","cursor-zoomin mt-1");
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
 				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
@@ -549,10 +549,10 @@
 					var nick = $("<p>").text(data[i].memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 					var text;
 					if(data[i].imgAttachmentNo==0){
-						text = $("<span>").attr("class","message").text(data[i].chatContent);
+						text = $("<span>").attr("class","message mt-1").text(data[i].chatContent);
 					}else{
 						text = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].imgAttachmentNo)
-								.attr("width","100").attr("height","100").attr("class","cursor-zoomin");
+								.attr("width","100").attr("height","100").attr("class","cursor-zoomin mt-1");
 					}
 					var formatTime = moment(data[i].chatDate).format('a h:mm');
 					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
