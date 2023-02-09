@@ -183,13 +183,15 @@
 		color:#F94888;
 	}
 	
-	.text-truncate2 {
+	.new-text-truncate {
 		overflow: hidden;
 		text-overflow: ellipsis;
+		display:bloack;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		white-space: normal;
+		word-wrap : break-word;
 	}
 	
 	.zoomin {

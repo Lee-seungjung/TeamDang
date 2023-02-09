@@ -258,7 +258,7 @@
 								
 								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
 									<div class="col-9 text-start me-1 truncate-check">
-										<span class="content-font">${vo.boardContent}</span>
+										<span class="content-font new-text-truncate cursor-pointer">${vo.boardContent}</span>
 									</div>
 									<div class="col-3 middle-items bimg-find justify-content-center" data-no="${vo.boardNo}" style="position:relative;">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
@@ -481,7 +481,7 @@
 <script>
 	$(function(){
 		
-		truncate(); //말줌일표
+		//truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
 		originLike() //내가 누른 좋아요 출력
 
@@ -537,11 +537,12 @@
 		
 		//말줄임표 토글
 		$(document).on("click",".truncate-check",function(){
-			var check = $(this).hasClass("text-truncate2");
-			if(check){
-				$(this).removeClass("text-truncate2");
+			var checkTag = $(this).children();
+			var judge = checkTag.hasClass("new-text-truncate");
+			if(judge){
+				checkTag.removeClass("new-text-truncate");
 			}else{
-				$(this).addClass("text-truncate2");
+				checkTag.addClass("new-text-truncate");
 			}
 		});
 		
@@ -582,7 +583,7 @@
 							boardList(resp[i]);
 						}
 					}
-					truncate(); //말줌일표
+					//truncate(); //말줌일표
 					printImg(); //게시글 사진 출력
 					originLike() //내가 누른 좋아요 출력
 					
@@ -624,7 +625,7 @@
 								boardList(resp[i]);
 							}
 						}
-						truncate(); //말줌일표
+						//truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
 						originLike() //내가 누른 좋아요 출력
 						$("[name=type]").val("");
@@ -1251,7 +1252,7 @@
 			//두번째 줄
 			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
 			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
-			var se_span = $("<span>").attr("class","content-font")
+			var se_span = $("<span>").attr("class","content-font new-text-truncate cursor-pointer")
 										.text(resp.boardContent);
 			se_col9.append(se_span);
 			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find justify-content-center")
@@ -2011,11 +2012,11 @@
 			var outerHeight = 75;
 			var contentSet = $(".truncate-check");
 			
-			contentSet.removeClass("text-truncate2 cursor-pointer");
+			contentSet.removeClass("new-text-truncate cursor-pointer");
 			for(var i=0; i<contentSet.length; i++){
 				var height = contentSet.eq(i).children().outerHeight();
 				if(height>=outerHeight){
-					contentSet.eq(i).addClass("text-truncate2 cursor-pointer");
+					contentSet.eq(i).addClass("new-text-truncate cursor-pointer");
 				}
 			}
 		}
@@ -2068,7 +2069,7 @@
 							$(".board-group").attr("data-scrollcheck",1);
 						}
 						
-						truncate(); //말줌일표
+						//truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
 						originLike() //내가 누른 좋아요 출력
 					}
