@@ -182,20 +182,22 @@
 													</c:otherwise>
 												</c:choose>
 											</div>
-											<div class="flex-grow-1 ms-2 ">
+											<div class="flex-grow-1 ms-2 d-flex flex-column">
 												<p class="chat-nick" style="font-size:14px;">${vo.memberNick}</p>
-												<c:choose>
-													<c:when test="${vo.imgAttachmentNo==0}">
-														<span class="message mt-1">${vo.chatContent}</span>
-													</c:when>
-													<c:otherwise>
-														<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
-																class="img-css cursor-zoomin mt-1">
-													</c:otherwise>
-												</c:choose>
-												<span style="font-size:10px;" class="ms-1">
-													<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-												</span>
+												<div class="d-flex flex-row">
+													<c:choose>
+														<c:when test="${vo.imgAttachmentNo==0}">
+															<span class="message mt-1">${vo.chatContent}</span>
+														</c:when>
+														<c:otherwise>
+															<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
+																	class="img-css cursor-zoomin mt-1">
+														</c:otherwise>
+													</c:choose>
+													<span style="font-size:10px;" class="ms-1 align-self-end">
+														<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+													</span>
+												</div>
 											</div>
 										</div>
 									</c:otherwise>
@@ -493,8 +495,9 @@
 				}
 				shrink_div.append(img);
 				
-				var grow_div = $("<div>").attr("class","flex-grow-1 ms-2"); 
+				var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-colum"); 
 				var nick = $("<p>").text(data.memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
+				var flex_div = $("<div>").attr("class","d-flex flex-row"); 
 				var text;
 				if(data.imgAttachmentNo==0){
 					text = $("<span>").attr("class","message mt-1").text(data.chatContent);
@@ -503,8 +506,9 @@
 							.attr("width","100").attr("height","100").attr("class","cursor-zoomin mt-1");
 				}
 				var formatTime = moment(data.chatDate).format('a h:mm');
-				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
-				grow_div.append(nick).append(text).append(time);
+				var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1 align-self-end");
+				flex_div.append(text).append(time);
+				grow_div.append(nick).append(flex_div);
 				out_div.append(shrink_div).append(grow_div);
 
 				chatDiv.append(out_div);
@@ -535,7 +539,7 @@
 					chatDiv.prepend(div);
 				}else{
 					var out_div = $("<div>").attr("class","d-flex").attr("style","margin-bottom:18px;");
-					var shrink_div = $("<div>").attr("class","flex-shrink-0"); 
+					var shrink_div = $("<div>").attr("class","flex-shrink-0");
 					var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 										.attr("width","45").attr("height","45").attr("data-uno",data[i].userNo);
 					if(data[i].attachmentNo==0){
@@ -544,9 +548,10 @@
 						img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data[i].attachmentNo);
 					}
 					shrink_div.append(img);
-					
-					var grow_div = $("<div>").attr("class","flex-grow-1 ms-2"); 
+				
+					var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-colum"); 
 					var nick = $("<p>").text(data[i].memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
+					var flex_div = $("<div>").attr("class","d-flex flex-row"); 
 					var text;
 					if(data[i].imgAttachmentNo==0){
 						text = $("<span>").attr("class","message mt-1").text(data[i].chatContent);
@@ -555,8 +560,9 @@
 								.attr("width","100").attr("height","100").attr("class","cursor-zoomin mt-1");
 					}
 					var formatTime = moment(data[i].chatDate).format('a h:mm');
-					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1");
-					grow_div.append(nick).append(text).append(time);
+					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","ms-1 align-self-end");
+					flex_div.append(text).append(time);
+					grow_div.append(nick).append(flex_div);
 					out_div.append(shrink_div).append(grow_div);
 
 					chatDiv.append(out_div);
