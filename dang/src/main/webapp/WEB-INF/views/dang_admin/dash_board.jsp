@@ -184,10 +184,10 @@ $(function(){
         	    var activePoints = myChart.getElementsAtEvent(event);
         	    if (activePoints[0]) {
         	        var chartData = activePoints[0]['_chart'].config.data;
-        	        var idx = activePoints[0]['_index'];
-        	        var label = chartData.labels[idx];
-        	        var value = chartData.datasets[0].data[idx];
-        	        console.log("Label: " + label + " Value: " + value);
+        	        var index = activePoints[0]['_index'];
+        	        var dangArea = chartData.labels[index];
+        	        console.log("지역 = " + index);
+        	        location.href = "${pageContext.request.contextPath}/admin/dang_list?dangArea=" + dangArea;
         	    }
         	});
         	
