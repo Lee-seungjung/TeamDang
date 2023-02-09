@@ -735,7 +735,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeArea1" class="form-control rounded" placeholder="행정구역(구)">
+		                    <input type="text" name="placeAreaInsert" class="form-control rounded" placeholder="행정구역(구)">
 		                    <label>행정구역(구)</label>
 		                </div>
 		            </div>
@@ -750,13 +750,13 @@
 		        <div class="row mt-1">
 		            <div class="col-md-5 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeX1" class="form-control rounded" placeholder="위도">
+		                    <input type="text" name="placeXInsert" class="form-control rounded" placeholder="위도">
 		                    <label>위도</label>
 		                </div>
 		            </div>
 		            <div class="col-md-5 offset">
 		                <div class="form-floating">
-		                    <input type="text" name="placeY1" class="form-control rounded" placeholder="경도">
+		                    <input type="text" name="placeYInsert" class="form-control rounded" placeholder="경도">
 		                    <label>경도</label>
 		                </div>
 		            </div>
@@ -770,7 +770,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <select class="form-select" name="placeSort1">
+		                    <select class="form-select" name="placeSortInsert">
 		                    	<option value="카페">카페
 		                    	<option value="음식점">음식점
 		                    	<option value="운동장">운동장
@@ -790,7 +790,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeName1" class="form-control rounded" placeholder="장소이름">
+		                    <input type="text" name="placeNameInsert" class="form-control rounded" placeholder="장소이름">
 		                    <label>장소이름</label>
 		                </div>
 		            </div>
@@ -804,7 +804,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <textarea name="placeInfo1" class="form-control col-sm-5" rows="50"></textarea>
+		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
 		                    <label>(최대 500자 까지 가능합니다.)</label>
 		                </div>
 		            </div>
@@ -817,7 +817,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeAddress1" class="form-control rounded" placeholder="현주소">
+		                    <input type="text" name="placeAddressInsert" class="form-control rounded" placeholder="현주소">
 		                    <label>현주소</label>
 		                </div>
 		            </div>
@@ -830,7 +830,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOperation1" class="form-control rounded" placeholder="운영시간">
+		                    <input type="text" name="placeOperationInsert" class="form-control rounded" placeholder="운영시간">
 		                    <label>운영시간</label>
 		                </div>
 		            </div>
@@ -843,7 +843,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOff1" class="form-control rounded" placeholder="휴무일">
+		                    <input type="text" name="placeOffInsert" class="form-control rounded" placeholder="휴무일">
 		                    <label>휴무일</label>
 		                </div>
 		            </div>
@@ -856,7 +856,7 @@
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeTel1" class="form-control rounded" placeholder="전화번호">
+		                    <input type="text" name="placeTelInsert" class="form-control rounded" placeholder="전화번호">
 		                    <label>전화번호</label>
 		                </div>
 		            </div>
@@ -869,7 +869,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeUrl1" class="form-control rounded" placeholder="정보URL">
+		                    <input type="text" name="placeUrlInsert" class="form-control rounded" placeholder="정보URL">
 		                    <label>홈페이지 주소</label>
 		                </div>
 		            </div>
@@ -882,7 +882,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <select class="form-select" name="dangSize1">
+		                    <select class="form-select" name="dangSizeInsert">
 		                    	<option value="소형견">소형견
 		                    	<option value="중형견">중형견
 		                    	<option value="대형견">대형견
@@ -911,7 +911,7 @@
 		        </div>
 		        <input type="hidden" name="dangNo1">
 		        <!--댕모임 첨부파일 댕모임 번호-->
-		        <input type="hidden" name="attachmentNo1">
+		        <input type="hidden" name="attachmentNoInsert">
 		        <!--댕모임 첨부파일 첨부파일 번호-->
 		      </div>
 		      <div class="modal-footer">
@@ -937,23 +937,23 @@
 	
 	//닫기 모달 클릭시 초기화
 	$('.modal').on('hidden.bs.modal', function (e) {
-		  $("[name=placeArea1]").val("");
-	      $("[name=placeX1]").val("");
-	      $("[name=placeY1]").val("");
-	      $("[name=placeSort1]").val("");
-	      $("[name=placeName1]").val("");
-	      $("[name=placeInfo1]").val("");
-	      $("[name=placeAddress1]").val("");
-	      $("[name=placeOperation1]").val("");
-	      $("[name=placeOff1]").val("");
-	      $("[name=placeTel1]").val("");
-	      $("[name=placeUrl1]").val("");
-	      $("[name=dangSize1]").val("");
-	      $("[name=attachmentNo1]").val("");
+		  $("[name=placeAreaInsert]").val("");
+	      $("[name=placeXInsert]").val("");
+	      $("[name=placeYInsert]").val("");
+	      $("[name=placeSortInsert]").val("");
+	      $("[name=placeNameInsert]").val("");
+	      $("[name=placeInfoInsert]").val("");
+	      $("[name=placeAddressInsert]").val("");
+	      $("[name=placeOperationInsert]").val("");
+	      $("[name=placeOffInsert]").val("");
+	      $("[name=placeTelInsert]").val("");
+	      $("[name=placeUrlInsert]").val("");
+	      $("[name=dangSizeInsert]").val("");
+	      $("[name=attachmentNoInsert]").val("");
 	})
 
 
-	$("[name=placeInfo1]").on("input",function(){
+	$("[name=placeInfoInsert]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
@@ -992,19 +992,19 @@
 
     //등록 버튼클릭시 실행
     $(".insert-btn").click(function () {
-        var placeArea = $("[name=placeArea1]").val();
-        var placeX = $("[name=placeX1]").val();
-        var placeY = $("[name=placeY1]").val();
-        var placeSort = $("[name=placeSort1]").val();
-        var placeName = $("[name=placeName1]").val();
-        var placeInfo = $("[name=placeInfo1]").val().replace(/\n/g, "<br />");
-        var placeAddress = $("[name=placeAddress1]").val();
-        var placeOperation = $("[name=placeOperation1]").val();
-        var placeOff = $("[name=placeOff1]").val();
-        var placeTel = $("[name=placeTel1]").val();
-        var placeUrl = $("[name=placeUrl1]").val();
-        var dangSize = $("[name=dangSize1]").val();
-        var attachmentNo = $("[name=attachmentNo1]").val();
+        var placeArea = $("[name=placeAreaInsert]").val();
+        var placeX = $("[name=placeXInsert]").val();
+        var placeY = $("[name=placeYInsert]").val();
+        var placeSort = $("[name=placeSortInsert]").val();
+        var placeName = $("[name=placeNameInsert]").val();
+        var placeInfo = $("[name=placeInfoInsert]").val().replace(/\n/g, "<br />");
+        var placeAddress = $("[name=placeAddressInsert]").val();
+        var placeOperation = $("[name=placeOperationInsert]").val();
+        var placeOff = $("[name=placeOffInsert]").val();
+        var placeTel = $("[name=placeTelInsert]").val();
+        var placeUrl = $("[name=placeUrlInsert]").val();
+        var dangSize = $("[name=dangSizeInsert]").val();
+        var attachmentNo = $("[name=attachmentNoInsert]").val();
         
         console.log(placeX.length==0);
         
@@ -1067,7 +1067,6 @@
 	//첨부파일 변경 함수
     $(".file-input").change(function () {
         var value = $(this).val();
-
         if (this.files.length > 0) {
 
             var formData = new FormData();
@@ -1088,7 +1087,15 @@
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
                     //console.log(newAttachmentNo);
-                    $("[name=attachmentNo1]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    $("[name=attachmentNoInsert]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    
+                    if(newAttachmentNo==""){
+                    	console.log("ss")
+						//$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+					}else{
+						console.log("dd")
+						//$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
+					}
 
                 }
             });
