@@ -290,7 +290,7 @@
                     </div>     
 
 
-                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/edit_pwck'">
+                    <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer" onClick = "location.href='${pageContext.request.contextPath}/user/edit_user_info_pwck'">
                         <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" >                        
                             <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-myinfo_edit_pink.png" >
                         </div>
@@ -299,7 +299,7 @@
                         </div>
                     </div> 
                     <div class="under-menu col-2 d-flex flex-column justify-content-center align-items-center cursor-pointer">
-                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_pw'">
+                        <div class=" row px-4 py-1 mt-5 d-flex flex-column align-items-center justify-content-center" onClick = "location.href='${pageContext.request.contextPath}/user/change_pw_pwck'">
                             <img class="row  mypage-common  img-fluid img-owner-profile w-75" src = "${pageContext.request.contextPath}/images/mypage-pw_change_pink.png" >
                         </div>
                         <div class="row px-4 py-2 mb-3 mt-4">

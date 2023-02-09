@@ -95,7 +95,7 @@
                 </div>
             </div>
 			<div class = "row my-4">
-				<form action = "edit_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
+				<form action = "edit_user_info" method = "post" enctype="multipart/form-data" class = "col form-edit-info"> <%-- form 시작 --%>
 					<div class = "row my-4">
 						<div class = "col-4 offset-4">
 							<label class = "label-user-profile w-100" for = "userProfile">

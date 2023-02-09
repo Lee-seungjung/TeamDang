@@ -17,7 +17,7 @@
 		font-size : 30px;
 	}
 	
-	.div-edit-user-innfo-pwck {
+	.div-edit-user-info-pwck {
 		height : 12rem;
 	}
 	
@@ -57,7 +57,7 @@
                 </div>
             </div>
 			<div class = "row mb-2 div-edit-user-info-pwck-input">
-				<form action = "edit_pwck" method = "post" class = "col-10 offset-1 div-edit-user-innfo-pwck">
+				<form action = "edit_user_info_pwck" method = "post" class = "col-10 offset-1 div-edit-user-info-pwck">
 					<div class = "row my-4">
 						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인" maxlength = "16">
 					</div>

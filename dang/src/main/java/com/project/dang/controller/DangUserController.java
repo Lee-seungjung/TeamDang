@@ -163,13 +163,14 @@ public class DangUserController {
 		return "dang_user/mypage";
 	}
 	
-	// 회원정보 변경 전 비밀번호 체크
-	@GetMapping("/edit_pwck")
+	// 회원정보 변경
+	// - 회원정보 변경 전 비밀번호 체크
+	@GetMapping("/edit_user_info_pwck")
 	public String editPwck() {
-		return "dang_user/edit_pwck";
+		return "dang_user/edit_user_info_pwck";
 	}
 	
-	@PostMapping("/edit_pwck")
+	@PostMapping("/edit_user_info_pwck")
 	public String editPwck(HttpSession session, @ModelAttribute DangUserVO inputUserVO, RedirectAttributes attr) {
 		// 로그인 중인 회원번호 반환
 		Integer userNo = (Integer)session.getAttribute("loginNo");
@@ -179,20 +180,21 @@ public class DangUserController {
 		boolean judge = dangUserDao.checkPw(inputUserVO.getUserPw(), userPw);
 		if(judge) { // 일치한다면
 			attr.addAttribute("userNo", userNo);
-			return "redirect:edit_info";
+			return "redirect:edit_user_info";
 		} else {
-			return "redirect:edit_pwck?error";
+			return "redirect:edit_user_info_pwck?error";
 		}
 	}
 	
-	@GetMapping("/edit_info")
+	// - 회원정보 변경
+	@GetMapping("/edit_user_info")
 	public String editInfo(@RequestParam int userNo, Model model) {
 		// 입력받은 회원번호로 회원정보를 조회하여 model에 추가
 		model.addAttribute("userInfo", dangUserDao.selectUserInfo(userNo));
 		return "dang_user/edit_user_info";
 	}
 	
-	@PostMapping("/edit_info")
+	@PostMapping("/edit_user_info")
 	public String editInfo(@ModelAttribute DangUserMypageVO inputUserMypageVO, MultipartFile userProfile, HttpSession session) throws IllegalStateException, IOException {
 		// 개인정보 수정
 		dangUserDao.editUserInfo(inputUserMypageVO);
@@ -237,16 +239,38 @@ public class DangUserController {
 			// 새로운 회원 프로필 번호를 HttpSession에 저장
 			session.setAttribute("loginProfileImg", attachmentNo);
 		}
-		return "redirect:edit_info_success";
+		return "redirect:edit_user_info_success";
 	}
 	
-	// 회원정보 변경 완료
-	@GetMapping("/edit_info_success")
+	// - 회원정보 변경 완료
+	@GetMapping("/edit_user_info_success")
 	public String editInfoSuccess() {
 		return "dang_user/edit_user_info_success";
 	}
 	
 	// 비밀번호 변경
+	// - 비밀번호 변경 전 비밀번호 체크
+	@GetMapping("/change_pw_pwck")
+	public String changePwPwck() {
+		return "dang_user/change_pw_pwck";
+	}
+	
+	@PostMapping("/change_pw_pwck")
+	public String changePwPwck(HttpSession session, @ModelAttribute DangUserVO inputUserVO) {
+		// 로그인 중인 회원번호 반환
+		Integer userNo = (Integer)session.getAttribute("loginNo");
+		// 회원번호로 해당 회원의 비밀번호 조회
+		String userPw = dangUserDao.selectUserPw(userNo);
+		// 비밀번호 일치 판정
+		boolean judge = dangUserDao.checkPw(inputUserVO.getUserPw(), userPw);
+		if(judge) { // 일치한다면
+			return "redirect:change_pw";
+		} else {
+			return "redirect:change_pw_pwck?error";
+		}
+	}
+	
+	// - 비밀번호 변경
 	@GetMapping("/change_pw")
 	public String changePw() {
 		return "dang_user/change_pw";
@@ -274,12 +298,14 @@ public class DangUserController {
 		return "redirect:change_pw_success";
 	}
 	
+	// - 비밀번호 변경 완료
 	@GetMapping("/change_pw_success")
 	public String changePwSuccess() {
 		return "dang_user/change_pw_success";
 	}
 	
-	// 회원 탈퇴 전 비밀번호 검사
+	// 회원 탈퇴
+	// - 회원 탈퇴 전 비밀번호 검사
 	@GetMapping("/close_pwck")
 	public String closeUserPwck() {
 		return "dang_user/close_pwck";
@@ -300,13 +326,12 @@ public class DangUserController {
 		}
 	}
 	
-	// 회원탈퇴
+	// - 회원탈퇴 전 탈퇴 문구 확인
 	@GetMapping("/close_user")
 	public String closeUser() {
 		return "dang_user/close_user";
 	}
 	
-	// 회원탈퇴
 	@GetMapping("/close_user_ck")
 	public String closeUser(@RequestParam String closeCheck, HttpSession session) {
 		if(closeCheck.equals("즉시 탈퇴")) {			
@@ -314,9 +339,11 @@ public class DangUserController {
 			Integer userNo = (Integer)session.getAttribute("loginNo");
 			// 회원 정보 삭제
 			dangUserDao.closeUser(userNo);
-			// 세션에서 정보 삭제
+			// 세션에서 정보 삭제 (로그아웃 절차)
 			session.removeAttribute("loginNo");
 			session.removeAttribute("loginGrade");
+			session.removeAttribute("loginNick");
+			session.removeAttribute("loginProfileImg");			
 			// 회원탈퇴 완료 Mapping으로 redirect
 			return "redirect:close_user_result";
 		} else {
@@ -324,7 +351,7 @@ public class DangUserController {
 		}
 	}
 	
-	// 회원탈퇴 완료
+	// - 회원탈퇴 완료
 	@GetMapping("/close_user_result")
 	public String closeUserResult() {
 		return "dang_user/close_user_result";
