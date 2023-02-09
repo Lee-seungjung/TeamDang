@@ -63,7 +63,9 @@ public class DangAdminController {
 		model.addAttribute("recentLogin",adminDao.recentLogin());
 		model.addAttribute("recentJoin",adminDao.recentJoin());
 		model.addAttribute("recentDang",adminDao.recentDang());
-		model.addAttribute("recentSchdule",adminDao.recentSchdule());
+		model.addAttribute("recentReport",adminDao.recentReport());
+		model.addAttribute("reportList",adminDao.dashBoardReport());
+		//model.addAttribute("recentSchdule",adminDao.recentSchdule());
 		
 		return "dang_admin/dashBoard";
 	}
