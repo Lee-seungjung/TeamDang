@@ -258,7 +258,7 @@
 								
 								<div class="second-line ms-3 me-3 mt-3 mb-4 d-flex" >
 									<div class="col-9 text-start me-1 truncate-check">
-										<span class="content-font">${vo.boardContent}</span>
+										<div class="content-font">${vo.boardContent}</div>
 									</div>
 									<div class="col-3 middle-items bimg-find justify-content-center" data-no="${vo.boardNo}" style="position:relative;">
 										<c:if test="${vo.boardAttachmentCnt!=null}">
@@ -536,8 +536,8 @@
 		});
 		
 		//말줄임표 토글
-		$(document).on("click",".content-font",function(){
-			var checkTag = $(this);
+		$(document).on("click",".truncate-check",function(){
+			var checkTag = $(this).children();
 			var judge = checkTag.hasClass("new-text-truncate");
 			if(judge){
 				checkTag.removeClass("new-text-truncate");
@@ -1261,9 +1261,9 @@
 			//두번째 줄
 			var secondLine = $("<div>").attr("class","second-line ms-3 me-3 mt-3 mb-4 d-flex");
 			var se_col9 = $("<div>").attr("class","col-9 text-start me-1 cursor-pointer truncate-check");
-			var se_span = $("<span>").attr("class","content-font new-text-truncate")
+			var se_div = $("<div>").attr("class","content-font new-text-truncate")
 										.text(resp.boardContent);
-			se_col9.append(se_span);
+			se_col9.append(se_div);
 			var se_col3 = $("<div>").attr("class","col-3 middle-items bimg-find justify-content-center")
 									.attr("data-no",resp.boardNo).attr("style","position:relative;");
 			if(resp.boardAttachmentCnt!=null){
@@ -2019,7 +2019,7 @@
 		//말줄임표 표시
 		function truncate(){
 			var contentHeight = 67.5;
-			var contentSet = $(".content-font");
+			var contentSet = $(".truncate-check").children();
 			contentSet.removeClass("new-text-truncate cursor-pointer");
 			for(var i=0; i<contentSet.length; i++){
 				var height = contentSet.eq(i).outerHeight();

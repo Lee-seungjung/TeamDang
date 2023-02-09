@@ -290,23 +290,46 @@
 		// 초기 비밀번호 입력창 숨김
 		$(".div-dang-password").hide();
 		
-		// 댕모임 프로필 미리보기
+		// 미리보기용 첨부파일 번호 리스트
+		var attachmentPreviewNoList = [];
+		
+		// 댕모임 프로필 사진 미리보기
 		$(".input-dang-profile").change(function(){
-			if(this.files.length > 0) {
+			if(this.files.length > 0) { // 첨부파일을 선택했다면
 				var formData = new FormData();
 				formData.append("attachment", this.files[0]);
 				$.ajax({
-					url : "${pageContext.request.contextPath}/rest_attachment/upload",
+					url : "${pageContext.request.contextPath}/rest_attachment/upload_preview",
 					method : "post",
 					data : formData,
 					processData:false,
                     contentType:false,
                     success : function(resp) {
-                    	console.log(resp);
-                    	$(".img-dang-profile").prop("src", resp);
+                    	// 프로필 이미지 태그의 src를 반환한 주소로 변경
+                    	$(".img-input-dang-profile").prop("src", resp.url);
+                    	// 해당 이미지의 첨부파일 번호를 미리보기 첨부파일 리스트에 저장
+                    	attachmentPreviewNoList.push(resp.attachmentNo);
                     }
 				});
+			} else {
+				$(".img-input-dang-profile").prop("src", originalProfile);
 			}
+		});
+		
+		// 미리보기용 첨부파일 삭제 (등록 Modal과 수정 Modal에서 미리보기에 사용되었던)
+		$(window).bind("beforeunload", function(){
+			// 미리보기용 첨부파일 리스트의 길이가 0이면(지울 첨부파일이 없다면)
+			if(attachmentPreviewNoList.length == 0) {
+				return;
+			}
+			// 그렇지 않다면 첨부파일 삭제 실행
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+				method : "delete",
+				data : {
+					attachmentPreviewNoList : attachmentPreviewNoList
+				}
+			})
 		});
 		
 		// 댕모임명 글자수 제한

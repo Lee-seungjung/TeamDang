@@ -2,7 +2,6 @@ package com.project.dang.restcontroller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.dang.dto.AttachmentDto;
+import com.project.dang.dto.AttachmentPreviewDto;
 import com.project.dang.repository.AttachmentDao;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +70,41 @@ public class AttachmentRestController {
 		return ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/rest_attachment/download/").path(String.valueOf(attachmentNo))
 				.toUriString();
+	}
+	
+	// 업로드 - 미리보기 다운로드 링크와 첨부파일 번호를 반환
+	@PostMapping("/upload_preview")
+	public AttachmentPreviewDto uploadPreview(@RequestParam(required = false) MultipartFile attachment) throws IllegalStateException, IOException {
+		//DB저장
+		int attachmentNo = attachmentDao.sequence();
+		attachmentDao.insert(AttachmentDto.builder()
+				.attachmentNo(attachmentNo)
+				.attachmentName(attachment.getOriginalFilename())
+				.attachmentType(attachment.getContentType())
+				.attachmentSize(attachment.getSize())
+				.build());
+		
+		//파일저장
+		File target = new File(dir, String.valueOf(attachmentNo));
+		attachment.transferTo(target);
+		
+		// 반환 객체 생성
+		return AttachmentPreviewDto
+				.builder()
+					.url(ServletUriComponentsBuilder.fromCurrentContextPath().path("/rest_attachment/download/").path(String.valueOf(attachmentNo)).toUriString())
+					.attachmentNo(attachmentNo)
+				.build();
+	}
+	
+	// 미리보기 파일 다중 삭제
+	@DeleteMapping("/delete_preview")
+	public boolean deletePreview(@RequestParam(value = "attachmentPreviewNoList[]", required = false) List<Integer> attachmentPreviewList) {
+		for(int i = 0 ; i < attachmentPreviewList.size() ; i ++) {
+			File file = new File(dir,String.valueOf(attachmentPreviewList.get(i)));
+			file.delete();
+			attachmentDao.delete(attachmentPreviewList.get(i));
+		}
+		return true;
 	}
 	
 	//다운로드 - 기존 방식과 동일
