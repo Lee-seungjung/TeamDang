@@ -3,17 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="DangHome" name="title"/>
+   <jsp:param value="장소 관리" name="title"/>
 </jsp:include>    
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <div class="container-fluid mb-5">
 	<div class="row mt-2">
@@ -149,7 +146,7 @@
 		</div>
 	</div>
 
-
+</div>
 
 
 	<script type="text/javascript"
