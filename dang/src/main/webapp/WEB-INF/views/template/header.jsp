@@ -185,8 +185,6 @@
 	
 	.new-text-truncate {
 		overflow: hidden;
-		text-overflow: ellipsis;
-		display:bloack;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;

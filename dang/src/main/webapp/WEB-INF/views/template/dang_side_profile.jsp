@@ -355,652 +355,7 @@
     	 display:none;
     }
 </style>
-<script>
-	$(function(){
-		
-		var now_utc = Date.now()
-		var timeOff = new Date().getTimezoneOffset()*60000;
-		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-		document.getElementById("Date").setAttribute("min", today);
-		
-		$(".invalid-money").hide();
-		
- 		//참여 회비는 1백만원미만으로 제한(6자)
- 		$(document).on("input", ".money", function(){
- 			
-			var moneyLength = $(this).val().length;
-			
-			console.log(moneyLength);
-			
-			if(moneyLength >= 7) {
-				$(".invalid-money").show();
-			}
-		});
-       
-		
-		
-		//모달 띄워지기 직전 캘린더 미리 생성
-		$("#day-check-modal").on("shown.bs.modal", function () {
-			createCalendar();
-		});
-		
-		//오늘 출석여부 확인+판정객체
-		var isAttendance = $("[name=isAttendance]").val();
-		var AttendanceValid = false;
-		if(isAttendance==""){
-			$(".checkAttendance").text("출석 체크");
-			$(".close-btn").hide("fast");
-			$(".attendance-btn").show(1000);
-		}else{
-			$(".checkAttendance").text("출석 완료");
-			$(".close-btn").show(1000);
-			$(".attendance-btn").hide("fast");
-			AttendanceValid = true;
-		}
-		
-		
-		//출석체크 모달
-		$(document).on("click",".day-check",function(){
-			var memberNo = $("[name=memberNo]").val();
-			
-			//출석체크 확인
-			$.ajax({
-              		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
-   					method:"get",
-   					async:false,
-   					success:function(resp){
-   						if(resp.length!=0){ //출석기록 있음
-   							console.log("출석기록 있음!");
-   							AttendanceValid = false;
-   							
-   							//모달 타이틀 문구 변경
-   							$(".modal-title1").text("출석 체크가 ");
-   							$(".modal-title2").text("완료");
-   							$(".modal-title3").text(" 되었습니다!");
-   							
-   							return;
-   						}else{ //출석기록 없음
-   							console.log("출석기록 없음!");
 
-   							var isDoubleClick = false;
-   							$(".attendance-btn").click(function(){
-   								
-   								if(isDoubleClick == true){ //더블클릭 막기위함
-   									return;
-   								}
-   								
-   								isDoubleClick = true;
-   								AttendanceValid = true;
-   								//1. 오늘날짜 배경에 로고 이미지 넣기
-   								var today = $('#calendar').children().find(".fc-day-today");
-   								today.addClass("addImg");
-   								
-   								//2. ajax 출석 테이블 insert
-   								attendanceData={
-   										memberNo:memberNo					
-   								}
-   								$.ajax({
-   									url:"${pageContext.request.contextPath}/rest_member/attendance_insert",
-   									method:"post",
-   									async:false,
-   									data:JSON.stringify(attendanceData),
-   									contentType: 'application/json',
-   				                    success:function(){
-   				                    	isDoubleClick = false;
-   				                  		 //버튼 막기
-   				                    	$(".close-btn").show();
-   				    					$(".attendance-btn").hide();
-   				    					
-   				                    	//3. 활동점수 +1 업데이트
-   				                    	data={
-   				                    			memberScore:1,
-   				                    			memberNo:memberNo
-   				                    	}
-   				                    	$.ajax({
-   				                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
-   				                    		method:"patch",
-   				                    		data:JSON.stringify(data),
-   				                    		contentType: 'application/json',
-   				                    		async:false,
-   				                    		success:function(resp){
-   				                    			//4. 활동점수 실시간 출력
-   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
-   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
-   				                    			sideScoreTag.text(sideScoreValue+1);
-   				                    		}
-   				                    	});
-   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
-   			   							$(".checkAttendance").text("출석 완료");
-   				                    }
-   				            	});
-   							});
-   						}
-   					}
-			});
-		});
-		
-		//출석모달 닫기
-		$(".close-btn").click(function(){
-			var today = $('#calendar').children().find(".fc-day-today");
-			today.removeClass("addImg");
-		});
-		
-		//프로필 수정
-		//프로필 클릭하면 첨부파일 열림
-		$(".profile-img").click(function(){
-			$(".input-file").click();
-		});
-		
-		//프로필 사진변경 이벤트
-		$(".input-file").change(function(){
-			var value = $(this).val();
-			if(value.length>0){ //파일 있음
-				var formData = new FormData();
-				formData.append("attachment", this.files[0]);
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_attachment/upload",
-					method:"post",
-					data:formData,
-					processData:false, 
-                    contentType:false,
-                    success:function(resp){
-                    	console.log(resp);
-                    	$(".change-img").attr("src",resp); //프로필 미리보기
-                    	//원래 페이지 프로필 정보 변경
-                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
-                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
-                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
-                    	
-                    	//페이지 벗어나면 첨부파일 DB 삭제
-                    	$(window).on("beforeunload", function(){
-                    		deleteAttachmentNo();
-						});
-			        }
-				});
-			}
-		});
-		
-		
-		//모달 취소버튼 클릭 시 첨부파일 DB 삭제
-		$(".p-cancel-btn").click(function(){
-			deleteAttachmentNo();
-		});
-		
-		//프로필 수정 전 준비
-		$(document).on("click",".profile-edit",function(){
-			var originMemberNick = $(".originNickName").text(); //기존 닉네임
-			var originMessage = $(".originMessage").text(); //기존 상태메세지
-			
-			$("[name=memberNick]").val(originMemberNick).removeClass("is-valid is-invalid invalid");
-			$("[name=memberMessage]").val(originMessage).removeClass("is-valid is-invalid invalid");
-		});		
-		
-		//입력 항목 상태 판정
-		check={
-				memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,6}$/,
-				memberMessage : true, 
-				allValid:function(){
-					return this.memberNick && this.memberMessage;
-				}
-		};
-		
-		//닉네임 검사
-		$("[name=memberNick]").blur(function(){ 
-			var originMemberNick = $(".originNickName").text(); //기존 닉네임
-            var memberNick = $(this).val(); //입력창 닉네임
-            
-            //1. input창이 변화가 있을경우와 없을경우 체크
-            //2. 변화가 없을 경우 판정 true
-            //3. 변화가 있을 경우 (1) 정규표현식 검사
-            //4. 						 (2) 댕모임 내 닉네임 중복검사
-            
-            $(this).removeClass("is-valid is-invalid invalid");
-            if(originMemberNick==memberNick){
-            	check.memberNick=true;
-            }else{
-            	//정규표현식 확인
-                var regex = check.memberNickRegex;
-                if(regex.test(memberNick)) {
-                    var dangNo = $("[name=dangNo]").val();
-                    checkData={
-                    		dangNo:dangNo,
-                    		memberNick:memberNick
-                    }
-                    //2. 중복닉네임 확인(비동기) 
-                   	$.ajax({
-                   		url:"${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+memberNick,
-    					method:"get",
-    					data:checkData,
-    		    		dataType:"json",
-    		    		async:false,
-    		    		contentType:"application/json",
-    					success:function(resp){
-    						$(this).removeClass("is-valid is-invalid invalid");
-    						if(resp){
-    							$("[name=memberNick]").addClass("is-valid");
-    							check.memberNick=true;
-    						}else{
-    							$("[name=memberNick]").addClass("invalid");
-    							check.memberNick=false;
-    						}
-    					}
-                   	});           
-                }
-                else {
-                	check.memberNick = false;
-                    $(this).addClass("is-invalid");
-                }
-            }
-		 });  
-		
-		//상태메세지 글자 수 검사
-		$("[name=memberMessage]").on("input",function(){
-			var textLength = $(this).val().length;
-			var value = $(this).val();
-			//상태메시지 글자수 표시
-			$(".length").text(textLength);
-			$(this).removeClass("is-valid is-invalid");
-			if(textLength==30){
-				$(".length").css("color","red").text(30);
-				$(this).addClass("is-valid");
-				check.memberMessage=true;
-			}else if(textLength>30){
-				$(this).val(value.substring(0,30));	
-				$(".length").css("color","red").text(30);
-				$(this).addClass("is-invalid");
-				check.memberMessage=false;
-			}else if(textLength>0){
-				$(".length").css("color","#495057");
-				$(this).addClass("is-valid");
-				check.memberMessage=true;
-			}
-		});
-
-		//폼전송 이벤트
-		$(".edit-form").submit(function(e){
-			//기본이벤트 차단
-			e.preventDefault();
-			
-			//이벤트 강제실행
-			$("[name=memberNick]").blur();
-			
-			//비동기 데이터 준비
-			var userNo = $("[name=userNo]").val();
-			var roomNo = $("[name=roomNo]").val();
-			var attachmentNo=$("[name=attachmentNo]").val();
-			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			var memberNo = $("[name=memberNo]").val();
-			var originMemberNick = $(".originNickName").text(); //기존 닉네임
-			var memberNick = $("[name=memberNick]").val();
-			var memberMessage = $("[name=memberMessage]").val();
-			
-			//1. 새로운 파일의 유무로 구분
-			//   - 있을경우에만 user-img 기존 데이터 삭제 후 insert
-			//   - 기존파일 없을 경우 user-img insert만 처리
-			//2. 댕회원 정보 변경
-			//3. 새로고침없이 본화면 프로필사진, 닉네임, 상태메세지 변경
-			
-			if(check.allValid()){
-				imgInsertData={	
-					attachmentNo:attachmentNo,
-					userNo:userNo
-				}
-				if(originAttachmentNo==""){
-					$.ajax({ //1 기존파일 없을 경우에는 그냥 insert만 처리
-						url:"${pageContext.request.contextPath}/rest_user/img_insert",
-						method:"post",
-						contentType:"application/json",
-						data:JSON.stringify(imgInsertData),
-						success:function(){
-							
-						}
-					});
-				}else{
-					if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 insert 후 기존파일 삭제처리
-						$.ajax({ //1
-							url:"${pageContext.request.contextPath}/rest_user/img_insert",
-							method:"post",
-							async:false,
-							contentType:"application/json",
-							data:JSON.stringify(imgInsertData),
-							success:function(){
-								$.ajax({
-									url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
-									method:"delete",
-									data:originAttachmentNo,
-									success:function(resp){
-										$("[name=originAttachmentNo]").val(attachmentNo);
-										
-									}
-								});
-							}
-						});
-					}
-				}
-				
-				editData={
-						memberNo:memberNo,
-						memberNick:memberNick,
-						memberMessage:memberMessage
-				}
-				$.ajax({ //2
-					url:"${pageContext.request.contextPath}/rest_member/profile_edit",
-					method:"patch",
-					async:false,
-					contentType:"application/json",
-					data:JSON.stringify(editData),
-					success:function(resp){
-						if(resp){ //3
-							if(attachmentNo==""){
-								$(".origin-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
-							}else{
-								$(".origin-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo);
-							}
-							$(".originNickName").text(memberNick);
-							$(".originMessage").text(memberMessage);
-							
-							//기존 게시글 닉네임 변경
-							updateNickData={
-									memberNo:memberNo,
-									memberNick:memberNick
-							}
-							$.ajax({
-								url:"${pageContext.request.contextPath}/rest_board/update_nick",
-								method:"patch",
-								async:false,
-								contentType:"application/json",
-								data:JSON.stringify(updateNickData),
-								success:function(resp){
-									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
-									var nickcheck = $(".board-box").children().find(".nick-font");
-									//기존 닉네임과 예전 닉네임이 같을 경우
-									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
-									for(var i=0; i<nickcheck.length; i++){
-										var nick = nickcheck.eq(i).text();
-										if(nick==originMemberNick && originMemberNick!=memberNick){
-											nickcheck.eq(i).text(memberNick);
-										}
-									}
-								}
-							});
-							//댓글 닉네임 변경
-							$.ajax({
-								url:"${pageContext.request.contextPath}/rest_reply/update_nick",
-								method:"patch",
-								async:false,
-								contentType:"application/json",
-								data:JSON.stringify(updateNickData),
-								success:function(resp){
-									
-									//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
-									var nickcheck = $(".reply-box").children().find(".re-nick-font");
-									//기존 닉네임과 예전 닉네임이 같을 경우
-									//원래 닉네임과 새로운 닉네임이 다를 경우 변경
-									for(var i=0; i<nickcheck.length; i++){
-										var nick = nickcheck.eq(i).text();
-										if(nick==originMemberNick && originMemberNick!=memberNick){
-											nickcheck.eq(i).text(memberNick);
-										}
-									}
-								}
-							});
-							
-							
-							//채팅 닉네임 변경
-							updateChatNickData={
-									userNo:userNo,
-									roomNo:roomNo,
-									memberNick:memberNick
-							}
-							$.ajax({
-								url:"${pageContext.request.contextPath}/rest_chat/update_nick",
-								method:"patch",
-								async:false,
-								contentType:"application/json",
-								data:JSON.stringify(updateChatNickData),
-								success:function(resp){
-								}
-							});
-							
-							//멤버 프로필 사진, 닉네임, 상태메세지 변경
-							var mTag = $(".m-profile-info[data-mno="+memberNo+"]");
-							var url = "${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo;
-							mTag.attr("src",url);
-							mTag.parent().next().children().text(memberNick);
-							mTag.parent().next().children().next().text(memberMessage);
-							
-							//헤더 프로필 변경
-							$(".img-user-profile").attr("src",url);
-							
-							//게시판 프로필 사진 변경
-							var bTag = $(".board-box[data-mno="+memberNo+"]").children().find(".b-profile-info").children();
-							bTag.attr("src",url);
-							
-							//대화 프로필 사진 변경
-							var cTag =  $(".c-profile-info[data-uno="+userNo+"]");
-							cTag.attr("src",url);
-						}
-					}
-				});
-			}
-		});
-		
-		//신고 처리
-		$(".modal-profile-report-btn").click(function(){
-			var memberNo = $(this).data("mno"); //신고당한 사람의 memberNo
-			location.href="${pageContext.request.contextPath}/dang/report/"+memberNo
-		});
-		
-		
-		//풀캘린더 생성
-		function createCalendar(){
-			//비동기화 데이터 준비
-			var memberNo = $("[name=memberNo]").val();
-			listData={
-                	memberNo:memberNo               
-        	}
-			//풀캘린더
-			var calendarEl = $('#calendar')[0];
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-		        aspectRatio: 1.3, //달력의 가로 세로 비율 설정
-		        height: '400px', // calendar 높이 설정
-		        expandRows: true, // 화면에 맞게 높이 재설정
-		        // 해더에 표시할 툴바
-		        headerToolbar: {
-		          left: '',
-		          center: 'title',
-		          right: ''
-		        },
-		        initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-		        nowIndicator: true, // 현재 시간 마크
-		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-		        locale: 'ko', // 한국어 설정
-		        events: [
-		        	//이번달 출석일 확인
-					$.ajax({
-						url:"${pageContext.request.contextPath}/rest_member/attendance_list",
-						method:"get",
-						data:listData,
-			    		dataType:"json",
-			    		contentType:"application/json",
-						success:function(resp){
-							if(resp.length!=0){
-								for(var i=0; i<resp.length; i++){
-									calendar.addEvent({
-										date:resp[i]['attendanceDate'],
-										display: ['background'],
-										color:['#fff'],
-										imageurl:'/images/logo2.png'
-									})
-								}
-							}
-						}
-					})
-	           	],
-	            //발바닥 찍기
-	           	eventDidMount: function(info){
-	           		if(info.event.extendedProps.imageurl){
-	           			var findEl = info.el.parentElement.parentElement.offsetParent.parentElement;
-	           			findEl.classList.add('addImg');
-	           		}
-	           	}
-		      });
-		      // 캘린더 랜더링
-		      calendar.render();
-		}
-		
-		//취소, 돌아가기 시 첨부파일 삭제
-		function deleteAttachmentNo(){
-			var newAttachmentNo = $("[name=attachmentNo]").val();
-			var originAttachmentNo = $("[name=originAttachmentNo]").val();
-			if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
-				$.ajax({
-					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
-					method:"delete",
-					data:newAttachmentNo,
-					success:function(resp){
-						$("[name=attachmentNo]").val(originAttachmentNo);
-						
-						if(originAttachmentNo==""){
-							$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
-						}else{
-							$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
-						}
-					}
-				});
-			}
-		}
-		
-		//일정등록 모달에서 등록 버튼 클릭
-		$(".write-btn").click(function(e){
-			console.log(${profile.memberNo});
-			var memberNo = ${profile.memberNo};
-			var scheduleTitle = $("[name=scheduleTitle]").val();
-			var scheduleContent =$("[name=scheduleContent]").val();
-			var scheduleStart = $("[name=scheduleStart]").val();
-			var scheduleHour = $("[name=scheduleHour]").val();
-			var placeNo = $(".where").attr('data-placeno');
-			var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
-			var scheduleMoney = $("[name=scheduleMoney]").val();
-			saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
-		});
-
-		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
-		$(document).on("click",".write-cancel",function(){
-			console.log("취소버튼클릭");
-			$(".schedule-name").val(""); //일정 제목
-			$(".write-content").val(""); //일정 내용
-			$(".when-date ").val(""); //일정 날짜
-			$(".when-time").val(""); //일정 시간		
-			$(".where").val(""); //장소
-			$("#persons").prop("selected", true);//최대 참여인원							
-			$(".money").val(""); //회비 
-		});
-		
-		//일정 등록 함수
-		function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
-				scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
-			var data = {
-					scheduleTitle: scheduleTitle,
-					memberNo: memberNo,
-					scheduleContent: scheduleContent,
-					scheduleStart: scheduleStart,
-					scheduleHour: scheduleHour,
-					placeNo: placeNo,
-					scheduleHeadmax: scheduleHeadmax,
-					scheduleMoney: scheduleMoney
-			};
-			var result = confirm("일정을 등록하시겠습니까?")
-			
-			if(result ==true){
-				$.ajax({
-					url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
-					method:"post",
-					contentType:"application/json",
-					data:JSON.stringify(data),
-					success:function(resp){
-						console.log("수정성공");	
-						
-						location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
-						
-						//var placeNo = $(".schedule-where").attr('data-placeno');
-					}
-				});
-				alert("일정 등록이 완료되었습니다.")
-			}
-			else {
-				alert("일정 등록이 취소되었습니다.")
-				//적혀진 값들 지우기
-				
-			}
-		}
-		
-		//프로필 상세 정보(게시글)
-		$(document).on("click",".b-profile-info",function(){
-			var memberNo = $(this).parents(".board-box").data("mno");
-			var url = $(this).children().attr("src");
-			detailInfo(memberNo, url);
-		});
-		//프로필 상세 정보(댓글)
-		$(document).on("click",".r-profile-info",function(){
-			var memberNo = $(this).data("mno");
-			var url = $(this).attr("src");
-			detailInfo(memberNo, url);
-		});
-		//프로필 상세 정보(채팅)
-		$(document).on("click",".c-profile-info",function(){
-			var dangNo = $("[name=dangNo]").val();
-			var userNo = $(this).data("uno");
-			var url = $(this).attr("src");
-			//유저번호로 멤버번호 찾기
-			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_member/find_member_no?userNo="+userNo+"&dangNo="+dangNo,
-				method:"get",
-				success:function(resp){
-					detailInfo(resp, url);
-				}
-			});
-		});
-		
-		//프로필 상세정보(멤버)
-		$(document).on("click",".m-profile-info",function(){
-			var memberNo = $(this).data("mno");
-			var url = $(this).attr("src");
-			detailInfo(memberNo, url);
-		});
-		
-		//프로필 상세정보 함수
-		function detailInfo(memberNo, url){
-			var originMemberNo = $("[name=memberNo]").val();	
-		
-			$(".profile-info-owner").attr("style","dispaly:none;")
-			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
-				method:"get",
-				success:function(resp){
-					console.log(resp);
-					if(resp.memberOwner=='Y'){
-						$(".profile-info-owner").show();
-					}
-					$(".profile-info-img").attr("src",url);
-					$(".profile-info-nick").text(resp.memberNick);
-					$(".profile-info-message").text(resp.memberMessage);
-					$(".profile-info-grade").text(resp.memberGrade);
-					var text = resp.memberScore+"점";
-					$(".profile-info-score").text(text);
-					if(originMemberNo==memberNo){
-						$(".modal-profile-report-btn").hide();
-					}else{
-						$(".modal-profile-report-btn").show();
-						$(".modal-profile-report-btn").attr("data-mno",resp.memberNo);
-					}
-					$("#profile-info-modal").modal("show");
-				}
-			});
-		}
-		
-	});
-</script>
 
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
@@ -2025,6 +1380,652 @@
                 setparkMarkersInsertInsert(insertMap);
             }
         }
-        
-  
+
     </script>
+    
+    <script>
+		$(function(){
+			
+			var now_utc = Date.now()
+			var timeOff = new Date().getTimezoneOffset()*60000;
+			var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+			document.getElementById("Date").setAttribute("min", today);
+			
+			$(".invalid-money").hide();
+			
+	 		//참여 회비는 1백만원미만으로 제한(6자)
+	 		$(document).on("input", ".money", function(){
+	 			
+				var moneyLength = $(this).val().length;
+				
+				console.log(moneyLength);
+				
+				if(moneyLength >= 7) {
+					$(".invalid-money").show();
+				}
+			});
+	       
+			
+			
+			//모달 띄워지기 직전 캘린더 미리 생성
+			$("#day-check-modal").on("shown.bs.modal", function () {
+				createCalendar();
+			});
+			
+			//오늘 출석여부 확인+판정객체
+			var isAttendance = $("[name=isAttendance]").val();
+			var AttendanceValid = false;
+			if(isAttendance==""){
+				$(".checkAttendance").text("출석 체크");
+				$(".close-btn").hide("fast");
+				$(".attendance-btn").show(1000);
+			}else{
+				$(".checkAttendance").text("출석 완료");
+				$(".close-btn").show(1000);
+				$(".attendance-btn").hide("fast");
+				AttendanceValid = true;
+			}
+			
+			
+			//출석체크 모달
+			$(document).on("click",".day-check",function(){
+				var memberNo = $("[name=memberNo]").val();
+				
+				//출석체크 확인
+				$.ajax({
+	              		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
+	   					method:"get",
+	   					async:false,
+	   					success:function(resp){
+	   						if(resp.length!=0){ //출석기록 있음
+	   							console.log("출석기록 있음!");
+	   							AttendanceValid = false;
+	   							
+	   							//모달 타이틀 문구 변경
+	   							$(".modal-title1").text("출석 체크가 ");
+	   							$(".modal-title2").text("완료");
+	   							$(".modal-title3").text(" 되었습니다!");
+	   							
+	   							return;
+	   						}else{ //출석기록 없음
+	   							console.log("출석기록 없음!");
+	
+	   							var isDoubleClick = false;
+	   							$(".attendance-btn").click(function(){
+	   								
+	   								if(isDoubleClick == true){ //더블클릭 막기위함
+	   									return;
+	   								}
+	   								
+	   								isDoubleClick = true;
+	   								AttendanceValid = true;
+	   								//1. 오늘날짜 배경에 로고 이미지 넣기
+	   								var today = $('#calendar').children().find(".fc-day-today");
+	   								today.addClass("addImg");
+	   								
+	   								//2. ajax 출석 테이블 insert
+	   								attendanceData={
+	   										memberNo:memberNo					
+	   								}
+	   								$.ajax({
+	   									url:"${pageContext.request.contextPath}/rest_member/attendance_insert",
+	   									method:"post",
+	   									async:false,
+	   									data:JSON.stringify(attendanceData),
+	   									contentType: 'application/json',
+	   				                    success:function(){
+	   				                    	isDoubleClick = false;
+	   				                  		 //버튼 막기
+	   				                    	$(".close-btn").show();
+	   				    					$(".attendance-btn").hide();
+	   				    					
+	   				                    	//3. 활동점수 +1 업데이트
+	   				                    	data={
+	   				                    			memberScore:1,
+	   				                    			memberNo:memberNo
+	   				                    	}
+	   				                    	$.ajax({
+	   				                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+	   				                    		method:"patch",
+	   				                    		data:JSON.stringify(data),
+	   				                    		contentType: 'application/json',
+	   				                    		async:false,
+	   				                    		success:function(resp){
+	   				                    			//4. 활동점수 실시간 출력
+	   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
+	   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
+	   				                    			sideScoreTag.text(sideScoreValue+1);
+	   				                    		}
+	   				                    	});
+	   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
+	   			   							$(".checkAttendance").text("출석 완료");
+	   				                    }
+	   				            	});
+	   							});
+	   						}
+	   					}
+				});
+			});
+			
+			//출석모달 닫기
+			$(".close-btn").click(function(){
+				var today = $('#calendar').children().find(".fc-day-today");
+				today.removeClass("addImg");
+			});
+			
+			//프로필 수정
+			//프로필 클릭하면 첨부파일 열림
+			$(".profile-img").click(function(){
+				$(".input-file").click();
+			});
+			
+			//프로필 사진변경 이벤트
+			$(".input-file").change(function(){
+				var value = $(this).val();
+				if(value.length>0){ //파일 있음
+					var formData = new FormData();
+					formData.append("attachment", this.files[0]);
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_attachment/upload",
+						method:"post",
+						data:formData,
+						processData:false, 
+	                    contentType:false,
+	                    success:function(resp){
+	                    	console.log(resp);
+	                    	$(".change-img").attr("src",resp); //프로필 미리보기
+	                    	//원래 페이지 프로필 정보 변경
+	                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+	                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
+	                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+	                    	
+	                    	//페이지 벗어나면 첨부파일 DB 삭제
+	                    	$(window).on("beforeunload", function(){
+	                    		deleteAttachmentNo();
+							});
+				        }
+					});
+				}
+			});
+			
+			
+			//모달 취소버튼 클릭 시 첨부파일 DB 삭제
+			$(".p-cancel-btn").click(function(){
+				deleteAttachmentNo();
+			});
+			
+			//프로필 수정 전 준비
+			$(document).on("click",".profile-edit",function(){
+				var originMemberNick = $(".originNickName").text(); //기존 닉네임
+				var originMessage = $(".originMessage").text(); //기존 상태메세지
+				
+				$("[name=memberNick]").val(originMemberNick).removeClass("is-valid is-invalid invalid");
+				$("[name=memberMessage]").val(originMessage).removeClass("is-valid is-invalid invalid");
+			});		
+			
+			//입력 항목 상태 판정
+			check={
+					memberNick : false, memberNickRegex : /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,6}$/,
+					memberMessage : true, 
+					allValid:function(){
+						return this.memberNick && this.memberMessage;
+					}
+			};
+			
+			//닉네임 검사
+			$("[name=memberNick]").blur(function(){ 
+				var originMemberNick = $(".originNickName").text(); //기존 닉네임
+	            var memberNick = $(this).val(); //입력창 닉네임
+	            
+	            //1. input창이 변화가 있을경우와 없을경우 체크
+	            //2. 변화가 없을 경우 판정 true
+	            //3. 변화가 있을 경우 (1) 정규표현식 검사
+	            //4. 						 (2) 댕모임 내 닉네임 중복검사
+	            
+	            $(this).removeClass("is-valid is-invalid invalid");
+	            if(originMemberNick==memberNick){
+	            	check.memberNick=true;
+	            }else{
+	            	//정규표현식 확인
+	                var regex = check.memberNickRegex;
+	                if(regex.test(memberNick)) {
+	                    var dangNo = $("[name=dangNo]").val();
+	                    checkData={
+	                    		dangNo:dangNo,
+	                    		memberNick:memberNick
+	                    }
+	                    //2. 중복닉네임 확인(비동기) 
+	                   	$.ajax({
+	                   		url:"${pageContext.request.contextPath}/rest_member/checkNick/"+dangNo+"/"+memberNick,
+	    					method:"get",
+	    					data:checkData,
+	    		    		dataType:"json",
+	    		    		async:false,
+	    		    		contentType:"application/json",
+	    					success:function(resp){
+	    						$(this).removeClass("is-valid is-invalid invalid");
+	    						if(resp){
+	    							$("[name=memberNick]").addClass("is-valid");
+	    							check.memberNick=true;
+	    						}else{
+	    							$("[name=memberNick]").addClass("invalid");
+	    							check.memberNick=false;
+	    						}
+	    					}
+	                   	});           
+	                }
+	                else {
+	                	check.memberNick = false;
+	                    $(this).addClass("is-invalid");
+	                }
+	            }
+			 });  
+			
+			//상태메세지 글자 수 검사
+			$("[name=memberMessage]").on("input",function(){
+				var textLength = $(this).val().length;
+				var value = $(this).val();
+				//상태메시지 글자수 표시
+				$(".length").text(textLength);
+				$(this).removeClass("is-valid is-invalid");
+				if(textLength==30){
+					$(".length").css("color","red").text(30);
+					$(this).addClass("is-valid");
+					check.memberMessage=true;
+				}else if(textLength>30){
+					$(this).val(value.substring(0,30));	
+					$(".length").css("color","red").text(30);
+					$(this).addClass("is-invalid");
+					check.memberMessage=false;
+				}else if(textLength>0){
+					$(".length").css("color","#495057");
+					$(this).addClass("is-valid");
+					check.memberMessage=true;
+				}
+			});
+	
+			//폼전송 이벤트
+			$(".edit-form").submit(function(e){
+				//기본이벤트 차단
+				e.preventDefault();
+				
+				//이벤트 강제실행
+				$("[name=memberNick]").blur();
+				
+				//비동기 데이터 준비
+				var userNo = $("[name=userNo]").val();
+				var roomNo = $("[name=roomNo]").val();
+				var attachmentNo=$("[name=attachmentNo]").val();
+				var originAttachmentNo = $("[name=originAttachmentNo]").val();
+				var memberNo = $("[name=memberNo]").val();
+				var originMemberNick = $(".originNickName").text(); //기존 닉네임
+				var memberNick = $("[name=memberNick]").val();
+				var memberMessage = $("[name=memberMessage]").val();
+				
+				//1. 새로운 파일의 유무로 구분
+				//   - 있을경우에만 user-img 기존 데이터 삭제 후 insert
+				//   - 기존파일 없을 경우 user-img insert만 처리
+				//2. 댕회원 정보 변경
+				//3. 새로고침없이 본화면 프로필사진, 닉네임, 상태메세지 변경
+				
+				if(check.allValid()){
+					imgInsertData={	
+						attachmentNo:attachmentNo,
+						userNo:userNo
+					}
+					if(originAttachmentNo==""){
+						$.ajax({ //1 기존파일 없을 경우에는 그냥 insert만 처리
+							url:"${pageContext.request.contextPath}/rest_user/img_insert",
+							method:"post",
+							contentType:"application/json",
+							data:JSON.stringify(imgInsertData),
+							success:function(){
+								
+							}
+						});
+					}else{
+						if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 insert 후 기존파일 삭제처리
+							$.ajax({ //1
+								url:"${pageContext.request.contextPath}/rest_user/img_insert",
+								method:"post",
+								async:false,
+								contentType:"application/json",
+								data:JSON.stringify(imgInsertData),
+								success:function(){
+									$.ajax({
+										url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
+										method:"delete",
+										data:originAttachmentNo,
+										success:function(resp){
+											$("[name=originAttachmentNo]").val(attachmentNo);
+											
+										}
+									});
+								}
+							});
+						}
+					}
+					
+					editData={
+							memberNo:memberNo,
+							memberNick:memberNick,
+							memberMessage:memberMessage
+					}
+					$.ajax({ //2
+						url:"${pageContext.request.contextPath}/rest_member/profile_edit",
+						method:"patch",
+						async:false,
+						contentType:"application/json",
+						data:JSON.stringify(editData),
+						success:function(resp){
+							if(resp){ //3
+								if(attachmentNo==""){
+									$(".origin-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+								}else{
+									$(".origin-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo);
+								}
+								$(".originNickName").text(memberNick);
+								$(".originMessage").text(memberMessage);
+								
+								//기존 게시글 닉네임 변경
+								updateNickData={
+										memberNo:memberNo,
+										memberNick:memberNick
+								}
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_board/update_nick",
+									method:"patch",
+									async:false,
+									contentType:"application/json",
+									data:JSON.stringify(updateNickData),
+									success:function(resp){
+										//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
+										var nickcheck = $(".board-box").children().find(".nick-font");
+										//기존 닉네임과 예전 닉네임이 같을 경우
+										//원래 닉네임과 새로운 닉네임이 다를 경우 변경
+										for(var i=0; i<nickcheck.length; i++){
+											var nick = nickcheck.eq(i).text();
+											if(nick==originMemberNick && originMemberNick!=memberNick){
+												nickcheck.eq(i).text(memberNick);
+											}
+										}
+									}
+								});
+								//댓글 닉네임 변경
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_reply/update_nick",
+									method:"patch",
+									async:false,
+									contentType:"application/json",
+									data:JSON.stringify(updateNickData),
+									success:function(resp){
+										
+										//이미 출력된 기존 닉네임을 새로운 닉네임으로 변경
+										var nickcheck = $(".reply-box").children().find(".re-nick-font");
+										//기존 닉네임과 예전 닉네임이 같을 경우
+										//원래 닉네임과 새로운 닉네임이 다를 경우 변경
+										for(var i=0; i<nickcheck.length; i++){
+											var nick = nickcheck.eq(i).text();
+											if(nick==originMemberNick && originMemberNick!=memberNick){
+												nickcheck.eq(i).text(memberNick);
+											}
+										}
+									}
+								});
+								
+								
+								//채팅 닉네임 변경
+								updateChatNickData={
+										userNo:userNo,
+										roomNo:roomNo,
+										memberNick:memberNick
+								}
+								$.ajax({
+									url:"${pageContext.request.contextPath}/rest_chat/update_nick",
+									method:"patch",
+									async:false,
+									contentType:"application/json",
+									data:JSON.stringify(updateChatNickData),
+									success:function(resp){
+									}
+								});
+								
+								//멤버 프로필 사진, 닉네임, 상태메세지 변경
+								var mTag = $(".m-profile-info[data-mno="+memberNo+"]");
+								var url = "${pageContext.request.contextPath}/rest_attachment/download/"+attachmentNo;
+								mTag.attr("src",url);
+								mTag.parent().next().children().text(memberNick);
+								mTag.parent().next().children().next().text(memberMessage);
+								
+								//헤더 프로필 변경
+								$(".img-user-profile").attr("src",url);
+								
+								//게시판 프로필 사진 변경
+								var bTag = $(".board-box[data-mno="+memberNo+"]").children().find(".b-profile-info").children();
+								bTag.attr("src",url);
+								
+								//대화 프로필 사진 변경
+								var cTag =  $(".c-profile-info[data-uno="+userNo+"]");
+								cTag.attr("src",url);
+							}
+						}
+					});
+				}
+			});
+			
+			//신고 처리
+			$(".modal-profile-report-btn").click(function(){
+				var memberNo = $(this).data("mno"); //신고당한 사람의 memberNo
+				location.href="${pageContext.request.contextPath}/dang/report/"+memberNo
+			});
+			
+			
+			//풀캘린더 생성
+			function createCalendar(){
+				//비동기화 데이터 준비
+				var memberNo = $("[name=memberNo]").val();
+				listData={
+	                	memberNo:memberNo               
+	        	}
+				//풀캘린더
+				var calendarEl = $('#calendar')[0];
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+			        aspectRatio: 1.3, //달력의 가로 세로 비율 설정
+			        height: '400px', // calendar 높이 설정
+			        expandRows: true, // 화면에 맞게 높이 재설정
+			        // 해더에 표시할 툴바
+			        headerToolbar: {
+			          left: '',
+			          center: 'title',
+			          right: ''
+			        },
+			        initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+			        nowIndicator: true, // 현재 시간 마크
+			        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+			        locale: 'ko', // 한국어 설정
+			        events: [
+			        	//이번달 출석일 확인
+						$.ajax({
+							url:"${pageContext.request.contextPath}/rest_member/attendance_list",
+							method:"get",
+							data:listData,
+				    		dataType:"json",
+				    		contentType:"application/json",
+							success:function(resp){
+								if(resp.length!=0){
+									for(var i=0; i<resp.length; i++){
+										calendar.addEvent({
+											date:resp[i]['attendanceDate'],
+											display: ['background'],
+											color:['#fff'],
+											imageurl:'/images/logo2.png'
+										})
+									}
+								}
+							}
+						})
+		           	],
+		            //발바닥 찍기
+		           	eventDidMount: function(info){
+		           		if(info.event.extendedProps.imageurl){
+		           			var findEl = info.el.parentElement.parentElement.offsetParent.parentElement;
+		           			findEl.classList.add('addImg');
+		           		}
+		           	}
+			      });
+			      // 캘린더 랜더링
+			      calendar.render();
+			}
+			
+			//취소, 돌아가기 시 첨부파일 삭제
+			function deleteAttachmentNo(){
+				var newAttachmentNo = $("[name=attachmentNo]").val();
+				var originAttachmentNo = $("[name=originAttachmentNo]").val();
+				if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
+						method:"delete",
+						data:newAttachmentNo,
+						success:function(resp){
+							$("[name=attachmentNo]").val(originAttachmentNo);
+							
+							if(originAttachmentNo==""){
+								$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+							}else{
+								$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
+							}
+						}
+					});
+				}
+			}
+			
+			//일정등록 모달에서 등록 버튼 클릭
+			$(".write-btn").click(function(e){
+				console.log(${profile.memberNo});
+				var memberNo = ${profile.memberNo};
+				var scheduleTitle = $("[name=scheduleTitle]").val();
+				var scheduleContent =$("[name=scheduleContent]").val();
+				var scheduleStart = $("[name=scheduleStart]").val();
+				var scheduleHour = $("[name=scheduleHour]").val();
+				var placeNo = $(".where").attr('data-placeno');
+				var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
+				var scheduleMoney = $("[name=scheduleMoney]").val();
+				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
+			});
+	
+			//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
+			$(document).on("click",".write-cancel",function(){
+				console.log("취소버튼클릭");
+				$(".schedule-name").val(""); //일정 제목
+				$(".write-content").val(""); //일정 내용
+				$(".when-date ").val(""); //일정 날짜
+				$(".when-time").val(""); //일정 시간		
+				$(".where").val(""); //장소
+				$("#persons").prop("selected", true);//최대 참여인원							
+				$(".money").val(""); //회비 
+			});
+			
+			//일정 등록 함수
+			function saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, 
+					scheduleHour, placeNo, scheduleHeadmax, scheduleMoney){
+				var data = {
+						scheduleTitle: scheduleTitle,
+						memberNo: memberNo,
+						scheduleContent: scheduleContent,
+						scheduleStart: scheduleStart,
+						scheduleHour: scheduleHour,
+						placeNo: placeNo,
+						scheduleHeadmax: scheduleHeadmax,
+						scheduleMoney: scheduleMoney
+				};
+				var result = confirm("일정을 등록하시겠습니까?")
+				
+				if(result ==true){
+					$.ajax({
+						url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
+						method:"post",
+						contentType:"application/json",
+						data:JSON.stringify(data),
+						success:function(resp){
+							console.log("수정성공");	
+							
+							location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
+							
+							//var placeNo = $(".schedule-where").attr('data-placeno');
+						}
+					});
+					alert("일정 등록이 완료되었습니다.")
+				}
+				else {
+					alert("일정 등록이 취소되었습니다.")
+					//적혀진 값들 지우기
+					
+				}
+			}
+			
+			//프로필 상세 정보(게시글)
+			$(document).on("click",".b-profile-info",function(){
+				var memberNo = $(this).parents(".board-box").data("mno");
+				var url = $(this).children().attr("src");
+				detailInfo(memberNo, url);
+			});
+			//프로필 상세 정보(댓글)
+			$(document).on("click",".r-profile-info",function(){
+				var memberNo = $(this).data("mno");
+				var url = $(this).attr("src");
+				detailInfo(memberNo, url);
+			});
+			//프로필 상세 정보(채팅)
+			$(document).on("click",".c-profile-info",function(){
+				var dangNo = $("[name=dangNo]").val();
+				var userNo = $(this).data("uno");
+				var url = $(this).attr("src");
+				//유저번호로 멤버번호 찾기
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_member/find_member_no?userNo="+userNo+"&dangNo="+dangNo,
+					method:"get",
+					success:function(resp){
+						detailInfo(resp, url);
+					}
+				});
+			});
+			
+			//프로필 상세정보(멤버)
+			$(document).on("click",".m-profile-info",function(){
+				var memberNo = $(this).data("mno");
+				var url = $(this).attr("src");
+				detailInfo(memberNo, url);
+			});
+			
+			//프로필 상세정보 함수
+			function detailInfo(memberNo, url){
+				var originMemberNo = $("[name=memberNo]").val();	
+			
+				$(".profile-info-owner").attr("style","dispaly:none;")
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_member/find_member?memberNo="+memberNo,
+					method:"get",
+					success:function(resp){
+						console.log(resp);
+						if(resp.memberOwner=='Y'){
+							$(".profile-info-owner").show();
+						}
+						$(".profile-info-img").attr("src",url);
+						$(".profile-info-nick").text(resp.memberNick);
+						$(".profile-info-message").text(resp.memberMessage);
+						$(".profile-info-grade").text(resp.memberGrade);
+						var text = resp.memberScore+"점";
+						$(".profile-info-score").text(text);
+						if(originMemberNo==memberNo){
+							$(".modal-profile-report-btn").hide();
+						}else{
+							$(".modal-profile-report-btn").show();
+							$(".modal-profile-report-btn").attr("data-mno",resp.memberNo);
+						}
+						$("#profile-info-modal").modal("show");
+					}
+				});
+			}
+			
+		});
+	</script>

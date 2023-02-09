@@ -52,6 +52,64 @@
 	
 </style>
 
+
+
+<div class = "container-fluid mt-3 mb-5 body-wrapper">
+
+	<div class = "col-10 offset-1 body-content">
+		<div class="image-group mb-5" >
+			<!-- 이미지 불러오기 -->
+			<c:choose>
+				<c:when test="${imgList.size()==0}">
+					<div class="mt-5 text-center">
+						<p class="title-line">
+							<span class="title-font font-gray">등록된 이미지가 없습니다
+								<i class="fa-regular fa-face-frown-open blue"></i>
+							</span>
+						</p>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="mt-5 text-center">
+						<p class="title-line">
+							<span class="title-font font-gray">댕모임 사진 몰아보기</span>
+						</p>
+					</div>
+					
+					<div class="img-size mt-5 text-center" data-checkno="">
+						<c:forEach var="vo" items="${imgList}">
+							<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
+										data-attachno="${vo.attachmentNo}" class="img-tag cursor-zoomin">
+						</c:forEach>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:if test="${imgList.size()!=0}">
+				<div class="text-center mt-4 mb-5 more-view-div">
+					<button type="button" class="btn btn-outline-primary p-2 more-btn" style="width:20%; font-size:15px;">더보기</button>
+				</div>
+			</c:if>	
+		</div>
+	</div>
+
+	<!-- 위로 올라가기 버튼 -->
+	<div class="top-btn-div text-end">
+		<i class="fa-solid fa-circle-up fa-3x"></i>
+	</div>
+	
+	<!-- 이미지 확대 -->
+	<div class="zoomin">
+		<div class="zoomin-img">
+			<!-- 확대 이미지 코드-->
+		</div>
+	</div>
+	
+	<input type="hidden" name="dangNo" value="${dangNo}">
+	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+</div>
+
+
 <script>
 	$(function(){
 		zoomin(); //이미지 확대
@@ -129,59 +187,3 @@
 
 	});
 </script>
-
-<div class = "container-fluid mt-3 mb-5 body-wrapper">
-
-	<div class = "col-10 offset-1 body-content">
-		<div class="image-group mb-5" >
-			<!-- 이미지 불러오기 -->
-			<c:choose>
-				<c:when test="${imgList.size()==0}">
-					<div class="mt-5 text-center">
-						<p class="title-line">
-							<span class="title-font font-gray">등록된 이미지가 없습니다
-								<i class="fa-regular fa-face-frown-open blue"></i>
-							</span>
-						</p>
-					</div>
-				</c:when>
-				<c:otherwise>
-					<div class="mt-5 text-center">
-						<p class="title-line">
-							<span class="title-font font-gray">댕모임 사진 몰아보기</span>
-						</p>
-					</div>
-					
-					<div class="img-size mt-5 text-center" data-checkno="">
-						<c:forEach var="vo" items="${imgList}">
-							<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}"
-										data-attachno="${vo.attachmentNo}" class="img-tag cursor-zoomin">
-						</c:forEach>
-					</div>
-				</c:otherwise>
-			</c:choose>
-			
-			<c:if test="${imgList.size()!=0}">
-				<div class="text-center mt-4 mb-5 more-view-div">
-					<button type="button" class="btn btn-outline-primary p-2 more-btn" style="width:20%; font-size:15px;">더보기</button>
-				</div>
-			</c:if>	
-		</div>
-	</div>
-
-	<!-- 위로 올라가기 버튼 -->
-	<div class="top-btn-div text-end">
-		<i class="fa-solid fa-circle-up fa-3x"></i>
-	</div>
-	
-	<!-- 이미지 확대 -->
-	<div class="zoomin">
-		<div class="zoomin-img">
-			<!-- 확대 이미지 코드-->
-		</div>
-	</div>
-	
-	<input type="hidden" name="dangNo" value="${dangNo}">
-	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-</div>
-

@@ -111,6 +111,145 @@
 	}
 	
 </style>
+
+
+<div class = "container-fluid mt-3 mb-5">
+	<div class = "col-8 offset-2">
+
+		<div class = "row">
+			<!-- 프로필 박스 시작-->
+			<div class = "col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
+			</div>
+			<!-- 프로필 박스 끝-->
+			
+			<!-- 채팅 박스 시작 -->
+			<div class = "col-6">
+				<div class = "col">
+					
+					<!-- 신고 경고창 -->
+					<c:if test="${report!=null}">
+						<div class="alert alert-dismissible alert-danger">
+							<button type="button" class="btn-close alert-xbtn" data-bs-dismiss="alert" data-rno="${report.reportNo}"></button>
+							<strong>신고 1건 발생! </strong>
+							<p style="font-size:15px;">신고 2번 경과 시 현재 댕모임에서 자동 탈퇴처리 됩니다.<br>
+									* 자세한 사항은 관리자에게 문의부탁드립니다.</p>
+						</div>
+					</c:if>
+					<div class="chat-box p-3 shadow">
+						<c:if test="${history.size()==0}">
+							<div class="no-chat text-center">
+								<span style="font-size:15px; border-bottom:1px solid gray;">아직 채팅내역이 없습니다 :)</span>
+							</div>
+						</c:if>
+						<div class="past-chat" data-no="${history[0].chatNo}"></div>
+							<!-- 기존 메세지 생성 -->
+							<c:forEach var="vo" items="${history}">
+								<c:choose>
+									<c:when test="${profile.userNo==vo.userNo}">
+										<div class="text-end me-2 mb-3">
+											<span style="font-size:10px;" class="align-bottom me-1">
+												<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+											</span>
+											<c:choose>
+												<c:when test="${vo.imgAttachmentNo==0}">
+													<span class="my-message">${vo.chatContent}</span>
+												</c:when>
+												<c:otherwise>
+													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" 
+															width="100" height="100" class="cursor-zoomin">
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="text-start ms-2">
+											<table class="mb-2">
+												<tbody>
+													<tr>
+														<td rowspan="2" class="align-top">
+															<c:choose>
+																<c:when test="${vo.attachmentNo==0}">
+																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
+																			class="img-fluid c-profile-info img-circle  cursor-pointer" width="45" height="45">
+																</c:when>
+																<c:otherwise>
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
+																		class="img-circle c-profile-info cursor-pointer" width="45" height="45" data-uno="${vo.userNo}">
+																</c:otherwise>
+															</c:choose>
+														</td>
+														<td><span class="chat-nick" style="font-size:14px;">${vo.memberNick}</span></td>
+														<td rowspan="2"></td>
+													</tr>
+													<tr>
+														<td>
+															<c:choose>
+																<c:when test="${vo.imgAttachmentNo==0}">
+																	<span class="message">${vo.chatContent}</span>
+																</c:when>
+																<c:otherwise>
+																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
+																			class="img-css cursor-zoomin">
+																</c:otherwise>
+															</c:choose>
+															<span style="font-size:10px;" class="align-bottom ms-1">
+																<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						<!-- 새 메세지 생성 -->
+						<div class="new-chat" style="margin-right:10px;"></div>
+
+					</div>
+					
+					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
+						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1">
+						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
+						<input type="text" id="chat-input" class="ms-1 me-1" style="width:85%;">
+						<button class="btn btn-primary me-1" id="send-btn" type="button">
+							<i class="fa-solid fa-paper-plane middle-items"></i>
+						</button>
+					</div>
+					
+					
+				</div>
+			</div>
+			
+			<!-- 방번호, 회원번호-->
+			<input type="hidden" name="roomNo" value="${roomNo}">
+			<input type="hidden" name="userNo" value="${profile.userNo}">
+			<input type="hidden" name="dangNo" value="${profile.dangNo}">
+			
+			<!-- 채팅 박스 끝-->
+			
+			<!-- 다가오는 일정 박스 시작-->
+			<div class="col-3">
+				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+			</div>
+			<!-- 다가오는 일정 박스  끝-->
+		</div>
+		
+		<div class="zoomin">
+			<div class="zoomin-img">
+				<!-- 확대 이미지 코드-->
+			</div>
+		</div>
+		
+		<!-- 무한스크롤 높이 -->
+		<input type="hidden" name="originHeight" value="">
+		
+	</div>
+</div>
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
 <script>
 	$(function(){
 		//1. 시작하자마자 웹소켓 연결을 생성
@@ -449,144 +588,6 @@
 			//이미지 확대
 			zoomin();
 		}
-		
-		
+
 	});
 </script>
-
-<div class = "container-fluid mt-3 mb-5">
-	<div class = "col-8 offset-2">
-
-		<div class = "row">
-			<!-- 프로필 박스 시작-->
-			<div class = "col-3">
-				<jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-			</div>
-			<!-- 프로필 박스 끝-->
-			
-			<!-- 채팅 박스 시작 -->
-			<div class = "col-6">
-				<div class = "col">
-					
-					<!-- 신고 경고창 -->
-					<c:if test="${report!=null}">
-						<div class="alert alert-dismissible alert-danger">
-							<button type="button" class="btn-close alert-xbtn" data-bs-dismiss="alert" data-rno="${report.reportNo}"></button>
-							<strong>신고 1건 발생! </strong>
-							<p style="font-size:15px;">신고 2번 경과 시 현재 댕모임에서 자동 탈퇴처리 됩니다.<br>
-									* 자세한 사항은 관리자에게 문의부탁드립니다.</p>
-						</div>
-					</c:if>
-					<div class="chat-box p-3 shadow">
-						<c:if test="${history.size()==0}">
-							<div class="no-chat text-center">
-								<span style="font-size:15px; border-bottom:1px solid gray;">아직 채팅내역이 없습니다 :)</span>
-							</div>
-						</c:if>
-						<div class="past-chat" data-no="${history[0].chatNo}"></div>
-							<!-- 기존 메세지 생성 -->
-							<c:forEach var="vo" items="${history}">
-								<c:choose>
-									<c:when test="${profile.userNo==vo.userNo}">
-										<div class="text-end me-2 mb-3">
-											<span style="font-size:10px;" class="align-bottom me-1">
-												<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-											</span>
-											<c:choose>
-												<c:when test="${vo.imgAttachmentNo==0}">
-													<span class="my-message">${vo.chatContent}</span>
-												</c:when>
-												<c:otherwise>
-													<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}" 
-															width="100" height="100" class="cursor-zoomin">
-												</c:otherwise>
-											</c:choose>
-										</div>
-									</c:when>
-									<c:otherwise>
-										<div class="text-start ms-2">
-											<table class="mb-2">
-												<tbody>
-													<tr>
-														<td rowspan="2" class="align-top">
-															<c:choose>
-																<c:when test="${vo.attachmentNo==0}">
-																	<img src="${pageContext.request.contextPath}/images/basic-profile.png" data-uno="${vo.userNo}"
-																			class="img-fluid c-profile-info img-circle  cursor-pointer" width="45" height="45">
-																</c:when>
-																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.attachmentNo}" 
-																		class="img-circle c-profile-info cursor-pointer" width="45" height="45" data-uno="${vo.userNo}">
-																</c:otherwise>
-															</c:choose>
-														</td>
-														<td><span class="chat-nick" style="font-size:14px;">${vo.memberNick}</span></td>
-														<td rowspan="2"></td>
-													</tr>
-													<tr>
-														<td>
-															<c:choose>
-																<c:when test="${vo.imgAttachmentNo==0}">
-																	<span class="message">${vo.chatContent}</span>
-																</c:when>
-																<c:otherwise>
-																	<img src="${pageContext.request.contextPath}/rest_attachment/download/${vo.imgAttachmentNo}"
-																			class="img-css cursor-zoomin">
-																</c:otherwise>
-															</c:choose>
-															<span style="font-size:10px;" class="align-bottom ms-1">
-																<fmt:formatDate value="${vo.chatDate}" pattern="a h:mm"/>
-															</span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						<!-- 새 메세지 생성 -->
-						<div class="new-chat" style="margin-right:10px;"></div>
-
-					</div>
-					
-					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
-						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1">
-						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
-						<input type="text" id="chat-input" class="ms-1 me-1" style="width:85%;">
-						<button class="btn btn-primary me-1" id="send-btn" type="button">
-							<i class="fa-solid fa-paper-plane middle-items"></i>
-						</button>
-					</div>
-					
-					
-				</div>
-			</div>
-			
-			<!-- 방번호, 회원번호-->
-			<input type="hidden" name="roomNo" value="${roomNo}">
-			<input type="hidden" name="userNo" value="${profile.userNo}">
-			<input type="hidden" name="dangNo" value="${profile.dangNo}">
-			
-			<!-- 채팅 박스 끝-->
-			
-			<!-- 다가오는 일정 박스 시작-->
-			<div class="col-3">
-				<jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
-			</div>
-			<!-- 다가오는 일정 박스  끝-->
-		</div>
-		
-		<div class="zoomin">
-			<div class="zoomin-img">
-				<!-- 확대 이미지 코드-->
-			</div>
-		</div>
-		
-		<!-- 무한스크롤 높이 -->
-		<input type="hidden" name="originHeight" value="">
-		
-	</div>
-</div>
-
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
