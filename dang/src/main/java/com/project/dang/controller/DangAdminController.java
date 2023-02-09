@@ -67,7 +67,7 @@ public class DangAdminController {
 		model.addAttribute("reportList",adminDao.dashBoardReport());
 		//model.addAttribute("recentSchdule",adminDao.recentSchdule());
 		
-		return "dang_admin/dashBoard";
+		return "dang_admin/dash_board";
 	}
 	//관리자 페이지 장소목록 이동 맵핑
 	@GetMapping("/place_list")

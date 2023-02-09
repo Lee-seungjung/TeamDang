@@ -1519,6 +1519,7 @@
 				$(".input-file").click();
 			});
 			
+			var sideProfilePreviewNoList = []; //미리보기 리스트
 			//프로필 사진변경 이벤트
 			$(".input-file").change(function(){
 				var value = $(this).val();
@@ -1538,24 +1539,33 @@
 	                    	var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
 	                    	var newAttachmentNo = resp.substr(check+1); //attachmentNo 꺼내기
 	                    	$("[name=attachmentNo]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+	                    	sideProfilePreviewNoList.push(newAttachmentNo); //미리보기 배열에 값 넣기
 	                    	
 	                    	//페이지 벗어나면 첨부파일 DB 삭제
 	                    	$(window).on("beforeunload", function(){
-	                    		deleteAttachmentNo();
-							});
+	                    		var originAttachmentNo = $("[name=originAttachmentNo]").val();
+	                    		deleteAttachmentNo(sideProfilePreviewNoList);
+	                    		$("[name=attachmentNo]").val(originAttachmentNo);
+	                    		sideProfilePreviewNoList.length=0;
+							});	
 				        }
 					});
 				}
 			});
 			
-			
 			//모달 취소버튼 클릭 시 첨부파일 DB 삭제
 			$(".p-cancel-btn").click(function(){
-				deleteAttachmentNo();
+				var originAttachmentNo = $("[name=originAttachmentNo]").val();
+				deleteAttachmentNo(sideProfilePreviewNoList);
+				$("[name=attachmentNo]").val(originAttachmentNo);
+				sideProfilePreviewNoList.length=0;
+				console.log(sideProfilePreviewNoList);
 			});
 			
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
+				var originAttachmentNo = $("[name=originAttachmentNo]").val();
+				$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
 				var originMessage = $(".originMessage").text(); //기존 상태메세지
 				
@@ -1629,7 +1639,7 @@
 				$(".length").text(textLength);
 				$(this).removeClass("is-valid is-invalid");
 				if(textLength==30){
-					$(".length").css("color","red").text(30);
+					$(".length").css("color","#495057").text(30);
 					$(this).addClass("is-valid");
 					check.memberMessage=true;
 				}else if(textLength>30){
@@ -1695,12 +1705,32 @@
 									$.ajax({
 										url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originAttachmentNo,
 										method:"delete",
+										async:false,
 										data:originAttachmentNo,
 										success:function(resp){
 											$("[name=originAttachmentNo]").val(attachmentNo);
-											
 										}
 									});
+									
+									//배열속 값이 1일 경우 비동기화 요청 중지
+									if(sideProfilePreviewNoList.length == 1) {
+										return;
+									}
+									
+									//마지막 업로드 파일 제외한 나머지 파일 삭제
+									for(var i=sideProfilePreviewNoList.length-2; i>=0; i--){
+										$.ajax({
+											url:"${pageContext.request.contextPath}/rest_attachment/delete/"+sideProfilePreviewNoList[i],
+											method:"delete",
+											async:false,
+											data:sideProfilePreviewNoList[i],
+											success:function(resp){
+											}
+										});
+									}
+									
+									//배열 초기화
+									sideProfilePreviewNoList.length=0;
 								}
 							});
 						}
@@ -1878,22 +1908,24 @@
 			}
 			
 			//취소, 돌아가기 시 첨부파일 삭제
-			function deleteAttachmentNo(){
+			function deleteAttachmentNo(sideProfilePreviewNoList){
+				console.log(sideProfilePreviewNoList);
 				var newAttachmentNo = $("[name=attachmentNo]").val();
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
 				if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
+					if(sideProfilePreviewNoList.length == 0) {
+						return;
+					}
 					$.ajax({
-						url:"${pageContext.request.contextPath}/rest_attachment/delete/"+newAttachmentNo,
-						method:"delete",
-						data:newAttachmentNo,
+						url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+						method : "delete",
+						async:false,
+						data : {
+							attachmentPreviewNoList : sideProfilePreviewNoList
+						},
 						success:function(resp){
-							$("[name=attachmentNo]").val(originAttachmentNo);
-							
-							if(originAttachmentNo==""){
-								$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
-							}else{
-								$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo);
-							}
+							console.log("삭제성공!");
+							console.log(resp);
 						}
 					});
 				}
