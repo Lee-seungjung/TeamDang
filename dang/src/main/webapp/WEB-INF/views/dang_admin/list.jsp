@@ -5,10 +5,8 @@
  
 <spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
-
-
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="DangHome" name="title"/>
+   <jsp:param value="장소 관리" name="title"/>
 </jsp:include>
 
 <style>
