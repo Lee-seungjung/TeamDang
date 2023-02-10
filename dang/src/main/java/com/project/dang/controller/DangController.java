@@ -553,4 +553,6 @@ public class DangController {
 	public String notFound() {
 		return "dang/not_found";
 	}
+	
+	
 }
