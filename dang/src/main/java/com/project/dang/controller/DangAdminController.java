@@ -67,7 +67,7 @@ public class DangAdminController {
 		model.addAttribute("reportList",adminDao.dashBoardReport());
 		//model.addAttribute("recentSchdule",adminDao.recentSchdule());
 		
-		return "dang_admin/dashBoard";
+		return "dang_admin/dash_board";
 	}
 	//관리자 페이지 장소목록 이동 맵핑
 	@GetMapping("/place_list")
@@ -122,7 +122,7 @@ public class DangAdminController {
 	
 	// 개설된 댕모임 조회
 	@GetMapping("/dang_list")
-	public String selectDangList(Model model, @ModelAttribute DangListAdminRestRequestDto dangListAdminRestRequestDto) {
+	public String selectDangList(Model model, @ModelAttribute DangListAdminRestRequestDto dangListAdminRestRequestDto, @RequestParam(required = false) String dangArea) {
 		// 조건에 따른 조회 총 갯수 반환
 		int countDangListAdmin = dangDao.countDangListAdmin(dangListAdminRestRequestDto);
 		// dto에 총 갯수 설정
@@ -132,6 +132,9 @@ public class DangAdminController {
 		System.out.println(dangListAdminRestRequestDto.toString());
 		System.out.println(dangListAdmin.toString());
 		model.addAttribute("dangListAdmin", dangListAdmin);
+		if(dangArea != null) {
+			model.addAttribute("dangArea", dangArea);
+		}
 		return "dang_admin/dang_list";
 	}
 	

@@ -5,10 +5,8 @@
  
 <spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
-
-
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="DangHome" name="title"/>
+   <jsp:param value="장소 관리" name="title"/>
 </jsp:include>
 
 <style>
@@ -395,10 +393,10 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2">
 			<c:forEach var="placeList" items="${placeList}">
-				<table class="table">
-				  <tbody class="mt-3">
+				<table class="table" >
+				  <tbody class="mt-3" >
 				  	
-				    <tr class="mt-3">
+				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY},'${placeList.placeSort}')">
 				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
 				      <td>
 				      	<div class="row mt-3">
@@ -414,7 +412,8 @@
 				      		<div class="col" style="font-size: 11px">${placeList.dangSize}까지 가능</div>
 				      	</div>
 				      </td>
-				      
+				      <td class="d-none table-x">${placeList.placeX}</td>
+				      <td class="d-none table-y">${placeList.placeY}</td>
 				      <td class="text-end mt-2 fw-bold">
 					      <div class="row mt-3  me-1">
 					      		<div class="col fw-bold">
@@ -432,7 +431,7 @@
 				  </tbody>
 				 
 				</table>
-				    </c:forEach>
+		    </c:forEach>
 			</div>
 		</div>
 		
@@ -723,7 +722,7 @@
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		        <h3 class="modal-title text-center mt-2">장소 등록하기</h3>
+		        <h3 class="modal-title text-center mt-2">지도 마커 등록</h3>
 		      <div class="modal-body">
 		         
 		        <div class="row mt-4">
@@ -735,7 +734,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeArea1" class="form-control rounded" placeholder="행정구역(구)">
+		                    <input type="text" name="placeAreaInsert" class="form-control rounded" placeholder="행정구역(구)">
 		                    <label>행정구역(구)</label>
 		                </div>
 		            </div>
@@ -750,13 +749,13 @@
 		        <div class="row mt-1">
 		            <div class="col-md-5 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeX1" class="form-control rounded" placeholder="위도">
+		                    <input type="text" name="placeXInsert" class="form-control rounded" placeholder="위도">
 		                    <label>위도</label>
 		                </div>
 		            </div>
 		            <div class="col-md-5 offset">
 		                <div class="form-floating">
-		                    <input type="text" name="placeY1" class="form-control rounded" placeholder="경도">
+		                    <input type="text" name="placeYInsert" class="form-control rounded" placeholder="경도">
 		                    <label>경도</label>
 		                </div>
 		            </div>
@@ -770,7 +769,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <select class="form-select" name="placeSort1">
+		                    <select class="form-select" name="placeSortInsert">
 		                    	<option value="카페">카페
 		                    	<option value="음식점">음식점
 		                    	<option value="운동장">운동장
@@ -790,7 +789,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeName1" class="form-control rounded" placeholder="장소이름">
+		                    <input type="text" name="placeNameInsert" class="form-control rounded" placeholder="장소이름">
 		                    <label>장소이름</label>
 		                </div>
 		            </div>
@@ -804,7 +803,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <textarea name="placeInfo1" class="form-control col-sm-5" rows="50"></textarea>
+		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
 		                    <label>(최대 500자 까지 가능합니다.)</label>
 		                </div>
 		            </div>
@@ -817,7 +816,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeAddress1" class="form-control rounded" placeholder="현주소">
+		                    <input type="text" name="placeAddressInsert" class="form-control rounded" placeholder="현주소">
 		                    <label>현주소</label>
 		                </div>
 		            </div>
@@ -830,7 +829,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOperation1" class="form-control rounded" placeholder="운영시간">
+		                    <input type="text" name="placeOperationInsert" class="form-control rounded" placeholder="운영시간">
 		                    <label>운영시간</label>
 		                </div>
 		            </div>
@@ -843,7 +842,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOff1" class="form-control rounded" placeholder="휴무일">
+		                    <input type="text" name="placeOffInsert" class="form-control rounded" placeholder="휴무일">
 		                    <label>휴무일</label>
 		                </div>
 		            </div>
@@ -856,7 +855,7 @@
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeTel1" class="form-control rounded" placeholder="전화번호">
+		                    <input type="text" name="placeTelInsert" class="form-control rounded" placeholder="전화번호">
 		                    <label>전화번호</label>
 		                </div>
 		            </div>
@@ -869,7 +868,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeUrl1" class="form-control rounded" placeholder="정보URL">
+		                    <input type="text" name="placeUrlInsert" class="form-control rounded" placeholder="정보URL">
 		                    <label>홈페이지 주소</label>
 		                </div>
 		            </div>
@@ -882,7 +881,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <select class="form-select" name="dangSize1">
+		                    <select class="form-select" name="dangSizeInsert">
 		                    	<option value="소형견">소형견
 		                    	<option value="중형견">중형견
 		                    	<option value="대형견">대형견
@@ -901,7 +900,7 @@
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <div>미리보기</div>
-		                <img src="" class="change-img" width="100" height="100">
+		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="insert-img" width="100" height="100">
 		            </div>
 		        </div>
 		        <div class="row mt-4">
@@ -911,7 +910,7 @@
 		        </div>
 		        <input type="hidden" name="dangNo1">
 		        <!--댕모임 첨부파일 댕모임 번호-->
-		        <input type="hidden" name="attachmentNo1">
+		        <input type="hidden" name="attachmentNoInsert">
 		        <!--댕모임 첨부파일 첨부파일 번호-->
 		      </div>
 		      <div class="modal-footer">
@@ -926,6 +925,28 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
+	 function moveMarker(placeX,placeY,placeSort){
+		 map.setLevel(1);
+		// 이동할 위도 경도 위치를 생성합니다 
+		    var moveLatLon = new kakao.maps.LatLng(placeX, placeY);
+		    
+		    // 지도 중심을 부드럽게 이동시킵니다
+		    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+		    map.panTo(moveLatLon);  
+		    
+		    if(placeSort=='카페'){
+		    	changeMarker('cafe');
+		    }else if(placeSort=='음식점'){
+		    	changeMarker('food');
+		    }else if(placeSort=='운동장'){
+		    	changeMarker('field');
+		    }else if(placeSort=='미용'){
+		    	changeMarker('dogsalon');
+		    }else{
+		    	changeMarker('park')
+		    }
+		    
+	}
 	
 	 function closeEdit() {
 		$('#editPlace').modal('hide')
@@ -937,23 +958,23 @@
 	
 	//닫기 모달 클릭시 초기화
 	$('.modal').on('hidden.bs.modal', function (e) {
-		  $("[name=placeArea1]").val("");
-	      $("[name=placeX1]").val("");
-	      $("[name=placeY1]").val("");
-	      $("[name=placeSort1]").val("");
-	      $("[name=placeName1]").val("");
-	      $("[name=placeInfo1]").val("");
-	      $("[name=placeAddress1]").val("");
-	      $("[name=placeOperation1]").val("");
-	      $("[name=placeOff1]").val("");
-	      $("[name=placeTel1]").val("");
-	      $("[name=placeUrl1]").val("");
-	      $("[name=dangSize1]").val("");
-	      $("[name=attachmentNo1]").val("");
+		  $("[name=placeAreaInsert]").val("");
+	      $("[name=placeXInsert]").val("");
+	      $("[name=placeYInsert]").val("");
+	      $("[name=placeSortInsert]").val("");
+	      $("[name=placeNameInsert]").val("");
+	      $("[name=placeInfoInsert]").val("");
+	      $("[name=placeAddressInsert]").val("");
+	      $("[name=placeOperationInsert]").val("");
+	      $("[name=placeOffInsert]").val("");
+	      $("[name=placeTelInsert]").val("");
+	      $("[name=placeUrlInsert]").val("");
+	      $("[name=dangSizeInsert]").val("");
+	      $("[name=attachmentNoInsert]").val("");
 	})
 
 
-	$("[name=placeInfo1]").on("input",function(){
+	$("[name=placeInfoInsert]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
@@ -992,19 +1013,19 @@
 
     //등록 버튼클릭시 실행
     $(".insert-btn").click(function () {
-        var placeArea = $("[name=placeArea1]").val();
-        var placeX = $("[name=placeX1]").val();
-        var placeY = $("[name=placeY1]").val();
-        var placeSort = $("[name=placeSort1]").val();
-        var placeName = $("[name=placeName1]").val();
-        var placeInfo = $("[name=placeInfo1]").val().replace(/\n/g, "<br />");
-        var placeAddress = $("[name=placeAddress1]").val();
-        var placeOperation = $("[name=placeOperation1]").val();
-        var placeOff = $("[name=placeOff1]").val();
-        var placeTel = $("[name=placeTel1]").val();
-        var placeUrl = $("[name=placeUrl1]").val();
-        var dangSize = $("[name=dangSize1]").val();
-        var attachmentNo = $("[name=attachmentNo1]").val();
+        var placeArea = $("[name=placeAreaInsert]").val();
+        var placeX = $("[name=placeXInsert]").val();
+        var placeY = $("[name=placeYInsert]").val();
+        var placeSort = $("[name=placeSortInsert]").val();
+        var placeName = $("[name=placeNameInsert]").val();
+        var placeInfo = $("[name=placeInfoInsert]").val().replace(/\n/g, "<br />");
+        var placeAddress = $("[name=placeAddressInsert]").val();
+        var placeOperation = $("[name=placeOperationInsert]").val();
+        var placeOff = $("[name=placeOffInsert]").val();
+        var placeTel = $("[name=placeTelInsert]").val();
+        var placeUrl = $("[name=placeUrlInsert]").val();
+        var dangSize = $("[name=dangSizeInsert]").val();
+        var attachmentNo = $("[name=attachmentNoInsert]").val();
         
         console.log(placeX.length==0);
         
@@ -1064,10 +1085,12 @@
         
     }
 
+ 	// 미리보기용 첨부파일 번호 리스트
+	var attachmentPreviewNoList = [];
+    
 	//첨부파일 변경 함수
     $(".file-input").change(function () {
         var value = $(this).val();
-
         if (this.files.length > 0) {
 
             var formData = new FormData();
@@ -1075,7 +1098,7 @@
 
 
             $.ajax({
-                url: "http://localhost:8888/rest_attachment/upload",
+                url: "${pageContext.request.contextPath}/rest_attachment/upload",
                 method: "post",
                 data: formData,
                 //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
@@ -1083,17 +1106,35 @@
                 contentType: false,
                 success: function (resp) {
                     //console.log(resp);
-                    $(".change-img").attr("src", resp); //장소 이미지 미리보기
+                    $(".insert-img").attr("src", resp); //장소 이미지 미리보기
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
                     //console.log(newAttachmentNo);
-                    $("[name=attachmentNo1]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
-
+                    $("[name=attachmentNoInsert]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    
+                    attachmentPreviewNoList.push(newAttachmentNo);
+                    console.log(attachmentPreviewNoList);
                 }
             });
         }
     });
+	
+	 // 미리보기용 첨부파일 삭제
+		$(window).bind("beforeunload", function(){
+			// 미리보기용 첨부파일 리스트의 길이가 0이면(지울 첨부파일이 없다면)
+			if(attachmentPreviewNoList.length == 0) {
+				return;
+			}
+			// 그렇지 않다면 첨부파일 삭제 실행
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+				method : "delete",
+				data : {
+					attachmentPreviewNoList : attachmentPreviewNoList
+				}
+			})
+		});
 
 	
 	// 장소 수정 함수
@@ -1259,15 +1300,15 @@
 		
 
 		
-		var mapContainer1 = document.getElementById('map'), // 지도를 표시할 div  
-		mapOption1 = {
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+		mapOption = {
 			center : new kakao.maps.LatLng(37.498004414546934,
 					127.02770621963765), // 지도의 중심좌표 
 			level : 9
 		// 지도의 확대 레벨 
 		};
 
-		var map = new kakao.maps.Map(mapContainer1, mapOption1); // 지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 		var clickedOverlay = null;//클릭이벤트 오버레이 전역변수 초기값
 

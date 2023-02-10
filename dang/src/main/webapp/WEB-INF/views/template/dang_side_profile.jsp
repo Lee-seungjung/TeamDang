@@ -406,7 +406,7 @@
 					
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
+						<div class="modal-dialog modal-dialog-centered">
 							<form class="edit-form">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -489,13 +489,13 @@
 
 	<!-- 출석체크 Modal -->
 	<div class="modal fade" id="day-check-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header mb-2" style="margin:0 auto;">
 					<img src="${pageContext.request.contextPath}/images/logo.png" width="70" height="35">
-					<p style="color:#303030; font-size:15px;" class="ms-1 me-1 modal-title1"> 댕모임의 </p>
-					<h5 class="modal-title modal-title2" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
-					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title3"> 올라갑니다!</p>
+					<p style="color:#303030; font-size:15px;" class="ms-1 me-1 modal-title-fir"> 댕모임의 </p>
+					<h5 class="modal-title modal-title-sec" id="exampleModalLabel" style="display:block; font-size:25px; color:#6C7AEF; font-weight:bolder"> 등급 포인트가 +1 </h5>
+					<p style="color:#303030; font-size:15px;" class="ms-1 modal-title-third"> 올라갑니다!</p>
 				</div>
 				<div class="modal-body">
 				 	<div id="calendar"></div>
@@ -1442,9 +1442,9 @@
 	   							AttendanceValid = false;
 	   							
 	   							//모달 타이틀 문구 변경
-	   							$(".modal-title1").text("출석 체크가 ");
-	   							$(".modal-title2").text("완료");
-	   							$(".modal-title3").text(" 되었습니다!");
+	   							$(".modal-title-fir").text("출석 체크가 ");
+	   							$(".modal-title-sec").text("완료");
+	   							$(".modal-title-third").text(" 되었습니다!");
 	   							
 	   							return;
 	   						}else{ //출석기록 없음

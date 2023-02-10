@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
-   <jsp:param value="댕모임 조회" name="title"/>
+   <jsp:param value="댕모임 관리" name="title"/>
 </jsp:include>
 
 <style>
@@ -540,6 +540,84 @@
 		var p = 1;
 		
 		var dangArea;
+		
+		// Query String	
+		// - 현재 주소
+		var urlHref = window.location.href;
+		var url = new URL(urlHref);
+		// - 대시보드에서 입력받은 지역값
+		var dangAreaInput = url.searchParams.get("dangArea");
+		console.log(dangAreaInput)
+		if(dangAreaInput != null) {
+			// 선택 지역을 입력받은 지역명으로
+			dangArea = dangAreaInput;
+			// 입력받은 지역명의 지역 id 
+			var id = $("text").filter(":contains("+dangArea+")").prop("id");
+			console.log(id);
+			// 클릭한 지역의 색 변경
+        	$("#CD" + id).addClass("area-selected");
+			// 데이터 전송 객체
+			var formData = new FormData();
+			formData.append("dangArea", dangArea);
+			formData.append("p", p);
+			// 비동기 조회
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/dang_list",
+				method : "post",
+				data : formData,
+				contentType: false,
+		        processData: false,
+				success : function(resp) {
+					if(resp.dangListAdmin.length == 0) {
+						// 목록 초기화
+						$(".div-admin-dang-list").empty();
+						// 댕모임 없음
+						$(".div-admin-dang-list")
+							.append(
+								$("<div>").attr("class", "col h-100 d-flex justify-content-center align-items-center")
+									.append(
+										$("<span>").attr("class", "span-dang-list-none").text("댕모임 목록이 존재하지 않습니다.")		
+									)		
+							)
+						// 페이지네이션 초기화
+						$(".ul-dang-list-page-item-unit").remove();
+						createPagination(1);
+					} else {
+						// 목록 초기화
+						$(".div-admin-dang-list").empty();
+						// 목록 생성
+						for(var i = 0 ; i < resp.dangListAdmin.length ; i ++) {						
+							createRowDangList(resp.dangListAdmin[i])
+						}
+						
+						// 페이지네이션 초기화
+						$(".ul-dang-list-page-item-unit").remove();
+						// 페이지네이션 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							createPagination(i);
+						}
+						
+						// 페이지네이션 양 끝 버튼 설정
+						$(".ul-dang-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+						$(".ul-dang-list-page-item-last").attr("data-pagelast", resp.blockLast);
+						if(resp.blockPrev <= 1) {
+							$(".ul-dang-list-page-item-prev").attr("data-pageprev", 1);
+						} else {
+							$(".ul-dang-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+						}
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-dang-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-dang-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains(1)").addClass("ul-dang-list-page-item-selected");
+					}
+				}
+			});
+		}
 		
 		var keyword;
 		
