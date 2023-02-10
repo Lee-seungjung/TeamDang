@@ -128,8 +128,10 @@
 				<c:otherwise>
 					<div class="simple-schedule-box">
 					<div class="simple-date-box">
-					</div>				
-						<span>등록된 일정이 없습니다.</span>	
+					</div>
+						<div class="text-center">	
+							<span style="font-size:16px;">등록된 일정이 없습니다.</span>	
+						</div>
 				</div>
 									
 				</c:otherwise>
