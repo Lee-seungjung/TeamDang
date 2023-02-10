@@ -362,6 +362,7 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
+				<p style="font-size: 13px;">(총 <i style="font-size: 13px; color: green;">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
 			</div>
 		</div>
 		
