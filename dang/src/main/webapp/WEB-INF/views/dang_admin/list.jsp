@@ -11,6 +11,14 @@
 
 <style>
 	
+	.btn-place-sort {
+	    height: 2em;
+	    border-radius: 5px;
+	    color: white;
+	    border: none;
+	    background-color: #F94888;
+	}
+	
 	/* 페이지네이션 */
 	ul {
 	    list-style: none;
@@ -362,6 +370,17 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
+				<p style="font-size: 13px;">(총 <i style="font-size: 13px; color: green;">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
+			</div>
+		</div>
+		
+		<div class="row mt-3">
+			<div class="col-md-8 offset-md-2 text-center">
+				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=카페'">카페</button>
+				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=음식점'">음식점</button>
+				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=운동장'">운동장</button>
+				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=미용'">미용</button>
+				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=공원'">공원</button>
 			</div>
 		</div>
 		
@@ -370,11 +389,12 @@
 					<form action = "place_list" method = "get">
 		<div class="row mt-3">
 			<div class="col-3">
-				<select class="form-select" name = "type" required>
+				<select class="form-select" style="height: 51px" name = "type" required>
 					<option value = "place_name">장소명</option>
-					<option value = "place_area">지역명</option>
-					<option value = "place_sort">카페고리</option>
-					<option value = "place_info">내용</option>
+					<option value = "place_address">주소명</option>
+					<option value = "place_area">지역구</option>
+					<option value = "place_sort">카테고리</option>
+					<option value = "place_tel">전화번호</option>
 				</select>
 			</div>
 			<div class="col-6">
@@ -397,7 +417,7 @@
 				  <tbody class="mt-3" >
 				  	
 				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY},'${placeList.placeSort}')">
-				      <th width="150px" scope="row"><img width="150px" height="150px" src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo }"></th>
+				      <th width="150px" scope="row"><img width="150px" height="150px" src="${pageContext.request.contextPath}/rest_attachment/download/${placeList.attachmentNo }"></th>
 				      <td>
 				      	<div class="row mt-3">
 				      		<div class="col fw-bold">${placeList.placeName}</div>
