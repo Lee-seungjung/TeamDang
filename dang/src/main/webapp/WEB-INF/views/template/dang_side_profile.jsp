@@ -407,8 +407,7 @@
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
-							<form class="edit-form">
-							<div class="modal-content">
+							<form class="edit-form modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
 								</div>
@@ -446,7 +445,6 @@
 									<button type="button" class="btn btn-secondary p-cancel-btn" data-bs-dismiss="modal">취소</button>
 									<button type="submit" class="btn btn-primary p-confirm-btn" data-bs-dismiss="modal">확인</button>
 								</div>
-							</div>
 							</form>
 						</div>
 					</div>
