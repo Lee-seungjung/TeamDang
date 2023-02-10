@@ -76,6 +76,7 @@ public class DangAdminController {
 		placeListRequestDto.setCount(count);
 		List<DangPlaceDto> placeList = dangPlaceDao.selectList(placeListRequestDto);
 		model.addAttribute("placeList", placeList);
+		model.addAttribute("countAll", dangPlaceDao.countPlace());
 		return "dang_admin/list";
 	}
 	//관리자 페이지 장소목록 이동 맵핑

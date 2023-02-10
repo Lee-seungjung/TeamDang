@@ -116,7 +116,14 @@
 				
 				<div class="report-div mt-4">
 					<div class="col-10 offset-1 text-center mt-1 mb-5">
-						<button type="button" class="btn out-btn w-25">탈퇴</button>
+						<c:choose>
+							<c:when test="${profile.memberOwner=='N'}">
+								<button type="button" class="btn out-btn m-out-btn w-25">탈퇴</button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn out-btn m-close-btn w-25">해체</button>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				
@@ -131,38 +138,65 @@
 	</div>
 	
 	<!-- 탈퇴 모달 시작 -->
-		<div class="modal" id="m-deleteModal">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header" style="height:20px;">
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true"></span>
-						</button>
-					</div>
-					<div class="modal-body middle-items">
-						<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
-						<span>정말 탈퇴하시겠습니까?</span>
-					</div>
-					<div>
-						<span style="font-size:13px; margin-left:35px;">
-							탈퇴 시 회원 정보가 즉시 <strong class="pink">파기</strong>되며 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
-						</span>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
-						<button type="button" class="btn btn-secondary m-cancel-btn" data-bs-dismiss="modal">취소</button>
-					</div>
+	<div class="modal" id="m-deleteModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height:20px;">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body middle-items">
+					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+					<span>정말 탈퇴하시겠습니까?</span>
+				</div>
+				<div>
+					<span style="font-size:13px; margin-left:35px;">
+						탈퇴 시 회원 정보가 즉시 <strong class="pink">파기</strong>되며 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
+					</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>
-		<!-- 탈퇴 모달 끝 -->
+	</div>
+	<!-- 탈퇴 모달 끝 -->
+	
+	<!-- 해체 모달 시작 -->
+	<div class="modal" id="m-closeModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height:20px;">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body middle-items">
+					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+					<span>정말 해체하시겠습니까?</span>
+				</div>
+				<div>
+					<span style="font-size:13px; margin-left:35px;">
+						해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며 <strong class="pink">복구 불가</strong>합니다.
+					</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary modal-close-btn">해체</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 해체 모달 끝 -->
 	
 </div>
 
 <script>
 	$(function(){
 		//탈퇴 여부 재확인 모달창 띄우기
-		$(".out-btn").click(function(){
+		$(".m-out-btn").click(function(){
 			$("#m-deleteModal").modal("show");
 		});
 		
@@ -182,6 +216,30 @@
 				}
 			});
 		});
+		
+		//해체 여부 재확인 모달창 띄우기
+		$(".m-close-btn").click(function(){
+			$("#m-closeModal").modal("show");
+		});
+		
+		//확인 버튼 누를 경우 댕모임 해체(삭제) 처리
+		$(".modal-close-btn").click(function(){
+			var dangNo = $("[name=dangNo]").val();
+
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_dang/close_dang?dangNo="+dangNo,
+				method:"delete",
+				success:function(resp){
+					console.log("해체 성공!");
+					if(resp){
+						//홈화면으로 이동
+						location.href="${pageContext.request.contextPath}/";
+					}
+				}
+			});
+		});
+		
+		
 		
 	});
 </script>
