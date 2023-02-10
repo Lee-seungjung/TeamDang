@@ -141,7 +141,7 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" >
+						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${userListRequestDto.blockNext()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -174,7 +174,7 @@
 										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
 										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
 										<td>
-											<a class="btn btn-primary user-detail" data-rno="" href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
+											<a class="btn btn-primary user-detail"  href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
 										</td>
 									</tr> 
 								</c:forEach>	       
@@ -207,6 +207,64 @@ $(function(){
 	var keyword;
 	
 	
+	$(document).on("click", ".ul-user-list-page-item-unit", function(){
+		console.log($(this).children().text());
+		
+		p = $(this).children().text();
+		
+		var formData = new FormData();
+		formData.append("p", p);
+		if(type != null && keyword != null) {
+			formData.append("type", type);
+			formData.append("keyword", keyword);
+		}
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/user_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				console.log(resp);
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-user-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-user-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-user-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				$(".data-body").empty();
+				if(resp.userList.length==0){
+					var body = $(".data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+					body.append(tr);
+				}else{
+					
+					for(var i=0; i<resp.userList.length; i++){
+						userList(resp.userList[i]);
+					}
+					// 초기화
+					$(".ul-user-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						userListPagination(i);
+					}
+				}
+			}	
+		});
+	});
+	
+	
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".user-search-btn", function(){
 		
@@ -220,14 +278,16 @@ $(function(){
 			console.log("안돼");
 			return;
 		}
+		type = userSelectBox;
+		keyword = userSearchInput;
 		
 		console.log("돼");
 		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
 		formData.append("numberState", numberState);
-		formData.append("type", userSelectBox);
-		formData.append("keyword", userSearchInput);
+		formData.append("type", type);
+		formData.append("keyword", keyword);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/user_list",
@@ -252,14 +312,16 @@ $(function(){
 					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
+				$(".data-body").empty();
 				if(resp.userList.length==0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 									.text("내역이 존재하지 않습니다.");
 					tr.append(td);
+					body.append(tr);
 				}else{
-					$(".data-body").empty();
+					
 					for(var i=0; i<resp.userList.length; i++){
 						userList(resp.userList[i]);
 					}
@@ -477,7 +539,7 @@ $(function(){
 	
 /* 	//카테고리 조회
 	$(document).on("click", ".cnt-num", function(){
-		$(".number-box").removeClass("select-color");
+		$(".number-box").remuserListAdminBoveClass("select-color");
 		$(this).parent().addClass("select-color");
 		
 		var type = $(".user-form-select").val("").prop("selected", true);

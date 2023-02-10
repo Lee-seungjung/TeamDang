@@ -16,15 +16,6 @@ public class UserListSearchDto {
 
 	private int blockSize = 10;//무한스크롤 페이징은 어떻게 하는거징..? 최종 갯수가없어서 임의값 줬어요
 
-	private int startPost = this.startRow();
-	private int endPost = this.endRow();
-
-	private boolean havePrev = this.hasPrev();
-	private boolean haveNext = this.hasNext();
-
-	private int firstBlock = this.startBlock();
-	private int LastBlock = 1;
-
 	public int startRow() {//화면에 보여주는 게시글 처음 번호
 		return endRow() - (size - 1);
 	}
