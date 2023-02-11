@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
+
 
 	<style>
 		.modal-header{
@@ -356,7 +356,6 @@
     }
 </style>
 
-
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
@@ -365,7 +364,7 @@
 			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-10">
 					<c:choose>
-						<c:when test="${attachmentNo==null}">
+						<c:when test="${attachmentNo == null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 						</c:when>
 						<c:otherwise>
@@ -461,7 +460,7 @@
 						<div class="col-4">
 							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinScheduleCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
 						</div>
 						<div class="col-4">
 							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
@@ -628,7 +627,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1" >참여 회비</label>
-                            <input class="money form-control" name="scheduleMoney" maxLength="7" id="joinMoney" />
+                            <input class="money form-control" name="scheduleMoney" maxLength="7" />
                             <span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>                            
                         </div>
 
@@ -691,6 +690,8 @@
 	<input type="hidden" class="cl" data-no="27">
 	
 </div>
+
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
   <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey }"></script>
@@ -1929,19 +1930,6 @@
 				}
 			}
 			
-			//천단위 콤마 표시
-			const input = document.querySelector('#joinMoney');
-	        input.addEventListener('keyup', function(e) {
-	          let value = e.target.value;
-	          value = Number(value.replaceAll(',', ''));
-	          if(isNaN(value)) {
-	            input.value = 0;
-	          }else {
-	            const formatValue = value.toLocaleString('ko-KR');
-	            input.value = formatValue;
-	          }
-	        })
-			
 			//일정등록 모달에서 등록 버튼 클릭
 			$(".write-btn").click(function(e){
 				console.log(${profile.memberNo});
@@ -1953,28 +1941,7 @@
 				var placeNo = $(".where").attr('data-placeno');
 				var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 				var scheduleMoney = $("[name=scheduleMoney]").val();
-				
-				//등록할때 들어가는 콤마삭제(숫자로만 표시)
-				var changestr = scheduleMoney.replace(',', '');
-				
-				if (scheduleTitle.length === 0) {
-		            alert('제목을 입력해 주세요!');
-		            return;
-		        }else if(scheduleContent.length==0){
-					alert('내용을 입력해 주세요!');
-					return;
-				}else if(scheduleStart.length==0){
-					alert('날짜를 지정해 주세요!');
-					return;
-				}else if(placeNo==null){
-					alert('장소를 지정해 주세요!');
-					return;
-				}else if(scheduleHeadmax.length==0){
-					alert('참여인원을 설정해 주세요');
-					return;
-				}
-				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, changestr); 
-				 
+				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 			});
 	
 			//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화

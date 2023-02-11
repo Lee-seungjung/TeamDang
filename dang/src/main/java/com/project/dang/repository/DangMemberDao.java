@@ -120,10 +120,10 @@ public interface DangMemberDao {
 	
 	/**
 	 * 참여 모임 수
-	 * @param memberNo
+	 * @param userNo
 	 * @return 모임 수(int)
 	 */
-	int joinScheduleCount(int memberNo);
+	int joinDangCount(int userNo);
 	
 	/**
 	 * 프로필 첨부파일 번호 조회
