@@ -35,11 +35,13 @@
 <!--대시 보드 시작-->
 <div class="container-fluid">
 
-   	 <div class="row mt-2">
-    	<div class="col d-flex align-items-center justify-content-center">
-      		<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="img-dang-admin-main">
-    	</div>
-  	</div>
+	<div class="row ">
+		<div class="col-10 offset-1">
+			<div class="row mt-2 justify-content-center">
+				<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="img-fluid img-dang-admin-main">
+			</div>
+		</div>
+	</div>
 
     <div class="row mt-4 offset-md-1"></div>
     
