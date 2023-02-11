@@ -39,6 +39,14 @@
 	.btn.out-btn:focus{
 		box-shadow: 0 0 0 0.25rem rgba(220, 224, 227, 0.5);
 	}
+	.btn.modal-close-btn,
+	.btn.m-delete-btn{
+		border: 1px solid #787878;
+	    background-color: #787878;
+	    color: white;
+	    opacity: 0.5;
+	    
+	}
 </style>
 
 <div class = "container-fluid mt-3 mb-5">
@@ -141,22 +149,19 @@
 	<div class="modal" id="m-deleteModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="height:20px;">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-				</div>
+				<div class="modal-header" style="height:20px;"></div>
 				<div class="modal-body middle-items">
 					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
 					<span>정말 탈퇴하시겠습니까?</span>
 				</div>
 				<div>
-					<span style="font-size:13px; margin-left:35px;">
-						탈퇴 시 회원 정보가 즉시 <strong class="pink">파기</strong>되며 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
-					</span>
+					<p style="font-size:13px; margin-left:35px; margin-right:35px;">
+						탈퇴 시 댕모임 내 모든 정보(게시글, 채팅...) <strong class="pink">파기</strong>되며<br>
+						 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
+					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
+					<button type="button" class="btn m-delete-btn">탈퇴</button>
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -168,22 +173,19 @@
 	<div class="modal" id="m-closeModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="height:20px;">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-				</div>
+				<div class="modal-header" style="height:20px;"></div>
 				<div class="modal-body middle-items">
 					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
 					<span>정말 해체하시겠습니까?</span>
 				</div>
 				<div>
-					<span style="font-size:13px; margin-left:35px;">
-						해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며 <strong class="pink">복구 불가</strong>합니다.
-					</span>
+					<p style="font-size:13px; margin-left:35px; margin-right:35px;">
+						해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며<br>
+						<strong class="pink">복구 불가</strong>합니다.
+					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary modal-close-btn">해체</button>
+					<button type="button" class="btn modal-close-btn">해체</button>
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>

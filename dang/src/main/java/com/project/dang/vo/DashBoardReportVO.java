@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class DashBoardReportVO {
+	private int reportNo;
 	private String memberNick;
 	private Date reportDate;
 	private String reportState;

@@ -7,14 +7,12 @@
 </jsp:include>
 
 <style>
-	.statistics-number {
-		font-size: 23px;
-		font-weight: bold;
+	* {
+		
 	}
 	
-	.statistics-font {
-	    font-size: 12px;
-	    font-weight: bold;
+	.statistics-number {
+		font-size: 24px;
 	}
 	
 	.img-dang-admin-main {
@@ -30,106 +28,175 @@
 	th, td {
   		text-align: center;
 	}
+	
+	.img-admin-main-category {
+		width : 3rem;
+		aspect-ratio : 1/1;
+	}
+	
+	.strong-admin-main-category {
+		font-size : 24px;
+	}
+	
+	.div-admin-main-report-list-category {
+		border-bottom : 2px black solid;
+	}
+	
+	.report-detail:hover {
+		background-color : #EAEAEA;
+	}
+	
+	.div-admin-main-category {
+		border : 1px solid #EAEAEA;
+		border-radius : 10px;
+	}
+	
+	.div-dang-area-list,
+	.div-report-list {
+		border : 1px solid #EAEAEA;
+		border-radius : 10px;
+		height : 26rem;
+	}
 </style>
 
 <!--대시 보드 시작-->
 <div class="container-fluid">
 
-   	 <div class="row mt-2">
-    	<div class="col d-flex align-items-center justify-content-center">
-      		<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="img-dang-admin-main">
-    	</div>
-  	</div>
-
-    <div class="row mt-4 offset-md-1">
-       
+	<div class="row mt-5 mb-5">
+		<div class="col-10 offset-1">
+			<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="w-100 img-dang-admin-main">
+		</div>
+	</div>
+    
+    <div class="row mb-5">
+    	<div class="col-10 offset-1">
+			<div class="row">
+				<div class = "col-3">
+					<div class="col shadow cursor-pointer py-4 div-admin-main-category" onclick="location.href='${pageContext.request.contextPath}/admin/user_list'">
+			            <div class="row px-3">
+			                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+			                    <strong class="statistics-font">주간 사용자 수</strong>
+			                    <strong class="statistics-number">${recentLogin}</strong>
+			                </div>
+			                <div class="col-4 d-flex justify-content-center align-items-center">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png">
+			                </div>
+			            </div>
+			        </div>
+				</div>
+				<div class = "col-3">
+					<div class="col shadow cursor-pointer py-4 div-admin-main-category" onclick = "location.href='${pageContext.request.contextPath}/admin/dang_list'">
+			            <div class="row px-3">
+			                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+			                    <strong class="statistics-font">주간 댕모임 개설 수</strong>
+			                    <strong class="statistics-number">${recentDang}</strong>
+			                </div>
+			                <div class="col-4 d-flex justify-content-center align-items-center">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png">
+			                </div>
+			            </div>
+			        </div>
+				</div>
+				<div class = "col-3">
+					<div class="col shadow cursor-pointer py-4 div-admin-main-category" onclick = "location.href = '${pageContext.request.contextPath}/admin/report'">
+			            <div class="row px-3">
+			                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+			                    <strong class="statistics-font">주간 신고 수</strong>
+			                    <strong class="statistics-number">${recentReport}</strong>
+			                </div>
+			                <div class="col-4 d-flex justify-content-center align-items-center">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admin-icon-alarm.png">
+			                </div>
+			            </div>
+			        </div>
+				</div>
+				<div class = "col-3">
+					<div class="col shadow cursor-pointer py-4 div-admin-main-category" onclick = "location.href = '${pageContext.request.contextPath}/admin/user_list'">
+			            <div class="row px-3">
+			                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+			                    <strong class="statistics-font text-center">7일간 가입자 수</strong>
+			                    <strong class="statistics-number text-center">${recentJoin}</strong>
+			                </div>
+			                <div class="col-4 d-flex justify-content-center align-items-center">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png">
+			                </div>
+			            </div>
+			        </div>
+				</div>
+	    	 </div>
+        </div>
     </div>
-    <div class="row mt-4 offset-1 mb-5">
-    	 <div class="col-2 shadow  ms-3 me-4">
-    		<a href="${pageContext.request.contextPath}/admin/user_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 사용자 수</p>
-	                    <p class="statistics-number ms-2">${recentLogin}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png" width="100%;"
-	                        height="70%;">
-	                </div>
-	            </div>
-        	</a>
-        </div>
-        <div class="col-2 shadow ms-5 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/dang_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 댕모임 개설 수</p>
-	                    <p class="statistics-number ms-2">${recentDang}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png" width="100%;" height="70%;">
-	                </div>
-	            </div>
-            </a>
-        </div>
-        <div class="col-2 shadow ms-5 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/report">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 신고 수</p>
-	                    <p class="statistics-number ms-2">${recentReport}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admin-icon-alarm.png" width="100%;" height="70%;">
-	                </div>
-	            </div>
-            </a>
-        </div>
-        <div class="col-2 shadow ms-4 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/user_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">7일간 가입자 수</p>
-	                    <p class="statistics-number ms-2">${recentJoin}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png" width="100%;"
-	                        height="70%;">
-	                </div>
-	            </div>
-	         </a>
-        </div>
-    	
-        <div class="col-md-5 shadow ms-3 me-3 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
-            <canvas id="regionChart" width="300" height="186"></canvas>
-        </div>
-        <div class="col-md-5 shadow ms-1 me-1 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
-        	
-	        	<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th>댕모임명</th>
-				      <th>닉네임</th>
-				      <th>신고일짜</th>
-				      <th>신고현황</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  <c:forEach var="reportList" items="${reportList}">
-				    <tr>
-				      <td >${reportList.dangName}</td>
-				      <td>${reportList.memberNick}</td>
-				      <td>${reportList.reportDate}</td>
-				      <td>${reportList.reportState}</td>
-				    </tr>
-				  </c:forEach>
-				  </tbody>
-				</table>
+    <div class="row mb-5">	
+        <div class="col-10 offset-1">
+        	<div class="row d-flex justify-content-between">
+        		<div class="col-6">
+        			<div class = "col shadow py-4 px-4 div-dang-area-list">      
+        				<div class = "row mb-5">
+        					<div class = "col d-flex justify-content-center align-items-center">
+  	 							<strong class=" strong-admin-main-category">지역별 이용현황</strong>
+        					</div>
+        				</div> 
+        				<div class = "row">
+        					<div class = "col d-flex justify-content-center align-items-center">
+					            <canvas id="regionChart" class = "w-100"></canvas>        					
+        					</div>
+        				</div>		
+        			</div>
+		        </div>
+		        <div class="col-6">
+		        	<div class = "col shadow py-4 px-4 div-report-list">
+		        		<div class = "row mb-3">	
+		        			<div class = "col d-flex justify-content-center align-items-center">
+			        			<strong class="strong-admin-main-category">신고 목록</strong>	
+		        			</div>	        		
+		        		</div>
+		        		<div class = "row">
+		        			<div class = "col">
+		        				<div class = "row py-2 div-admin-main-report-list-category">
+		        					<div class = "col-4 text-center">
+		        						<strong>댕모임명</strong>
+		        					</div>
+		        					<div class = "col-3 text-center">
+		        						<strong>닉네임</strong>
+		        					</div>
+		        					<div class = "col-3 text-center">
+		        						<strong>신고일짜</strong>
+		        					</div>
+		        					<div class = "col-2 text-center">
+		        						<strong>신고현황</strong>
+		        					</div>
+		        				</div>
+		        				<c:forEach var="reportList" items="${reportList}">
+		        				<div class = "row py-3 cursor-pointer report-detail" data-rno="${reportList.reportNo}">
+		        					<div class = "col-4 text-center">
+		        						<span>${reportList.dangName}</span>
+		        					</div>
+		        					<div class = "col-3 text-center">
+		        						<span>${reportList.memberNick}</span>
+		        					</div>
+		        					<div class = "col-3 text-center">
+		        						<span>${reportList.reportDate}</span>
+		        					</div>
+		        					<div class = "col-2 text-center">
+		        						<span>${reportList.reportState}</span>
+		        					</div>
+		        				</div>
+								</c:forEach>
+		        				<c:if test="${reportList.size()==0}">
+								<div class = "row">
+									<div class = "col">신고 내역이 없습니다.</div>
+								</div>
+								</c:if>
+		        			</div>
+		        		</div>
+		        	</div>
+		        </div>
+        	</div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
 <script>
 
@@ -144,6 +211,7 @@ $(function(){
         method: "get",
         contentType: "application/json",
         success: function (resp) {
+        	console.log(resp);
         	//List 반복문
         	for(var i = 0; i<resp.length; i++) {
         		labelList.push(resp[i].dangArea);//라벨배열에 밀어넣기
@@ -169,15 +237,25 @@ $(function(){
     				                }
     				            }]
     				        },
-    				        events: ['click']
-    				}
+    				        events: ['click'],
+    				        plugins: {
+    	    		            labels: {
+    	    		                render: valueList,
+    	    		                fontColor: 'black',
+    	    		                fontSize: 16,
+    	    		                precision: 2
+    	    		            }
+    	    		        }
+    				        
+    				}	
    				 };
 
         	var ctx = document.getElementById('regionChart').getContext('2d');
         	var myChart= new Chart(ctx, {//차트 객체 생성
         		      type: 'pie',
-        			  data: data
+        			  data: data,
         	});
+
         	
         	// 클릭 이벤트 리스너
         	myChart.canvas.addEventListener('click', function(event) {
@@ -202,6 +280,13 @@ $(function(){
     	var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
     	return color;
     }
+    
+    //신고 상세로 이동
+    $(".report-detail").click(function(){
+    	var reportNo = $(this).data("rno");
+    	location.href="${pageContext.request.contextPath}/admin/report_detail?reportNo="+reportNo;
+    });
+    
 });
 
 </script>

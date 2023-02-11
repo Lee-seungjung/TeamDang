@@ -37,7 +37,7 @@
 	<select id="dashBoardReport" resultType="DashBoardReportVO">
 		select * from (
 		    select TMP.*, rownum rn from (
-		       select r.member_nick, r.report_date, r.report_state , d.dang_name 
+		       select r.report_no, r.member_nick, r.report_date, r.report_state , d.dang_name 
 		        from dang_report r inner JOIN dang d on r.dang_no = d.dang_no order by r.report_date desc
 		    )TMP
 		) where rn between 1 and 5
