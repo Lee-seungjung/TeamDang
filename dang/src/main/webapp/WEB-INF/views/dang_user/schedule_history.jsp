@@ -268,15 +268,15 @@
 					} else {
 						$(".ul-history-list-page-item-next").attr("data-pagenext", resp.blockNext);
 					}
-					$(".history-data-body").empty();
-					if(resp.scheduleHistory.length == 0){
+					
+					if(resp.scheduleHistory.length == null){
 						var body = $(".history-data-body");
 						var tr = $("<tr>").attr("class","align-middle");
 						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 										.text("참여일정이 존재하지 않습니다.");
 						tr.append(td);
-						body.append(tr);
-					}else{						
+					}else{
+						$(".history-data-body").empty();
 						for(var i=0; i<resp.scheduleHistory.length; i++){
 							scheduleHistory(resp.scheduleHistory[i]);
 						}
