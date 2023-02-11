@@ -8,8 +8,7 @@
 <style>
 	
     * {
-   
-		
+ 		
     }
 
     .under-menu{
@@ -219,68 +218,88 @@
                     <div class="col-5 mydang-border">
                     	<div id="carouselPuppyInfo" class="carousel slide" data-bs-ride="carousel">
 						  	<div class="carousel-inner">
-						  		<c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
-						    	<div class="carousel-item">
-						      		<div class = "container-fluid">
-						      			<div class = "row px-5 py-4 mt-3">
-						      				<div class = "col-6 d-flex justify-content-center align-items-center">
-						      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
-						      				</div>
-						      				<div class = "col-6">
-						      					<div class = "row my-4">
-						      						<div class = "col d-flex justify-content-center align-items-center">
-							      						<strong class = "strong-puppy-info-puppy-name">${dangPuppyList.dangPuppyInfoDto.puppyName}</strong>
-						      						</div>
-						      					</div>
-						      					<div class = "row my-4">
-						      						<div class = "col-6 d-flex justify-content-center align-items-center">
-						      							<span>나이</span>
-						      						</div>
-						      						<div class = "col-6">
-						      							<span>${dangPuppyList.dangPuppyInfoDto.puppyAge}살</span>
-						      						</div>
-						      					</div>
-						      					<div class = "row my-4">
-						      						<div class = "col-6 d-flex justify-content-center align-items-center">
-						      							<span>성별</span>
-						      						</div>
-						      						<div class = "col-6">
-						      							<c:choose>
-						                                <c:when test = "${dangPuppyList.dangPuppyInfoDto.puppyGender == 'M'}">
-						                                <span>남아</span>
-					                                    <i class="fa-solid fa-mars ms-1 i-puppy-gender-male"></i>
-						                                </c:when>
-						                               	<c:otherwise>
-						                           		<span>여아</span>
-					                                    <i class="fa-solid fa-venus ms-1 i-puppy-gender-female"></i>
-						                               	</c:otherwise>
-						                                </c:choose>
-						      						</div>
-						      					</div>
-						      				</div>
-						      			</div>
-						      			<div class = "row mt-3">
-						      				<div class = "col d-flex flex-row justify-content-center align-items-center">
-						      					<c:forEach var = "dangPuppyCharacter" items = "${dangPuppyList.dangPuppyCharacter}">
-						      						<span class = "mx-2 span-puppy-character">#${dangPuppyCharacter}</span>
-						      					</c:forEach>
-						      				</div>
-						      			</div>
-						      		</div>
-						    	</div>
+						  	  <c:if test = "${dangPuppyList ne null}">
+						  		<c:forEach var = "dangPuppyList" items = "${dangPuppyList}">						  		
+							    	<div class="carousel-item">						    	
+							      		<div class = "container-fluid">
+							      			<div class = "row px-5 py-4 mt-3">
+							      				<div class = "col-6 d-flex justify-content-center align-items-center">
+							      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+							      				</div>
+							      				<div class = "col-6">
+							      					<div class = "row my-4">
+							      						<div class = "col d-flex justify-content-center align-items-center">
+								      						<strong class = "strong-puppy-info-puppy-name">${dangPuppyList.dangPuppyInfoDto.puppyName}</strong>
+							      						</div>
+							      					</div>
+							      					<div class = "row my-4">
+							      						<div class = "col-6 d-flex justify-content-center align-items-center">
+							      							<span>나이</span>
+							      						</div>
+							      						<div class = "col-6">
+							      							<span>${dangPuppyList.dangPuppyInfoDto.puppyAge}살</span>
+							      						</div>
+							      					</div>
+							      					<div class = "row my-4">
+							      						<div class = "col-6 d-flex justify-content-center align-items-center">
+							      							<span>성별</span>
+							      						</div>
+							      						<div class = "col-6">
+							      							<c:choose>
+							                                <c:when test = "${dangPuppyList.dangPuppyInfoDto.puppyGender == 'M'}">
+							                                <span>남아</span>
+						                                    <i class="fa-solid fa-mars ms-1 i-puppy-gender-male"></i>
+							                                </c:when>
+							                               	<c:otherwise>
+							                           		<span>여아</span>
+						                                    <i class="fa-solid fa-venus ms-1 i-puppy-gender-female"></i>
+							                               	</c:otherwise>
+							                                </c:choose>
+							      						</div>
+							      					</div>
+							      				</div>
+							      			</div>
+							      			<div class = "row mt-3">
+							      				<div class = "col d-flex flex-row justify-content-center align-items-center">
+							      					<c:forEach var = "dangPuppyCharacter" items = "${dangPuppyList.dangPuppyCharacter}">
+							      						<span class = "mx-2 span-puppy-character">#${dangPuppyCharacter}</span>
+							      					</c:forEach>
+							      				</div>
+							      			</div>
+							      		</div>
+							    	</div>						    	
 						    	</c:forEach>
-					  		</div>
-					  		<button class="carousel-control-prev" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="prev">
-					    		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					    		<span class="visually-hidden">Previous</span>
-					  		</button>
-					  		<button class="carousel-control-next" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="next">
-					    		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					    		<span class="visually-hidden">Next</span>
-					  		</button>
-						</div>
-					</div> <!-- col-5끝 -->
-				</div>
+							    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="prev">
+						    		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						    		<span class="visually-hidden">Previous</span>
+						  		</button>
+						  		<button class="carousel-control-next" type="button" data-bs-target="#carouselPuppyInfo" data-bs-slide="next">
+						    		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    		<span class="visually-hidden">Next</span>
+						  		</button>
+						    	</c:if>
+						    	<c:if test= "${dangPuppyList.size() == 0}">					   
+							    	<div class="carousel-item">						    	
+							      		<div class = "container-fluid">
+							      			<div class = "row px-5 py-5 mt-3">
+							      				<div class = "col">
+							      					<div class = "row my-5 py-3">
+							      						<div class = "col my-3 d-flex justify-content-center align-items-center">
+								      						<strong class = "strong-puppy-info-puppy-name">댕댕이 정보가 없습니다</strong>
+							      						</div>
+							      						<div class="d-flex d-flex justify-content-center align-items-center" >
+							      							<a href = "${pageContext.request.contextPath}/user/edit_puppy_info">댕댕이 정보 등록하기</a>
+							      						</div>
+							      					</div>
+							      					</div>
+							      				</div>
+							      			</div>
+							      		</div>		    							    	
+							    	</c:if>		    	
+						  		</div>
+							</div>
+						</div> <!-- col-5끝 -->
+					</div>
             
             <div class="col">
                 <div class="row mypage-1 mb-3">
