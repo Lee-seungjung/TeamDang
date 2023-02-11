@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor
-public class UserListSearchDto {
+public class PuppyListSearchDto {
 	private String type;//컬럼명
 	private String keyword;//검색어
 
