@@ -8,7 +8,7 @@
 <style>
 	
     * {
- 		
+      
     }
 
     .under-menu{
@@ -131,83 +131,76 @@
                 </div>
 
                 <div class="row mb-3 ">
-                    <div class="col-7 myprofile-border">
+                    <div class="col-7 myprofile-border d-flex flex-column align-items-center justify-content-center">
                         <div class="row">
-                            <div class="col-5 dang-owner-profile">
-                                <div class="row py-3 px-4">
-                                	<div class = "col py-3 d-flex flex-column align-items-center justify-content-center">
+                            <div class="col-5 dang-owner-profile d-flex flex-column align-items-center justify-content-center">
+                                <div class="row px-3">
+                                	<div class = "col d-flex flex-column align-items-center justify-content-center">
 	                                	<c:choose>             
 	                                	<c:when test = "${loginProfileImg == null}" >                     
-		                                    <img class = "img-owner-profile img-circle origin-img w-100" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
-		                                    <span class="dang-nick2 row align-items-center justify-content-center my-3">${userInfo.userNick}</span>
+		                                    <img class = "img-owner-profile img-circle origin-img w-75 my-1" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
+		                                    <span class="dang-nick2 row align-items-center justify-content-center my-2">${userInfo.userNick}</span>
 	                                    </c:when>
 	                                    <c:otherwise>   
-											<img class = "img-circle img-owner-profile w-100" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
-		                                    <span class="dang-nick2 row align-items-center justify-content-center my-3">${userInfo.userNick}</span>                        
+											<img class = "img-circle img-owner-profile w-75 my-1" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+		                                    <span class="dang-nick2 row align-items-center justify-content-center my-2">${userInfo.userNick}</span>                        
 	                                    </c:otherwise>    
-	                                    </c:choose>     
+	                                    </c:choose>   
                                 	</div>
                                 </div>
                             </div>
                             
                             <div class="col-7 dang-owner-info py-3">
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-5 offset-1">
+                                    <div class = "owner-common col-4">
                                         <span class = "span-info-category">관심지역</span>
                                     </div>                                                       
-                                    <div class = "owner-common2 col-5 d-flex flex-column">
-                                    <c:choose> 
-                                    <c:when test="${interestArea != null}">  
+                                    <div class = "owner-common2 col-8 d-flex flex-column"> 
+                                    <c:if test="${interestArea != null}">  
 	                                   	 <c:forEach var="mypageInterestArea" items="${interestArea}">      
 	                                        <span class = "span-info">서울 ${mypageInterestArea}</span>
 	                                      </c:forEach>  
-                                       </c:when>   
-                                       <c:otherwise>
-                                       <span class = "span-info">-</span>
-                                       </c:otherwise>
-                            		 </c:choose> 
+                                       </c:if>   
+                                       <c:if test="${interestArea.size() == 0}">
+                                       <span class = "span-info">관심지역이 없습니다.</span>
+                                       </c:if>
                                     </div>
                                 </div>
                                 <div class = "row px-3 py-3">
                                 
-                                    <div class = "owner-common col-5 offset-1">                                   
+                                    <div class = "owner-common col-4">                                   
                                         <span class = "span-info-category">키우는 댕</span>
                                     </div>
-									<div class = "owner-common2 col-5">
-									<c:choose>
-									 <c:when test="${mypageDangNum!= null}">   
+									<div class = "owner-common2 col-8">
+									 <c:if test="${mypageDangNum > 0}">   
 									       <span class = "span-info">${mypageDangNum}</span>
 									       <span>마리</span>
-									</c:when>
-                                       <c:otherwise>									
-											<span class = "span-info">댕댕이 정보를 등록해주세요.</span>
-                                       </c:otherwise>	
-                                       </c:choose>										
+									</c:if>
+                                       <c:if test="${mypageDangNum == 0}">									
+											<span class = "span-info">댕댕이 정보가 없습니다.</span>
+                                       </c:if>									
 								  </div>
 
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-5 offset-1">
+                                    <div class = "owner-common col-4">
                                         <span class = "span-info-category">활동 댕모임</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">       
-                                    <c:choose>                             
-                                    <c:when test="${mypagePartyNum!= null}">
+                                    <div class = "owner-common2 col-8">                                  
+                                    <c:if test="${mypagePartyNum > 0}">
                                         <span class = "span-info">${mypagePartyNum}</span>
                                         <span>개</span>
-									</c:when>
-									<c:otherwise>
+									</c:if>
+									<c:if test="${mypagePartyNum == 0}">
 									    <span class = "span-info">활동 댕모임이 없습니다.</span>
-									</c:otherwise>
-									</c:choose>
+									</c:if>
                                     </div>
-
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-5 offset-1">
+                                    <div class = "owner-common col-4">
                                         <span class = "span-info-category">최근 로그인</span>
                                     </div>
-                                    <div class = "owner-common2 col-5">
+                                    <div class = "owner-common2 col-8">
                                         <span class = "span-info">${mypageLogin}</span>
                                     </div>
                                 </div>                       
