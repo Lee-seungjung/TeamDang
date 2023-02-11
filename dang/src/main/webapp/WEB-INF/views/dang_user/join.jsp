@@ -8,15 +8,15 @@
 <style>
 
 	* {
-		
+	
 	}
 	
-	input {
+	input, select {
 		border-radius : 10px;
 		border : 1px solid #76BEFF;
 	}
 	
-	input:focus {
+	input:focus, select:focus {
 		outline : 2px solid #76BEFF;
 	}
 	
@@ -108,6 +108,21 @@
 		border-radius : 10px;
 		background-color : #787878;
 		color : white;
+	}
+	
+	/* 전화번호 입력창 */
+	.select-user-tel-first {
+		width : 20%;
+	}
+	
+	.strong-user-tel-minus {
+		width : 5%;
+		font-size : 24px;
+	}
+	
+	.input-user-tel-second,
+	.input-user-tel-third {
+		width : 35%;
 	}
 	
 </style>
@@ -213,12 +228,30 @@
 						<div class = "col d-flex flex-column py-2">
 							<div class = "row">
 								<div class = "col">
-									<strong class = "span-dang-join-main-text">전화번호(선택)</strong>								
+									<strong class = "span-dang-join-main-text">전화번호</strong>								
 								</div>
 							</div>
 							<div class = "row my-3">
-								<div class = "col">								
-									<input class = "w-100 p-2" id = "userTel" type = "text" autocomplete = "false" placeholder = "(예시) 010-1234-5678" maxlength = "13">
+								<div class = "col d-flex justify-content-center align-items-center">
+									<select class = "p-2 select-user-tel-first">
+										<option value = "">선택</option>
+										<option value = "010">010</option>
+										<option value = "011">011</option>
+										<option value = "016">016</option>
+										<option value = "017">017</option>
+										<option value = "018">018</option>
+										<option value = "019">019</option>
+									</select>
+									<strong class = "strong-user-tel-minus text-center">-</strong>
+									<input class = "p-2 input-user-tel input-user-tel-second" type = "text" autocomplete = "false" maxlength = "4">
+									<strong class = "strong-user-tel-minus text-center">-</strong>
+									<input class = "p-2 input-user-tel input-user-tel-third" type = "text" autocomplete = "false" maxlength = "4">
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col">
+									<span class = "span-check span-check-valid check-tel check-tel-valid">올바른 형태의 전화번호 입니다.</span>
+									<span class = "span-check span-check-invalid check-tel check-tel-invalid">올바른 형태의 전화번호를 입력해 주세요.</span>			
 								</div>
 							</div>
 						</div>
@@ -830,7 +863,18 @@
 			}
 		});
 		
-		// 닉네임 입력
+		// 닉네임 입력 - 6글자로 제한
+		$(document).on("input", "#userNick", function(){
+			var inputUserNick = document.querySelector("#userNick");
+			var textUserNick = inputUserNick.value;
+			var size = textUserNick.length;
+			while(size > 6) {
+				inputUserNick.value = inputUserNick.value.substring(0, size - 1);
+				size --;
+			}
+		});
+		
+		// 닉네임 입력 유효성
 		$("#userNick").blur(function(){
 			// 초기화
 			$(".check-nick").hide();
@@ -854,6 +898,25 @@
 				formValidCheck.checkNick = false;
 				$(".check-nick-invalid").show();	
 			}
+		});
+		
+		//$(document).on("input", ".input-user-tel", function(){});
+		// 전화번호
+		$(".input-user-tel").blur(function(){
+			// 초기화
+			$(".check-tel").hide();
+			var userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
+			console.log(userTel)
+			var regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+			if(regexp.test(userTel) != true) {
+				$(".check-tel-invalid").show();
+				console.log("탈락")
+				formValidCheck.checkTel = false;
+				return;
+			}
+			$(".check-tel-valid").show();
+			console.log("통과")
+			formValidCheck.checkTel = true;
 		});
 		
 		// 성별 선택
@@ -1036,9 +1099,12 @@
 			.append($("<input>").attr("name", "userId").attr("value", $("#userId").val()))
 			.append($("<input>").attr("name", "userPw").attr("value", $("#userPw").val()))
 			.append($("<input>").attr("name", "userNick").attr("value", $("#userNick").val()))
-			.append($("<input>").attr("name", "userTel").attr("value", $("#userTel").val()))
 			.append($("<input>").attr("name", "userGender").attr("value", $(".input-check-gender:checked").val()))
 			.append($("<input>").attr("name", "userEmail").attr("value", $("#userEmail").val()));
+
+			var userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
+			form
+			.append($("<input>").attr("name", "userTel").attr("value", userTel));
 			
 			$("body").append(form);
 			form.submit();
@@ -1051,12 +1117,13 @@
 			checkPw : false,
 			checkPwck : false,
 			checkNick : false,
+			checkTel : false,
 			checkGender : false,
 			checkEmail : false,
 			checkTerm : false,
 			// 판정 결과 반환
 			isAllValid : function() {
-				return this.checkId && this.checkPw && this.checkPwck && this.checkNick && this.checkGender && this.checkEmail && this.checkTerm;
+				return this.checkId && this.checkPw && this.checkPwck && this.checkNick && this.checkTel && this.checkGender && this.checkEmail && this.checkTerm;
 			}
 		};
 		
