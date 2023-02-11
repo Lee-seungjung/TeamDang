@@ -481,14 +481,13 @@
 <script>
 	$(function(){
 		
+		zeroDataScrollCheck(); //게시글 없을 경우 무한스크롤 실행중지
 		truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
 		originLike() //내가 누른 좋아요 출력
 
-		//boardEditReady(); //게시글 수정 첫 화면 기본셋팅
-		//editSubmitCheck(); //수정폼 전송 전 항목 체크
 		boardDelete(); //게시글 삭제
-
+		
 		replyToggle(); //댓글 토글
 		likeHeart(); //좋아요 버튼 이벤트
 		
@@ -2026,6 +2025,15 @@
 			}
 		}
 
+		//첫 화면 데이터 없을 경우 무한스크롤 실행 중지
+		function zeroDataScrollCheck(){
+			var zeroTagLength = $(".zero-boardList").length;
+			console.log(zeroTagLength);
+			if(zeroTagLength==1){
+				$(".board-group").attr("data-scrollcheck","zero");
+			}
+		}
+
 		//무한스크롤
 		$(document).on("scroll",function(){
 			var totalHeight = document.documentElement.scrollHeight; //스크롤 전체높이
@@ -2046,12 +2054,11 @@
 			var dangNo = $("[name=dangNo]").val();
 			var category = $("a.btn-blue").data("value");
 			var boardNo = $(".board-box").last().data("scrollbno"); //마지막 게시글 번호
-			var checkno = $(".board-group").attr("data-scrollcheck"); //비동기 제어 번호
-			
-			if(checkno==1) return; //데이터 없을경우 비동기화 실행 중지
+			var checkno = $(".board-group").data("scrollcheck"); //비동기 제어 번호
+			console.log(checkno);
+			if(checkno==1 || checkno=='zero') return; //데이터 없을경우 비동기화 실행 중지
 			
 			if(calcul<=10){
-
 				moreData={
 						type:type,
 						keyword:keyword,
@@ -2086,6 +2093,7 @@
 		$(".fa-circle-up").click(function(){
 			$("html").scrollTop(0);
 		});
+
 		
 	});
 </script>
