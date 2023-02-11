@@ -187,7 +187,7 @@ public interface DangUserDao {
 	
 	/**
 	 *  (마이페이지) 댕모임과 함께한 디데이 조회
-	 * @return dDayCount
+	 * @return myDangDday
 	 * 	@param int userNo
 	 */
 	public int myDangDday (int userNo);
