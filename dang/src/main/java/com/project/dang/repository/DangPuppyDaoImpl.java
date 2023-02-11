@@ -83,9 +83,8 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 	// 총 댕댕이 수 조회
 	@Override
 	public int dangCount(PuppyListRequestDto puppyListRequestDto) {
-		return sqlSession.selectOne("dangPuppy.dangCount", puppyListRequestDto);
+		return sqlSession.selectOne("dangPuppy.dangCount");
 	}
-	
 	// 댕댕이 목록 조회
 	@Override
 	public List<PuppyListDto> puppyList() {

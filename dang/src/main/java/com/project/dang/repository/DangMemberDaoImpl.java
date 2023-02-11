@@ -186,8 +186,7 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		param.put("memberNo", memberNo);
 		return sqlSession.delete("dangMember.deleteMember",param)>0;
 	}
-	
-	//
+
 	@Override
 	public boolean closeDangMember(int dangNo, int userNo) {
 		Map<String, String> param = new HashMap<>();
@@ -195,20 +194,17 @@ public class DangMemberDaoImpl implements DangMemberDao{
 		param.put("userNo", String.valueOf(userNo));
 		return sqlSession.delete("dangMember.closeDangMember", param) > 0;
 	}
-	
-	//총 댕모임 멤버 수 조회
+
 	@Override
 	public int dangJoinCount(MemberListRequestDto memberListRequestDto) {
-		return sqlSession.selectOne("dangMember.dangJoinCount", memberListRequestDto);
+		return sqlSession.selectOne("dangMember.dangJoinCount");
 	}
-	
-	//댕모임 멤버 목록 조회
+
 	@Override
 	public List<MemberListDto> memberList() {
 		return sqlSession.selectList("dangMember.memberList");
 	}
-	
-	//(관리자) 댕모임 멤버 목록 전체/ 검색 조회
+
 	@Override
 	public List<MemberListDto> searchMemberListAdmin(MemberListRequestDto memberListRequestDto) {
 		memberListRequestDto.setRownumStart(memberListRequestDto.rownumStart());

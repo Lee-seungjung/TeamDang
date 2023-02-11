@@ -305,14 +305,15 @@
 					processData:false,
                     contentType:false,
                     success : function(resp) {
+                    	console.log(resp);
                     	// 프로필 이미지 태그의 src를 반환한 주소로 변경
-                    	$(".img-input-dang-profile").prop("src", resp.url);
+                    	$(".img-dang-profile").attr("src", resp.url);
                     	// 해당 이미지의 첨부파일 번호를 미리보기 첨부파일 리스트에 저장
                     	attachmentPreviewNoList.push(resp.attachmentNo);
                     }
 				});
 			} else {
-				$(".img-input-dang-profile").prop("src", originalProfile);
+				$(".img-input-dang-profile").prop("src", "${pageContext.request.contextPath}/images/img-dang-profile.png");
 			}
 		});
 		
