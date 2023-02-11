@@ -30,7 +30,6 @@ import com.project.dang.dto.UserImgDto;
 import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
-import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangPuppyDao;
 import com.project.dang.repository.DangScheduleDao;
 import com.project.dang.repository.DangUserDao;
@@ -151,15 +150,18 @@ public class DangUserController {
 		int mypagePartyNum = dangUserDao.mypagePartyNum(userNo);
 		//마이페이지 등록한 로그인 일자 반환
 		Date mypageLogin = dangUserDao.mypageLogin(userNo);
+		////마이페이지 댕모임 디데이 일수 반환
+		int myDangDday = dangUserDao.myDangDday(userNo);
 		//조회한 관심지역 리스트  Model에 추가
 		model.addAttribute("interestArea" ,interestArea);
-		System.out.println("관심지역 : " + interestArea);
 		//조회한 댕댕이 수 Model에 추가
 		model.addAttribute("mypageDangNum", mypageDangNum);
 		//조회한 활동 댕모임 수 Model에 추가
 		model.addAttribute("mypagePartyNum", mypagePartyNum);
 		//조회한 최근 로그인 일자 Model에 추가	
 		model.addAttribute("mypageLogin", mypageLogin);
+		//조회한 댕모임 디데이수 Model에 추가
+		model.addAttribute("myDangDday", myDangDday);
 		return "dang_user/mypage";
 	}
 	
