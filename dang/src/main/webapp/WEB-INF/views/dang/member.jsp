@@ -39,6 +39,14 @@
 	.btn.out-btn:focus{
 		box-shadow: 0 0 0 0.25rem rgba(220, 224, 227, 0.5);
 	}
+	.btn.modal-close-btn,
+	.btn.m-delete-btn{
+		border: 1px solid #787878;
+	    background-color: #787878;
+	    color: white;
+	    opacity: 0.5;
+	    
+	}
 </style>
 
 <div class = "container-fluid mt-3 mb-5">
@@ -153,7 +161,7 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
+					<button type="button" class="btn m-delete-btn">탈퇴</button>
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -177,7 +185,7 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary modal-close-btn">해체</button>
+					<button type="button" class="btn modal-close-btn">해체</button>
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>
