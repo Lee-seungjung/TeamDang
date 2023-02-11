@@ -403,7 +403,7 @@
 						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
 						<p class="cursor-pointer">프로필 편집</p>
 					</div>
-					test:${attachmentNo!=null}
+
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
