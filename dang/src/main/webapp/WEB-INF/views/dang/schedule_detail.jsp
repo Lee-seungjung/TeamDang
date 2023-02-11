@@ -856,7 +856,6 @@
 			var formData = new FormData();
 			
 			if(placeNo==null){
-				console.log('선택안됨')
 				placeNo=originalPlaceNo;
 			}
 			

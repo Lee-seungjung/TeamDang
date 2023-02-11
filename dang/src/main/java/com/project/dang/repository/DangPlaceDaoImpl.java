@@ -131,6 +131,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	@Override
 	public List<DangPlaceDto> homeRecommend() {
 		return sqlSession.selectList("place.recommendPlace");
+	}
+
+	@Override
+	public boolean deletePlaceImg(int placeNo) {
+		return sqlSession.delete("place.deletePlaceImg",placeNo)>0;
 	} 
 	
 	

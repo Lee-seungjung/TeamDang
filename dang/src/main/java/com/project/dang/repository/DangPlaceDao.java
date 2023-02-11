@@ -132,4 +132,6 @@ public interface DangPlaceDao {
 	 * @return List<DangPlaceDto>
 	 */	
 	public List<DangPlaceDto> homeRecommend();
+	
+	boolean deletePlaceImg(int placeNo);
 }
