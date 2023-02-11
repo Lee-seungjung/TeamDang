@@ -37,11 +37,11 @@
 			select TMP.*, rownum rn from (
 				select a.*, uimg.attachment_no from (
 			        select d.*, cimg.attachment_no as img_attachment_no from dang_chat d
-			        left outer join chat_img cimg on d.chat_no=cimg.chat_no order by d.chat_no desc
+			        left outer join chat_img cimg on d.chat_no=cimg.chat_no
 		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
-		        where a.room_no=#{roomNo}
+		        where a.room_no=#{roomNo} order by a.chat_no desc
 			 )TMP
-		) where rn between 1 and 20 order by rn desc
+		) where rn between 1 and 20  order by rn desc
 	</select>
 	
 	<!-- 채팅 내역 무한스크롤 20개씩 조회 -->
@@ -50,10 +50,10 @@
 			select TMP.*, rownum rn from (
 				select a.*, uimg.attachment_no from (
 			        select d.*, cimg.attachment_no as img_attachment_no from dang_chat d
-			        left outer join chat_img cimg on d.chat_no=cimg.chat_no order by d.chat_no desc
+			        left outer join chat_img cimg on d.chat_no=cimg.chat_no
 		        ) a left outer join user_img uimg on a.user_no=uimg.user_no
 		        where a.room_no=#{roomNo} and <![CDATA[a.chat_no<#{chatNo}]]> 
-		        and <![CDATA[a.chat_no>0]]>
+		        and <![CDATA[a.chat_no>0]]> order by a.chat_no asc
 			 )TMP
 		) where rn between 1 and 20
 	</select>
