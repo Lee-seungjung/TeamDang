@@ -461,7 +461,7 @@
 						<div class="col-4">
 							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinScheduleCount}</p>
 						</div>
 						<div class="col-4">
 							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
