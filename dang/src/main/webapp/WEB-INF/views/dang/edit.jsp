@@ -164,7 +164,7 @@
 										</select>
 									</div>
 									<div class = "col-6">
-										<input value = "현재원 : ${dangEditInfo.dangHead} / ${dangEditInfo.dangHeadmax}" disabled class = "p-2 w-100 input-dang-head-now" data-danghead = "${dangEditInfo.dangHead}" data-dangheadmax = "${dangEditInfo.dangHeadmax}">
+										<input value = "총원 : ${dangEditInfo.dangHead} / ${dangEditInfo.dangHeadmax}" disabled class = "p-2 w-100 input-dang-head-now" data-danghead = "${dangEditInfo.dangHead}" data-dangheadmax = "${dangEditInfo.dangHeadmax}">
 									</div>
 								</div>
 							</div>
