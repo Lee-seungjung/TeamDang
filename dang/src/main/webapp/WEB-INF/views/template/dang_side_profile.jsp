@@ -403,7 +403,7 @@
 						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
 						<p class="cursor-pointer">프로필 편집</p>
 					</div>
-					
+					test:${attachmentNo!=null}
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -413,14 +413,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<c:choose>
-											<c:when test="${attachmentNo==null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
-											</c:when>
-											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
-											</c:otherwise>
-										</c:choose>
+										<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
                 							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -1563,7 +1556,12 @@
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				if(originAttachmentNo!=null){
+					$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				}else{
+					$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				}
+				
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
 				var originMessage = $(".originMessage").text(); //기존 상태메세지
 				
