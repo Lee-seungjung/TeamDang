@@ -125,9 +125,13 @@
 
                 <div class="row">
                     <div class="col d-flex flex-column justify-content-center align-items-center py-3">				
-                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님</span>
-                        <span class="hello-common">댕댕이와 함께하는 모임, 댕모임입니다.</span>
-                        <!--  <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">14일</span>이 되었어요.</span>-->
+                        <span class="hello-common">안녕하세요 <span class="dang-nick">${userInfo.userNick}</span>님,</span>      
+	                        <c:if test = "${myDangDday > 0}">                 
+	                      	  <span class="hello-common">댕모임과 함께 하신 지 <span class="dang-d-day">${myDangDday}</span>일이 되었어요.</span>
+	                        </c:if>
+	                        <c:if test = "${myDangDday == 0}"> 
+	                          <span class="hello-common">오늘 가입하셨네요~ 댕모임에서 좋은 추억을 만들어보세요.</span>
+	                        </c:if>
                     </div>
                 </div>
 
