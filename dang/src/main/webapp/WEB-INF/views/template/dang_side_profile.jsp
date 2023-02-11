@@ -628,7 +628,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1" >참여 회비</label>
-                            <input class="money form-control" name="scheduleMoney" maxLength="7" />
+                            <input class="money form-control" name="scheduleMoney" maxLength="7" id="joinMoney" />
                             <span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>                            
                         </div>
 
@@ -1929,6 +1929,19 @@
 				}
 			}
 			
+			//천단위 콤마 표시
+			const input = document.querySelector('#joinMoney');
+	        input.addEventListener('keyup', function(e) {
+	          let value = e.target.value;
+	          value = Number(value.replaceAll(',', ''));
+	          if(isNaN(value)) {
+	            input.value = 0;
+	          }else {
+	            const formatValue = value.toLocaleString('ko-KR');
+	            input.value = formatValue;
+	          }
+	        })
+			
 			//일정등록 모달에서 등록 버튼 클릭
 			$(".write-btn").click(function(e){
 				console.log(${profile.memberNo});
@@ -1940,7 +1953,28 @@
 				var placeNo = $(".where").attr('data-placeno');
 				var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 				var scheduleMoney = $("[name=scheduleMoney]").val();
-				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
+				
+				//등록할때 들어가는 콤마삭제(숫자로만 표시)
+				var changestr = scheduleMoney.replace(',', '');
+				
+				if (scheduleTitle.length === 0) {
+		            alert('제목을 입력해 주세요!');
+		            return;
+		        }else if(scheduleContent.length==0){
+					alert('내용을 입력해 주세요!');
+					return;
+				}else if(scheduleStart.length==0){
+					alert('날짜를 지정해 주세요!');
+					return;
+				}else if(placeNo==null){
+					alert('장소를 지정해 주세요!');
+					return;
+				}else if(scheduleHeadmax.length==0){
+					alert('참여인원을 설정해 주세요');
+					return;
+				}
+				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, changestr); 
+				 
 			});
 	
 			//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화

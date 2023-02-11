@@ -491,7 +491,7 @@
 			                
 					<div class = "info-commons dang-money">
 						<div class="block">참여 회비</div>
-						<div class="detail-money block-white schedules-money">${scheduleDetail.scheduleMoney}원</div>
+						<div class="detail-money block-white schedules-money"><fmt:formatNumber value="${scheduleDetail.scheduleMoney}" pattern="#,###"/>원</div>
 					</div>    
 				
 					<div class="btn-box btn-join">				
@@ -650,8 +650,8 @@
 							</div>
 							<div class = row>
 								<div class = "col d-flex flex-column">
-									<input class="money form-control input-modal-schedule-money" name="scheduleMoney" maxLength="7" />
-									<span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>  
+									<input class="money form-control input-modal-schedule-money" id="updateMoney" name="scheduleMoney" maxLength="7" />
+									<span class="invalid-money" >참여회비는 1백만원 미만으로 설정 가능합니다.</span>  
 								</div>
 							</div>
 						</div>
@@ -798,6 +798,18 @@
 		
 		//상세일정에서 수정버튼 클릭
 		
+		const input = document.querySelector('#updateMoney');
+        input.addEventListener('keyup', function(e) {
+          let value = e.target.value;
+          value = Number(value.replaceAll(',', ''));
+          if(isNaN(value)) {
+            input.value = 0;
+          }else {
+            const formatValue = value.toLocaleString('ko-KR');
+            input.value = formatValue;
+          }
+        })
+		
 		$(".btn-edit").click(function(e){
 			$("#scheduleEditModal").modal("show");//모달 표시
 			$(".input-modal-schedule-name").val($(".schedule-name").text());
@@ -809,7 +821,7 @@
 			
 			var scheduleMoneyWon = $(".schedules-money").text();
 			var scheduleMoney = scheduleMoneyWon.substring(0, scheduleMoneyWon.length - 1);
-	
+			
 			$(".input-modal-schedule-money").val(scheduleMoney);
 			
 			scheuleHeadNow = $(".schedule-head").text();
@@ -829,19 +841,25 @@
         		alert("현재 인원보다 적은 총원을 선택할 수 없습니다.")
         		return;
         	}
+        	var originalPlaceNo=${scheduleDetail.placeNo};
         	
         	var scheduleNo = $(".input-schedule-no").val();
         	var dangNo = $(".input-dang-no").val();
 			var placeNo = $(".div-modal-schedule-place").attr("data-placeno");
-			
 			var scheduleTitle = $(".input-modal-schedule-name").val();
 			var scheduleContent =$(".textarea-modal-schedule-content").val();
 			var scheduleStart = $(".input-modal-schedule-when").val();
 			var scheduleHour = $(".input-modal-schedule-time").val();
 
 			var scheduleMoney = $(".input-modal-schedule-money").val();
-
+			var changestr = scheduleMoney.replace(',', '');
 			var formData = new FormData();
+			
+			if(placeNo==null){
+				console.log('선택안됨')
+				placeNo=originalPlaceNo;
+			}
+			
 			formData.append("scheduleNo", scheduleNo);
 			formData.append("placeNo", placeNo);
 			formData.append("scheduleTitle", scheduleTitle);
@@ -849,7 +867,7 @@
 			formData.append("scheduleHeadmax", scheduleHeadmax);
 			formData.append("scheduleStart", scheduleStart);
 			formData.append("scheduleHour", scheduleHour);
-			formData.append("scheduleMoney", scheduleMoney);
+			formData.append("scheduleMoney", changestr);
 			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest/dangSchedule/schedule_edit",
