@@ -32,6 +32,7 @@
 	.img-admin-main-category {
 		width : 3rem;
 		aspect-ratio : 1/1;
+		border-radius : 10px;
 	}
 	
 	.strong-admin-main-category {
@@ -118,7 +119,7 @@
 			                    <strong class="statistics-number text-center">${recentJoin}</strong>
 			                </div>
 			                <div class="col-4 d-flex justify-content-center align-items-center">
-			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admin-icon-join.png">
 			                </div>
 			            </div>
 			        </div>
