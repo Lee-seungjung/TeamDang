@@ -340,7 +340,7 @@
 		font-weight: bold;
 		font-family: 'Noto Sans KR', 산세리프;
 		font-size: 13px;
-		color: green;"
+		color: #F94888;"
 	
 	}
 </style>
@@ -388,7 +388,7 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
-				<p style="font-size: 13px;">(총 <i class="state-nunber">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
+				<p style="font-size: 13px;">( 총 <span class="state-nunber">${countAll}</span>개의 장소가 등록되어있습니다. )</p>
 			</div>
 		</div>
 		
@@ -407,7 +407,7 @@
 					<form action = "place_list" method = "get">
 		<div class="row mt-3">
 			<div class="col-3">
-				<select class="form-select" style="height: 51px" name = "type" required>
+				<select class="form-select input-box" style="height: 51px" name = "type" required>
 					<option value = "place_name">장소명</option>
 					<option value = "place_address">주소명</option>
 					<option value = "place_area">지역구</option>
@@ -430,7 +430,7 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2">
 			<c:forEach var="placeList" items="${placeList}">
-				<table class="table" >
+				<table class="table"  style="cursor:pointer;">
 				  <tbody class="mt-3" >
 				  	
 				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY},'${placeList.placeSort}')">
@@ -1111,7 +1111,7 @@
 			return;
 		}else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
-                url: "http://localhost:8888/rest_place/place_insert",
+                url: "${pageContext.request.contextPath}/rest_place/place_insert",
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -1217,7 +1217,7 @@
 				contentType:"application/json",
 				data:JSON.stringify(data),
 				success:function(){
-					location.href = "http://localhost:8888/admin/place_list";
+					location.href = "${pageContext.request.contextPath}/admin/place_list";
 				}
 			});  
 	}
@@ -1226,12 +1226,12 @@
 	function deleteMarker(){
 		if(confirm("정말삭제하시겠습니까?")==true){
 			$.ajax({
-				url : "http://localhost:8888/rest_place/detail/"+placeNoInfo,
+				url : "${pageContext.request.contextPath}/rest_place/detail/"+placeNoInfo,
 				method : "delete",
 				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					location.href = "http://localhost:8888/admin/place_list";
+					location.href = "${pageContext.request.contextPath}/admin/place_list";
 				}
 			})
 		}else{
@@ -1244,7 +1244,7 @@
 	function getSearchList(){
 		var keyword = $("[name=placeName]").val();
 		$.ajax({
-			url : "http://localhost:8888/rest_place/place_search?placeName="
+			url : "${pageContext.request.contextPath}/rest_place/place_search?placeName="
 				+ keyword,
 		method : "get",
 		async : false,
@@ -1258,7 +1258,7 @@
 					style="background-color : #F2F2F2" 
 					//console.log(resp[i].placeSort);
 					var col1 = $("<div>").attr("class","col-2 mt-5 border1").attr("style", "background-color : #F2F2F2; border-radius: 20px 0px 0px 20px;");
-					var img1 = $("<img>").attr("src","http://localhost:8888/rest_attachment/download/"+resp[i].attachmentNo).attr("style","width:150px; height:150px;");
+					var img1 = $("<img>").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+resp[i].attachmentNo).attr("style","width:150px; height:150px;");
 					col1.append(img1);
 					var col8 = $("<div>").attr("class","col-8 mt-5 border1").attr("style", "background-color : #F2F2F2;");
 					var p1= $("<p>").attr("class","mb-3 mt-2").text(resp[i].placeName);
@@ -1292,9 +1292,9 @@
 		var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 		var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
 		
-		
+		//상세보기 이동
 		function detailMove() {
-			location.href = "http://localhost:8888/admin/detail/"+placeNoInfo;
+			window.open('${pageContext.request.contextPath}/place/detail/'+ placeNoInfo, '_blank'); 
 		}
 		$(document).on("click",".infoModal",function(e) {
 			
@@ -1306,7 +1306,7 @@
 			
 			//비동기통신 시작
 			$.ajax({
-				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
+				url : "${pageContext.request.contextPath}/rest_place/place_one/"+ placeNoInfo,
 				method : "get",
 				async : false,
 				contentType : "application/json",
@@ -1321,7 +1321,7 @@
 					$(".span-placesort").text(resp.placeSort);
 					$(".span-placetel").text(resp.placeTel);
 					$(".span-placeurl").text(resp.placeUrl);
-					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+					$(".origin-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+ resp.attachmentNo);
 					//수정 input태그에 값 밀어넣기
 					$('input[name=placeArea]').attr('value',resp.placeArea);
 					$('input[name=placeX]').attr('value',resp.placeX);
@@ -1418,7 +1418,7 @@
 
 		
 		$.ajax({
-			url: "http://localhost:8888/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
+			url: "${pageContext.request.contextPath}/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
 			method : "get",
 			async : false,
 			contentType : "application/json",
