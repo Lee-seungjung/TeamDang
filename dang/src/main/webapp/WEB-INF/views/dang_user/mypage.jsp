@@ -256,7 +256,7 @@
 							      					</div>
 							      				</div>
 							      			</div>
-							      			<div class = "row mt-3">
+							      			<div class = "row mb-5">
 							      				<div class = "col d-flex flex-row justify-content-center align-items-center">
 							      					<c:forEach var = "dangPuppyCharacter" items = "${dangPuppyList.dangPuppyCharacter}">
 							      						<span class = "mx-2 span-puppy-character">#${dangPuppyCharacter}</span>
