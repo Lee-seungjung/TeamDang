@@ -211,6 +211,14 @@
 			</div>
 			<div class = "row">
 				<div class = "col">
+					<c:if test="${dangUserJoinList.size()==0}">
+						<div class = "row my-4 div-mydang-dang-list-unit">
+							<div class = "p-3 d-flex justify-content-center align-items-center align-content-center" 
+									style="height:100px;">
+								<p>현재 가입한 댕모임이 없습니다.</p>
+							</div>
+						</div>
+					</c:if>
 					<c:forEach var = "dangUserJoinList" items = "${dangUserJoinList}">
 					<div class = "row my-4 div-mydang-dang-list-unit">
 						<div class = "col-3 p-3 d-flex justify-content-center align-items-center">
