@@ -102,8 +102,8 @@
 	</select>
 	
 	<!-- 회원별 댕모임 수 조회-->
-	<select id="joinDangCount" resultType="int" parameterType="int">
-		select count(*) from dang_member where user_no=#{userNo}
+	<select id="joinScheduleCount" resultType="int" parameterType="int">
+		select count(*) from dang_join where member_no=#{memberNo}
 	</select>
 	
 	<!-- 프로필 파일번호 조회 -->

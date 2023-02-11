@@ -125,8 +125,8 @@ public class DangMemberDaoImpl implements DangMemberDao{
 
 	//참여 모임 수
 	@Override
-	public int joinDangCount(int userNo) {
-		return sqlSession.selectOne("dangMember.joinDangCount",userNo);
+	public int joinScheduleCount(int memberNo) {
+		return sqlSession.selectOne("dangMember.joinScheduleCount",memberNo);
 	}
 
 	//프로필 첨부파일 번호 조회
