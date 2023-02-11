@@ -140,11 +140,7 @@ public class AdminRestController {
 	
 	@PostMapping("/user_list")
 	public UsertListResponseDto selectUserList(@ModelAttribute UserListRequestDto userListRequestDto) {
-		
-		//System.out.println(userListRequestDto.getType());
-		//System.out.println(userListRequestDto.getKeyword());
-		//System.out.println(userListRequestDto.getP());
-		
+			
 		// 총 회원수 조회
 		int userTotal = dangUserDao.userCount(userListRequestDto);
 		// dto에 총 갯수 설정
@@ -166,11 +162,7 @@ public class AdminRestController {
 	
 	@PostMapping("/puppy_list")
 	public PuppyListResponseDto selectPuppyList(@ModelAttribute PuppyListRequestDto puppyListRequestDto) {
-		
-		System.out.println(puppyListRequestDto.getType());
-		System.out.println(puppyListRequestDto.getKeyword());
-		System.out.println(puppyListRequestDto.getP());
-		
+				
 		// 총 댕댕이수 조회
 		int puppyTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		// dto에 총 갯수 설정
@@ -192,11 +184,7 @@ public class AdminRestController {
 	
 	@PostMapping("/member_list")
 	public 	MemberListResponseDto selectMemberList(@ModelAttribute MemberListRequestDto memberListRequestDto) {
-		
-		System.out.println(memberListRequestDto.getType());
-		System.out.println(memberListRequestDto.getKeyword());
-		System.out.println(memberListRequestDto.getP());
-		
+				
 		// 총 댕모임 멤버수 조회
 		int memberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		// dto에 총 갯수 설정
