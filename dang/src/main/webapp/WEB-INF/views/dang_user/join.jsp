@@ -273,6 +273,9 @@
 									<img class = "img-fluid img-user-gender" src = "${pageContext.request.contextPath}/images/icon-woman.png">
 								</label>
 							</div>
+							<div class = "row">
+								<span class = "span-check span-check-invalid check-gender check-gender-non-selected">성별을 선택해 주세요.</span>
+							</div>
 						</div>
 					</div>
 					<div class = "row div-row-input-dang-user-join-email-send">
@@ -921,6 +924,8 @@
 		
 		// 성별 선택
 		$(".input-check-gender").click(function(){
+			// 성별 미선택 helper text 숨김
+			$(".check-gender").hide();
 			// 이미지 태그
 			var target = $(this).next();
 			// 성별 선택 갯수
@@ -1091,6 +1096,13 @@
 		// form 전송
 		$(".btn-submit-join").click(function(e){
 			e.preventDefault();
+			// 성별 선택 검사
+			$(".check-gender").hide();
+			if($(".gender-selected").length < 1) {
+				$(".check-gender-non-selected").show();
+				return;
+			}
+			// 회원 가입 유효성 검사
 			if(formValidCheck.isAllValid() == false) {
 				return;
 			}
