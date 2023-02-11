@@ -412,7 +412,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
+										<img src="" class="img-circle profile-img profile-css change-img">
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
                 							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -1557,7 +1557,7 @@
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				if(originAttachmentNo!=null){
+				if(originAttachmentNo==null){
 					$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 				}else{
 					$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
