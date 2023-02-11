@@ -548,11 +548,4 @@ public class DangController {
 		session.removeAttribute("prevUrl");
 		return "dang/report_success";
 	}
-	
-	@GetMapping("/not_found")
-	public String notFound() {
-		return "dang/not_found";
-	}
-	
-	
 }

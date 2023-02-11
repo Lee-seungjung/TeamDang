@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
+
 
 	<style>
 		.modal-header{
@@ -356,7 +356,6 @@
     }
 </style>
 
-
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
@@ -365,7 +364,7 @@
 			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-10">
 					<c:choose>
-						<c:when test="${attachmentNo==null}">
+						<c:when test="${attachmentNo == null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 						</c:when>
 						<c:otherwise>
@@ -403,7 +402,7 @@
 						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
 						<p class="cursor-pointer">프로필 편집</p>
 					</div>
-					
+
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -413,14 +412,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<c:choose>
-											<c:when test="${attachmentNo==null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
-											</c:when>
-											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
-											</c:otherwise>
-										</c:choose>
+										<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
                 							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -691,6 +683,8 @@
 	<input type="hidden" class="cl" data-no="27">
 	
 </div>
+
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
   <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey }"></script>
@@ -1563,7 +1557,12 @@
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				if(originAttachmentNo!=null){
+					$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				}else{
+					$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				}
+				
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
 				var originMessage = $(".originMessage").text(); //기존 상태메세지
 				
