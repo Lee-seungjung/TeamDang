@@ -727,9 +727,31 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
+		                <input class="form-control form-control-sm file-update" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
+		            </div>
+		        </div>
+		
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <div>변경전 사진</div>
+		                <img src="" class="beforeUpdate-img" width="100" height="100">
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <div>변경후 사진</div>
+		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="update-img" width="100" height="100">
+		            </div>
+		        </div>
 		</form>
       </div>
       
+      	<!--댕모임 첨부파일 첨부파일 번호-->
+		<input type="hidden" name="attachmentNoUpdate">
       
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="editMarker()">수정하기</button>
@@ -928,10 +950,8 @@
 		                
 		            </div>
 		        </div>
-		        <input type="hidden" name="dangNo1">
-		        <!--댕모임 첨부파일 댕모임 번호-->
+		        <!--첨부파일 번호-->
 		        <input type="hidden" name="attachmentNoInsert">
-		        <!--댕모임 첨부파일 첨부파일 번호-->
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary insertClose" data-bs-dismiss="modal">닫기</button>
@@ -1047,7 +1067,7 @@
         var dangSize = $("[name=dangSizeInsert]").val();
         var attachmentNo = $("[name=attachmentNoInsert]").val();
         
-        console.log(placeX.length==0);
+        console.log(attachmentNo);
         
        
         
@@ -1095,8 +1115,8 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function () {
-                    location.href="${pageContext.request.contextPath}/admin/place_list"
-					
+                    //location.href="${pageContext.request.contextPath}/admin/place_list"
+					console.log(data);
                 }
             });
 		}else{
@@ -1139,22 +1159,38 @@
             });
         }
     });
+	// 이미지 변경함수
+    $(".file-update").change(function () {
+        var value = $(this).val();
+        if (this.files.length > 0) {
+
+            var formData = new FormData();
+            formData.append("attachment", this.files[0]);
+
+
+            $.ajax({
+                url: "${pageContext.request.contextPath}/rest_attachment/upload",
+                method: "post",
+                data: formData,
+                //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    //console.log(resp);
+                    $(".update-img").attr("src", resp); //장소 이미지 미리보기
+                    //원래 페이지 프로필 정보 변경
+                    var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
+                    var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
+                    //console.log(newAttachmentNo);
+                    $("[name=attachmentNoUpdate]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    
+                    attachmentPreviewNoList.push(newAttachmentNo);
+                    console.log(attachmentPreviewNoList);
+                }
+            });
+        }
+    });
 	
-	 // 미리보기용 첨부파일 삭제
-		$(window).bind("beforeunload", function(){
-			// 미리보기용 첨부파일 리스트의 길이가 0이면(지울 첨부파일이 없다면)
-			if(attachmentPreviewNoList.length == 0) {
-				return;
-			}
-			// 그렇지 않다면 첨부파일 삭제 실행
-			$.ajax({
-				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
-				method : "delete",
-				data : {
-					attachmentPreviewNoList : attachmentPreviewNoList
-				}
-			})
-		});
 
 	
 	// 장소 수정 함수
@@ -1172,6 +1208,7 @@
 		var placeTel = $("[name=placeTel]").val();
 		var placeUrl = $("[name=placeUrl]").val();
 		var dangSize = $("[name=dangSize]").val();
+		var attachmentNo = $("[name=attachmentNoUpdate]").val();
 		
 		
 		var data = {
@@ -1187,9 +1224,10 @@
 				placeOff : placeOff,
 				placeTel : placeTel,
 				placeUrl : placeUrl,
-				dangSize : dangSize
+				dangSize : dangSize,
+				attachmentNo : attachmentNo
 			};
-			console.log(placeSort);
+			console.log(attachmentNo);
 			 $.ajax({
 				url:"${pageContext.request.contextPath}/rest_place/update",
 				method:"put",
@@ -1219,54 +1257,8 @@
 		
 			
 	};
-	// 장소검색시 실행되는 함수
-	function getSearchList(){
-		var keyword = $("[name=placeName]").val();
-		$.ajax({
-			url : "http://localhost:8888/rest_place/place_search?placeName="
-				+ keyword,
-		method : "get",
-		async : false,
-		contentType : "application/json",
-		success : function(resp) {
-			//console.log(resp);
-			var firstline=$(".firstLine");
-			firstline.empty();
-			
-				for(i=0;i<resp.length;i++){
-					style="background-color : #F2F2F2" 
-					//console.log(resp[i].placeSort);
-					var col1 = $("<div>").attr("class","col-2 mt-5 border1").attr("style", "background-color : #F2F2F2; border-radius: 20px 0px 0px 20px;");
-					var img1 = $("<img>").attr("src","http://localhost:8888/rest_attachment/download/"+resp[i].attachmentNo).attr("style","width:150px; height:150px;");
-					col1.append(img1);
-					var col8 = $("<div>").attr("class","col-8 mt-5 border1").attr("style", "background-color : #F2F2F2;");
-					var p1= $("<p>").attr("class","mb-3 mt-2").text(resp[i].placeName);
-					var p2= $("<p>").attr("class","m-1").text(resp[i].placeAddress).attr("style","font-size : 9px;");
-					var p3= $("<p>").attr("class","m-0").text( resp[i].dangSize+"까지 가능").attr("style","font-size : 9px;");
-					col8.append(p1).append(p2).append(p3);
-					var col2 = $("<div>").attr("class","col-2 text-end mt-5 border1 ").attr("style", "background-color : #F2F2F2; border-radius: 0px 20px 20px 0px;");
-					var span1 = $("<span>").text( resp[i].placeSort+" ").attr("class","mt-3").attr("style","font-size : 9px; color: #F781D8;");
-					col2.append(span1);
-					var i1 = $("<i>");
-					if(resp[i].placeSort=="카페"){
-						i1.attr("class","fa-solid fa-mug-saucer mt-2").attr("style","font-size : 9px; color: #F781D8;");
-					} else if(resp[i].placeSort=='음식점'){
-						i1.attr("class","fa-solid fa-utensils mt-2").attr("style","font-size : 9px; color: #F781D8;");
-					}else if(resp[i].placeSort=='미용'){
-						i1.attr("class","fa-solid fa-scissors mt-2").attr("style","font-size : 9px; color: #F781D8;");
-					}else if(resp[i].placeSort=='운동장'){
-						i1.attr("class","fa-solid fa-person-running mt-2").attr("style","font-size : 9px; color: #F781D8;");
-					}else if(resp[i].placeSort=='공원'){
-						i1.attr("class","fa-thin fa-trees mt-2").attr("style","font-size : 9px; color: #F781D8;");
-					}
-					col2.append(i1);
-					firstline.append(col1).append(col8).append(col2);
-				}
-			}
-		})
-	}
+
 	
-		
 		var placeNoInfo; //장소번호를 가져오는 변수
 		var placeContents = []; // 장소번호를 가져와 내용을 담는 변수
 		var placeOriginNo; // 클릭한 마커의 데이터장소번호를 뽑아내는 변수
@@ -1314,6 +1306,7 @@
 					$('input[name=placeTel]').attr('value',resp.placeTel);
 					$('input[name=placeUrl]').attr('value',resp.placeUrl);
 					$('input[name=dangSize]').attr('value',resp.dangSize);
+					$('.beforeUpdate-img').attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+ resp.attachmentNo);
 				}
 			})
 		});

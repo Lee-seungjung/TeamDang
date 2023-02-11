@@ -842,6 +842,12 @@
 			var scheduleMoney = $(".input-modal-schedule-money").val();
 
 			var formData = new FormData();
+
+			
+			if(placeNo==null){
+				placeNo=originalPlaceNo;
+			}
+
 			formData.append("scheduleNo", scheduleNo);
 			formData.append("placeNo", placeNo);
 			formData.append("scheduleTitle", scheduleTitle);

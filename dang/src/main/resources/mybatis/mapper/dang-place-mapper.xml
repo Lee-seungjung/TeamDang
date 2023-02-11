@@ -110,4 +110,8 @@
 			SELECT * FROM recommend_place ORDER BY DBMS_RANDOM.VALUE
 		)WHERE ROWNUM  <![CDATA[ < 4 ]]>
 	</select>
+	
+	<delete id="deletePlaceImg" parameterType="int">
+		DELETE place_img where place_no=#{placeNo}
+	</delete>
 </mapper>

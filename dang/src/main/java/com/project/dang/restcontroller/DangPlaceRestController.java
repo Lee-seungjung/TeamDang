@@ -38,7 +38,6 @@ public class DangPlaceRestController {
 		PlaceImg placeImg = PlaceImg.builder().attachmentNo(attachmentNo).placeNo(placeNo).build();
 		
 		//dangPlaceDto.setPlaceInfo(dangPlaceDto.getPlaceInfo().replaceAll("\r\n", "<br>"));
-
 		
 		dangPlaceDao.placeInsert(dangPlaceDto);
 		
@@ -78,6 +77,11 @@ public class DangPlaceRestController {
 	//수정
 	@PutMapping("/update")
 	public boolean placeUpdate(@RequestBody DangPlaceDto dangPlaceDto) {
+		int placeNo = dangPlaceDto.getPlaceNo();
+		dangPlaceDao.deletePlaceImg(placeNo);
+		int attachmentNo = dangPlaceDto.getAttachmentNo();
+		PlaceImg placeImg = PlaceImg.builder().attachmentNo(attachmentNo).placeNo(placeNo).build();
+		dangPlaceDao.placeImgInsert(placeImg);
 		return dangPlaceDao.placeEdit(dangPlaceDto);
 	}
 	
