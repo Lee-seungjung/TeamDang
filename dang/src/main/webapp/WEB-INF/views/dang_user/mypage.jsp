@@ -8,6 +8,7 @@
 <style>
 	
     * {
+   
 		
     }
 
@@ -109,6 +110,10 @@
 	
 	.span-puppy-character {
 	    color: #76BEFF;
+	}
+	
+	.carousel-control-prev-icon, .carousel-control-next-icon {
+	     background-color: #76BEFF;	
 	}
 </style>
 
@@ -217,7 +222,7 @@
 						  		<c:forEach var = "dangPuppyList" items = "${dangPuppyList}">
 						    	<div class="carousel-item">
 						      		<div class = "container-fluid">
-						      			<div class = "row px-4 my-3">
+						      			<div class = "row px-5 py-4 mt-3">
 						      				<div class = "col-6 d-flex justify-content-center align-items-center">
 						      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
 						      				</div>
@@ -254,7 +259,7 @@
 						      					</div>
 						      				</div>
 						      			</div>
-						      			<div class = "row mt-4">
+						      			<div class = "row mt-3">
 						      				<div class = "col d-flex flex-row justify-content-center align-items-center">
 						      					<c:forEach var = "dangPuppyCharacter" items = "${dangPuppyList.dangPuppyCharacter}">
 						      						<span class = "mx-2 span-puppy-character">#${dangPuppyCharacter}</span>
