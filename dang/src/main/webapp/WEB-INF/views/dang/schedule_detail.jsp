@@ -491,7 +491,7 @@
 			                
 					<div class = "info-commons dang-money">
 						<div class="block">참여 회비</div>
-						<div class="detail-money block-white schedules-money">${scheduleDetail.scheduleMoney}원</div>
+						<div class="detail-money block-white schedules-money"><fmt:formatNumber value="${scheduleDetail.scheduleMoney}" pattern="#,###"/>원</div>
 					</div>    
 				
 					<div class="btn-box btn-join">				

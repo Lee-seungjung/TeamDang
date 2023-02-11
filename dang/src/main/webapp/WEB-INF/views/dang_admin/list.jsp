@@ -963,8 +963,6 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
 	
-	console.log('${param.keyword}');
-		
 	
 	 function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
