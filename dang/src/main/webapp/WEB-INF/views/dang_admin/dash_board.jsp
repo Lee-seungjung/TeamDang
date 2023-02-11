@@ -146,6 +146,8 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
 <script>
 
 $(function(){
@@ -159,6 +161,7 @@ $(function(){
         method: "get",
         contentType: "application/json",
         success: function (resp) {
+        	console.log(resp);
         	//List 반복문
         	for(var i = 0; i<resp.length; i++) {
         		labelList.push(resp[i].dangArea);//라벨배열에 밀어넣기
@@ -184,15 +187,25 @@ $(function(){
     				                }
     				            }]
     				        },
-    				        events: ['click']
-    				}
+    				        events: ['click'],
+    				        plugins: {
+    	    		            labels: {
+    	    		                render: valueList,
+    	    		                fontColor: 'black',
+    	    		                fontSize: 16,
+    	    		                precision: 2
+    	    		            }
+    	    		        }
+    				        
+    				}	
    				 };
 
         	var ctx = document.getElementById('regionChart').getContext('2d');
         	var myChart= new Chart(ctx, {//차트 객체 생성
         		      type: 'pie',
-        			  data: data
+        			  data: data,
         	});
+
         	
         	// 클릭 이벤트 리스너
         	myChart.canvas.addEventListener('click', function(event) {
