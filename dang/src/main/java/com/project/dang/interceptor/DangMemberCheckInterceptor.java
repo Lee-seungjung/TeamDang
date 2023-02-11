@@ -36,7 +36,7 @@ public class DangMemberCheckInterceptor implements HandlerInterceptor {
 		if(isDangMember) { 
 			return true; 
 		}
-		response.sendRedirect("/dang/not_found");
+		response.sendError(403);
 		return false; 
 	}
 }
