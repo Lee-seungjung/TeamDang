@@ -90,8 +90,8 @@
 				<div class="col-6 offset-3 text-center search-wrap d-flex">
 					<select class="puppy-form-select flex-fill me-1" style="width:20%;" name="type">
 						<option value="">선택</option>
-						<option value="user_id">댕주인아이디</option>
-						<option value="puppy_name">댕댕이이름</option>
+						<option value="puppy_name">댕댕이 이름</option>
+						<option value="user_id">댕주인 아이디</option>						
 					</select>
 					<div class="d-flex" style="width:70%;">
 						<input type="text" class="input form-control puppy-search-input ms-1 flex-fill" name="keyword">
@@ -104,7 +104,7 @@
 			
   			<div class="row mt-3">
 				<div class = "col d-flex justify-content-center align-items-center">
-					<ul class = "d-flex flex-row ul-user-list-page-navigator">
+					<ul class = "d-flex flex-row ul-puppy-list-page-navigator">
 						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-first d-flex justify-content-center align-items-center">
 							<span><i class="fa-solid fa-backward"></i></span>
 						</li>
@@ -141,7 +141,7 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-last d-flex justify-content-center align-items-center" >
+						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${puppyListRequestDto.blockNext()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -161,7 +161,7 @@
 					</thead>
 					<tbody class="puppy-data-body">
 						<c:choose>
-							<c:when test="${puppyListAdmin==null}">
+							<c:when test="${puppyListAdmin == null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
@@ -203,6 +203,66 @@ $(function(){
 	var numberState = "댕모임멤버수";
 	var type;
 	var keyword;
+	
+	//숫자 페이지 클릭 이벤트
+	$(document).on("click", ".ul-puppy-list-page-item-unit", function(){
+		console.log($(this).children().text());
+		
+		p = $(this).children().text();
+		
+		var formData = new FormData();
+		formData.append("p", p);
+		
+		if(type != null && keyword != null) {
+			formData.append("type", type);
+			formData.append("keyword", keyword);
+		}
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			method : "post",
+			data : formData,
+			contentType: false,
+	        processData: false,
+			success : function(resp) {
+				
+				console.log(resp);
+				// 양 끝 페이지네이션 버튼 설정
+				$(".ul-puppy-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
+				$(".ul-puppy-list-page-item-last").attr("data-pagelast", resp.blockLast);
+				if(resp.blockPrev <= 1) {
+					$(".ul-puppy-list-page-item-prev").attr("data-pageprev", 1);
+				} else {
+					$(".ul-puppy-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
+				}
+				if(resp.blockNext > resp.blockLast) {
+					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockLast);
+				} else {
+					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
+				}
+				$(".puppy-data-body").empty();
+				if(resp.puppyList.length == 0){
+					var body = $(".puppy-data-body");
+					var tr = $("<tr>").attr("class","align-middle");
+					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+									.text("내역이 존재하지 않습니다.");
+					tr.append(td);
+					body.append(tr);
+				}else{
+					
+					for(var i=0; i<resp.puppyList.length; i++){
+						puppyList(resp.puppyList[i]);
+					}
+					// 초기화
+					$(".ul-puppy-list-page-item-unit").remove();
+					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+						puppyListPagination(i);
+					}
+				}
+			}	
+		});
+	});
+	
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".puppy-search-btn", function(){
 		
@@ -213,17 +273,17 @@ $(function(){
 		console.log(puppySearchInput);	
 		
 		if(puppySelectBox == "" || puppySearchInput == "") {
-			console.log("안돼");
 			return;
-		}
+		}		
+		type = puppySelectBox;
+		keyword = puppySearchInput;
 		
-		console.log("돼");
 		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
 		formData.append("numberState", numberState);
-		formData.append("type", puppySelectBox);
-		formData.append("keyword", puppySearchInput);
+		formData.append("type", type);
+		formData.append("keyword", keyword);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/puppy_list",
@@ -248,16 +308,19 @@ $(function(){
 					$(".ul-puppy-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				if(resp.puppyList.length==0){
+				$(".puppy-data-body").empty();
+				
+				if(resp.puppyList.length == 0){
 					var body = $(".puppy-data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 									.text("내역이 존재하지 않습니다.");
 					tr.append(td);
+					body.append(tr);
 				}else{
-					$(".puppy-data-body").empty();
-					for(var i=0; i<resp.userList.length; i++){
-						puppyList(resp.userList[i]);
+					
+					for(var i=0; i<resp.puppyList.length; i++){
+						puppyList(resp.puppyList[i]);
 					}
 					// 초기화
 					$(".ul-puppy-list-page-item-unit").remove();
@@ -277,8 +340,8 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);
+		formData.append("numberState", numberState);
 		
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
@@ -329,10 +392,12 @@ $(function(){
 	$(document).on("click",".ul-puppy-list-page-item-prev", function(){
 		p = $(this).attr("data-pageprev");
 		console.log(p);
+		
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);
+		formData.append("numberState", numberState);
+		
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
 			formData.append("type", $(".puppy-form-select").val());
@@ -379,8 +444,9 @@ $(function(){
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData()
-		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);	
+		formData.append("numberState", numberState);
+		
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
 			formData.append("type", $(".puppy-form-select").val());
@@ -409,7 +475,7 @@ $(function(){
 				}
 				// 초기화
 				$(".puppy-data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
+				for(var i = 0 ; i < resp.puppyList.length ; i++){
 					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
@@ -428,8 +494,8 @@ $(function(){
 		p = 1;
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("keyword", puppySearchInput);
 		formData.append("p", p);	
+		formData.append("numberState", numberState);
 		//검색어랑 검색 타입이 있으면
 		if($(".puppy-form-select").val() != "" || $(".puppy-search-input").val() != "" ){
 			formData.append("type", $(".puppy-form-select").val());
@@ -459,19 +525,19 @@ $(function(){
 				}
 				// 초기화
 				$(".puppy-data-body").empty();
-				for(var i = 0 ; i < resp.userList.length ; i++){
-					userList(resp.userList[i]);
+				for(var i = 0 ; i < resp.puppyList.length ; i++){
+					puppyList(resp.puppyList[i]);
 				}
 				// 초기화
 				$(".ul-puppy-list-page-item-unit").remove();
 				for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-					userListPagination(i);
+					puppyListPagination(i);
 				}						
 			}
 		})					
 	});
 	
-	//카테고리 조회
+/*  	//카테고리 조회
 	$(document).on("click", ".cnt-num", function(){
 		$(".number-box").removeClass("select-color");
 		$(this).parent().addClass("select-color");
@@ -521,7 +587,7 @@ $(function(){
 					tr.append(td);
 				}else{
 					for(var i=0; i<resp.puppyList.length; i++){
-						userList(resp.puppyList[i]);
+						puppyList(resp.puppyList[i]);
 					}
 					// 초기화
 					$(".ul-puppy-list-page-item-unit").remove();
@@ -531,7 +597,7 @@ $(function(){
 				}
 			}
 		});
-	});
+	});  */
 	
 	//댕댕이 목록 비동기 불러오기
 	function puppyList(resp){
@@ -559,7 +625,6 @@ $(function(){
 			)
 	}
 	
-
 	
 });
 

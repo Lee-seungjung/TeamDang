@@ -61,7 +61,7 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:30px; font-weight:bolder;">회원관리 현황</p>
+				<p style="font-size:25px; font-weight:bolder;">회원관리 현황</p>
 			</div>
 			
 			<div class = "row mt-4">
@@ -161,7 +161,7 @@
 					</thead>
 					<tbody class="data-body">
 						<c:choose>
-							<c:when test="${userListAdminB==null}">
+							<c:when test="${userListAdminB == null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
@@ -206,7 +206,7 @@ $(function(){
 	var type;
 	var keyword;
 	
-	
+	//숫자 페이지 클릭 이벤트
 	$(document).on("click", ".ul-user-list-page-item-unit", function(){
 		console.log($(this).children().text());
 		
@@ -214,6 +214,7 @@ $(function(){
 		
 		var formData = new FormData();
 		formData.append("p", p);
+		
 		if(type != null && keyword != null) {
 			formData.append("type", type);
 			formData.append("keyword", keyword);
@@ -242,7 +243,7 @@ $(function(){
 					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				$(".data-body").empty();
-				if(resp.userList.length==0){
+				if(resp.userList.length == 0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -263,8 +264,7 @@ $(function(){
 			}	
 		});
 	});
-	
-	
+		
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".user-search-btn", function(){
 		
@@ -275,13 +275,11 @@ $(function(){
 		console.log(userSearchInput);	
 		
 		if(userSelectBox == "" || userSearchInput == "") {
-			console.log("안돼");
 			return;
 		}
 		type = userSelectBox;
 		keyword = userSearchInput;
 		
-		console.log("돼");
 		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
@@ -313,7 +311,8 @@ $(function(){
 				}
 				
 				$(".data-body").empty();
-				if(resp.userList.length==0){
+				
+				if(resp.userList.length == 0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
