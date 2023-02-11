@@ -147,9 +147,10 @@
 					<span>정말 탈퇴하시겠습니까?</span>
 				</div>
 				<div>
-					<span style="font-size:13px; margin-left:35px;">
-						탈퇴 시 회원 정보가 즉시 <strong class="pink">파기</strong>되며 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
-					</span>
+					<p style="font-size:13px; margin-left:35px; margin-right:35px;">
+						탈퇴 시 댕모임 내 모든 정보(게시글, 채팅...) <strong class="pink">파기</strong>되며<br>
+						 재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
+					</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary m-delete-btn">탈퇴</button>
@@ -170,9 +171,10 @@
 					<span>정말 해체하시겠습니까?</span>
 				</div>
 				<div>
-					<span style="font-size:13px; margin-left:35px;">
-						해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며 <strong class="pink">복구 불가</strong>합니다.
-					</span>
+					<p style="font-size:13px; margin-left:35px; margin-right:35px;">
+						해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며<br>
+						<strong class="pink">복구 불가</strong>합니다.
+					</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary modal-close-btn">해체</button>
