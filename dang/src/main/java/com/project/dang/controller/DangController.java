@@ -239,10 +239,6 @@ public class DangController {
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 파일 저장
 			dangProfile.transferTo(target);
-			// HttpSession에서 기존의 회원 프로필 번호 삭제
-			session.removeAttribute("loginProfileImg");
-			// 새로운 회원 프로필 번호를 HttpSession에 저장
-			session.setAttribute("loginProfileImg", attachmentNo);
 		}
 		
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
