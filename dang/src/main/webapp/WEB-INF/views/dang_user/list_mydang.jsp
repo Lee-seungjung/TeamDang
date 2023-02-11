@@ -67,7 +67,7 @@
 		color : white;
 	}
 	
-	.btn-mydang-dang-close {
+	.btn-mydang-dang-leave {
 		border : none;
 		border-radius : 10px;
 		background-color : #787878;
@@ -116,7 +116,8 @@
 		font-size : 16px;
 	}
 	
-	.btn-modal-dang-close-submit {
+	.btn-modal-dang-close-submit,
+	.btn-modal-dang-leave-submit {
 		border : none;
 		border-radius : 10px;
 		color : white;
@@ -124,11 +125,13 @@
 		opacity : 0.5;
 	}
 	
-	.btn-modal-dang-close-submit:hover {
+	.btn-modal-dang-close-submit:hover,
+	..btn-modal-dang-leave-submit:hover {
 		opacity : 1;
 	}
 	
-	.btn-modal-dang-close-cancel {
+	.btn-modal-dang-close-cancel,
+	.btn-modal-dang-leave-cancel {
 		border : none;
 		border-radius : 10px;
 		color : white;
@@ -273,7 +276,7 @@
 									<button class = "w-100 btn-mydang-dang-delete">해체</button>
 									</c:when>
 									<c:otherwise>
-									<button class = "w-100 btn-mydang-dang-close">탈퇴</button>
+									<button class = "w-100 btn-mydang-dang-leave">탈퇴</button>
 									</c:otherwise>
 									</c:choose>
 								</div>
@@ -286,6 +289,29 @@
 		</div>
 	</div>
 </div>
+
+<!-- 탈퇴 모달 시작 -->
+<div class="modal fade" id="modalDangLeave" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body middle-items">
+				<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+				<span>정말 해체하시겠습니까?</span>
+			</div>
+			<div>
+				<p style="font-size:13px; margin-left:35px; margin-right:35px;">
+                  탈퇴 시 댕모임 내 모든 정보(게시글, 채팅...) <strong class="pink">파기</strong>되며<br>
+                   재가입 시에도 <strong class="pink">복구 불가</strong>합니다.
+               </p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn-modal-dang-leave-submit px-4 text-center">탈퇴</button>
+				<button type="button" class="btn-modal-dang-leave-cancel px-4 text-center" data-bs-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 탈퇴 모달 끝 -->
 
 <!-- 해체 모달 시작 -->
 <div class="modal fade" id="modalDangClose" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
@@ -342,14 +368,13 @@
 		// 댕모임 번호
 		var dangNo;
 		
-		// 탈퇴 버튼 클릭
-		$(document).on("click", ".btn-mydang-dang-close", function(){
-			var choice = window.confirm("정말 탈퇴하시겠습니까?");
-			if(choice == false) {
-				return;
-			}
+		// 탈퇴 Modal 열기
+		$(document).on("click", ".btn-mydang-dang-leave", function(){
 			dangNo = $(this).parent().prevAll(".input-dang-no").val();
-			
+			$("#modalDangLeave").modal("show");
+		});
+		
+		$(".btn-modal-dang-leave-submit").click(function(){
 			// 댕모임 탈퇴
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_user/leave_dang?dangNo=" + dangNo + "&userNo=" + userNo,
@@ -388,32 +413,6 @@
 				}
 			});
 		});
-		
-/* 		$(document).on("click", ".btn-mydang-dang-delete", function(){
-			// 해체 전 확인 메시지
-			var choice = window.confirm("정말 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
-			// 취소를 누르면 return
-			if(choice == false) {
-				return;
-			}
-			// 댕모임 번호
-			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
-			
-			location.href = "${pageContext.request.contextPath}/user/list_mydang";
-			// 댕모임 해체
-			$.ajax({
-				url : "${pageContext.request.contextPath}/rest_dang/close_dang?dangNo=" + dangNo,
-				method : "delete",
-				success : function(resp){
-					console.log(resp);
-					if(queryString == "") {						
-						location.href = "${pageContext.request.contextPath}/user/list_mydang";
-					} else {
-						location.href = "${pageContext.request.contextPath}/user/list_mydang?" + queryString;
-					}
-				}
-			});
-		}); */
 		
 		// 페이지 네비게이터
 		// - 현재 주소
