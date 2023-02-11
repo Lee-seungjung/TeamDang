@@ -98,8 +98,9 @@
 					<c:choose>
 					 <c:when test= "${simpleSchedule.size() ne 0}">  
 						<c:forEach var="DangScheduleVO" items="${simpleSchedule}">
+						  <a href = "${pageContext.request.contextPath}/dang/${DangScheduleVO.dangNo}/schedule_detail?scheduleNo=${DangScheduleVO.scheduleNo}">
 							<div class="simple-schedule-box">
-								<div class="simple-date-box">			
+								<div class="simple-date-box">		
 									<div class="day-commons" style="
 										<c:if test = "${DangScheduleVO.day == '월요일'}">border-color:#FF8399;</c:if>
 										<c:if test = "${DangScheduleVO.day == '화요일'}">border-color:#FFC28B;</c:if>
@@ -122,6 +123,7 @@
 								</div>
 							</div>
 						</div>
+						</a>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
