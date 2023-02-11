@@ -154,7 +154,6 @@ public class DangUserController {
 		int myDangDday = dangUserDao.myDangDday(userNo);
 		//조회한 관심지역 리스트  Model에 추가
 		model.addAttribute("interestArea" ,interestArea);
-		System.out.println("관심지역 : " + interestArea);
 		//조회한 댕댕이 수 Model에 추가
 		model.addAttribute("mypageDangNum", mypageDangNum);
 		//조회한 활동 댕모임 수 Model에 추가
