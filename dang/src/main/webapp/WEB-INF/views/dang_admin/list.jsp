@@ -192,13 +192,13 @@
 		border: 1px solid #F2F2F2;
 	}
 	
-	.input1{
-		border : 2px solid #F781D8;
+	.input-box{
+		border : 2px solid #D8D8D8;
 		height: 50px;
 	}
 	
-	.box1{
-		border : 2px solid #F781D8;
+	.search-box{
+		border : 2px solid #D8D8D8;
 		height: 50px;
 		border-radius: 5px;
 		background: white;
@@ -260,6 +260,17 @@
 	    font-size: 13px;
     }
     
+    .btn-blue{
+		border:1px solid #fff;
+		background-color:#76BEFF;
+		color:#fff;
+	}
+	.category-css:hover {
+	  	color: #495057;
+	 	background-color: #DEEFFF;
+	  	border-color: #DEEFFF;
+	}
+    
     
     .btn-place-delete{
     background-color: #F94888;
@@ -315,15 +326,22 @@
     	 display:none;
     }
     
-    table {
-	  background-color: #D8D8D8;
-	  border-collapse: collapse;
-	  border-radius: 10px;
-	  border-style: hidden;
+	table {
+		background-color: #D8D8D8;
+		border-collapse: collapse;
+		border-radius: 10px;
+		border-style: hidden;
 	}
 	
 	.pagination {
-   			justify-content: center;
+		justify-content: center;
+	}
+	.state-nunber{
+		font-weight: bold;
+		font-family: 'Noto Sans KR', 산세리프;
+		font-size: 13px;
+		color: green;"
+	
 	}
 </style>
 
@@ -370,17 +388,17 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
-				<p style="font-size: 13px;">(총 <i style="font-size: 13px; color: green;">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
+				<p style="font-size: 13px;">(총 <i class="state-nunber">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
 			</div>
 		</div>
 		
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=카페'">카페</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=음식점'">음식점</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=운동장'">운동장</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=미용'">미용</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=공원'">공원</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '카페'}"> btn-blue </c:if> " type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=카페'">#카페</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '음식점'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=음식점'">#음식점</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '운동장'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=운동장'">#운동장</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '미용'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=미용'">#미용</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '공원'}"> btn-blue </c:if> > " type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=공원'">#공원</button>
 			</div>
 		</div>
 		
@@ -393,15 +411,14 @@
 					<option value = "place_name">장소명</option>
 					<option value = "place_address">주소명</option>
 					<option value = "place_area">지역구</option>
-					<option value = "place_sort">카테고리</option>
 					<option value = "place_tel">전화번호</option>
 				</select>
 			</div>
 			<div class="col-6">
-				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
+				<input class="w-100 input-box form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
 			</div>
 			<div class="col-3">
-				<button  class="w-100 box1" type = "submit">검색</button
+				<button  class="w-100 search-box" type = "submit">검색</button
 			></div>
 		</div>
 		</form>
@@ -945,6 +962,10 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
+	
+	console.log('${param.keyword}');
+		
+	
 	 function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
 		// 이동할 위도 경도 위치를 생성합니다 
