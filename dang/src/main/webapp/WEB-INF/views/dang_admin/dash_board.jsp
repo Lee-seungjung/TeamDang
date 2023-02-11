@@ -105,28 +105,33 @@
             <canvas id="regionChart" width="300" height="186"></canvas>
         </div>
         <div class="col-md-5 shadow ms-1 me-1 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
-        	
-	        	<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th>댕모임명</th>
-				      <th>닉네임</th>
-				      <th>신고일짜</th>
-				      <th>신고현황</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  <c:forEach var="reportList" items="${reportList}">
-				    <tr>
-				      <td >${reportList.dangName}</td>
-				      <td>${reportList.memberNick}</td>
-				      <td>${reportList.reportDate}</td>
-				      <td>${reportList.reportState}</td>
-				    </tr>
-				  </c:forEach>
-				  </tbody>
-				</table>
+	  		<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
+	  		
+		   	<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>댕모임명</th>
+						<th>닉네임</th>
+						<th>신고일짜</th>
+						<th>신고현황</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${reportList.size()==0}">
+						<tr>
+							<td colspan="4">신고 내역이 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:forEach var="reportList" items="${reportList}">
+					<tr data-rno="${reportList.reportNo}" class="cursor-pointer report-detail">
+						<td >${reportList.dangName}</td>
+						<td>${reportList.memberNick}</td>
+						<td>${reportList.reportDate}</td>
+						<td>${reportList.reportState}</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
         </div>
     </div>
 </div>
@@ -202,6 +207,13 @@ $(function(){
     	var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
     	return color;
     }
+    
+    //신고 상세로 이동
+    $(".report-detail").click(function(){
+    	var reportNo = $(this).data("rno");
+    	location.href="${pageContext.request.contextPath}/admin/report_detail?reportNo="+reportNo;
+    });
+    
 });
 
 </script>
