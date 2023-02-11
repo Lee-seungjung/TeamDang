@@ -533,7 +533,7 @@
 	</div>
 	
 	<!-- 댕모임 일정 등록 -->
-	 <div class="p-3 border rounded-3 text-center day-check shadow gray mt-3">
+	 <div class="p-3 border rounded-3 text-center shadow gray mt-3">
 		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">일정 등록</span>
 	</div>
 
@@ -667,7 +667,7 @@
 
 	<!-- 댕모임 정보 수정 -->
 	<c:if test = "${profile.memberOwner == 'Y'}">
-	<div class="p-3 border rounded-3 text-center day-check shadow mt-3 gray">
+	<div class="p-3 border rounded-3 text-center shadow mt-3 gray">
 		<i class="fa-solid fa-gear"></i>
 		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
 	</div>
@@ -1466,11 +1466,10 @@
 	   									data:JSON.stringify(attendanceData),
 	   									contentType: 'application/json',
 	   				                    success:function(){
-	   				                    	isDoubleClick = false;
 	   				                  		 //버튼 막기
 	   				                    	$(".close-btn").show();
 	   				    					$(".attendance-btn").hide();
-	   				    					
+
 	   				                    	//3. 활동점수 +1 업데이트
 	   				                    	data={
 	   				                    			memberScore:1,
@@ -1487,6 +1486,7 @@
 	   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
 	   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
 	   				                    			sideScoreTag.text(sideScoreValue+1);
+	   				                    			isDoubleClick = false;
 	   				                    		}
 	   				                    	});
 	   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
