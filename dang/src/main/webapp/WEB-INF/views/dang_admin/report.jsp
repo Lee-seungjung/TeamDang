@@ -147,7 +147,7 @@
 				</div>
 			</div>
 			
-			<div class="row mt-5">
+			<div class="row mt-5 mb-5">
 				<table class="table text-center ">
 					<thead>
 						<tr class="table">
@@ -244,6 +244,12 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
+					
 					for(var i = 0 ; i < resp.reportList.length ; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -296,6 +302,12 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
+					
 					for(var i = 0 ; i < resp.reportList.length ; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -350,6 +362,12 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
+					
 					for(var i = 0 ; i < resp.reportList.length ; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -403,6 +421,12 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
+					
 					for(var i = 0 ; i < resp.reportList.length ; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -418,6 +442,15 @@
 				}
 			});
 		});
+
+		//엔터키 이벤트
+		$("[name=keyword]").on("keyup",function(key){
+			var inputText = $("[name=keyword]").val();
+			var selectType = $("[name=type]").val();
+	        if(inputText!="" && selectType!="" && key.keyCode==13) {
+	        	$(".search-btn").click();
+	        }
+	    });
 		
 		// 검색 버튼 클릭 이벤트
 		$(document).on("click", ".search-btn", function(){
@@ -458,6 +491,12 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
+					
 					for(var i=0; i<resp.reportList.length; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -521,6 +560,11 @@
 					}
 					// 초기화
 					$(".data-body").empty();
+					
+					//목록 없을 경우 출력
+					if(resp.reportList.length==0){
+						zeroReportList();
+					}
 					for(var i=0; i<resp.reportList.length; i++){
 						reportList(resp.reportList[i]);
 					}
@@ -606,6 +650,16 @@
 				}
 			});
 		});
+		
+		//신고 목록 없을 경우 출력
+		function zeroReportList(){
+			var body = $(".data-body");
+			var tr = $("<tr>").attr("class","table align-middle");
+			var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
+							.text("일치하는 검색 결과가 없습니다.");
+			tr.append(td);
+			body.append(tr);
+		}
 		
 		function reportList(resp){
 			var body = $(".data-body");

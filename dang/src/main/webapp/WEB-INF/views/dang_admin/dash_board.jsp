@@ -35,98 +35,113 @@
 <!--대시 보드 시작-->
 <div class="container-fluid">
 
-   	 <div class="row mt-2">
-    	<div class="col d-flex align-items-center justify-content-center">
-      		<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="img-dang-admin-main">
-    	</div>
-  	</div>
+	<div class="row ">
+		<div class="col-10 offset-1">
+			<div class="row mt-2 justify-content-center">
+				<img src="${pageContext.request.contextPath}/images/img-admin-page-main.jpg" class="img-fluid img-dang-admin-main">
+			</div>
+		</div>
+	</div>
 
-    <div class="row mt-4 offset-md-1">
-       
+    <div class="row mt-4 offset-md-1"></div>
+    
+    <div class="row mt-4 mb-5">
+    	<div class="col-10 offset-1">
+	    	 <div class="row justify-content-center">
+	    	 	<div class="col-2 shadow">
+		    		<a href="${pageContext.request.contextPath}/admin/user_list">
+			            <div class="row">
+			                <div class="col-7 mt-3">
+			                    <p class="statistics-font">주간 사용자 수</p>
+			                    <p class="statistics-number ms-2">${recentLogin}</p>
+			                </div>
+			                <div class="col">
+			                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png" width="100%;"
+			                        height="70%;">
+			                </div>
+			            </div>
+		        	</a>
+		        </div>
+		        <div class="col-2 offset-1 shadow">
+		        	<a href="${pageContext.request.contextPath}/admin/dang_list">
+			            <div class="row">
+			                <div class="col-7 mt-3">
+			                    <p class="statistics-font">주간 댕모임 개설 수</p>
+			                    <p class="statistics-number ms-2">${recentDang}</p>
+			                </div>
+			                <div class="col">
+			                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png" width="100%;" height="70%;">
+			                </div>
+			            </div>
+		            </a>
+		        </div>
+		        <div class="col-2 offset-1 shadow">
+		        	<a href="${pageContext.request.contextPath}/admin/report">
+			            <div class="row">
+			                <div class="col-7 mt-3">
+			                    <p class="statistics-font">주간 신고 수</p>
+			                    <p class="statistics-number ms-2">${recentReport}</p>
+			                </div>
+			                <div class="col">
+			                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admin-icon-alarm.png" width="100%;" height="70%;">
+			                </div>
+			            </div>
+		            </a>
+		        </div>
+		        <div class="col-2 offset-1 shadow">
+		        	<a href="${pageContext.request.contextPath}/admin/user_list">
+			            <div class="row">
+			                <div class="col-7 mt-3">
+			                    <p class="statistics-font">7일간 가입자 수</p>
+			                    <p class="statistics-number ms-2">${recentJoin}</p>
+			                </div>
+			                <div class="col">
+			                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png" width="100%;"
+			                        height="70%;">
+			                </div>
+			            </div>
+			         </a>
+		        </div>
+	    	 </div>
+        </div>
     </div>
-    <div class="row mt-4 offset-1 mb-5">
-    	 <div class="col-2 shadow  ms-3 me-4">
-    		<a href="${pageContext.request.contextPath}/admin/user_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 사용자 수</p>
-	                    <p class="statistics-number ms-2">${recentLogin}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png" width="100%;"
-	                        height="70%;">
-	                </div>
-	            </div>
-        	</a>
-        </div>
-        <div class="col-2 shadow ms-5 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/dang_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 댕모임 개설 수</p>
-	                    <p class="statistics-number ms-2">${recentDang}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png" width="100%;" height="70%;">
-	                </div>
-	            </div>
-            </a>
-        </div>
-        <div class="col-2 shadow ms-5 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/report">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">주간 신고 수</p>
-	                    <p class="statistics-number ms-2">${recentReport}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admin-icon-alarm.png" width="100%;" height="70%;">
-	                </div>
-	            </div>
-            </a>
-        </div>
-        <div class="col-2 shadow ms-4 me-5">
-        	<a href="${pageContext.request.contextPath}/admin/user_list">
-	            <div class="row">
-	                <div class="col-7 mt-3">
-	                    <p class="statistics-font">7일간 가입자 수</p>
-	                    <p class="statistics-number ms-2">${recentJoin}</p>
-	                </div>
-	                <div class="col">
-	                    <img class="mt-3" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png" width="100%;"
-	                        height="70%;">
-	                </div>
-	            </div>
-	         </a>
-        </div>
-    	
-        <div class="col-md-5 shadow ms-3 me-3 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
-            <canvas id="regionChart" width="300" height="186"></canvas>
-        </div>
-        <div class="col-md-5 shadow ms-1 me-1 mt-3">
-        	<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
-        	
-	        	<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th>댕모임명</th>
-				      <th>닉네임</th>
-				      <th>신고일짜</th>
-				      <th>신고현황</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  <c:forEach var="reportList" items="${reportList}">
-				    <tr>
-				      <td >${reportList.dangName}</td>
-				      <td>${reportList.memberNick}</td>
-				      <td>${reportList.reportDate}</td>
-				      <td>${reportList.reportState}</td>
-				    </tr>
-				  </c:forEach>
-				  </tbody>
-				</table>
+    <div class="row mt-4 mb-5">	
+        <div class="col-10 offset-1">
+        	<div class="row justify-content-center">
+        		<div class="col-5 shadow">
+		        	<h5 class="mt-3 mb-3 text-center">지역별 이용현황</h5>
+		            <canvas id="regionChart" width="300" height="186"></canvas>
+		        </div>
+		        <div class="col-5 offset-1 shadow">
+			  		<h5 class="mt-3 mb-3 text-center">신고 목록</h5>
+			  		
+				   	<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>댕모임명</th>
+								<th>닉네임</th>
+								<th>신고일짜</th>
+								<th>신고현황</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:if test="${reportList.size()==0}">
+								<tr>
+									<td colspan="4">신고 내역이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:forEach var="reportList" items="${reportList}">
+							<tr data-rno="${reportList.reportNo}" class="cursor-pointer report-detail">
+								<td >${reportList.dangName}</td>
+								<td>${reportList.memberNick}</td>
+								<td>${reportList.reportDate}</td>
+								<td>${reportList.reportState}</td>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+		        </div>
+        	</div>
         </div>
     </div>
 </div>
@@ -202,6 +217,13 @@ $(function(){
     	var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
     	return color;
     }
+    
+    //신고 상세로 이동
+    $(".report-detail").click(function(){
+    	var reportNo = $(this).data("rno");
+    	location.href="${pageContext.request.contextPath}/admin/report_detail?reportNo="+reportNo;
+    });
+    
 });
 
 </script>
