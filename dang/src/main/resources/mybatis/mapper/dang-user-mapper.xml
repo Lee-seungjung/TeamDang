@@ -141,4 +141,9 @@
 		select user_logindate from dang_user where user_no = #{userNo}
 	</select>
 	
+			<!-- (마이페이지) 댕모임 디데이수 조회-->
+	<select id = "myDangDday"   parameterType = "int" resultType = "int">
+		select TRUNC(user_logindate) - TRUNC(user_joindate) from dang_user where user_no= #{userNo}
+	</select>
+	
 </mapper>

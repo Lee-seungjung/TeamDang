@@ -3,7 +3,6 @@ package com.project.dang.repository;
 import java.sql.Date;
 import java.util.List;
 
-import com.project.dang.dto.DangInterestDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserDto;
 import com.project.dang.dto.DangUserListDto;
@@ -185,6 +184,13 @@ public interface DangUserDao {
 	 * 	@param historyListRequestDto 
 	 */
 	public int historyCount (HistoryListRequestDto historyListRequestDto);
+	
+	/**
+	 *  (마이페이지) 댕모임과 함께한 디데이 조회
+	 * @return dDayCount
+	 * 	@param int userNo
+	 */
+	public int myDangDday (int userNo);
 	
 }
 
