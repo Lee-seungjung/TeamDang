@@ -116,6 +116,25 @@
 		font-size : 16px;
 	}
 	
+	.btn-modal-dang-close-submit {
+		border : none;
+		border-radius : 10px;
+		color : white;
+		background-color : #787878;
+		opacity : 0.5;
+	}
+	
+	.btn-modal-dang-close-submit:hover {
+		opacity : 1;
+	}
+	
+	.btn-modal-dang-close-cancel {
+		border : none;
+		border-radius : 10px;
+		color : white;
+		background-color : #787878;
+	}
+	
 </style>
 
 <input type = "hidden" class = "input-user-no" value = "${loginNo}">
@@ -268,6 +287,28 @@
 	</div>
 </div>
 
+<!-- 해체 모달 시작 -->
+<div class="modal fade" id="modalDangClose" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body middle-items">
+				<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
+				<span>정말 해체하시겠습니까?</span>
+			</div>
+			<div>
+				<span style="font-size:13px; margin-left:35px;">
+					해체 시 댕모임 정보가 즉시 <strong class="pink">파기</strong>되며 <strong class="pink">복구 불가</strong>합니다.
+				</span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn-modal-dang-close-submit px-4 text-center">해체</button>
+				<button type="button" class="btn-modal-dang-close-cancel px-4 text-center" data-bs-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 해체 모달 끝 -->
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
@@ -294,14 +335,20 @@
 			location.href = "${pageContext.request.contextPath}/dang/"+dangNo;
 		});
 		
+		
+		// 회원 번호
+		var userNo = $(".input-user-no").val();
+		
+		// 댕모임 번호
+		var dangNo;
+		
 		// 탈퇴 버튼 클릭
 		$(document).on("click", ".btn-mydang-dang-close", function(){
 			var choice = window.confirm("정말 탈퇴하시겠습니까?");
 			if(choice == false) {
 				return;
 			}
-			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
-			var userNo = $(".input-user-no").val();
+			dangNo = $(this).parent().prevAll(".input-dang-no").val();
 			
 			// 댕모임 탈퇴
 			$.ajax({
@@ -318,16 +365,15 @@
 			});
 		});
 		
-		// 해체 버튼
+		// 댕모임 해체 Modal 열기
 		$(document).on("click", ".btn-mydang-dang-delete", function(){
-			// 해체 전 확인 메시지
-			var choice = window.confirm("정말 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
-			// 취소를 누르면 return
-			if(choice == false) {
-				return;
-			}
-			// 댕모임 번호
-			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			console.log(dangNo);
+			$("#modalDangClose").modal("show");
+		});
+		
+		// 댕모임 해체 Modal의 해체 버튼
+		$(".btn-modal-dang-close-submit").click(function(){
 			// 댕모임 해체
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest_dang/close_dang?dangNo=" + dangNo,
@@ -342,6 +388,32 @@
 				}
 			});
 		});
+		
+/* 		$(document).on("click", ".btn-mydang-dang-delete", function(){
+			// 해체 전 확인 메시지
+			var choice = window.confirm("정말 댕모임을 해체하시겠습니까?\n댕모임 해체시 복구는 불가능합니다.")
+			// 취소를 누르면 return
+			if(choice == false) {
+				return;
+			}
+			// 댕모임 번호
+			var dangNo = $(this).parent().prevAll(".input-dang-no").val();
+			
+			location.href = "${pageContext.request.contextPath}/user/list_mydang";
+			// 댕모임 해체
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_dang/close_dang?dangNo=" + dangNo,
+				method : "delete",
+				success : function(resp){
+					console.log(resp);
+					if(queryString == "") {						
+						location.href = "${pageContext.request.contextPath}/user/list_mydang";
+					} else {
+						location.href = "${pageContext.request.contextPath}/user/list_mydang?" + queryString;
+					}
+				}
+			});
+		}); */
 		
 		// 페이지 네비게이터
 		// - 현재 주소
