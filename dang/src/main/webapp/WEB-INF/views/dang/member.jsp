@@ -141,11 +141,7 @@
 	<div class="modal" id="m-deleteModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="height:20px;">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-				</div>
+				<div class="modal-header" style="height:20px;"></div>
 				<div class="modal-body middle-items">
 					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
 					<span>정말 탈퇴하시겠습니까?</span>
@@ -168,11 +164,7 @@
 	<div class="modal" id="m-closeModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="height:20px;">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-				</div>
+				<div class="modal-header" style="height:20px;"></div>
 				<div class="modal-body middle-items">
 					<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
 					<span>정말 해체하시겠습니까?</span>

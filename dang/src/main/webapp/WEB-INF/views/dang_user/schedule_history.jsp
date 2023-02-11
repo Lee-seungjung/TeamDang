@@ -113,7 +113,6 @@
             </div>
             
 			<div class = "row">
-			
 				<table class="table text-center ">
 					<thead>
 						<tr class="table">
@@ -126,7 +125,7 @@
 					</thead>
 					<tbody class="history-data-body">
 						<c:choose>
-							<c:when test="${scheduleHistory==null}">
+							<c:when test="${scheduleHistory.size()==0}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">참여일정이 존재하지 않습니다.</td>
 								</tr>						
