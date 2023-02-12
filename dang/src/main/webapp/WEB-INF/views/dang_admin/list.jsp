@@ -1242,8 +1242,6 @@
 					
 					const str = $(".beforeUpdate-img").attr("src");
 					originalNo = str.match(/\d+/);
-					console.log("월래번호"+originalNo);
-					console.log("변경번호"+change);
 					//값이 변경되었으면?
 					if(change!=null){
 						
@@ -1253,11 +1251,10 @@
                				data:originalNo,
                				async:false,
                				success:function(resp){
-               					console.log('삭제번호:'+originalNo);
                				}
                			});
 					}
-					//location.href = "http://localhost:8888/admin/place_list";
+					location.href = "http://localhost:8888/admin/place_list";
 					
 					console.log(data);
 				}
@@ -1346,6 +1343,7 @@
 		function detailMove() {
 			location.href = "http://localhost:8888/admin/detail/"+placeNoInfo;
 		}
+		var optionSelected='';
 		$(document).on("click",".infoModal",function(e) {
 			
 			$("#infoModal").modal("show");//모달 실행
@@ -1368,7 +1366,8 @@
 					$(".span-placename").text(resp.placeName);
 					$(".span-placeoff").text(resp.placeOff);
 					$(".span-placeoperation").text(resp.placeOperation);
-					$(".span-placesort").val(resp.placeSort);
+					$(".span-placesort").val(resp.placeSort).prop("selected", true);
+					optionSelected = resp.placeSort;
 					$(".span-placetel").text(resp.placeTel);
 					$(".span-placeurl").text(resp.placeUrl);
 					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
@@ -1389,8 +1388,11 @@
 				}
 			})
 		});
-		
-
+		$(".btn-placeinfoModal").click(function (){
+			console.log('클릭클릭');
+			console.log(optionSelected);
+			$("[name=placeSort]").val(optionSelected).prop("selected",true);
+		});
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 		mapOption = {
