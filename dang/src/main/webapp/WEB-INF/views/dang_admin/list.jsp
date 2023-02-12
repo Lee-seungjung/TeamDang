@@ -9,6 +9,8 @@
    <jsp:param value="장소 관리" name="title"/>
 </jsp:include>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
 	
 	.btn-place-sort {
@@ -347,7 +349,7 @@
 				<strong class = "strong-page-title">장소 마커 관리</strong>
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
-				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-backdrop="static" data-bs-target="#exampleModal">
 				  장소 등록
 				</button>
 			</div>
@@ -746,15 +748,31 @@
 		        </div>
 		
 		        <div class="row mt-4">
-		            <div class="col-md-10 offset-md-1">
-		                <div>변경전 사진</div>
-		                <img src="" class="beforeUpdate-img" width="100" height="100">
+		            <div class="col-md-10 offset-md-1 text-center">
+		                <div class="row">
+		                	<div class="col-5">변경전</div>
+		                	<div class="col-2"></div>
+		                	<div class="col-5">변경후</div>
+		                </div>
+		                
 		            </div>
 		        </div>
 		        <div class="row mt-4">
-		            <div class="col-md-10 offset-md-1">
-		                <div>변경후 사진</div>
-		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="update-img" width="100" height="100">
+		            <div class="col-md-10 offset-md-1 text-center">
+		            	<div class="row">
+		                	<div class="col-5">
+								 <img  src="" class="beforeUpdate-img w-100 h-auto text-center">
+							</div>
+		                	<div class="col-2">
+		                		<i class="fa-solid fa-arrow-right fs-2"></i>
+		                	</div>
+		                	<div class="col-5">
+		                		<img src="${pageContext.request.contextPath}/images/no-place-img.png" class="update-img w-100 h-auto">
+		                	</div>
+		                </div>
+		            
+		               
+		                
 		            </div>
 		        </div>
 		</form>
@@ -771,7 +789,7 @@
   </div>
 </div>
 <!-- ================================장소마커를 등록하기 위한 모달======================================== --><!-- 등록하기 모달 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" data-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		        <h3 class="modal-title text-center mt-2">지도 마커 등록</h3>
@@ -950,9 +968,9 @@
 		        </div>
 		
 		        <div class="row mt-4">
-		            <div class="col-md-10 offset-md-1">
-		                <div>미리보기</div>
-		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="insert-img" width="100" height="100">
+		            <div class="col-md-10 offset-md-1 text-center">
+		                <div class="mb-2">미리보기</div>
+		                <img src="${pageContext.request.contextPath}/images/no-place-img.png" class="insert-img w-75 h-auto" width="100" height="100">
 		            </div>
 		        </div>
 		        <div class="row mt-4">
@@ -975,6 +993,11 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
+	
+	$('#exampleModal').on('hidden.bs.modal', function () {
+        console.log('닫기!!');
+	});
+	
 	 function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
 		// 이동할 위도 경도 위치를 생성합니다 
@@ -1112,20 +1135,17 @@
             attachmentNo: attachmentNo,
         };
         
-        if (placeX.length === 0 || placeX.length === 0) {
-            alert('위도와 경도를 입력해 주세요!');
+        if (placeX.length === 0 || placeY.length === 0||attachmentNo.length==0||placeName.length==0||dangSize==0||placeAddress.length==0) {
+            swal("정보를 입력해 주세요","","error");
             return;
-        }else if(attachmentNo.length==0){
-			alert('사진을 등록해 주세요!');
-			return;
-		}else if(confirm("정말 등록하시겠습니까?")==true){
+        }else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
                 url: "http://localhost:8888/rest_place/place_insert",
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function () {
-                    //location.href="${pageContext.request.contextPath}/admin/place_list"
+                    location.href="${pageContext.request.contextPath}/admin/place_list"
 					console.log(data);
                 }
             });
@@ -1216,6 +1236,8 @@
 			attachmentNo=change;
 		}
 		
+		
+		
 		var data = {
 				placeNo : placeNo,
 				placeArea:placeArea,
@@ -1233,32 +1255,39 @@
 				attachmentNo : attachmentNo
 			};
 			console.log(attachmentNo);
-			 $.ajax({
-				url:"${pageContext.request.contextPath}/rest_place/update",
-				method:"put",
-				contentType:"application/json",
-				data:JSON.stringify(data),
-				success:function(){
-					
-					const str = $(".beforeUpdate-img").attr("src");
-					originalNo = str.match(/\d+/);
-					//값이 변경되었으면?
-					if(change!=null){
+			if (placeX.length === 0 || placeY.length === 0||attachmentNo.length==0||placeName.length==0||dangSize==0||placeAddress.length==0) {
+	            swal("정보를 입력해 주세요","","error");
+	            return;
+			}else if(confirm("정말 수정하시겠습니까?")==true){
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_place/update",
+					method:"put",
+					contentType:"application/json",
+					data:JSON.stringify(data),
+					success:function(){
 						
-						$.ajax({
-               				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originalNo,
-               				method:"delete",
-               				data:originalNo,
-               				async:false,
-               				success:function(resp){
-               				}
-               			});
+						const str = $(".beforeUpdate-img").attr("src");
+						originalNo = str.match(/\d+/);
+						//값이 변경되었으면?
+						if(change!=null){
+							
+							$.ajax({
+	               				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originalNo,
+	               				method:"delete",
+	               				data:originalNo,
+	               				async:false,
+	               				success:function(resp){
+	               				}
+	               			});
+						}
+						location.href = "http://localhost:8888/admin/place_list";
+						
+						console.log(data);
 					}
-					location.href = "http://localhost:8888/admin/place_list";
-					
-					console.log(data);
-				}
-			});  
+				});
+			}else{
+				return;
+			}
 	}
 	
 	
@@ -1343,7 +1372,9 @@
 		function detailMove() {
 			location.href = "http://localhost:8888/admin/detail/"+placeNoInfo;
 		}
-		var optionSelected='';
+		
+		var optionSelectedSort='';
+		var optionSelectedDangSize='';
 		$(document).on("click",".infoModal",function(e) {
 			
 			$("#infoModal").modal("show");//모달 실행
@@ -1367,10 +1398,11 @@
 					$(".span-placeoff").text(resp.placeOff);
 					$(".span-placeoperation").text(resp.placeOperation);
 					$(".span-placesort").val(resp.placeSort).prop("selected", true);
-					optionSelected = resp.placeSort;
+					optionSelectedSort = resp.placeSort;
 					$(".span-placetel").text(resp.placeTel);
 					$(".span-placeurl").text(resp.placeUrl);
 					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+					optionSelectedDangSize=resp.dangSize;
 					//수정 input태그에 값 밀어넣기
 					$('input[name=placeArea]').attr('value',resp.placeArea);
 					$('input[name=placeX]').attr('value',resp.placeX);
@@ -1389,9 +1421,8 @@
 			})
 		});
 		$(".btn-placeinfoModal").click(function (){
-			console.log('클릭클릭');
-			console.log(optionSelected);
-			$("[name=placeSort]").val(optionSelected).prop("selected",true);
+			$("[name=placeSort]").val(optionSelectedSort).prop("selected",true);
+			$("[name=dangSize]").val(optionSelectedDangSize).prop("selected",true);
 		});
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
