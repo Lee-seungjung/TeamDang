@@ -146,4 +146,6 @@ public interface DangPlaceDao {
 	 * @return int : attachmetNo
 	 */	
 	int placeImgSearch(int placeNo);
+	
+	List<PlaceImg> placeImgList(int placeNo);
 }

@@ -88,7 +88,10 @@ public class DangPlaceRestController {
 		dangPlaceDao.deletePlaceImg(placeNo);
 		int attachmentNo = dangPlaceDto.getAttachmentNo();
 		PlaceImg placeImg = PlaceImg.builder().attachmentNo(attachmentNo).placeNo(placeNo).build();
-		dangPlaceDao.placeImgInsert(placeImg);
+		if(placeImg!=null) {
+			dangPlaceDao.placeImgInsert(placeImg);
+		}
+		
 		return dangPlaceDao.placeEdit(dangPlaceDto);
 	}
 	
