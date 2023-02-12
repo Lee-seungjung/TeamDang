@@ -1245,7 +1245,7 @@
 					console.log("월래번호"+originalNo);
 					console.log("변경번호"+change);
 					//값이 변경되었으면?
-					if(change!=0){
+					if(change!=null){
 						
 						$.ajax({
                				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originalNo,
@@ -1253,6 +1253,7 @@
                				data:originalNo,
                				async:false,
                				success:function(resp){
+               					console.log('삭제번호:'+originalNo);
                				}
                			});
 					}
