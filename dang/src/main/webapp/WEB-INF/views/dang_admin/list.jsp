@@ -1186,7 +1186,63 @@
     });
 	
 	
- 	// 수정 미리보기용 첨부파일 번호 리스트
+
+	
+	// 장소 수정 함수
+	function editMarker() {
+		var placeNo = placeNoInfo;
+		var placeArea = $("[name=placeArea]").val();
+		var placeX = $("[name=placeX]").val(); 
+		var placeY = $("[name=placeY]").val();
+		var placeSort = $("[name=placeSort]").val();
+		var placeName = $("[name=placeName]").val();
+		var placeInfo = $("[name=placeInfo]").val();
+		var placeAddress = $("[name=placeAddress]").val();
+		var placeOperation = $("[name=placeOperation]").val();
+		var placeOff = $("[name=placeOff]").val();
+		var placeTel = $("[name=placeTel]").val();
+		var placeUrl = $("[name=placeUrl]").val();
+		var dangSize = $("[name=dangSize]").val();
+		var attachmentNo = $("[name=attachmentNoUpdate]").val();
+		
+		if(attachmentNo==""){//attachmetNo가 변경이 안되었을시
+			const str = $(".beforeUpdate-img").attr("src");
+			const result = str.match(/\d+/);
+			attachmentNo=result[0]
+		}
+		
+		var data = {
+				placeNo : placeNo,
+				placeArea:placeArea,
+				placeX : placeX,
+				placeY : placeY,
+				placeSort : placeSort,
+				placeName : placeName,
+				placeInfo : placeInfo,
+				placeAddress : placeAddress,
+				placeOperation : placeOperation,
+				placeOff : placeOff,
+				placeTel : placeTel,
+				placeUrl : placeUrl,
+				dangSize : dangSize,
+				attachmentNo : attachmentNo
+			};
+			console.log(attachmentNo);
+			 $.ajax({
+				url:"${pageContext.request.contextPath}/rest_place/update",
+				method:"put",
+				contentType:"application/json",
+				data:JSON.stringify(data),
+				success:function(){
+					location.href = "http://localhost:8888/admin/place_list";
+					
+					console.log(data);
+				}
+			});  
+	}
+	
+	
+	// 수정 미리보기용 첨부파일 번호 리스트
 	var attachmentPreviewUpdateList = [];
 	
 	// 이미지 변경함수
@@ -1236,54 +1292,6 @@
             });
         }
     });
-	
-
-	
-	// 장소 수정 함수
-	function editMarker() {
-		var placeNo = placeNoInfo;
-		var placeArea = $("[name=placeArea]").val();
-		var placeX = $("[name=placeX]").val(); 
-		var placeY = $("[name=placeY]").val();
-		var placeSort = $("[name=placeSort]").val();
-		var placeName = $("[name=placeName]").val();
-		var placeInfo = $("[name=placeInfo]").val();
-		var placeAddress = $("[name=placeAddress]").val();
-		var placeOperation = $("[name=placeOperation]").val();
-		var placeOff = $("[name=placeOff]").val();
-		var placeTel = $("[name=placeTel]").val();
-		var placeUrl = $("[name=placeUrl]").val();
-		var dangSize = $("[name=dangSize]").val();
-		var attachmentNo = $("[name=attachmentNoUpdate]").val();
-		
-		
-		var data = {
-				placeNo : placeNo,
-				placeArea:placeArea,
-				placeX : placeX,
-				placeY : placeY,
-				placeSort : placeSort,
-				placeName : placeName,
-				placeInfo : placeInfo,
-				placeAddress : placeAddress,
-				placeOperation : placeOperation,
-				placeOff : placeOff,
-				placeTel : placeTel,
-				placeUrl : placeUrl,
-				dangSize : dangSize,
-				attachmentNo : attachmentNo
-			};
-			console.log(attachmentNo);
-			 $.ajax({
-				url:"${pageContext.request.contextPath}/rest_place/update",
-				method:"put",
-				contentType:"application/json",
-				data:JSON.stringify(data),
-				success:function(){
-					location.href = "http://localhost:8888/admin/place_list";
-				}
-			});  
-	}
 	
 	//장소 마커를 삭제하는 함수
 	function deleteMarker(){
@@ -1337,7 +1345,7 @@
 					$(".span-placename").text(resp.placeName);
 					$(".span-placeoff").text(resp.placeOff);
 					$(".span-placeoperation").text(resp.placeOperation);
-					$(".span-placesort").text(resp.placeSort);
+					$(".span-placesort").val(resp.placeSort);
 					$(".span-placetel").text(resp.placeTel);
 					$(".span-placeurl").text(resp.placeUrl);
 					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);

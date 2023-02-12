@@ -45,12 +45,16 @@
 		select attachment_no from place_img where place_no=#{placeNo}
 	</select>
 	
+	<select id="placeImgList" parameterType="int" resultType="PlaceImg">
+		select attachment_no from place_img where place_no=#{placeNo}
+	</select>
+	
 	<select id="countAll" resultType="int">
 		select count(*) from dang_place
 	</select>
 	
 	<select id="searchPlace" resultType="DangPlaceDto" parameterType="String">
-		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no  where instr(place_name, #{placeName})>0
+		select p.*, i.attachment_no from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no  where instr(place_name, #{placeName})>0
 	</select>
 	
 	<delete id="placeDelete" parameterType="int">
@@ -84,7 +88,7 @@
 	<select id = "allList" parameterType = "map" resultType = "DangPlaceDto">
 		select * from (
     		select tmp.*, rownum rn from (
-        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no order by place_name
+        		select p.*, i.attachment_no from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no order by place_name
     		)TMP
 		) where rn between #{startRow} and #{endRow}
 	</select>	
@@ -93,19 +97,19 @@
 	<select id = "searchList" parameterType = "map" resultType = "DangPlaceDto">
 		select * from (
     		select tmp.*, rownum rn from (
-        		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0 order by place_name
+        		select p.*, i.attachment_no from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0 order by place_name
     		)tmp
 		) where rn between #{startRow} and #{endRow}
 	</select>
 	
 	<!--검색 조회시 게시글 총 갯수 반환 -->
 	<select id = "searchCount" parameterType = "map" resultType = "int">
-		select count(*) from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0
+		select count(*) from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no where instr(${type},#{keyword})>0
 	</select>
 	
 	<!--전체 조회시 게시글 총 갯수 반환 -->
 	<select id = "allCount" parameterType = "String" resultType = "int">
-		select count(*) from dang_place p INNER JOIN place_img i on p.place_no = i.place_no
+		select count(*) from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no
 	</select>
 	
 	<!-- 홈화면 댕장소 추천 -->

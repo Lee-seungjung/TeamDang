@@ -141,6 +141,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	@Override
 	public int placeImgSearch(int placeNo) {
 		return sqlSession.selectOne("place.placeImgSearch", placeNo);
+	}
+
+	@Override
+	public List<PlaceImg> placeImgList(int placeNo) {
+		return sqlSession.selectList("place.placeImgList",placeNo);
 	} 
 	
 	
