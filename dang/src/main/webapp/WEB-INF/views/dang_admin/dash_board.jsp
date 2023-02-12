@@ -32,6 +32,7 @@
 	.img-admin-main-category {
 		width : 3rem;
 		aspect-ratio : 1/1;
+		border-radius : 10px;
 	}
 	
 	.strong-admin-main-category {
@@ -79,7 +80,7 @@
 			                    <strong class="statistics-number">${recentLogin}</strong>
 			                </div>
 			                <div class="col-4 d-flex justify-content-center align-items-center">
-			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-growth-graph.png">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admin-icon-growth-graph.png">
 			                </div>
 			            </div>
 			        </div>
@@ -92,7 +93,7 @@
 			                    <strong class="statistics-number">${recentDang}</strong>
 			                </div>
 			                <div class="col-4 d-flex justify-content-center align-items-center">
-			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-gathering.png">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admin-icon-gathering.png">
 			                </div>
 			            </div>
 			        </div>
@@ -118,7 +119,7 @@
 			                    <strong class="statistics-number text-center">${recentJoin}</strong>
 			                </div>
 			                <div class="col-4 d-flex justify-content-center align-items-center">
-			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admim-icon-user-profile.png">
+			                    <img class="img-admin-main-category" src="${pageContext.request.contextPath}/images/admin-icon-join.png">
 			                </div>
 			            </div>
 			        </div>
@@ -184,7 +185,7 @@
 								</c:forEach>
 		        				<c:if test="${reportList.size()==0}">
 								<div class = "row">
-									<div class = "col">신고 내역이 없습니다.</div>
+									<div class = "col d-flex flex-column justify-content-center align-items-center py-3" style="height:200px;">신고 내역이 없습니다.</div>
 								</div>
 								</c:if>
 		        			</div>
@@ -195,8 +196,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
 <script>
 
@@ -211,7 +210,6 @@ $(function(){
         method: "get",
         contentType: "application/json",
         success: function (resp) {
-        	console.log(resp);
         	//List 반복문
         	for(var i = 0; i<resp.length; i++) {
         		labelList.push(resp[i].dangArea);//라벨배열에 밀어넣기
@@ -237,25 +235,15 @@ $(function(){
     				                }
     				            }]
     				        },
-    				        events: ['click'],
-    				        plugins: {
-    	    		            labels: {
-    	    		                render: valueList,
-    	    		                fontColor: 'black',
-    	    		                fontSize: 16,
-    	    		                precision: 2
-    	    		            }
-    	    		        }
-    				        
-    				}	
+    				        events: ['click']
+    				}
    				 };
 
         	var ctx = document.getElementById('regionChart').getContext('2d');
         	var myChart= new Chart(ctx, {//차트 객체 생성
         		      type: 'pie',
-        			  data: data,
+        			  data: data
         	});
-
         	
         	// 클릭 이벤트 리스너
         	myChart.canvas.addEventListener('click', function(event) {

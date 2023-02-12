@@ -148,7 +148,7 @@
 							</div>
 						</c:if>
 						<div class="past-chat" data-no="${history[0].chatNo}"></div>
-						
+							
 							<!-- 기존 메세지 생성 -->
 							<c:forEach var="vo" items="${history}">
 								<c:choose>
@@ -204,7 +204,7 @@
 								</c:choose>
 							</c:forEach>
 						<!-- 새 메세지 생성 -->
-						<div class="new-chat" style="margin-right:10px;"></div>
+						<div class="new-chat"></div>
 						
 					</div>
 					
@@ -495,7 +495,7 @@
 				}
 				shrink_div.append(img);
 				
-				var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-colum"); 
+				var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-column"); 
 				var nick = $("<p>").text(data.memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 				var flex_div = $("<div>").attr("class","d-flex flex-row"); 
 				var text;
@@ -536,7 +536,7 @@
 					var formatTime = moment(data[i].chatDate).format('a h:mm'); //예)오후 2:24
 					var time = $("<span>").attr("style","font-size:10px;").text(formatTime).attr("class","text-end me-1");
 					div.append(text).append(time);
-					chatDiv.prepend(div);
+					chatDiv.append(div);
 				}else{
 					var out_div = $("<div>").attr("class","d-flex").attr("style","margin-bottom:18px;");
 					var shrink_div = $("<div>").attr("class","flex-shrink-0");
@@ -549,7 +549,7 @@
 					}
 					shrink_div.append(img);
 				
-					var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-colum"); 
+					var grow_div = $("<div>").attr("class","flex-grow-1 ms-2 d-flex flex-column"); 
 					var nick = $("<p>").text(data[i].memberNick).attr("class","chat-nick").attr("style","font-size:14px;");
 					var flex_div = $("<div>").attr("class","d-flex flex-row"); 
 					var text;

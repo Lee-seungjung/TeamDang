@@ -74,8 +74,8 @@
 	
 		<!-- (관리자) 총 댕댕이 등록 수 -->
 	<select id = "dangCount" parameterType = "PuppyListRequestDto" resultType = "int">
-		select COUNT(*) from puppy_info
-				<where>
+		select COUNT(*) from dang_puppy
+						<where>
 					<if test = "type != null and keyword != null">
 						and instr(${type}, #{keyword}) > 0
 					</if>

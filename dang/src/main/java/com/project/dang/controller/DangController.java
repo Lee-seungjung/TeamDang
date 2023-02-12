@@ -190,7 +190,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -239,10 +239,6 @@ public class DangController {
 			File target = new File(directory, String.valueOf(attachmentNo));
 			// 파일 저장
 			dangProfile.transferTo(target);
-			// HttpSession에서 기존의 회원 프로필 번호 삭제
-			session.removeAttribute("loginProfileImg");
-			// 새로운 회원 프로필 번호를 HttpSession에 저장
-			session.setAttribute("loginProfileImg", attachmentNo);
 		}
 		
 		// 특정 댕모임 내 메뉴 이동을 위해 dangNo를 Model에 추가
@@ -258,7 +254,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -293,7 +289,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -323,7 +319,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -357,7 +353,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -386,7 +382,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -424,7 +420,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -453,7 +449,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -488,7 +484,7 @@ public class DangController {
 		//오늘 출석여부 확인
 		model.addAttribute("attendance", dangMemberDao.isAttendance(memberDto.getMemberNo()));
 		//참여모임 수
-		model.addAttribute("joinDangCount", dangMemberDao.joinDangCount(Integer.parseInt(userNo)));
+		model.addAttribute("joinScheduleCount", dangMemberDao.joinScheduleCount(memberDto.getMemberNo()));
 		//작성글
 		model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 		//댓글
@@ -548,11 +544,4 @@ public class DangController {
 		session.removeAttribute("prevUrl");
 		return "dang/report_success";
 	}
-	
-	@GetMapping("/not_found")
-	public String notFound() {
-		return "dang/not_found";
-	}
-	
-	
 }

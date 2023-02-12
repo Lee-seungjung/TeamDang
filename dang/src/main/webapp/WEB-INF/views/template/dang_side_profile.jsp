@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
+
 
 	<style>
 		.modal-header{
@@ -356,7 +356,6 @@
     }
 </style>
 
-
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
@@ -365,7 +364,7 @@
 			<div class="row justify-content-center mb-3 mt-1" >
 				<div class="col-10">
 					<c:choose>
-						<c:when test="${attachmentNo==null}">
+						<c:when test="${attachmentNo == null}">
 							<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 						</c:when>
 						<c:otherwise>
@@ -403,7 +402,7 @@
 						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
 						<p class="cursor-pointer">프로필 편집</p>
 					</div>
-					
+
 					<!-- 프로필 편집 모달 시작-->					
 					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -413,14 +412,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<c:choose>
-											<c:when test="${attachmentNo==null}">
-												<img src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-circle profile-img profile-css change-img">
-											</c:when>
-											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/rest_attachment/download/${attachmentNo}" class="img-circle profile-img profile-css change-img">
-											</c:otherwise>
-										</c:choose>
+										<img src="" class="img-circle profile-img profile-css change-img">
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
                 							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -461,7 +453,7 @@
 						<div class="col-4">
 							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
 							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinDangCount}</p>
+							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinScheduleCount}</p>
 						</div>
 						<div class="col-4">
 							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
@@ -541,7 +533,7 @@
 	</div>
 	
 	<!-- 댕모임 일정 등록 -->
-	 <div class="p-3 border rounded-3 text-center day-check shadow gray mt-3">
+	 <div class="p-3 border rounded-3 text-center shadow gray mt-3">
 		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">일정 등록</span>
 	</div>
 
@@ -628,7 +620,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="message-text" class="col-form-label ms-2 me-1" >참여 회비</label>
-                            <input class="money form-control" name="scheduleMoney" maxLength="7" id="joinMoney" />
+                            <input class="money form-control" name="scheduleMoney" maxLength="7" />
                             <span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>                            
                         </div>
 
@@ -675,7 +667,7 @@
 
 	<!-- 댕모임 정보 수정 -->
 	<c:if test = "${profile.memberOwner == 'Y'}">
-	<div class="p-3 border rounded-3 text-center day-check shadow mt-3 gray">
+	<div class="p-3 border rounded-3 text-center shadow mt-3 gray">
 		<i class="fa-solid fa-gear"></i>
 		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
 	</div>
@@ -691,6 +683,8 @@
 	<input type="hidden" class="cl" data-no="27">
 	
 </div>
+
+<spring:eval var="kakoMapKey" expression="@environment.getProperty('custom.kakaomap.key')" />
 
   <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey }"></script>
@@ -1472,11 +1466,10 @@
 	   									data:JSON.stringify(attendanceData),
 	   									contentType: 'application/json',
 	   				                    success:function(){
-	   				                    	isDoubleClick = false;
 	   				                  		 //버튼 막기
 	   				                    	$(".close-btn").show();
 	   				    					$(".attendance-btn").hide();
-	   				    					
+
 	   				                    	//3. 활동점수 +1 업데이트
 	   				                    	data={
 	   				                    			memberScore:1,
@@ -1493,6 +1486,7 @@
 	   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
 	   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
 	   				                    			sideScoreTag.text(sideScoreValue+1);
+	   				                    			isDoubleClick = false;
 	   				                    		}
 	   				                    	});
 	   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
@@ -1563,7 +1557,12 @@
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				if(originAttachmentNo==null){
+					$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
+				}else{
+					$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
+				}
+				
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
 				var originMessage = $(".originMessage").text(); //기존 상태메세지
 				
@@ -1929,19 +1928,6 @@
 				}
 			}
 			
-			//천단위 콤마 표시
-			const input = document.querySelector('#joinMoney');
-	        input.addEventListener('keyup', function(e) {
-	          let value = e.target.value;
-	          value = Number(value.replaceAll(',', ''));
-	          if(isNaN(value)) {
-	            input.value = 0;
-	          }else {
-	            const formatValue = value.toLocaleString('ko-KR');
-	            input.value = formatValue;
-	          }
-	        })
-			
 			//일정등록 모달에서 등록 버튼 클릭
 			$(".write-btn").click(function(e){
 				console.log(${profile.memberNo});
@@ -1953,28 +1939,7 @@
 				var placeNo = $(".where").attr('data-placeno');
 				var scheduleHeadmax = $("[name=scheduleHeadmax]").val();
 				var scheduleMoney = $("[name=scheduleMoney]").val();
-				
-				//등록할때 들어가는 콤마삭제(숫자로만 표시)
-				var changestr = scheduleMoney.replace(',', '');
-				
-				if (scheduleTitle.length === 0) {
-		            alert('제목을 입력해 주세요!');
-		            return;
-		        }else if(scheduleContent.length==0){
-					alert('내용을 입력해 주세요!');
-					return;
-				}else if(scheduleStart.length==0){
-					alert('날짜를 지정해 주세요!');
-					return;
-				}else if(placeNo==null){
-					alert('장소를 지정해 주세요!');
-					return;
-				}else if(scheduleHeadmax.length==0){
-					alert('참여인원을 설정해 주세요');
-					return;
-				}
-				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, changestr); 
-				 
+				saveData(scheduleTitle, memberNo, scheduleContent, scheduleStart, scheduleHour, placeNo, scheduleHeadmax, scheduleMoney); 
 			});
 	
 			//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화

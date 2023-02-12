@@ -316,7 +316,7 @@
                             <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>이름</strong>
                             </div>
-                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-insert-puppy-name" type = "text" maxlength="10" placeholder="이름(5자 이내)">
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-insert-puppy-name" type = "text" maxlength="10" placeholder="이름(10자 이내)">
                         </div>
                     </div>
                 </div>
@@ -564,7 +564,7 @@
             $(".div-modal-insert-puppy-character-list").append(
                 $("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center my-2 div-modal-insert-puppy-character")
                     .append(
-                        $("<input>").attr("class", "w-100 input-modal-insert-puppy-character").attr("maxlength", 5).attr("placeholder", "특이사항(5자 이내)")
+                        $("<input>").attr("class", "w-100 input-modal-insert-puppy-character").attr("maxlength", 6).attr("placeholder", "특이사항(6자 이내)")
                     )
                     .append(
                         $("<i>").attr("class", "fa-solid fa-square-check ms-1 btn-modal-insert-puppy-character btn-modal-insert-puppy-character-submit")      
@@ -993,7 +993,7 @@
 				.before(
 					$("<div>").attr("class" , "d-flex flex-row justify-content-center align-items-center my-2")
 						.append(
-							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 5).attr("placeholder", "특이사항(5자 이내)").val(puppyCharacterContent)
+							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 6).attr("placeholder", "특이사항(6자 이내)").val(puppyCharacterContent)
 						)
 						.append(
 							$("<i>").attr("class", "fa-solid fa-square-check ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-submit-character")	
@@ -1047,7 +1047,7 @@
 				.before(
 					$("<div>").attr("class", "d-flex flex-row justify-content-center align-items-center my-2")
 						.append(
-							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 5).attr("placeholder", "특이사항(5자 이내)")		
+							$("<input>").attr("class", "w-100 py-0 count-modal-edit-puppy-character input-modal-edit-puppy-character").attr("maxlength", 6).attr("placeholder", "특이사항(6자 이내)")		
 						)
 						.append(
 							$("<i>").attr("class", "fa-solid fa-square-check ms-1 btn-modal-edit-puppy-character btn-modal-edit-puppy-submit-character")		

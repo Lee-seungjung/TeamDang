@@ -142,7 +142,7 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-member-list-page-item ul-member-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${memberListRequestDto.blockNext()}" >
+						<li class = "ul-member-list-page-item ul-member-list-page-item-last d-flex justify-content-center align-items-center" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -162,7 +162,7 @@
 					</thead>
 					<tbody class="member-data-body">
 						<c:choose>
-							<c:when test="${memberListAdmin == null}">
+							<c:when test="${memberListAdmin==null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
@@ -203,66 +203,6 @@ $(function(){
 	var numberState = "댕등록수";
 	var type;
 	var keyword;
-
-	//숫자 페이지 클릭 이벤트
-	$(document).on("click", ".ul-member-list-page-item-unit", function(){
-		console.log($(this).children().text());
-		
-		p = $(this).children().text();
-		
-		var formData = new FormData();
-		formData.append("p", p);
-		
-		if(type != null && keyword != null) {
-			formData.append("type", type);
-			formData.append("keyword", keyword);
-		}
-		
-		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
-			method : "post",
-			data : formData,
-			contentType: false,
-	        processData: false,
-			success : function(resp) {
-				
-				console.log(resp);
-				// 양 끝 페이지네이션 버튼 설정
-				$(".ul-member-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-				$(".ul-member-list-page-item-last").attr("data-pagelast", resp.blockLast);
-				if(resp.blockPrev <= 1) {
-					$(".ul-member-list-page-item-prev").attr("data-pageprev", 1);
-				} else {
-					$(".ul-member-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
-				}
-				if(resp.blockNext > resp.blockLast) {
-					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockLast);
-				} else {
-					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
-				}
-				$(".member-data-body").empty();
-				if(resp.memberList.length == 0){
-					var body = $(".member-data-body");
-					var tr = $("<tr>").attr("class","align-middle");
-					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
-									.text("내역이 존재하지 않습니다.");
-					tr.append(td);
-					body.append(tr);
-				}else{
-					
-					for(var i=0; i<resp.memberList.length; i++){
-						memberList(resp.memberList[i]);
-					}
-					// 초기화
-					$(".ul-member-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						memberListPagination(i);
-					}
-				}
-			}	
-		});
-	});	
-	
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".member-search-btn", function(){
 		
@@ -276,16 +216,14 @@ $(function(){
 			console.log("안돼");
 			return;
 		}
-		type = memberSelectBox;
-		keyword = memberSearchInput;
 		
 		console.log("돼");
 		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
 		formData.append("numberState", numberState);
-		formData.append("type", type);
-		formData.append("keyword", keyword);
+		formData.append("type", userSelectBox);
+		formData.append("keyword", memberSearchInput);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/member_list",
@@ -310,17 +248,14 @@ $(function(){
 					$(".ul-member-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				
-				$(".member-data-body").empty();
-				
-				if(resp.memberList.length == 0){
+				if(resp.memberList.length==0){
 					var body = $(".member-data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
 									.text("내역이 존재하지 않습니다.");
 					tr.append(td);
-					body.append(tr);					
 				}else{
-
+					$(".member-data-body").empty();
 					for(var i=0; i<resp.memberList.length; i++){
 						memberList(resp.memberList[i]);
 					}
@@ -342,8 +277,8 @@ $(function(){
 		console.log(p);
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("p", p);
 		formData.append("numberState", numberState);
+		formData.append("p", p);
 		
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
@@ -394,12 +329,10 @@ $(function(){
 	$(document).on("click",".ul-member-list-page-item-prev", function(){
 		p = $(this).attr("data-pageprev");
 		console.log(p);
-		
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("p", p);
 		formData.append("numberState", numberState);
-		
+		formData.append("p", p);
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
 			formData.append("type", $(".member-form-select").val());
@@ -446,9 +379,8 @@ $(function(){
 		p = $(this).attr("data-pagelast");
 		// 데이터 전송 객체
 		var formData = new FormData();
-		formData.append("p", p);
 		formData.append("numberState", numberState);
-		
+		formData.append("p", p);	
 		//검색어랑 검색 타입이 있으면
 		if($(".member-form-select").val() != "" || $(".member-search-input").val() != "" ){
 			formData.append("type", $(".member-form-select").val());
@@ -539,7 +471,7 @@ $(function(){
 		})					
 	});
 	
-/* 	//카테고리 조회
+	//카테고리 조회
 	$(document).on("click", ".cnt-num", function(){
 		$(".number-box").removeClass("select-color");
 		$(this).parent().addClass("select-color");
@@ -599,22 +531,24 @@ $(function(){
 				}
 			}
 		});
-	}); */
+	});
 	
-	//댕모임 멤버 목록 비동기 불러오기
+	//댕모임 멤버 목록 비동기 불러오기(한번 더 체크하기)
 	function memberList(resp){
 		var body = $(".member-data-body");
 		
 		var tr = $("<tr>").attr("class","align-middle");
 		var td_dangNo = $("<td>").text(resp.dangNo);
 		var td_dangName = $("<td>").text(resp.dangName);
-		var td_memberInfo = $("<td>").text(resp.memberNick+"("+resp.userId+")");
-		var td_memberGrade = $("<td>").text(resp.memberGrade+"("+resp.memberScore+")");
+		var td_memberInfo = $("<td>").text(resp.memberNick).text(resp.userId);
+		var td_memberGrade = $("<td>").text(resp.memberGrade).text(resp.memberScore);
+		//var td_memberScore = $("<td>").text(resp.memberScore);
 		var td_memberJoindate = $("<td>").text(resp.memberJoindate);
 
-		tr.append(td_dangNo).append(td_dangName).append(td_memberInfo).append(td_memberGrade).append(td_memberJoindate);
+		tr.append(td_puppyNo).append(td_puppyName).append(td_puppyAge).append(td_puppyGender).append(td_userId);
 		body.append(tr);
-	}	
+	}
+	
 	
 	//댕모임 멤버 목록 페이징
 	function memberListPagination(resp){
