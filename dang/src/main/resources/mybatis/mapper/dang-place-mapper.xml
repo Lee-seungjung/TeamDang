@@ -34,12 +34,16 @@
 	</select>
 	
 	<select id="listOne" resultType="DangPlaceDto" parameterType="int">
-		select p.*, i.attachment_no from dang_place p INNER JOIN place_img i on p.place_no = i.place_no where p.place_no = #{placeNo}
+		select p.*, i.attachment_no from dang_place p left OUTER JOIN place_img i on p.place_no = i.place_no where p.place_no = #{placeNo}
 	</select>
 	
 	<insert id="placeImg" parameterType="PlaceImg">
 		insert into place_img VALUES(#{placeNo},#{attachmentNo})
 	</insert>
+	
+	<select id="placeImgSearch" parameterType="int" resultType="int">
+		select attachment_no from place_img where place_no=#{placeNo}
+	</select>
 	
 	<select id="countAll" resultType="int">
 		select count(*) from dang_place

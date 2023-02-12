@@ -136,6 +136,11 @@ public class DangPlaceDaoImpl  implements DangPlaceDao{
 	@Override
 	public boolean deletePlaceImg(int placeNo) {
 		return sqlSession.delete("place.deletePlaceImg",placeNo)>0;
+	}
+
+	@Override
+	public int placeImgSearch(int placeNo) {
+		return sqlSession.selectOne("place.placeImgSearch", placeNo);
 	} 
 	
 	

@@ -192,16 +192,27 @@
 		border: 1px solid #F2F2F2;
 	}
 	
-	.input1{
-		border : 2px solid #F781D8;
+	.input-box{
+		border : 2px solid #D8D8D8;
 		height: 50px;
 	}
 	
-	.box1{
-		border : 2px solid #F781D8;
+	.search-box{
+		border : 2px solid #D8D8D8;
 		height: 50px;
 		border-radius: 5px;
 		background: white;
+	}
+	
+	.btn-blue{
+		border:1px solid #fff;
+		background-color:#76BEFF;
+		color:#fff;
+	}
+	.category-css:hover {
+	  	color: #495057;
+	 	background-color: #DEEFFF;
+	  	border-color: #DEEFFF;
 	}
 	
 	.modal-place-body{
@@ -370,17 +381,17 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
 				<p style="font-weight: bold">서울시 곳곳의 장소를 검색해주세요 :)</p>
-				<p style="font-size: 13px;">(총 <i style="font-size: 13px; color: green;">${countAll}</i>개의 장소가 등록되어있습니다.)</p>
+				<p style="font-size: 13px;">( 총 <span class="state-nunber">${countAll}</span>개의 장소가 등록되어있습니다. )</p>
 			</div>
 		</div>
 		
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2 text-center">
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=카페'">카페</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=음식점'">음식점</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=운동장'">운동장</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=미용'">미용</button>
-				<button class="btn-place-sort" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=공원'">공원</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '카페'}"> btn-blue </c:if> " type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=카페'">#카페</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '음식점'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=음식점'">#음식점</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '운동장'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=운동장'">#운동장</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '미용'}"> btn-blue </c:if>" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=미용'">#미용</button>
+				<button class="btn gray category-css rounded-pill me-1 b-category <c:if test="${param.keyword == '공원'}"> btn-blue </c:if> > " type="button" onclick="location.href='${pageContext.request.contextPath}/admin/place_list?type=place_sort&keyword=공원'">#공원</button>
 			</div>
 		</div>
 		
@@ -389,19 +400,18 @@
 					<form action = "place_list" method = "get">
 		<div class="row mt-3">
 			<div class="col-3">
-				<select class="form-select" style="height: 51px" name = "type" required>
+				<select class="form-select input-box" style="height: 51px" name = "type" required>
 					<option value = "place_name">장소명</option>
 					<option value = "place_address">주소명</option>
 					<option value = "place_area">지역구</option>
-					<option value = "place_sort">카테고리</option>
 					<option value = "place_tel">전화번호</option>
 				</select>
 			</div>
 			<div class="col-6">
-				<input class="w-100 input1 form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
+				<input class="w-100 input-box form-control rounded" type="text" name = "keyword" placeholder = "검색어" value = "${placeListRequestDto.keyword}">
 			</div>
 			<div class="col-3">
-				<button  class="w-100 box1" type = "submit">검색</button
+				<button  class="w-100 search-box" type = "submit">검색</button
 			></div>
 		</div>
 		</form>
@@ -413,7 +423,7 @@
 		<div class="row mt-3">
 			<div class="col-md-8 offset-md-2">
 			<c:forEach var="placeList" items="${placeList}">
-				<table class="table" >
+				<table class="table" style="cursor:pointer;">
 				  <tbody class="mt-3" >
 				  	
 				    <tr class="mt-3" onclick="moveMarker(${placeList.placeX},${placeList.placeY},'${placeList.placeSort}')">
@@ -1150,15 +1160,35 @@
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
-                    //console.log(newAttachmentNo);
-                    $("[name=attachmentNoInsert]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
                     
                     attachmentPreviewNoList.push(newAttachmentNo);
-                    console.log(attachmentPreviewNoList);
+                    
+                    //첨부파일 변경시 삭제 rest api 호출
+                    if((attachmentPreviewNoList.length-2)>=0){//배열의 마지막 요소 전까지 값이 있으면? 실행
+                			$.ajax({
+                				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentPreviewNoList[attachmentPreviewNoList.length-2],
+                				method:"delete",
+                				data:attachmentPreviewNoList[attachmentPreviewNoList.length-2],
+                				async:false,
+                				success:function(resp){
+                					console.log("숨긴파일 삭제 성공!");
+                				}
+                			});
+                	}
+                    
+                    
+                    $("[name=attachmentNoInsert]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
+                    
+                    
                 }
             });
         }
     });
+	
+	
+ 	// 수정 미리보기용 첨부파일 번호 리스트
+	var attachmentPreviewUpdateList = [];
+	
 	// 이미지 변경함수
     $(".file-update").change(function () {
         var value = $(this).val();
@@ -1181,11 +1211,27 @@
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
-                    //console.log(newAttachmentNo);
+                    
+                    
+                    attachmentPreviewUpdateList.push(newAttachmentNo);
+                    console.log(attachmentPreviewUpdateList);
+                    
+                  //첨부파일 변경시 삭제 rest api 호출
+                   if((attachmentPreviewUpdateList.length-2)>=0){//배열의 마지막 요소 전까지 값이 있으면? 실행
+               			$.ajax({
+               				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentPreviewUpdateList[attachmentPreviewUpdateList.length-2],
+               				method:"delete",
+               				data:attachmentPreviewNoList[attachmentPreviewUpdateList.length-2],
+               				async:false,
+               				success:function(resp){
+               					console.log("숨긴파일 삭제 성공!");
+               				}
+               			});
+               		}
+                    
                     $("[name=attachmentNoUpdate]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
                     
-                    attachmentPreviewNoList.push(newAttachmentNo);
-                    console.log(attachmentPreviewNoList);
+                    
                 }
             });
         }
@@ -1250,7 +1296,9 @@
 				success : function(resp) {
 					location.href = "http://localhost:8888/admin/place_list";
 				}
-			})
+			});
+			
+			
 		}else{
 			return;
 		}

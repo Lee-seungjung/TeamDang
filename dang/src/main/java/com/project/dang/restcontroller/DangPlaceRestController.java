@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dang.dto.DangPlaceDto;
 import com.project.dang.dto.PlaceImg;
+import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangPlaceDao;
 
 @CrossOrigin
@@ -26,6 +27,9 @@ public class DangPlaceRestController {
 	//의존성 주입
 	@Autowired
 	private DangPlaceDao dangPlaceDao;
+	
+	@Autowired
+	private AttachmentDao attachmentDao;
 	
 	//장소 등록
 	@PostMapping("/place_insert")
@@ -70,8 +74,11 @@ public class DangPlaceRestController {
 	
 	//삭제
 	@DeleteMapping("/detail/{placeNo}")
-	public boolean placeDelete(@PathVariable int placeNo) {
-		return dangPlaceDao.placeDelete(placeNo);
+	public void placeDelete(@PathVariable int placeNo) {
+		int attachmentNo = dangPlaceDao.placeImgSearch(placeNo);
+		
+		attachmentDao.delete(attachmentNo);
+		dangPlaceDao.placeDelete(placeNo);
 	}
 	
 	//수정
