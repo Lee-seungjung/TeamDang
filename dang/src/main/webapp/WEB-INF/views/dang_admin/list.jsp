@@ -1203,12 +1203,17 @@
 		var placeTel = $("[name=placeTel]").val();
 		var placeUrl = $("[name=placeUrl]").val();
 		var dangSize = $("[name=dangSize]").val();
-		var attachmentNo = $("[name=attachmentNoUpdate]").val();
+		var attachmentNo;
+		var noChange;
+		var change;
 		
-		if(attachmentNo==""){//attachmetNo가 변경이 안되었을시
+		if($("[name=attachmentNoUpdate]").val()==""){//attachmetNo가 변경이 안되었을시
 			const str = $(".beforeUpdate-img").attr("src");
-			const result = str.match(/\d+/);
-			attachmentNo=result[0]
+			noChange = str.match(/\d+/);
+			attachmentNo=noChange[0];
+		}else{
+			change=$("[name=attachmentNoUpdate]").val();
+			attachmentNo=change;
 		}
 		
 		var data = {
@@ -1234,7 +1239,24 @@
 				contentType:"application/json",
 				data:JSON.stringify(data),
 				success:function(){
-					location.href = "http://localhost:8888/admin/place_list";
+					
+					const str = $(".beforeUpdate-img").attr("src");
+					originalNo = str.match(/\d+/);
+					console.log("월래번호"+originalNo);
+					console.log("변경번호"+change);
+					//값이 변경되었으면?
+					if(change!=0){
+						
+						$.ajax({
+               				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+originalNo,
+               				method:"delete",
+               				data:originalNo,
+               				async:false,
+               				success:function(resp){
+               				}
+               			});
+					}
+					//location.href = "http://localhost:8888/admin/place_list";
 					
 					console.log(data);
 				}
