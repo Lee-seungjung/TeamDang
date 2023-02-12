@@ -1402,20 +1402,20 @@
 			//모달 띄워지기 직전 캘린더 미리 생성
 			$("#day-check-modal").on("shown.bs.modal", function () {
 				createCalendar();
+				
 			});
 			
-			//오늘 출석여부 확인+판정객체
+			//오늘 출석여부 확인
 			var isAttendance = $("[name=isAttendance]").val();
-			var AttendanceValid = false;
+			console.log(isAttendance);
 			if(isAttendance==""){
 				$(".checkAttendance").text("출석 체크");
-				$(".close-btn").hide("fast");
-				$(".attendance-btn").show(1000);
+				$(".close-btn").hide();
+				$(".attendance-btn").show();
 			}else{
 				$(".checkAttendance").text("출석 완료");
-				$(".close-btn").show(1000);
-				$(".attendance-btn").hide("fast");
-				AttendanceValid = true;
+				$(".close-btn").show();
+				$(".attendance-btn").hide();
 			}
 			
 			
@@ -1423,6 +1423,7 @@
 			$(document).on("click",".day-check",function(){
 				var memberNo = $("[name=memberNo]").val();
 				
+				var isDoubleClick = false; //더블클릭 방지체크
 				//출석체크 확인
 				$.ajax({
 	              		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
@@ -1431,7 +1432,7 @@
 	   					success:function(resp){
 	   						if(resp.length!=0){ //출석기록 있음
 	   							console.log("출석기록 있음!");
-	   							AttendanceValid = false;
+	   							isDoubleClick = true;
 	   							
 	   							//모달 타이틀 문구 변경
 	   							$(".modal-title-fir").text("출석 체크가 ");
@@ -1441,16 +1442,14 @@
 	   							return;
 	   						}else{ //출석기록 없음
 	   							console.log("출석기록 없음!");
-	
-	   							var isDoubleClick = false;
+	   							isDoubleClick = false;
+	   							
 	   							$(".attendance-btn").click(function(){
 	   								
-	   								if(isDoubleClick == true){ //더블클릭 막기위함
+	   								if(isDoubleClick == true){ //더블클릭 막기
 	   									return;
 	   								}
 	   								
-	   								isDoubleClick = true;
-	   								AttendanceValid = true;
 	   								//1. 오늘날짜 배경에 로고 이미지 넣기
 	   								var today = $('#calendar').children().find(".fc-day-today");
 	   								today.addClass("addImg");
@@ -1466,9 +1465,9 @@
 	   									data:JSON.stringify(attendanceData),
 	   									contentType: 'application/json',
 	   				                    success:function(){
-	   				                  		 //버튼 막기
+	   				                  		//버튼 막기
+	   				                  		$(".attendance-btn").hide();
 	   				                    	$(".close-btn").show();
-	   				    					$(".attendance-btn").hide();
 
 	   				                    	//3. 활동점수 +1 업데이트
 	   				                    	data={
@@ -1486,7 +1485,7 @@
 	   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
 	   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
 	   				                    			sideScoreTag.text(sideScoreValue+1);
-	   				                    			isDoubleClick = false;
+	   				                    			isDoubleClick = true;
 	   				                    		}
 	   				                    	});
 	   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
