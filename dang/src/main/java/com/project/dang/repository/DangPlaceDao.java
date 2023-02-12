@@ -132,6 +132,18 @@ public interface DangPlaceDao {
 	 * @return List<DangPlaceDto>
 	 */	
 	public List<DangPlaceDto> homeRecommend();
-	
+	/**
+	 * 중간 테이블 place_img 삭제
+	 * @author hyunjae
+	 * @param int : placeNo
+	 * @return boolean
+	 */	
 	boolean deletePlaceImg(int placeNo);
+	/**
+	 * 중간 테이블 attachmentNo 추출 메소드
+	 * @author hyunjae
+	 * @param int : placeNo
+	 * @return int : attachmetNo
+	 */	
+	int placeImgSearch(int placeNo);
 }

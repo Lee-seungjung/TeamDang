@@ -41,6 +41,10 @@
 		insert into place_img VALUES(#{placeNo},#{attachmentNo})
 	</insert>
 	
+	<select id="placeImgSearch" parameterType="int" resultType="int">
+		select attachment_no from place_img where place_no=#{placeNo}
+	</select>
+	
 	<select id="countAll" resultType="int">
 		select count(*) from dang_place
 	</select>

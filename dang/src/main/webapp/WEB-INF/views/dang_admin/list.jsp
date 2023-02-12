@@ -1296,7 +1296,9 @@
 				success : function(resp) {
 					location.href = "http://localhost:8888/admin/place_list";
 				}
-			})
+			});
+			
+			
 		}else{
 			return;
 		}
