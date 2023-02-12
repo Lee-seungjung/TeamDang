@@ -1176,7 +1176,8 @@
     });
 	
 	
-	
+ 	// 수정 미리보기용 첨부파일 번호 리스트
+	var attachmentPreviewUpdateList = [];
 	
 	// 이미지 변경함수
     $(".file-update").change(function () {
@@ -1200,11 +1201,27 @@
                     //원래 페이지 프로필 정보 변경
                     var check = resp.lastIndexOf("/"); //경로에서 /위치 찾기
                     var newAttachmentNo = resp.substr(check + 1); //attachmentNo 꺼내기
-                    //console.log(newAttachmentNo);
+                    
+                    
+                    attachmentPreviewUpdateList.push(newAttachmentNo);
+                    console.log(attachmentPreviewUpdateList);
+                    
+                  //첨부파일 변경시 삭제 rest api 호출
+                   if((attachmentPreviewUpdateList.length-2)>=0){//배열의 마지막 요소 전까지 값이 있으면? 실행
+               			$.ajax({
+               				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentPreviewUpdateList[attachmentPreviewUpdateList.length-2],
+               				method:"delete",
+               				data:attachmentPreviewNoList[attachmentPreviewUpdateList.length-2],
+               				async:false,
+               				success:function(resp){
+               					console.log("숨긴파일 삭제 성공!");
+               				}
+               			});
+               		}
+                    
                     $("[name=attachmentNoUpdate]").val(newAttachmentNo); //name=attachmentNo input태그에 값 넣기
                     
-                    attachmentPreviewNoList.push(newAttachmentNo);
-                    console.log(attachmentPreviewNoList);
+                    
                 }
             });
         }
