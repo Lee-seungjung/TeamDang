@@ -161,7 +161,7 @@
 		        						<strong>닉네임</strong>
 		        					</div>
 		        					<div class = "col-3 text-center">
-		        						<strong>신고일짜</strong>
+		        						<strong>신고일자</strong>
 		        					</div>
 		        					<div class = "col-2 text-center">
 		        						<strong>신고현황</strong>
