@@ -1859,7 +1859,7 @@
 									//댓글 숫자 감소
 									var findnum = thisTag.prev().children().find('.replycnt');
 									var num = findnum.text();
-									if(num==""){
+									if(num=="" || num==1){
 										findnum.text("");
 									}else{
 										num = parseInt(num);
