@@ -1280,7 +1280,7 @@
 	               				}
 	               			});
 						}
-						location.href = "http://localhost:8888/admin/place_list";
+						location.href = "http://localhost:8888/admin/detail/"+placeNo;
 						
 						console.log(data);
 					}
