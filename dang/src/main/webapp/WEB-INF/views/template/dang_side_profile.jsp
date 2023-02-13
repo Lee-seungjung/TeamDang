@@ -1681,10 +1681,30 @@
 						$.ajax({ //1 기존파일 없을 경우에는 그냥 insert만 처리
 							url:"${pageContext.request.contextPath}/rest_user/img_insert",
 							method:"post",
+							async:false,
 							contentType:"application/json",
 							data:JSON.stringify(imgInsertData),
 							success:function(){
+								//배열속 값이 1일 경우 비동기화 요청 중지
+								if(sideProfilePreviewNoList.length == 1) {
+									return;
+								}
 								
+								//마지막 업로드 파일 제외한 나머지 파일 삭제
+								for(var i=sideProfilePreviewNoList.length-2; i>=0; i--){
+									$.ajax({
+										url:"${pageContext.request.contextPath}/rest_attachment/delete/"+sideProfilePreviewNoList[i],
+										method:"delete",
+										async:false,
+										data:sideProfilePreviewNoList[i],
+										success:function(resp){
+											console.log("나머지 파일 삭제!");
+										}
+									});
+								}
+								
+								//배열 초기화
+								sideProfilePreviewNoList.length=0;
 							}
 						});
 					}else{
@@ -1703,6 +1723,7 @@
 										data:originAttachmentNo,
 										success:function(resp){
 											$("[name=originAttachmentNo]").val(attachmentNo);
+											console.log("원래 사진 삭제");
 										}
 									});
 									
