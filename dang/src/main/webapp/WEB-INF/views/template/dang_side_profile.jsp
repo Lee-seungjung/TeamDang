@@ -1407,7 +1407,6 @@
 			
 			//오늘 출석여부 확인
 			var isAttendance = $("[name=isAttendance]").val();
-			console.log(isAttendance);
 			if(isAttendance==""){
 				$(".checkAttendance").text("출석 체크");
 				$(".close-btn").hide();
@@ -1556,7 +1555,8 @@
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				if(originAttachmentNo==null){
+				console.log(originAttachmentNo);
+				if(originAttachmentNo==""){
 					$(".change-img").attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 				}else{
 					$(".change-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+originAttachmentNo); //기존 프로필이미지
