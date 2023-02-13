@@ -412,7 +412,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<img src="" class="img-circle profile-img profile-css change-img">
+										<img src="" class="img-circle profile-img profile-css change-img cursor-pointer">
 										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
                 							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
                 							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -1535,7 +1535,18 @@
 	                    	$(window).on("beforeunload", function(){
 	                    		var originAttachmentNo = $("[name=originAttachmentNo]").val();
 	                    		console.log("페이지 벗어남!");
-	                    		deleteAttachmentNo(sideProfilePreviewNoList);
+	                    		
+	                			if(sideProfilePreviewNoList.length == 0) {
+	                				return;
+	                			}
+	                			
+	                			$.ajax({
+	                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+	                				method : "delete",
+	                				data : {
+	                					attachmentPreviewNoList : sideProfilePreviewNoList
+	                				}
+	                			});
 	                    		$("[name=attachmentNo]").val(originAttachmentNo);
 	                    		sideProfilePreviewNoList.length=0;
 							});	
