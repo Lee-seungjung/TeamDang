@@ -474,7 +474,7 @@
 	
 	<!-- 출석 체크 -->
 	<div class="p-3 border rounded-3 text-center day-check shadow gray">
-		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">출석 체크</span>
+		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">${attendance}</span>
 	</div>
 
 	<!-- 출석체크 Modal -->
@@ -674,7 +674,6 @@
 	</c:if>
 	
 	<%--필요한 데이터 준비 --%>
-	<input type="hidden" name="isAttendance" value="${attendance}">
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
 	<input type="hidden" name="dangNo" value="${profile.dangNo}">
 	<input type="hidden" name="userNo" value="${profile.userNo}">
@@ -1396,27 +1395,22 @@
 					$(".invalid-money").show();
 				}
 			});
-	       
-			
-			
+
 			//모달 띄워지기 직전 캘린더 미리 생성
 			$("#day-check-modal").on("shown.bs.modal", function () {
 				createCalendar();
 				
 			});
 			
-			//오늘 출석여부 확인
-			var isAttendance = $("[name=isAttendance]").val();
-			if(isAttendance==""){
-				$(".checkAttendance").text("출석 체크");
+			//오늘 출석여부에 따라 버튼 다르게 표시
+			var attendanceText = $(".checkAttendance").text();
+			if(attendanceText=="출석 체크"){
 				$(".close-btn").hide();
 				$(".attendance-btn").show();
 			}else{
-				$(".checkAttendance").text("출석 완료");
 				$(".close-btn").show();
 				$(".attendance-btn").hide();
 			}
-			
 			
 			//출석체크 모달
 			$(document).on("click",".day-check",function(){
@@ -1534,6 +1528,7 @@
 	                    	//페이지 벗어나면 첨부파일 DB 삭제
 	                    	$(window).on("beforeunload", function(){
 	                    		var originAttachmentNo = $("[name=originAttachmentNo]").val();
+	                    		console.log("페이지 벗어남!");
 	                    		deleteAttachmentNo(sideProfilePreviewNoList);
 	                    		$("[name=attachmentNo]").val(originAttachmentNo);
 	                    		sideProfilePreviewNoList.length=0;
@@ -1546,9 +1541,12 @@
 			//모달 취소버튼 클릭 시 첨부파일 DB 삭제
 			$(".p-cancel-btn").click(function(){
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
+				console.log("모달 취소 버튼 클릭");
+				console.log(sideProfilePreviewNoList);
 				deleteAttachmentNo(sideProfilePreviewNoList);
 				$("[name=attachmentNo]").val(originAttachmentNo);
 				sideProfilePreviewNoList.length=0;
+				console.log("배열값 0으로 변경!");
 				console.log(sideProfilePreviewNoList);
 			});
 			
@@ -1721,6 +1719,7 @@
 											async:false,
 											data:sideProfilePreviewNoList[i],
 											success:function(resp){
+												console.log("나머지 파일 삭제!");
 											}
 										});
 									}
@@ -1905,26 +1904,23 @@
 			
 			//취소, 돌아가기 시 첨부파일 삭제
 			function deleteAttachmentNo(sideProfilePreviewNoList){
+				console.log("함수안 삭제 실행중!");
 				console.log(sideProfilePreviewNoList);
-				var newAttachmentNo = $("[name=attachmentNo]").val();
-				var originAttachmentNo = $("[name=originAttachmentNo]").val();
-				if(newAttachmentNo!=originAttachmentNo && originAttachmentNo!=""){ //새로 사진등록한 상태
-					if(sideProfilePreviewNoList.length == 0) {
-						return;
-					}
-					$.ajax({
-						url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
-						method : "delete",
-						async:false,
-						data : {
-							attachmentPreviewNoList : sideProfilePreviewNoList
-						},
-						success:function(resp){
-							console.log("삭제성공!");
-							console.log(resp);
-						}
-					});
+				if(sideProfilePreviewNoList.length == 0) {
+					return;
 				}
+				$.ajax({
+					url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+					method : "delete",
+					async:false,
+					data : {
+						attachmentPreviewNoList : sideProfilePreviewNoList
+					},
+					success:function(resp){
+						console.log("삭제성공!");
+						console.log(resp);
+					}
+				});
 			}
 			
 			//일정등록 모달에서 등록 버튼 클릭
