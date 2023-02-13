@@ -994,9 +994,7 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
 	
-	$('#exampleModal').on('hidden.bs.modal', function () {
-        console.log('닫기!!');
-	});
+	
 	
 	 function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
@@ -1043,7 +1041,7 @@
 	      $("[name=placeTelInsert]").val("");
 	      $("[name=placeUrlInsert]").val("");
 	      $("[name=dangSizeInsert]").val("");
-	      $("[name=attachmentNoInsert]").val("");
+	     // $("[name=attachmentNoInsert]").val("");
 	})
 
 
@@ -1420,6 +1418,49 @@
 				}
 			})
 		});
+		
+		
+		//등록 모달 닫기시 등록되어있던 이미지 초기화 및 삭제
+		$('#exampleModal').on('hidden.bs.modal', function () {
+			var changeAttachment = $("[name=attachmentNoInsert]").val();
+			/* console.log($("[name=attachmentNoInsert]").val()==0);
+			console.log(changeAttachment==0); */
+	    	if(changeAttachment!=0){
+	    		console.log(changeAttachment);
+	    		$.ajax({
+	   				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+changeAttachment,
+	   				method:"delete",
+	   				data:changeAttachment,
+	   				async:false,
+	   				success:function(resp){
+	   					console.log("닫기 모달 삭제 성공!");
+	   					$("[name=attachmentNoInsert]").val(0);
+	   					$(".insert-img").attr('src',"${pageContext.request.contextPath}/images/no-place-img.png");
+	   				}
+	    	
+	    		});
+	    	}
+		});
+		//수정 모달 닫기시 등록되어있던 이미지 초기화 및 삭제
+		$('#editPlace').on('hidden.bs.modal', function () {
+			var changeAttachment = $("[name=attachmentNoUpdate]").val();
+	    	if(changeAttachment!=''){
+	    		$.ajax({
+	   				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+changeAttachment,
+	   				method:"delete",
+	   				data:changeAttachment,
+	   				async:false,
+	   				success:function(resp){
+	   					console.log("닫기 모달 삭제 성공!");
+	   					$("[name=attachmentNoUpdate]").val('');
+	   					$(".update-img").attr('src',"${pageContext.request.contextPath}/images/no-place-img.png");
+	   				}
+	    	
+	    		});
+	    	}
+		});
+		
+		
 		$(".btn-placeinfoModal").click(function (){
 			$("[name=placeSort]").val(optionSelectedSort).prop("selected",true);
 			$("[name=dangSize]").val(optionSelectedDangSize).prop("selected",true);
