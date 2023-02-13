@@ -1370,7 +1370,7 @@
 		
 		
 		function detailMove() {
-			location.href = "http://localhost:8888/admin/detail/"+placeNoInfo;
+			window.open("http://localhost:8888/admin/detail/"+placeNoInfo);
 		}
 		
 		var optionSelectedSort='';
