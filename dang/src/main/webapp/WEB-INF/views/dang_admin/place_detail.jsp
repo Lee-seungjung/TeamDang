@@ -15,10 +15,10 @@
 <div class="container-fluid mb-5">
 	<div class="row mt-2">
 		<div class="col-md-8 offset-md-2"
-			style="text-align: center; background: black;">
+			style="text-align: center;">
 			<img
 				src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo}"
-				width="900" height="600">
+				 height="600" class="w-100">
 		</div>
 	</div>
 
@@ -122,8 +122,10 @@
 					<p class="mt-3 ms-2">특이사항 <i class="fa-solid fa-circle-info" style="font-size: 15; color: #F781D8"></i></p>
 					<p class="ms-2" style="font-size: 12">주차가능, 포장가능, 무선 인터넷가능, 반려동물 동반가능,
 						제로페이가능, 국민지원금가능</p>
+					<c:if test="${placeList.placeUrl != null}">	
 					<p class="mt-3 ms-2">홈페이지 <i class="fa-solid fa-globe" style="font-size: 15; color: #F781D8"></i></p>
 					<a class="ms-2" href="${placeList.placeUrl}" style="font-size: 12">${placeList.placeUrl}</a>
+					</c:if>
 					<p class="mt-3 ms-2">영업시간 <i class="fa-solid fa-clock" style="font-size: 15; color: #F781D8"></i></p>
 					<p class="ms-2" style="font-size: 12">${placeList.placeOperation}</p>
 					<p class="mt-3 ms-2">휴무일 <i class="fa-solid fa-plane" style="font-size: 15; color: #F781D8"></i></p>
