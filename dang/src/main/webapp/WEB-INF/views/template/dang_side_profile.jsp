@@ -740,8 +740,12 @@
         //장소 가게 홈페이지 이동 함수
         function pageUrlMove() {
    			var url = $(".span-placeurl").text();
-   		 //console.log(url);
-   			window.open(url); 
+   		 	console.log(url=='');
+   		 	 if(url==''){
+   		 		alert('해당하는 홈페이지가 없습니다.');
+   		 	}else{
+	   			window.open(url); 
+   		 	}
    		}
         
         //장소 상세보기 이동 함수
@@ -785,7 +789,9 @@
                                         "src",
                                         "http://localhost:8888/rest_attachment/download/"
                                         + resp.attachmentNo);
-                                abc = resp.placeNo;
+                               
+                                
+                               
                             }
                         })
                 });

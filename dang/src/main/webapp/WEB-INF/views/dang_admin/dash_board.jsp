@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="관리자 메인" name="title"/>
 </jsp:include>
@@ -197,6 +199,8 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
 <script>
 
 $(function(){
@@ -235,7 +239,16 @@ $(function(){
     				                }
     				            }]
     				        },
-    				        events: ['click']
+    				        events: ['click'],
+    				        plugins: {
+    	    		            labels: {
+    	    		                render: valueList,
+    	    		                fontColor: 'black',
+    	    		                fontSize: 16,
+    	    		                precision: 2
+    	    		            }
+    	    		        }
+    				        
     				}
    				 };
 
