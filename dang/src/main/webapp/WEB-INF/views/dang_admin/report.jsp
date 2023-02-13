@@ -160,9 +160,9 @@
 					</thead>
 					<tbody class="data-body">
 						<c:choose>
-							<c:when test="${list==null}">
+							<c:when test="${list.size()==0}">
 								<tr class="table align-middle">
-									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
+									<td colspan="5" style="height:200px; border-bottom:none; font-size:16px;">신고 내역이 없습니다.</td>
 								</tr>						
 							</c:when>
 							<c:otherwise>
@@ -194,8 +194,8 @@
 		
 		//목록 조회 시 접수/승인/반려 색상 변경
 		var url = new URL(location.href);
-		var reportState = url.searchParams.get("reportState");
-		if(reportState!=null){
+		var link_reportState = url.searchParams.get("reportState");
+		if(link_reportState!=null){
 			$(".report-box").removeClass("select-color");
 			$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
 		}
@@ -517,17 +517,6 @@
 		$(document).on("click", ".ul-report-list-page-item-unit", function(){
 			p = $(this).children().text();
 			console.log(p);
-			/* 
-			type = $("[name=type]").val();
-			var keyword = $("[name=keyword]").val();
-			reportState = $(this).data("reportstate");
-			 */ 
-			/* reportStateData={
-				p : p,
-				reportState:reportState,
-				type:type,
-				keyword:keyword
-			} */
 			 
 			var formData = new FormData();
 			formData.append("p", p);
@@ -583,9 +572,7 @@
 			
 			var type = $(".form-select").val("").prop("selected", true);
 			var keyword = $(".search-input").val("");
-	/* 		
-			var type = $("[name=type]").val();
-			var keyword = $("[name=keyword]").val(); */
+
 			reportState = $(this).attr("data-reportstate");
 			p = 1;
 			console.log(reportState);
@@ -593,14 +580,6 @@
 			var formData = new FormData();
 			formData.append("p", p);
 			formData.append("reportState", reportState);
-
-			//if(type==""||keyword=="") return; //입력값 없으면 클릭 막기
-/* 			
-			reportStateData={
-					reportState:reportState,
-					type:type,
-					keyword:keyword
-			} */
 			
 			$(".data-body").empty();//출력 div 비우기
 			//신고 카운트 클릭 조회
@@ -628,11 +607,7 @@
 					}
 					
 					if(resp.reportList.length==0){
-						var body = $(".data-body");
-						var tr = $("<tr>").attr("class","align-middle");
-						var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
-										.text("내역이 존재하지 않습니다.");
-						tr.append(td);
+						zeroReportList();
 					}else{
 						for(var i=0; i<resp.reportList.length; i++){
 							reportList(resp.reportList[i]);
@@ -655,8 +630,8 @@
 		function zeroReportList(){
 			var body = $(".data-body");
 			var tr = $("<tr>").attr("class","table align-middle");
-			var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
-							.text("일치하는 검색 결과가 없습니다.");
+			var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none; font-size:16px;")
+							.text("신고 내역이 없습니다.");
 			tr.append(td);
 			body.append(tr);
 		}
