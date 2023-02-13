@@ -8,8 +8,6 @@
 <jsp:include page="/WEB-INF/views/template/dang_header.jsp">
 	<jsp:param value="댕모임 일정" name="title" />
 </jsp:include>
-
-
 <style>
 	#mapwrap {
 		position: relative;
@@ -424,13 +422,9 @@
 	.schedule-name {
 		font-size : 24px;
 	}
-
 </style>
-
 <div class="container-fluid mt-3 mb-5">
-
 	<div class="col-8 offset-2">
-
 		<div class="row">
 			
 			<div class="col-3"> <!-- 프로필 박스 시작-->
@@ -483,22 +477,17 @@
 					<div class = "info-commons dang-who">
 					    <div class="block">참여 멤버</div>                        
 							<div class="block-white">
-							<c:if test="${joinMemberList != null}">
-								<c:forEach var="JoinMemberVO" items="${joinMemberList}">
-									<img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/rest_attachment/download/${JoinMemberVO.attachmentNo}" width="45px" height="45px">
-								</c:forEach>
-							</c:if>
-							<c:if test="${joinMemberList.size() == 0}">				
-									<img class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/images/basic-profile.png"  width="45px" height="45px">
-							</c:if>			
+							<c:forEach var="JoinMemberVO" items="${joinMemberList}">
+								<img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/rest_attachment/download/${JoinMemberVO.attachmentNo}" width="45px" height="45px">
+							</c:forEach>
 					    </div>
 					</div>   
-			                
+
 					<div class = "info-commons dang-money">
 						<div class="block">참여 회비</div>
-						<div class="detail-money block-white schedules-money">${scheduleDetail.scheduleMoney}원</div>
+						<div class="detail-money block-white schedules-money"><fmt:formatNumber value="${scheduleDetail.scheduleMoney}" pattern="#,###"/>원</div>
 					</div>    
-				
+
 					<div class="btn-box btn-join">				
 						<button type="submit" class="btn-plus">참여</button>
 						<button type="submit" class="btn-minus">참여취소</button>
@@ -515,7 +504,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- 댕모임 일정 수정 모달 -->
 <div class="modal fade" id="scheduleEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -655,8 +643,8 @@
 							</div>
 							<div class = row>
 								<div class = "col d-flex flex-column">
-									<input class="money form-control input-modal-schedule-money" name="scheduleMoney" maxLength="7" />
-									<span class="invalid-money">참여회비는 1백만원 미만으로 설정 가능합니다.</span>  
+									<input class="money form-control input-modal-schedule-money" id="updateMoney" name="scheduleMoney" maxLength="7" />
+									<span class="invalid-money" >참여회비는 1백만원 미만으로 설정 가능합니다.</span>  
 								</div>
 							</div>
 						</div>
@@ -674,7 +662,6 @@
         </div>
     </div>
 </div> <!-- 댕모임 일정 수정 모달 끝 -->
-
 <!-- 댕모임 일정 장소 수정 모달 시작-->
 <div class="modal fade" id="editPlaceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -702,10 +689,8 @@
         </div>
     </div>
 </div> <!-- 댕모임 일정 장소 모달 끝-->
-
 <!-- 카카오 맵 API -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
-
 <script type="text/javascript">
 		
 	$(function(){
@@ -803,6 +788,18 @@
 		
 		//상세일정에서 수정버튼 클릭
 		
+		const input = document.querySelector('#updateMoney');
+        input.addEventListener('keyup', function(e) {
+          let value = e.target.value;
+          value = Number(value.replaceAll(',', ''));
+          if(isNaN(value)) {
+            input.value = 0;
+          }else {
+            const formatValue = value.toLocaleString('ko-KR');
+            input.value = formatValue;
+          }
+        })
+		
 		$(".btn-edit").click(function(e){
 			$("#scheduleEditModal").modal("show");//모달 표시
 			$(".input-modal-schedule-name").val($(".schedule-name").text());
@@ -814,6 +811,7 @@
 			
 			var scheduleMoneyWon = $(".schedules-money").text();
 			var scheduleMoney = scheduleMoneyWon.substring(0, scheduleMoneyWon.length - 1);
+			
 	
 			$(".input-modal-schedule-money").val(scheduleMoney);
 			
@@ -834,6 +832,7 @@
         		alert("현재 인원보다 적은 총원을 선택할 수 없습니다.")
         		return;
         	}
+        	var originalPlaceNo=${scheduleDetail.placeNo};
         	
         	var scheduleNo = $(".input-schedule-no").val();
         	var dangNo = $(".input-dang-no").val();
@@ -843,16 +842,15 @@
 			var scheduleContent =$(".textarea-modal-schedule-content").val();
 			var scheduleStart = $(".input-modal-schedule-when").val();
 			var scheduleHour = $(".input-modal-schedule-time").val();
-
 			var scheduleMoney = $(".input-modal-schedule-money").val();
-
+			var changestr = scheduleMoney.replace(',', '');
 			var formData = new FormData();
-
 			
 			if(placeNo==null){
+				console.log('선택안됨')
 				placeNo=originalPlaceNo;
 			}
-
+			
 			formData.append("scheduleNo", scheduleNo);
 			formData.append("placeNo", placeNo);
 			formData.append("scheduleTitle", scheduleTitle);
@@ -860,7 +858,7 @@
 			formData.append("scheduleHeadmax", scheduleHeadmax);
 			formData.append("scheduleStart", scheduleStart);
 			formData.append("scheduleHour", scheduleHour);
-			formData.append("scheduleMoney", scheduleMoney);
+			formData.append("scheduleMoney", changestr);
 			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/rest/dangSchedule/schedule_edit",
@@ -912,7 +910,6 @@
 		});	
 		
 	});
-
 		
 		// 맵가져오기
         var placeNoInfo; //장소번호를 가져오는 변수
@@ -1429,7 +1426,6 @@
 		
 	//스케줄 상세관련 카카오맵 출력
 	var detailPlaceNo = ${scheduleDetail.placeNo};
-
 	var placeX;
 	var placeY; 
 		
