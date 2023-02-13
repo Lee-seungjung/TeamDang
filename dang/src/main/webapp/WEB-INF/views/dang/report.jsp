@@ -184,7 +184,7 @@
 					</div>
 				</div>
 				
-				<div class="typing-wrap mb-2" style="display:none;">
+				<div class="typing-wrap mb-3" style="display:none;">
 					<div class="mb-2 middle-items">
 						<h5 style="margin:0;">직접 입력</h5>
 						<span style="font-size:13px;" class="pink ms-2">* 100자 이내로 입력해주세요</span>
@@ -199,6 +199,7 @@
 		
 		<div class="report-file-wrap">
 			<div class="select-file">
+				<p class="pink mt-1 mb-1" style="font-size:13px;">* 화면 첨부를 해주시면 관리자의 신고 승인 판단에 도움이 됩니다. </p>
 	            <input type="file"  class="form-control file-btn" accept=".jpg, .png, .gif" multiple>
 			</div>
 			<div class="preview-file mt-1">
