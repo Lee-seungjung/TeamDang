@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <jsp:include page="/WEB-INF/views/template/admin_header.jsp">
    <jsp:param value="회원 관리" name="title"/>
 </jsp:include>
-
 <style>
 	
 	.number-box{
@@ -54,16 +52,14 @@
 		background-color : #76BEFF;
 		color : white;
 	}
-
 </style>
-
 <div class = "container-fluid mt-5">
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:30px; font-weight:bolder;">회원관리 현황</p>
+				<p style="font-size:25px; font-weight:bolder;">회원관리 현황</p>
 			</div>
-			
+
 			<div class = "row mt-4">
 				<div class = "col-4">
 					<div class = "col number-box select-color user-number" onclick="location.href='${pageContext.request.contextPath}/admin/user_list'">
@@ -121,13 +117,11 @@
 						</li>
 						</c:otherwise>
 						</c:choose>						
-
 						<c:forEach var = "i" begin = "${userListRequestDto.blockStart()}" end = "${userListRequestDto.blockEnd()}" step = "1">
 						<li class = "ul-user-list-page-item ul-user-list-page-item-unit d-flex justify-content-center align-items-center">
 							<span>${i}</span>
 						</li>
 						</c:forEach>
-
 						<c:choose>
 						<c:when test = "${userListRequestDto.blockNext() >= userListRequestDto.blockLast()}">
 						<li class = "ul-user-list-page-item ul-user-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${userListRequestDto.blockLast()}">
@@ -161,7 +155,7 @@
 					</thead>
 					<tbody class="data-body">
 						<c:choose>
-							<c:when test="${userListAdminB==null}">
+							<c:when test="${userListAdminB == null}">
 								<tr class="table align-middle">
 									<td colspan="5" style="height:200px; border-bottom:none;">내역이 존재하지 않습니다.</td>
 								</tr>						
@@ -184,11 +178,9 @@
 					</tbody>
 				</table>
 			</div>
-
 		</div>
 	</div>
 </div>
-
 <script>
 $(function(){
 	
@@ -206,7 +198,7 @@ $(function(){
 	var type;
 	var keyword;
 	
-	
+	//숫자 페이지 클릭 이벤트
 	$(document).on("click", ".ul-user-list-page-item-unit", function(){
 		console.log($(this).children().text());
 		
@@ -214,6 +206,7 @@ $(function(){
 		
 		var formData = new FormData();
 		formData.append("p", p);
+		
 		if(type != null && keyword != null) {
 			formData.append("type", type);
 			formData.append("keyword", keyword);
@@ -242,7 +235,7 @@ $(function(){
 					$(".ul-user-list-page-item-next").attr("data-pagenext", resp.blockNext);
 				}
 				$(".data-body").empty();
-				if(resp.userList.length==0){
+				if(resp.userList.length == 0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -263,8 +256,7 @@ $(function(){
 			}	
 		});
 	});
-	
-	
+		
 	//검색 버튼 클릭 이벤트
 	$(document).on("click",".user-search-btn", function(){
 		
@@ -275,13 +267,11 @@ $(function(){
 		console.log(userSearchInput);	
 		
 		if(userSelectBox == "" || userSearchInput == "") {
-			console.log("안돼");
 			return;
 		}
 		type = userSelectBox;
 		keyword = userSearchInput;
 		
-		console.log("돼");
 		//데이터 전송 객체
 		var formData = new FormData();
 		formData.append("p", 1);
@@ -313,7 +303,8 @@ $(function(){
 				}
 				
 				$(".data-body").empty();
-				if(resp.userList.length==0){
+				
+				if(resp.userList.length == 0){
 					var body = $(".data-body");
 					var tr = $("<tr>").attr("class","align-middle");
 					var td = $("<td>").attr("colspan","5").attr("style","height:200px; border-bottom:none;")
@@ -544,7 +535,6 @@ $(function(){
 		
 		var type = $(".user-form-select").val("").prop("selected", true);
 		var keyword = $(".user-search-input").val("");
-
 		numberState = $(this).attr("data-numberstate");
 		p = 1;
 		console.log(numberState);
@@ -552,7 +542,6 @@ $(function(){
 		var formData = new FormData();
 		formData.append("p", p);
 		formData.append("numberState", numberState);
-
 		
 		$(".data-body").empty();//출력 div 비우기
 		//회원 카운트 클릭 조회
@@ -629,5 +618,4 @@ $(function(){
 	
 	
 });
-
 </script>

@@ -151,7 +151,6 @@ public class DangAdminController {
 		int userTotal = dangUserDao.userCount(userListRequestDto);
 		// dto에 총 갯수 설정
 		userListRequestDto.setTotal(userTotal);
-		//System.out.println(userTotal);
 		model.addAttribute("userTotal",userTotal);
 		// 회원 목록 전체/ 검색 조회
 		List<DangUserListDto> userListAdminB = dangUserDao.searchUserListAdmin(userListRequestDto);
@@ -183,14 +182,15 @@ public class DangAdminController {
 		int userTotal = dangUserDao.userCount(userListRequestDto);
 		// dto에 총 갯수 설정
 		userListRequestDto.setTotal(userTotal);
-		//System.out.println(userTotal);
 		model.addAttribute("userTotal",userTotal);
-		// 댕댕이 목록 전체/ 검색 조회
-		List<PuppyListDto> puppyListAdmin = dangPuppyDao.searchPuppyListAdmin(puppyListRequestDto);
-		model.addAttribute("puppyListAdmin", puppyListAdmin);
 		//총 댕댕이 등록 수 조회
 		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		model.addAttribute("dangTotal", dangTotal);
+		// dto에 총 갯수 설정
+		puppyListRequestDto.setTotal(dangTotal);
+		// 댕댕이 목록 전체/ 검색 조회
+		List<PuppyListDto> puppyListAdmin = dangPuppyDao.searchPuppyListAdmin(puppyListRequestDto);
+		model.addAttribute("puppyListAdmin", puppyListAdmin);
 		// 총 댕모임 가입자수 조회
 		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
@@ -201,29 +201,28 @@ public class DangAdminController {
 	@GetMapping("/member_list")
 	public String MemberList(Model model, @ModelAttribute UserListRequestDto userListRequestDto 
 			, @ModelAttribute PuppyListRequestDto puppyListRequestDto, @ModelAttribute MemberListRequestDto memberListRequestDto ) {
-		// 총 회원수 조회
-		int userTotal = dangUserDao.userCount(userListRequestDto);
-		// dto에 총 갯수 설정
-		userListRequestDto.setTotal(userTotal);
-		//System.out.println(userTotal);
-		model.addAttribute("userTotal",userTotal);
+		// 총 댕모임 가입자수 조회
+		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
+		memberListRequestDto.setTotal(dangMemberTotal);
 		// 댕모임 멤버 목록 전체/ 검색 조회
 		List<MemberListDto> memberListAdmin = dangMemberDao.searchMemberListAdmin(memberListRequestDto);
 		model.addAttribute("memberListAdmin", memberListAdmin);
+		// dto에 총 갯수 설정
+		model.addAttribute("dangMemberTotal", dangMemberTotal);
+		// 총 회원수 조회
+		int userTotal = dangUserDao.userCount(userListRequestDto);
+		// dto에 총 갯수 설정
+		model.addAttribute("userTotal",userTotal);
 		//총 댕댕이 등록 수 조회
 		int dangTotal = dangPuppyDao.dangCount(puppyListRequestDto);
 		model.addAttribute("dangTotal", dangTotal);
-		// 총 댕모임 가입자수 조회
-		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
-		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/member_list";
 	}
 	
 	//관리자에서 장소의 상세 주소를 위한 맵핑
 	@GetMapping("/detail/{placeNo}")
 	public String adminPlaceDetail(@PathVariable int placeNo, Model model) {
-		model.addAttribute("placeList", dangPlaceDao.placeOne(placeNo));
-		
+		model.addAttribute("placeList", dangPlaceDao.placeOne(placeNo));	
 		return "dang_admin/place_detail";
 	}
 }

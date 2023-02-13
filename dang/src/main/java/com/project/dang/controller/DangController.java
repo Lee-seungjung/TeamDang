@@ -44,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/dang")
-@Slf4j
 public class DangController {
 	
 	@Autowired
