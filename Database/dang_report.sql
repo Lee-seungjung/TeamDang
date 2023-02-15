@@ -6,8 +6,9 @@ create sequence dang_report_seq;
 -- 테이블 등록
 create table dang_report(
 report_no number primary key,
-user_no references dang_user(user_no) on delete cascade,
 dang_no references dang(dang_no) on delete cascade,
+report_user_no number not null,
+user_no number not null,
 member_nick varchar2(18) not null,
 report_content varchar2(300) not null,
 report_date date default sysdate not null,
