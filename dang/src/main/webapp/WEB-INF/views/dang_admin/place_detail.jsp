@@ -29,7 +29,7 @@
 	</div>
 	<div class="row mt-1">
 		<div class="col-md-8 offset-md-2  text-light rounded">
-			<p style="color: #F781D8">
+			<p style="color: #F94888">
 				<c:if test="${placeList.placeSort eq '카페'}">
 					<i class="fa-solid fa-mug-saucer"></i>
 				</c:if>
@@ -37,13 +37,13 @@
 					<i class="fa-solid fa-utensils"></i>
 				</c:if>
 				<c:if test="${placeList.placeSort eq '미용'}">
-					<i class="fa-solid fa-ruler-horizontal"></i>
+					<i class="fa-solid fa-scissors"></i>
 				</c:if>
 				<c:if test="${placeList.placeSort eq '공원'}">
 					<i class="fa-thin fa-trees"></i>
 				</c:if>
 				<c:if test="${placeList.placeSort eq '운동장'}">
-					<i class="fa-light fa-fence"></i>
+					<i class="fa-solid fa-person-running"></i>
 				</c:if>
 
 				${placeList.placeSort}
@@ -59,7 +59,7 @@
 				<div class="col border shadow" style="border-radius: 20px;">
 					<div class="row mt-3 mb-5">
 						<div class="col text-center">
-							<i class="fa-solid fa-circle-check" style="color: #F781D8"></i><br>
+							<i class="fa-solid fa-circle-check" style="color: #F94888"></i><br>
 							<span>소형견</span><br> <span style="font-size: 9">10kg
 								미만</span>
 						</div>
@@ -67,11 +67,11 @@
 							<c:choose>
 								<c:when
 									test="${placeList.dangSize eq '중형견' || placeList.dangSize eq '대형견'}">
-									<i class="fa-solid fa-circle-check" style="color: #F781D8"></i>
+									<i class="fa-solid fa-circle-check" style="color: #F94888"></i>
 									<br>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-regular fa-circle-xmark" style="color: #F781D8"></i><br>
+									<i class="fa-regular fa-circle-xmark" style="color: #F94888"></i><br>
 								</c:otherwise>
 							</c:choose>
 							<span>중형견</span><br> <span style="font-size: 9">10 ~
@@ -81,11 +81,11 @@
 							<c:choose>
 								<c:when
 									test="${placeList.dangSize eq '대형견'}">
-									<i class="fa-solid fa-circle-check" style="color: #F781D8"></i>
+									<i class="fa-solid fa-circle-check" style="color: #F94888"></i>
 									<br>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-regular fa-circle-xmark" style="color: #F781D8"></i><br>
+									<i class="fa-regular fa-circle-xmark" style="color: #F94888"></i><br>
 								</c:otherwise>
 							</c:choose>
 							<span>대형견</span><br> <span style="font-size: 9">25kg
@@ -98,7 +98,17 @@
 					</div>
 					<div class="row mb-2">
 						<div class="col">동반방법 :</div>
-						<div class="col text-end">가방 또는 캐리어</div>
+						
+						<c:choose>
+							<c:when
+								test="${placeList.dangSize eq '대형견'}">
+								<div class="col text-end">목줄착용</div>
+							</c:when>
+							<c:otherwise>
+								<div class="col text-end">가방 또는 캐리어</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</div>
 				</div>
 			</div>
@@ -115,20 +125,20 @@
 		<div class="col-md-8 offset-md-2">
 			<div class="row ">
 				<div class="col  border shadow" style="border-radius: 20px;">
-					<p class="mt-3 ms-2">주소 <i class="fa-solid fa-house" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">주소 <i class="fa-solid fa-house" style="font-size: 15; color: #F94888"></i></p>
 					<p class="ms-2" style="font-size: 12">${placeList.placeAddress}</p>
-					<p class="mt-3 ms-2">전화번호 <i class="fa-solid fa-phone" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">전화번호 <i class="fa-solid fa-phone" style="font-size: 15; color: #F94888"></i></p>
 					<p class="ms-2" style="font-size: 12">${placeList.placeTel}</p>
-					<p class="mt-3 ms-2">특이사항 <i class="fa-solid fa-circle-info" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">특이사항 <i class="fa-solid fa-circle-info" style="font-size: 15; color: #F94888"></i></p>
 					<p class="ms-2" style="font-size: 12">주차가능, 포장가능, 무선 인터넷가능, 반려동물 동반가능,
 						제로페이가능, 국민지원금가능</p>
 					<c:if test="${placeList.placeUrl != null}">	
-					<p class="mt-3 ms-2">홈페이지 <i class="fa-solid fa-globe" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">홈페이지 <i class="fa-solid fa-globe" style="font-size: 15; color: #F94888"></i></p>
 					<a class="ms-2" href="${placeList.placeUrl}" style="font-size: 12">${placeList.placeUrl}</a>
 					</c:if>
-					<p class="mt-3 ms-2">영업시간 <i class="fa-solid fa-clock" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">영업시간 <i class="fa-solid fa-clock" style="font-size: 15; color: #F94888"></i></p>
 					<p class="ms-2" style="font-size: 12">${placeList.placeOperation}</p>
-					<p class="mt-3 ms-2">휴무일 <i class="fa-solid fa-plane" style="font-size: 15; color: #F781D8"></i></p>
+					<p class="mt-3 ms-2">휴무일 <i class="fa-solid fa-plane" style="font-size: 15; color: #F94888"></i></p>
 					<p class="mb-4 ms-2" style="font-size: 12">${placeList.placeOff}</p>
 				</div>
 			</div>

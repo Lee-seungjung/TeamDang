@@ -449,11 +449,11 @@
 				      <td class="text-end mt-2 fw-bold">
 					      <div class="row mt-3  me-1">
 					      		<div class="col fw-bold">
-					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F94888;"></i></c:if>
 					      		${placeList.placeSort}
 					      		</div>
 					      </div>
@@ -788,7 +788,7 @@
     </div>
   </div>
 </div>
-<!-- ================================장소마커를 등록하기 위한 모달======================================== --><!-- 등록하기 모달 -->
+<!-- ================================장소마커를 등록하기 위한 모달======================================== -->
 		<div class="modal fade" data-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -867,14 +867,13 @@
 		
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 정보를 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 정보를 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
 		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
-		                    <label>(최대 500자 까지 가능합니다.)</label>
 		                </div>
 		            </div>
 		        </div>
@@ -893,7 +892,7 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 운영시간을 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 운영시간을 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-1">
@@ -906,7 +905,7 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 휴무일을 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 휴무일을 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-1">
@@ -919,7 +918,7 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 전화번호를 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 전화번호를 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-4">
@@ -932,7 +931,7 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 홈페이지 주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 홈페이지 주소를 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-1">
@@ -962,7 +961,7 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)</label>
+		                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)<i class="accent">(필수)</i></label>
 		                <input class="form-control form-control-sm file-input" id="formFileSm"  accept=".jpg, .png, .gif" type="file">
 		            </div>
 		        </div>
@@ -1134,7 +1133,7 @@
         };
         
         if (placeX.length === 0 || placeY.length === 0||attachmentNo.length==0||placeName.length==0||dangSize==0||placeAddress.length==0) {
-            swal("정보를 입력해 주세요","","error");
+            swal("필수 정보를 입력해 주세요","","error");
             return;
         }else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
