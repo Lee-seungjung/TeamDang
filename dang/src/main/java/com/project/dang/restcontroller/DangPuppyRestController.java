@@ -49,6 +49,7 @@ public class DangPuppyRestController {
 			@ModelAttribute DangPuppyDto dangPuppyDto, 
 			@RequestParam(required = false) List<String> puppyCharacter, 
 			MultipartFile puppyImg) throws IllegalStateException, IOException {
+		System.out.println(dangPuppyDto);
 		// 반환용 객체 생성
 		DangPuppyListDto dangPuppyListDto = new DangPuppyListDto();
 		// 다음 댕댕이 번호 설정
@@ -66,6 +67,7 @@ public class DangPuppyRestController {
 													.puppyName(dangPuppyDto.getPuppyName())
 													.puppyAge(dangPuppyDto.getPuppyAge())
 													.puppyGender(dangPuppyDto.getPuppyGender())
+													.puppyRegNo(dangPuppyDto.getPuppyRegNo())
 												.build();
 		// 댕댕이 사즌 등록
 		if(puppyImg != null) {

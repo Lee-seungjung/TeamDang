@@ -74,6 +74,10 @@
 	    color: #76BEFF;
 	}
 	
+	.span-dang-puppy-reg-no {
+		font-size : 12px;
+	}
+	
 	/* --- 댕모임 목록 스타일 */
 	
 	.select-modal-insert-puppy-gender,
@@ -97,7 +101,7 @@
 	}
 	
 	.div-modal-puppy-insert-info {
-	    height : 44em;
+	    height : 47em;
 	    border-radius: 15px;
 	    border: 2px solid #EBEBEB;
 	}
@@ -196,7 +200,10 @@
 	                <div class="row div-puppy-info">
 	                    <div class = "col">
 	                        <div class = "row py-2">
-	                            <div class="dropdown d-flex justify-content-end">
+	                        	<div class = "col-6 d-flex justify-content-start align-items-center">
+	                        		<strong class = "span-dang-puppy-reg-no">${dangPuppyList.dangPuppyInfoDto.puppyRegNo}</strong>
+	                        	</div>
+	                            <div class="dropdown col-6 d-flex justify-content-end align-items-center">
 	                                <div class="fa-solid fa-ellipsis div-dropdown-change-puppy-info-menu" data-bs-toggle="dropdown"></div>
 	                                <ul class="dropdown-menu">
 	                                    <li><button class="dropdown-item btn-dropdown-edit-puppy-info" type="button">수정</button></li>
@@ -205,6 +212,7 @@
 	                            </div>
 	                            <%-- 댕댕이 정보 --%>
 	                            <input type = "hidden" class = "input-puppy-no" value = "${dangPuppyList.dangPuppyInfoDto.puppyNo}">
+  	                            <input type = "hidden" class = "input-puppy-reg-no" value = "${dangPuppyList.dangPuppyInfoDto.puppyRegNo}">
 	                            <input type = "hidden" class = "input-puppy-name" value = "${dangPuppyList.dangPuppyInfoDto.puppyName}">
 	                            <input type = "hidden" class = "input-puppy-age" value = "${dangPuppyList.dangPuppyInfoDto.puppyAge}">
 	                            <input type = "hidden" class = "input-puppy-gender" value = "${dangPuppyList.dangPuppyInfoDto.puppyGender}">
@@ -314,6 +322,16 @@
                     <div class = "offset-1 col-10">
                         <div class = "row div-puppy-info-menu">
                             <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
+                                <strong>등록번호</strong>
+                            </div>
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-insert-puppy-reg_no" type = "text" maxlength="15" placeholder="등록번호(15자)">
+                        </div>
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>이름</strong>
                             </div>
                             <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-insert-puppy-name" type = "text" maxlength="10" placeholder="이름(10자 이내)">
@@ -390,6 +408,16 @@
                             <img class = "img-modal-edit-puppy-profile w-100" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png">
                             <input class = "input-modal-edit-puppy-profile" id = "editPuppyProfile" type = "file" accept = ".png, .jpg">
                         </label>
+                    </div>
+                </div>
+                <div class = "row my-4">
+                    <div class = "offset-1 col-10">
+                        <div class = "row div-puppy-info-menu">
+                            <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
+                                <strong>등록번호</strong>
+                            </div>
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-edit-puppy-reg-no" type = "text" maxlength="15" placeholder="등록번호(15자)">
+                        </div>
                     </div>
                 </div>
                 <div class = "row my-4">
@@ -517,6 +545,20 @@
 			})
 		});
 		
+		// 댕댕이 등록번호
+		$(document).on("input", ".input-modal-insert-puppy-reg_no", function(){
+			// 숫자만 입력하도록
+			$(this).val($(this).val().replace(/[^0-9]/g, ""));
+			
+			var inputDangPassword = document.querySelector(".input-modal-insert-puppy-reg_no");
+			
+			var size = inputDangPassword.value.length;
+			while(size > 15) {
+				inputDangPassword.value = inputDangPassword.value.substring(0, size - 1);
+				size --;
+			}
+		});
+		
 		// 댕댕이 이름
 		$(document).on("input", ".input-modal-insert-puppy-name", function(){
 			var insertPuppyName = $(this).val();
@@ -598,6 +640,17 @@
 		
 		// 댕댕이 등록 Modal에서 저장 버튼
 		$(document).on("click", ".btn-modal-insert-puppy-submit", function(){
+			
+			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 통과)
+			if($(".input-modal-insert-puppy-reg_no").val() != "") {
+				var inputPuppyRegNo = $(".input-modal-insert-puppy-reg_no").val();
+				var regexp = /^[0-9]{15}$/;
+				if(regexp.test(inputPuppyRegNo) == false) {
+					alert("15자리 등록번호를 입력해 주세요.");
+					return;
+				}
+			}
+			
 			// - 댕댕이 특이사항에서 모두 체크 버튼을 눌렀는지 확인
 			if($(".btn-modal-insert-submit-puppy-character").length >= 1) {
 				puppyInsertValid.checkPuppyCharacter = false;
@@ -626,6 +679,11 @@
 			// - 댕댕이 사진
 			if($(".input-modal-insert-puppy-profile").get(0).files[0] != null) {
 				formData.append("puppyImg", $(".input-modal-insert-puppy-profile").get(0).files[0]);
+			}
+			
+			// - 댕댕이 등록 번호
+			if($(".input-modal-insert-puppy-reg_no").val() != "") {
+				formData.append("puppyRegNo", $(".input-modal-insert-puppy-reg_no").val());
 			}
 			
 			// - 댕댕이 특이사항
@@ -661,7 +719,13 @@
 					var rowDropdown 
 						= $("<div>").attr("class", "row py-2")
 							.append(
-								$("<div>").attr("class", "dropdown d-flex justify-content-end")	
+								$("<div>").attr("class", "col-6 d-flex justify-content-start align-items-center")
+									.append(
+										$("<strong>").attr("class", "span-dang-puppy-reg-no").text(resp.dangPuppyInfoDto.puppyRegNo)		
+									)
+							)
+							.append(
+								$("<div>").attr("class", "dropdown col-6 d-flex justify-content-end align-items-center")	
 									.append(
 										$("<div>").attr("class", "fa-solid fa-ellipsis div-dropdown-change-puppy-info-menu").attr("data-bs-toggle", "dropdown")
 									)
@@ -683,6 +747,9 @@
 							)
 							.append(
 								$("<input>").attr("type", "hidden").attr("class", "input-puppy-no").val(resp.dangPuppyInfoDto.puppyNo)
+							)
+							.append(
+									$("<input>").attr("type", "hidden").attr("class", "input-puppy-reg_no").val(resp.dangPuppyInfoDto.puppyRegNo)		
 							)
 							.append(
 								$("<input>").attr("type", "hidden").attr("class", "input-puppy-name").val(resp.dangPuppyInfoDto.puppyName)
@@ -811,24 +878,12 @@
 					}
 					
 					insertPuppyInfoContainer.children().children()
-						.append(
-							rowDropdown	
-						)
-						.append(
-							rowPuppyImg	
-						)
-						.append(
-							rowPuppyName	
-						)
-						.append(
-							rowPuppyAge	
-						)
-						.append(
-							rowPuppyGender	
-						)
-						.append(
-							rowPuppyCharacter
-						);
+						.append(rowDropdown)
+						.append(rowPuppyImg)
+						.append(rowPuppyName)
+						.append(rowPuppyAge)
+						.append(rowPuppyGender)
+						.append(rowPuppyCharacter);
 					
 					target.after(insertPuppyInfoContainer);
 					
@@ -862,6 +917,8 @@
 			// 첨부파일 초기화
 			$(".input-modal-insert-puppy-profile").val("");
 			$(".img-modal-insert-puppy-profile").attr("src", "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png"); // 링크 초기화 필요
+			// 댕댕이 등록번호 초기화
+			$(".input-modal-insert-puppy-reg_no").val("");
 			// 댕댕이명 초기화
 			$(".input-modal-insert-puppy-name").val("");
 			// 댕댕이 나이 초기화
@@ -891,6 +948,8 @@
 			var norm = $(this).parents(".dropdown");
 			// 댕댕이 번호 설정
 			$(".input-modal-edit-puppy-no").val(norm.nextAll(".input-puppy-no").val());
+			// 댕댕이 등록번호 설정
+			$(".input-modal-edit-puppy-reg-no").val(norm.nextAll(".input-puppy-reg-no").val());
 			// 댕댕이 이름 설정
 			$(".input-modal-edit-puppy-name").val(norm.nextAll(".input-puppy-name").val());
 			// 댕댕이 나이 설정
@@ -1062,6 +1121,20 @@
 			}
 		});
 		
+		// 댕댕이 수정 Modal 등록번호
+		$(document).on("input", ".input-modal-edit-puppy-reg-no", function(){
+			// 숫자만 입력하도록
+			$(this).val($(this).val().replace(/[^0-9]/g, ""));
+			
+			var inputDangPassword = document.querySelector(".input-modal-edit-puppy-reg-no");
+			
+			var size = inputDangPassword.value.length;
+			while(size > 15) {
+				inputDangPassword.value = inputDangPassword.value.substring(0, size - 1);
+				size --;
+			}
+		});
+		
 		// 댕댕이 수정 Modal 댕댕이 이름
 		$(document).on("input", ".input-modal-edit-puppy-name", function(){
 			if($(this).val() == "") {
@@ -1110,6 +1183,16 @@
 		
 		// 댕댕이 수정 Modal의 저장 버튼
 		$(document).on("click", ".btn-modal-edit-puppy-submit", function(){
+			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 통과)
+			if($(".input-modal-edit-puppy-reg-no").val() != "") {
+				var inputPuppyRegNo = $(".input-modal-edit-puppy-reg-no").val();
+				var regexp = /^[0-9]{15}$/;
+				if(regexp.test(inputPuppyRegNo) == false) {
+					alert("15자리 등록번호를 입력해 주세요.");
+					return;
+				}
+			}
+			
 			// 댕댕이 정보 Modal에 v버튼이 존재할 경우 return
 			if($(".btn-modal-edit-puppy-submit-character").length >= 1) {
 				puppyEditValid.checkPuppyCharacter = false;
@@ -1138,6 +1221,10 @@
 			formData.append("puppyName", puppyName);
 			formData.append("puppyAge", puppyAge);
 			formData.append("puppyGender", puppyGender);
+			
+			// - 선택 입력 정보
+			var puppyRegNo = $(".input-modal-edit-puppy-reg-no").val();
+			formData.append("puppyRegNo", puppyRegNo);
 			
 			// - 댕댕이 특이사항
 			if($(".span-modal-edit-puppy-character").length >= 1) {				
@@ -1169,6 +1256,13 @@
 					//console.log("성공");
 					// 수정할 댕댕이 기준 row
 					var norm = $(".input-puppy-no[value="+puppyNo+"]").parent();
+					
+					// 댕댕이 등록번호열
+					if(puppyRegNo != null) {
+						var rowPuppyRegNo = norm.before().before();
+						rowPuppyRegNo.find(".span-dang-puppy-reg-no").empty();
+						rowPuppyRegNo.find(".span-dang-puppy-reg-no").text(puppyRegNo)
+					}
 					
 					// 댕댕이 프로필 첨부파일 열
 					var rowPuppyImg = norm.next();
@@ -1235,6 +1329,7 @@
 		// 댕댕이 수정 Modal 초기화
 		function clearEditPuppyModal() {
 			$(".input-modal-edit-puppy-profile").val("");
+			$(".input-modal-edit-puppy-reg-no").val("");
 			$(".input-modal-edit-puppy-name").val("");
 			$(".select-modal-edit-puppy-gender").val("").prop("selected", true);
 			$(".select-modal-edit-puppy-gender").removeClass("select-modal-edit-puppy-gender-male select-modal-edit-puppy-gender-female");

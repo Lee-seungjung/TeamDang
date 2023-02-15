@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DangPuppyDto {
 	private Integer puppyNo;
-	private Integer puppyRegNo;
 	private Integer userNo;
+	private String puppyRegNo;
 	private String puppyName;
 	private String puppyGender;
 	private Integer puppyAge;
