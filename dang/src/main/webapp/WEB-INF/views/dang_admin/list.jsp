@@ -646,14 +646,13 @@
 
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 정보를 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>수정할 장소의 정보를 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
                     <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
-                    <label>(최대 500자 까지 가능합니다.)</label>
                 </div>
             </div>
         </div>
@@ -672,7 +671,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 운영시간을 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>수정할 장소의 운영시간을 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
@@ -685,7 +684,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 휴무일을 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>수정할 장소의 휴무일을 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
@@ -698,7 +697,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 전화번호를 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>수정할 장소의 전화번호를 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-4">
@@ -711,7 +710,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 홈페이지 주소를 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>수정할 장소의 홈페이지 주소를 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
