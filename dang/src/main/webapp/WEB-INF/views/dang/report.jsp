@@ -63,7 +63,7 @@
 				<h3 style="margin:0;">신고하기</h3>
 			</div>
 		</div>
-		
+
 		<form class="report-form" action="/dang/report/${memberInfo.memberNick}" method="post">
 		<div class = "row mt-4">
 			<div class="col middle-items">
@@ -222,6 +222,7 @@
 		</div>
 		
 		<!-- form data -->
+		<input type="hidden" name="reportUserNo" value="${reportUserNo}">
 		<input type="hidden" name="userNo" value="${memberInfo.userNo}">
 		<input type="hidden" name="dangNo" value="${memberInfo.dangNo}">
 		<input type="hidden" name="memberNick" value="${memberInfo.memberNick}">
