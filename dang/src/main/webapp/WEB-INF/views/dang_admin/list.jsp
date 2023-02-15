@@ -449,11 +449,11 @@
 				      <td class="text-end mt-2 fw-bold">
 					      <div class="row mt-3  me-1">
 					      		<div class="col fw-bold">
-					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F781D8;"></i></c:if>
-					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F781D8;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '카페'}"><i class="fa-solid fa-mug-saucer " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '음식점'}"><i class="fa-solid fa-utensils " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '미용'}"><i class="fa-solid fa-scissors " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '운동장'}"><i class="fa-solid fa-person-running " style="font-size : 13px; color: #F94888;"></i></c:if>
+					      		<c:if test="${placeList.placeSort == '공원'}"><i class="fa-solid fa-tree" style="font-size : 13px; color: #F94888;"></i></c:if>
 					      		${placeList.placeSort}
 					      		</div>
 					      </div>
