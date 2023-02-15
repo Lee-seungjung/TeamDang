@@ -640,12 +640,12 @@
     <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-place-body">
+                <div class="modal-place-body me-2">
                     <div class="body-flex body1">
                         <span class="span-placearea px-2"></span>
                     <img src=""  class="place-img">
                 </div>
-                <div class="body-flex body2">
+                <div class="body-flex body2 ms-3">
                     <span class="span-placename"></span>
                      <span  class="span-placesort"></span><br>
                     <span class="span-placeaddress"></span><br>
