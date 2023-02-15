@@ -98,7 +98,17 @@
 					</div>
 					<div class="row mb-2">
 						<div class="col">동반방법 :</div>
-						<div class="col text-end">가방 또는 캐리어</div>
+						
+						<c:choose>
+							<c:when
+								test="${placeList.dangSize eq '대형견'}">
+								<div class="col text-end">목줄착용</div>
+							</c:when>
+							<c:otherwise>
+								<div class="col text-end">가방 또는 캐리어</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</div>
 				</div>
 			</div>
