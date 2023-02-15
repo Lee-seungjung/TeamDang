@@ -225,7 +225,7 @@
 	
 	.i-header-menu-admin-enter,
 	.span-header-menu-admin-enter {
-		color : red;
+		color : #F94888;
 	}
 	
 	.strong-header-user-nick {

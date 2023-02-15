@@ -114,8 +114,8 @@
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
-					<div class="simple-schedule-box">
-						<div class="simple-date-box">
+					<div class="simple-schedule-box col d-flex d-column">
+						<div class="simple-date-box justify-content-center align-items-center">
 							<span>등록된 일정이 없습니다.</span>
 					</div>				
 				</div>									
