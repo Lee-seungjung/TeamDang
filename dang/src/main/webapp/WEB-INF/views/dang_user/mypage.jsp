@@ -8,7 +8,7 @@
 <style>
 	
     * {
-       border: dotted 1px gray;
+       
     }
 
     .under-menu{
