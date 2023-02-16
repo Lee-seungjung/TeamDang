@@ -178,10 +178,10 @@
 				     		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				    	<div class="carousel-item">
-				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
+				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog2.png" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				    	<div class="carousel-item">
-				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog.jpg" class = "w-100 img-carousel div-home-menu">
+				      		<img src = "${pageContext.request.contextPath}/images/img-carousel-dog3.png" class = "w-100 img-carousel div-home-menu">
 				    	</div>
 				  	</div>
 				  	<button class="carousel-control-prev" type="button" data-bs-target="#carousel-main" data-bs-slide="prev">
