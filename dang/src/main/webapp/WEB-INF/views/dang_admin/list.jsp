@@ -340,13 +340,13 @@
 	}
 </style>
 
-	<div class="container-fluid mb-5">
+	<div class="container-fluid mb-5 mt-5">
 		
 		<div class="row mt-3 mb-3">
 			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
-				<strong class = "strong-page-title">장소 마커 관리</strong>
+				<p style="font-size:30px; font-weight:bolder;">장소 관리</p>
 			</div>
 			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
 				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-backdrop="static" data-bs-target="#exampleModal">
