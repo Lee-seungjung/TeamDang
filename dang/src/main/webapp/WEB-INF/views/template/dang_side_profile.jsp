@@ -356,6 +356,8 @@
     }
 </style>
 
+<input type = "hidden" class = "input-side-profile-member-no" value = "${profile.memberNo}">
+
 <%-- 댕모임 사이드바 프로필 --%>
 <div class = "col">
 	<div class="p-3 profile-box border rounded-3 mb-3 shadow">
@@ -1962,8 +1964,9 @@
 			
 			//일정등록 모달에서 등록 버튼 클릭
 			$(".write-btn").click(function(e){
-				console.log(${profile.memberNo});
-				var memberNo = ${profile.memberNo};
+				if($(".input-side-profile-member-no").val() != null) {
+					var memberNo = $(".input-side-profile-member-no").val()
+				}
 				var scheduleTitle = $("[name=scheduleTitle]").val();
 				var scheduleContent =$("[name=scheduleContent]").val();
 				var scheduleStart = $("[name=scheduleStart]").val();

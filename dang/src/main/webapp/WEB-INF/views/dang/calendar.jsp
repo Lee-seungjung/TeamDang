@@ -7,10 +7,6 @@
    <jsp:param value="댕모임 일정" name="title" />
 </jsp:include>
 
-
-<html>
-<head>
-
 <style>
 
 * {
@@ -223,13 +219,13 @@
 
 
 </style>
-<meta charset='utf-8' />
 
 <script>
    
       document.addEventListener('DOMContentLoaded', function() {
           var calendarEl = document.getElementById('calendar1');   
-          var dangNo = $("[name=dangNo]").val();
+          var dangNo = $(".input-dang-calendar-dang-no").val();
+          console.log(dangNo);
          // var scheduleNo = $("[name=scheduleNo]").val();          
           var calendar1 = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -312,58 +308,55 @@
         });
 
 </script>
-<body>
-   <div class="container-fluid mt-3 mb-5">
 
-      <div class="col-8 offset-2">
-         <div class="row">
-            <!-- 프로필 박스 시작-->
-            <div class="col-3">
-               <jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-            </div>
-            <!-- 프로필 박스 끝-->
+<div class="container-fluid mt-3 mb-5">
 
-            <!-- 캘린더 박스 시작-->
-            <div class="col-6" style="background: white">
-               <div class="monthly-calendar">
-                  <div id='calendar1' class="calendar"></div>
-
-                  <div class="text-center">
-                     <div class="text-center">
-                        <span class="select-font">선택 날짜 : </span> <span
-                           class=" dangDate select-font blue"></span>
-                     </div>
-                     <table class="table text-center">
-                        <thead>
-                           <tr class="align-middle schedule-table">
-                              <th width="30%">모임 제목</th>
-                              <th width="30%">모임 날짜</th>
-                              <th width="20%">모임 장소</th>
-                              <th >상세</th>
-                           </tr>
-                        </thead>
-                        <tbody class="ajax-content">
-                           <!-- 비동기화 목록 출력 -->
-                        </tbody>
-                     </table>
-                  </div>
-
-
-               </div>
-            </div>
-            <!-- 캘린더 박스 끝-->
-
-
-            <!-- 다가오는 일정 박스 시작-->
-            <div class="col-3">
-               <jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
-            </div>
-            <!-- 다가오는 일정 박스  끝-->
+   <div class="col-8 offset-2">
+      <div class="row">
+         <!-- 프로필 박스 시작-->
+         <div class="col-3">
+            <jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
          </div>
+         <!-- 프로필 박스 끝-->
+
+         <!-- 캘린더 박스 시작-->
+         <div class="col-6" style="background: white">
+            <div class="monthly-calendar">
+               <div id='calendar1' class="calendar"></div>
+
+               <div class="text-center">
+                  <div class="text-center">
+                     <span class="select-font">선택 날짜 : </span> <span
+                        class=" dangDate select-font blue"></span>
+                  </div>
+                  <table class="table text-center">
+                     <thead>
+                        <tr class="align-middle schedule-table">
+                           <th width="30%">모임 제목</th>
+                           <th width="30%">모임 날짜</th>
+                           <th width="20%">모임 장소</th>
+                           <th >상세</th>
+                        </tr>
+                     </thead>
+                     <tbody class="ajax-content">
+                        <!-- 비동기화 목록 출력 -->
+                     </tbody>
+                  </table>
+               </div>
+
+
+            </div>
+         </div>
+         <!-- 캘린더 박스 끝-->
+
+
+         <!-- 다가오는 일정 박스 시작-->
+         <div class="col-3">
+            <jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+         </div>
+         <!-- 다가오는 일정 박스  끝-->
       </div>
    </div>
-   
-   <input type = "hidden"  name = "dangNo" value= "${dangNo}">
+</div>
 
-</body>
-</html>
+<input type = "hidden" class = "input-dang-calendar-dang-no" name = "dangNo" value= "${dangNo}">
