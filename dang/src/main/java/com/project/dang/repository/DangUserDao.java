@@ -136,7 +136,7 @@ public interface DangUserDao {
 	/**
 	 * (관리자) 회원목록 상세
 	 * @param userNo:회원 번호
-	 * @return List<DangUserListDto>
+	 * @return List<DangUserDetailDto>
 	 */
 	public DangUserDetailDto userDetail (int userNo);
 	
