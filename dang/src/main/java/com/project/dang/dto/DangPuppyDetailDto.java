@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class DangPuppyDetailDto {
-	private int userNo;
-	private int puppyNo;
+	private Integer puppyNo;
 	private String puppyName;
-	private String puppyAge;
+	private Integer puppyAge;
 	private String puppyGender;
 	private String userId;
-	private int puppyRegNo;	
+	private String puppyRegNo;	
 
 }
