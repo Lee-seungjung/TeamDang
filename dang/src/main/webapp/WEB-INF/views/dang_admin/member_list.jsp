@@ -69,7 +69,7 @@
 				</div>
 				<div class = "col-4">
 					<div class = "col number-box puppy-number" onclick="location.href='${pageContext.request.contextPath}/admin/puppy_list'">
-						<p class="mb-1 cnt-title">댕 등록 수</p>
+						<p class="mb-1 cnt-title">댕댕이 등록 수</p>
 						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
