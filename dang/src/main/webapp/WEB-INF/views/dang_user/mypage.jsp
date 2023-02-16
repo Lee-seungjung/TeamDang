@@ -8,7 +8,7 @@
 <style>
 	
     * {
-      
+       border: dotted 1px gray;
     }
 
     .under-menu{
@@ -139,14 +139,14 @@
                         <div class="row">
                             <div class="col-5 dang-owner-profile d-flex flex-column align-items-center justify-content-center">
                                 <div class="row px-3">
-                                	<div class = "col d-flex flex-column align-items-center justify-content-center">
+                                	<div class = "col px-3 d-flex flex-column align-items-center justify-content-center">
 	                                	<c:choose>             
 	                                	<c:when test = "${loginProfileImg == null}" >                     
-		                                    <img class = "img-owner-profile img-circle origin-img w-75 my-1" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
+		                                    <img class = "img-owner-profile img-circle origin-img w-100 my-1" src="${pageContext.request.contextPath}/images/basic-profile.png" class="img-fluid img-circle origin-img origin-css">
 		                                    <span class="dang-nick2 row align-items-center justify-content-center my-2">${userInfo.userNick}</span>
 	                                    </c:when>
 	                                    <c:otherwise>   
-											<img class = "img-circle img-owner-profile w-75 my-1" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
+											<img class = "img-circle img-owner-profile w-100 my-1" src="${pageContext.request.contextPath}/rest_attachment/download/${loginProfileImg}">
 		                                    <span class="dang-nick2 row align-items-center justify-content-center my-2">${userInfo.userNick}</span>                        
 	                                    </c:otherwise>    
 	                                    </c:choose>   
