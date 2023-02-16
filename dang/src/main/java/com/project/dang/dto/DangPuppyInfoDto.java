@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class DangPuppyInfoDto {
 
 	private Integer puppyNo;
+	private String puppyRegNo;
 	private String puppyName;
 	private String puppyGender;
 	private Integer puppyAge;
