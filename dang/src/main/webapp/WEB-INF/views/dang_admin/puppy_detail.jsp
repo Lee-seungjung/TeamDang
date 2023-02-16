@@ -59,7 +59,7 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:25px; font-weight:bolder;">회원 상세</p>
+				<p style="font-size:25px; font-weight:bolder;">댕댕이 상세</p>
 			</div>
 			
 			<div class="row mt-4">
@@ -67,42 +67,41 @@
 					<table class="table mt-2">
 						<tbody class="text-center">
 							<tr class="table ">
-								<th scope="col">회원 번호</th>
-								<td class="userNo">${userDetail.userNo}</td>
+								<th scope="col">댕댕이 번호</th>
+								<td>${puppyDetail.puppyNo}</td>
+							</tr>			
+							<tr class="table">
+								<th scope="col">댕댕이 등록번호</th>
+								<c:choose>
+									<c:when test="${puppyDetail.puppyRegNo != null}">
+										<td>${puppyDetail.puppyRegNo}</td>
+									</c:when>
+									<c:otherwise>
+										<td>등록번호 미기재</td>
+									</c:otherwise>
+								</c:choose>
+							</tr>									
+							<tr class="table">
+								<th scope="col">댕댕이 이름</th>
+								<td>${puppyDetail.puppyName}</td>
+							</tr>					
+							<tr class="table">
+								<th scope="col">댕댕이 성별</th>
+								<td>${puppyDetail.puppyGender}</td>
 							</tr>
 							<tr class="table">
-								<th scope="col">회원 아이디</th>
-								<td>${userDetail.userId }</td>
-							</tr>
+								<th scope="col">댕댕이 나이</th>
+								<td>${puppyDetail.puppyAge}</td>
+							</tr>	
 							<tr class="table">
-								<th scope="col">닉네임</th>
-								<td>${userDetail.userNick}</td>
-							</tr>
-							<tr class="table">
-								<th scope="col">이메일</th>
-								<td>${userDetail.userEmail}</td>
-							</tr>
-							<tr class="table">
-								<th scope="col">전화번호</th>
-								<td>${userDetail.userTel}</td>
-							</tr>
-							<tr class="table">
-								<th scope="col">성별</th>
-								<td>${userDetail.userGender}</td>
-							</tr>							
-							<tr class="table">
-								<th scope="col">가입일자</th>
-								<td>${userDetail.userJoindate}</td>
-							</tr>							
-							<tr class="table">
-								<th scope="col">최종로그인</th>
-								<td>${userDetail.userLogindate}</td>
-							</tr>							
+								<th scope="col">댕댕이 주인</th>
+								<td>${puppyDetail.userId}</td>
+							</tr>																								
 						</tbody>
 					</table>
 								
 					<div class="btn-div text-center mt-4 mb-4">
-						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/user_list">목록</a>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/puppy_list">목록</a>
 					</div>
 					
 				</div>

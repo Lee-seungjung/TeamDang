@@ -163,10 +163,10 @@
 							<c:otherwise>
 								<c:forEach var="userListAdminB" items="${userListAdminB}">
 									<tr class="table align-middle">
-										<td class="list-userNo" data-dno="">${userListAdminB.userNo}</td>
-										<td class="list-userId" data-dno="">${userListAdminB.userId}</td>
-										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
-										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
+										<td class="list-userNo" >${userListAdminB.userNo}</td>
+										<td class="list-userId" >${userListAdminB.userId}</td>
+										<td class="list-userNick" >${userListAdminB.userNick}</td>
+										<td class="list-userJoindate">${userListAdminB.userJoindate}</td>
 										<td>
 											<a class="btn btn-primary user-detail"  href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
 										</td>
