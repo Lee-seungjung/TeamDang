@@ -477,9 +477,16 @@
 					<div class = "info-commons dang-who">
 					    <div class="block">참여 멤버</div>                        
 							<div class="block-white">
-							<c:forEach var="JoinMemberVO" items="${joinMemberList}">
-								<img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/rest_attachment/download/${JoinMemberVO.attachmentNo}" width="45px" height="45px">
-							</c:forEach>
+								<c:forEach var="JoinMemberVO" items="${joinMemberList}">
+									<c:choose>
+										<c:when test="${JoinMemberVO.attachmentNo == 0}">
+											<img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle"  src="${pageContext.request.contextPath}/images/basic-profile.png" width="45px" height="45px">
+										</c:when>
+										<c:otherwise>
+											<img title="${JoinMemberVO.memberNick}" class="member-profile-hover img-circle" src="${pageContext.request.contextPath}/rest_attachment/download/${JoinMemberVO.attachmentNo}" width="45px" height="45px">
+										</c:otherwise>
+									</c:choose>															
+								</c:forEach>
 					    </div>
 					</div>   
 
