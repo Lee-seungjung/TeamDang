@@ -1409,9 +1409,16 @@
 			});
 			
 			//출석체크 모달
+			var isDoubleClick = false; //더블클릭 방지체크
 			$(document).on("click",".day-check",function(){
 				var attendance = $(".checkAttendance").text();
 				console.log("출석 상태 = "+attendance);
+				
+				if(attendance=='출석 완료'){
+					isDoubleClick = true;
+				}else{
+					isDoubleClick = false;
+				}
 
 				if(attendance=='출석 완료' && isDoubleClick==true){
 					$(".close-btn").show();
@@ -1428,11 +1435,9 @@
 			});
 			
 			//출석하기 버튼
-			var isDoubleClick = false; //더블클릭 방지체크
 			$(document).on("click",".attendance-btn",function(){
 				var memberNo = $("[name=memberNo]").val();
 				var attendance = $(".checkAttendance").text();
-				console.log("출석 상태 = "+attendance);
 				
 				if(attendance=='출석 체크' && isDoubleClick==false){
 					console.log("출석기록 없음!");
