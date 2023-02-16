@@ -102,7 +102,7 @@
 					</table>
 								
 					<div class="btn-div text-center mt-4 mb-4">
-						<a class="btn btn-primary report-app-btn" href="${pageContext.request.contextPath}/admin/user_list">목록</a>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/user_list">목록</a>
 					</div>
 					
 				</div>
