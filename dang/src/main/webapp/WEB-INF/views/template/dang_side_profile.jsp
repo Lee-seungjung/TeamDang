@@ -275,8 +275,8 @@
         color: white;
         position: absolute;
         font-size: 13px;
-        top: 3px;
-        left: 4px;
+        top: 20px;
+   		left: 20px;
     }
     .span-placesort{
         font-size: 14px;
