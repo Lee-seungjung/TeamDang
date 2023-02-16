@@ -8,9 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.dang.dto.DangPuppyDetailDto;
 import com.project.dang.dto.DangPuppyDto;
 import com.project.dang.dto.DangPuppyInfoDto;
 import com.project.dang.dto.DangPuppyListDto;
+import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.PuppyListDto;
 import com.project.dang.dto.PuppyListRequestDto;
 
@@ -98,4 +100,12 @@ public class DangPuppyDaoImpl implements DangPuppyDao {
 		puppyListRequestDto.setRownumEnd(puppyListRequestDto.rownumEnd());		
 		return sqlSession.selectList("dangPuppy.searchPuppyListAdmin", puppyListRequestDto);
 	}
+
+	//(관리자) 댕댕이 목록 상세조회
+	@Override
+	public DangPuppyDetailDto puppyDetail(int puppyNo) {
+		return sqlSession.selectOne("dangPuppy.puppyDetail", puppyNo);
+	}
+
+	
 }

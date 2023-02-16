@@ -118,6 +118,15 @@
 		) where rn between #{rownumStart} and #{rownumEnd}
 	</select>	
 	
+			<!-- (관리자)댕댕이 상세 불러오기(디테일) -->
+	<select id = "puppyDetail"  parameterType = "int" resultType = "DangPuppyDetailDto">
+        select ddp.user_id, ddp.user_no, dp.puppy_no, dp.puppy_name, dp.puppy_gender, dp.puppy_age, dp.puppy_reg_no from dang_puppy dp
+	        inner join(
+	        select d.user_id, d.user_no from dang_user d
+	        )ddp
+        	on dp.user_no =  ddp.user_no 
+        where puppy_no = #{puppyNo}
+	</select>	
 	
 </mapper>
 

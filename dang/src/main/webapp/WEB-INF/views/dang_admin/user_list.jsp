@@ -57,7 +57,7 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:25px; font-weight:bolder;">회원관리 현황</p>
+				<p style="font-size:30px; font-weight:bolder;">회원관리</p>
 			</div>
 
 			<div class = "row mt-4">
@@ -69,7 +69,7 @@
 				</div>
 				<div class = "col-4">
 					<div class = "col number-box puppy-number" onclick="location.href='${pageContext.request.contextPath}/admin/puppy_list'">
-						<p class="mb-1 cnt-title">댕 등록 수</p>
+						<p class="mb-1 cnt-title">댕댕이 등록 수</p>
 						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
@@ -135,7 +135,7 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${userListRequestDto.blockNext()}" >
+						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${userListRequestDto.blockLast()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -163,10 +163,10 @@
 							<c:otherwise>
 								<c:forEach var="userListAdminB" items="${userListAdminB}">
 									<tr class="table align-middle">
-										<td class="list-userNo" data-dno="">${userListAdminB.userNo}</td>
-										<td class="list-userId" data-dno="">${userListAdminB.userId}</td>
-										<td class="list-userNick" data-dno="">${userListAdminB.userNick}</td>
-										<td class="list-userJoindate" data-dno="">${userListAdminB.userJoindate}</td>
+										<td class="list-userNo" >${userListAdminB.userNo}</td>
+										<td class="list-userId" >${userListAdminB.userId}</td>
+										<td class="list-userNick" >${userListAdminB.userNick}</td>
+										<td class="list-userJoindate">${userListAdminB.userJoindate}</td>
 										<td>
 											<a class="btn btn-primary user-detail"  href="${pageContext.request.contextPath}/admin/user_detail?userNo=${userListAdminB.userNo}">상세</a>
 										</td>

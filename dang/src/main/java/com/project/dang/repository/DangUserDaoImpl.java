@@ -147,54 +147,64 @@ public class DangUserDaoImpl implements DangUserDao {
 		Integer userNo = sqlSession.selectOne("dangUser.selectPw", param);
 		return userNo;
 	}
-
+	
+	//(관리자) 회원 목록 조회
 	@Override
 	public List<DangUserListDto> UserList() {
 		return sqlSession.selectList("dangUser.userList");
 	}
-
+	
+	//(관리자) 회원 목록 상세 조회
 	@Override
 	public DangUserDetailDto  userDetail(int userNo) {
 		return sqlSession.selectOne("userDetail", userNo);
 	}
-
+	
+	//(관리자) 회원목록 조회
 	@Override
 	public int userCount(UserListRequestDto userListRequestDto) {
 		return sqlSession.selectOne("dangUser.userCount", userListRequestDto);
 	}
-
+	
+	//(관리자) 회원 목록 전체/ 검색 조회
 	@Override
 	public List<DangUserListDto> searchUserListAdmin(UserListRequestDto userListRequestDto) {
 		userListRequestDto.setRownumStart(userListRequestDto.rownumStart());
 		userListRequestDto.setRownumEnd(userListRequestDto.rownumEnd());		
 		return sqlSession.selectList("dangUser.searchUserListAdmin", userListRequestDto);
 	}
-
+	
+	//(마이페이지 메인) 활동지역 리스트 조회	
 	@Override
 	public List<String> mypageInterestArea(int userNo) {
 		return sqlSession.selectList("dangUser.mypageInterestArea", userNo);
 	}
-
+	
+	//(마이페이지 메인) 등록 댕댕이수 조회
 	@Override
 	public int mypageDangNum(int userNo) {
 		return sqlSession.selectOne("dangUser.mypageDangNum", userNo);
 	}
-
+	
+	//(마이페이지 메인) 활동 댕모임 수 조회
 	@Override
 	public int mypagePartyNum(int userNo) {
 		return sqlSession.selectOne("dangUser.mypagePartyNum", userNo);
 	}
-
+	
+	//(마이페이지 메인) 최근 로그인 조회
 	@Override
 	public Date mypageLogin(int userNo) {
 		return sqlSession.selectOne("dangUser.mypageLogin", userNo);
 	}
 	
+	//(마이페이지) 참여일정 수 조회
 	@Override
 	public int historyCount(HistoryListRequestDto historyListRequestDto) {
 		return sqlSession.selectOne("schedule.historyCount", historyListRequestDto);
 	}
 
+	//(마이페이지) 댕모임과 함께한 디데이 조회
 	@Override
 	public int myDangDday(int userNo) {
 		return sqlSession.selectOne("dangUser.myDangDday", userNo);
