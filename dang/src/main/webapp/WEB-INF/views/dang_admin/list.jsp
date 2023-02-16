@@ -993,8 +993,8 @@
 	<script>
 	
 	
-	
-	 function moveMarker(placeX,placeY,placeSort){
+	//테이블 클릭시 마커가 지도 중심으로 이동하는 함수
+	function moveMarker(placeX,placeY,placeSort){
 		 map.setLevel(1);
 		// 이동할 위도 경도 위치를 생성합니다 
 		    var moveLatLon = new kakao.maps.LatLng(placeX, placeY);
@@ -1014,7 +1014,7 @@
 		    }else{
 		    	changeMarker('park')
 		    }
-		    
+		    window.scrollTo({ top: 0, behavior: "smooth" });
 	}
 	
 	 function closeEdit() {
