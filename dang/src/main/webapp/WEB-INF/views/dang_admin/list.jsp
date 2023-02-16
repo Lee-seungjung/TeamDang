@@ -338,6 +338,11 @@
 	.pagination {
    			justify-content: center;
 	}
+	
+	.select-container {
+	  height: 50px; /* set the height of the container */
+	  overflow-y: scroll; /* enable scrolling for overflow */
+	}
 </style>
 
 	<div class="container-fluid mb-5 mt-5">
@@ -583,7 +588,32 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeArea" class="form-control rounded" placeholder="행정구역(구)">
+	                <select class="form-select" name="placeArea">
+	                   	<option value="강남구">강남구
+	                   	<option value="강동구">강동구
+	                   	<option value="강서구">강서구
+	                   	<option value="관악구">관악구
+	                   	<option value="구로구">구로구
+	                   	<option value="광진구">광진구
+	                   	<option value="금천구">금천구
+	                   	<option value="노원구">노원구
+	                   	<option value="도봉구">도봉구
+	                   	<option value="동대문구">동대문구
+	                   	<option value="동작구">동작구
+	                   	<option value="마포구">마포구
+	                   	<option value="서대문구">서대문구
+	                   	<option value="서초구">서초구
+	                   	<option value="성동구">성동구
+	                   	<option value="성북구">성북구
+	                   	<option value="송파구">송파구
+	                   	<option value="양천구">양천구
+	                   	<option value="영등포구">영등포구
+	                   	<option value="용산구">용산구
+	                   	<option value="은평구">은평구
+	                   	<option value="종로구">종로구
+	                   	<option value="중구">중구
+	                   	<option value="중랑구">중랑구
+	                </select>
                     <label>행정구역(구)</label>
                 </div>
             </div>
@@ -803,7 +833,32 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeAreaInsert" class="form-control rounded" placeholder="행정구역(구)">
+		                 	<select class="form-select" name="placeAreaInsert">
+		                    	<option value="강남구">강남구
+		                    	<option value="강동구">강동구
+		                    	<option value="강서구">강서구
+		                    	<option value="관악구">관악구
+		                    	<option value="구로구">구로구
+		                    	<option value="광진구">광진구
+		                    	<option value="금천구">금천구
+		                    	<option value="노원구">노원구
+		                    	<option value="도봉구">도봉구
+		                    	<option value="동대문구">동대문구
+		                    	<option value="동작구">동작구
+		                    	<option value="마포구">마포구
+		                    	<option value="서대문구">서대문구
+		                    	<option value="서초구">서초구
+		                    	<option value="성동구">성동구
+		                    	<option value="성북구">성북구
+		                    	<option value="송파구">송파구
+		                    	<option value="양천구">양천구
+		                    	<option value="영등포구">영등포구
+		                    	<option value="용산구">용산구
+		                    	<option value="은평구">은평구
+		                    	<option value="종로구">종로구
+		                    	<option value="중구">중구
+		                    	<option value="중랑구">중랑구
+		                    </select>
 		                    <label>행정구역(구)</label>
 		                </div>
 		            </div>
@@ -991,6 +1046,7 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 	<script>
+	
 	
 	
 	//테이블 클릭시 마커가 지도 중심으로 이동하는 함수
@@ -1371,6 +1427,7 @@
 		
 		var optionSelectedSort='';
 		var optionSelectedDangSize='';
+		var optionSelectedArea='';
 		$(document).on("click",".infoModal",function(e) {
 			
 			$("#infoModal").modal("show");//모달 실행
@@ -1388,7 +1445,6 @@
 				success : function(resp) {
 					//클릭한 마커의 해당하는 placeNo를 data속성 추가
 					$(".span-placeaddress").text(resp.placeAddress);
-					$(".span-placearea").text(resp.placeArea);
 					$(".span-placeinfo").html(resp.placeInfo);
 					$(".span-placename").text(resp.placeName);
 					$(".span-placeoff").text(resp.placeOff);
@@ -1399,6 +1455,7 @@
 					$(".span-placeurl").text(resp.placeUrl);
 					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
 					optionSelectedDangSize=resp.dangSize;
+					optionSelectedArea=resp.placeArea;
 					//수정 input태그에 값 밀어넣기
 					$('input[name=placeArea]').attr('value',resp.placeArea);
 					$('input[name=placeX]').attr('value',resp.placeX);
@@ -1462,6 +1519,7 @@
 		$(".btn-placeinfoModal").click(function (){
 			$("[name=placeSort]").val(optionSelectedSort).prop("selected",true);
 			$("[name=dangSize]").val(optionSelectedDangSize).prop("selected",true);
+			$("[name=placeArea]").val(optionSelectedArea).prop("selected",true);
 		});
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
