@@ -31,7 +31,7 @@
         stroke-linejoin: round;
         stroke: #F5F2FF;
         stroke-width: 2;
-        fill :#17065B;
+        fill :#C5E0B4;
     }
 
     .POINT {
@@ -41,7 +41,7 @@
     }
 
     .TEXT {
-        stroke: #ffffff;
+        stroke: black;
         stroke-width : 1;
         stroke-linecap: round;
         text-anchor: middle;
@@ -50,7 +50,11 @@
     }
 
     .area-selected {
-        fill : #4C28DD;
+        fill : #37775C;
+    }
+    
+    .area-selected-text {
+    	stroke : white;
     }
     
     .img-dang-profile {
@@ -378,7 +382,10 @@
 		// 지역 선택
 		$(".TEXT").click(function () {
 			// 선택(색상) 초기화
+			$(".TEXT").removeClass("area-selected-text");
         	$(".OUTLINE").removeClass("area-selected");
+			// 클릭한 지역 텍스트색 변경
+			$(this).addClass("area-selected-text");
 			// 클릭한 지역의 id 선택
             var id = $(this).prop("id");
 			// 클릭한 지역의 색 변경
