@@ -135,7 +135,7 @@
 						</c:otherwise>
 						</c:choose>
 						
-						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${userListRequestDto.blockNext()}" >
+						<li class = "ul-user-list-page-item ul-user-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${userListRequestDto.blockLast()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>

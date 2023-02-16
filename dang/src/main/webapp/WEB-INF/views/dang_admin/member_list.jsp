@@ -136,7 +136,7 @@
 						</c:otherwise>
 						</c:choose>
 
-						<li class = "ul-member-list-page-item ul-member-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${memberListRequestDto.blockNext()}" >
+						<li class = "ul-member-list-page-item ul-member-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${memberListRequestDto.blockLast()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -529,7 +529,7 @@ $(function(){
 		})					
 	});
 	
-/* 	//카테고리 조회
+/*  	//카테고리 조회
 	$(document).on("click", ".cnt-num", function(){
 		$(".number-box").removeClass("select-color");
 		$(this).parent().addClass("select-color");
@@ -587,7 +587,7 @@ $(function(){
 				}
 			}
 		});
-	}); */
+	});  */
 	
 	//댕모임 멤버 목록 비동기 불러오기
 	function memberList(resp){
