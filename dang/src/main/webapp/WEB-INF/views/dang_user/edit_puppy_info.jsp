@@ -641,7 +641,7 @@
 		// 댕댕이 등록 Modal에서 저장 버튼
 		$(document).on("click", ".btn-modal-insert-puppy-submit", function(){
 			
-			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 통과)
+			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 return)
 			if($(".input-modal-insert-puppy-reg_no").val() != "") {
 				var inputPuppyRegNo = $(".input-modal-insert-puppy-reg_no").val();
 				var regexp = /^[0-9]{15}$/;
@@ -649,6 +649,12 @@
 					alert("15자리 등록번호를 입력해 주세요.");
 					return;
 				}
+			}
+			
+			// 댕댕이 특이사항에서 저장 버튼(모든 입력창이 잠금(disabled) 상태가 아니라면 return
+			if($(".btn-modal-insert-puppy-character-submit").length >= 1) {
+				alert("댕댕이 특이사항에서 저장(V) 버튼을 눌러주세요.")
+				return;
 			}
 			
 			// - 댕댕이 특이사항에서 모두 체크 버튼을 눌렀는지 확인
@@ -766,6 +772,15 @@
 							.append(
 									$("<input>").attr("type", "hidden").attr("class", "input-puppy-attachment-no").val(resp.dangPuppyInfoDto.attachmentNo)
 							)
+					}
+					
+					if(resp.dangPuppyCharacter.length != 0) {
+						for(var i = 0 ; i < resp.dangPuppyCharacter.length ; i ++) {
+							rowDropdown
+								.append(
+										$("<input>").attr("type", "hidden").attr("class", "input-puppy-character").val(resp.dangPuppyCharacter[i])
+								)	
+						}
 					}
 					
 					var rowPuppyImg 
@@ -1183,7 +1198,7 @@
 		
 		// 댕댕이 수정 Modal의 저장 버튼
 		$(document).on("click", ".btn-modal-edit-puppy-submit", function(){
-			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 통과)
+			// 댕댕이 등록번호를 입력했다면 올바르게 입력했는지 확인 (입력하지 않았다면 return)
 			if($(".input-modal-edit-puppy-reg-no").val() != "") {
 				var inputPuppyRegNo = $(".input-modal-edit-puppy-reg-no").val();
 				var regexp = /^[0-9]{15}$/;
@@ -1191,6 +1206,12 @@
 					alert("15자리 등록번호를 입력해 주세요.");
 					return;
 				}
+			}
+			
+			// 댕댕이 특이사항에서 저장 버튼(모든 입력창이 잠금(disabled) 상태가 아니라면 return
+			if($(".btn-modal-insert-puppy-character-submit").length >= 1) {
+				alert("댕댕이 특이사항에서 저장(V) 버튼을 눌러주세요.")
+				return;
 			}
 			
 			// 댕댕이 정보 Modal에 v버튼이 존재할 경우 return
