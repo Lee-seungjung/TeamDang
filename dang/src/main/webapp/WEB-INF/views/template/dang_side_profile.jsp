@@ -1400,6 +1400,9 @@
 				if(moneyLength >= 7) {
 					$(".invalid-money").show();
 				}
+				else{
+					$(".invalid-money").hide();
+				}
 			});
 
 			//모달 띄워지기 직전 캘린더 미리 생성
