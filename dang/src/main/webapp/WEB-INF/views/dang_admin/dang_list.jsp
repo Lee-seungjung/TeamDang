@@ -303,6 +303,13 @@
 					</div>
 					<div class = "row px-3">
 						<div class = "col div-admin-dang-list">
+							<c:choose>
+							<c:when test = "${dangListAdmin.size() == 0}">
+							<div class = "col h-100 d-flex justify-content-center align-items-center">
+								<span class = "span-dang-list-none">댕모임 목록이 존재하지 않습니다.</span>
+							</div>
+							</c:when>
+							<c:otherwise>
 							<c:forEach var = "dangListAdmin" items = "${dangListAdmin}">
 							<div class = "row mt-2">
 								<div class = "col-6 d-flex justify-content-center align-items-center p-1">
@@ -326,6 +333,8 @@
 								</div>
 							</div>
 							</c:forEach>
+							</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 					<div class = "row mb-2">
@@ -348,12 +357,28 @@
 								</c:otherwise>
 								</c:choose>
 		
+								<c:choose>
+								<c:when test = "${dangListAdminRestRequestDto.total == 0}">
+								<li class = "ul-dang-list-page-item ul-dang-list-page-item-unit d-flex justify-content-center align-items-center">
+									<span>1</span>
+								</li>
+								</c:when>
+								<c:otherwise>
 								<c:forEach var = "i" begin = "${dangListAdminRestRequestDto.blockStart()}" end = "${dangListAdminRestRequestDto.blockEnd()}" step = "1">
 								<li class = "ul-dang-list-page-item ul-dang-list-page-item-unit d-flex justify-content-center align-items-center">
 									<span>${i}</span>
 								</li>
 								</c:forEach>
+								</c:otherwise>
+								</c:choose>
 								
+								<c:choose>
+								<c:when test = "${dangListAdminRestRequestDto.total == 0}">
+								<li class = "ul-dang-list-page-item ul-dang-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "1">
+									<span><i class="fa-solid fa-forward-step"></i></span>
+								</li>
+								</c:when>
+								<c:otherwise>
 								<c:choose>
 								<c:when test = "${dangListAdminRestRequestDto.blockNext() >= dangListAdminRestRequestDto.blockLast()}">
 								<li class = "ul-dang-list-page-item ul-dang-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${dangListAdminRestRequestDto.blockLast()}">
@@ -366,10 +391,22 @@
 								</li>
 								</c:otherwise>
 								</c:choose>
+								</c:otherwise>
+								</c:choose>
 								
+								<c:choose>
+								<c:when test = "${dangListAdminRestRequestDto.total == 0}">
+								<li class = "ul-dang-list-page-item ul-dang-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "1">
+									<span><i class="fa-solid fa-forward"></i></span>
+								</li>
+								</c:when>
+								<c:otherwise>
 								<li class = "ul-dang-list-page-item ul-dang-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${dangListAdminRestRequestDto.blockLast()}">
 									<span><i class="fa-solid fa-forward"></i></span>
 								</li>
+								</c:otherwise>
+								</c:choose>
+
 							</ul>
 						</div>
 					</div>
@@ -582,6 +619,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -657,6 +698,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -730,6 +775,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -771,6 +820,7 @@
 		$(document).on("click", ".ul-dang-list-page-item-next", function(){
 			// 페이지 번호
 			p = $(this).attr("data-pagenext");
+			console.log(p);
 			// 데이터 전송 객체
 			var formData = new FormData();
 			formData.append("p", p);
@@ -805,6 +855,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -880,6 +934,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -955,6 +1013,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -1031,6 +1093,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -1109,6 +1175,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
@@ -1205,6 +1275,10 @@
 						// 페이지네이션 초기화
 						$(".ul-dang-list-page-item-unit").remove();
 						createPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-dang-list-page-item-unit").removeClass("ul-dang-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-dang-list-page-item-unit").filter(":contains("+p+")").addClass("ul-dang-list-page-item-selected");
 					} else {
 						// 목록 초기화
 						$(".div-admin-dang-list").empty();
