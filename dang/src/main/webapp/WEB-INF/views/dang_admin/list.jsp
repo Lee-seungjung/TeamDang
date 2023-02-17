@@ -1464,9 +1464,9 @@
 						$(".span-placeoff").text(resp.placeOff);
 					}
 					if(resp.placeTel==null){
-							$("#placetel").removeClass("span-placetel");
-							$("#placetelIcon").removeClass("fa-solid");
-							$("#placetelIcon").removeClass("fa-square-phone");
+						$("#placetel").removeClass("span-placetel");
+						$("#placetelIcon").removeClass("fa-solid");
+						$("#placetelIcon").removeClass("fa-square-phone");
 					}else if(resp.placeTel!=null){
 						$("#placetel").addClass("span-placetel");
 						$(".span-placetel").text(resp.placeTel);
