@@ -489,6 +489,8 @@
 		truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
 		var adminCheck = $("[name=adminUserNo]").val();
+		console.log("dsgds= "+adminCheck);
+		console.log(adminCheck!=1);
 		if(adminCheck!=1){
 			originLike() //내가 누른 좋아요 출력
 			likeHeart(); //좋아요 버튼 이벤트
@@ -1460,9 +1462,11 @@
 					if(toggleReplyCnt!=""){
 						var hr = $("<hr>");
 						thisTag.append(hr);
-						
-						//목록 출력
-						replyList(thisTag,boardNo);
+						replyList(thisTag,boardNo); //목록 출력
+					}else{
+						if(adminCheck!=1){
+							inputReply(thisTag); //입력창 출력
+						}
 					}
 				}
 			});
@@ -1470,6 +1474,8 @@
 		
 		//댓글출력
 		function replyList(thisTag,boardNo){
+			var replyBox = thisTag;
+			console.log(replyBox);
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_reply/list/"+boardNo,
 				method:"get",
@@ -1480,7 +1486,10 @@
 						<!-- 댓글 목록 -->	
 						replyRepeat(resp[i], thisTag);
 					}
-					
+					if(adminCheck!=1){
+						inputReply(replyBox) //입력태그 생성
+					}
+					console.log("진행중");
 					<!-- 5개 이상일 경우 더보기 보이게 처리 -->
 					if(resp.length>=5){
 						var more = $("<div>").attr("class","row mt-3 re-more-view-div");
@@ -1494,7 +1503,6 @@
 					<!--더보기 버튼 -->
 					$(".re-more-view").click(function(){
 						var thisTag = $(this);
-						var replyBox = $(this).parents(".reply-box");
 						var boardNo = $(this).data("bno");
 						var replyNo = $(this).data("rno");
 						
@@ -1518,6 +1526,8 @@
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
 								
+								//durl
+								console.log("durl = "+adminCheck);
 								if(adminCheck!=1){
 									inputReply(replyBox) //입력태그 생성
 								}
@@ -1525,9 +1535,6 @@
 							}
 						});
 					});
-					if(adminCheck!=1){
-						inputReply(replyBox) //입력태그 생성
-					}
 					editSubmitReply(); //댓글수정
 				}
 			});
