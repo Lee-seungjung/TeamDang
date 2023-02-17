@@ -1,17 +1,18 @@
 package com.project.dang.dto;
 
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DangPuppyDto {
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
+public class DangPuppyDetailDto {
 	private Integer puppyNo;
-	private Integer userNo;
-	private String puppyRegNo;
 	private String puppyName;
-	private String puppyGender;
 	private Integer puppyAge;
+	private String puppyGender;
+	private String userId;
+	private String puppyRegNo;	
+
 }

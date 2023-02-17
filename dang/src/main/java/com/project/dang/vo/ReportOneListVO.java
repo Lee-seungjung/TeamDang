@@ -24,8 +24,9 @@ public class ReportOneListVO {
 	
 	private String dangName;
 	private int reportNo;
-	private int userNo;
 	private int dangNo;
+	private int reportUserNo;
+	private int userNo;
 	private String memberNick;
 	private String reportContent;
 	private Date reportDate;

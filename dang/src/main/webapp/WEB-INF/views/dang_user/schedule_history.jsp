@@ -105,10 +105,6 @@
 			<div class = "row">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "select-schedule-history-title mb-3">참여일정 조회</strong> 
-<!--                               <select class = "col-2 py-1 mx-2 d-flex justify-content-center align-items-center">
-                                <option value = "" class = "select-dang-name-option">선택</option>
-                                <option value = "" class = "">목욕댕모임</option>                           
-                            </select> -->
                 </div>
             </div>
             
@@ -137,7 +133,7 @@
 										<td class="list-scheduleStart" >${joinHistory.scheduleStart}</td>
 										<td class="list-scheduleTitle" >${joinHistory.scheduleTitle}</td>
 										<td class="list-placeName" >${joinHistory.placeName}</td>
-										<td class="list-scheduleMoney" >${joinHistory.scheduleMoney}</td>
+										<td class="list-scheduleMoney"><fmt:formatNumber value="${joinHistory.scheduleMoney}" pattern="#,###"/>원</td>										
 									</tr> 
 								</c:forEach>	       
 							</c:otherwise>

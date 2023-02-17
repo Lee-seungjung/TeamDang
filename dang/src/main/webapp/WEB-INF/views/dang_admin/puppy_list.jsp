@@ -69,7 +69,7 @@
 				</div>
 				<div class = "col-4">
 					<div class = "col number-box puppy-number" onclick="location.href='${pageContext.request.contextPath}/admin/puppy_list'">
-						<p class="mb-1 cnt-title">댕 등록 수</p>
+						<p class="mb-1 cnt-title">댕댕이 등록 수</p>
 						<p class="mt-1 cnt-num" data-numberstate="댕등록수">${dangTotal}마리</p>
 					</div>
 				</div>
@@ -135,7 +135,7 @@
 						</c:otherwise>
 						</c:choose>
 
-						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${puppyListRequestDto.blockNext()}" >
+						<li class = "ul-puppy-list-page-item ul-puppy-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${puppyListRequestDto.blockLast()}" >
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
 					</ul>
@@ -150,7 +150,7 @@
 							<th scope="col" style="width:20%;">댕댕이 이름</th>
 							<th scope="col" style="width:25%;">나이</th>
 							<th scope="col" style="width:15%;">성별</th>
-							<th scope="col" style="width:25%;">댕주인 아이디</th>
+							<th scope="col" >상세</th>
 						</tr>
 					</thead>
 					<tbody class="puppy-data-body">
@@ -163,11 +163,13 @@
 							<c:otherwise>
 								<c:forEach var="puppyListAdmin" items="${puppyListAdmin}">
 									<tr class="table align-middle">
-										<td class="list-puppyNo" data-dno="">${puppyListAdmin.puppyNo}</td>
-										<td class="list-puppyName" data-dno="">${puppyListAdmin.puppyName}</td>
-										<td class="list-puppyAge" data-dno="">${puppyListAdmin.puppyAge}</td>
-										<td class="list-puppyGender" data-dno="">${puppyListAdmin.puppyGender}</td>
-										<td class="list-userId" data-dno="">${puppyListAdmin.userId}</td>
+										<td class="list-puppyNo">${puppyListAdmin.puppyNo}</td>
+										<td class="list-puppyName" >${puppyListAdmin.puppyName}</td>
+										<td class="list-puppyAge">${puppyListAdmin.puppyAge}</td>
+										<td class="list-puppyGender">${puppyListAdmin.puppyGender}</td>
+										<td>
+											<a class="btn btn-primary puppy-detail"  href="${pageContext.request.contextPath}/admin/puppy_detail?puppyNo=${puppyListAdmin.puppyNo}">상세</a>
+										</td>
 									</tr> 
 								</c:forEach>	       
 							</c:otherwise>
@@ -599,8 +601,11 @@ $(function(){
 		var td_puppyName = $("<td>").text(resp.puppyName);
 		var td_puppyAge = $("<td>").text(resp.puppyAge);
 		var td_puppyGender = $("<td>").text(resp.puppyGender);
-		var td_userId = $("<td>").text(resp.userId);
-		tr.append(td_puppyNo).append(td_puppyName).append(td_puppyAge).append(td_puppyGender).append(td_userId);
+		var td_detail = $("<td>");
+		var a_btn = $("<a>").attr("class","btn btn-primary").text("상세")
+		.attr("href","${pageContext.request.contextPath}/admin/puppy_detail?puppyNo="+resp.puppyNo);
+		td_detail.append(a_btn);
+		tr.append(td_puppyNo).append(td_puppyName).append(td_puppyAge).append(td_puppyGender).append(td_detail);
 		body.append(tr);
 	}
 		

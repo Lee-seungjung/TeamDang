@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class ReportInsertVO {
+	private int reportUserNo;
 	private int userNo;
 	private int dangNo;
 	private String memberNick;

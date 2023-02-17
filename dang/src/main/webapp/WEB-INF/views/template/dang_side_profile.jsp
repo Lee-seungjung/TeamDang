@@ -275,8 +275,8 @@
         color: white;
         position: absolute;
         font-size: 13px;
-        top: 3px;
-        left: 4px;
+        top: 20px;
+   		left: 20px;
     }
     .span-placesort{
         font-size: 14px;
@@ -640,12 +640,12 @@
     <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-place-body">
+                <div class="modal-place-body me-2">
                     <div class="body-flex body1">
                         <span class="span-placearea px-2"></span>
                     <img src=""  class="place-img">
                 </div>
-                <div class="body-flex body2">
+                <div class="body-flex body2 ms-3">
                     <span class="span-placename"></span>
                      <span  class="span-placesort"></span><br>
                     <span class="span-placeaddress"></span><br>
@@ -1400,6 +1400,9 @@
 				if(moneyLength >= 7) {
 					$(".invalid-money").show();
 				}
+				else{
+					$(".invalid-money").hide();
+				}
 			});
 
 			//모달 띄워지기 직전 캘린더 미리 생성
@@ -1408,93 +1411,89 @@
 				
 			});
 			
-			//오늘 출석여부에 따라 버튼 다르게 표시
-			var attendanceText = $(".checkAttendance").text();
-			if(attendanceText=="출석 체크"){
-				$(".close-btn").hide();
-				$(".attendance-btn").show();
-			}else{
-				$(".close-btn").show();
-				$(".attendance-btn").hide();
-			}
-			
 			//출석체크 모달
+			var isDoubleClick = false; //더블클릭 방지체크
 			$(document).on("click",".day-check",function(){
-				var memberNo = $("[name=memberNo]").val();
+				var attendance = $(".checkAttendance").text();
+				console.log("출석 상태 = "+attendance);
 				
-				var isDoubleClick = false; //더블클릭 방지체크
-				//출석체크 확인
-				$.ajax({
-	              		url:"${pageContext.request.contextPath}/rest_member/is_attendance?memberNo="+memberNo,
-	   					method:"get",
-	   					async:false,
-	   					success:function(resp){
-	   						if(resp.length!=0){ //출석기록 있음
-	   							console.log("출석기록 있음!");
-	   							isDoubleClick = true;
-	   							
-	   							//모달 타이틀 문구 변경
-	   							$(".modal-title-fir").text("출석 체크가 ");
-	   							$(".modal-title-sec").text("완료");
-	   							$(".modal-title-third").text(" 되었습니다!");
-	   							
-	   							return;
-	   						}else{ //출석기록 없음
-	   							console.log("출석기록 없음!");
-	   							isDoubleClick = false;
-	   							
-	   							$(".attendance-btn").click(function(){
-	   								
-	   								if(isDoubleClick == true){ //더블클릭 막기
-	   									return;
-	   								}
-	   								
-	   								//1. 오늘날짜 배경에 로고 이미지 넣기
-	   								var today = $('#calendar').children().find(".fc-day-today");
-	   								today.addClass("addImg");
-	   								
-	   								//2. ajax 출석 테이블 insert
-	   								attendanceData={
-	   										memberNo:memberNo					
-	   								}
-	   								$.ajax({
-	   									url:"${pageContext.request.contextPath}/rest_member/attendance_insert",
-	   									method:"post",
-	   									async:false,
-	   									data:JSON.stringify(attendanceData),
-	   									contentType: 'application/json',
-	   				                    success:function(){
-	   				                  		//버튼 막기
-	   				                  		$(".attendance-btn").hide();
-	   				                    	$(".close-btn").show();
+				if(attendance=='출석 완료'){
+					isDoubleClick = true;
+				}else{
+					isDoubleClick = false;
+				}
 
-	   				                    	//3. 활동점수 +1 업데이트
-	   				                    	data={
-	   				                    			memberScore:1,
-	   				                    			memberNo:memberNo
-	   				                    	}
-	   				                    	$.ajax({
-	   				                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
-	   				                    		method:"patch",
-	   				                    		data:JSON.stringify(data),
-	   				                    		contentType: 'application/json',
-	   				                    		async:false,
-	   				                    		success:function(resp){
-	   				                    			//4. 활동점수 실시간 출력
-	   				                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
-	   				                    			var sideScoreValue = parseInt(sideScoreTag.text());
-	   				                    			sideScoreTag.text(sideScoreValue+1);
-	   				                    			isDoubleClick = true;
-	   				                    		}
-	   				                    	});
-	   				                  		 //5. 출석체크 박스 문구 출석완료로 변경
-	   			   							$(".checkAttendance").text("출석 완료");
-	   				                    }
-	   				            	});
-	   							});
-	   						}
-	   					}
-				});
+				if(attendance=='출석 완료' && isDoubleClick==true){
+					$(".close-btn").show();
+					$(".attendance-btn").hide();
+					//모달 타이틀 문구 변경
+					$(".modal-title-fir").text("출석 체크가 ");
+					$(".modal-title-sec").text("완료");
+					$(".modal-title-third").text(" 되었습니다!");
+					return;
+				}else{
+					$(".close-btn").hide();
+					$(".attendance-btn").show();
+				}
+			});
+			
+			//출석하기 버튼
+			$(document).on("click",".attendance-btn",function(){
+				var memberNo = $("[name=memberNo]").val();
+				var attendance = $(".checkAttendance").text();
+				
+				if(attendance=='출석 체크' && isDoubleClick==false){
+					console.log("출석기록 없음!");
+					
+					//1. 오늘날짜 배경에 로고 이미지 넣기
+					var today = $('#calendar').children().find(".fc-day-today");
+					today.addClass("addImg");
+					
+					//2. ajax 출석 테이블 insert
+					attendanceData={
+							memberNo:memberNo					
+					}
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_member/attendance_insert",
+						method:"post",
+						async:false,
+						data:JSON.stringify(attendanceData),
+						contentType: 'application/json',
+	                    success:function(){
+	                    	isDoubleClick = true;
+	                  		//버튼 막기
+	                  		$(".attendance-btn").hide();
+	                    	$(".close-btn").show();
+
+	                    	//3. 활동점수 +1 업데이트
+	                    	data={
+	                    			memberScore:1,
+	                    			memberNo:memberNo
+	                    	}
+	                    	$.ajax({
+	                    		url:"${pageContext.request.contextPath}/rest_member/score_plus",
+	                    		method:"patch",
+	                    		data:JSON.stringify(data),
+	                    		contentType: 'application/json',
+	                    		async:false,
+	                    		success:function(resp){
+	                    			//4. 활동점수 실시간 출력
+	                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
+	                    			var sideScoreValue = parseInt(sideScoreTag.text());
+	                    			sideScoreTag.text(sideScoreValue+1);
+	                    		}
+	                    	});
+	                  		 //5. 출석체크 박스 문구 출석완료로 변경
+   							$(".checkAttendance").text("출석 완료");
+	                    }
+	            	});
+						
+				}else{
+					console.log("출석기록 있음!");
+					isDoubleClick = false;
+					return;
+				}
+				
 			});
 			
 			//출석모달 닫기

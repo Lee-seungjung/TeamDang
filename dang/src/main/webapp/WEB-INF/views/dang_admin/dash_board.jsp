@@ -141,7 +141,7 @@
         				</div> 
         				<div class = "row">
         					<div class = "col d-flex justify-content-center align-items-center">
-					            <canvas id="regionChart" class = "w-100"></canvas>        					
+					            <canvas id="regionChart" class = "w-100 cursor-pointer"></canvas>        					
         					</div>
         				</div>		
         			</div>
@@ -208,7 +208,9 @@ $(function(){
 	var labelList = new Array();//상단에 라벨을 담는 배열
 	var valueList = new Array();//지역별 갯수를 담는 배열
 	var colorList = new Array();//색깔을 지정해주기위한 배열
-	    
+	
+	Chart.defaults.global.defaultFontSize =16; 
+	Chart.defaults.global.defaultFontColor ='black'; 
     $.ajax({//지역별 이용현황 조회 비동기통신
         url: "${pageContext.request.contextPath}/admin/group_list",
         method: "get",
@@ -243,8 +245,6 @@ $(function(){
     				        plugins: {
     	    		            labels: {
     	    		                render: valueList,
-    	    		                fontColor: 'black',
-    	    		                fontSize: 16,
     	    		                precision: 2
     	    		            }
     	    		        }

@@ -551,6 +551,7 @@ public class DangController {
 	public String report(@PathVariable int memberNo,
 			HttpSession session, Model model,  HttpServletRequest request) {
 		model.addAttribute("memberInfo", dangMemberDao.restSelectOne(memberNo));
+		model.addAttribute("reportUserNo", session.getAttribute("loginNo"));
 		String url = request.getHeader("Referer");
 		if(url!=null) session.setAttribute("prevPage", url); //이전페이지가 있으면 세션에 url 저장
 		return "dang/report";
@@ -564,6 +565,7 @@ public class DangController {
 		DangReportDto dto = DangReportDto.builder()
 				.reportNo(reportNo)
 				.dangNo(vo.getDangNo())
+				.reportUserNo(vo.getReportUserNo())
 				.userNo(vo.getUserNo())
 				.memberNick(vo.getMemberNick())
 				.reportContent(vo.getReportContent())

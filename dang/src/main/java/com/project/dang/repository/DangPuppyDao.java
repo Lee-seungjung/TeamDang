@@ -2,13 +2,12 @@ package com.project.dang.repository;
 
 import java.util.List;
 
+import com.project.dang.dto.DangPuppyDetailDto;
 import com.project.dang.dto.DangPuppyDto;
 import com.project.dang.dto.DangPuppyInfoDto;
 import com.project.dang.dto.DangPuppyListDto;
-import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.PuppyListDto;
 import com.project.dang.dto.PuppyListRequestDto;
-import com.project.dang.dto.UserListRequestDto;
 
 public interface DangPuppyDao {
 
@@ -93,5 +92,12 @@ public interface DangPuppyDao {
 	 * @return List<PuppyListDto>
 	 */
 	public List<PuppyListDto> searchPuppyListAdmin(PuppyListRequestDto puppyListRequestDto);
+	
+	/**
+	 * (관리자) 댕댕이 목록 상세
+	 * @param userNo:회원 번호
+	 * @return List<DangPuppyDetailDto>
+	 */
+	public DangPuppyDetailDto puppyDetail (int puppyNo);
 	
 }

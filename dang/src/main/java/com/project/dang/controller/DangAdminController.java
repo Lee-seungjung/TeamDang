@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.dang.dto.DangListAdminDto;
 import com.project.dang.dto.DangListAdminRestRequestDto;
 import com.project.dang.dto.DangPlaceDto;
+import com.project.dang.dto.DangPuppyDetailDto;
 import com.project.dang.dto.DangUserDetailDto;
 import com.project.dang.dto.DangUserListDto;
 import com.project.dang.dto.MemberListDto;
@@ -195,6 +196,16 @@ public class DangAdminController {
 		int dangMemberTotal = dangMemberDao.dangJoinCount(memberListRequestDto);
 		model.addAttribute("dangMemberTotal", dangMemberTotal);
 		return "dang_admin/puppy_list";
+	}
+	
+	//댕댕이 목록 상세조회(회원관리 현황)
+	@GetMapping("/puppy_detail")
+	public String puppyDetail(Model model, @RequestParam int puppyNo) {
+		System.out.println(puppyNo); 
+		DangPuppyDetailDto puppyDetail = dangPuppyDao.puppyDetail(puppyNo);
+		// 댕댕이 목록 상세 조회		
+		model.addAttribute("puppyDetail", puppyDetail);
+		return "dang_admin/puppy_detail";
 	}
 	
 	//댕모임 멤버 목록 조회(회원관리 현황)

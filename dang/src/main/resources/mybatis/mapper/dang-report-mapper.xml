@@ -12,9 +12,9 @@
 	
 	<!-- 신고 접수등록 -->
 	<insert id="insert" parameterType="DangReportDto">
-		insert into dang_report(report_no, user_no, dang_no, member_nick,
+		insert into dang_report(report_no, dang_no, report_user_no, user_no, member_nick,
 		report_content, report_date, report_state, report_alert) values(
-		#{reportNo}, #{userNo}, #{dangNo}, #{memberNick}, #{reportContent}, 
+		#{reportNo}, #{dangNo}, #{reportUserNo}, #{userNo}, #{memberNick}, #{reportContent}, 
 		sysdate, '접수', 1)
 	</insert>
 	
