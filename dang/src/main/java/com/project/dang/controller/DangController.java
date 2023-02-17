@@ -325,7 +325,7 @@ public class DangController {
 			model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
 		}else {
 			//관리자 상세 정보
-			model.addAttribute("profile", dangUserDao.userDetail(Integer.parseInt(userNo)));
+			model.addAttribute("adminInfo", dangUserDao.userDetail(Integer.parseInt(userNo)));
 		}
 		//우측 댕모임 심플스케줄
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
