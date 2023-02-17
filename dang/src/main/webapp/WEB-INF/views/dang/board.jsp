@@ -1486,9 +1486,6 @@
 						<!-- 댓글 목록 -->	
 						replyRepeat(resp[i], thisTag);
 					}
-					if(adminCheck!=1){
-						inputReply(replyBox) //입력태그 생성
-					}
 					console.log("진행중");
 					<!-- 5개 이상일 경우 더보기 보이게 처리 -->
 					if(resp.length>=5){
@@ -1535,7 +1532,11 @@
 							}
 						});
 					});
+					if(adminCheck!=1){
+						inputReply(replyBox) //입력태그 생성
+					}
 					editSubmitReply(); //댓글수정
+					
 				}
 			});
 		}
