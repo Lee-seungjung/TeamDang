@@ -131,7 +131,6 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					
 					<!-- 신고 경고창 -->
 					<c:if test="${report!=null}">
 						<div class="alert alert-dismissible alert-danger">
