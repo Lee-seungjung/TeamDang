@@ -320,4 +320,9 @@
   		delete dang where dang_no = #{dangNo}
   	</delete>
   	
+  	<!-- 한 달동안 개설한 댕모임 수 반환 -->
+  	<select id = "countDangCreate" parameterType = "int" resultType = "int">
+  		select count(dang_no) from dang where to_char(dang_createtime, 'MM') = to_char(sysdate, 'MM') and user_no = #{userNo}
+  	</select>
+  	
 </mapper>
