@@ -213,10 +213,10 @@
 	}
 
 	.interest-OUTLINE {
-		stroke-linejoin: round;
-		stroke: #F5F2FF;
-		stroke-width: 2;
-		fill :#17065B;
+        stroke-linejoin: round;
+        stroke: #F5F2FF;
+        stroke-width: 2;
+        fill :#C5E0B4;
 		}
 
 	.interest-POINT {
@@ -226,17 +226,21 @@
 	}
 
 	.interest-TEXT {
-	    stroke: #ffffff;
-	    stroke-width : 1;
-	    stroke-linecap: round;
-	    text-anchor: middle;
-	    alignment-baseline: middle;
-	    cursor: pointer;
+        stroke: black;
+        stroke-width : 1;
+        stroke-linecap: round;
+        text-anchor: middle;
+        alignment-baseline: middle;
+        cursor: pointer;
 	}
 	
 	.interest-area-selected {
-	    fill : #4C28DD;
+        fill : #37775C;
 	}
+	
+	.interest-area-selected-text {
+    	stroke : white;
+    }
 	
 	.div-dang-interest, 
 	.btn-dang-interest-submit {
@@ -840,6 +844,8 @@
 				}
 				// 관심지역으로 등록된 지역 색 변경
 				for(var i = 0 ; i < dangInterestLength ; i ++) {
+					// 관심지역명으로 TEXT 태그를 찾아 글자색 변경
+					$("text").filter(":contains("+$(".option-dang-interest").eq(i).prop("value")+")").addClass("interest-area-selected-text");
 					// 관심지역명으로 태그를 찾아 해당 태그의 id 저장
 					var dangInterestId = $("text").filter(":contains("+$(".option-dang-interest").eq(i).prop("value")+")").prop("id");
 					// 해당 관심지역 id를 가진 관심지역 영역 태그에 클래스를 부여하여 색 변경
@@ -865,6 +871,8 @@
 			if(dangInterestInsertPath.hasClass("interest-area-selected") == true) {
 				return;
 			}
+			// 해당 관심지역의 텍스트 색 변경
+			$(this).addClass("interest-area-selected-text");
 			// 해당 관심지역 id로 관심지역 영역 태그에 클래스를 부여하여 색 변경
 			dangInterestInsertPath.addClass("interest-area-selected");
 			// 관심지역 등록할 지역명
@@ -892,6 +900,8 @@
 		$(document).on("click", ".i-dang-interest-cancel", function(){
 			// 관심지역 취소할 지역명
 			var dangInterestCancelName = $(this).prev().text();
+			// 관심지역명으로 TEXT 태그를 찾아 색 변경
+			$("text").filter(":contains("+dangInterestCancelName+")").removeClass("interest-area-selected-text");
 			// 관심지역명으로 태그를 찾아 해당 태그의 id 저장
 			var dangInterestCancelId = $("text").filter(":contains("+dangInterestCancelName+")").prop("id");
 			// 해당 관심지역 id로 관심지역 영역 태그에 클래스를 부여하여 색 변경

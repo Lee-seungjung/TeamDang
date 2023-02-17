@@ -820,6 +820,18 @@
 				console.log(formValidCheck.checkPw);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-pw-valid").show();
+				
+				// 비밀번호 입력창의 값을 비밀번호 확인 입력창의 값보다 나중에 입력한 경우
+				// ex) 비밀번호 입력창은 정규표현식에 맞지 않게 입력하고 비밀번호 확인 입력창의 값은 정규표현식의 입력창을 맞게 입력한 상태에서 다시 비밀번호 입력창의 값을 정규표현식에 맞게 입력한 경우
+				// PWCK 입력창의 값
+				var inputPwck = $("#userPwck").val();
+				// PW 입력창의 값과 PWCK 입력창의 값이 다르면
+				if(inputPwck == inputPw) {
+					formValidCheck.checkPwck = true;
+					console.log(formValidCheck.checkPwck);
+					console.log("isAllValid() = " + formValidCheck.isAllValid());
+					$(".check-pwck-valid").show();
+				}
 			} else { // 정규표현식을 만족하지 않을 경우
 				formValidCheck.checkPw = false;
 				$(".check-pw-invalid").show();
