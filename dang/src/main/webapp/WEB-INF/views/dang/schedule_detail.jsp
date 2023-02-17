@@ -495,12 +495,18 @@
 						<div class="detail-money block-white schedules-money"><fmt:formatNumber value="${scheduleDetail.scheduleMoney}" pattern="#,###"/>원</div>
 					</div>    
 
-					<div class="btn-box btn-join">				
-						<button type="submit" class="btn-plus">참여</button>
-						<button type="submit" class="btn-minus">참여취소</button>
-						<button type="submit" class="btn-edit cursor-pointer">수정</button>
-						<button type="submit" class="btn-delete">삭제</button>
-						<button type="submit" class="btn-end">참여마감</button>
+					<div class="btn-box btn-join">
+					<c:choose>
+						<c:when test = "${loginGrade == '관리자'}">	
+						</c:when>
+						<c:otherwise>									
+							<button type="submit" class="btn-plus">참여</button>
+							<button type="submit" class="btn-minus">참여취소</button>
+							<button type="submit" class="btn-edit cursor-pointer">수정</button>
+							<button type="submit" class="btn-delete">삭제</button>
+							<button type="submit" class="btn-end">참여마감</button>
+						</c:otherwise>
+					</c:choose>
 					</div>					
 				</div>    
 			</div> <!-- 캘린더 박스 끝-->
