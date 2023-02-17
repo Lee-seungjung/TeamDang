@@ -156,7 +156,7 @@ public class DangUserDaoImpl implements DangUserDao {
 	
 	//(관리자) 회원 목록 상세 조회
 	@Override
-	public DangUserDetailDto  userDetail(int userNo) {
+	public DangUserDetailDto userDetail(int userNo) {
 		return sqlSession.selectOne("userDetail", userNo);
 	}
 	

@@ -131,7 +131,6 @@
 			<!-- 채팅 박스 시작 -->
 			<div class = "col-6">
 				<div class = "col">
-					
 					<!-- 신고 경고창 -->
 					<c:if test="${report!=null}">
 						<div class="alert alert-dismissible alert-danger">
@@ -208,6 +207,7 @@
 						
 					</div>
 					
+					<c:if test="${adminInfo.userNo!=1}">
 					<div class="chat-submit  justify-content-center rounded-bottom shadow w-100 middle-items" >
 						<img src="${pageContext.request.contextPath}/images/add-image.png" class="img-fluid chat-icon-image cursor-pointer ms-1">
 						<input type="file" style="display:none;" class="chat-img" accept=".jpg, .png, .gif">
@@ -216,7 +216,7 @@
 							<i class="fa-solid fa-paper-plane middle-items"></i>
 						</button>
 					</div>
-					
+					</c:if>
 					
 				</div>
 			</div>

@@ -199,4 +199,11 @@ public interface DangDao {
 	 * @return boolean : 댕모임 삭제 여부
 	 */
 	public boolean closeDang(int dangNo);
+	
+	/**
+	 * 한 달동안 개설한 댕모임 수 반환
+	 * @param userNo : 회원 번호
+	 * @return int : 생성한 댕모임 갯수
+	 */
+	public int countDangCreate(int userNo);
 }

@@ -100,7 +100,6 @@ public class DangAdminController {
 		// 갯수 설정
 		reportListRequestDto.setTotal(reportCount);
 		model.addAttribute("list", dangReportDao.reportList(reportListRequestDto));
-		System.out.println(reportListRequestDto.getReportState());
 		return "dang_admin/report";
 	}
 	
@@ -131,8 +130,6 @@ public class DangAdminController {
 		dangListAdminRestRequestDto.setTotal(countDangListAdmin);
 		// 댕모임 목록 전체/검색 조회
 		List<DangListAdminDto> dangListAdmin = dangDao.searchDangListAdmin(dangListAdminRestRequestDto);
-		System.out.println(dangListAdminRestRequestDto.toString());
-		System.out.println(dangListAdmin.toString());
 		model.addAttribute("dangListAdmin", dangListAdmin);
 		if(dangArea != null) {
 			model.addAttribute("dangArea", dangArea);

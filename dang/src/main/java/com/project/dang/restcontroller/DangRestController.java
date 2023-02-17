@@ -137,4 +137,9 @@ public class DangRestController {
 		return dangDao.findUserNo(dangNo);
 	}
 	
+	// 한 달동안 개설한 댕모임 갯수 반환
+	@GetMapping("/count_dang_create")
+	public int countDangCreate(@RequestParam int userNo) {
+		return dangDao.countDangCreate(userNo);
+	}
 }

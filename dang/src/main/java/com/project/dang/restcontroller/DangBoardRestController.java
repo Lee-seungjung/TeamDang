@@ -96,7 +96,7 @@ public class DangBoardRestController {
 	}
 	
 	//좋아요 조회
-	@GetMapping("/fint_like/{memberNo}")
+	@GetMapping("/find_like/{memberNo}")
 	public List<DangBoardLikeDto> findLike(@PathVariable int memberNo){
 		return dangBoardDao.findlike(memberNo);
 	}
