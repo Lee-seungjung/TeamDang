@@ -186,7 +186,7 @@
 	<div class = "row">
 		<div class = "col-10 offset-1">
 			<div class = "row text-center">
-				<strong class = "strong-page-title">댕모임 조회</strong>
+				<strong class = "strong-page-title">댕모임 관리</strong>
 			</div>
 			
 			<div class = "row mt-5">
@@ -1148,22 +1148,39 @@
 		
 		// 지역을 클릭하면 해당 지역의 댕모임 조회 1페이지로 이동
 		$(document).on("click", ".TEXT", function(){
+			console.log($(this).hasClass("area-selected"))
+			
 			// 검색어 초기화
 			$(".input-dang-search-keyword").val("");
-			// 선택(색상) 초기화
-        	$(".OUTLINE").removeClass("area-selected");
-			// 클릭한 지역의 id 선택
-            var id = $(this).prop("id");
-			// 클릭한 지역의 색 변경
-        	$("#CD" + id).addClass("area-selected");
-			// 지역 선택
-			dangArea = $(this).text();
+			
 			// 페이지 초기화
 			p = 1;
 			// 데이터 전송 객체
 			var formData = new FormData();
-			formData.append("dangArea", dangArea);
+			// 데이터 전송 객체에 페이지 번호 p = 1 추가
 			formData.append("p", p);
+			
+			if($(this).hasClass("area-selected") == true) { // 이미 지역 선택이 된 경우라면
+				// 선택지역 TEXT 초기화 (클래스 제거)
+				$(".TEXT").removeClass("area-selected");
+				// 선택지역 색상 초기화 (클래스 제거)
+	        	$(".OUTLINE").removeClass("area-selected");
+			} else {
+				// 선택지역 TEXT 초기화 (클래스 제거)
+				$(".TEXT").removeClass("area-selected");
+				// 선택지역 색상 초기화 (클래스 제거)
+	        	$(".OUTLINE").removeClass("area-selected");
+	        	// 클릭한 지역 TEXT에 클래스 부여
+	        	$(this).addClass("area-selected");
+				// 클릭한 지역의 id 선택
+	            var id = $(this).prop("id");
+				// 클릭한 지역의 색 변경
+	        	$("#CD" + id).addClass("area-selected");
+				// 데이터 전송 객체에 지역명 추가
+				dangArea = $(this).text();
+				formData.append("dangArea", dangArea);
+			}
+			
 			// 비동기 조회
 			$.ajax({
 				url : "${pageContext.request.contextPath}/admin/dang_list",
