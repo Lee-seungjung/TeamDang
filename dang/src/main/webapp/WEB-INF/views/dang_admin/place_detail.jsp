@@ -94,7 +94,16 @@
 					</div>
 					<div class="row">
 						<div class="col">허용공간 :</div>
-						<div class="col text-end">실내이용</div>
+						<c:choose>
+							<c:when
+								test="${placeList.placeSort == '카페' ||placeList.placeSort=='미용실'||placeList.placeSort=='음식점'}">
+								<div class="col text-end">실내이용</div>
+							</c:when>
+							<c:otherwise>
+								<div class="col text-end">야외이용</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</div>
 					<div class="row mb-2">
 						<div class="col">동반방법 :</div>
