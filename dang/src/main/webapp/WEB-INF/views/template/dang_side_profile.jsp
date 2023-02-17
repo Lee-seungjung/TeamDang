@@ -379,7 +379,14 @@
 			<div class="row d-flex justify-content-center">
 				<div class="col-10 middle-items justify-content-center">
 					<img src="${pageContext.request.contextPath}/images/bone.png" class="page-profile pe-1" width="30" height="30">
-					<span class="font-gray nick-font ps-1 originNickName">${profile.memberNick}</span>
+					<c:choose>
+						<c:when test="${adminInfo.userNo==1}">
+							<span class="font-gray nick-font ps-1 originNickName">${adminInfo.userNick}</span>
+						</c:when>
+						<c:otherwise>
+							<span class="font-gray nick-font ps-1 originNickName">${profile.memberNick}</span>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -387,98 +394,101 @@
 					<span class="originMessage" style="font-size:13px;">${profile.memberMessage}</span>
 				</div>
 			</div>
-
-			<div class="row mt-3">
-				<div class="col-10 offset-1">
-					<div class="text-start mb-1 blue" style="font-size:15px; font-weight:bolder;">
-						<span class="memberScore">${profile.memberScore}</span>점
-					</div>
-					<div class="progress">
-						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
-					</div>
-					<div class="text-start mt-1 mb-1 font-gray" style="font-size:13px;">
-						<span>${profile.memberGrade}</span>
-					</div>
-					
-					<div class="profile-edit" data-bs-toggle="modal" data-bs-target="#profileEditModal" data-bs-whatever="@mdo">
-						<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
-						<p class="cursor-pointer">프로필 편집</p>
-					</div>
-
-					<!-- 프로필 편집 모달 시작-->					
-					<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered">
-							<form class="edit-form modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
-								</div>
-								<div class="modal-body">
-									<div class="mb-3">
-										<img src="" class="img-circle profile-img profile-css change-img cursor-pointer">
-										<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
-                							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
-                							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
-                							<input type="hidden" name="originAttachmentNo" value="${attachmentNo}">
-									</div>
-									<div class="mb-3 text-start">
-										<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
-										<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
-										<span class="invalid-feedback">1~6자 내로 입력해주세요!</span>
-										<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
-									</div>
-									<div class="mb-3 text-start">
-										<label for="message-text" class="col-form-label ms-2 me-1">상태메세지</label>
-										<span class="length-font">( </span>
-										<span class="length length-font">0</span>
-										<span class="length-font">/ 30 )</span>
-										<input type="text" value="${profile.memberMessage}" name="memberMessage" class="form-control" id="message-text" autocomplete="off">
-										<span class="invalid-feedback">30자 내로 입력해주세요!</span>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary p-cancel-btn" data-bs-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-primary p-confirm-btn" data-bs-dismiss="modal">확인</button>
-								</div>
-							</form>
-						</div>
-					</div>
-					<!-- 프로필 편집 모달 끝-->
-					
-				</div>
-			</div>
 			
-			<div class="row mt-2 mb-1">
-				<div class="col">
-					<hr>
-					
-					<div class="row justify-content-center">
-						<div class="col-4">
-							<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
-							<p class="font-gray" style="font-size:15px;">참여모임</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinScheduleCount}</p>
+			<c:if test="${adminInfo.userNo!=1}">
+				<div class="row mt-3">
+					<div class="col-10 offset-1">
+						<div class="text-start mb-1 blue" style="font-size:15px; font-weight:bolder;">
+							<span class="memberScore">${profile.memberScore}</span>점
 						</div>
-						<div class="col-4">
-							<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
-							<p class="font-gray" style="font-size:15px;">작성글</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
+						<div class="progress">
+							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${profile.memberScore}%;" aria-valuemin="0" aria-valuemax="500"></div>
 						</div>
-						<div class="col-4">
-							<i class="fa-regular fa-comment-dots fa-2x" style="color:#C5E0B4;"></i>
-							<p class="font-gray" style="font-size:15px;">댓글</p>
-							<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
+						<div class="text-start mt-1 mb-1 font-gray" style="font-size:13px;">
+							<span>${profile.memberGrade}</span>
 						</div>
+						
+						<div class="profile-edit" data-bs-toggle="modal" data-bs-target="#profileEditModal" data-bs-whatever="@mdo">
+							<i class="fa-solid fa-pencil cursor-pointer" style="font-size:23px;"></i>
+							<p class="cursor-pointer">프로필 편집</p>
+						</div>
+	
+						<!-- 프로필 편집 모달 시작-->					
+						<div class="modal fade" id="profileEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<form class="edit-form modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
+									</div>
+									<div class="modal-body">
+										<div class="mb-3">
+											<img src="" class="img-circle profile-img profile-css change-img cursor-pointer">
+											<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
+	                							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
+	                							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
+	                							<input type="hidden" name="originAttachmentNo" value="${attachmentNo}">
+										</div>
+										<div class="mb-3 text-start">
+											<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
+											<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
+											<span class="invalid-feedback">1~6자 내로 입력해주세요!</span>
+											<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
+										</div>
+										<div class="mb-3 text-start">
+											<label for="message-text" class="col-form-label ms-2 me-1">상태메세지</label>
+											<span class="length-font">( </span>
+											<span class="length length-font">0</span>
+											<span class="length-font">/ 30 )</span>
+											<input type="text" value="${profile.memberMessage}" name="memberMessage" class="form-control" id="message-text" autocomplete="off">
+											<span class="invalid-feedback">30자 내로 입력해주세요!</span>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary p-cancel-btn" data-bs-dismiss="modal">취소</button>
+										<button type="submit" class="btn btn-primary p-confirm-btn" data-bs-dismiss="modal">확인</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- 프로필 편집 모달 끝-->
+						
 					</div>
-					
 				</div>
-			</div>
+				
+				<div class="row mt-2 mb-1">
+					<div class="col">
+						<hr>
+						
+						<div class="row justify-content-center">
+							<div class="col-4">
+								<i class="fa-regular fa-heart fa-2x" style="color:#FEA59C;"></i>
+								<p class="font-gray" style="font-size:15px;">참여모임</p>
+								<p class="font-gray" style="font-size:20px; font-weight:bolder;">${joinScheduleCount}</p>
+							</div>
+							<div class="col-4">
+								<i class="fa-regular fa-pen-to-square fa-2x" style="color:#FFE699;"></i>
+								<p class="font-gray" style="font-size:15px;">작성글</p>
+								<p class="font-gray" style="font-size:20px; font-weight:bolder;">${boardWriteCount}</p>
+							</div>
+							<div class="col-4">
+								<i class="fa-regular fa-comment-dots fa-2x" style="color:#C5E0B4;"></i>
+								<p class="font-gray" style="font-size:15px;">댓글</p>
+								<p class="font-gray" style="font-size:20px; font-weight:bolder;">${replyWriteCount}</p>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 	
 	<!-- 출석 체크 -->
+	<c:if test="${adminInfo.userNo!=1}">
 	<div class="p-3 border rounded-3 text-center day-check shadow gray">
 		<span data-bs-toggle="modal" data-bs-target="#day-check-modal" class="checkAttendance cursor-pointer">${attendance}</span>
 	</div>
-
+	</c:if>
 	<!-- 출석체크 Modal -->
 	<div class="modal fade" id="day-check-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog modal-dialog-centered">
@@ -535,10 +545,12 @@
 	</div>
 	
 	<!-- 댕모임 일정 등록 -->
+	<c:if test="${adminInfo.userNo!=1}">
 	 <div class="p-3 border rounded-3 text-center shadow gray mt-3">
 		<span data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="addSchedule cursor-pointer">일정 등록</span>
 	</div>
-
+	</c:if>
+	
     <!-- 댕모임 일정 등록 모달 -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -677,8 +689,9 @@
 	
 	<%--필요한 데이터 준비 --%>
 	<input type="hidden" name="memberNo" value="${profile.memberNo}">
-	<input type="hidden" name="dangNo" value="${profile.dangNo}">
+	<input type="hidden" name="dangNo" value="${dangNo}">
 	<input type="hidden" name="userNo" value="${profile.userNo}">
+	<input type="hidden" name="adminUserNo" value="${adminInfo.userNo}">
 	
 	<input type="hidden" class="cl" data-no="23">
 	<input type="hidden" class="cl" data-no="27">
@@ -2026,7 +2039,6 @@
 					
 				}
 			}
-			
 			//프로필 상세 정보(게시글)
 			$(document).on("click",".b-profile-info",function(){
 				var memberNo = $(this).parents(".board-box").data("mno");

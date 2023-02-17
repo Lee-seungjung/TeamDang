@@ -199,13 +199,16 @@
 				    </div>
 				    <!-- #카테고리 끝 -->
 				    
+				    
 				    <!-- 게시글 작성버튼 시작 -->
+				    <c:if test="${adminInfo.userNo!=1}">
 				  	<div class="border rounded-3 mt-4 text-center shadow gray">
 						<button class="board-write cursor-pointer w-100 p-2 btn btn-primary"  data-bs-toggle="modal" data-bs-target="#boardModal" 
 										data-bs-whatever="@mdo">게시글 작성</button>
 					</div>
+					</c:if>
 				    <!-- 게시글 작성버튼 끝 -->
-
+					
 				    <!-- 게시글 시작 -->
 				    <div class="board-group text-center mt-4" data-scrollcheck="">
 				    
@@ -316,6 +319,7 @@
 				    </div>
 				    <!-- 게시글 끝 -->
 					<input type="hidden" name="memberNo" value="${profile.memberNo}">
+					
 				</div>
 			</div>
 			
@@ -484,12 +488,15 @@
 		zeroDataScrollCheck(); //게시글 없을 경우 무한스크롤 실행중지
 		truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
-		originLike() //내가 누른 좋아요 출력
+		var adminCheck = $("[name=adminUserNo]").val();
+		if(adminCheck!=1){
+			originLike() //내가 누른 좋아요 출력
+			likeHeart(); //좋아요 버튼 이벤트
+		}
 
 		boardDelete(); //게시글 삭제
-		
 		replyToggle(); //댓글 토글
-		likeHeart(); //좋아요 버튼 이벤트
+		
 		
 		//카테고리 색상변경
 		$(".b-category").click(function(){
@@ -584,7 +591,9 @@
 					}
 					truncate(); //말줌일표
 					printImg(); //게시글 사진 출력
-					originLike() //내가 누른 좋아요 출력
+					if(adminCheck!=1){
+						originLike() //내가 누른 좋아요 출력
+					}
 					
 				}
 			});
@@ -626,7 +635,9 @@
 						}
 						truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
-						originLike() //내가 누른 좋아요 출력
+						if(adminCheck!=1){
+							originLike() //내가 누른 좋아요 출력
+						}
 						$("[name=type]").val("");
 						$("[name=keyword]").val("");
 		
@@ -1442,12 +1453,17 @@
 				var style = thisTag.attr("style");
 				if(style=="display: block;"){ //댓글div 열림상태
 					var boardNo = $(this).data("no");
-				
-					var hr = $("<hr>");
-					thisTag.append(hr);
+					var toggleReplyCnt = $(this).children().last().text();
 					
-					//목록 출력
-					replyList(thisTag,boardNo);
+					console.log(toggleReplyCnt);
+					console.log(toggleReplyCnt=="");
+					if(toggleReplyCnt!=""){
+						var hr = $("<hr>");
+						thisTag.append(hr);
+						
+						//목록 출력
+						replyList(thisTag,boardNo);
+					}
 				}
 			});
 		}
@@ -1501,13 +1517,17 @@
 								for(var i=0; i<resp.length; i++){
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
-								inputReply(replyBox) //입력태그 생성
+								
+								if(adminCheck!=1){
+									inputReply(replyBox) //입력태그 생성
+								}
 
 							}
 						});
 					});
-					inputReply(thisTag); //입력태그 생성
-					//deleteReply(); //댓글삭제
+					if(adminCheck!=1){
+						inputReply(replyBox) //입력태그 생성
+					}
 					editSubmitReply(); //댓글수정
 				}
 			});
@@ -1620,7 +1640,7 @@
 		}
 			
 		//댓글 입력 태그 생성
-		function inputReply(thisTag){	
+		function inputReply(thisTag){
 			var replyBox = thisTag;
 			var form = $("<form>").attr("class","input-reply-form");
 			var inputReply = $("<div>").attr("class","row input-reply mt-3");
@@ -1988,7 +2008,7 @@
 		function originLike(){
 			var memberNo = $("[name=memberNo]").val();
 			$.ajax({
-				url:"${pageContext.request.contextPath}/rest_board/fint_like/"+memberNo,
+				url:"${pageContext.request.contextPath}/rest_board/find_like/"+memberNo,
 				method:"get",
 				data:memberNo,
 				success:function(resp){
@@ -2083,7 +2103,9 @@
 						
 						truncate(); //말줌일표
 						printImg(); //게시글 사진 출력
-						originLike() //내가 누른 좋아요 출력
+						if(adminCheck!=1){
+							originLike() //내가 누른 좋아요 출력
+						}
 					}
 				});
 			}	
