@@ -2000,6 +2000,18 @@
 				$(".where").val(""); //장소
 				$("#persons").prop("selected", true);//최대 참여인원							
 				$(".money").val(""); //회비 
+				
+				
+				setcafeMarkersInsertInsert(insertMap);
+                setfoodMarkersInsertInsert(null);
+                setfieldMarkersInsertInsert(null);
+                setdogsalonMarkersInsertInsert(null);
+                setparkMarkersInsertInsert(null);
+                changeInsertMarker('cafeInsert');
+                $(".customoverlay").remove();
+                insertMap.setCenter(new kakao.maps.LatLng(centerPositionX, centerPositionY));
+                insertMap.setLevel(1);
+                insertMap.relayout();
 			});
 			
 			//일정 등록 함수
