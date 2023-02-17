@@ -461,7 +461,7 @@
 			</div>
 		</div>
 	</div>
-	<button class = "btn-dang-create p-0" onClick = "location.href='${pageContext.request.contextPath}/dang/create'"><img class = "img-fluid img-dang-create" src = "${pageContext.request.contextPath}/images/icon-dang-create.png"></button>
+	<button class = "btn-dang-create p-0"><img class = "img-fluid img-dang-create" src = "${pageContext.request.contextPath}/images/icon-dang-create.png"></button>
 </div> <%-- container 끝 --%>
 
 <%-- 댕모임 입장용 Modal --%>
@@ -753,6 +753,26 @@
 										$("<span>").text(resp.dangLikeCount)	
 									)
 							)
+					}
+				}
+			});
+		});
+		
+		$(".btn-dang-create").click(function(){
+			// 비로그인 상태일 때
+			if(userNo == "") {
+				location.href = "${pageContext.request.contextPath}/user/login"; // 로그인 Mapping으로 redirect
+				return;
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/rest_dang/count_dang_create?userNo="+userNo,
+				method : "get",
+				success : function(resp) {
+					if(resp == 5) {
+						alert("이번 달 개설할 수 있는 최대 댕모임 갯수(5개)를 초과했습니다.")
+						return;
+					} else {
+						location.href= "${pageContext.request.contextPath}/dang/create";
 					}
 				}
 			});

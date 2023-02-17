@@ -121,12 +121,29 @@
 						</c:otherwise>
 						</c:choose>						
 
-						<c:forEach var = "i" begin = "${reportListRequestDto.blockStart()}" end = "${reportListRequestDto.blockEnd()}" step = "1">
-						<li class = "ul-report-list-page-item ul-report-list-page-item-unit d-flex justify-content-center align-items-center">
-							<span>${i}</span>
+						<c:choose>
+						<c:when test = "${reportListRequestDto.total == 0}">
+							<li class = "ul-report-list-page-item ul-report-list-page-item-unit d-flex justify-content-center align-items-center">
+								<span>1</span>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var = "i" begin = "${reportListRequestDto.blockStart()}" end = "${reportListRequestDto.blockEnd()}" step = "1">
+							<li class = "ul-report-list-page-item ul-report-list-page-item-unit d-flex justify-content-center align-items-center">
+								<span>${i}</span>
+							</li>
+							</c:forEach>
+						</c:otherwise>
+						</c:choose>
+						
+						
+						<c:choose>
+						<c:when test = "${reportListRequestDto.total == 0}">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "1">
+							<span><i class="fa-solid fa-forward-step"></i></span>
 						</li>
-						</c:forEach>
-
+						</c:when>
+						<c:otherwise>
 						<c:choose>
 						<c:when test = "${reportListRequestDto.blockNext() >= reportListRequestDto.blockLast()}">
 						<li class = "ul-report-list-page-item ul-report-list-page-item-next d-flex justify-content-center align-items-center" data-pagenext = "${reportListRequestDto.blockLast()}">
@@ -139,10 +156,21 @@
 						</li>
 						</c:otherwise>
 						</c:choose>
+						</c:otherwise>
+						</c:choose>
 						
+						<c:choose>
+						<c:when test = "${reportListRequestDto.total == 0}">
+						<li class = "ul-report-list-page-item ul-report-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "1">
+							<span><i class="fa-solid fa-forward"></i></span>
+						</li>
+						</c:when>
+						<c:otherwise>
 						<li class = "ul-report-list-page-item ul-report-list-page-item-last d-flex justify-content-center align-items-center" data-pagelast = "${reportListRequestDto.blockLast()}">
 							<span><i class="fa-solid fa-forward"></i></span>
 						</li>
+						</c:otherwise>
+						</c:choose>
 					</ul>
 				</div>
 			</div>
@@ -231,37 +259,55 @@
 					console.log(resp);
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
 					
-					//목록 없을 경우 출력
+					// resp 길이에 따라 다른 처리
 					if(resp.reportList.length==0){
+						//목록 없을 경우 출력
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
+					} else {
+						for(var i = 0 ; i < resp.reportList.length ; i++){
+							reportList(resp.reportList[i]);
+						}
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");	
 					}
-					
-					for(var i = 0 ; i < resp.reportList.length ; i++){
-						reportList(resp.reportList[i]);
-					}
-					// 초기화
-					$(".ul-report-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						reportListPagination(i);
-					}
-					// 페이지네이션 선택 초기화
-					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
-					// 페이지 선택
-					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -289,37 +335,55 @@
 					console.log(resp);
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
 					
-					//목록 없을 경우 출력
+					// resp 길이에 따라 다른 처리
 					if(resp.reportList.length==0){
+						//목록 없을 경우 출력
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
+					} else {
+						for(var i = 0 ; i < resp.reportList.length ; i++){
+							reportList(resp.reportList[i]);
+						}
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");	
 					}
-					
-					for(var i = 0 ; i < resp.reportList.length ; i++){
-						reportList(resp.reportList[i]);
-					}
-					// 초기화
-					$(".ul-report-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						reportListPagination(i);
-					}
-					// 페이지네이션 선택 초기화
-					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
-					// 페이지 선택
-					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -349,37 +413,55 @@
 					console.log(resp);
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
 					
-					//목록 없을 경우 출력
+					// resp 길이에 따라 다른 처리
 					if(resp.reportList.length==0){
+						//목록 없을 경우 출력
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
+					} else {
+						for(var i = 0 ; i < resp.reportList.length ; i++){
+							reportList(resp.reportList[i]);
+						}
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");	
 					}
-					
-					for(var i = 0 ; i < resp.reportList.length ; i++){
-						reportList(resp.reportList[i]);
-					}
-					// 초기화
-					$(".ul-report-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						reportListPagination(i);
-					}
-					// 페이지네이션 선택 초기화
-					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
-					// 페이지 선택
-					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -408,37 +490,55 @@
 					console.log(resp);
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
 					
-					//목록 없을 경우 출력
+					// resp 길이에 따라 다른 처리
 					if(resp.reportList.length==0){
+						//목록 없을 경우 출력
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
+					} else {
+						for(var i = 0 ; i < resp.reportList.length ; i++){
+							reportList(resp.reportList[i]);
+						}
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");	
 					}
-					
-					for(var i = 0 ; i < resp.reportList.length ; i++){
-						reportList(resp.reportList[i]);
-					}
-					// 초기화
-					$(".ul-report-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						reportListPagination(i);
-					}
-					// 페이지네이션 선택 초기화
-					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
-					// 페이지 선택
-					$(".ul-report-list-page-item-unit").filter(":contains("+p+")").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -478,16 +578,24 @@
 					console.log(resp);
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
@@ -495,20 +603,28 @@
 					//목록 없을 경우 출력
 					if(resp.reportList.length==0){
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
+					} else {
+						for(var i=0; i<resp.reportList.length; i++){
+							reportList(resp.reportList[i]);
+						}	
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
+							reportListPagination(i);
+						}
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 					}
-					
-					for(var i=0; i<resp.reportList.length; i++){
-						reportList(resp.reportList[i]);
-					}
-					// 초기화
-					$(".ul-report-list-page-item-unit").remove();
-					for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
-						reportListPagination(i);
-					}
-					// 페이지네이션 선택 초기화
-					$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
-					// 페이지 선택
-					$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 				}
 			});
 		});
@@ -536,21 +652,29 @@
 				success : function(resp) {
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					// 초기화
 					$(".data-body").empty();
 					
-					//목록 없을 경우 출력
+					//목록 없을 경우 출력	
 					if(resp.reportList.length==0){
 						zeroReportList();
 					}
@@ -594,26 +718,43 @@
 					
 					// 양 끝 페이지네이션 버튼 설정
 					$(".ul-report-list-page-item-first").attr("data-pagefirst", resp.blockFirst);
-					$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);
+					if(resp.blockLast <= 1){
+						$(".ul-report-list-page-item-last").attr("data-pagelast", 1);	
+					} else {
+						$(".ul-report-list-page-item-last").attr("data-pagelast", resp.blockLast);	
+					}
 					if(resp.blockPrev <= 1) {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", 1);
 					} else {
 						$(".ul-report-list-page-item-prev").attr("data-pageprev", resp.blockPrev);	
 					}
-					if(resp.blockNext > resp.blockLast) {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+					if(resp.blockLast <= 1) {
+						$(".ul-report-list-page-item-next").attr("data-pagenext", 1);
 					} else {
-						$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						if(resp.blockNext > resp.blockLast) {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockLast);
+						} else {
+							$(".ul-report-list-page-item-next").attr("data-pagenext", resp.blockNext);
+						}	
 					}
 					
 					if(resp.reportList.length==0){
 						zeroReportList();
+						// 초기화
+						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성 (1페이지만)
+						reportListPagination(1);
+						// 페이지네이션 선택 초기화
+						$(".ul-report-list-page-item-unit").removeClass("ul-report-list-page-item-selected");
+						// 페이지 선택
+						$(".ul-report-list-page-item-unit").filter(":contains(1)").addClass("ul-report-list-page-item-selected");
 					}else{
 						for(var i=0; i<resp.reportList.length; i++){
 							reportList(resp.reportList[i]);
 						}
 						// 초기화
 						$(".ul-report-list-page-item-unit").remove();
+						// 페이지 네비게이터 생성
 						for(var i = resp.blockStart ; i <= resp.blockEnd ; i ++) {
 							reportListPagination(i);
 						}

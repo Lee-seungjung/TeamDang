@@ -219,5 +219,11 @@ public class DangDaoImpl implements DangDao {
 	public boolean closeDang(int dangNo) {
 		return sqlSession.delete("dang.closeDang" ,dangNo) > 0;
 	}
+
+	// 한 달동안 개설한 댕모임 수 반환
+	@Override
+	public int countDangCreate(int userNo) {
+		return sqlSession.selectOne("dang.countDangCreate", userNo);
+	}
 }
 	
