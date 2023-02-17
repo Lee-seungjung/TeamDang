@@ -11,7 +11,7 @@
 	</select>
 
 	<insert id="placeInsert" parameterType="DangPlaceDto">
-		insert into dang_place(place_no,place_x,place_y,place_sort,place_name,place_info,place_address,place_operation,place_off,place_tel,place_url,place_area,dang_size)
+		insert into dang_place(place_no,place_x,place_y,place_sort,place_name,place_info,place_address,place_operation,place_off,place_tel,place_url,place_area,dang_size,special_note)
 			VALUES(
 			#{placeNo},
 			#{placeX},
@@ -25,7 +25,8 @@
 			#{placeTel},
 			#{placeUrl},
 			#{placeArea},
-			#{dangSize}
+			#{dangSize},
+			#{specialNote}
 			)
 	</insert>
 	
@@ -75,7 +76,8 @@
 			place_off = #{placeOff},
 			place_tel = #{placeTel},
 			place_url = #{placeUrl},
-			dang_size = #{dangSize}
+			dang_size = #{dangSize},
+			special_note = #{specialNote}
 			where place_no = #{placeNo}
 	</update>
 	
