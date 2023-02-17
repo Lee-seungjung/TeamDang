@@ -89,21 +89,31 @@ public class DangRestController {
 		dangListRequestDto.setTotal(countDangTotal);
 		// 댕모임 전체/검색 조회
 		List<DangListResponseDto> dangList = dangDao.selectDangList(dangListRequestDto);
+		// 로그인 중인 회원의 회원 등급
+		String userGrade = (String)session.getAttribute("loginGrade");
+		// 로그인 상태 여부
 		if(userNo != null) {
-			// 회원이 가입한 댕모임 번호 조회
-			List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
-			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
-			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
-				for(int j = 0 ; j < searchDangListAlreadyJoin.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
-					if(dangList.get(i).getDangInfo().getDangNo().equals(searchDangListAlreadyJoin.get(j))) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
-						dangList.get(i).getDangInfo().setIsMember(1); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+			if(userGrade.equals("관리자")) { // 관리자라면
+				// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+				for(int i = 0 ; i < dangList.size() ; i ++) { // 모든 댕모임에 대해
+					dangList.get(i).getDangInfo().setIsMember(1); // 댕모임 가입 여부(isMember) 필드의 값을 1로 변경(모두 입장 버튼으로 바꾸기 위함)
+				}
+			} else { // 일반 회원이라면
+				// 회원이 가입한 댕모임 번호 조회
+				List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
+				// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+				for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+					for(int j = 0 ; j < searchDangListAlreadyJoin.size() ; j ++) { // 회원이 가입한 댕모임 번호 목록 길이만큼 반복
+						if(dangList.get(i).getDangInfo().getDangNo().equals(searchDangListAlreadyJoin.get(j))) { // 댕모임 전체/검색 조회 목록의 i번째 댕모임 번호가 회원이 가입한 댕모임 번호 목록의 j번째와 같을 때
+							dangList.get(i).getDangInfo().setIsMember(1); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+						}
 					}
 				}
 			}
 		} else {
 			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
 			for(int i = 0 ; i < dangList.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
-				dangList.get(i).getDangInfo().setIsMember(null); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 1로 변경
+				dangList.get(i).getDangInfo().setIsMember(null); // 해당 댕모임 정보의 댕모임 가입 여부(isMember) 필드의 값을 null로 변경
 			}
 		}
 		return dangList;
