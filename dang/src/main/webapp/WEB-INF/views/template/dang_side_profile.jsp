@@ -1995,6 +1995,7 @@
                 setdogsalonMarkersInsertInsert(null);
                 setparkMarkersInsertInsert(null);
                 changeInsertMarker('cafeInsert');
+                $(".customoverlay").remove();
                 insertMap.setCenter(new kakao.maps.LatLng(centerPositionX, centerPositionY));
                 insertMap.setLevel(1);
                 insertMap.relayout();
