@@ -114,6 +114,9 @@
 									<input name = "dangName" type = "text" class = "w-100 p-2" placeholder = "댕모임명(10글자)">
 								</div>					
 							</div>
+							<div class = "row my-3">		
+								<div class = "col div-check-dang-name"></div>					
+							</div>
 						</div>
 					</div>
 					<div class = "row my-5">
@@ -151,6 +154,9 @@
 									</select>
 								</div>					
 							</div>
+							<div class = "row my-3">		
+								<div class = "col div-check-dang-headmax"></div>					
+							</div>
 						</div>
 					</div>
 					<div class = "row my-5"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
@@ -173,6 +179,9 @@
 									<input class = "input-dang-password w-100 p-2" type = "text" placeholder = "비밀번호(숫자 4자리)">
 								</div>
 							</div> <%-- form에 태그를 생성해서 전송해야 하는 부분 끝 --%>
+							<div class = "row my-3">		
+								<div class = "col div-check-dang-public"></div>					
+							</div>
 						</div>
 					</div>
 					<div class = "row my-5"> <%-- 지역은 차후 수정 --%>
@@ -265,6 +274,9 @@
 									</svg>
 								</div>
 							</div>
+							<div class = "row my-3">		
+								<div class = "col div-check-dang-area"></div>					
+							</div>
 						</div>
 					</div>
 					<div class = "row my-5">
@@ -274,8 +286,11 @@
 							</div>
 							<div class = "row my-3">		
 								<div class = "col">								
-									<input name = "memberNick" type = "text" placeholder = "닉네임" class = "p-2 w-100">
+									<input name = "memberNick" type = "text" placeholder = "닉네임(2~6자)" class = "p-2 w-100" maxlength = "6">
 								</div>					
+							</div>
+							<div class = "row my-3">		
+								<div class = "col div-check-member-nick"></div>					
 							</div>
 						</div>
 					</div>
@@ -367,9 +382,14 @@
 		
 		// 댕모임명 유효성 검사
 		$("[name=dangName]").blur(function(){
+			$(".check-dang-name").remove();
 			if($(this).val() != "") {
 				formValidCheck.checkDangName = true;
 			} else {
+				$(".div-check-dang-name")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-name check-dang-name-empty").text("댕모임명을 입력해 주세요.")
+					)
 				formValidCheck.checkDangName = false;
 			}
 		});
@@ -399,9 +419,16 @@
 		
 		// 댕모임 회원 총원
 		$("[name=dangHeadmax]").change(function(){
+			// 초기화
+			$(".check-dang-headmax").remove();
+			// 입력창의 입력값이 비어있는지 여부
 			if($(this).val() != "") {
 				formValidCheck.checkDangHeadmax = true;
 			} else {
+				$(".div-check-dang-headmax")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-headmax check-dang-headmax-empty").text("총원을 선택해 주세요.")
+					)
 				formValidCheck.checkDangHeadmax = false;
 			}
 		});
@@ -415,6 +442,7 @@
 			}
 			
 			if($(this).is(":checked")){
+				$(".check-dang-public").remove();
 				formValidCheck.checkDangPrivate = true;
 			} else {
 				formValidCheck.checkDangPrivate = false;
@@ -448,9 +476,15 @@
 		
 		// 비공개 댕모임 비밀번호 유효성 검사
 		$(".input-dang-password").blur(function(){
+			// helper text 초기화
+			$(".check-dang-public").remove();
 			// 댕모임 비밀번호 입력창의 값
 			var inputDangPassword = $(this).val();
 			if(inputDangPassword == "") {
+				$(".div-check-dang-public")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-pw-empty").text("댕모임 비밀번호를 입력해 주세요.")
+					)
 				formValidCheck.checkDangPw = false;
 				return;
 			} 
@@ -458,6 +492,10 @@
 			if(regexp.test(inputDangPassword)) {
 				formValidCheck.checkDangPw = true;
 			} else {
+				$(".div-check-dang-public")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-pw-empty").text("숫자 4자리를 입력해 주세요.")
+					)
 				formValidCheck.checkDangPw = false;
 			}
 		});
@@ -467,6 +505,8 @@
 		
 		// 댕모임 활동 지역
 		$(".TEXT").click(function () {
+			// 댕모임 활동지역 미선택 helper text 삭제
+			$(".check-dang-area").remove();
 			// 선택(색상) 초기화
         	$(".OUTLINE").removeClass("area-selected");
 			// 클릭한 지역의 id 선택
@@ -478,11 +518,27 @@
             formValidCheck.checkDangArea = true;
         });
 		
+		// 댕모임 닉네임 입력 글자수를 최대 6자리로 제한
+		$(document).on("input", "[name=memberNick]", function(){
+			var inputUserNick = document.querySelector("[name=memberNick]");
+			var textUserNick = inputUserNick.value;
+			var size = textUserNick.length;
+			while(size > 6) {
+				inputUserNick.value = inputUserNick.value.substring(0, size - 1);
+				size --;
+			}
+		});
+		
 		// 댕모임 닉네임
 		$("[name=memberNick]").blur(function(){
-			if($(this).val() != "") {
+			$(".check-member-nick").remove();
+			if($(this).val().length >= 2 && $(this).val().length <= 6) {
 				formValidCheck.checkMemberNick = true;
 			} else {
+				$(".div-check-member-nick")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-member-nick check-member-nick-invalid").text("2글자 이상의 닉네임을 입력해 주세요.")
+					)
 				formValidCheck.checkMemberNick = false;
 			}
 		});
@@ -491,6 +547,64 @@
 		$(".btn-submit-create").click(function(e){
 			// 기본 이벤트 차단(form 전송)
 			e.preventDefault();
+			// 초기화
+			$(".check-dang-name").remove();
+			$(".check-dang-headmax").remove();
+			$(".check-dang-public").remove();
+			$(".check-dang-area").remove();
+			$(".check-member-nick").remove();
+			
+			// 댕모임명을 입력하지 않았으면 helper text 표시
+			if($(".div-check-dang-name").val().length < 1) {
+				$(".div-check-dang-name")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-name check-dang-name-empty").text("댕모임명을 입력해 주세요.")	
+					)
+			}
+			
+			// 댕모임 인원수를 선택하지 않았으면 helper text 표시
+			if($("[name=dangHeadmax]").val() == "") {
+				$(".div-check-dang-headmax")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-headmax check-dang-headmax-empty").text("총원을 선택해 주세요.")		
+					)
+			}
+			
+			// 댕모임 공개 여부를 설정하지 않았으면 helper text 표시
+			if($(".input-dang-private:checked").length < 1) {
+				$(".div-check-dang-public")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-empty").text("공개/비공개 여부를 선택해 주세요.")
+					)
+			}
+			
+			// 댕모임 비공개 선택시 비밀번호를 입력하지 않았다면 helper text 표시
+			if($("#dangPrivate").is(":checked") && $(".input-dang-password").val() == "") {
+				$(".div-check-dang-public")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-pw-empty").text("댕모임 비밀번호를 입력해 주세요.")
+					)
+			}
+			
+			// 댕모임 활동 지역을 설정하지 않았으면 helper text 표시
+			if($(".area-selected").length < 1) {
+				$(".div-check-dang-area")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-dang-area check-dang-area-empty").text("활동 지역을 선택해 주세요.")
+					)
+			}
+			
+			// 댕모임 내 닉네임을 입력하지 않았으면 helper text 표시
+			if($("[name=memberNick]").val().length < 1) {
+				$(".div-check-member-nick")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-member-nick check-member-nick-empty").text("2글자 이상의 닉네임을 입력해 주세요.")
+					)
+			}
+			
+			return;
+			
+			// 댕모임 개설 유효성 검사를 통과하지 못하면 return
 			if(formValidCheck.isAllValid() == false) {
 				return;
 			}
