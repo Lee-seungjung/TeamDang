@@ -233,11 +233,11 @@
 		
 		// 닉네임 체크
 		$("[name=userNick]").blur(function(){
-			if($(this).val() == "") {
-				formValidCheck.checkNick == false;
+			if($(this).val().length == 0) {
+				formValidCheck.checkNick = false;
 				return;
 			}
-			formValidCheck.checkNick == true;
+			formValidCheck.checkNick = true;
 		});
 		
 		// 변경 전 이메일
@@ -342,8 +342,6 @@
 			$(".div-change-email-helper-text").empty();
 			// 인증번호 입력창의 값
 			var inputCertSerial = $(".input-edit-user-info-cert").val();
-			console.log(inputCertSerial);
-			console.log(certSerial);
 			if(certSerial != inputCertSerial) {
 				$(".div-change-email-helper-text")
 					.append(
@@ -360,6 +358,7 @@
 		$(".btn-edit-user-info-submit").click(function(e){
 			// 기본 이벤트(폼 전송) 차단
 			e.preventDefault();
+			console.log(formValidCheck.isAllValid())
 			// 회원정보 변경 유효성 판정
 			if(formValidCheck.isAllValid() == false) {
 				return;

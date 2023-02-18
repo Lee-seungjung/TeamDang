@@ -307,7 +307,9 @@
 <%-- 로그인 상태 판정 --%>
 <c:set var="login" value="${loginNo != null}"></c:set>
 <%-- 로그인 중인 회원의 회원 번호 --%>
-<input type = "hidden" id = "loginNo" value = "${loginNo}"> 
+<input type = "hidden" id = "loginNo" value = "${loginNo}">
+<%-- 로그인 중인 회원의 회원 등급 --%>
+<input type = "hidden" id = "loginGrade" value = "${loginGrade}">
 <%-- 댕모임 전체/검색 조회시 마지막 페이지 번호 --%>
 <input type = "hidden" id = "pLast" value = "${pLast}">
 
@@ -691,6 +693,9 @@
 		
 		// 로그인 중인 회원의 회원 번호
 		var userNo = $("#loginNo").val();
+		
+		// 로그인 중인 회원의 회원 등급
+		var userGrade = $("#loginGrade").val();
 
 		// 댕모임 번호
 		var dangNo;
@@ -711,6 +716,10 @@
 			// 비로그인 상태일 때
 			if(userNo == "") {
 				location.href = "${pageContext.request.contextPath}/user/login"; // 로그인 Mapping으로 redirect
+				return;
+			}
+			// 관리자일 때
+			if(userGrade == "관리자") {
 				return;
 			}
 			// 좋아요 할 댕모임 번호

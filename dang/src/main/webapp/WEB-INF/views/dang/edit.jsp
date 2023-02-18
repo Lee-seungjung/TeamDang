@@ -125,7 +125,7 @@
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
 								<div class = "my-3 d-flex">
-									<strong class = "strong-dang-edit-info-text me-1">댕모임명</strong>
+									<strong class = "strong-dang-edit-info-text me-3">댕모임명</strong>
 									<span class = "span-dang-edit-info-dang-name">
 										[
 										<span class = "span-dang-name">0</span>
@@ -140,7 +140,7 @@
 						<div class = "row my-3">
 							<div class = "col-10 offset-1 d-flex flex-column">
 								<div class = "my-3 d-flex">
-									<strong class = "strong-dang-edit-info-text me-1">댕모임 정보</strong>
+									<strong class = "strong-dang-edit-info-text me-3">댕모임 정보</strong>
 									<span class = "span-dang-edit-info-dang-info">
 										[
 										<span class = "span-dang-info">0</span>

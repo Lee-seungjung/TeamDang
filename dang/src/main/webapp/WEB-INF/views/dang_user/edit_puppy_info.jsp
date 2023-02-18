@@ -426,7 +426,7 @@
                             <div class = "col-4 py-1 d-flex justify-content-center align-items-center div-puppy-info-menu-category">
                                 <strong>이름</strong>
                             </div>
-                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-edit-puppy-name" type = "text" maxlength="10" placeholder="이름(5자 이내)">
+                            <input class = "col-8 py-1 d-flex align-items-center div-puppy-info-menu-content input-modal-edit-puppy-name" type = "text" maxlength="10" placeholder="이름(10자 이내)">
                         </div>
                     </div>
                 </div>
