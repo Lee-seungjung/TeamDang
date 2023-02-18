@@ -366,13 +366,13 @@ public class DangUserController {
 	}
 	
 	@PostMapping("/find_id")
-	public String findId(@ModelAttribute DangUserFindVO dangUserFindVO, Model model) {
+	public String findId(@ModelAttribute DangUserFindVO dangUserFindVO, RedirectAttributes attr) {
 		// 입력받은 이메일로 회원 아이디 조회
 		String findUserId = dangUserDao.findUserId(dangUserFindVO.getUserEmail());
 		// 조회 결과가 null이 아니라면
 		if(findUserId != null) {
 			// 조회 정보를 Model에 추가
-			model.addAttribute("findUserId", findUserId);
+			attr.addFlashAttribute("findUserId", findUserId);
 			return "redirect:find_id_result";
 		} else {
 			return "redirect:find_id?fail";

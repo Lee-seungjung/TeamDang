@@ -489,6 +489,8 @@
 		truncate(); //말줌일표
 		printImg(); //게시글 사진 출력
 		var adminCheck = $("[name=adminUserNo]").val();
+		console.log("dsgds= "+adminCheck);
+		console.log(adminCheck!=1);
 		if(adminCheck!=1){
 			originLike() //내가 누른 좋아요 출력
 			likeHeart(); //좋아요 버튼 이벤트
@@ -1460,9 +1462,11 @@
 					if(toggleReplyCnt!=""){
 						var hr = $("<hr>");
 						thisTag.append(hr);
-						
-						//목록 출력
-						replyList(thisTag,boardNo);
+						replyList(thisTag,boardNo); //목록 출력
+					}else{
+						if(adminCheck!=1){
+							inputReply(thisTag); //입력창 출력
+						}
 					}
 				}
 			});
@@ -1470,6 +1474,8 @@
 		
 		//댓글출력
 		function replyList(thisTag,boardNo){
+			var replyBox = thisTag;
+			console.log(replyBox);
 			$.ajax({
 				url:"${pageContext.request.contextPath}/rest_reply/list/"+boardNo,
 				method:"get",
@@ -1480,7 +1486,7 @@
 						<!-- 댓글 목록 -->	
 						replyRepeat(resp[i], thisTag);
 					}
-					
+					console.log("진행중");
 					<!-- 5개 이상일 경우 더보기 보이게 처리 -->
 					if(resp.length>=5){
 						var more = $("<div>").attr("class","row mt-3 re-more-view-div");
@@ -1494,7 +1500,6 @@
 					<!--더보기 버튼 -->
 					$(".re-more-view").click(function(){
 						var thisTag = $(this);
-						var replyBox = $(this).parents(".reply-box");
 						var boardNo = $(this).data("bno");
 						var replyNo = $(this).data("rno");
 						
@@ -1518,6 +1523,8 @@
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
 								
+								//durl
+								console.log("durl = "+adminCheck);
 								if(adminCheck!=1){
 									inputReply(replyBox) //입력태그 생성
 								}
@@ -1529,6 +1536,7 @@
 						inputReply(replyBox) //입력태그 생성
 					}
 					editSubmitReply(); //댓글수정
+					
 				}
 			});
 		}
@@ -1728,6 +1736,7 @@
 											replyBox.prepend($("<hr>")); //hr태그 재생성
 											replyBox.children().find(".reply-input").val(""); //input 입력창 공백처리
 											replyBox.children().find(".reply-write").attr("disabled",true); //전송 버튼 비활성화
+											editSubmitReply(); //댓글수정
 											
 											//댓글 숫자 증가
 											var findnum = replyBox.prev().children().children('.replycnt');
@@ -1792,6 +1801,7 @@
 		//댓글 수정 폼
 		function editSubmitReply(){
 			$(document).on("click", ".reply-edit", function(){
+				console.log("클릭");
 				var changeTagDiv = $(this).parent().parent().parent().prev().children().children(".re-content-font");
 				var replyNo = $(this).parents(".reply-content").data("reply");
 				var replyBox = $(this).parents(".reply-box");
@@ -1816,7 +1826,6 @@
 				$(".edit-reply-form").submit(function(e){
 					e.preventDefault();
 					var replyContent = replyBox.children('.edit-reply-form').children().find(".reply-input").val(); //수정 입력내용
-					//replyContent = encodeURIComponent(replyContent); //특수문자까지 전송가능하도록 처리
 					var boardNo = replyBox.prev().children().data("no");
 					
 					if(replyContent.length!=0){
@@ -1849,60 +1858,58 @@
 		}
 
 		//댓글 삭제
-		//function deleteReply(){
-			$(document).on("click", ".reply-delete", function(){
-				var replyNo = $(this).parents(".reply-content").data("reply");
-				var thisTag = $(this).parents(".reply-box");
-				var replyContent = $(this).parents(".reply-content");
-				
-				$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
-				$(".modal-delete-btn").addClass("reply-delete-now");
-				$("#deleteModal").modal("show");
-				
-				//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
-				var judge = $(".modal-delete-btn").hasClass("reply-delete-now");
-				if(judge){
-					//삭제 확인 버튼 누를 경우
-					$(".reply-delete-now").click(function(){
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
-							method:"delete",
-							async:false,
-							success:function(resp){
+		$(document).on("click", ".reply-delete", function(){
+			var replyNo = $(this).parents(".reply-content").data("reply");
+			var thisTag = $(this).parents(".reply-box");
+			var replyContent = $(this).parents(".reply-content");
+			
+			$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+			$(".modal-delete-btn").addClass("reply-delete-now");
+			$("#deleteModal").modal("show");
+			
+			//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
+			var judge = $(".modal-delete-btn").hasClass("reply-delete-now");
+			if(judge){
+				//삭제 확인 버튼 누를 경우
+				$(".reply-delete-now").click(function(){
+					$.ajax({
+						url:"${pageContext.request.contextPath}/rest_reply/delete/"+replyNo,
+						method:"delete",
+						async:false,
+						success:function(resp){
 
-								if(resp==true){
-									$(".modal-delete-btn").removeClass("reply-delete-now");
-									$("#deleteModal").modal("hide");
-									
-									replyContent.remove();
-									
-									//댓글 숫자 감소
-									var findnum = thisTag.prev().children().find('.replycnt');
-									var num = findnum.text();
-									if(num=="" || num==1){
-										findnum.text("");
-									}else{
-										num = parseInt(num);
-										findnum.text(num-1);
-									}
-									
-									//사이드 프로필 메뉴 댓글 수량 감소
-									var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
-									var replyCnt = parseInt(replyCntTag.text());
-									replyCntTag.text(replyCnt-1);
+							if(resp==true){
+								$(".modal-delete-btn").removeClass("reply-delete-now");
+								$("#deleteModal").modal("hide");
+								
+								replyContent.remove();
+								
+								//댓글 숫자 감소
+								var findnum = thisTag.prev().children().find('.replycnt');
+								var num = findnum.text();
+								if(num=="" || num==1){
+									findnum.text("");
+								}else{
+									num = parseInt(num);
+									findnum.text(num-1);
 								}
+								
+								//사이드 프로필 메뉴 댓글 수량 감소
+								var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+								var replyCnt = parseInt(replyCntTag.text());
+								replyCntTag.text(replyCnt-1);
 							}
-						});
+						}
 					});
-					
-					//삭제 취소버튼 누를 경우
-					$(".delete-cancel-btn").click(function(){
-						$(".modal-delete-btn").removeClass("reply-delete-now");
-					});
-				}
+				});
+				
+				//삭제 취소버튼 누를 경우
+				$(".delete-cancel-btn").click(function(){
+					$(".modal-delete-btn").removeClass("reply-delete-now");
+				});
+			}
 
-			});
-		//}
+		});
 		
 		//파일번호 있는 게시글 확인 후 출력
 		function printImg(){

@@ -488,7 +488,7 @@
 				var shrink_div = $("<div>").attr("class","flex-shrink-0"); 
 				var img = $("<img>").attr("class","img-circle c-profile-info cursor-pointer")
 										.attr("width","45").attr("height","45").attr("data-uno",data.userNo);
-				if(data.attachmentNo==0){
+				if(data.attachmentNo==null){
 					img.attr("src","${pageContext.request.contextPath}/images/basic-profile.png");
 				}else{
 					img.attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+data.attachmentNo);

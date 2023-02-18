@@ -140,9 +140,10 @@
 					<p class="mt-3 ms-2">전화번호 <i class="fa-solid fa-phone" style="font-size: 15; color: #F94888"></i></p>
 					<p class="ms-2" style="font-size: 12">${placeList.placeTel}</p>
 					</c:if>
+					<c:if test="${placeList.specialNote != null}">	
 					<p class="mt-3 ms-2">특이사항 <i class="fa-solid fa-circle-info" style="font-size: 15; color: #F94888"></i></p>
-					<p class="ms-2" style="font-size: 12">주차가능, 포장가능, 무선 인터넷가능, 반려동물 동반가능,
-						제로페이가능, 국민지원금가능</p>
+					<p class="ms-2" style="font-size: 12">${placeList.specialNote}</p>
+					</c:if>
 					<c:if test="${placeList.placeUrl != null}">	
 					<p class="mt-3 ms-2">홈페이지 <i class="fa-solid fa-globe" style="font-size: 15; color: #F94888"></i></p>
 					<a class="ms-2" href="${placeList.placeUrl}" style="font-size: 12">${placeList.placeUrl}</a>
