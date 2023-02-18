@@ -738,8 +738,7 @@
 		console.log("댕모임 개설자 번호 :" + leaderNo);
 		console.log("관리자&유저 번호 :" + adminNo);
 		console.log("addressNo :" + adminNo);
-
-			
+		
 		//참여 회비는 1백만원미만으로 제한(6자)
 		$(document).on("input", ".money", function(){
 			var moneyLength = $(this).val().length;
@@ -766,8 +765,8 @@
 			//수정, 삭제버튼 보여주기
 			$(".btn-edit").show();
 			$(".btn-delete").show();		
-		} 	
-		else{ //개설자가 아니라면(로그인 멤버번호가 개설자 멤버번호와 불일치하면)
+		} 
+		else if(memberNo != null){//멤버번호가 널값이 아니라면(관리자가 아닌경우)
 			//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
 			$.ajax({
 				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+addressNo,
@@ -791,9 +790,10 @@
                        		$(".btn-minus").show();
                        	}
 					}
-
 				}
-			});
+			});			
+		}
+		else{ 
 		}
 			
 		//상세일정에서 참여하기 클릭
