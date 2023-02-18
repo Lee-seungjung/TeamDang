@@ -663,9 +663,9 @@
                     <span class="span-placename"></span>
                      <span  class="span-placesort"></span><br>
                     <span class="span-placeaddress"></span><br>
-                    <span class="span-placeoff px-2"></span>
-                    <span class="span-placeoperation"></span><br>
-                    <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                    <span id="placeoff" class="span-placeoff px-2"></span>
+                    <span id="placeoperation" class="span-placeoperation"></span><br>
+                    <i id="placetelIcon" class="fa-solid fa-square-phone"> </i><span id="placetel" class="span-placetel"></span><br>
                     <span  class="span-placeurl"></span>
                     </div>
                 </div>
@@ -799,12 +799,23 @@
                                     resp.placeTel);
                                 $(".span-placeurl").text(
                                     resp.placeUrl);
-                                $(".place-img")
-                                    .attr(
-                                        "src",
-                                        "http://localhost:8888/rest_attachment/download/"
-                                        + resp.attachmentNo);
-                               
+                                $(".place-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+                                if(resp.placeOff==null){
+            						$("#placeoff").removeClass("span-placeoff");
+            					}else if(resp.placeOff!=null){
+            						$("#placeoff").addClass("span-placeoff");
+            						$(".span-placeoff").text(resp.placeOff);
+            					}
+            					if(resp.placeTel==null){
+            						$("#placetel").removeClass("span-placetel");
+            						$("#placetelIcon").removeClass("fa-solid");
+            						$("#placetelIcon").removeClass("fa-square-phone");
+            					}else if(resp.placeTel!=null){
+            						$("#placetel").addClass("span-placetel");
+            						$(".span-placetel").text(resp.placeTel);
+            						$("#placetelIcon").addClass("fa-solid");
+            						$("#placetelIcon").addClass("fa-square-phone");
+            					}
                                 
                                
                             }
