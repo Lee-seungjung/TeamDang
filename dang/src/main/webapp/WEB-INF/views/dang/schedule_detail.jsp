@@ -432,9 +432,12 @@
 			</div>  <!-- 프로필 박스 끝-->
 	
 			<div class = "col-6" style="background: white">	<!-- 일정 상세박스 시작-->	
-				<div id = "schedule-simple-modal" class = "schedule-info shadow1">  
-					<input type = "hidden" class = "input-schedule-no" value = "${scheduleDetail.scheduleNo}">
-					<input type = "hidden" class = "input-dang-no" value = "${dangNo}">
+				<div id = "schedule-simple-modal" class = "schedule-info">  
+					<input type = "hidden" class = "input-schedule-no" name = "scheduleNo" value = "${scheduleDetail.scheduleNo}">
+					<input type = "hidden" class = "input-dang-no" name = "dangNo" value = "${dangNo}">
+					<input type = "hidden" class = "input-member-no" name = "loginNo" value = "${profile.memberNo}">
+					<input type = "hidden" class = "input-leader-no" name = "leaderNo" value = "${scheduleDetail.memberNo}">
+					<input type = "hidden" class = "input-admin-no" name = "adminNo" value = "${adminInfo.userNo}">					
 					<div class="dang-title"><img class="red-pin" src="${pageContext.request.contextPath}/images/red-pin.png">
 						<strong class = "schedule-name">${scheduleDetail.scheduleTitle}</strong>
 					</div>
@@ -706,9 +709,36 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakoMapKey}"></script>
 <script type="text/javascript">
 		
-	$(function(){
-			
+	$(function(){			
 		$(".invalid-money").hide();
+		
+		//댕모임 일정 번호
+		var scheduleNo = $(".input-schedule-no").val();
+		//댕모임  번호
+		var dangNo = $(".input-dang-no").val();
+		//댕모임 멤버 번호
+		var memberNo =$(".input-member-no").val();
+		//댕모임 개설자 번호
+		var leaderNo =$(".input-leader-no").val();
+		// 댕모임 관리자 번호
+		var adminNo =$(".input-admin-no").val();
+		
+		//멤버번호가 널값이면 관리자번호를, 있다면 멤버번호를 addressNo값으로
+		var addressNo;
+		if(memberNo == null){
+			var addressNo = adminNo;
+		}
+		else {
+			var addressNo = memberNo;
+		}
+		 
+		console.log("일정 번호 :" + scheduleNo);
+		console.log("댕모임 번호 :" + dangNo);
+		console.log("댕모임 멤버 번호 :" + memberNo);
+		console.log("댕모임 개설자 번호 :" + leaderNo);
+		console.log("관리자&유저 번호 :" + adminNo);
+		console.log("addressNo :" + adminNo);
+
 			
 		//참여 회비는 1백만원미만으로 제한(6자)
 		$(document).on("input", ".money", function(){
@@ -724,22 +754,23 @@
 			var placeUrl = $(".span-placeurl").text();			
 			window.location.href=placeUrl;			
 		});
-	 		
-			
+	 					
 		$(".btn-plus").hide(); //참여
 		$(".btn-minus").hide(); //참여취소
 		$(".btn-edit").hide(); //일정수정
 		$(".btn-delete").hide(); //일정삭제
 		$(".btn-end").hide(); //일정 인원수 마감
-			
-		if(${profile.memberNo} == ${scheduleDetail.memberNo}){ //개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
+		
+		
+		if(leaderNo == addressNo){ //개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
 			//수정, 삭제버튼 보여주기
 			$(".btn-edit").show();
-			$(".btn-delete").show();											
-		} else{ //개설자가 아니라면(로그인 멤버번호가 개설자 멤버번호와 불일치하면)
+			$(".btn-delete").show();		
+		} 	
+		else{ //개설자가 아니라면(로그인 멤버번호가 개설자 멤버번호와 불일치하면)
 			//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
 			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+${scheduleDetail.scheduleNo}+"&memberNo="+${profile.memberNo},
+				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+addressNo,
 				method : "get",
 				async : false,
 				contentType : "application/json",
@@ -752,13 +783,15 @@
                        	} else { //참여된 멤버라면
 							$(".btn-minus").show();                        			
                        	}
-					} else{ //일정상세에서 참여인원이 남아있는지?
+					}
+					else{ //일정상세에서 참여인원이 남아있는지?
                      	if(resp.length == 0){ //참여된 멤버가 아니라면
                      		$(".btn-plus").show();	 
                      	} else {//참여된 멤버라면
                        		$(".btn-minus").show();
                        	}
 					}
+
 				}
 			});
 		}
@@ -766,7 +799,7 @@
 		//상세일정에서 참여하기 클릭
 		$(".btn-plus").click(function(){
 			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
+				url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+addressNo+"&scheduleNo="+scheduleNo,
 				method : "post",
  				async : false,
 				contentType : "application/json",
@@ -775,7 +808,7 @@
                           	
 					window.confirm("일정 참여가 완료되었습니다");
                           	
-					location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
+					location.href="http://localhost:8888/dang/"+dangNo+"/schedule_detail?scheduleNo="+scheduleNo;
 					$(".btn-minus").show(); 
 				}
 			});
@@ -785,7 +818,7 @@
 		$(".btn-minus").click(function(){
                   	
 			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+${profile.memberNo}+"&scheduleNo="+${scheduleDetail.scheduleNo},
+				url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+addressNo+"&scheduleNo="+scheduleNo,
  				method : "delete",
 				async : false,
 				contentType : "application/json",
@@ -794,7 +827,7 @@
 					window.confirm("일정이 취소되었습니다");
                           	 
 					$(".btn-plus").show();
-					location.href="http://localhost:8888/dang/"+${dangNo}+"/schedule_detail?scheduleNo="+${scheduleDetail.scheduleNo};
+					location.href="http://localhost:8888/dang/"+dangNo+"/schedule_detail?scheduleNo="+scheduleNo;
 				}
 			});                   	
 		}); 
