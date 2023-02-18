@@ -70,6 +70,11 @@
 		border: none;
 		border-radius : 5px;
     }
+    
+    .span-dang-name-count-max,
+    .span-dang-info-count-max {
+    	color : red;
+    }
 	
 </style>
 
@@ -91,39 +96,43 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-3">
+					<div class = "row my-5">
 						<div class = "col">
-							<div class = "row">							
-								<strong class = "strong-create-dang-category">댕모임명</strong>
+							<div class = "row">
+								<div class = "col d-flex">								
+									<strong class = "strong-create-dang-category me-3">댕모임명</strong>
+									<span class = "span-dang-name-count">
+										[
+										<span class = "span-dang-name">0</span>
+										<span class = "span-dang-name-max"> / 10</span>
+										]
+									</span>
+								</div>
 							</div>
 							<div class = "row my-3">		
 								<div class = "col">								
 									<input name = "dangName" type = "text" class = "w-100 p-2" placeholder = "댕모임명(10글자)">
 								</div>					
 							</div>
-							<div class = "row">							
-								<div class = "col d-flex justify-content-end align-items-center">
-									<span class = "span-dang-name">0</span>
-									<span class = "span-dang-name-max"> / 10</span>
-								</div>
-							</div>
 						</div>
 					</div>
-					<div class = "row my-3">
+					<div class = "row my-5">
 						<div class = "col">
-							<div class = "row">							
-								<strong class = "strong-create-dang-category">댕모임 정보</strong>
+							<div class = "row">		
+								<div class = "col d-flex">
+									<strong class = "strong-create-dang-category me-3">댕모임 정보</strong>
+									<span class = "span-dang-info-count">
+										[
+										<span class = "span-dang-info">0</span>
+										<span class = "span-dang-info-max"> / 30</span>
+										]
+									</span>
+								</div>					
 							</div>
 							<div class = "row my-3">			
 								<div class = "col d-flex justify-content-center align-items-center">								
 									<textarea name = "dangInfo" style="resize: none;" cols = "2" class = "textarea-dang-info w-100 p-2" placeholder = "댕모임 정보"></textarea>
 								</div>				
-							</div>
-							<div class = "row">
-								<div class = "col d-flex justify-content-end align-items-center">								
-									<span class = "span-dang-info">0</span>
-									<span class = "span-dang-info-max"> / 30</span>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -144,7 +153,7 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row mb-5"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
+					<div class = "row my-5"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
 						<div class = "col">
 							<div class = "row">							
 								<strong class = "strong-create-dang-category">댕모임 공개 여부</strong>
@@ -166,7 +175,7 @@
 							</div> <%-- form에 태그를 생성해서 전송해야 하는 부분 끝 --%>
 						</div>
 					</div>
-					<div class = "row mb-5"> <%-- 지역은 차후 수정 --%>
+					<div class = "row my-5"> <%-- 지역은 차후 수정 --%>
 						<div class = "col">
 							<div class = "row">
 								<strong class = "strong-create-dang-category">활동 지역</strong>
@@ -335,6 +344,7 @@
 		
 		// 댕모임명 글자수 제한
 		$(document).on("input", "[name=dangName]", function(){
+			$(".span-dang-name-count").removeClass("span-dang-name-count-max");
 			var inputDangName = document.querySelector("[name=dangName]");
 			var textDangName = inputDangName.value;
 			
@@ -348,6 +358,11 @@
 				size --;
 			}
 			spanDangName.textContent = size;
+			
+			// 댕모임명 입력창에 입력된 글자수가 10글자일 때 
+			if(size >= 10) {
+				$(".span-dang-name-count").addClass("span-dang-name-count-max"); // 댕모임명 입력창의 글자색을 빨간색으로
+			}
 		});
 		
 		// 댕모임명 유효성 검사
@@ -361,6 +376,7 @@
 		
 		// 댕모임 정보 텍스트 수 제한
 		$(document).on("input", ".textarea-dang-info", function(){
+			$(".span-dang-info-count").removeClass("span-dang-info-count-max");
 			// 댕모임 정보 입력창
 			var textareaDangInfo = document.querySelector(".textarea-dang-info");
 			var textDangInfo = textareaDangInfo.value;
@@ -375,6 +391,10 @@
 				size --;
 			}
 			spanDangInfo.textContent = size;
+			// 댕모임 정보 입력창에 입력된 글자수가 30글자일 때
+			if(size >= 30) {
+				$(".span-dang-info-count").addClass("span-dang-info-count-max"); // 댕모임 정보 입력 글자수를 빨간색으로
+			}
 		});
 		
 		// 댕모임 회원 총원

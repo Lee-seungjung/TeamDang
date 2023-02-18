@@ -1,7 +1,9 @@
 package com.project.dang.restcontroller;
 
+import java.io.File;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import com.project.dang.dto.DangDetailDto;
 import com.project.dang.dto.DangDto;
 import com.project.dang.dto.DangListRequestDto;
 import com.project.dang.dto.DangListResponseDto;
+import com.project.dang.repository.AttachmentDao;
 import com.project.dang.repository.DangDao;
 import com.project.dang.repository.DangInterestDao;
 import com.project.dang.repository.DangMemberDao;
@@ -36,6 +39,19 @@ public class DangRestController {
 	@Autowired
 	private DangMemberDao dangMemberDao;
 	
+	@Autowired
+	private AttachmentDao attachmentDao;
+	
+	// 기준 경로 설정
+	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
+	//private File directory = new File("D:/upload/dang"); // D드라이브 경로
+
+	// 디렉토리 생성
+	@PostConstruct
+	public void prepare() {
+		directory.mkdirs();
+	}
+	
 	// 상위 5개 댕모임 반환
 	@GetMapping("/top")
 	public List<DangTopVO> searchDangTop(@RequestParam String dangArea) {
@@ -48,17 +64,23 @@ public class DangRestController {
 	public DangDetailDto selectDangDetail(@RequestParam int dangNo, HttpSession session) {
 		// 댕모임 상세정보 조회
 		DangDetailDto dangDetailInfo = dangDao.selectDangDetail(dangNo);
+		// 로그인 중인 회원의 회원 등급
+		String userGrade = (String)session.getAttribute("loginGrade");
 		// 로그인 중인 회원번호 반환 (로그인 여부, 해당 댕모임의 회원 여부에 따라 모달에서 서로 다른 버튼을 표시하기 위함)
 		Integer userNo = (Integer)session.getAttribute("loginNo");
 		// 로그인 중이라면 (userNo가 null이 아니라면)
 		if(userNo != null) {
-			// 회원이 가입한 댕모임 번호 조회
-			List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
-			// 댕모임 전체/검색 조회 목록에 가입 여부 설정
-			for(int i = 0 ; i < searchDangListAlreadyJoin.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
-				// 로그인 중인 회원의 가입한 댕모임 번호 리스트에 상세정보 보기를 선택한 댕모임의 번호가 존재한다면 
-				if(searchDangListAlreadyJoin.get(i).equals(dangNo)) {
-					dangDetailInfo.setIsMember(1); // isMember 필드의 값을 1로 설정 (로그인 중이면서 가입한 상태, 입정 버튼이 표시되도록 하기 위함)
+			if(userGrade.equals("관리자")) { // 관리자라면
+				dangDetailInfo.setIsMember(1); // 댕모임 가입 여부(isMember) 필드의 값을 1로 변경(모두 입장 버튼으로 바꾸기 위함)
+			} else {
+				// 회원이 가입한 댕모임 번호 조회
+				List<Integer> searchDangListAlreadyJoin = dangMemberDao.searchDangAlreadyJoin(userNo);
+				// 댕모임 전체/검색 조회 목록에 가입 여부 설정
+				for(int i = 0 ; i < searchDangListAlreadyJoin.size() ; i ++) { // 댕모임 전체/검색 조회 목록에 대해
+					// 로그인 중인 회원의 가입한 댕모임 번호 리스트에 상세정보 보기를 선택한 댕모임의 번호가 존재한다면 
+					if(searchDangListAlreadyJoin.get(i).equals(dangNo)) {
+						dangDetailInfo.setIsMember(1); // isMember 필드의 값을 1로 설정 (로그인 중이면서 가입한 상태, 입정 버튼이 표시되도록 하기 위함)
+					}
 				}
 			}
 			// 로그인 중이지만 해당 댕모임의 회원이 아닐 경우
@@ -122,6 +144,18 @@ public class DangRestController {
 	// 댕모임 해체
 	@DeleteMapping("/close_dang")
 	public boolean closeDang(@RequestParam int dangNo) {
+		// 기존 첨부파일 조회
+		Integer attachmentNoExisting = dangDao.selectDangImg(dangNo);
+		if(attachmentNoExisting != null) { // 기존 첨부파일이 존재한다면
+			// 첨부파일 테이블에서 정보 삭제 (on delete cascade 조건에 의해 연결 테이블은 자동 삭제)
+			attachmentDao.delete(attachmentNoExisting);
+			// 기존 첨부파일 이름 반환
+			String fileName = String.valueOf(attachmentNoExisting);
+			// 삭제할 첨부파일 경로 설정
+			File targetExisting = new File(directory, fileName);
+			// 기존 첨부파일 삭제
+			targetExisting.delete();
+		}
 		return dangDao.closeDang(dangNo);
 	}
 	
