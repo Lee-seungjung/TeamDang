@@ -37,10 +37,9 @@ import com.project.dang.repository.DangMemberDao;
 import com.project.dang.repository.DangReplyDao;
 import com.project.dang.repository.DangReportDao;
 import com.project.dang.repository.DangScheduleDao;
+import com.project.dang.repository.DangUserDao;
 import com.project.dang.vo.DangEditInfoVO;
 import com.project.dang.vo.ReportInsertVO;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/dang")
@@ -64,6 +63,8 @@ public class DangController {
 	private DangScheduleDao dangScheduleDao;
 	@Autowired
 	private DangReportDao dangReportDao;
+	@Autowired
+	private DangUserDao dangUserDao;
 
 	
 	// 기준 경로 설정
@@ -572,6 +573,9 @@ public class DangController {
 			model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 			//댓글
 			model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
+		} else {
+			//관리자 상세정보
+			model.addAttribute("adminInfo", dangUserDao.userDetail(Integer.parseInt(userNo)));
 		}
 		//우측 댕모임 심플스케줄
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
