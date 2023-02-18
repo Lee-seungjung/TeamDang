@@ -65,7 +65,7 @@ public class DangController {
 	private DangReportDao dangReportDao;
 	@Autowired
 	private DangUserDao dangUserDao;
-	
+
 	// 기준 경로 설정
 	private File directory = new File(System.getProperty("user.home"),"/dang"); // C드라이브 경로
 	//private File directory = new File("D:/upload/dang"); // D드라이브 경로
@@ -591,7 +591,6 @@ public class DangController {
 			model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 			//댓글
 			model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
-		}else {
 			//관리자 상세 정보
 			model.addAttribute("adminInfo", dangUserDao.userDetail(Integer.parseInt(userNo)));
 		}
