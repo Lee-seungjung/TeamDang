@@ -591,8 +591,7 @@ public class DangController {
 			model.addAttribute("boardWriteCount", dangBoardDao.boardWriteCount(memberDto.getMemberNo()));
 			//댓글
 			model.addAttribute("replyWriteCount", dangReplyDao.ReplyWriteCount(memberDto.getMemberNo()));
-			//관리자 상세 정보
-			model.addAttribute("adminInfo", dangUserDao.userDetail(Integer.parseInt(userNo)));
+
 		}
 		//우측 댕모임 심플스케줄
 		model.addAttribute("simpleSchedule", dangScheduleDao.simpleList(dangNo));
@@ -604,6 +603,8 @@ public class DangController {
 		model.addAttribute("countJoin", dangScheduleDao.countJoin(scheduleNo));
 		//댕모임 일정별 참여 멤버 프로필 사진 출력
 		model.addAttribute("joinMemberList", dangScheduleDao.joinMemberList(scheduleNo, dangNo));
+		//관리자 상세 정보
+		model.addAttribute("adminInfo", dangUserDao.userDetail(Integer.parseInt(userNo)));
 		return "dang/schedule_detail";
 	}
 	
