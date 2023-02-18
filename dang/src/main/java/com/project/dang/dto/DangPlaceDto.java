@@ -25,4 +25,5 @@ public class DangPlaceDto {
 	private String placeTel;
 	private String placeUrl;
 	private String dangSize;
+	private String specialNote;
 }

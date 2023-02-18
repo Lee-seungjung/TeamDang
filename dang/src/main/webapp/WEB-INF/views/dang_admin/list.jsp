@@ -576,7 +576,7 @@
 <div class="modal fade" id="editPlace" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-        <h3 class="modal-title text-center mt-2">장소 수정하기</h3>
+        <h3 class="modal-title text-center mt-2">장소 수정</h3>
       <div class="modal-body">
         <form>
         <div class="row mt-2">
@@ -674,18 +674,7 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 정보를 적어 주세요:)</p>
-            </div>
-        </div>
-        <div class="row mt-1">
-            <div class="col-md-10 offset-md-1">
-                <div class="form-floating">
-                    <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
-                </div>
-            </div>
-        </div>
+        
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
                 <p>수정할 장소의 현주소를 적어 주세요:) <i class="accent">(필수)</i></p>
@@ -696,6 +685,35 @@
                 <div class="form-floating">
                     <input type="text" name="placeAddress" class="form-control rounded" placeholder="현주소">
                     <label>현주소</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <select class="form-select" name="dangSize">
+                    	<option value="소형견">소형견
+                    	<option value="중형견">중형견
+                    	<option value="대형견">대형견
+		            </select>
+                    <label>댕댕이 크기</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-10 offset-md-1">
+                <p>수정할 장소의 정보를 적어 주세요:)</p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-10 offset-md-1">
+                <div class="form-floating">
+                    <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
                 </div>
             </div>
         </div>
@@ -751,23 +769,22 @@
                 </div>
             </div>
         </div>
+        
+        
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>수정할 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+                <p>등록될 장소의 특이사항을 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <select class="form-select" name="dangSize">
-                    	<option value="소형견">소형견
-                    	<option value="중형견">중형견
-                    	<option value="대형견">대형견
-		            </select>
-                    <label>댕댕이 크기</label>
+                    <input type="text" name="specialNote" class="form-control rounded" placeholder="특이사항">
+                    <label>특이사항</label>
                 </div>
             </div>
         </div>
+        
         
         <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
@@ -821,7 +838,7 @@
 		<div class="modal fade" data-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		        <h3 class="modal-title text-center mt-2">지도 마커 등록</h3>
+		        <h3 class="modal-title text-center mt-2">장소 등록</h3>
 		      <div class="modal-body">
 		         
 		        <div class="row mt-4">
@@ -921,18 +938,6 @@
 		
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 정보를 적어 주세요:)</p>
-		            </div>
-		        </div>
-		        <div class="row mt-1">
-		            <div class="col-md-10 offset-md-1">
-		                <div class="form-floating">
-		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="row mt-4">
-		            <div class="col-md-10 offset-md-1">
 		                <p>등록될 장소의 현주소를 적어 주세요:) <i class="accent">(필수)</i></p>
 		            </div>
 		        </div>
@@ -941,6 +946,35 @@
 		                <div class="form-floating">
 		                    <input type="text" name="placeAddressInsert" class="form-control rounded" placeholder="현주소">
 		                    <label>현주소</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <select class="form-select" name="dangSizeInsert">
+		                    	<option value="소형견">소형견
+		                    	<option value="중형견">중형견
+		                    	<option value="대형견">대형견
+		                    </select>
+		                    <label>댕댕이 크기</label>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row mt-4">
+		            <div class="col-md-10 offset-md-1">
+		                <p>등록될 장소의 정보를 적어 주세요:)</p>
+		            </div>
+		        </div>
+		        <div class="row mt-1">
+		            <div class="col-md-10 offset-md-1">
+		                <div class="form-floating">
+		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
 		                </div>
 		            </div>
 		        </div>
@@ -998,21 +1032,18 @@
 		        </div>
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
-		                <p>등록될 장소의 동반가능한 댕댕이 크기 적어 주세요:) <i class="accent">(필수)</i></p>
+		                <p>등록될 장소의 특이사항을 적어 주세요:)</p>
 		            </div>
 		        </div>
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <select class="form-select" name="dangSizeInsert">
-		                    	<option value="소형견">소형견
-		                    	<option value="중형견">중형견
-		                    	<option value="대형견">대형견
-		                    </select>
-		                    <label>댕댕이 크기</label>
+		                    <input type="text" name="specialNoteInsert" class="form-control rounded" placeholder="특이사항">
+		                    <label>특이사항</label>
 		                </div>
 		            </div>
 		        </div>
+		        
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <label for="formFileSm" class="form-label">이미지 사진을 올려주세요 :)<i class="accent">(필수)</i></label>
@@ -1095,6 +1126,7 @@
 	      $("[name=placeTelInsert]").val("");
 	      $("[name=placeUrlInsert]").val("");
 	      $("[name=dangSizeInsert]").val("");
+	      $("[name=specialNoteInsert]").val("");
 	     // $("[name=attachmentNoInsert]").val("");
 	})
 
@@ -1150,6 +1182,7 @@
         var placeTel = $("[name=placeTelInsert]").val();
         var placeUrl = $("[name=placeUrlInsert]").val();
         var dangSize = $("[name=dangSizeInsert]").val();
+        var specialNote = $("[name=specialNoteInsert]").val();
         var attachmentNo = $("[name=attachmentNoInsert]").val();
         
         console.log(attachmentNo);
@@ -1159,7 +1192,7 @@
         //등록 함수 검사
         placeInsert(placeArea, placeX, placeY, placeSort, placeName,
             placeInfo, placeAddress, placeOperation, placeOff,
-            placeTel, placeUrl, dangSize, attachmentNo
+            placeTel, placeUrl, dangSize, attachmentNo,specialNote
         );
 
 		
@@ -1169,7 +1202,7 @@
     function placeInsert(
         placeArea, placeX, placeY, placeSort, placeName,
         placeInfo, placeAddress, placeOperation, placeOff,
-        placeTel, placeUrl, dangSize, attachmentNo
+        placeTel, placeUrl, dangSize, attachmentNo,specialNote
     ) {
         var data = {
             placeArea: placeArea,
@@ -1184,6 +1217,7 @@
             placeTel: placeTel,
             placeUrl: placeUrl,
             dangSize: dangSize,
+            specialNote: specialNote,
             attachmentNo: attachmentNo,
         };
         
@@ -1275,6 +1309,7 @@
 		var placeTel = $("[name=placeTel]").val();
 		var placeUrl = $("[name=placeUrl]").val();
 		var dangSize = $("[name=dangSize]").val();
+		var specialNote = $("[name=specialNote]").val();
 		var attachmentNo;
 		var noChange;
 		var change;
@@ -1304,6 +1339,7 @@
 				placeTel : placeTel,
 				placeUrl : placeUrl,
 				dangSize : dangSize,
+				specialNote : specialNote,
 				attachmentNo : attachmentNo
 			};
 			console.log(attachmentNo);
@@ -1469,6 +1505,7 @@
 					$('input[name=placeTel]').attr('value',resp.placeTel);
 					$('input[name=placeUrl]').attr('value',resp.placeUrl);
 					$('input[name=dangSize]').attr('value',resp.dangSize);
+					$('input[name=specialNote]').attr('value',resp.specialNote);
 					$('.beforeUpdate-img').attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+ resp.attachmentNo);
 				}
 			})
