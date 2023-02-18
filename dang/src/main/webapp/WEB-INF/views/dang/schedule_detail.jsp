@@ -766,7 +766,7 @@
 			$(".btn-edit").show();
 			$(".btn-delete").show();		
 		} 
-		else if(memberNo != null){//멤버번호가 널값이 아니라면(관리자가 아닌경우)
+		else if(memberNo != ""){//멤버번호가 널값이 아니라면(관리자가 아닌경우)
 			//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
 			$.ajax({
 				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+addressNo,
