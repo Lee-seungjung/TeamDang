@@ -455,7 +455,7 @@
 			        <div class = "info-commons dang-when">
 			            <div class="block">모임 시간</div>
 			            <div class="block-white schedule-time"> 
-			            	<span class="schedule-start">${scheduleDetail.scheduleStart}</span>                       
+			            	<span class="schedule-start schedule-day">${scheduleDetail.scheduleStart}</span>                       
 			           		<span class="span-dang-hour schedule-hour">${scheduleDetail.scheduleHour}</span>
 			            </div>
 			        </div>   
@@ -760,13 +760,20 @@
 		$(".btn-delete").hide(); //일정삭제
 		$(".btn-end").hide(); //일정 인원수 마감
 		
+ 		var today = new Date();
+		console.log("현재 날짜 :" + today); 
 		
+		var sdate = $(".schedule-day").text();
+		var scheduleDay = new Date(sdate);
+		console.log("일정 날짜 변환 :" + scheduleDay);	
+		console.log(today > scheduleDay);
+	
 		if(leaderNo == addressNo){ //개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
 			//수정, 삭제버튼 보여주기
 			$(".btn-edit").show();
 			$(".btn-delete").show();		
 		} 
-		else if(memberNo != null){//멤버번호가 널값이 아니라면(관리자가 아닌경우)
+		else if(memberNo != ""){//멤버번호가 공백이라면(관리자가 아닌경우)
 			//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
 			$.ajax({
 				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+addressNo,
@@ -774,22 +781,28 @@
 				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
-					//일정상세에서 참여인원인 마감되었는지?
-					if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
-						if(resp.length == 0) { //참여된 멤버가 아니라면
-							$(".btn-end").show();	                        			
-                       	} else { //참여된 멤버라면
-							$(".btn-minus").show();                        			
-                       	}
+					if(today<=scheduleDay){ //일정이 현재날짜를 지나지 않았다면
+						//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
+						//일정상세에서 참여인원인 마감되었는지?
+						if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
+							if(resp.length == 0) { //참여된 멤버가 아니라면
+								$(".btn-end").show();	                        			
+	                       	} else { //참여된 멤버라면
+								$(".btn-minus").show();                        			
+	                       	}
+						}
+						else{ //일정상세에서 참여인원이 남아있는지?
+	                     	if(resp.length == 0){ //참여된 멤버가 아니라면
+	                     		$(".btn-plus").show();	 
+	                     	} else {//참여된 멤버라면
+	                       		$(".btn-minus").show();
+	                       	}
+						}
 					}
-					else{ //일정상세에서 참여인원이 남아있는지?
-                     	if(resp.length == 0){ //참여된 멤버가 아니라면
-                     		$(".btn-plus").show();	 
-                     	} else {//참여된 멤버라면
-                       		$(".btn-minus").show();
-                       	}
-					}
+					else{ //일정이 현재날짜를 지났다면 (참여,참여취소,마감버튼 숨기기)
+						$(".btn-plus").hide();	 
+						$(".btn-minus").hide();
+					}	$(".btn-end").hide();	 				
 				}
 			});			
 		}
