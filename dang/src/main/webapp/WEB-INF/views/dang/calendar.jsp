@@ -7,12 +7,14 @@
    <jsp:param value="댕모임 일정" name="title" />
 </jsp:include>
 
-<style>
 
+<html>
+<head>
+
+<style>
 * {
 	
 }
-
 .layout {
    max-width: 1100px;
    margin: 30px auto;
@@ -21,7 +23,6 @@
    flex-wrap: wrap;
    flex-wrap: wrap gap: 1em;
 }
-
 .calendar {
    width: 100%;
    height: 500px;
@@ -216,16 +217,16 @@
    background-color: #FFEF9E;
    color: #3C5083
 }
-
-
 </style>
+<meta charset='utf-8' />
 
 <script>
    
       document.addEventListener('DOMContentLoaded', function() {
           var calendarEl = document.getElementById('calendar1');   
-          var dangNo = $(".input-dang-calendar-dang-no").val();
-          console.log(dangNo);
+          var dangNo = $("[name=dangNo]").val();
+          var scheduleNo = $(".input-leader-no").val();
+          console.log(scheduleNo);
          // var scheduleNo = $("[name=scheduleNo]").val();          
           var calendar1 = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -238,8 +239,9 @@
             themeSystem : 'bootstrap5',
             selectable : true, // 날짜 선택
             locale : 'ko', // 한국어 설정
-            //navLinks: true, // 날짜 선택하면 해당 날짜 화면
-            editable : false, // 수정 가능 여부
+            navLinks: true, // 날짜 선택하면 해당 날짜 화면
+	        editable: true, //수정가능여부
+	        initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
             nowIndicator: true, //현재 시간 마크
             minDate: moment().add(1, 'd').format("YYYY-MM-DD"), //과거 날짜는 예약 못하게
             
@@ -263,11 +265,11 @@
                         }
                      })
                   ],
-                  
+                                   
                   eventClick: function(arg) {
                      //console.log(arg.event);
-                     var scheduleNo = arg.event.id;
-                     var date = arg.event.start;
+                  var scheduleNo = arg.event.id;
+                  var date = arg.event.start;
                   var dangDate = moment(date).format('YYYY-MM-DD');
                   $(".dangDate").text(dangDate);                  
                      
@@ -294,69 +296,85 @@
                                 tr.append(td1).append(td2).append(td3).append(td4);
                                 tbody.append(tr);               
                         }
-                           else {
-                                var tr =  $("<tr>").attr("class","table-default align-middle");
-                                var td = $("<td>").attr("colspan","6").text('일정이 없습니다');
-                                tr.append(td);
-                                tbody.append(tr);                                
-                           } //else끝                        
+
                      } //resp문끝                        
                      });            
-                  }         
+                  },
+                  navLinkDayClick: function(date) {
+
+        	           console.log("날짜클릭");
+/*         	           var scheduleNo = $(".input-leader-no").val();  
+        	           console.log("일정번호 : " +scheduleNo); */
+                       var dangDate = moment(date).format('YYYY-MM-DD');
+                       $(".dangDate").text(dangDate); 
+                       
+                       var tbody = $(".ajax-content");
+                       $(".ajax-content").empty();
+               	            
+                        var tr =  $("<tr>").attr("class","table-default align-middle");
+                        var td = $("<td>").attr("colspan","6").text('일정이 없습니다');
+                        tr.append(td);
+                        tbody.append(tr);    	            
+
+                        }               
+ 
           });
           calendar1.render();
         });
-
 </script>
+<body>
+   <div class="container-fluid mt-3 mb-5">
 
-<div class="container-fluid mt-3 mb-5">
-
-   <div class="col-8 offset-2">
-      <div class="row">
-         <!-- 프로필 박스 시작-->
-         <div class="col-3">
-            <jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
-         </div>
-         <!-- 프로필 박스 끝-->
-
-         <!-- 캘린더 박스 시작-->
-         <div class="col-6" style="background: white">
-            <div class="monthly-calendar">
-               <div id='calendar1' class="calendar"></div>
-
-               <div class="text-center">
-                  <div class="text-center">
-                     <span class="select-font">선택 날짜 : </span> <span
-                        class=" dangDate select-font blue"></span>
-                  </div>
-                  <table class="table text-center">
-                     <thead>
-                        <tr class="align-middle schedule-table">
-                           <th width="30%">모임 제목</th>
-                           <th width="30%">모임 날짜</th>
-                           <th width="20%">모임 장소</th>
-                           <th >상세</th>
-                        </tr>
-                     </thead>
-                     <tbody class="ajax-content">
-                        <!-- 비동기화 목록 출력 -->
-                     </tbody>
-                  </table>
-               </div>
-
-
+      <div class="col-8 offset-2">
+         <div class="row">
+            <!-- 프로필 박스 시작-->
+            <div class="col-3">
+               <jsp:include page="/WEB-INF/views/template/dang_side_profile.jsp"></jsp:include>
             </div>
-         </div>
-         <!-- 캘린더 박스 끝-->
+            <!-- 프로필 박스 끝-->
+
+            <!-- 캘린더 박스 시작-->
+            <div class="col-6" style="background: white">
+               <div class="monthly-calendar">
+                  <div id='calendar1' class="calendar"></div>
+
+                  <div class="text-center">
+                     <div class="text-center">
+                        <span class="select-font">선택 날짜 : </span> <span
+                           class=" dangDate select-font blue"></span>
+                     </div>
+                     <table class="table text-center">
+                        <thead>
+                           <tr class="align-middle schedule-table">
+                              <th width="30%">모임 제목</th>
+                              <th width="30%">모임 날짜</th>
+                              <th width="20%">모임 장소</th>
+                              <th >상세</th>
+                           </tr>
+                        </thead>
+                        <tbody class="ajax-content">
+                           <!-- 비동기화 목록 출력 -->
+                        </tbody>
+                     </table>
+                  </div>
 
 
-         <!-- 다가오는 일정 박스 시작-->
-         <div class="col-3">
-            <jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+               </div>
+            </div>
+            <!-- 캘린더 박스 끝-->
+
+
+            <!-- 다가오는 일정 박스 시작-->
+            <div class="col-3">
+               <jsp:include page="/WEB-INF/views/template/dang_side_upcoming.jsp"></jsp:include>
+            </div>
+            <!-- 다가오는 일정 박스  끝-->
          </div>
-         <!-- 다가오는 일정 박스  끝-->
       </div>
    </div>
-</div>
+   
+   <input type = "hidden"  name = "dangNo" value= "${dangNo}">
+   <input type = "hidden" class = "input-leader-no" name = "leaderNo" value = "${scheduleDetail.memberNo}">
 
-<input type = "hidden" class = "input-dang-calendar-dang-no" name = "dangNo" value= "${dangNo}">
+</body>
+</html>
