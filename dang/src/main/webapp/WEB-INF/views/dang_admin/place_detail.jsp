@@ -17,7 +17,7 @@
 		<div class="col-md-8 offset-md-2"
 			style="text-align: center;">
 			<img
-				src="http://localhost:8888/rest_attachment/download/${placeList.attachmentNo}"
+				src="${pageContext.request.contextPath}/rest_attachment/download/${placeList.attachmentNo}"
 				 height="600" class="w-100">
 		</div>
 	</div>
