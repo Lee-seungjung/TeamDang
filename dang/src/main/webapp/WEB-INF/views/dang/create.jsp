@@ -12,6 +12,10 @@
 		
 	}
 	
+	.strong-create-dang-title {
+		font-size : 28px;
+	}
+	
 	.strong-create-dang-category {
 		font-size : 20px;
 	}
@@ -69,11 +73,18 @@
 		color : white;
 		border: none;
 		border-radius : 5px;
+		font-size : 20px;
     }
     
     .span-dang-name-count-max,
     .span-dang-info-count-max {
     	color : red;
+    }
+    
+    .div-create-dang-dang-info,
+    .div-create-dang-dang-creator-info {
+    	border : 1px solid #E8E8E8;
+		border-radius : 15px;
     }
 	
 </style>
@@ -82,8 +93,13 @@
 	<div class = "row">
 		<div class = "col-6 offset-3">
 			<div class = "row my-3">	
-				<div class = "col-8 offset-2 px-5">
+				<div class = "col-8 offset-2 px-5 shadow div-create-dang-dang-info">
 					<div class = "row my-5">
+						<div class = "col d-flex justify-content-center align-items-center">	
+							<strong class = "strong-create-dang-title">댕모임 개설</strong>	
+						</div>
+					</div>
+					<div class = "row my-3">
 						<div class = "col">	
 							<div class = "row">
 								<strong class = "strong-create-dang-category">댕모임 프로필 사진</strong>	
@@ -96,7 +112,7 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-5">
+					<div class = "row my-3">
 						<div class = "col">
 							<div class = "row">
 								<div class = "col d-flex">								
@@ -119,7 +135,7 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-5">
+					<div class = "row my-3">
 						<div class = "col">
 							<div class = "row">		
 								<div class = "col d-flex">
@@ -139,7 +155,7 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row mb-5">
+					<div class = "row mb-3">
 						<div class = "col">
 							<div class = "row">							
 								<strong class = "strong-create-dang-category">댕모임 인원수</strong>
@@ -159,10 +175,10 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-5"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
+					<div class = "row my-3"> <%-- form에 태그를 생성해서 전송해야 하는 부분 시작 --%>
 						<div class = "col">
 							<div class = "row">							
-								<strong class = "strong-create-dang-category">댕모임 공개 여부</strong>
+								<strong class = "strong-create-dang-category">댕모임 공개/비공개</strong>
 							</div>
 							<div class = "row my-3 px-2">
 								<div class = "col-6 p-2">
@@ -184,7 +200,7 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-5"> <%-- 지역은 차후 수정 --%>
+					<div class = "row my-3"> <%-- 지역은 차후 수정 --%>
 						<div class = "col">
 							<div class = "row">
 								<strong class = "strong-create-dang-category">활동 지역</strong>
@@ -279,7 +295,11 @@
 							</div>
 						</div>
 					</div>
-					<div class = "row my-5">
+				</div>
+			</div> <%-- 댕모임 개설 관련 --%>
+			<div class = "row my-3">	
+				<div class = "col-8 offset-2 shadow px-5 div-create-dang-dang-creator-info">
+					<div class = "row my-4">
 						<div class = "col">
 							<div class = "row">
 								<strong class = "strong-create-dang-category">댕모임 내에서 사용할 닉네임</strong>
@@ -289,11 +309,15 @@
 									<input name = "memberNick" type = "text" placeholder = "닉네임(2~6자)" class = "p-2 w-100" maxlength = "6">
 								</div>					
 							</div>
-							<div class = "row my-3">		
+							<div class = "row">		
 								<div class = "col div-check-member-nick"></div>					
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class = "row my-3">
+				<div class = "col-6 offset-3 px-5">
 					<div class = "row my-4">
 						<div class = "col">
 							<button type = "button" class = "btn-submit-create w-100 p-2">개설</button>
