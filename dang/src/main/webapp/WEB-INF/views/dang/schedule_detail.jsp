@@ -668,7 +668,7 @@
 					
 					<div class = "row mt-3">
 						<div class = "col d-flex justify-content-end">
-							<button type="button" class="btn btn-secondary write-cancel" data-bs-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-secondary edit-cancel" data-bs-dismiss="modal">취소</button>
 			    			<button type="button" class="btn btn-primary edit-btn">수정</button>
 						</div>
 					</div>
@@ -687,13 +687,13 @@
                     <span class="span-placearea px-2"></span>
                 <img src=""  class="place-img">
             </div>
-            <div class="body-flex body2">
+            <div class="body-flex body2 ms-2">
                 <span class="span-placename1"></span>
                  <span  class="span-placesort"></span><br>
                 <span class="span-placeaddress"></span><br>
-                <span class="span-placeoff px-2"></span>
+                <span id="placeoff-update" class="span-placeoff px-2"></span>
                 <span class="span-placeoperation"></span><br>
-                <i class="fa-solid fa-square-phone"> </i><span class="span-placetel"></span><br>
+                <i id="placetelIcon-update" class="fa-solid fa-square-phone"> </i><span id="placetel-update" class="span-placetel"></span><br>
                 <span  class="span-placeurl"></span>
                 </div>
             </div>
@@ -938,13 +938,24 @@
 		
 		//일정등록 모달에서 취소 버튼 클릭시 일정등록 모달 닫기 및 내용초기화
 		$(document).on("click",".edit-cancel",function(){
+			console.log('수정모달 닫기');
 			$(".schedule-name").val(""); //일정 제목
 			$(".write-content").val(""); //일정 내용
 			$(".when-date ").val(""); //일정 날짜
 			$(".when-time").val(""); //일정 시간		
 			$(".where").val(""); //장소
 			$("#persons").prop("selected", true);//최대 참여인원							
-			$(".money").val(""); //회비 
+			$(".money").val(""); //회비
+			
+			setCafeMarkers(null);
+            setFoodMarkers(null);
+            setFieldMarkers(null);
+            setDogsalonMarkers(null);
+            setParkMarkers(null);
+            changeMarker('cafeUpdate');
+            $(".customoverlay").remove();
+            mapUpdate.setLevel(1);
+            mapUpdate.relayout();
 		});
 		
 		//상세일정에서 삭제버튼 클릭
@@ -1005,7 +1016,7 @@
         });
         
         function detailMove() {
-            location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
+            window.open("http://localhost:8888/place/detail/" + placeNoInfo,'_blank');
         }
         
         // 장소 등록을 위한 장소 번호
@@ -1035,6 +1046,23 @@
 					placeNoSelected = resp.placeNo;
 					placeXSelected = resp.placeX;
 					placeYSelected = resp.placeY;
+					
+					if(resp.placeOff==null){
+						$("#placeoff-update").removeClass("span-placeoff");
+					}else if(resp.placeOff!=null){
+						$("#placeoff-update").addClass("span-placeoff");
+						$(".span-placeoff").text(resp.placeOff);
+					}
+					if(resp.placeTel==null){
+						$("#placetel-update").removeClass("span-placetel");
+						$("#placetelIcon-update").removeClass("fa-solid");
+						$("#placetelIcon-update").removeClass("fa-square-phone");
+					}else if(resp.placeTel!=null){
+						$("#placetel-update").addClass("span-placetel");
+						$(".span-placetel").text(resp.placeTel);
+						$("#placetelIcon-update").addClass("fa-solid");
+						$("#placetelIcon-update").addClass("fa-square-phone");
+					}
 				}
 			})
 		});

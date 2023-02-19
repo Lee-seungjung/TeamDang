@@ -319,7 +319,7 @@
 								  </div>
 								  <div class="carousel-inner">
 								    <div class="carousel-item active">
-								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[0].placeNo}">
+								    	<a href="${pageContext.request.contextPath}/place/detail/${recommendPlace[0].placeNo}" target="_blank">
 								      		<img src= "${pageContext.request.contextPath}/rest_attachment/download/${recommendPlace[0].attachmentNo}" height="329px" class="d-block w-100" alt="...">
 								      	</a>
 								      <div class="carousel-caption d-none d-md-block">
