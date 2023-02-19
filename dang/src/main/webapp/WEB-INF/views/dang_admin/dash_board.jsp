@@ -117,7 +117,7 @@
 					<div class="col shadow cursor-pointer py-4 div-admin-main-category" onclick = "location.href = '${pageContext.request.contextPath}/admin/user_list'">
 			            <div class="row px-3">
 			                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
-			                    <strong class="statistics-font text-center">7일간 가입자 수</strong>
+			                    <strong class="statistics-font text-center">주간 가입자 수</strong>
 			                    <strong class="statistics-number text-center">${recentJoin}</strong>
 			                </div>
 			                <div class="col-4 d-flex justify-content-center align-items-center">
