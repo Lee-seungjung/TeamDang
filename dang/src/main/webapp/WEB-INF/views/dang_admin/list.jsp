@@ -1130,7 +1130,7 @@
 	     // $("[name=attachmentNoInsert]").val("");
 	})
 
-
+	//등록 모달 장소정보등록 글자수 헬퍼 텍스트
 	$("[name=placeInfoInsert]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
@@ -1149,6 +1149,8 @@
 			$(this).addClass("is-valid");
 		}
 	});
+	
+	//수정 모달 장소정보수정 글자수 헬퍼 텍스트
 	$("[name=placeInfo]").on("input",function(){
 		var textLength = $(this).val().length;
 		var value = $(this).val();
@@ -1161,6 +1163,46 @@
 		}else if(textLength>500){
 			$(this).val(value.substring(0,500));	
 			$(".length").css("color","red").text(500);
+			$(this).addClass("is-invalid");
+		}else if(textLength>0){
+			$(".length").css("color","#495057");
+			$(this).addClass("is-valid");
+		}
+	});
+	
+	//등록 모달 장소특이사항 글자수 헬퍼 텍스트
+	$("[name=specialNoteInsert]").on("input",function(){
+		var textLength = $(this).val().length;
+		var value = $(this).val();
+		//상태메시지 글자수 표시
+		$(".length").text(textLength);
+		$(this).removeClass("is-valid is-invalid");
+		if(textLength==30){
+			$(".length").css("color","red").text(30);
+			$(this).addClass("is-valid");
+		}else if(textLength>30){
+			$(this).val(value.substring(0,30));	
+			$(".length").css("color","red").text(30);
+			$(this).addClass("is-invalid");
+		}else if(textLength>0){
+			$(".length").css("color","#495057");
+			$(this).addClass("is-valid");
+		}
+	});
+	
+	//수정 모달 장소특이사항 글자수 헬퍼 텍스트
+	$("[name=specialNote]").on("input",function(){
+		var textLength = $(this).val().length;
+		var value = $(this).val();
+		//상태메시지 글자수 표시
+		$(".length").text(textLength);
+		$(this).removeClass("is-valid is-invalid");
+		if(textLength==30){
+			$(".length").css("color","red").text(30);
+			$(this).addClass("is-valid");
+		}else if(textLength>30){
+			$(this).val(value.substring(0,30));	
+			$(".length").css("color","red").text(30);
 			$(this).addClass("is-invalid");
 		}else if(textLength>0){
 			$(".length").css("color","#495057");
