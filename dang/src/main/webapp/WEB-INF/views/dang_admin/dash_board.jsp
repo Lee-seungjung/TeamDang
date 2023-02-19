@@ -150,7 +150,7 @@
 		        	<div class = "col shadow py-4 px-4 div-report-list">
 		        		<div class = "row mb-3">	
 		        			<div class = "col d-flex justify-content-center align-items-center">
-			        			<strong class="strong-admin-main-category">신고 목록</strong>	
+			        			<strong class="strong-admin-main-category">최근 신고 목록</strong>	
 		        			</div>	        		
 		        		</div>
 		        		<div class = "row">
