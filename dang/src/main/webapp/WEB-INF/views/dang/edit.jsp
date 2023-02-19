@@ -157,7 +157,6 @@
 								<div class = "row">
 									<div class = "col-6">
 										<select name = "dangHeadmax" class = "p-2 w-100">
-											<option value = "">인원수</option>
 											<c:forEach var = "i" begin = "5" end = "20" step = "5">
 											<option value = "${i}" <c:if test = "${dangEditInfo.dangHeadmax == i}">selected</c:if>>${i}</option>
 											</c:forEach>
