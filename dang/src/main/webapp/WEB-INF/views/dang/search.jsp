@@ -463,7 +463,9 @@
 			</div>
 		</div>
 	</div>
+	<c:if test = "${loginGrade != '관리자'}">
 	<button class = "btn-dang-create p-0"><img class = "img-fluid img-dang-create" src = "${pageContext.request.contextPath}/images/icon-dang-create.png"></button>
+	</c:if>
 </div> <%-- container 끝 --%>
 
 <%-- 댕모임 입장용 Modal --%>
@@ -524,7 +526,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-nick">
                                 <span class = "span-modal-join-dang-helper">닉네임을 입력해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~6자)">
+                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~6자)" autocomplete = "false">
                                     <button type = "button" class = "px-3 btn-modal-join-dang-nick-search">확인</button>
                                 </div>
                                 <%--
@@ -538,7 +540,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column">
                                 <span class = "span-modal-join-dang-helper">가입 인사를 작성해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-message" type = "text" maxlength="30" placeholder = "가입 인사(최대 30자)">
+                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-message" type = "text" maxlength="30" placeholder = "가입 인사(최대 30자)" autocomplete = "false">
                                 </div>
                             </div>
                         </div>
@@ -1084,7 +1086,7 @@
 												.append(
 													$("<div>").attr("class", "d-flex")
 														.append(
-															$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)")
+															$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)").attr("autocomplete", false)
 														)
 												)
 										)
