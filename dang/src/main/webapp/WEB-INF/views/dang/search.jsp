@@ -302,6 +302,24 @@
 		background-color : white;
 	}
 	
+	.div-dang-search-result-empty {
+		height : 55vh;
+	}
+	
+	.img-dang-search-result-empty {
+		width : 10rem;
+		aspect-ratio : 1/1;
+	}
+	
+	.strong-dang-search-result-empty, 
+	.strong-dang-search-result-keyword {
+		font-size : 24px;
+	}
+	
+	.strong-dang-search-result-keyword {
+		color : #76BEFF
+	}
+	
 </style>
 
 <%-- 로그인 상태 판정 --%>
@@ -364,6 +382,19 @@
 				</div>
 			</form> <%-- 검색 영역 끝 --%>
 			<div class = "row my-3 div-dang-search-list">
+				<c:choose>
+				<c:when test = "${dangList.size() == 0}">
+				<div class = "col my-3 d-flex flex-column justify-content-center align-items-center div-dang-search-result-empty">
+					<img src = "${pageContext.request.contextPath}/images/img-dang-empty.png" class = "img-dang-search-result-empty my-4">
+					<strong class = "strong-dang-search-result-empty">
+						"
+						<strong class = "strong-dang-search-result-keyword">${dangListRequestDto.searchName}</strong>
+						"
+						에 대한 검색결과가 없습니다.
+					</strong>
+				</div>
+				</c:when>
+				<c:otherwise>
 				<c:forEach var = "dangList" items = "${dangList}">
 				<div class = "col-4 my-3 p-3"> <%-- 태그 생성 시작 --%>
 					<div class="card col w-100 div-outer-dang-info shadow">
@@ -460,6 +491,8 @@
 					</div>
 				</div> <%-- 태그 생성 끝 --%>
 				</c:forEach>
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
