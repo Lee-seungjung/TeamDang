@@ -332,7 +332,7 @@
 										<c:forEach var = "dangInterest" items = "${dangInterest}">
 										<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
 										</c:forEach>
-										<option value = "all">관심지역 전체</option>
+										<option value = "all" class = "option-dang-interest">관심지역 전체</option>
 									</c:otherwise>
 									</c:choose>
 									<option value = "interest-area-setting" class = "option-area-setting">관심지역 설정</option>
@@ -1249,6 +1249,26 @@
 		var url = new URL(urlHref);
 		// - Query String
 		var queryString = url.searchParams.toString();
+		
+		// 검색어
+		var searchName = url.searchParams.get("searchName");
+		
+		// 검색 조회시 검색창에 그 값이 표시되도록
+		if(searchName != null) {
+			$(".input-dang-search-keyword").val(searchName);
+		}
+		
+		// 관심지역
+		var searchArea = url.searchParams.get("searchArea");
+		
+		// 관심지역 선택 후 조회시 관심지역 선택이 유지되도록
+		if(searchArea != null) {
+			if(searchArea == "all") {
+				$(".select-dang-search-area").val("all").prop("selected", true)
+			} else {
+				$(".select-dang-search-area").val(searchArea).prop("selected", true)
+			}
+		}
 		
 		// 댕모임 목록 무한 스크롤
 		// - 댕모임 생성 버튼 초기 위치
