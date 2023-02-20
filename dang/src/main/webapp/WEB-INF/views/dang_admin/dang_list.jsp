@@ -1235,6 +1235,7 @@
 				$(".TEXT").removeClass("area-selected");
 				// 선택지역 색상 초기화 (클래스 제거)
 	        	$(".OUTLINE").removeClass("area-selected");
+	        	dangArea = null;
 			} else {
 				// 선택지역 TEXT 초기화 (클래스 제거)
 				$(".TEXT").removeClass("area-selected");
