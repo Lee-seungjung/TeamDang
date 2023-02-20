@@ -221,8 +221,15 @@
 							      		<div class = "container-fluid">
 							      			<div class = "row px-5 py-4 mt-3">
 							      				<div class = "col-6 d-flex justify-content-center align-items-center">
-							      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
-							      				</div>
+					                                <c:choose>
+														<c:when test = "${dangPuppyList.dangPuppyInfoDto.attachmentNo != null}">
+															<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+														</c:when>
+														<c:otherwise>
+															<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png">
+														</c:otherwise>
+													</c:choose>
+							      				</div>			      											      				
 							      				<div class = "col-6">
 							      					<div class = "row my-4">
 							      						<div class = "col d-flex justify-content-center align-items-center">
