@@ -230,7 +230,14 @@
 			}
 			// 인증번호 입력시
 			if(certSerial == inputCerial) {
+				// 인증 완료 메시지
 				alert("인증 완료!");
+				// 아이디 입력창 잠금
+				$(".input-user-id").attr("disabled", true);
+				// 이메일 입력창 잠금
+				$(".input-user-email").attr("disabled", true);
+				// 인증번호 입력창 잠금
+				$(".input-user-cert").attr("disabled", true);
 				formValidCheck.checkCert = true;
 			} else {
 				$(".div-cert-check")
