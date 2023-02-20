@@ -1268,7 +1268,7 @@
             return;
         }else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
-                url: "http://localhost:8888/rest_place/place_insert",
+                url: "${pageContext.request.contextPath}/rest_place/place_insert",
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -1410,7 +1410,7 @@
 	               				}
 	               			});
 						}
-						location.href = "http://localhost:8888/admin/detail/"+placeNo;
+						location.href = "${pageContext.request.contextPath}/admin/detail/"+placeNo;
 						
 						console.log(data);
 					}
@@ -1476,12 +1476,12 @@
 	function deleteMarker(){
 		if(confirm("정말삭제하시겠습니까?")==true){
 			$.ajax({
-				url : "http://localhost:8888/rest_place/detail/"+placeNoInfo,
+				url : "${pageContext.request.contextPath}/rest_place/detail/"+placeNoInfo,
 				method : "delete",
 				async : false,
 				contentType : "application/json",
 				success : function(resp) {
-					location.href = "http://localhost:8888/admin/place_list";
+					location.href = "${pageContext.request.contextPath}/admin/place_list";
 				}
 			});
 			
@@ -1500,7 +1500,7 @@
 		
 		
 		function detailMove() {
-			window.open("http://localhost:8888/admin/detail/"+placeNoInfo);
+			window.open("${pageContext.request.contextPath}/admin/detail/"+placeNoInfo);
 		}
 		
 		var optionSelectedSort='';
@@ -1516,7 +1516,7 @@
 			
 			//비동기통신 시작
 			$.ajax({
-				url : "http://localhost:8888/rest_place/place_one/"+ placeNoInfo,
+				url : "${pageContext.request.contextPath}/rest_place/place_one/"+ placeNoInfo,
 				method : "get",
 				async : false,
 				contentType : "application/json",
@@ -1531,7 +1531,7 @@
 					optionSelectedSort = resp.placeSort;
 					$(".span-placetel").text(resp.placeTel);
 					$(".span-placeurl").text(resp.placeUrl);
-					$(".origin-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+					$(".origin-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+ resp.attachmentNo);
 					optionSelectedDangSize=resp.dangSize;
 					optionSelectedArea=resp.placeArea;
 					if(resp.placeOff==null){
@@ -1694,7 +1694,7 @@
 
 		
 		$.ajax({
-			url: "http://localhost:8888/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
+			url: "${pageContext.request.contextPath}/rest_place/place_list_area?lat1="+lat1+"&lng1="+lng1+"&lat2="+lat2+"&lng2="+lng2,//저장된 변수를 파라미터로 넘김
 			method : "get",
 			async : false,
 			contentType : "application/json",

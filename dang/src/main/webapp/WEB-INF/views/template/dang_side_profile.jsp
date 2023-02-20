@@ -354,6 +354,9 @@
     	 margin-top:215%;
     	 display:none;
     }
+    a:hover{
+    	color:black;
+    }
 </style>
 
 <input type = "hidden" class = "input-side-profile-member-no" value = "${profile.memberNo}">
@@ -765,8 +768,8 @@
         
         //장소 상세보기 이동 함수
         function detailMove() {
-            //location.href = "http://localhost:8888/place/detail/" + placeNoInfo;
-            window.open('http://localhost:8888/place/detail/'+ placeNoInfo, '_blank'); 
+            //location.href = "${pageContext.request.contextPath}/place/detail/" + placeNoInfo;
+            window.open('${pageContext.request.contextPath}/place/detail/'+ placeNoInfo, '_blank'); 
         }
         
         $(document).on("click",".edit",function (e) {
@@ -774,7 +777,7 @@
                     placeNoInfo = $(this).data("placeno");
                     //비동기통신 시작
                     $.ajax({
-                            url: "http://localhost:8888/rest_place/place_one/"
+                            url: "${pageContext.request.contextPath}/rest_place/place_one/"
                                 + placeNoInfo,
                             method: "get",
                             async: false,
@@ -799,7 +802,7 @@
                                     resp.placeTel);
                                 $(".span-placeurl").text(
                                     resp.placeUrl);
-                                $(".place-img").attr("src","http://localhost:8888/rest_attachment/download/"+ resp.attachmentNo);
+                                $(".place-img").attr("src","${pageContext.request.contextPath}/rest_attachment/download/"+ resp.attachmentNo);
                                 if(resp.placeOff==null){
             						$("#placeoff").removeClass("span-placeoff");
             					}else if(resp.placeOff!=null){
@@ -857,7 +860,7 @@
        	var thisDangArea;
         
         $.ajax({
-            url: "http://localhost:8888/rest_dang/detail?dangNo="+${dangNo},
+            url: "${pageContext.request.contextPath}/rest_dang/detail?dangNo="+${dangNo},
             method: "get",
             async: false,
             contentType: "application/json",
@@ -984,7 +987,7 @@
         // 공원에 정보를 담을 배열
         var contentParkInsert = [];
         $.ajax({
-            url: "http://localhost:8888/rest_place/place_list",
+            url: "${pageContext.request.contextPath}/rest_place/place_list",
             method: "get",
             async: false,
             contentType: "application/json",
@@ -1434,7 +1437,6 @@
 			//모달 띄워지기 직전 캘린더 미리 생성
 			$("#day-check-modal").on("shown.bs.modal", function () {
 				createCalendar();
-				
 			});
 			
 			//출석체크 모달
@@ -2042,14 +2044,14 @@
 				
 				if(result ==true){
 					$.ajax({
-						url:"http://localhost:8888/rest/dangSchedule/schedule_insert",
+						url:"${pageContext.request.contextPath}/rest/dangSchedule/schedule_insert",
 						method:"post",
 						contentType:"application/json",
 						data:JSON.stringify(data),
 						success:function(resp){
 							console.log("수정성공");	
 							
-							location.href='http://localhost:8888/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
+							location.href='${pageContext.request.contextPath}/dang/'+${dangNo}+'/schedule_detail?scheduleNo='+resp;
 							
 							//var placeNo = $(".schedule-where").attr('data-placeno');
 						}
