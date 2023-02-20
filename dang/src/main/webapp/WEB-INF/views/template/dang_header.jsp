@@ -20,6 +20,9 @@
 		font-size:18px;
 		color:white;
 	}
+	.nav-font>a:hover{
+    	color:#fff;
+    }
 	.nav-font{
 		line-height:50px;
 		text-align:center;
@@ -28,6 +31,7 @@
 	 	background-color: #F1F4FF;
 	 	height: 0.5rem;
 	 }
+	 
 
 </style>
 <%-- 댕모임 header --%>

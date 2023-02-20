@@ -354,6 +354,9 @@
     	 margin-top:215%;
     	 display:none;
     }
+    a:hover{
+    	color:black;
+    }
 </style>
 
 <input type = "hidden" class = "input-side-profile-member-no" value = "${profile.memberNo}">
@@ -1434,7 +1437,6 @@
 			//모달 띄워지기 직전 캘린더 미리 생성
 			$("#day-check-modal").on("shown.bs.modal", function () {
 				createCalendar();
-				
 			});
 			
 			//출석체크 모달
