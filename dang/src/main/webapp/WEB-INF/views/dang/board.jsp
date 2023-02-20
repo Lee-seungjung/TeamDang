@@ -647,13 +647,13 @@
 				});
 		});
 		
+		//게시글 작성 전 준비
 		$(document).on("click",".board-write",function(){
 			$("#write-file-wrap").empty();
 			$("#write-category").val("");
-			$(".b-length").text(0);
-			$("#write-content").val("");
+			$(".b-length").text(0).css("color","#495057");
+			$("#write-content").val("").removeClass("is-invalid");
 			$("#write-select-file").val("");
-			
 			
 		});
 		
@@ -670,7 +670,9 @@
 		$("#write-category").on("change",function(){
 			var value = $(this).val();
 			console.log(value);
+			$(this).removeClass("is-invalid");
 			if(value==""){
+				$(this).addClass("is-invalid");
 				bCheck.boardCategory=false;
 			}else{
 				bCheck.boardCategory=true;
@@ -687,7 +689,8 @@
 			$(this).removeClass("is-invalid");
 			if(length==0){
 				$(".b-length").css("color","#495057");
-				bCheck.boardContent=true;
+				bCheck.boardContent=false;
+				$(this).addClass("is-invalid");
 			}else if(length>1000){
 				$(this).val(value.substring(0,1000));	
 				$(".b-length").css("color","red").text(1000);
@@ -702,10 +705,18 @@
 		//파일 선택
 		$("#write-select-file").change(function(e){
 			var value = $(this).val(); //파일위치+파일명
-			console.log(value);
 			console.log(this.files); //파일 배열
+			
+			//기존파일+새파일 개수 확인
+			var w_addFiles = $(".write-files").length; //새 파일 수
+			var w_newFiles = this.files.length //추가 등록한 새 파일 수
+			var w_filesLength = w_addFiles + w_newFiles;
+			
+			console.log("새 파일 수 = "+w_addFiles);
+			console.log("추가 등록 파일 수 = "+w_newFiles);
+			console.log("총 파일 수 = "+w_filesLength);
 
-			if(this.files.length>5){
+			if(w_filesLength>5){
 				alert('파일은 5개까지 업로드 가능합니다!');
 				$(this).val("");
 				return;
@@ -729,11 +740,13 @@
                     	console.log("등록성공!");
                     	console.log(resp);
                     	
+                    	var boardWritePreviewNoList = []; //미리보기 리스트
                     	var fileDiv = $("#write-file-wrap");
                     	for(var i=0; i<resp.url.length; i++){
                     		console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	boardWritePreviewNoList.push(attachmentNo);
                         	
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto write-file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid write-files")
@@ -743,29 +756,48 @@
 							fileDiv.append(div);
                     	}
 
-            			$(".write-x-btn").click(function(){
-            				var attachmentNo = $(this).prev().data("no");
-
-            				var div = $(this).parent().remove();
-            				console.log(attachmentNo);
-
-            				$.ajax({
-            					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
-            					method:"delete",
-            					data:attachmentNo,
-            					async:false,
-            					success:function(resp){
-            						var cnt = $(".write-file-div");
-                    				console.log(cnt.length);
-                    				if(cnt.length==0){
-                    					$("#write-select-file").val("");
-                    				}
-            					}
-            				});
-            			});
+            			//창 이동 시 미리보기 파일 삭제
+                    	$(window).on("beforeunload", function(){
+    	            		if(boardWritePreviewNoList.length == 0) {
+                				return;
+                			}
+                			
+                			$.ajax({
+                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+                				method : "delete",
+                				data : {
+                					attachmentPreviewNoList : boardWritePreviewNoList
+                				}
+                			});
+                			boardWritePreviewNoList.length=0;
+    					});
+            			
 			        }
 				});
 			}
+
+		});
+		
+		//x버튼 삭제
+		$(document).on("click",".write-x-btn",function(){
+			var attachmentNo = $(this).prev().data("no");
+
+			var div = $(this).parent().remove();
+			console.log(attachmentNo);
+
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+				method:"delete",
+				data:attachmentNo,
+				async:false,
+				success:function(resp){
+					var cnt = $(".write-file-div");
+    				console.log(cnt.length);
+    				if(cnt.length==0){
+    					$("#write-select-file").val("");
+    				}
+				}
+			});
 		});
 
 		//등록모달 취소버튼 누를 경우 첨부파일 삭제
@@ -780,7 +812,10 @@
 			$("#write-category").change();
 
 			var judge = $("#write-content").val();
-			if(judge.length==0) return; //입력값 없으면
+			if(judge.length==0) {
+				$("#write-content").addClass("is-invalid");
+				return; //입력값 없으면
+			}
 			
 			if(bCheck.allValid()){
 				//boardNo 시퀀스 미리 받기
@@ -915,6 +950,8 @@
 		});
 		
 		//게시글 수정 첫 화면 기본셋팅
+		var e_originContent ;
+		var e_originCategory;
 		$(document).on("click", ".edit-drop", function(){
 			$("#boardEditModal").modal("show");
 			$(".b-edit-btn").attr("data-no","");
@@ -923,12 +960,16 @@
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 			var boardNo = $(this).parent().data("bno");
 			var contentLength = boardContent.length;
+			
+			//수정을 위한 데이터 저장
+			e_originContent = boardContent;
+			e_originCategory = boardCategory;
 
 			//원본데이터 출력
 			$("#edit-category").val(boardCategory).prop("selected", true);
-			$("#edit-content").val(boardContent);
+			$("#edit-content").val(boardContent).removeClass("is-invalid");
 			$(".b-edit-btn").attr("data-no",boardNo);
-			$(".be-length").text(contentLength);
+			$(".be-length").text(contentLength).css("color","#495057");
 			$("#edit-select-file").val("");
 			$("#edit-file-wrap").empty();
 	
@@ -949,7 +990,7 @@
 						div.append(img).append(x);
 						fileDiv.append(div);
 	               	}
-	               	//수정 전 첨부파일 삭제
+	               	//수정 전 첨부파일 숨김
 	               	$(".x-btn").click(function(){
                 		$(this).parent().hide();
         			});
@@ -987,7 +1028,8 @@
 			$(this).removeClass("is-invalid");
 			if(length==0){
 				$(".be-length").css("color","#495057");
-				eCheck.boardContent=true;
+				eCheck.boardContent=false;
+				$(this).addClass("is-invalid");
 			}else if(length>1000){
 				$(this).val(value.substring(0,1001));	
 				$(".be-length").css("color","red").text(1000);
@@ -1004,14 +1046,14 @@
 			var value = $(this).val(); //파일위치+파일명
 			console.log(this.files); //파일 배열
 			
-			//기존파일 검사
-			var e_originFiles = $(".write-files");
-			console.log(e_originFiles);
-			console.log(e_originFiles.length);
-			var e_filesLenght = e_originFiles.length + this.files.length;
-			
+			//기존파일+새파일 개수 확인
+			var e_originFiles = $(".write-files").length; //기존 파일 수
+			var e_addFiles = $(".files").length; //새 파일 수
+			var e_newFiles = this.files.length //추가 등록한 새 파일 수
+			var e_hiddenFiles = $('.file-div:hidden').length;//숨김파일
+			var e_filesLength = e_originFiles + e_addFiles + e_newFiles - e_hiddenFiles;
 
-			if(e_filesLenght>5){
+			if(e_filesLength>5){
 				alert('파일은 5개까지 업로드 가능합니다!');
 				$(this).val("");
 				return;
@@ -1035,11 +1077,13 @@
                     	console.log("등록성공!");
                     	//console.log(resp); //url반환
                     	
+                    	var boardEditPreviewNoList = []; //미리보기 리스트
                     	var fileDiv = $("#edit-file-wrap");
                     	for(var i=0; i<resp.url.length; i++){
                     		//console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	boardEditPreviewNoList.push(attachmentNo);
                         	
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files")
@@ -1049,9 +1093,26 @@
 							fileDiv.append(div);
                     	}
                     	
+                    	//수정 전 파일 숨김
                     	$(".x-btn").click(function(){
                     		$(this).parent().hide();
             			});
+                    	
+                    	//창 이동 시 미리보기 파일 삭제
+                    	$(window).on("beforeunload", function(){
+    	            		if(boardEditPreviewNoList.length == 0) {
+                				return;
+                			}
+                			
+                			$.ajax({
+                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+                				method : "delete",
+                				data : {
+                					attachmentPreviewNoList : boardEditPreviewNoList
+                				}
+                			});
+                			boardEditPreviewNoList.length=0;
+    					});
 
 			        }
 				});
@@ -1065,12 +1126,23 @@
 			//강제실행
 			$("#edit-category").change();
 			
+			//수정 데이터 준비
+			var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
+			var boardContent = $("#edit-content").val();
+			var boardCategory = $("#edit-category option:selected").val();
+			var boardAddFile = $(".files").length;
+			var boardHiddenFile = $('.file-div:hidden').length;
+			
+			var e_judge = e_originContent==boardContent && e_originCategory==boardCategory
+									&& boardAddFile==0 && boardHiddenFile==0;
+			
+			if(e_judge){
+				$("#boardEditModal").modal('hide');
+				return; //수정사항 없을 경우 비동기화 중지
+			}
+			
 			if(eCheck.allValid()){
-				//수정 데이터 준비
-				var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
-				var boardContent = $("#edit-content").val();
-				var boardCategory = $("#edit-category option:selected").val();
-						
+
 				editBoardData = {
 					boardNo:boardNo,
 					boardContent:boardContent,
@@ -1164,9 +1236,8 @@
 								}
 							}
 						});
-			        	
     					$("#edit-file-wrap").empty();
-						$("#boardEditModal").modal('hide');
+    					$("#boardEditModal").modal('hide');
 					}
 				});
 			}
@@ -1523,8 +1594,6 @@
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
 								
-								//durl
-								console.log("durl = "+adminCheck);
 								if(adminCheck!=1){
 									inputReply(replyBox) //입력태그 생성
 								}
