@@ -289,10 +289,16 @@ public class DangUserController {
 		if(!step1) {
 			return "redirect:change_pw?error_step1";
 		}
-		// 새로운 비밀번호와 비밀번호 확인이 일치하는지 여부
-		boolean step2 = dangUserChangePwVO.getUserPw().equals(dangUserChangePwVO.getUserPwck());
+		// 새로운 비밀번호가 정규표현식을 만족하는지 여부
+		String regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$";
+		boolean step2 = Pattern.matches(regexp, dangUserChangePwVO.getUserPw());
 		if(!step2) {
 			return "redirect:change_pw?error_step2";
+		}
+		// 새로운 비밀번호와 비밀번호 확인이 일치하는지 여부
+		boolean step3 = dangUserChangePwVO.getUserPw().equals(dangUserChangePwVO.getUserPwck());
+		if(!step3) {
+			return "redirect:change_pw?error_step3";
 		}
 		// 비밀번호 변경
 		dangUserDao.changeUserPw(userNo, dangUserChangePwVO.getUserPw());

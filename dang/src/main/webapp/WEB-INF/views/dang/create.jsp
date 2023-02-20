@@ -76,11 +76,6 @@
 		font-size : 20px;
     }
     
-    .span-dang-name-count-max,
-    .span-dang-info-count-max {
-    	color : red;
-    }
-    
     .div-create-dang-dang-info,
     .div-create-dang-dang-creator-info {
     	border : 1px solid #E8E8E8;
