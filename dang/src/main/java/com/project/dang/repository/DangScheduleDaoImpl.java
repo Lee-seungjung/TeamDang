@@ -45,13 +45,22 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		return sqlSession.selectOne("schedule.detail",  param);
 	}
 	
-	//일정 간단정보 조회
+	//일정 간단정보 조회(일정막대별)
 	@Override
 	public ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo) {
 		Map<String, String> param = new HashMap<>();
 		param.put("scheduleNo", String.valueOf(scheduleNo));
 		param.put("dangNo", String.valueOf(dangNo));
 		return sqlSession.selectOne("schedule.scheduleOne", param);
+	}
+	
+	//일정 간단정보 조회(날짜별)
+	@Override
+	public ScheduleOneVO scheduleDate(String scheduleStart, Integer dangNo) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleStart", String.valueOf(scheduleStart));
+		param.put("dangNo", String.valueOf(dangNo));
+		return sqlSession.selectOne("schedule.scheduleDate", param);
 	}
 	
 	//일정 참여인원수 조회
@@ -147,7 +156,13 @@ public class DangScheduleDaoImpl implements DangScheduleDao {
 		return sqlSession.selectList("schedule.joinScheduleList", historyListRequestDto);
 	}
 
-
+	@Override
+	public boolean joinPlus(int scheduleNo, int scheduleHead) {
+		Map<String, String> param = new HashMap<>();
+		param.put("scheduleNo", String.valueOf(scheduleNo));
+		param.put("scheduleHead", String.valueOf(scheduleHead));
+		return sqlSession.update("schedule.joinPlus", param) >0;
+	}
 
 
 }

@@ -5,8 +5,6 @@ import java.util.List;
 import com.project.dang.dto.DangJoinDto;
 import com.project.dang.dto.DangScheduleDto;
 import com.project.dang.dto.HistoryListRequestDto;
-import com.project.dang.dto.PuppyListDto;
-import com.project.dang.dto.PuppyListRequestDto;
 import com.project.dang.vo.JoinMemberVO;
 import com.project.dang.vo.JoinScheduleListVO;
 import com.project.dang.vo.ScheduleEditVO;
@@ -38,16 +36,23 @@ public interface DangScheduleDao {
 	ScheduleVO detail(int scheduleNo, Integer dangNo);
 
 	/**
-	 * 달력 내 날짜별 일정 간단조회
+	 * 달력 내 날짜별 일정 간단조회(일정막대별)
 	 * 
 	 * @return <ScheduleOneVO>
 	 */
 	ScheduleOneVO scheduleOne(int scheduleNo, Integer dangNo);
+	
+	/**
+	 * 달력 내 날짜별 일정 간단조회(날짜별)
+	 * 
+	 * @return <ScheduleOneVO>
+	 */
+	ScheduleOneVO scheduleDate(String scheduleStart, Integer dangNo);
 
 	/**
 	 * 상세조회 중 참여인원수 조회
-	 * 
-	 * @return <DangJoinDto>
+	 * @param scheduleNo
+	 * @@return <DangJoinDto>
 	 */
 	int countJoin(int scheduleNo);
 
@@ -81,6 +86,15 @@ public interface DangScheduleDao {
 	 * @return Integer : 참여인원수 증가 후 상태
 	 */
 	public void memberJoin(DangJoinDto dangJoinDto);
+	
+
+	/**
+	 * 
+	 * @param scheduleNo
+	 * @param scheduleHead
+	 * @return boolean : 수정 성공여부
+	 */
+	public boolean joinPlus(int scheduleNo, int scheduleHead);
 
 	/**
 	 * 댕모임 참여 취소
