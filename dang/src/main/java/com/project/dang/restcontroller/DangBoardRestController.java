@@ -84,9 +84,8 @@ public class DangBoardRestController {
 	
 	//오늘 작성한 게시글 수 조회
 	@GetMapping("/day_write")
-	public int dayWriteCnt(@RequestParam int dangNo,
-			@RequestParam int memberNo, @RequestParam String boardWriteDate){
-		return dangBoardDao.dayWriteCount(dangNo, memberNo, boardWriteDate);
+	public int dayWriteCnt(@RequestParam int memberNo, @RequestParam String boardWriteDate){
+		return dangBoardDao.dayWriteCount(memberNo, boardWriteDate);
 	}
 	
 	//댕모임 내 게시글 첨부파일 조회

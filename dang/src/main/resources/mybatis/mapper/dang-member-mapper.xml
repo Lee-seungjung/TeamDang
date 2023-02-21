@@ -75,8 +75,8 @@
 	</update>
 	
 	<!-- 댕모임 회원등급 포인트 감소 -->
-	<update id="minusScore" parameterType="Map">
-		update dang_member set member_score=member_score-#{memberScore} where member_no=#{memberNo}
+	<update id="minusScore" parameterType="int">
+		update dang_member set member_score=member_score-1 where member_no=#{memberNo}
 	</update>
 	
 	<!-- 댕모임 회원 방장여부 변경 -->

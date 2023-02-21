@@ -67,12 +67,9 @@ public class DangMemberRestController {
 	}
 	
 	//댕모임 회원등급 포인트 감소
-	@PatchMapping("/score_minus/{memberScore}/{memberNo}")
-	public boolean updateMinusScore(@PathVariable int memberScore,
-			@PathVariable int memberNo) {
-		System.out.println("dsgsgsdgdg = "+memberScore);
-		System.out.println(memberNo);
-		return dangMemberDao.minusScore(memberScore,memberNo);
+	@PatchMapping("/score_minus/{memberNo}")
+	public boolean updateMinusScore(@PathVariable int memberNo) {
+		return dangMemberDao.minusScore(memberNo);
 	}
 	
 	//댕모임 회원 방장여부 변경

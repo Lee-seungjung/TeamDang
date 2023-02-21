@@ -495,8 +495,6 @@
 			originLike() //내가 누른 좋아요 출력
 			likeHeart(); //좋아요 버튼 이벤트
 		}
-
-		boardDelete(); //게시글 삭제
 		replyToggle(); //댓글 토글
 		
 		
@@ -897,7 +895,6 @@
 								var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
 					
 								cntCheckData = {
-									dangNo:dangNo,
 									memberNo:memberNo,
 									boardWriteDate:boardWriteDate
 								}
@@ -922,18 +919,20 @@
 					                    		contentType: 'application/json',
 					                    		async:false,
 					                    		success:function(resp){
-					                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
-					                    			var writeCntTag = $("#boardModal").parent().children().children()
-			    																	.find(".fa-pen-to-square").next().next();
-					                    			var writeCnt = parseInt(writeCntTag.text());
-													writeCntTag.text(writeCnt+1);
-													
-													var scoreTag = $(".profile-box").children().find(".memberScore")
-					                    			var scoreValue = parseInt(scoreTag.text());
-					                    			scoreTag.text(scoreValue+1);
+					                    			
 					                    		}
 					                    	});
+										
+											//사이드프로필 활동점수 +1
+											var scoreTag = $(".profile-box").children().find(".memberScore")
+			                    			var scoreValue = parseInt(scoreTag.text());
+			                    			scoreTag.text(scoreValue+1);
 										}
+										//사이드 프로필 작성글+1
+		                    			var writeCntTag = $("#boardModal").parent().children().children()
+    																	.find(".fa-pen-to-square").next().next();
+		                    			var writeCnt = parseInt(writeCntTag.text());
+										writeCntTag.text(writeCnt+1);
 									}
 								});
 								$("#boardModal").modal('hide');
@@ -1243,6 +1242,105 @@
 			}
 		});
 		
+		//게시글 삭제	
+		$(document).on("click", ".delete-drop", function(){
+			var boardNo = $(this).parent().data("bno"); //글번호
+			var memberNo = $("[name=memberNo]").val();
+			var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
+			var todayReplyCnt = boardBox.children().eq(3).children().eq(0).children().eq(2).text();
+			if(todayReplyCnt==""){
+				todayReplyCnt=parseInt(0);
+			}
+			var todayBoardWriteCnt = todayWriteCnt();
+			console.log("오늘 작성한 게시글 수 = "+todayBoardWriteCnt);
+			console.log("오늘 작성한 댓글 수 = "+todayReplyCnt);
+			$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+			$(".modal-delete-btn").addClass("board-delete-now");
+			$("#deleteModal").modal("show");
+			
+			//삭제 확인 버튼 누를 경우
+			$(".board-delete-now").click(function(){
+				console.log("글 번호 = "+boardNo);
+				boardDeleteAttachmentAll(boardNo); //첨부파일 삭제
+
+				//삭제 ajax 실행
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
+					method:"delete",
+					async:false,
+					success:function(resp){
+						if(resp==true){
+							console.log("삭제 성공 후 실행중!");
+							$(".modal-delete-btn").removeClass("board-delete-now");
+							$("#deleteModal").modal("hide");
+							boardBox.remove(); //출력된 게시글 지우기
+
+							//사이드 프로필 댓글 수 변경
+							var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+							var replyCnt = parseInt(replyCntTag.text());
+							console.log(replyCnt);
+							replyCntTag.text(replyCnt-parseInt(todayReplyCnt));
+							
+							//사이드 프로필 게시글 수 변경
+							var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
+							var writeCnt = parseInt(writeCntTag.text());
+							console.log(writeCnt);
+							writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
+							
+							if(todayBoardWriteCnt<=5 && todayBoardWriteCnt>0){ //삭제전 게시물 수가 5이하일 경우 활동점수 -1
+								console.log("당일 게시물 5개 이하이므로 활동점수 -1중!");
+								
+								//등급 마이너스 처리
+								$.ajax({
+		                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberNo,
+		                    		method:"patch",
+		                    		data:memberNo,
+		                    		contentType: 'application/json',
+		                    		async:false,
+		                    		success:function(resp){
+		                    			//활동점수 실시간 출력
+		                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
+		                    			var sideScoreValue = parseInt(sideScoreTag.text());
+		                    			sideScoreTag.text(sideScoreValue-1);
+		                    		}
+		                    	});
+								
+							}
+						}
+					}
+				});
+				
+			});
+			
+			//삭제 취소버튼 누를 경우
+			$(".delete-cancel-btn").click(function(){
+				$(".modal-delete-btn").removeClass("board-delete-now");
+			});
+			
+		});
+		
+		//당일 작성 게시글 수 반환
+		function todayWriteCnt(){
+			var memberNo = $("[name=memberNo]").val();
+			var now = moment(new Date).format('YYYY-MM-DD');
+			var result;
+			dayWriteCheckData = {
+				memberNo:memberNo,
+				boardWriteDate:now
+			}
+			$.ajax({ //당일 작성글 개수 확인
+				url:"${pageContext.request.contextPath}/rest_board/day_write",
+				method:"get",
+				data:dayWriteCheckData,
+				async:false,
+				contentType:"application/json",
+				success:function(resp){
+					console.log("함수 안 실행중, 하루 작성 게시글 수 = "+resp);
+					result = resp;
+				}
+			});
+			return result;
+		}
 		
 		//게시글 등록 모달 작성중 취소, 돌아가기 시 첨부파일 삭제
 		function writeBoardDeleteAttachmentNo(){
@@ -1395,82 +1493,6 @@
 			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
 			boardGroup.append(boardBox);
 		}
-
-		//게시글 삭제	
-		function boardDelete(){
-			$(document).on("click", ".delete-drop", function(){
-				var findTag = $(this).parents(".dropdown").prev().text();
-				var trim = jQuery.trim(findTag);
-				var writeDate = trim.substring(0,10); //작성 날짜
-				var now = moment(new Date).format("YYYY.MM.DD"); //현재 날짜
-				var boardNo = $(this).parent().data("bno"); //글번호
-				var memberNo = $("[name=memberNo]").val();
-				var memberScore = 1;
-				var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
-
-				$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
-				$(".modal-delete-btn").addClass("board-delete-now");
-				$("#deleteModal").modal("show");
-				
-				//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
-				var judge = $(".modal-delete-btn").hasClass("board-delete-now");
-				if(judge){
-					//삭제 확인 버튼 누를 경우
-					$(".board-delete-now").click(function(){
-						boardDeleteAttachmentAll(boardNo); //첨부파일 삭제
-						$(this).parents(".board-box").remove(); //출력된 태그 비동기로 삭제
-						//댓글 조회 후 삭제
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_reply/replyno_list/"+boardNo,
-							method:"get",
-							async:false,
-							success:function(resp){
-
-								//댓글 삭제 & 사이드 프로필 메뉴 댓글수량만큼 마이너스
-								if(resp.length>0){
-									
-									for(var i=0; i<resp.length; i++){
-										$.ajax({
-											url:"${pageContext.request.contextPath}/rest_reply/delete/"+resp[i],
-											method:"delete",
-											async:false,
-											success:function(resp){}
-										});	
-									}
-									
-									var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
-									var replyCnt = parseInt(replyCntTag.text());
-									replyCntTag.text(replyCnt-(resp.length));
-								}
-								
-							}
-						});
-						
-						//삭제 ajax 실행
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
-							method:"delete",
-							async:false,
-							success:function(resp){
-								$(".modal-delete-btn").removeClass("board-delete-now");
-								$("#deleteModal").modal("hide");
-								boardBox.remove(); //출력된 게시글 지우기
-								var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
-								var writeCnt = parseInt(writeCntTag.text());
-								writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
-							}
-						});
-					});
-					
-					//삭제 취소버튼 누를 경우
-					$(".delete-cancel-btn").click(function(){
-						$(".modal-delete-btn").removeClass("board-delete-now");
-					});
-					
-				}
-				
-			});
-		}
 		
 		//수정 전 게시글 내 첨부파일 삭제
 		function xBtn(thistag){
@@ -1500,6 +1522,7 @@
 				method:"get",
 				async:false,
 				success:function(resp){
+					if(resp.length==0) return;
 					for(var i=0; i<resp.length; i++){
 						var attachmentNo = resp[i].attachmentNo;
 		        		$.ajax({
