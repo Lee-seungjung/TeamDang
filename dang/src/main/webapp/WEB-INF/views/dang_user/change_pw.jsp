@@ -51,13 +51,13 @@
 			<div class = "row my-3 div-change-pw-input">
 				<form action = "change_pw" method = "post" class = "col-10 offset-1">
 					<div class = "row my-3">
-						<input name = "userPwNow" type = "password" class = "p-2 w-100" placeholder = "기존 비밀번호" maxlength = "16">
+						<input name = "userPwNow" type = "password" class = "p-2 w-100" placeholder = "기존 비밀번호" maxlength = "16" autocomplete = "false">
 					</div>
 					<div class = "row my-3">
-						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "새로운 비밀번호" maxlength = "16">
+						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "새로운 비밀번호" maxlength = "16" autocomplete = "false">
 					</div>
 					<div class = "row my-3">
-						<input name = "userPwck" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인" maxlength = "16">
+						<input name = "userPwck" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인" maxlength = "16" autocomplete = "false">
 					</div>
 					<div class = "row my-3">
 						<button type = "submit" class = "btn-change-user-pw-submit p-2">변경</button>

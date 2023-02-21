@@ -54,7 +54,7 @@
 			<div class = "row mb-2 div-close-user-pwck-input">	
 				<form action = "close_pwck" method = "post" class = "col-10 offset-1">
 					<div class = "row my-4">
-						<input name = "userPw" type = "password" class = "w-100 p-2" placeholder = "비밀번호 확인" maxlength = "16">
+						<input name = "userPw" type = "password" class = "w-100 p-2" placeholder = "비밀번호 확인" maxlength = "16" autocomplete = "false">
 					</div>
 					<div class = "row my-4">
 						<button type = "submit" class = "w-100 p-2 btn-close-pwck-submit">확인</button>
