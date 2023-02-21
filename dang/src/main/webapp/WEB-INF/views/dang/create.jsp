@@ -76,11 +76,6 @@
 		font-size : 20px;
     }
     
-    .span-dang-name-count-max,
-    .span-dang-info-count-max {
-    	color : red;
-    }
-    
     .div-create-dang-dang-info,
     .div-create-dang-dang-creator-info {
     	border : 1px solid #E8E8E8;
@@ -397,11 +392,6 @@
 				size --;
 			}
 			spanDangName.textContent = size;
-			
-			// 댕모임명 입력창에 입력된 글자수가 10글자일 때 
-			if(size >= 10) {
-				$(".span-dang-name-count").addClass("span-dang-name-count-max"); // 댕모임명 입력창의 글자색을 빨간색으로
-			}
 		});
 		
 		// 댕모임명 유효성 검사
@@ -435,10 +425,6 @@
 				size --;
 			}
 			spanDangInfo.textContent = size;
-			// 댕모임 정보 입력창에 입력된 글자수가 30글자일 때
-			if(size >= 30) {
-				$(".span-dang-info-count").addClass("span-dang-info-count-max"); // 댕모임 정보 입력 글자수를 빨간색으로
-			}
 		});
 		
 		// 댕모임 회원 총원
@@ -579,11 +565,12 @@
 			$(".check-member-nick").remove();
 			
 			// 댕모임명을 입력하지 않았으면 helper text 표시
-			if($(".div-check-dang-name").val().length < 1) {
+			if($("[name=dangName]").val().length < 1) {
 				$(".div-check-dang-name")
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-dang-name check-dang-name-empty").text("댕모임명을 입력해 주세요.")	
 					)
+				formValidCheck.checkDangName = false;
 			}
 			
 			// 댕모임 인원수를 선택하지 않았으면 helper text 표시
@@ -592,6 +579,7 @@
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-dang-headmax check-dang-headmax-empty").text("총원을 선택해 주세요.")		
 					)
+				formValidCheck.checkDangHeadmax = false;
 			}
 			
 			// 댕모임 공개 여부를 설정하지 않았으면 helper text 표시
@@ -600,6 +588,7 @@
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-empty").text("공개/비공개 여부를 선택해 주세요.")
 					)
+				formValidCheck.checkDangPrivate = false;
 			}
 			
 			// 댕모임 비공개 선택시 비밀번호를 입력하지 않았다면 helper text 표시
@@ -608,6 +597,7 @@
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-dang-public check-dang-public-pw-empty").text("댕모임 비밀번호를 입력해 주세요.")
 					)
+				formValidCheck.checkDangPw = false;
 			}
 			
 			// 댕모임 활동 지역을 설정하지 않았으면 helper text 표시
@@ -616,6 +606,7 @@
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-dang-area check-dang-area-empty").text("활동 지역을 선택해 주세요.")
 					)
+				formValidCheck.checkDangArea = false;
 			}
 			
 			// 댕모임 내 닉네임을 입력하지 않았으면 helper text 표시
@@ -624,9 +615,8 @@
 					.append(
 						$("<span>").attr("class", "span-check span-check-invalid check-member-nick check-member-nick-empty").text("2글자 이상의 닉네임을 입력해 주세요.")
 					)
+				formValidCheck.checkMemberNick = false;
 			}
-			
-			return;
 			
 			// 댕모임 개설 유효성 검사를 통과하지 못하면 return
 			if(formValidCheck.isAllValid() == false) {

@@ -341,6 +341,11 @@
 									</label>
 								</div>
 							</div>
+							<div class = "row">
+								<div class = "col">
+									<span class = "span-check span-check-invalid check-term check-term-invalid">필수 약관에 동의해 주세요.</span>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class = "row my-3">
@@ -915,23 +920,45 @@
 			}
 		});
 		
-		//$(document).on("input", ".input-user-tel", function(){});
+
 		// 전화번호
+		// - 앞자리 선택
+		$(".select-user-tel-first").on("change", function(){
+			// 초기화
+			$(".check-tel").hide();
+			if($(this).val() != "") {
+				console.log("전화번호 입력 안함1")
+				$(".input-user-tel-second").val("");
+				$(".input-user-tel-third").val("");
+				formValidCheck.checkTel = true;
+			} else {
+				console.log("전화번호 입력해야함")
+				formValidCheck.checkTel = false;
+			}
+		});
+		
+		// - 뒷자리 입력
 		$(".input-user-tel").blur(function(){
 			// 초기화
 			$(".check-tel").hide();
-			var userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
-			console.log(userTel)
-			var regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-			if(regexp.test(userTel) != true) {
-				$(".check-tel-invalid").show();
-				console.log("탈락")
-				formValidCheck.checkTel = false;
-				return;
+			// 앞 자릿수를 선택했다면 (전화번호를 입력하려는 상황이라면)
+			if($(".select-user-tel-first").val() != "") {
+				var userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
+				console.log(userTel)
+				var regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+				if(regexp.test(userTel) != true) {
+					$(".check-tel-invalid").show();
+					console.log("탈락")
+					formValidCheck.checkTel = false;
+					return;
+				}	
+				$(".check-tel-valid").show();
+				console.log("유효한 전화번호")
+				formValidCheck.checkTel = true;
+			} else {
+				console.log("전화번호 입력안함2")
+				formValidCheck.checkTel = true;
 			}
-			$(".check-tel-valid").show();
-			console.log("통과")
-			formValidCheck.checkTel = true;
 		});
 		
 		// 성별 선택
@@ -1044,6 +1071,10 @@
 				console.log(formValidCheck.checkEmail);
 				console.log("isAllValid() = " + formValidCheck.isAllValid());
 				$(".check-cert-valid").show();
+				// 이메일 입력창 잠금
+				$("#userEmail").attr("disabled", true);
+				// 이메일 인증번호 입력창 잠금
+				$("#userCert").attr("disabled", true);
 			} else {
 				formValidCheck.checkEmail = false;
 				$(".check-cert-invalid").show();
@@ -1107,15 +1138,67 @@
 		
 		// form 전송
 		$(".btn-submit-join").click(function(e){
+			// 기본 이벤트 차단 (form 전송)
 			e.preventDefault();
+			
+			// Helper Text 초기화
+			$(".span-check").hide();
+			
+			// 아이디 입력
+			if($("#userId").val() == "") {
+				$(".check-id-empty").show();
+			}
+			
+			// 비밀번호 입력
+			if($("#userPw").val() == "") {
+				$(".check-pw-empty").show();
+			} else {
+				if($("#userPwck").val() == "") {
+					$(".check-pwck-empty").show();
+				}
+			}
+			
+			// 닉네임 입력
+			if($("#userNick").val() == "") {
+				$(".check-nick-empty").show();
+			}
+			
+			// 전화번호
+			if($(".select-user-tel-first").val() != "") {
+				if($(".input-user-tel-second").val() == "" || $(".input-user-tel-third").val() == "") {
+					$(".check-tel-invalid").show();
+				}
+			}
+			
+			// 이메일 인증
+			if($("#userEmail").val() == "") {
+				$(".check-cert-email-empty").show();
+			} else {
+				if($("#userCert").val() == "") {
+					$(".check-cert-invalid").show();
+				}
+			}
+			
 			// 성별 선택 검사
-			$(".check-gender").hide();
 			if($(".gender-selected").length < 1) {
 				$(".check-gender-non-selected").show();
-				return;
 			}
+			
+			// 약관 동의
+			if($(".check-term:checked").length < 2) {
+				$(".check-term-invalid").show();
+			}
+			
 			// 회원 가입 유효성 검사
 			if(formValidCheck.isAllValid() == false) {
+/* 				console.log("아이디 "+formValidCheck.checkId);
+				console.log("비번 "+formValidCheck.checkPw);
+				console.log("비번확인 "+formValidCheck.checkPwck);
+				console.log("닉넴 "+formValidCheck.checkNick);
+				console.log("전화 "+formValidCheck.checkTel);
+				console.log("성별 "+formValidCheck.checkGender);
+				console.log("메일 "+formValidCheck.checkEmail);
+				console.log("약관 "+formValidCheck.checkTerm); */
 				return;
 			}
 			var form = $("<form>").attr("action", "join").attr("method", "post");
@@ -1141,7 +1224,7 @@
 			checkPw : false,
 			checkPwck : false,
 			checkNick : false,
-			checkTel : false,
+			checkTel : true, // 전화번호는 null이 가능하므로 초기에 true로 설정
 			checkGender : false,
 			checkEmail : false,
 			checkTerm : false,
@@ -1150,6 +1233,6 @@
 				return this.checkId && this.checkPw && this.checkPwck && this.checkNick && this.checkTel && this.checkGender && this.checkEmail && this.checkTerm;
 			}
 		};
-		
 	});
+	
 </script>

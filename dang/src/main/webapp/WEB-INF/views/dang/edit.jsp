@@ -16,10 +16,6 @@
 		font-size : 20px;
 	}
 	
-	.content-full {
-		color : red;
-	}
-
 	.form-edit-dang {
 		border : 1px solid #E8E8E8;
 		border-radius : 15px;
@@ -338,16 +334,10 @@
 		// 댕모임명
 		var dangNameNowLength = $("[name=dangName]").val().length;
 		$(".span-dang-name").text(dangNameNowLength);
-		if(dangNameNowLength >= 10) {
-			$(".span-dang-edit-info-dang-name").addClass("content-full")
-		}
 		
 		// 댕모임 정보
 		var dagnInfoNowLength = $("[name=dangInfo]").val().length;
 		$(".span-dang-info").text(dagnInfoNowLength);
-		if(dagnInfoNowLength >= 30) {
-			$(".span-dang-edit-info-dang-info").addClass("content-full")
-		}
 		
 		// 선택했던 활동 지역 표시
 		var dangAreaNameNowSelected = $("#dangArea").val();
@@ -420,14 +410,9 @@
 			
 			var size = textDangName.length;
 			
-			if(size >= 10) {
-				while(size > 10) {
-					inputDangName.value = inputDangName.value.substring(0, size - 1);
-					size --;
-				}	
-				$(".span-dang-edit-info-dang-name").addClass("content-full");
-			} else {
-				$(".span-dang-edit-info-dang-name").removeClass("content-full");
+			while(size > 10) {
+				inputDangName.value = inputDangName.value.substring(0, size - 1);
+				size --;
 			}
 			spanDangName.textContent = size;
 		});
@@ -454,14 +439,9 @@
 			
 			var size = textDangInfo.length;
 			
-			if(size >= 30) {
-				while(size > 30) {
-					textareaDangInfo.value = textareaDangInfo.value.substring(0, size - 1);
-					size --;
-				}
-				$(".span-dang-edit-info-dang-info").addClass("content-full");
-			} else {
-				$(".span-dang-edit-info-dang-info").removeClass("content-full");
+			while(size > 30) {
+				textareaDangInfo.value = textareaDangInfo.value.substring(0, size - 1);
+				size --;
 			}
 			spanDangInfo.textContent = size;
 		});

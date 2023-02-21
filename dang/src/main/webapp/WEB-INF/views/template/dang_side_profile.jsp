@@ -425,7 +425,7 @@
 									</div>
 									<div class="modal-body">
 										<div class="mb-3">
-											<img src="" class="img-circle profile-img profile-css change-img cursor-pointer">
+											<img src="" class="img-circle profile-img profile-css change-img">
 											<img src="${pageContext.request.contextPath}/images/edit-camera.png" class="camera-icon profile-img">
 	                							<input type="file" style="display:none;" class="input-file form-control" accept=".jpg, .png, .gif">
 	                							<input type="hidden" name="attachmentNo" value="${attachmentNo}">
@@ -433,7 +433,8 @@
 										</div>
 										<div class="mb-3 text-start">
 											<label for="recipient-name" class="col-form-label ms-2 me-1">닉네임</label><i class="fa-solid fa-asterisk text-danger"></i>
-											<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" autocomplete="off">
+											<input type="text" value="${profile.memberNick}" name="memberNick" class="form-control" id="recipient-name" 
+														autocomplete="off" maxlength = "6" placeholder="1~6자 내로 입력해주세요">
 											<span class="invalid-feedback">1~6자 내로 입력해주세요!</span>
 											<span class="invalid-feedback2">이미 사용중인 닉네임입니다!</span>
 										</div>
@@ -1606,9 +1607,12 @@
 				
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
 				var originMessage = $(".originMessage").text(); //기존 상태메세지
+				var messageLength = originMessage.length; //상태메세지 글자수
 				
 				$("[name=memberNick]").val(originMemberNick).removeClass("is-valid is-invalid invalid");
 				$("[name=memberMessage]").val(originMessage).removeClass("is-valid is-invalid invalid");
+				$("[name=memberMessage]").prev().prev().text(messageLength);
+				
 			});		
 			
 			//입력 항목 상태 판정
@@ -1707,8 +1711,14 @@
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
 				var memberNo = $("[name=memberNo]").val();
 				var originMemberNick = $(".originNickName").text(); //기존 닉네임
+				var originMessage = $(".originMessage").text(); //기존 상태메세지
 				var memberNick = $("[name=memberNick]").val();
 				var memberMessage = $("[name=memberMessage]").val();
+				
+				//변경된 값 없을 경우 ajax 차단
+				var ajaxJudge = originMemberNick==memberNick && originMessage==memberMessage &&
+												attachmentNo == originAttachmentNo;
+				if(ajaxJudge) return;
 				
 				//1. 새로운 파일의 유무로 구분
 				//   - 있을경우에만 user-img 기존 데이터 삭제 후 insert

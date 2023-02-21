@@ -79,7 +79,7 @@ public interface DangBoardDao {
 	 * @param memberNo
 	 * @return 게시글 수(int)
 	 */
-	int dayWriteCount(int dangNo, int memberNo, String boardWriteDate);
+	int dayWriteCount(int memberNo, String boardWriteDate);
 	
 	/**
 	 * 게시글 첨부파일 조회

@@ -72,10 +72,10 @@ public interface DangMemberDao {
 	
 	/**
 	 * 댕모임 회원 등급포인트 감소
-	 * @param memberNo(int),memberScore(int)
+	 * @param memberNo(int)
 	 * @return true 또는 false
 	 */
-	boolean minusScore(int memberScore, int memberNo);
+	boolean minusScore(int memberNo);
 	
 	/**
 	 * 댕모임 회원 방장여부 변경

@@ -136,7 +136,7 @@
 	<select id="dayWriteCount" resultType="int" parameterType="Map">
 		select count(*) dayCnt from (
 			select * from dang_board 
-				where member_no=#{memberNo} and dang_no=#{dangNo} 
+				where member_no=#{memberNo}
 					and TO_CHAR(board_writedate, 'YYYY-MM-DD')=#{boardWriteDate})
 	</select>
 	
