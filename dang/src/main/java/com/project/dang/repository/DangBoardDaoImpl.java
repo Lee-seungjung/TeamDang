@@ -63,9 +63,8 @@ public class DangBoardDaoImpl implements DangBoardDao{
 	
 	//하루에 작성한 게시글 수
 	@Override
-	public int dayWriteCount(int dangNo, int memberNo, String boardWriteDate) {
+	public int dayWriteCount(int memberNo, String boardWriteDate) {
 		Map<String, String> param = new HashMap<>();
-		param.put("dangNo", String.valueOf(dangNo));
 		param.put("memberNo", String.valueOf(memberNo));
 		param.put("boardWriteDate", boardWriteDate);
 		return sqlSession.selectOne("dangBoard.dayWriteCount",param);

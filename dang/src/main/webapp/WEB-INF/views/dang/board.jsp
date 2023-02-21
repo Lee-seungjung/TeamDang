@@ -495,8 +495,6 @@
 			originLike() //내가 누른 좋아요 출력
 			likeHeart(); //좋아요 버튼 이벤트
 		}
-
-		boardDelete(); //게시글 삭제
 		replyToggle(); //댓글 토글
 		
 		
@@ -647,13 +645,13 @@
 				});
 		});
 		
+		//게시글 작성 전 준비
 		$(document).on("click",".board-write",function(){
 			$("#write-file-wrap").empty();
 			$("#write-category").val("");
-			$(".b-length").text(0);
-			$("#write-content").val("");
+			$(".b-length").text(0).css("color","#495057");
+			$("#write-content").val("").removeClass("is-invalid");
 			$("#write-select-file").val("");
-			
 			
 		});
 		
@@ -670,7 +668,9 @@
 		$("#write-category").on("change",function(){
 			var value = $(this).val();
 			console.log(value);
+			$(this).removeClass("is-invalid");
 			if(value==""){
+				$(this).addClass("is-invalid");
 				bCheck.boardCategory=false;
 			}else{
 				bCheck.boardCategory=true;
@@ -687,7 +687,8 @@
 			$(this).removeClass("is-invalid");
 			if(length==0){
 				$(".b-length").css("color","#495057");
-				bCheck.boardContent=true;
+				bCheck.boardContent=false;
+				$(this).addClass("is-invalid");
 			}else if(length>1000){
 				$(this).val(value.substring(0,1000));	
 				$(".b-length").css("color","red").text(1000);
@@ -702,10 +703,18 @@
 		//파일 선택
 		$("#write-select-file").change(function(e){
 			var value = $(this).val(); //파일위치+파일명
-			console.log(value);
 			console.log(this.files); //파일 배열
+			
+			//기존파일+새파일 개수 확인
+			var w_addFiles = $(".write-files").length; //새 파일 수
+			var w_newFiles = this.files.length //추가 등록한 새 파일 수
+			var w_filesLength = w_addFiles + w_newFiles;
+			
+			console.log("새 파일 수 = "+w_addFiles);
+			console.log("추가 등록 파일 수 = "+w_newFiles);
+			console.log("총 파일 수 = "+w_filesLength);
 
-			if(this.files.length>5){
+			if(w_filesLength>5){
 				alert('파일은 5개까지 업로드 가능합니다!');
 				$(this).val("");
 				return;
@@ -729,11 +738,13 @@
                     	console.log("등록성공!");
                     	console.log(resp);
                     	
+                    	var boardWritePreviewNoList = []; //미리보기 리스트
                     	var fileDiv = $("#write-file-wrap");
                     	for(var i=0; i<resp.url.length; i++){
                     		console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	boardWritePreviewNoList.push(attachmentNo);
                         	
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto write-file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid write-files")
@@ -743,29 +754,48 @@
 							fileDiv.append(div);
                     	}
 
-            			$(".write-x-btn").click(function(){
-            				var attachmentNo = $(this).prev().data("no");
-
-            				var div = $(this).parent().remove();
-            				console.log(attachmentNo);
-
-            				$.ajax({
-            					url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
-            					method:"delete",
-            					data:attachmentNo,
-            					async:false,
-            					success:function(resp){
-            						var cnt = $(".write-file-div");
-                    				console.log(cnt.length);
-                    				if(cnt.length==0){
-                    					$("#write-select-file").val("");
-                    				}
-            					}
-            				});
-            			});
+            			//창 이동 시 미리보기 파일 삭제
+                    	$(window).on("beforeunload", function(){
+    	            		if(boardWritePreviewNoList.length == 0) {
+                				return;
+                			}
+                			
+                			$.ajax({
+                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+                				method : "delete",
+                				data : {
+                					attachmentPreviewNoList : boardWritePreviewNoList
+                				}
+                			});
+                			boardWritePreviewNoList.length=0;
+    					});
+            			
 			        }
 				});
 			}
+
+		});
+		
+		//x버튼 삭제
+		$(document).on("click",".write-x-btn",function(){
+			var attachmentNo = $(this).prev().data("no");
+
+			var div = $(this).parent().remove();
+			console.log(attachmentNo);
+
+			$.ajax({
+				url:"${pageContext.request.contextPath}/rest_attachment/delete/"+attachmentNo,
+				method:"delete",
+				data:attachmentNo,
+				async:false,
+				success:function(resp){
+					var cnt = $(".write-file-div");
+    				console.log(cnt.length);
+    				if(cnt.length==0){
+    					$("#write-select-file").val("");
+    				}
+				}
+			});
 		});
 
 		//등록모달 취소버튼 누를 경우 첨부파일 삭제
@@ -780,7 +810,10 @@
 			$("#write-category").change();
 
 			var judge = $("#write-content").val();
-			if(judge.length==0) return; //입력값 없으면
+			if(judge.length==0) {
+				$("#write-content").addClass("is-invalid");
+				return; //입력값 없으면
+			}
 			
 			if(bCheck.allValid()){
 				//boardNo 시퀀스 미리 받기
@@ -862,7 +895,6 @@
 								var boardWriteDate = moment(new Date).format('YYYY-MM-DD');
 					
 								cntCheckData = {
-									dangNo:dangNo,
 									memberNo:memberNo,
 									boardWriteDate:boardWriteDate
 								}
@@ -887,18 +919,20 @@
 					                    		contentType: 'application/json',
 					                    		async:false,
 					                    		success:function(resp){
-					                    			//사이드 프로필 메뉴 작성글+1, 활동점수+1
-					                    			var writeCntTag = $("#boardModal").parent().children().children()
-			    																	.find(".fa-pen-to-square").next().next();
-					                    			var writeCnt = parseInt(writeCntTag.text());
-													writeCntTag.text(writeCnt+1);
-													
-													var scoreTag = $(".profile-box").children().find(".memberScore")
-					                    			var scoreValue = parseInt(scoreTag.text());
-					                    			scoreTag.text(scoreValue+1);
+					                    			
 					                    		}
 					                    	});
+										
+											//사이드프로필 활동점수 +1
+											var scoreTag = $(".profile-box").children().find(".memberScore")
+			                    			var scoreValue = parseInt(scoreTag.text());
+			                    			scoreTag.text(scoreValue+1);
 										}
+										//사이드 프로필 작성글+1
+		                    			var writeCntTag = $("#boardModal").parent().children().children()
+    																	.find(".fa-pen-to-square").next().next();
+		                    			var writeCnt = parseInt(writeCntTag.text());
+										writeCntTag.text(writeCnt+1);
 									}
 								});
 								$("#boardModal").modal('hide');
@@ -915,6 +949,8 @@
 		});
 		
 		//게시글 수정 첫 화면 기본셋팅
+		var e_originContent ;
+		var e_originCategory;
 		$(document).on("click", ".edit-drop", function(){
 			$("#boardEditModal").modal("show");
 			$(".b-edit-btn").attr("data-no","");
@@ -923,12 +959,16 @@
 			var boardCategory = $(this).parents(".first-line").next().next().next().children(".col-6").children().text();
 			var boardNo = $(this).parent().data("bno");
 			var contentLength = boardContent.length;
+			
+			//수정을 위한 데이터 저장
+			e_originContent = boardContent;
+			e_originCategory = boardCategory;
 
 			//원본데이터 출력
 			$("#edit-category").val(boardCategory).prop("selected", true);
-			$("#edit-content").val(boardContent);
+			$("#edit-content").val(boardContent).removeClass("is-invalid");
 			$(".b-edit-btn").attr("data-no",boardNo);
-			$(".be-length").text(contentLength);
+			$(".be-length").text(contentLength).css("color","#495057");
 			$("#edit-select-file").val("");
 			$("#edit-file-wrap").empty();
 	
@@ -949,7 +989,7 @@
 						div.append(img).append(x);
 						fileDiv.append(div);
 	               	}
-	               	//수정 전 첨부파일 삭제
+	               	//수정 전 첨부파일 숨김
 	               	$(".x-btn").click(function(){
                 		$(this).parent().hide();
         			});
@@ -987,7 +1027,8 @@
 			$(this).removeClass("is-invalid");
 			if(length==0){
 				$(".be-length").css("color","#495057");
-				eCheck.boardContent=true;
+				eCheck.boardContent=false;
+				$(this).addClass("is-invalid");
 			}else if(length>1000){
 				$(this).val(value.substring(0,1001));	
 				$(".be-length").css("color","red").text(1000);
@@ -1004,14 +1045,14 @@
 			var value = $(this).val(); //파일위치+파일명
 			console.log(this.files); //파일 배열
 			
-			//기존파일 검사
-			var e_originFiles = $(".write-files");
-			console.log(e_originFiles);
-			console.log(e_originFiles.length);
-			var e_filesLenght = e_originFiles.length + this.files.length;
-			
+			//기존파일+새파일 개수 확인
+			var e_originFiles = $(".write-files").length; //기존 파일 수
+			var e_addFiles = $(".files").length; //새 파일 수
+			var e_newFiles = this.files.length //추가 등록한 새 파일 수
+			var e_hiddenFiles = $('.file-div:hidden').length;//숨김파일
+			var e_filesLength = e_originFiles + e_addFiles + e_newFiles - e_hiddenFiles;
 
-			if(e_filesLenght>5){
+			if(e_filesLength>5){
 				alert('파일은 5개까지 업로드 가능합니다!');
 				$(this).val("");
 				return;
@@ -1035,11 +1076,13 @@
                     	console.log("등록성공!");
                     	//console.log(resp); //url반환
                     	
+                    	var boardEditPreviewNoList = []; //미리보기 리스트
                     	var fileDiv = $("#edit-file-wrap");
                     	for(var i=0; i<resp.url.length; i++){
                     		//console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	boardEditPreviewNoList.push(attachmentNo);
                         	
                     		var div = $("<div>").attr("class","form-control col-1 inbl w-auto file-div me-1");
                     		var img = $("<img>").attr("src",resp.url[i]).attr("class","img-fluid files")
@@ -1049,9 +1092,26 @@
 							fileDiv.append(div);
                     	}
                     	
+                    	//수정 전 파일 숨김
                     	$(".x-btn").click(function(){
                     		$(this).parent().hide();
             			});
+                    	
+                    	//창 이동 시 미리보기 파일 삭제
+                    	$(window).on("beforeunload", function(){
+    	            		if(boardEditPreviewNoList.length == 0) {
+                				return;
+                			}
+                			
+                			$.ajax({
+                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+                				method : "delete",
+                				data : {
+                					attachmentPreviewNoList : boardEditPreviewNoList
+                				}
+                			});
+                			boardEditPreviewNoList.length=0;
+    					});
 
 			        }
 				});
@@ -1065,12 +1125,23 @@
 			//강제실행
 			$("#edit-category").change();
 			
+			//수정 데이터 준비
+			var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
+			var boardContent = $("#edit-content").val();
+			var boardCategory = $("#edit-category option:selected").val();
+			var boardAddFile = $(".files").length;
+			var boardHiddenFile = $('.file-div:hidden').length;
+			
+			var e_judge = e_originContent==boardContent && e_originCategory==boardCategory
+									&& boardAddFile==0 && boardHiddenFile==0;
+			
+			if(e_judge){
+				$("#boardEditModal").modal('hide');
+				return; //수정사항 없을 경우 비동기화 중지
+			}
+			
 			if(eCheck.allValid()){
-				//수정 데이터 준비
-				var boardNo = $(this).children().find(".b-edit-btn").attr("data-no");
-				var boardContent = $("#edit-content").val();
-				var boardCategory = $("#edit-category option:selected").val();
-						
+
 				editBoardData = {
 					boardNo:boardNo,
 					boardContent:boardContent,
@@ -1164,14 +1235,112 @@
 								}
 							}
 						});
-			        	
     					$("#edit-file-wrap").empty();
-						$("#boardEditModal").modal('hide');
+    					$("#boardEditModal").modal('hide');
 					}
 				});
 			}
 		});
 		
+		//게시글 삭제	
+		$(document).on("click", ".delete-drop", function(){
+			var boardNo = $(this).parent().data("bno"); //글번호
+			var memberNo = $("[name=memberNo]").val();
+			var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
+			var todayReplyCnt = boardBox.children().eq(3).children().eq(0).children().eq(2).text();
+			if(todayReplyCnt==""){
+				todayReplyCnt=parseInt(0);
+			}
+			var todayBoardWriteCnt = todayWriteCnt();
+			console.log("오늘 작성한 게시글 수 = "+todayBoardWriteCnt);
+			console.log("오늘 작성한 댓글 수 = "+todayReplyCnt);
+			$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
+			$(".modal-delete-btn").addClass("board-delete-now");
+			$("#deleteModal").modal("show");
+			
+			//삭제 확인 버튼 누를 경우
+			$(".board-delete-now").click(function(){
+				console.log("글 번호 = "+boardNo);
+				boardDeleteAttachmentAll(boardNo); //첨부파일 삭제
+
+				//삭제 ajax 실행
+				$.ajax({
+					url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
+					method:"delete",
+					async:false,
+					success:function(resp){
+						if(resp==true){
+							console.log("삭제 성공 후 실행중!");
+							$(".modal-delete-btn").removeClass("board-delete-now");
+							$("#deleteModal").modal("hide");
+							boardBox.remove(); //출력된 게시글 지우기
+
+							//사이드 프로필 댓글 수 변경
+							var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
+							var replyCnt = parseInt(replyCntTag.text());
+							console.log(replyCnt);
+							replyCntTag.text(replyCnt-parseInt(todayReplyCnt));
+							
+							//사이드 프로필 게시글 수 변경
+							var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
+							var writeCnt = parseInt(writeCntTag.text());
+							console.log(writeCnt);
+							writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
+							
+							if(todayBoardWriteCnt<=5 && todayBoardWriteCnt>0){ //삭제전 게시물 수가 5이하일 경우 활동점수 -1
+								console.log("당일 게시물 5개 이하이므로 활동점수 -1중!");
+								
+								//등급 마이너스 처리
+								$.ajax({
+		                    		url:"${pageContext.request.contextPath}/rest_member/score_minus/"+memberNo,
+		                    		method:"patch",
+		                    		data:memberNo,
+		                    		contentType: 'application/json',
+		                    		async:false,
+		                    		success:function(resp){
+		                    			//활동점수 실시간 출력
+		                    			var sideScoreTag = $(".profile-box").children().find(".memberScore")
+		                    			var sideScoreValue = parseInt(sideScoreTag.text());
+		                    			sideScoreTag.text(sideScoreValue-1);
+		                    		}
+		                    	});
+								
+							}
+						}
+					}
+				});
+				
+			});
+			
+			//삭제 취소버튼 누를 경우
+			$(".delete-cancel-btn").click(function(){
+				$(".modal-delete-btn").removeClass("board-delete-now");
+			});
+			
+		});
+		
+		//당일 작성 게시글 수 반환
+		function todayWriteCnt(){
+			var memberNo = $("[name=memberNo]").val();
+			var now = moment(new Date).format('YYYY-MM-DD');
+			var result;
+			dayWriteCheckData = {
+				memberNo:memberNo,
+				boardWriteDate:now
+			}
+			$.ajax({ //당일 작성글 개수 확인
+				url:"${pageContext.request.contextPath}/rest_board/day_write",
+				method:"get",
+				data:dayWriteCheckData,
+				async:false,
+				contentType:"application/json",
+				success:function(resp){
+					console.log("함수 안 실행중, 하루 작성 게시글 수 = "+resp);
+					result = resp;
+				}
+			});
+			return result;
+		}
 		
 		//게시글 등록 모달 작성중 취소, 돌아가기 시 첨부파일 삭제
 		function writeBoardDeleteAttachmentNo(){
@@ -1324,82 +1493,6 @@
 			boardBox.append(firstLine).append(secondLine).append(hr).append(thirdLine).append(replyDiv);
 			boardGroup.append(boardBox);
 		}
-
-		//게시글 삭제	
-		function boardDelete(){
-			$(document).on("click", ".delete-drop", function(){
-				var findTag = $(this).parents(".dropdown").prev().text();
-				var trim = jQuery.trim(findTag);
-				var writeDate = trim.substring(0,10); //작성 날짜
-				var now = moment(new Date).format("YYYY.MM.DD"); //현재 날짜
-				var boardNo = $(this).parent().data("bno"); //글번호
-				var memberNo = $("[name=memberNo]").val();
-				var memberScore = 1;
-				var boardBox = $(this).parents(".board-box"); //해당글 부모 board-box
-
-				$(".modal-delete-btn").removeClass("board-delete-now reply-delete-now");
-				$(".modal-delete-btn").addClass("board-delete-now");
-				$("#deleteModal").modal("show");
-				
-				//확인버튼에 지우는 클래스 포함되어 있을 경우 삭제 실행
-				var judge = $(".modal-delete-btn").hasClass("board-delete-now");
-				if(judge){
-					//삭제 확인 버튼 누를 경우
-					$(".board-delete-now").click(function(){
-						boardDeleteAttachmentAll(boardNo); //첨부파일 삭제
-						$(this).parents(".board-box").remove(); //출력된 태그 비동기로 삭제
-						//댓글 조회 후 삭제
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_reply/replyno_list/"+boardNo,
-							method:"get",
-							async:false,
-							success:function(resp){
-
-								//댓글 삭제 & 사이드 프로필 메뉴 댓글수량만큼 마이너스
-								if(resp.length>0){
-									
-									for(var i=0; i<resp.length; i++){
-										$.ajax({
-											url:"${pageContext.request.contextPath}/rest_reply/delete/"+resp[i],
-											method:"delete",
-											async:false,
-											success:function(resp){}
-										});	
-									}
-									
-									var replyCntTag = $(".profile-box").children().find(".fa-comment-dots").next().next();
-									var replyCnt = parseInt(replyCntTag.text());
-									replyCntTag.text(replyCnt-(resp.length));
-								}
-								
-							}
-						});
-						
-						//삭제 ajax 실행
-						$.ajax({
-							url:"${pageContext.request.contextPath}/rest_board/delete/"+boardNo,
-							method:"delete",
-							async:false,
-							success:function(resp){
-								$(".modal-delete-btn").removeClass("board-delete-now");
-								$("#deleteModal").modal("hide");
-								boardBox.remove(); //출력된 게시글 지우기
-								var writeCntTag = $(".profile-box").children().find(".fa-pen-to-square").next().next();
-								var writeCnt = parseInt(writeCntTag.text());
-								writeCntTag.text(writeCnt-1); //사이드 프로필 메뉴 작성글-1
-							}
-						});
-					});
-					
-					//삭제 취소버튼 누를 경우
-					$(".delete-cancel-btn").click(function(){
-						$(".modal-delete-btn").removeClass("board-delete-now");
-					});
-					
-				}
-				
-			});
-		}
 		
 		//수정 전 게시글 내 첨부파일 삭제
 		function xBtn(thistag){
@@ -1429,6 +1522,7 @@
 				method:"get",
 				async:false,
 				success:function(resp){
+					if(resp.length==0) return;
 					for(var i=0; i<resp.length; i++){
 						var attachmentNo = resp[i].attachmentNo;
 		        		$.ajax({
@@ -1523,8 +1617,6 @@
 									replyRepeat(resp[i], replyBox); //댓글출력
 								}
 								
-								//durl
-								console.log("durl = "+adminCheck);
 								if(adminCheck!=1){
 									inputReply(replyBox) //입력태그 생성
 								}

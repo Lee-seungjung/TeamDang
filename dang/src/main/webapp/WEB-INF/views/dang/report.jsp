@@ -49,7 +49,11 @@
 		background-color: #F94888;
     	border-color: #F94888;
     }
-
+	.report-cancel{
+		background-color:#6c757d;
+		color:#fff;
+		border-color: #6c757d;
+	}
 
 </style>
 
@@ -229,7 +233,7 @@
 		
 		<div class="btn-box text-center mt-5 mb-5">
 			<button type="submit" class="btn btn-primary w-25">신고하기</button>
-			<button type="button" class="btn btn-pink report-cancel w-25">취소</button>
+			<button type="button" class="btn report-cancel w-25">취소</button>
 		</div>
 
 		</form>	
@@ -309,10 +313,11 @@
                     	console.log("등록성공!");
                     	console.log(resp);
                     	
+                    	var reportPreviewNoList = []; //미리보기 리스트
                     	for(var i=0; i<resp.url.length; i++){
-                    		//console.log(resp.url[i]);
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
+                        	reportPreviewNoList.push(attachmentNo);
                         	
                         	var imgTag = $(".files");
                         	//비어있는 숫자 세기
@@ -328,6 +333,21 @@
                    			imgTag.eq(k).attr("src",resp.url[i]) //이미지 넣기
            					.attr("data-no",attachmentNo); //data-no 첨부파일 번호 넣기
                     	}
+                    	
+                    	$(window).on("beforeunload", function(){
+    	            		if(reportPreviewNoList.length == 0) {
+                				return;
+                			}
+                			
+                			$.ajax({
+                				url : "${pageContext.request.contextPath}/rest_attachment/delete_preview",
+                				method : "delete",
+                				data : {
+                					attachmentPreviewNoList : reportPreviewNoList
+                				}
+                			});
+                    		reportPreviewNoList.length=0;
+    					});
 			        }
 				});
 			}
@@ -377,7 +397,6 @@
 			
 			//최종 submit
 			if(reportContent) this.submit();
-			
 			
 		});
 
