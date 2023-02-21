@@ -134,14 +134,14 @@
 			<div class="row ">
 				<div class="col  border shadow" style="border-radius: 20px;">
 					<p class="mt-3 ms-2">주소 <i class="fa-solid fa-house" style="font-size: 15; color: #F94888"></i></p>
-					<p class="ms-2" style="font-size: 12">${placeList.placeAddress}</p>
+					<p class="ms-2">${placeList.placeAddress}</p>
 					<c:if test="${placeList.placeTel != null}">	
 					<p class="mt-3 ms-2">전화번호 <i class="fa-solid fa-phone" style="font-size: 15; color: #F94888"></i></p>
-					<p class="ms-2" style="font-size: 12">${placeList.placeTel}</p>
+					<p class="ms-2">${placeList.placeTel}</p>
 					</c:if>
 					<c:if test="${placeList.specialNote != null}">	
 					<p class="mt-3 ms-2">특이사항 <i class="fa-solid fa-circle-info" style="font-size: 15; color: #F94888"></i></p>
-					<p class="ms-2" style="font-size: 12">${placeList.specialNote}</p>
+					<p class="ms-2">${placeList.specialNote}</p>
 					</c:if>
 					<c:if test="${placeList.placeUrl != null}">	
 					<p class="mt-3 ms-2">홈페이지 <i class="fa-solid fa-globe" style="font-size: 15; color: #F94888"></i></p>
@@ -149,11 +149,11 @@
 					</c:if>
 					<c:if test="${placeList.placeOperation != null}">	
 					<p class="mt-3 ms-2">영업시간 <i class="fa-solid fa-clock" style="font-size: 15; color: #F94888"></i></p>
-					<p class="ms-2" style="font-size: 12">${placeList.placeOperation}</p>
+					<p class="ms-2">${placeList.placeOperation}</p>
 					</c:if>
 					<c:if test="${placeList.placeOff != null}">
 					<p class="mt-3 ms-2">휴무일 <i class="fa-solid fa-plane" style="font-size: 15; color: #F94888"></i></p>
-					<p class="mb-4 ms-2" style="font-size: 12">${placeList.placeOff}</p>
+					<p class="mb-4 ms-2">${placeList.placeOff}</p>
 					</c:if>
 				</div>
 			</div>
