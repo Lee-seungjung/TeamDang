@@ -926,7 +926,7 @@
 		$(".select-user-tel-first").on("change", function(){
 			// 초기화
 			$(".check-tel").hide();
-			if($(this).val() != "") {
+			if($(this).val() == "") {
 				console.log("전화번호 입력 안함1")
 				$(".input-user-tel-second").val("");
 				$(".input-user-tel-third").val("");
