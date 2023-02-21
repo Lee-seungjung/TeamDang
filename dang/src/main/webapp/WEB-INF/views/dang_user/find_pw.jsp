@@ -99,12 +99,12 @@
 						<div class = "col py-2 div-find-pw-input">
 							<div class = "row pt-4 px-4">
 								<div class = "col">								
-									<input class = "input-user-id w-100 p-2" type = "text" placeholder = "아이디" maxlength = "20">
+									<input class = "input-user-id w-100 p-2" type = "text" placeholder = "아이디" maxlength = "20" autocomplete = "false">
 								</div>
 							</div>
 							<div class = "row pt-4 px-4">
 								<div class = "col-9">
-									<input class = "input-user-email w-100 p-2" type = "text" placeholder = "가입시 입력한 이메일">
+									<input class = "input-user-email w-100 p-2" type = "text" placeholder = "가입시 입력한 이메일" autocomplete = "false">
 								</div>
 								<div class = "col-3">
 									<button type = "button" class = "btn-email-submit w-100 p-2">전송</button>
@@ -112,7 +112,7 @@
 							</div>
 							<div class = "row pt-4 px-4">
 								<div class = "col-9">
-									<input class = "input-user-cert w-100 p-2" type = "text" placeholder = "인증번호">
+									<input class = "input-user-cert w-100 p-2" type = "text" placeholder = "인증번호" autocomplete = "false">
 								</div>
 								<div class = "col-3">
 									<button type = "button" class = "btn-cert-submit w-100 p-2">인증</button>

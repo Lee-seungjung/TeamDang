@@ -50,7 +50,7 @@
 			<div class = "row mb-2 div-edit-user-info-pwck-input">
 				<form action = "close_user_ck" method = "get" class = "col-10 offset-1">
 					<div class = "row my-4">
-						<input name = "closeCheck" type = "text" class = "p-2 w-100" placeholder = "즉시 탈퇴">
+						<input name = "closeCheck" type = "text" class = "p-2 w-100" placeholder = "즉시 탈퇴" autocomplete = "false">
 					</div>
 					<div class = "row my-4">
 						<button type = "submit" class = "p-2 btn-close-ck-submit">확인</button>

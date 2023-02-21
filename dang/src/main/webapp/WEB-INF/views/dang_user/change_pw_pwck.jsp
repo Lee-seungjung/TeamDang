@@ -59,7 +59,7 @@
 			<div class = "row mb-2 div-change-pw-pwck-input">
 				<form action = "change_pw_pwck" method = "post" class = "col-10 offset-1 div-change-pw-pwck">
 					<div class = "row my-4">
-						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인" maxlength = "16">
+						<input name = "userPw" type = "password" class = "p-2 w-100" placeholder = "비밀번호 확인" maxlength = "16" autocomplete = "false">
 					</div>
 					<div class = "row my-4">
 						<button type = "submit" class = "btn-change-pw-pwck-submit p-2">확인</button>
