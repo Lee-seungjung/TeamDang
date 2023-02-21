@@ -668,7 +668,7 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeName" class="form-control rounded" placeholder="장소이름">
+                    <input type="text" name="placeName" class="form-control rounded" placeholder="장소이름" maxlength="20">
                     <label>장소이름</label>
                 </div>
             </div>
@@ -683,7 +683,7 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeAddress" class="form-control rounded" placeholder="현주소">
+                    <input type="text" name="placeAddress" class="form-control rounded" placeholder="현주소" maxlength="100">
                     <label>현주소</label>
                 </div>
             </div>
@@ -714,6 +714,9 @@
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
                     <textarea name="placeInfo" class="form-control col-sm-5" rows="50"></textarea>
+                    <span class="length-font">(</span>
+                    <span class="update-info-length length-font">0</span> 
+                    <span class="length-font">/ 500 )</span>
                 </div>
             </div>
         </div>
@@ -725,7 +728,7 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeOperation" class="form-control rounded" placeholder="운영시간">
+                    <input type="text" name="placeOperation" class="form-control rounded" placeholder="운영시간" maxlength="10">
                     <label>운영시간</label>
                 </div>
             </div>
@@ -738,7 +741,7 @@
         <div class="row mt-1">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeOff" class="form-control rounded" placeholder="휴무일">
+                    <input type="text" name="placeOff" class="form-control rounded" placeholder="휴무일" maxlength="10">
                     <label>휴무일</label>
                 </div>
             </div>
@@ -751,7 +754,7 @@
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
                 <div class="form-floating">
-                    <input type="text" name="placeTel" class="form-control rounded" placeholder="전화번호">
+                    <input type="text" name="placeTel" class="form-control rounded" placeholder="전화번호" maxlength="13">
                     <label>전화번호</label>
                 </div>
             </div>
@@ -773,7 +776,7 @@
         
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
-                <p>등록될 장소의 특이사항을 적어 주세요:)</p>
+                <p>수정될 장소의 특이사항을 적어 주세요:)</p>
             </div>
         </div>
         <div class="row mt-1">
@@ -781,6 +784,9 @@
                 <div class="form-floating">
                     <input type="text" name="specialNote" class="form-control rounded" placeholder="특이사항">
                     <label>특이사항</label>
+                    <span class="length-font">(</span>
+                    <span class="update-note-length length-font">0</span> 
+                    <span class="length-font">/ 30 )</span>
                 </div>
             </div>
         </div>
@@ -930,7 +936,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeNameInsert" class="form-control rounded" placeholder="장소이름">
+		                    <input type="text" name="placeNameInsert" class="form-control rounded" placeholder="장소이름" maxlength="20">
 		                    <label>장소이름</label>
 		                </div>
 		            </div>
@@ -944,7 +950,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeAddressInsert" class="form-control rounded" placeholder="현주소">
+		                    <input type="text" name="placeAddressInsert" class="form-control rounded" placeholder="현주소" maxlength="100">
 		                    <label>현주소</label>
 		                </div>
 		            </div>
@@ -975,6 +981,9 @@
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
 		                    <textarea name="placeInfoInsert" class="form-control col-sm-5" rows="50"></textarea>
+		                    <span class="length-font">(</span>
+                            <span class="insert-info-length length-font">0</span> 
+                            <span class="length-font">/ 500 )</span>
 		                </div>
 		            </div>
 		        </div>
@@ -986,7 +995,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOperationInsert" class="form-control rounded" placeholder="운영시간">
+		                    <input type="text" name="placeOperationInsert" class="form-control rounded" placeholder="운영시간" maxlength="10">
 		                    <label>운영시간</label>
 		                </div>
 		            </div>
@@ -999,7 +1008,7 @@
 		        <div class="row mt-1">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeOffInsert" class="form-control rounded" placeholder="휴무일">
+		                    <input type="text" name="placeOffInsert" class="form-control rounded" placeholder="휴무일" maxlength="10">
 		                    <label>휴무일</label>
 		                </div>
 		            </div>
@@ -1012,7 +1021,7 @@
 		        <div class="row mt-4">
 		            <div class="col-md-10 offset-md-1">
 		                <div class="form-floating">
-		                    <input type="text" name="placeTelInsert" class="form-control rounded" placeholder="전화번호">
+		                    <input type="text" name="placeTelInsert" class="form-control rounded" placeholder="전화번호" maxlength="13">
 		                    <label>전화번호</label>
 		                </div>
 		            </div>
@@ -1040,6 +1049,9 @@
 		                <div class="form-floating">
 		                    <input type="text" name="specialNoteInsert" class="form-control rounded" placeholder="특이사항">
 		                    <label>특이사항</label>
+		                    <span class="length-font">(</span>
+                            <span class="insert-note-length length-font">0</span> 
+                            <span class="length-font">/ 30 )</span>
 		                </div>
 		            </div>
 		        </div>
@@ -1135,17 +1147,17 @@
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
-		$(".length").text(textLength);
+		$(".insert-info-length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
 		if(textLength==500){
-			$(".length").css("color","red").text(500);
+			$(".insert-info-length").css("color","red").text(500);
 			$(this).addClass("is-valid");
 		}else if(textLength>500){
 			$(this).val(value.substring(0,500));	
-			$(".length").css("color","red").text(500);
+			$(".insert-info-length").css("color","red").text(500);
 			$(this).addClass("is-invalid");
 		}else if(textLength>0){
-			$(".length").css("color","#495057");
+			$(".insert-info-length").css("color","#495057");
 			$(this).addClass("is-valid");
 		}
 	});
@@ -1155,17 +1167,17 @@
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
-		$(".length").text(textLength);
+		$(".update-info-length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
 		if(textLength==500){
-			$(".length").css("color","red").text(500);
+			$(".update-info-length").css("color","red").text(500);
 			$(this).addClass("is-valid");
 		}else if(textLength>500){
 			$(this).val(value.substring(0,500));	
-			$(".length").css("color","red").text(500);
+			$(".update-info-length").css("color","red").text(500);
 			$(this).addClass("is-invalid");
 		}else if(textLength>0){
-			$(".length").css("color","#495057");
+			$(".update-info-length").css("color","#495057");
 			$(this).addClass("is-valid");
 		}
 	});
@@ -1175,17 +1187,17 @@
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
-		$(".length").text(textLength);
+		$(".insert-note-length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
 		if(textLength==30){
-			$(".length").css("color","red").text(30);
+			$(".insert-note-length").css("color","red").text(30);
 			$(this).addClass("is-valid");
 		}else if(textLength>30){
 			$(this).val(value.substring(0,30));	
-			$(".length").css("color","red").text(30);
+			$(".insert-note-length").css("color","red").text(30);
 			$(this).addClass("is-invalid");
 		}else if(textLength>0){
-			$(".length").css("color","#495057");
+			$(".insert-note-length").css("color","#495057");
 			$(this).addClass("is-valid");
 		}
 	});
@@ -1195,17 +1207,17 @@
 		var textLength = $(this).val().length;
 		var value = $(this).val();
 		//상태메시지 글자수 표시
-		$(".length").text(textLength);
+		$(".update-note-length").text(textLength);
 		$(this).removeClass("is-valid is-invalid");
 		if(textLength==30){
-			$(".length").css("color","red").text(30);
+			$(".update-note-length").css("color","red").text(30);
 			$(this).addClass("is-valid");
 		}else if(textLength>30){
 			$(this).val(value.substring(0,30));	
-			$(".length").css("color","red").text(30);
+			$(".update-note-length").css("color","red").text(30);
 			$(this).addClass("is-invalid");
 		}else if(textLength>0){
-			$(".length").css("color","#495057");
+			$(".update-note-length").css("color","#495057");
 			$(this).addClass("is-valid");
 		}
 	});
@@ -1266,6 +1278,9 @@
         if (placeX.length === 0 || placeY.length === 0||attachmentNo.length==0||placeName.length==0||dangSize==0||placeAddress.length==0) {
             swal("필수 정보를 입력해 주세요","","error");
             return;
+        }else if(!placeUrl.match("http")){
+        	swal("URL 주소에 프로토콜을 입력해 주세요.(http)","","error");
+            return;
         }else if(confirm("정말 등록하시겠습니까?")==true){
 			$.ajax({
                 url: "${pageContext.request.contextPath}/rest_place/place_insert",
@@ -1280,6 +1295,8 @@
 		}else{
 			 return;
 		}
+        
+        
         
     }
 
@@ -1388,7 +1405,10 @@
 			if (placeX.length === 0 || placeY.length === 0||attachmentNo.length==0||placeName.length==0||dangSize==0||placeAddress.length==0) {
 	            swal("정보를 입력해 주세요","","error");
 	            return;
-			}else if(confirm("정말 수정하시겠습니까?")==true){
+			}else if(!placeUrl.match("http")){
+	        	swal("URL 주소에 프로토콜을 입력해 주세요.(http)","","error");
+	            return;
+	        }else if(confirm("정말 수정하시겠습니까?")==true){
 				$.ajax({
 					url:"${pageContext.request.contextPath}/rest_place/update",
 					method:"put",
