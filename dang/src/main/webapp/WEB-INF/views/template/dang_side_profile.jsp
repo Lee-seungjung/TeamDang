@@ -626,8 +626,7 @@
 
                         <div class="mb-3 text-start">
                             <label for="write-category" class="col-form-label ms-2 me-1">최대 참여인원 </label><i class="fa-solid fa-asterisk text-danger"></i>
-                                                            <select style="color: #757575;" name="scheduleHeadmax" class="persons rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
-                                    <option value="" >인원수</option>
+                                <select style="color: #757575;" name="scheduleHeadmax" class="persons rounded pb-1 ps-1  inbl w-50 b-contentbox form-content">
                                     <option class="people-5">5</option>
                                     <option class="people-10">10</option>
                                     <option class="people-15">15</option>

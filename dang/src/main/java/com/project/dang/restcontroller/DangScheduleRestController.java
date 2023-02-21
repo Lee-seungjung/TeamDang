@@ -35,10 +35,16 @@ public class DangScheduleRestController {
 		return dangScheduleDao.list(dangNo);
 	}
 
-	// 달력에서 클릭시 모달에서 일정 간단 조회
+	// 달력에서 클릭시 모달에서 일정 간단 조회(일정막대별)
 	@GetMapping("/schedule_modal")
 	public ScheduleOneVO scheduleOne(@RequestParam int scheduleNo, @RequestParam Integer dangNo) {
 		return dangScheduleDao.scheduleOne(scheduleNo, dangNo);
+	}
+	
+	// 달력에서 클릭시 모달에서 일정 간단 조회	(날짜별)
+	@GetMapping("/schedule_date")
+	public ScheduleOneVO scheduleDate(@RequestParam String scheduleStart, @RequestParam Integer dangNo) {
+		return dangScheduleDao.scheduleDate(scheduleStart, dangNo);
 	}
 
 	// 사이드 프로필 좌측하단 댕모임 등록
@@ -68,13 +74,20 @@ public class DangScheduleRestController {
 	}
 	
 	@PostMapping("/schedule_join")
-	public void  scheduleJoin(DangJoinDto dangJoinDto) {		
+	public int scheduleJoin(DangJoinDto dangJoinDto) {		
 		 dangScheduleDao.memberJoin(dangJoinDto);
+		 int scheduleNo = dangJoinDto.getScheduleNo();
+		 int joinCount = dangScheduleDao.countJoin(scheduleNo);
+		 dangScheduleDao.joinPlus(scheduleNo, joinCount); 
+		 return joinCount;		 
 	}
 	
 	@DeleteMapping("/schedule_cancel")
-	public void  scheduleCancel(int scheduleNo, int memberNo) {		
+	public int  scheduleCancel(int scheduleNo, int memberNo) {		
 		 dangScheduleDao.memberJoinCancel(scheduleNo, memberNo);
+		 int joinCount = dangScheduleDao.countJoin(scheduleNo);
+		 dangScheduleDao.joinPlus(scheduleNo, joinCount); 
+		 return joinCount;
 	}
 	
 	@GetMapping("/schdule_editInfo")

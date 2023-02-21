@@ -36,7 +36,7 @@
             on ddm.place_no = p.place_no where ddm.dang_no=#{dangNo}
         </select> 
         
-              <!--스케줄 번호로 일정 목록 검색하여 날짜별 달력 하단에 모달 출력-->
+              <!--스케줄 번호, 댕모임 번호로 일정 목록 검색하여 날짜별 달력 하단에 모달 출력(일정막대별)-->
         <select id="scheduleOne" parameterType="Map" resultType="ScheduleOneVO">
            select p.place_name, ddm.* from dang_place p
             inner join (
@@ -46,7 +46,17 @@
                       on d.member_no = dm.member_no) ddm
             on ddm.place_no = p.place_no where ddm.schedule_no =#{scheduleNo} and ddm.dang_no=#{dangNo}
         </select> 
-        
+ 
+               <!--날짜, 댕모임 번호로 일정 목록 검색하여 날짜별 달력 하단에 모달 출력(날짜별)-->
+        <select id="scheduleDate" parameterType="Map" resultType="ScheduleOneVO">
+             select p.place_name, ddm.* from dang_place p
+            inner join (
+            select D.schedule_no,  D.place_no, D.schedule_title, D.schedule_start, D.schedule_hour, DM.dang_no
+            from  
+            dang_schedule D INNER join dang_member dm
+                      on d.member_no = dm.member_no) ddm
+            on ddm.place_no = p.place_no where (TO_CHAR(ddm.schedule_start, 'YYYY-MM-DD')) =#{scheduleStart} and ddm.dang_no=#{dangNo}
+        </select>        
               <!-- 일정에세 상세 클릭시 출력-->
         <select id="detail" parameterType="Map" resultType="ScheduleVO">
                         select p.place_name, ddm.* from dang_place p
@@ -62,6 +72,12 @@
         <select id="countJoin" parameterType="int" resultType="int">
 			select count(*) from dang_join where schedule_no=#{scheduleNo}
         </select> 
+  
+                        <!-- 상세 일정에서 참여인원수 증가-->
+        <update id="joinPlus" parameterType="map">
+			update dang_schedule set schedule_head = #{scheduleHead} 
+				where schedule_no = #{scheduleNo}
+        </update>       
         
                        <!-- 상세 일정에서 참여 회원 프로필 출력-->
         <select id="joinMemberList" parameterType="map" resultType="JoinMemberVO">
@@ -69,7 +85,7 @@
         </select> 
         
                       <!-- 상세 일정에서 참여 회원 확인-->
-        <select id="checkMemberList" parameterType="Map" resultType="JoinMemberVO">
+        <select id="checkMemberList" parameterType="map" resultType="JoinMemberVO">
 			select * from schedule_join_member where schedule_no=#{scheduleNo} and member_no=#{memberNo}
         </select> 
                    

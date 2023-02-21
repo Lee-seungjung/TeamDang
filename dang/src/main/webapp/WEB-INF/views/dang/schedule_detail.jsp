@@ -209,8 +209,32 @@
 	    display: flex;
 	    flex-direction: row;
 	}
+
+	.info-content {
+	    margin: 10px auto;
+	    width: 85%;
+	    height: 40px;
+	    background-color: white;
+	    border-radius: 10px;
+	    display: flex;
+	    flex-direction: row;
+	}	
 	
 	.block {
+	    display: block;
+	    line-height: 40px;
+	    border: none;
+	    background-color: #76BEFF;
+	    text-align: center;
+	    border-radius: 10px;
+	    color: white;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 40px;
+	    width: 120px;
+	}
+	
+	.block-content {
 	    display: block;
 	    line-height: 40px;
 	    border: none;
@@ -235,6 +259,22 @@
 	    height: 40px;
 	    width: 350px;
 	    margin-left: 20px;
+	}
+	
+	.block-white-content {
+	    display: block;
+	    line-height: 40px;
+	    border: none;
+	    border-radius: 10px;
+	    color: #515151;
+	    font-size: 18px;
+	    font-weight: 600;
+	    height: 40px;
+	    width: 350px;
+	    margin-left: 20px;
+	    overflow: scroll;
+	    overflow-x:hidden; 
+	    overflow-y:auto;
 	}
 	
 	.simple-schedule-box {
@@ -368,7 +408,7 @@
 	}
 	
 	.btn-delete, 
-	.btn-end {
+	.btn-finish {
 	    display: block;
 	    line-height: 50px;
 	    border: none;
@@ -442,9 +482,9 @@
 						<strong class = "schedule-name">${scheduleDetail.scheduleTitle}</strong>
 					</div>
 			
-					<div class = "info-commons dang-content">
-						<div class="block">모임 내용</div>
-						<div class="block-white detail-content schedule-content">${scheduleDetail.scheduleContent}</div>
+					<div class = "info-content dang-content">
+						<div class="block-content">모임 내용</div>
+						<div class="block-white-content detail-content schedule-content">${scheduleDetail.scheduleContent}</div>
 					</div>    
 			
 					<div class = "info-commons dang-leader">
@@ -506,8 +546,8 @@
 							<button type="submit" class="btn-plus">참여</button>
 							<button type="submit" class="btn-minus">참여취소</button>
 							<button type="submit" class="btn-edit cursor-pointer">수정</button>
-							<button type="submit" class="btn-delete">삭제</button>
-							<button type="submit" class="btn-end">참여마감</button>
+							<button type="submit" class="btn-delete">삭제</button>							
+							<button type="submit" class="btn-finish">마감</button>
 						</c:otherwise>
 					</c:choose>
 					</div>					
@@ -639,7 +679,6 @@
 							<div class = "row">
 								<div class = "col">
 									<select style="color: #757575;" name="scheduleHeadmax" class="persons rounded pb-1 ps-1  inbl w-50 b-contentbox form-content select-modal-schedule-head">
-									    <option value="" >인원수</option>
 									    <option class="people-5">5</option>
 									    <option class="people-10">10</option>
 									    <option class="people-15">15</option>
@@ -720,25 +759,12 @@
 		var memberNo =$(".input-member-no").val();
 		//댕모임 개설자 번호
 		var leaderNo =$(".input-leader-no").val();
-		// 댕모임 관리자 번호
-		var adminNo =$(".input-admin-no").val();
 		
-		//멤버번호가 널값이면 관리자번호를, 있다면 멤버번호를 addressNo값으로
-		var addressNo;
-		if(memberNo == null){
-			var addressNo = adminNo;
-		}
-		else {
-			var addressNo = memberNo;
-		}
-		 
 		console.log("일정 번호 :" + scheduleNo);
 		console.log("댕모임 번호 :" + dangNo);
 		console.log("댕모임 멤버 번호 :" + memberNo);
 		console.log("댕모임 개설자 번호 :" + leaderNo);
-		console.log("관리자&유저 번호 :" + adminNo);
-		console.log("addressNo :" + adminNo);
-		
+
 		//참여 회비는 1백만원미만으로 제한(6자)
 		$(document).on("input", ".money", function(){
 			var moneyLength = $(this).val().length;
@@ -758,7 +784,7 @@
 		$(".btn-minus").hide(); //참여취소
 		$(".btn-edit").hide(); //일정수정
 		$(".btn-delete").hide(); //일정삭제
-		$(".btn-end").hide(); //일정 인원수 마감
+		$(".btn-finish").hide(); //일정 인원수 마감
 		
  		var today = new Date();
 		console.log("현재 날짜 :" + today); 
@@ -767,56 +793,72 @@
 		var scheduleDay = new Date(sdate);
 		console.log("일정 날짜 변환 :" + scheduleDay);	
 		console.log(today > scheduleDay);
-	
-		if(leaderNo == addressNo){ //개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
-			//수정, 삭제버튼 보여주기
-			$(".btn-edit").show();
-			$(".btn-delete").show();		
-		} 
-		else if(memberNo != ""){//멤버번호가 공백이라면(관리자가 아닌경우)
-			//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
-			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+addressNo,
-				method : "get",
-				async : false,
-				contentType : "application/json",
-				success : function(resp) {
-					if(today<=scheduleDay){ //일정이 현재날짜를 지나지 않았다면
-						//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
-						//일정상세에서 참여인원인 마감되었는지?
-						if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
-							if(resp.length == 0) { //참여된 멤버가 아니라면
-								$(".btn-end").show();	                        			
-	                       	} else { //참여된 멤버라면
-								$(".btn-minus").show();                        			
-	                       	}
+
+		if(memberNo != ""){
+			if(leaderNo == memberNo){ //개설자라면(로그인 멤버번호가 개설자 멤버번호와 일치하면)
+				//수정, 삭제버튼 보여주기
+				$(".btn-edit").show();
+				$(".btn-delete").show();		
+			} 
+			else{//멤버번호가 공백이 아닌경우(관리자가 아닌경우)
+				//해당 스케줄 번호의 일정 참여한 멤버번호 가 맞는지 확인위해 ajax 호출
+				$.ajax({
+					url : "http://localhost:8888/rest/dangSchedule/schedule_memberCheck?scheduleNo="+scheduleNo+"&memberNo="+memberNo,
+					method : "get",
+					async : false,
+					contentType : "application/json",
+					success : function(resp) {
+						console.log("resp :" + resp);
+						
+						console.log(today);
+						console.log(scheduleDay);
+						console.log(today<=scheduleDay);
+						console.log(${countJoin} >= ${scheduleDetail.scheduleHeadMax});
+						console.log(resp.length == 0);
+						
+						if(today<=scheduleDay){ //일정이 현재날짜를 지나지 않았다면
+							//${countJoin}명(참여인원) / ${scheduleDetail.scheduleHeadMax}명(최대참여인원)
+							//일정상세에서 참여인원인 마감되었는지?
+							if(${countJoin} >= ${scheduleDetail.scheduleHeadMax}){
+								if(resp.length == 0) { //참여된 멤버가 아니라면
+									$(".btn-finish").show();	    
+									console.log("참여멤버 아님 마감")
+		                       	} else { //참여된 멤버라면
+									$(".btn-minus").show(); 
+									console.log("참여멤버 참여취소")
+		                       	}
+							}
+							else{ //일정상세에서 참여인원이 남아있는지?
+		                     	if(resp.length == 0){ //참여된 멤버가 아니라면
+		                     		$(".btn-plus").show();	 
+		                     		console.log("참여멤버 아님 참여하기")
+		                     	} else {//참여된 멤버라면
+		                       		$(".btn-minus").show();
+		                       		console.log("참여멤버 참여취소")
+		                       	}
+							}
 						}
-						else{ //일정상세에서 참여인원이 남아있는지?
-	                     	if(resp.length == 0){ //참여된 멤버가 아니라면
-	                     		$(".btn-plus").show();	 
-	                     	} else {//참여된 멤버라면
-	                       		$(".btn-minus").show();
-	                       	}
-						}
+						else{ //일정이 현재날짜를 지났다면 (참여,참여취소,마감버튼 숨기기)
+							$(".btn-plus").hide();	 
+							$(".btn-minus").hide();
+							$(".btn-finish").hide();	 
+						}					
 					}
-					else{ //일정이 현재날짜를 지났다면 (참여,참여취소,마감버튼 숨기기)
-						$(".btn-plus").hide();	 
-						$(".btn-minus").hide();
-					}	$(".btn-end").hide();	 				
-				}
-			});			
+				});			
+			}
+			
 		}
-		else{ 
-		}
+
 			
 		//상세일정에서 참여하기 클릭
 		$(".btn-plus").click(function(){
 			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+addressNo+"&scheduleNo="+scheduleNo,
+				url : "http://localhost:8888/rest/dangSchedule/schedule_join?memberNo="+memberNo+"&scheduleNo="+scheduleNo,
 				method : "post",
  				async : false,
 				contentType : "application/json",
 				success : function(resp) {
+					console.log("resp :" +resp);
 					$(".btn-plus").hide();
                           	
 					window.confirm("일정 참여가 완료되었습니다");
@@ -831,7 +873,7 @@
 		$(".btn-minus").click(function(){
                   	
 			$.ajax({
-				url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+addressNo+"&scheduleNo="+scheduleNo,
+				url : "http://localhost:8888/rest/dangSchedule/schedule_cancel?memberNo="+memberNo+"&scheduleNo="+scheduleNo,
  				method : "delete",
 				async : false,
 				contentType : "application/json",

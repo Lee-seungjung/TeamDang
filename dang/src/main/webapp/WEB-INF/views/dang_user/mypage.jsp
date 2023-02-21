@@ -156,10 +156,10 @@
                             
                             <div class="col-7 dang-owner-info py-3">
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-4">
+                                    <div class = "owner-common col-5">
                                         <span class = "span-info-category">관심지역</span>
                                     </div>                                                       
-                                    <div class = "owner-common2 col-8 d-flex flex-column"> 
+                                    <div class = "owner-common2 col-7 d-flex flex-column"> 
                                     <c:if test="${interestArea != null}">  
 	                                   	 <c:forEach var="mypageInterestArea" items="${interestArea}">      
 	                                        <span class = "span-info">서울 ${mypageInterestArea}</span>
@@ -172,10 +172,10 @@
                                 </div>
                                 <div class = "row px-3 py-3">
                                 
-                                    <div class = "owner-common col-4">                                   
+                                    <div class = "owner-common col-5">                                   
                                         <span class = "span-info-category">키우는 댕</span>
                                     </div>
-									<div class = "owner-common2 col-8">
+									<div class = "owner-common2 col-7">
 									 <c:if test="${mypageDangNum > 0}">   
 									       <span class = "span-info">${mypageDangNum}</span>
 									       <span>마리</span>
@@ -187,10 +187,10 @@
 
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-4">
+                                    <div class = "owner-common col-5">
                                         <span class = "span-info-category">활동 댕모임</span>
                                     </div>
-                                    <div class = "owner-common2 col-8">                                  
+                                    <div class = "owner-common2 col-7">                                  
                                     <c:if test="${mypagePartyNum > 0}">
                                         <span class = "span-info">${mypagePartyNum}</span>
                                         <span>개</span>
@@ -201,10 +201,10 @@
                                     </div>
                                 </div>
                                 <div class = "row px-3 py-3">
-                                    <div class = "owner-common col-4">
+                                    <div class = "owner-common col-5">
                                         <span class = "span-info-category">최근 로그인</span>
                                     </div>
-                                    <div class = "owner-common2 col-8">
+                                    <div class = "owner-common2 col-7">
                                         <span class = "span-info">${mypageLogin}</span>
                                     </div>
                                 </div>                       
@@ -221,8 +221,15 @@
 							      		<div class = "container-fluid">
 							      			<div class = "row px-5 py-4 mt-3">
 							      				<div class = "col-6 d-flex justify-content-center align-items-center">
-							      					<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
-							      				</div>
+					                                <c:choose>
+														<c:when test = "${dangPuppyList.dangPuppyInfoDto.attachmentNo != null}">
+															<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/rest_attachment/download/${dangPuppyList.dangPuppyInfoDto.attachmentNo}">
+														</c:when>
+														<c:otherwise>
+															<img class = "w-100 img-puppy-profile img-circle" src = "${pageContext.request.contextPath}/images/mypage-mydang_edit_gray.png">
+														</c:otherwise>
+													</c:choose>
+							      				</div>			      											      				
 							      				<div class = "col-6">
 							      					<div class = "row my-4">
 							      						<div class = "col d-flex justify-content-center align-items-center">
