@@ -54,12 +54,12 @@
 		color : white;
 	}
 	
-	input {
+	input, select {
 		border : none;
 		border-radius : 5px;
 	}
 	
-	input:focus {
+	input:focus, select:focus {
 		outline : 2px solid #76BEFF;
 	}
 	
@@ -84,11 +84,26 @@
 		cursor : pointer;
 	}
 	
+	/* 전화번호 입력창 */
+	.select-user-tel-first {
+		width : 25%;
+	}
+	
+	.strong-user-tel-minus {
+		width : 5%;
+		font-size : 24px;
+	}
+	
+	.input-user-tel-second,
+	.input-user-tel-third {
+		width : 30%;
+	}
+	
 </style>
 
 <div class = "container-fluid my-2">	
 	<div class = "row">
-		<div class = "col-4 offset-4 px-5">
+		<div class = "col-4 offset-4 px-3">
 			<div class = "row my-4">
                 <div class = "col d-flex justify-content-center align-items-center">
                     <strong class = "strong-mypage-title">회원정보 변경</strong>
@@ -111,11 +126,13 @@
 							</label>
 						</div>
 					</div>
+					<c:if test = "${loginGrade != '관리자'}">
 					<div class = "row mx-4">
 						<div class = "d-flex justify-content-end align-items-center">						
 							<span class = "span-close-user" onclick="location.href = '${pageContext.request.contextPath}/user/close_pwck'">회원탈퇴</span>
 						</div>
 					</div>
+					</c:if>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span class = "span-info-category">아이디</span>
@@ -123,31 +140,52 @@
 						<input value = "${userInfo.userId}" disabled class = "col-9 p-2">
 						<input type = "hidden" name = "userNo" value = "${userInfo.userNo}">
 					</div>
-					<div class = "row my-4 mx-4 div-input-edit-user-info">
+					<div class = "row mt-4 mb-1 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>닉네임</span>
 						</div>
-						<input name = "userNick" class = "col-9 p-2" value = "${userInfo.userNick}" maxlength = "6">
+						<input name = "userNick" class = "col-9 p-2" value = "${userInfo.userNick}" maxlength = "6" autocomplete = "false" placeholder = "한글, 영문 대/소문자, 숫자를 포함한 2~6자">
 					</div>
-					<div class = "row my-4 mx-4 div-input-edit-user-info">
+					<div class = "row">
+						<div class = "col d-flex flex-column justify-content-center align-items-center div-nick-check"></div>
+					</div>
+					<div class = "row mt-4 mb-1 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>전화번호</span>
 						</div>
-						<input name = "userTel" class = "col-9 p-2" value = "${userInfo.userTel}" maxlength = "13">
+						<input type = "hidden" class = "col-9 p-2 input-user-tel" value = "${userInfo.userTel}" maxlength = "13">
+						<div class = "col-9">
+							<select class = "p-2 select-user-tel-first">
+								<option value = "">선택</option>
+								<option value = "010">010</option>
+								<option value = "011">011</option>
+								<option value = "016">016</option>
+								<option value = "017">017</option>
+								<option value = "018">018</option>
+								<option value = "019">019</option>
+							</select>
+							<strong class = "strong-user-tel-minus text-center">-</strong>
+							<input class = "p-2 input-user-tel input-user-tel-second" type = "text" autocomplete = "false" maxlength = "4">
+							<strong class = "strong-user-tel-minus text-center">-</strong>
+							<input class = "p-2 input-user-tel input-user-tel-third" type = "text" autocomplete = "false" maxlength = "4">
+						</div>
 					</div>
-					<div class = "row my-4 mx-4 div-input-edit-user-info">
+					<div class = "row">
+						<div class = "col d-flex flex-column justify-content-center align-items-center div-tel-check"></div>
+					</div>
+					<div class = "row mt-4 mb-1 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>이메일</span>
 							<input type = "checkbox" class = "ms-2 input-edit-user-info-change-email">
 						</div>
-						<input name = "userEmail" class = "col-7 p-2 input-change-email" value = "${userInfo.userEmail}">
+						<input name = "userEmail" class = "col-7 p-2 input-change-email" value = "${userInfo.userEmail}" autocomplete = "false">
 						<button type = "button" class = "col-2 p-2 btn-change-email btn-edit-user-info-cert-send">인증</button>
 					</div>
 					<div class = "row my-4 mx-4 div-input-edit-user-info">
 						<div class = "col-3 d-flex justify-content-center align-items-center div-info-category">
 							<span>이메일 인증</span>
 						</div>
-						<input class = "col-7 p-2 input-change-email input-edit-user-info-cert" maxlength = "6">
+						<input class = "col-7 p-2 input-change-email input-edit-user-info-cert" maxlength = "6" autocomplete = "false">
 						<button type = "button" class = "col-2 p-2 btn-change-email btn-edit-user-info-cert-submit">확인</button>
 					</div>
 					<div class = "row my-4 mx-4">
@@ -187,6 +225,23 @@
 		
 		// 수정 전 프로필 다운로드 링크
 		var originalProfile = $(".img-edit-profile").attr("src");
+		
+		// 전화번호
+		var inputUserTel = $(".input-user-tel").val();
+		// - 이전에 전화번호를 입력하지 않았다면 '선택'이 선택되어있도록
+		if(inputUserTel.length == 0) {
+			$(".select-user-tel-first").val("").prop("selected", true);
+		} else {
+			if(inputUserTel.length == 13) { // 두 번째 자리수가 4자리일 때
+				$(".select-user-tel-first").val(inputUserTel.substr(0, 3)).prop("selected", true);
+				$(".input-user-tel-second").val(inputUserTel.substr(4, 4));
+				$(".input-user-tel-third").val(inputUserTel.substr(9, 4));
+			} else { // 두 번째 자리수가 3자리일 때
+				$(".select-user-tel-first").val(inputUserTel.substr(0, 3)).prop("selected", true);
+				$(".input-user-tel-second").val(inputUserTel.substr(4, 3));
+				$(".input-user-tel-third").val(inputUserTel.substr(8, 4));
+			}	
+		}
 		
 		// 미리보기용 첨부파일 번호 리스트
 		var attachmentPreviewNoList = [];
@@ -233,11 +288,56 @@
 		
 		// 닉네임 체크
 		$("[name=userNick]").blur(function(){
-			if($(this).val().length == 0) {
+			$(".check-nick").remove();
+			if($(this).val().length < 2) {
 				formValidCheck.checkNick = false;
-				return;
+				$(".div-nick-check")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-empty").text("닉네임은 2~6글자가 되어야 합니다.")	
+					)
+			} else {
+				formValidCheck.checkNick = true;	
 			}
-			formValidCheck.checkNick = true;
+		});
+		
+		// 전화번호
+		// - 앞자리 선택
+		$(".select-user-tel-first").on("change", function(){
+			// 초기화
+			$(".check-tel").remove();
+			if($(this).val() == "") {
+				console.log("전화번호 입력 안함1")
+				$(".input-user-tel-second").val("");
+				$(".input-user-tel-third").val("");
+				formValidCheck.checkTel = true;
+			} else {
+				console.log("전화번호 입력해야함")
+				formValidCheck.checkTel = false;
+			}
+		});
+		
+		// - 뒷자리 입력
+		$(".input-user-tel").blur(function(){
+			// 초기화
+			$(".check-tel").remove();
+			// 앞 자릿수를 선택했다면 (전화번호를 입력하려는 상황이라면)
+			if($(".select-user-tel-first").val() != "") {
+				var userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
+				var regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+				if(regexp.test(userTel) != true) {
+					$(".div-tel-check")
+						.append(
+							$("<span>").attr("class", "span-check span-check-invalid check-tel check-tel-invalid").text("올바른 형태의 전화번호를 입력해 주세요.")	
+						)
+					console.log("탈락")
+					formValidCheck.checkTel = false;
+					return;
+				}	
+				formValidCheck.checkTel = true;
+			} else {
+				console.log("전화번호 입력안함2")
+				formValidCheck.checkTel = true;
+			}
 		});
 		
 		// 변경 전 이메일
@@ -351,6 +451,11 @@
 				return;
 			}
 			alert("이메일 인증 완료!");
+			// 이메일 및 인증번호 입력창 잠금
+			$(".input-change-email").prop("disabled", true);
+			$(".input-edit-user-info-cert").prop("disabled", true);
+			// 인증메일 전송 및 인증확인 버튼 잠금
+			$(".btn-change-email").prop("disabled", true);
 			formValidCheck.checkEmail = true;
 		});
 		
@@ -359,15 +464,63 @@
 			// 기본 이벤트(폼 전송) 차단
 			e.preventDefault();
 			console.log(formValidCheck.isAllValid())
+			
+			// 초기화
+			$(".span-check").remove();
+			
+			// 닉네임 미입력
+			if($("[name=userNick]").val().length < 2) {
+				$(".div-nick-check")
+					.append(
+						$("<span>").attr("class", "span-check span-check-invalid check-nick check-nick-empty").text("닉네임은 2~6글자가 되어야 합니다.")	
+					)
+			}
+			
+			// 전화번호 미입력
+			if($(".select-user-tel-first").val() != "") {
+				if($(".input-user-tel-second").val() == "" || $(".input-user-tel-third").val() == "") {
+					$(".div-tel-check")
+						.append(
+							$("<span>").attr("class", "span-check span-check-invalid check-tel check-tel-invalid").text("올바른 형태의 전화번호를 입력해 주세요.")	
+						)
+				}
+			}
+			
+			// 이메일 체크
+ 			if($(".input-edit-user-info-change-email").is(":checked")) {
+				if($(".input-edit-user-info-cert").val() == "") {
+					$(".div-change-email-helper-text")
+						.append(
+							$("<span>").attr("class", "span-check span-check-invalid check-cert check-cert-empty").text("인증번호를 입력해 주세요.")		
+						)
+				}
+			}
+			
 			// 회원정보 변경 유효성 판정
 			if(formValidCheck.isAllValid() == false) {
+				console.log(formValidCheck.checkNick);
+				console.log(formValidCheck.checkTel);
+				console.log(formValidCheck.checkEmail);
 				return;
 			}
+			
+			// 전화번호
+			var userTel;
+			if($(".select-user-tel-first").val() != "") {
+				userTel = $(".select-user-tel-first").val() + "-" + $(".input-user-tel-second").val() + "-" + $(".input-user-tel-third").val();
+			} else {
+				userTel = null;	
+			}
+			$(".form-edit-info")
+				.append(
+					$("<input>").attr("type", "hidden").attr("name", "userTel").attr("value", userTel)		
+				)
+			
 			if($(".input-edit-user-info-change-email").is(":checked") == false) {
 				$(".form-edit-info")
-				.append(
-					$("<input>").attr("type", "hidden").attr("name", "userEmail").attr("value", userEmailOrigin)
-				)
+					.append(
+						$("<input>").attr("type", "hidden").attr("name", "userEmail").attr("value", userEmailOrigin)
+					)
 			}
 			// 유효성 검사를 통과했을 때 폼 전송
 			$(".form-edit-info").submit();
@@ -377,10 +530,11 @@
 		var formValidCheck = {
 			// 회원가입 단계별 판정
 			checkNick : true,
+			checkTel : true,
 			checkEmail : true,
 			// 판정 결과 반환
 			isAllValid : function() {
-				return this.checkNick && this.checkEmail;
+				return this.checkNick && this.checkTel && this.checkEmail;
 			}
 		};
 	});
