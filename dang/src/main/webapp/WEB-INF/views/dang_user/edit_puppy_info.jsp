@@ -774,7 +774,7 @@
 							)
 					}
 					
-					if(resp.dangPuppyCharacter.length != 0) {
+					if(resp.dangPuppyCharacter != null) {
 						for(var i = 0 ; i < resp.dangPuppyCharacter.length ; i ++) {
 							rowDropdown
 								.append(

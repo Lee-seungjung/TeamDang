@@ -65,14 +65,21 @@
 					<c:if test = "${param.error_step1 != null}">
 						<div class = "row my-2">
 							<div class = "col d-flex justify-content-center align-items-center">
-								<span class = "span-check-invalid">비밀번호가 올바르지 않습니다.</span>
+								<span class = "span-check-invalid">기존 비밀번호가 올바르지 않습니다.</span>
 							</div>
 						</div>
 					</c:if>
 					<c:if test = "${param.error_step2 != null}">
 						<div class = "row my-2">
+							<div class = "col d-flex justify-content-center align-items-center">
+								<span class = "span-check-invalid">비밀번호는 영문 대/소문자, 숫자, 특수문자(!@#$)를 반드시 포함한 8~16자가 되어야 합니다.</span>
+							</div>
+						</div>
+					</c:if>
+					<c:if test = "${param.error_step3 != null}">
+						<div class = "row my-2">
 							<div class = "col d-flex justify-content-center align-items-center">					
-								<span class = "span-check-invalid">비밀번호가 일치하지 않습니다.</span>
+								<span class = "span-check-invalid">새로운 비밀번호가 일치하지 않습니다.</span>
 							</div>
 						</div>
 					</c:if>

@@ -302,6 +302,24 @@
 		background-color : white;
 	}
 	
+	.div-dang-search-result-empty {
+		height : 55vh;
+	}
+	
+	.img-dang-search-result-empty {
+		width : 10rem;
+		aspect-ratio : 1/1;
+	}
+	
+	.strong-dang-search-result-empty, 
+	.strong-dang-search-result-keyword {
+		font-size : 24px;
+	}
+	
+	.strong-dang-search-result-keyword {
+		color : #76BEFF
+	}
+	
 </style>
 
 <%-- 로그인 상태 판정 --%>
@@ -332,7 +350,7 @@
 										<c:forEach var = "dangInterest" items = "${dangInterest}">
 										<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
 										</c:forEach>
-										<option value = "all">관심지역 전체</option>
+										<option value = "all" class = "option-dang-interest">관심지역 전체</option>
 									</c:otherwise>
 									</c:choose>
 									<option value = "interest-area-setting" class = "option-area-setting">관심지역 설정</option>
@@ -364,6 +382,19 @@
 				</div>
 			</form> <%-- 검색 영역 끝 --%>
 			<div class = "row my-3 div-dang-search-list">
+				<c:choose>
+				<c:when test = "${dangList.size() == 0}">
+				<div class = "col my-3 d-flex flex-column justify-content-center align-items-center div-dang-search-result-empty">
+					<img src = "${pageContext.request.contextPath}/images/img-dang-empty.png" class = "img-dang-search-result-empty my-4">
+					<strong class = "strong-dang-search-result-empty">
+						"
+						<strong class = "strong-dang-search-result-keyword">${dangListRequestDto.searchName}</strong>
+						"
+						에 대한 검색결과가 없습니다.
+					</strong>
+				</div>
+				</c:when>
+				<c:otherwise>
 				<c:forEach var = "dangList" items = "${dangList}">
 				<div class = "col-4 my-3 p-3"> <%-- 태그 생성 시작 --%>
 					<div class="card col w-100 div-outer-dang-info shadow">
@@ -460,10 +491,14 @@
 					</div>
 				</div> <%-- 태그 생성 끝 --%>
 				</c:forEach>
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
+	<c:if test = "${loginGrade != '관리자'}">
 	<button class = "btn-dang-create p-0"><img class = "img-fluid img-dang-create" src = "${pageContext.request.contextPath}/images/icon-dang-create.png"></button>
+	</c:if>
 </div> <%-- container 끝 --%>
 
 <%-- 댕모임 입장용 Modal --%>
@@ -524,7 +559,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column div-modal-dang-join-check-nick">
                                 <span class = "span-modal-join-dang-helper">닉네임을 입력해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~6자)">
+                                    <input class = "flex-fill me-2 p-2 input-modal-join input-modal-join-dang-nick" type = "text" maxlength="6" placeholder = "닉네임(1~6자)" autocomplete = "false">
                                     <button type = "button" class = "px-3 btn-modal-join-dang-nick-search">확인</button>
                                 </div>
                                 <%--
@@ -538,7 +573,7 @@
                             <div class = "col-10 offset-1 d-flex flex-column">
                                 <span class = "span-modal-join-dang-helper">가입 인사를 작성해 주세요.</span>
                                 <div class = "d-flex">
-                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-message" type = "text" maxlength="30" placeholder = "가입 인사(최대 30자)">
+                                    <input class = "flex-fill p-2 input-modal-join input-modal-join-dang-message" type = "text" maxlength="30" placeholder = "가입 인사(최대 30자)" autocomplete = "false">
                                 </div>
                             </div>
                         </div>
@@ -1084,7 +1119,7 @@
 												.append(
 													$("<div>").attr("class", "d-flex")
 														.append(
-															$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)")
+															$("<input>").attr("class", "flex-fill p-2 input-modal-join input-modal-join-dang-pw").attr("type", "password").attr("maxlength", 4).attr("placeholder", "비밀번호(숫자 4자리)").attr("autocomplete", false)
 														)
 												)
 										)
@@ -1247,6 +1282,26 @@
 		var url = new URL(urlHref);
 		// - Query String
 		var queryString = url.searchParams.toString();
+		
+		// 검색어
+		var searchName = url.searchParams.get("searchName");
+		
+		// 검색 조회시 검색창에 그 값이 표시되도록
+		if(searchName != null) {
+			$(".input-dang-search-keyword").val(searchName);
+		}
+		
+		// 관심지역
+		var searchArea = url.searchParams.get("searchArea");
+		
+		// 관심지역 선택 후 조회시 관심지역 선택이 유지되도록
+		if(searchArea != null) {
+			if(searchArea == "all") {
+				$(".select-dang-search-area").val("all").prop("selected", true)
+			} else {
+				$(".select-dang-search-area").val(searchArea).prop("selected", true)
+			}
+		}
 		
 		// 댕모임 목록 무한 스크롤
 		// - 댕모임 생성 버튼 초기 위치
