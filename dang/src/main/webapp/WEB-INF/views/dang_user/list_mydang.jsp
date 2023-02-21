@@ -304,7 +304,7 @@
 		<div class="modal-content">
 			<div class="modal-body middle-items">
 				<i class="fa-solid fa-circle-exclamation pink fa-2x me-2"></i>
-				<span>정말 해체하시겠습니까?</span>
+				<span>정말 탈퇴하시겠습니까?</span>
 			</div>
 			<div>
 				<p style="font-size:13px; margin-left:35px; margin-right:35px;">
