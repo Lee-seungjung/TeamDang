@@ -57,7 +57,7 @@
 	<div class = "row">
 		<div class = "col-8 offset-2">
 			<div class="row text-center">
-				<p style="font-size:30px; font-weight:bolder;">회원관리</p>
+				<p style="font-size:30px; font-weight:bolder;">회원 관리</p>
 			</div>
 			
 			<div class = "row mt-4">
