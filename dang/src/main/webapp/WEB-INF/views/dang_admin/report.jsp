@@ -225,7 +225,7 @@
 		var link_reportState = url.searchParams.get("reportState");
 		if(link_reportState!=null){
 			$(".report-box").removeClass("select-color");
-			$(".cnt-num[data-reportstate="+reportState+"]").parent().addClass("select-color");
+			$(".cnt-num[data-reportstate="+link_reportState+"]").parent().addClass("select-color");
 		}
 		
 		// 초기 페이지네이션 1페이지를 선택
