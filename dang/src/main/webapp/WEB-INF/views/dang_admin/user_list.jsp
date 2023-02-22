@@ -213,7 +213,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -280,7 +280,7 @@ $(function(){
 		formData.append("keyword", keyword);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -343,7 +343,7 @@ $(function(){
 			formData.append("keyword", $(".user-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -396,7 +396,7 @@ $(function(){
 			formData.append("keyword", $(".user-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -444,7 +444,7 @@ $(function(){
 			formData.append("keyword", $(".user-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -494,7 +494,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/user_list",
+			url : "${pageContext.request.contextPath}/rest_admin/user_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -546,7 +546,7 @@ $(function(){
 		$(".data-body").empty();//출력 div 비우기
 		//회원 카운트 클릭 조회
 		$.ajax({
-			url:"${pageContext.request.contextPath}/admin/user_list",
+			url:"${pageContext.request.contextPath}/rest_admin/user_list",
 			method:"post",
 			data : formData,
 			contentType: false,

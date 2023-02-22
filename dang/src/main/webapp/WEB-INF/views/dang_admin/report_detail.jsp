@@ -218,7 +218,7 @@
 							dangNo:dangNo
 					}
 					$.ajax({
-						url:"${pageContext.request.contextPath}/admin/report_rejected",
+						url:"${pageContext.request.contextPath}/rest_admin/report_rejected",
 						method:"patch",
 						data:JSON.stringify(rejectData),
 		        		contentType: 'application/json',
@@ -313,7 +313,7 @@
 					reportState:reportState
 			}
 			$.ajax({
-				url:"${pageContext.request.contextPath}/admin/report_update",
+				url:"${pageContext.request.contextPath}/rest_admin/report_update",
 				method:"patch",
 				data:JSON.stringify(data),
         		contentType: 'application/json',

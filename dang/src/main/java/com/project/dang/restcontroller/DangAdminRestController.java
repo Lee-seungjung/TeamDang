@@ -41,8 +41,8 @@ import com.project.dang.vo.ReportListVO;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin")
-public class AdminRestController {
+@RequestMapping("/rest_admin")
+public class DangAdminRestController {
 	
 	@Autowired
 	private AdminDao adminDao;

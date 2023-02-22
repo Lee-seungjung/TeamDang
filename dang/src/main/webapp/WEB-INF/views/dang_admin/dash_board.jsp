@@ -212,7 +212,7 @@ $(function(){
 	Chart.defaults.global.defaultFontSize =16; 
 	Chart.defaults.global.defaultFontColor ='black'; 
     $.ajax({//지역별 이용현황 조회 비동기통신
-        url: "${pageContext.request.contextPath}/admin/group_list",
+        url: "${pageContext.request.contextPath}/rest_admin/group_list",
         method: "get",
         contentType: "application/json",
         success: function (resp) {

@@ -210,7 +210,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -279,7 +279,7 @@ $(function(){
 		formData.append("keyword", keyword);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -341,7 +341,7 @@ $(function(){
 			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -396,7 +396,7 @@ $(function(){
 			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -445,7 +445,7 @@ $(function(){
 			formData.append("keyword", $(".member-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -495,7 +495,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/member_list",
+			url : "${pageContext.request.contextPath}/rest_admin/member_list",
 			method : "post",
 			data : formData,
 			contentType: false,

@@ -259,7 +259,7 @@
             
 			if(confirm("정말 등록하시겠습니까?")==true){
 				$.ajax({
-					url: "http://localhost:8888/rest_place/place_insert",
+					url: "${pageContext.request.contextPath}/rest_place/place_insert",
 					method: "post",
 					contentType: "application/json",
 					data: JSON.stringify(data),
@@ -284,7 +284,7 @@
 
 
                 $.ajax({
-                    url: "http://localhost:8888/rest_attachment/upload",
+                    url: "${pageContext.request.contextPath}/rest_attachment/upload",
                     method: "post",
                     data: formData,
                     //jquery에서는 multipart 요청을 위해 다음 설정 2가지를 반드시 작성해야한다
