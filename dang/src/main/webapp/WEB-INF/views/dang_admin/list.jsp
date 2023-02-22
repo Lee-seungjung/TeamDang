@@ -12,6 +12,11 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
+
+		
+	* {
+		
+	}
 	
 	.btn-place-sort {
 	    height: 2em;
@@ -345,17 +350,17 @@
 	}
 </style>
 
-	<div class="container-fluid mb-5 mt-5">
+	<div class="container-fluid mt-5">
 		
-		<div class="row mt-3 mb-3">
-			<div class="col-lg-1 offset-md-2 text-lg-start text-center">
-			</div>
-			<div class="col-lg-2 offset-md-2 text-lg-start text-center">
+		<div class="row">
+			<div class="col-8 offset-2 d-flex justify-content-center align-items-center">
 				<p style="font-size:30px; font-weight:bolder;">장소 관리</p>
 			</div>
-			<div class="col-lg-2 offset-md-2 text-lg-start  me-3">
+		</div>
+		<div class = "row mt-2">
+			<div class = "col-8 offset-2 d-flex justify-content-end align-items-center">
 				<button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-backdrop="static" data-bs-target="#exampleModal">
-				  장소 등록
+				장소 등록
 				</button>
 			</div>
 		</div>
