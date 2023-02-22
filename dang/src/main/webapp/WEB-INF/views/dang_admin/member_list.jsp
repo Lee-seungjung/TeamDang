@@ -164,11 +164,11 @@
 							<c:otherwise>
 								<c:forEach var="memberListAdmin" items="${memberListAdmin}">
 									<tr class="table align-middle">
-										<td class="list-dangNo" data-dno="">${memberListAdmin.dangNo}</td>
-										<td class="list-dangName" data-dno="">${memberListAdmin.dangName}</td>
-										<td class="list-memberNick-userId" data-dno="">${memberListAdmin.memberNick}(${memberListAdmin.userId})</td>
-										<td class="list-memberGrade-memberScore" data-dno="">${memberListAdmin.memberGrade}(${memberListAdmin.memberScore})</td>
-										<td class="list-memberJoindate" data-dno="">${memberListAdmin.memberJoindate}</td>
+										<td class="list-dangNo" >${memberListAdmin.dangNo}</td>
+										<td class="list-dangName" >${memberListAdmin.dangName}</td>
+										<td class="list-memberNick-userId" >${memberListAdmin.memberNick}(${memberListAdmin.userId})</td>
+										<td class="list-memberGrade-memberScore" >${memberListAdmin.memberGrade}(${memberListAdmin.memberScore})</td>
+										<td class="list-memberJoindate" >${memberListAdmin.memberJoindate}</td>
 									</tr> 
 								</c:forEach>	       
 							</c:otherwise>
