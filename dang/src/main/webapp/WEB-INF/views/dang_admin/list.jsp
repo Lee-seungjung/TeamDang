@@ -1501,7 +1501,7 @@
 	function deleteMarker(){
 		if(confirm("정말삭제하시겠습니까?")==true){
 			$.ajax({
-				url : "${pageContext.request.contextPath}/rest_place/detail/"+placeNoInfo,
+				url : "${pageContext.request.contextPath}/rest_place/delete/"+placeNoInfo,
 				method : "delete",
 				async : false,
 				contentType : "application/json",

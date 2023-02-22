@@ -73,7 +73,7 @@ public class DangPlaceRestController {
 	}
 	
 	//삭제
-	@DeleteMapping("/detail/{placeNo}")
+	@DeleteMapping("/delete/{placeNo}")
 	public void placeDelete(@PathVariable int placeNo) {
 		int attachmentNo = dangPlaceDao.placeImgSearch(placeNo);
 		
