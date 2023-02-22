@@ -213,7 +213,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -282,7 +282,7 @@ $(function(){
 		formData.append("keyword", keyword);
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -344,7 +344,7 @@ $(function(){
 			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -399,7 +399,7 @@ $(function(){
 			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -448,7 +448,7 @@ $(function(){
 			formData.append("keyword", $(".puppy-search-input").val());
 		}
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -498,7 +498,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/puppy_list",
+			url : "${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method : "post",
 			data : formData,
 			contentType: false,
@@ -550,7 +550,7 @@ $(function(){
 		$(".puppy-data-body").empty();//출력 div 비우기
 		//댕댕이 카운트 클릭 조회
 		$.ajax({
-			url:"${pageContext.request.contextPath}/admin/puppy_list",
+			url:"${pageContext.request.contextPath}/rest_admin/puppy_list",
 			method:"post",
 			data : formData,
 			contentType: false,

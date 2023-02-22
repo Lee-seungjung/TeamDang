@@ -599,7 +599,7 @@
 			formData.append("p", p);
 			// 비동기 조회
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -679,7 +679,7 @@
 			dangArea = null;
 			// 비동기 전체 조회
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				success : function(resp) {
 					console.log(resp);
@@ -753,7 +753,7 @@
 				formData.append("dangName", keyword);
 			}
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -833,7 +833,7 @@
 			}
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -912,7 +912,7 @@
 			}
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -991,7 +991,7 @@
 			}
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -1071,7 +1071,7 @@
 			}
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -1153,7 +1153,7 @@
 			formData.append("dangName", keyword);
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -1254,7 +1254,7 @@
 			
 			// 비동기 조회
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_list",
+				url : "${pageContext.request.contextPath}/rest_admin/dang_list",
 				method : "post",
 				data : formData,
 				contentType: false,
@@ -1381,7 +1381,7 @@
 			console.log(dangNo);
 			console.log(userNo);
 			$.ajax({
-				url : "${pageContext.request.contextPath}/admin/dang_detail?dangNo="+dangNo+"&userNo="+userNo,
+				url : "${pageContext.request.contextPath}/rest_admin/dang_detail?dangNo="+dangNo+"&userNo="+userNo,
 				success : function(resp) {
 					console.log(resp);
 					
