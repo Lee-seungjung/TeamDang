@@ -350,7 +350,7 @@
 										<c:forEach var = "dangInterest" items = "${dangInterest}">
 										<option value = "${dangInterest}" class = "option-dang-interest">${dangInterest}</option>
 										</c:forEach>
-										<option value = "all" class = "option-dang-interest">관심지역 전체</option>
+										<option value = "all">관심지역 전체</option>
 									</c:otherwise>
 									</c:choose>
 									<option value = "interest-area-setting" class = "option-area-setting">관심지역 설정</option>
