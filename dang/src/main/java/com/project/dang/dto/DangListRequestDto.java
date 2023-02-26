@@ -18,7 +18,7 @@ public class DangListRequestDto {
 	private List<String> searchArea;
 	
 	// 정렬용 필드
-	private String sort = "dang_head desc, dang_like desc";
+	private String sort = "dang_like desc, dang_head desc";
 	
 	// 페이징용 필드
 	private Integer p = 1;
