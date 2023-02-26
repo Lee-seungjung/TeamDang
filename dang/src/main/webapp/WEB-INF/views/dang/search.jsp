@@ -856,7 +856,7 @@
 				console.log($(".option-dang-interest").eq(1).prop("value"));
 				console.log($(".option-dang-interest").eq(3).prop("value")); */
 				// 선택 초기화 - 셀렉트 박스의 선택한 옵션을 관심지역 선택으로 바꾸기
-				$(this, "option:eq(0)").prop("selected", true);
+				$(this).val("").prop("selected", true);
 				// 태그를 생성할 위치
 				var target = $(".div-dang-interest-list");
 				// 초기화
