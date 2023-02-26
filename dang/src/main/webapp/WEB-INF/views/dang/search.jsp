@@ -1283,7 +1283,7 @@
 		// - Query String
 		var queryString = url.searchParams.toString();
 		
-		// 검색어
+		// 검색어 표시
 		var searchName = url.searchParams.get("searchName");
 		
 		// 검색 조회시 검색창에 그 값이 표시되도록
@@ -1291,7 +1291,7 @@
 			$(".input-dang-search-keyword").val(searchName);
 		}
 		
-		// 관심지역
+		// 관심지역 표시
 		var searchArea = url.searchParams.get("searchArea");
 		
 		// 관심지역 선택 후 조회시 관심지역 선택이 유지되도록
@@ -1301,6 +1301,12 @@
 			} else {
 				$(".select-dang-search-area").val(searchArea).prop("selected", true)
 			}
+		}
+		
+		// 정렬 표시
+		var searchSort = url.searchParams.get("sort");
+		if(searchSort != null) {
+			$(".select-dang-search-sort").val(searchSort).prop("selected", true)
 		}
 		
 		// 댕모임 목록 무한 스크롤
