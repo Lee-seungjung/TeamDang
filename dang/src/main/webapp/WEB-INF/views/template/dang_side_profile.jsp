@@ -1596,6 +1596,7 @@
 			
 			//프로필 수정 전 준비
 			$(document).on("click",".profile-edit",function(){
+				console.log(sideProfilePreviewNoList);
 				var originAttachmentNo = $("[name=originAttachmentNo]").val();
 				console.log(originAttachmentNo);
 				if(originAttachmentNo==""){
@@ -1731,6 +1732,7 @@
 						userNo:userNo
 					}
 					if(originAttachmentNo==""){
+						console.log("originAttachmentNo가 공백일때!");
 						$.ajax({ //1 기존파일 없을 경우에는 그냥 insert만 처리
 							url:"${pageContext.request.contextPath}/rest_user/img_insert",
 							method:"post",
@@ -1738,8 +1740,12 @@
 							contentType:"application/json",
 							data:JSON.stringify(imgInsertData),
 							success:function(){
+								$("[name=originAttachmentNo]").val(attachmentNo);
+								
 								//배열속 값이 1일 경우 비동기화 요청 중지
 								if(sideProfilePreviewNoList.length == 1) {
+									//배열 초기화
+									sideProfilePreviewNoList.length=0;
 									return;
 								}
 								
@@ -1761,6 +1767,7 @@
 							}
 						});
 					}else{
+						console.log("originAttachmentNo와 attachment가 다를때!");
 						if(attachmentNo!=originAttachmentNo){  //1 새로운 파일 있을 경우 insert 후 기존파일 삭제처리
 							$.ajax({ //1
 								url:"${pageContext.request.contextPath}/rest_user/img_insert",
@@ -1782,6 +1789,8 @@
 									
 									//배열속 값이 1일 경우 비동기화 요청 중지
 									if(sideProfilePreviewNoList.length == 1) {
+										//배열 초기화
+										sideProfilePreviewNoList.length=0;
 										return;
 									}
 									
