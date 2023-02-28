@@ -856,7 +856,7 @@
 				console.log($(".option-dang-interest").eq(1).prop("value"));
 				console.log($(".option-dang-interest").eq(3).prop("value")); */
 				// 선택 초기화 - 셀렉트 박스의 선택한 옵션을 관심지역 선택으로 바꾸기
-				$(this, "option:eq(0)").prop("selected", true);
+				$(this).val("").prop("selected", true);
 				// 태그를 생성할 위치
 				var target = $(".div-dang-interest-list");
 				// 초기화
@@ -1283,7 +1283,7 @@
 		// - Query String
 		var queryString = url.searchParams.toString();
 		
-		// 검색어
+		// 검색어 표시
 		var searchName = url.searchParams.get("searchName");
 		
 		// 검색 조회시 검색창에 그 값이 표시되도록
@@ -1291,7 +1291,7 @@
 			$(".input-dang-search-keyword").val(searchName);
 		}
 		
-		// 관심지역
+		// 관심지역 표시
 		var searchArea = url.searchParams.get("searchArea");
 		
 		// 관심지역 선택 후 조회시 관심지역 선택이 유지되도록
@@ -1301,6 +1301,12 @@
 			} else {
 				$(".select-dang-search-area").val(searchArea).prop("selected", true)
 			}
+		}
+		
+		// 정렬 표시
+		var searchSort = url.searchParams.get("sort");
+		if(searchSort != null) {
+			$(".select-dang-search-sort").val(searchSort).prop("selected", true)
 		}
 		
 		// 댕모임 목록 무한 스크롤
