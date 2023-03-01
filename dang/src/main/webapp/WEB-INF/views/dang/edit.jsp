@@ -89,7 +89,7 @@
 					<div class = "col mx-4">
 						<div class = "row my-3">
 							<div class = "col d-flex justify-content-center align-items-center">
-								<strong class = "strong-dang-edit-info-title">댕모임 정보 변경</strong>
+								<strong class = "strong-dang-edit-info-title">댕모임 설정</strong>
 							</div>
 						</div>
 						<div class = "row my-3">
