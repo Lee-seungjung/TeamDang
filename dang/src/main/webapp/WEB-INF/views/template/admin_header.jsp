@@ -169,7 +169,7 @@
         <div id="sidebar-wrapper">
           <ul class="sidebar-nav">
             <li class="sidebar-brand">
-              <img src="${pageContext.request.contextPath}/images/logo.png" width="200px" height="100px" class="mt-3 mb-3 cursor-pointer" onClick = "location.href = '${pageContext.request.contextPath}/admin/dash_board'">
+              <img src="${pageContext.request.contextPath}/images/logo.png" width="200px" height="100px" class="mt-3 mb-3 cursor-pointer" onclick = "location.href = '${pageContext.request.contextPath}/admin/dash_board'">
             </li>
             <li class = "li-admin-info py-2 my-2">
             	<span class="d-flex justify-content-center align-items-center">
@@ -220,11 +220,10 @@
 
     <nav class="navbar navbar-light bg-light shadow-sm">
       <div class="container-fluid">
-        <a class="navbar-brand ms-3">관리자 페이지</a>
-        <form class="d-flex">
-          <button onClick = "location.href = '${pageContext.request.contextPath}/'"  class="btn btn-outline-success" type="button">댕모임 홈</button>
-          <button onclick = "location.href = '${pageContext.request.contextPath}/user/logout'" class="btn btn-outline-success ms-3 me-5" type="button">로그아웃</button>
-        </form>
+			<div class = "col d-flex justify-content-end align-items-center">
+				<button onclick = "location.href = '${pageContext.request.contextPath}/'" class="btn btn-outline-success" type="button">댕모임 홈</button>
+				<button onclick = "location.href = '${pageContext.request.contextPath}/user/logout'" class="btn btn-outline-success ms-4 me-5" type="button">로그아웃</button>
+      		</div>
       </div>
     </nav>
 
