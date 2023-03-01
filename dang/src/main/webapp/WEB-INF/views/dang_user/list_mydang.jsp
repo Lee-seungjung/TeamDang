@@ -56,8 +56,13 @@
 		height : 2rem;
 	}
 	
-	.span-mydang-member-joindate {
+	.span-mydang-member-joindate,
+	.span-mydang-member-createdate {
 		font-size : 14px;
+	}
+	
+	.span-mydang-member-createdate {
+		color : #76BEFF;
 	}
 	
 	.btn-mydang-dang-enter {
@@ -271,8 +276,15 @@
 								</div>
 							</div>
 							<div class = "row div-row-dang-mydang-joindate">
-								<div class = "col-6 d-flex align-items-center">								
+								<div class = "col-6 d-flex align-items-center">	
+									<c:choose>
+									<c:when test = "${dangUserJoinList.isOwner == 1}"> <%-- 개설자일 경우 --%>
+									<span class = "span-mydang-member-createdate">개설일자 : ${dangUserJoinList.memberJoindate}</span>
+									</c:when>
+									<c:otherwise>
 									<span class = "span-mydang-member-joindate">가입일자 : ${dangUserJoinList.memberJoindate}</span>
+									</c:otherwise>
+									</c:choose>
 								</div>
 								<input type = "hidden" class = "input-dang-no" value = "${dangUserJoinList.dangNo}">
 								<div class = "col-3 d-flex align-items-center">

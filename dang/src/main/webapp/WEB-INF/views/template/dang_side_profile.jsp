@@ -686,7 +686,7 @@
 	<c:if test = "${profile.memberOwner == 'Y'}">
 	<div class="p-3 border rounded-3 text-center shadow mt-3 gray">
 		<i class="fa-solid fa-gear"></i>
-		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 수정</a>
+		<a class="cursor-pointer" href = "/dang/${dangNo}/edit">댕모임 설정</a>
 	</div>
 	</c:if>
 	

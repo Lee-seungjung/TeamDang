@@ -154,7 +154,7 @@
 								<div class = "col">								
 									<span class = "span-check span-check-invalid check-id check-id-empty">ID를 입력해주세요.</span>
 									<span class = "span-check span-check-valid check-id check-id-valid">사용할 수 있는 아이디입니다.</span>
-									<span class = "span-check span-check-invalid check-id check-id-already">이미 사용 중이거나 탈퇴한 아이디입니다.</span>
+									<span class = "span-check span-check-invalid check-id check-id-already">이미 사용 중인 아이디입니다.</span>
 									<span class = "span-check span-check-invalid check-id check-id-invalid">영문 소문자, 숫자를 반드시 포함된 8~20자가 되어야 합니다.</span>
 								</div>
 							</div>
