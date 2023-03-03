@@ -278,6 +278,7 @@
 		});
 		
 		//파일 선택
+		var reportPreviewNoList = []; //미리보기 리스트
 		$(".file-btn").change(function(){
 			var value = $(this).val(); //파일위치+파일명
 			console.log(value);
@@ -313,7 +314,6 @@
                     	console.log("등록성공!");
                     	console.log(resp);
                     	
-                    	var reportPreviewNoList = []; //미리보기 리스트
                     	for(var i=0; i<resp.url.length; i++){
                     		var check = resp.url[i].lastIndexOf("/"); //경로에서 /위치 찾기
                         	var attachmentNo = resp.url[i].substr(check+1); //attachmentNo 꺼내기
@@ -365,12 +365,14 @@
         			 		.attr("src","${pageContext.request.contextPath}/images/img-dang-profile-default.png");
         		}
 			}
+			reportPreviewNoList.length=0;
 			history.go(-1);
 		});
 		
 		//전송
 		$(".report-form").submit(function(e){
 			e.preventDefault();
+			reportPreviewNoList.length=0;
 			
 			//체크항목 검사
 			var value = $("[name=reportContent]:checked").val();
