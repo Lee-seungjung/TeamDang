@@ -97,10 +97,15 @@
  	<select id = "selectDangList" parameterType = "DangListRequestDto" resultMap = "dangListDto">
  		select * from (
 			select tmp.*, rownum rn from (
-	 		<choose>
- 			<when test = "userNo != null">
- 				select
-				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, count(case when dudldid.user_no = #{userNo} then 1 end) as is_like 
+				select dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, 
+				<choose>
+ 				<when test = "userNo != null">
+				count(case when dudldid.user_no = #{userNo} then 1 end) as is_like 
+				</when>
+				<otherwise>
+				0 as is_like
+				</otherwise>
+				</choose>
 				from
 				(select did.*, dudl.user_no from 
 				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
@@ -125,40 +130,10 @@
 			 		</if>
 		 		</where>
 				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
- 			</when>
- 			<otherwise>
- 				select
-				dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area, 0 as is_like 
-				from
-				(select did.*, dudl.user_no from 
-				    (select dl.dang_no, dl.user_no from dang_like dl inner join dang_user du on dl.user_no = du.user_no) dudl
-				        right outer join 
-				    (select di.attachment_no, d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_createtime, d.dang_like, d.dang_private, d.dang_pw, d.dang_area from dang_img di right outer join dang d on di.dang_no = d.dang_no) did
-				on dudl.dang_no = did.dang_no)
-				dudldid 
-				<where>
-		 			<if test = "searchName != null">
-		 				and instr(dudldid.dang_name, #{searchName}) > 0
-		 			</if>
-		 			<if test = "searchName != null and searchArea != null">
-			 			and (
-			 		</if>
-			 		<if test = "searchArea != null">
-		 				<foreach collection = "searchArea" item = "searchArea" separator = "or"> 				
-			 				instr(dudldid.dang_area, #{searchArea}) > 0
-		 				</foreach>
-		 			</if>
-		 			<if test = "searchName != null and searchArea != null">
-			 			)
-			 		</if>
-		 		</where>
-				group by dudldid.attachment_no, dudldid.dang_no, dudldid.dang_name, dudldid.dang_info, dudldid.dang_headmax, dudldid.dang_head, dudldid.dang_createtime, dudldid.dang_like, dudldid.dang_private, dudldid.dang_pw, dudldid.dang_area
- 			</otherwise>
-	 		</choose>
- 		<if test = "sort != null">
- 			order by ${sort}
- 		</if>
- 		)tmp
+	 		<if test = "sort != null">
+	 			order by ${sort}
+	 		</if>
+	 		)tmp
 		) where rn between #{rownumStart} and #{rownumEnd}
  	</select>
  	<resultMap id = "dangListDto" type = "DangListResponseDto">
@@ -221,14 +196,13 @@
 	<!-- 마이페이지 내가 가입한 댕모임 -->
 	<select id = "selectMydang" parameterType = "map" resultType = "DangUserJoinResponseDto">
 		select * from (
-		select tmp.*, rownum rn 
-		from (
-		select ddi.*, dm.member_joindate 
-		from dang_member dm 
-		inner join 
-		(select d.dang_no, d.dang_name, d.dang_info, d.dang_area, d.dang_private, di.attachment_no from dang d left outer join dang_img di on d.dang_no = di.dang_no) ddi 
-		on dm.dang_no = ddi.dang_no where dm.user_no = #{userNo}
-		)tmp
+			select tmp.*, rownum rn from (
+				select ddi.*, dm.member_joindate 
+				from dang_member dm 
+				inner join 
+				(select d.dang_no, d.dang_name, d.dang_info, d.dang_area, d.dang_private, di.attachment_no from dang d left outer join dang_img di on d.dang_no = di.dang_no) ddi 
+				on dm.dang_no = ddi.dang_no where dm.user_no = #{userNo}
+			)tmp
 		) where rn between #{rownumStart} and #{rownumEnd}
 	</select>
 	
@@ -279,7 +253,8 @@
   	
   	<!-- 관리자 페이지 댕모임 목록 상세 조회 -->
   	<select id = "searchDangDetailAdmin" parameterType = "map" resultMap = "dangDetailInfoDto">
-  		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_area, d.dang_createtime, d.dang_like, d.dang_private, di.attachment_no from dang d 
+  		select d.dang_no, d.dang_name, d.dang_info, d.dang_headmax, d.dang_head, d.dang_area, d.dang_createtime, d.dang_like, d.dang_private, di.attachment_no 
+  		from dang d 
 		left outer join dang_img di 
 		on d.dang_no = di.dang_no 
 		where d.dang_no = #{dangNo} and d.user_no = #{userNo}
@@ -306,13 +281,11 @@
   	<!-- 관리자 페이지 댕모임 회원 상세 조회 -->
   	<select id = "searchDangCreatorDetailAdmin" parameterType = "map" resultType = "DangDetailCreatorAdminDto">
   		select dudm.*, ui.attachment_no from (
-		select  dm.member_no, dm.member_nick, dm.member_grade, dm.member_score, du.user_no, du.user_id, du.user_email, du.user_tel, du.user_gender, du.user_joindate, du.user_logindate from dang_user du 
-		inner join dang_member dm 
-		on du.user_no = dm.user_no 
-		where dm.dang_no = #{dangNo} and dm.user_no = #{userNo}
-		) dudm
-		left outer join user_img ui 
-		on dudm.user_no = ui.user_no
+			select dm.member_no, dm.member_nick, dm.member_grade, dm.member_score, du.user_no, du.user_id, du.user_email, du.user_tel, du.user_gender, du.user_joindate, du.user_logindate from dang_user du 
+			inner join dang_member dm 
+			on du.user_no = dm.user_no 
+			where dm.dang_no = #{dangNo} and dm.user_no = #{userNo}
+		) dudm left outer join user_img ui on dudm.user_no = ui.user_no
   	</select>
   	
   	<!-- 댕모임 해체 -->
