@@ -863,48 +863,29 @@
 				target.empty();
 				// 태그 생성
 				var dangInterestLength = $(".option-dang-interest").length;
-				// 등록된 관심지역이 3개인지 여부에 따라 다른 처리
-				if(dangInterestLength >= 3) { // 관심지역이 3개 등록된 상태라면
-					for(var i = 0 ; i < dangInterestLength ; i ++) { // 등록된 관심지역 태그 생성
-						target
-							.append(
-								$("<div>").attr("class", "col-4")
-									.append(
-										$("<div>").attr("class", "position-relative div-dang-interest div-dang-interest-active")
-											.append(
-												$("<span>").attr("class", "span-dang-interest").text($(".option-dang-interest").eq(i).prop("value"))
-											)
-											.append(
-												$("<i>").attr("class" , "fa-solid fa-xmark i-dang-interest-cancel")
-											)		
-									)
-							)
-					}
-				} else { // 관심지역이 3개 미만으로 등록된 상태라면
-					for(var i = 0 ; i < dangInterestLength ; i ++) { // 등록된 관심지역 태그 생성
-						target
-							.append(
-								$("<div>").attr("class", "col-4")
-									.append(
-										$("<div>").attr("class", "position-relative div-dang-interest div-dang-interest-active")
-											.append(
-												$("<span>").attr("class", "span-dang-interest").text($(".option-dang-interest").eq(i).prop("value"))
-											)
-											.append(
-												$("<i>").attr("class" , "fa-solid fa-xmark i-dang-interest-cancel")
-											)		
-									)
-							)
-					}
-					for(var i = 0 ; i < 3 - dangInterestLength ; i ++) { // 미등록된 관심지역 태그 생성
-						target
-							.append(
-								$("<div>").attr("class", "col-4")
-									.append(
-										$("<div>").attr("class", "div-dang-interest div-dang-interest-inactive")
-									)
-							)
-					}
+				for(var i = 0 ; i < dangInterestLength ; i ++) { // 등록된 관심지역 태그 생성
+					target
+						.append(
+							$("<div>").attr("class", "col-4")
+								.append(
+									$("<div>").attr("class", "position-relative div-dang-interest div-dang-interest-active")
+										.append(
+											$("<span>").attr("class", "span-dang-interest").text($(".option-dang-interest").eq(i).prop("value"))
+										)
+										.append(
+											$("<i>").attr("class" , "fa-solid fa-xmark i-dang-interest-cancel")
+										)		
+								)
+						)
+				}
+				for(var i = 0 ; i < 3 - dangInterestLength ; i ++) { // 미등록된 관심지역 태그 생성
+					target
+						.append(
+							$("<div>").attr("class", "col-4")
+								.append(
+									$("<div>").attr("class", "div-dang-interest div-dang-interest-inactive")
+								)
+						)
 				}
 				// 관심지역으로 등록된 지역 색 변경
 				for(var i = 0 ; i < dangInterestLength ; i ++) {
