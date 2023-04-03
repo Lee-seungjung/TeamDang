@@ -1320,7 +1320,7 @@
 		}, 0));
 		
 		// - 다음 페이지 생성
-		$(window).scroll(_.debounce(function(){
+		$(window).scroll(_.throttle(function(){
 			// 현재 페이지가 마지막 페이지와 같으면 return
 			if(p == pLast) return;
 			// 화면 바닥의 위치[%]
